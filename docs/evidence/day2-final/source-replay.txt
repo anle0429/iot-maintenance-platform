@@ -1,0 +1,16 @@
+ Container iot-coursework-source-1 Starting 
+ Container iot-coursework-source-1 Started 
+ Container iot-coursework-source-1 Waiting 
+ Container iot-coursework-source-1 Healthy 
+before=58843|58843|19866460
+BEGIN
+DELETE 58843
+DELETE 1
+INSERT 0 1
+COPY 58843
+COMMIT
+after=58843|58843|19866460
+15.15
+PASS: re-importing day2-final preserved record count, unique source keys and total JSON payload characters.
+ Container iot-coursework-source-1 Stopping 
+ Container iot-coursework-source-1 Stopped 

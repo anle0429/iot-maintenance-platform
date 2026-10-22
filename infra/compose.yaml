@@ -1,0 +1,70 @@
+# Start only the isolated department source and an on-demand small Spark batch job.
+name: iot-coursework
+services:
+  source:
+    image: postgres:15-alpine@sha256:b3968e348b48f1198cc6de6611d055dbad91cd561b7990c406c3fc28d7095b21
+    environment:
+      POSTGRES_DB: iot_source
+      POSTGRES_USER: iot_ingest
+      POSTGRES_PASSWORD_FILE: /run/secrets/source_password
+    secrets:
+      - source_password
+    command: ["postgres", "-c", "shared_buffers=32MB", "-c", "max_connections=20"]
+    mem_limit: 192m
+    cpus: 0.5
+    volumes:
+      - source-data:/var/lib/postgresql/data
+      - ./postgres/source.sql:/docker-entrypoint-initdb.d/01-source.sql:ro
+      - ../outputs/source-load:/imports:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U iot_ingest -d iot_source"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  batch:
+    profiles: [batch]
+    image: iot-coursework-spark:3.5.9
+    build:
+      context: ./spark
+    mem_limit: 2g
+    cpus: 2
+    environment:
+      SPARK_LOCAL_IP: 127.0.0.1
+      IOT_BASE_COMMIT: ${IOT_BASE_COMMIT:-UNCOMMITTED}
+    secrets:
+      - source_password
+    volumes:
+      - ../pipelines:/workspace/pipelines:ro
+      - ../generator:/workspace/generator:ro
+      - ../ml:/workspace/ml:ro
+      - ../tests:/workspace/tests:ro
+      - ../data:/workspace/data
+      - ../outputs:/workspace/outputs
+    depends_on:
+      source:
+        condition: service_healthy
+    command:
+      - --master
+      - local[2]
+      - --driver-memory
+      - 768m
+      - --conf
+      - spark.sql.shuffle.partitions=4
+      - --conf
+      - spark.sql.session.timeZone=UTC
+      - --conf
+      - spark.eventLog.enabled=true
+      - --conf
+      - spark.eventLog.dir=file:///workspace/data/spark-events
+      - pipelines/batch_job.py
+      - --run-id
+      - day2
+      - --output
+      - data/lakehouse/day2
+      - --report
+      - outputs/day2/batch-report.json
+secrets:
+  source_password:
+    file: ../data/runtime/secrets/source_password
+volumes:
+  source-data:

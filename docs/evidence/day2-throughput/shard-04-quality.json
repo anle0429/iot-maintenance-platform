@@ -1,0 +1,177 @@
+{
+  "cardinality_on_offline_rows": {
+    "event_id": {
+      "unique": 92160,
+      "unique_over_rows": 0.9803942427369339
+    },
+    "event_ts": {
+      "unique": 2880,
+      "unique_over_rows": 0.030637320085529184
+    },
+    "machine_id": {
+      "unique": 32,
+      "unique_over_rows": 0.00034041466761699097
+    }
+  },
+  "checks": {
+    "complete_time_grid": true,
+    "delay_ranges": true,
+    "event_intervals_valid": true,
+    "event_primary_and_foreign_keys": true,
+    "factory_skew": true,
+    "file_integrity:failure_events.jsonl": true,
+    "file_integrity:machines.jsonl": true,
+    "file_integrity:maintenance_events.jsonl": true,
+    "file_integrity:stream/telemetry_deliveries.jsonl": true,
+    "file_integrity:telemetry/schema_v1/part-00000.jsonl": true,
+    "file_integrity:telemetry/schema_v2/part-00000.jsonl": true,
+    "late_count": true,
+    "machine_primary_and_foreign_keys": true,
+    "machines_snapshot_scd2_bounds": true,
+    "no_label_or_latent_wear_in_telemetry": true,
+    "offline_duplicate_count": true,
+    "offline_duplicates_have_new_export_time": true,
+    "offline_duplicates_keep_measurement": true,
+    "one_reading_per_machine_time": true,
+    "operating_status_matches_events": true,
+    "schema_keys_and_types": true,
+    "schema_transition_event_time": true,
+    "schema_v1_file_partition": true,
+    "schema_v2_file_partition": true,
+    "stop_intervals_do_not_overlap": true,
+    "stopped_motor_zero": true,
+    "stream_arrival_order": true,
+    "stream_delivery_ids_unique": true,
+    "stream_duplicate_count": true,
+    "stream_payload_matches_offline": true,
+    "stream_retry_attempts": true,
+    "stream_retry_time": true,
+    "stream_unique_matches_offline": true,
+    "timestamp_order": true,
+    "unique_rows_match_config": true
+  },
+  "compression": "none",
+  "config": {
+    "duration_hours": 48,
+    "export_delay_seconds": 3600,
+    "failure_threshold": 1.0,
+    "hot_factory_share": 0.7,
+    "late_max_seconds": 600,
+    "late_min_seconds": 300,
+    "late_rate": 0.05,
+    "machine_count": 32,
+    "maintenance_every_hours": 18,
+    "maintenance_minutes": 20,
+    "offline_duplicate_rate": 0.02,
+    "repair_minutes": 45,
+    "retry_delay_seconds": 2,
+    "sample_seconds": 60,
+    "schema_v2_fraction": 0.5,
+    "seed": 45,
+    "start_ts": "2026-10-01T00:00:00Z",
+    "stream_duplicate_rate": 0.015,
+    "wear_per_hour": 0.035
+  },
+  "factory_unique_counts": {
+    "F-01": 63360,
+    "F-02": 14400,
+    "F-03": 14400
+  },
+  "failure_events": 55,
+  "files": [
+    {
+      "bytes": 6656,
+      "path": "machines.jsonl",
+      "rows": 32,
+      "sha256": "66efa70c1b55d19b7c5e958ff19575f8fe77b9f5e2e623ccc89750050e04e1b7"
+    },
+    {
+      "bytes": 13570,
+      "path": "maintenance_events.jsonl",
+      "rows": 59,
+      "sha256": "e04576e2c8be7a1dec7bc6401955c864e8c0f2451fd38e01d3e6ba93b95de8e2"
+    },
+    {
+      "bytes": 11917,
+      "path": "failure_events.jsonl",
+      "rows": 55,
+      "sha256": "4232ff17ac2d9533a69868622ca76e788a864caaf82409711c516e75cc4697c2"
+    },
+    {
+      "bytes": 14396786,
+      "path": "telemetry/schema_v1/part-00000.jsonl",
+      "rows": 47003,
+      "sha256": "767e87a619e9311a6b4d1641f08706d437d64532c4585006fddbafb50bf66f91"
+    },
+    {
+      "bytes": 15380141,
+      "path": "telemetry/schema_v2/part-00000.jsonl",
+      "rows": 47000,
+      "sha256": "ba5949d718f77f83ad72ba58f7e10591c87501b574b8296ac08960f05e9704d1"
+    },
+    {
+      "bytes": 39920360,
+      "path": "stream/telemetry_deliveries.jsonl",
+      "rows": 93542,
+      "sha256": "fc87085eb614223bec595f0c0883826385d9f430e49ae98db866219a182192df"
+    }
+  ],
+  "format": "JSONL",
+  "late_delay_seconds_max": 600.0,
+  "late_delay_seconds_min": 300.0,
+  "late_fraction_of_unique": 0.05,
+  "late_unique_events": 4608,
+  "maintenance_events": 59,
+  "manifest_bytes": 1890,
+  "offline_duplicate_extras": 1843,
+  "offline_duplicate_fraction_of_stored_rows": 0.019605757263066074,
+  "offline_extras_per_unique": 0.01999782986111111,
+  "offline_rows": 94003,
+  "operating_status_unique_counts": {
+    "failed": 2436,
+    "maintenance": 1180,
+    "operating": 88544
+  },
+  "passed": true,
+  "payload_bytes": 69729430,
+  "replay_dedup_unique_rows": 92160,
+  "schema_columns": {
+    "v1": [
+      "created_ts",
+      "current_a",
+      "event_id",
+      "event_ts",
+      "machine_id",
+      "operating_status",
+      "received_ts",
+      "rpm",
+      "schema_version",
+      "temperature_c",
+      "vibration_rms_mm_s"
+    ],
+    "v2": [
+      "created_ts",
+      "current_a",
+      "event_id",
+      "event_ts",
+      "machine_id",
+      "operating_status",
+      "pressure_bar",
+      "received_ts",
+      "rpm",
+      "schema_version",
+      "temperature_c",
+      "vibration_rms_mm_s"
+    ]
+  },
+  "schema_stored_counts": {
+    "1": 47003,
+    "2": 47000
+  },
+  "source_total_bytes": 69731320,
+  "stream_deliveries": 93542,
+  "stream_duplicate_extras": 1382,
+  "stream_event_time_inversions": 3405,
+  "stream_extras_per_unique": 0.014995659722222223,
+  "unique_telemetry_rows": 92160
+}

@@ -1,0 +1,53 @@
+# Run only a local KRaft broker and an on-demand single-parallelism Flink job.
+name: iot-coursework-stream
+services:
+  kafka:
+    image: apache/kafka:3.9.1@sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed
+    mem_limit: 768m
+    cpus: 1
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_LOG_RETENTION_HOURS: 24
+      KAFKA_HEAP_OPTS: -Xms128m -Xmx256m
+      CLUSTER_ID: NqnEdaiK11Coursework0001
+    volumes:
+      - kafka-data:/tmp/kraft-combined-logs
+    healthcheck:
+      test: [CMD-SHELL, "KAFKA_HEAP_OPTS='-Xms32m -Xmx96m' /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list >/dev/null"]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+  flink:
+    image: iot-coursework-flink:1.20.3
+    build:
+      context: ./flink
+    mem_limit: 3g
+    cpus: 2
+    environment:
+      JAVA_TOOL_OPTIONS: -Xms128m -Xmx1024m
+    ports:
+      - 127.0.0.1:18081:8081
+    volumes:
+      - ../pipelines:/workspace/pipelines:ro
+      - ../generator:/workspace/generator:ro
+      - ../data:/workspace/data
+      - ../outputs:/workspace/outputs
+      - ledger-data:/var/lib/iot-ledgers
+    depends_on:
+      kafka:
+        condition: service_healthy
+volumes:
+  kafka-data:
+  ledger-data:

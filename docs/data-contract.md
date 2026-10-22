@@ -42,7 +42,7 @@ ID gồm fingerprint cấu hình vật lý, máy và bước thời gian. Thay s
 
 ## Metadata và sự cố
 
-`machines`: `machine_id`, `factory_id`, `machine_type`, `installed_at`, `rated_rpm`, `valid_from_ts`, `valid_to_ts`, `is_current`. Một snapshot ban đầu, `valid_from_ts = start`, `valid_to_ts = null`, `is_current = true`. Chưa chứng minh SCD2: ngày 2 cần thêm thay đổi metadata, xây `dim_machine`, kiểm khoảng không chồng và đúng một phiên bản hiện tại.
+`machines`: `machine_id`, `factory_id`, `machine_type`, `installed_at`, `rated_rpm`, `valid_from_ts`, `valid_to_ts`, `is_current`. Tệp ngày 1 giữ snapshot ban đầu, `valid_from_ts = start`, `valid_to_ts = null`, `is_current = true`. Ngày 2 thêm nguồn metadata change riêng, xây `dim_machine` và kiểm đúng biên/phiên bản hiện tại; xem [batch](day2-batch.md). Không sửa nguồn ngày 1 để giả có sẵn lịch sử.
 
 `maintenance_events`: `maintenance_id`, `machine_id`, `start_ts`, `end_ts` nullable, `maintenance_type = preventive`, `component = bearing`, `created_ts = start_ts`. Chu kỳ mặc định 18 giờ, lệch 5 phút theo số máy; dừng 20 phút. Bảo trì giảm latent wear còn 35%; nếu máy đang sửa chữa tại mốc bảo trì thì bỏ lượt đó. Chưa sinh bản ghi corrective maintenance riêng; sửa chữa nằm trong failure interval.
 
@@ -65,13 +65,14 @@ Ví dụ: 60 readings + 6 bản xuất thêm có tỷ lệ extras/unique = 10%, 
 
 Các lựa chọn late/offline duplicate/stream retry dùng random stream riêng, có thể chồng lên cùng reading. Thay cấu hình vận chuyển không đổi lịch sử vật lý. Tái lập từng byte đã kiểm trong cùng CPython 3.13.14; không bảo đảm byte giống trên mọi phiên bản Python vì thuật toán phân phối có thể thay đổi.
 
-## Envelope và chính sách xử lý dự kiến
+## Envelope và chính sách xử lý ở quy mô nhỏ
 
-Envelope có `delivery_id`, `attempt` (1 hoặc 2), `published_ts`, `event` (object telemetry). Tệp sắp theo `published_ts`, tie-break bằng delivery_id; không sắp theo event_ts. `published_ts = received_ts + (attempt - 1) × retry_delay_seconds`. Đây là fixture phát lại, chưa phải Kafka producer hay streaming runtime.
+Envelope có `delivery_id`, `attempt` (1 hoặc 2), `published_ts`, `event` (object telemetry). Tệp sắp theo `published_ts`, tie-break bằng delivery_id; không sắp theo event_ts. `published_ts = received_ts + (attempt - 1) × retry_delay_seconds`. Generator tạo fixture; [driver ngày 3](day3-streaming.md) phát vào Kafka theo arrival order trong mỗi lượt, thêm `replay_round`/`sequence` để kiểm replay lịch sử. Tiến độ mô phỏng được tăng tốc, không đồng nhất với thời gian xử lý thực.
 
-- Silver batch: giữ bản có `created_ts` lớn nhất cho cùng event_id; payload ngoài created phải giống nhau, xung đột phải báo lỗi/cách ly. Oracle Python hiện chỉ dùng kiểm nguồn; Spark sẽ triển khai quy tắc này.
-- Flink dự kiến: dedup theo event_id; watermark 15 phút cho độ trễ hiện tại tối đa 10 phút. Readings tới trước watermark được cập nhật cửa sổ; ngoài watermark đưa sang luồng late để đối soát batch. TTL trạng thái dedup và hành vi replay sau TTL cần được chọn, kiểm chứng ở mốc streaming.
-- Phát lại toàn tệp hai lần phải giữ nguyên số readings duy nhất. Hiện mới kiểm bằng oracle tập ID cục bộ, chưa chứng minh Flink hay sink idempotent.
+- Silver batch đã kiểm: giữ bản có `created_ts` lớn nhất cho cùng event_id; payload ngoài created phải giống nhau, xung đột làm job lỗi. Spark đã đối chiếu kết quả với oracle nhỏ.
+- Flink: dedup theo event_id, so toàn bộ immutable stream payload; watermark delay 15 phút, tumbling window 10 phút `[start,end)`, allowed lateness 0. Reading của cửa sổ đã đóng đi sang late side output để đối soát; không sửa aggregate đã đóng. Cache giữ 7 ngày processing time bằng expiry/timer, còn ledger event_id trên đĩa giữ suốt vòng đời scenario để ngăn đếm lại sau cache expiry. Retention của ledger và recovery dài hạn cần thiết kế riêng; không đồng nhất cache TTL với khả năng replay toàn lịch sử.
+- Phát lại trong thời gian còn state phải giữ nguyên số readings duy nhất; sink ghi aggregate tuyệt đối bằng upsert khóa máy/cửa sổ. Journal và sink commit mỗi write trên volume Linux (WAL/NORMAL); tiến trình chính xuất snapshot tường minh sau job để tránh mất phần đuôi khi UDF close không hoàn tất. Đây chưa phải transaction sink gắn checkpoint hoặc proof crash/restart. Progress JSON riêng tránh cùng mở SQLite WAL giữa Windows/Linux; host chỉ đọc snapshot sau job kết thúc.
+- Aggregate streaming có `event_timestamp`, `created`, `max_input_published_ts`, `closing_watermark_ms`. Max input published chỉ là cận dưới của lúc aggregate có sẵn; `created` ghi lúc tính/ghi thực tế. Không dùng aggregate chứa late readings làm feature cho dự đoán quá khứ ở window_end. Feature rolling ngày 2 vẫn lọc `received_ts <= t` riêng.
 
 ## Nhãn một giờ và feature: quy tắc cho mốc ngày 2
 

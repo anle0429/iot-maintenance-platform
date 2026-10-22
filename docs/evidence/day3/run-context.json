@@ -1,0 +1,18 @@
+{
+  "captured_utc": "2026-10-22T11:13:50.9388175Z",
+  "machine": "THIENAN",
+  "cpu": "AMD Ryzen 5 5500",
+  "total_ram_bytes": 17044983808,
+  "free_ram_bytes_before": 1459216384,
+  "base_commit": "cf0b3faf3f0ecb98c8d1362f170a9a27b62a7ccf",
+  "script_sha256": "c21a5d65c1186c7e3b2e2368627ce59f6133506c4d1ad10177134bb931ba8804",
+  "flink_image_id": "sha256:1443f252d9a1e8ac6b37a7f0dc3a39f93cd2eab442689912e6c316d163915752",
+  "kafka_image_id": "sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed",
+  "resource_limits": {
+    "kafka_memory": "768m",
+    "flink_cpus": 2,
+    "kafka_heap": "256m",
+    "flink_memory": "3g"
+  },
+  "scope": "Local single-partition bounded-offset streaming; host preflight is a minimum guard, not a capacity guarantee. Dataset and SQLite stay local."
+}

@@ -1,0 +1,1000 @@
+{
+  "baseline": {
+    "algorithm": "Spark MLlib logistic regression",
+    "feature_columns": [
+      "temperature_mean_10m",
+      "vibration_max_10m",
+      "current_mean_10m",
+      "current_std_10m",
+      "rpm_mean_10m",
+      "reading_count_10m",
+      "machine_age_days",
+      "prior_failures_24h"
+    ],
+    "limitations": [
+      "Test partition has one class; PR-AUC is undefined. Without positive cases recall/F1 cannot be evaluated."
+    ],
+    "scope": "synthetic small workload; no real-equipment performance claim",
+    "split_class_counts": {
+      "test": {
+        "positive": 0,
+        "rows": 2060
+      },
+      "train": {
+        "positive": 216,
+        "rows": 6178
+      },
+      "validation": {
+        "positive": 151,
+        "rows": 1672
+      }
+    },
+    "test": {
+      "area_under_pr": null,
+      "f1": null,
+      "fn": 0,
+      "fp": 0,
+      "precision": 0.0,
+      "ranking_evaluable": false,
+      "recall": null,
+      "threshold": 0.7,
+      "tn": 2060,
+      "tp": 0
+    },
+    "threshold_selection": "maximum validation F1; tie-break precision then threshold",
+    "validation": {
+      "area_under_pr": 0.4381258948127231,
+      "f1": 0.4507042253521127,
+      "fn": 87,
+      "fp": 69,
+      "precision": 0.48120300751879697,
+      "recall": 0.423841059602649,
+      "threshold": 0.7,
+      "tn": 1452,
+      "tp": 64
+    }
+  },
+  "checks": {
+    "arrival_and_window_boundary": true,
+    "bronze_source_count": true,
+    "conflicting_duplicate_rejected": true,
+    "dedup_keeps_latest_export": true,
+    "duplicate_effective_time_rejected": true,
+    "fact_dimension_foreign_keys": true,
+    "feature_event_and_arrival_time": true,
+    "feature_grain": true,
+    "historical_failure_availability": true,
+    "label_boundaries_match_oracle": true,
+    "offline_replay_idempotent": true,
+    "persisted_silver_readback": true,
+    "purged_split_boundaries": true,
+    "scd2_half_open_boundary": true,
+    "scd2_one_current": true,
+    "schema_union_preserves_unknown_pressure": true,
+    "silver_count_and_schema": true,
+    "source_to_prediction_trace": true,
+    "split_label_purge": true
+  },
+  "counts": {
+    "bronze_records": 58843,
+    "bronze_telemetry": 58752,
+    "deduplicated_extras": 1152,
+    "dim_machine_current": 20,
+    "dim_machine_versions": 21,
+    "factories": 4,
+    "failures": 31,
+    "feature_rows": 11520,
+    "maintenance": 39,
+    "purged_boundary_rows": 456,
+    "silver_telemetry": 57600,
+    "training_rows": 9910
+  },
+  "elapsed_seconds": 90.85579450399928,
+  "example_feature": {
+    "created": "2026-10-22T09:54:09.513940Z",
+    "current_mean_10m": 12.052499999999998,
+    "current_std_10m": 1.758122720403783,
+    "event_timestamp": "2026-10-02T14:25:00Z",
+    "machine_age_days": 181.60069444444446,
+    "machine_id": "P-001",
+    "max_feature_event_ts": "2026-10-02T14:24:00Z",
+    "max_received_ts": "2026-10-02T14:24:03Z",
+    "prior_failures_24h": 1,
+    "reading_count_10m": 8,
+    "rpm_mean_10m": 2771.3875,
+    "temperature_mean_10m": 52.087500000000006,
+    "vibration_max_10m": 3.717
+  },
+  "example_feature_inputs": [
+    {
+      "created_ts": "2026-10-02T14:16:03Z",
+      "current_a": 12.233,
+      "event_id": "E-1ed6cc44e8b36e11-P-001-002296",
+      "event_ts": "2026-10-02T14:16:00Z",
+      "factory_id": "F-04",
+      "machine_id": "P-001",
+      "machine_sk": "6624c78adaa44f2b0afabcf4c94303ee543fe9207e2140821173c6da9b7f546e",
+      "operating_status": "operating",
+      "pressure_bar": 3.379,
+      "received_ts": "2026-10-02T14:16:03Z",
+      "rpm": 2767.2,
+      "schema_version": 2,
+      "source_line": 17468,
+      "source_path": "telemetry/schema_v2/part-00000.jsonl",
+      "temperature_c": 52.365,
+      "vibration_rms_mm_s": 2.949
+    },
+    {
+      "created_ts": "2026-10-02T14:17:00Z",
+      "current_a": 12.195,
+      "event_id": "E-1ed6cc44e8b36e11-P-001-002297",
+      "event_ts": "2026-10-02T14:17:00Z",
+      "factory_id": "F-04",
+      "machine_id": "P-001",
+      "machine_sk": "6624c78adaa44f2b0afabcf4c94303ee543fe9207e2140821173c6da9b7f546e",
+      "operating_status": "operating",
+      "pressure_bar": 3.477,
+      "received_ts": "2026-10-02T14:17:00Z",
+      "rpm": 2805.0,
+      "schema_version": 2,
+      "source_line": 17488,
+      "source_path": "telemetry/schema_v2/part-00000.jsonl",
+      "temperature_c": 49.433,
+      "vibration_rms_mm_s": 3.717
+    },
+    {
+      "created_ts": "2026-10-02T14:18:03Z",
+      "current_a": 13.457,
+      "event_id": "E-1ed6cc44e8b36e11-P-001-002298",
+      "event_ts": "2026-10-02T14:18:00Z",
+      "factory_id": "F-04",
+      "machine_id": "P-001",
+      "machine_sk": "6624c78adaa44f2b0afabcf4c94303ee543fe9207e2140821173c6da9b7f546e",
+      "operating_status": "operating",
+      "pressure_bar": 3.606,
+      "received_ts": "2026-10-02T14:18:03Z",
+      "rpm": 2786.3,
+      "schema_version": 2,
+      "source_line": 17508,
+      "source_path": "telemetry/schema_v2/part-00000.jsonl",
+      "temperature_c": 59.141,
+      "vibration_rms_mm_s": 3.029
+    },
+    {
+      "created_ts": "2026-10-02T14:19:02Z",
+      "current_a": 12.21,
+      "event_id": "E-1ed6cc44e8b36e11-P-001-002299",
+      "event_ts": "2026-10-02T14:19:00Z",
+      "factory_id": "F-04",
+      "machine_id": "P-001",
+      "machine_sk": "6624c78adaa44f2b0afabcf4c94303ee543fe9207e2140821173c6da9b7f546e",
+      "operating_status": "operating",
+      "pressure_bar": 3.136,
+      "received_ts": "2026-10-02T14:19:02Z",
+      "rpm": 2749.9,
+      "schema_version": 2,
+      "source_line": 17528,
+      "source_path": "telemetry/schema_v2/part-00000.jsonl",
+      "temperature_c": 51.453,
+      "vibration_rms_mm_s": 2.62
+    },
+    {
+      "created_ts": "2026-10-02T14:20:02Z",
+      "current_a": 13.187,
+      "event_id": "E-1ed6cc44e8b36e11-P-001-002300",
+      "event_ts": "2026-10-02T14:20:00Z",
+      "factory_id": "F-04",
+      "machine_id": "P-001",
+      "machine_sk": "6624c78adaa44f2b0afabcf4c94303ee543fe9207e2140821173c6da9b7f546e",
+      "operating_status": "operating",
+      "pressure_bar": 3.496,
+      "received_ts": "2026-10-02T14:20:02Z",
+      "rpm": 2789.6,
+      "schema_version": 2,
+      "source_line": 17549,
+      "source_path": "telemetry/schema_v2/part-00000.jsonl",
+      "temperature_c": 52.375,
+      "vibration_rms_mm_s": 2.907
+    },
+    {
+      "created_ts": "2026-10-02T14:22:01Z",
+      "current_a": 8.978,
+      "event_id": "E-1ed6cc44e8b36e11-P-001-002302",
+      "event_ts": "2026-10-02T14:22:00Z",
+      "factory_id": "F-04",
+      "machine_id": "P-001",
+      "machine_sk": "6624c78adaa44f2b0afabcf4c94303ee543fe9207e2140821173c6da9b7f546e",
+      "operating_status": "operating",
+      "pressure_bar": 2.896,
+      "received_ts": "2026-10-02T14:22:01Z",
+      "rpm": 2732.3,
+      "schema_version": 2,
+      "source_line": 17589,
+      "source_path": "telemetry/schema_v2/part-00000.jsonl",
+      "temperature_c": 49.37,
+      "vibration_rms_mm_s": 2.591
+    },
+    {
+      "created_ts": "2026-10-02T14:23:01Z",
+      "current_a": 9.637,
+      "event_id": "E-1ed6cc44e8b36e11-P-001-002303",
+      "event_ts": "2026-10-02T14:23:00Z",
+      "factory_id": "F-04",
+      "machine_id": "P-001",
+      "machine_sk": "6624c78adaa44f2b0afabcf4c94303ee543fe9207e2140821173c6da9b7f546e",
+      "operating_status": "operating",
+      "pressure_bar": 2.892,
+      "received_ts": "2026-10-02T14:23:01Z",
+      "rpm": 2696.0,
+      "schema_version": 2,
+      "source_line": 17609,
+      "source_path": "telemetry/schema_v2/part-00000.jsonl",
+      "temperature_c": 47.512,
+      "vibration_rms_mm_s": 1.824
+    },
+    {
+      "created_ts": "2026-10-02T14:24:03Z",
+      "current_a": 14.523,
+      "event_id": "E-1ed6cc44e8b36e11-P-001-002304",
+      "event_ts": "2026-10-02T14:24:00Z",
+      "factory_id": "F-04",
+      "machine_id": "P-001",
+      "machine_sk": "6624c78adaa44f2b0afabcf4c94303ee543fe9207e2140821173c6da9b7f546e",
+      "operating_status": "operating",
+      "pressure_bar": 3.675,
+      "received_ts": "2026-10-02T14:24:03Z",
+      "rpm": 2844.8,
+      "schema_version": 2,
+      "source_line": 17629,
+      "source_path": "telemetry/schema_v2/part-00000.jsonl",
+      "temperature_c": 55.051,
+      "vibration_rms_mm_s": 3.191
+    }
+  ],
+  "example_prediction": {
+    "current_mean_10m": 12.052499999999998,
+    "current_std_10m": 1.758122720403783,
+    "event_timestamp": "2026-10-02T14:25:00Z",
+    "failure_in_next_1h": 0,
+    "machine_age_days": 181.60069444444446,
+    "machine_id": "P-001",
+    "predicted_failure": 0,
+    "prior_failures_24h": 1,
+    "reading_count_10m": 8,
+    "risk_score": 0.02701592912645212,
+    "rpm_mean_10m": 2771.3875,
+    "temperature_mean_10m": 52.087500000000006,
+    "vibration_max_10m": 3.717
+  },
+  "example_source_event": {
+    "created_ts": "2026-10-02T14:24:03Z",
+    "current_a": 14.523,
+    "event_id": "E-1ed6cc44e8b36e11-P-001-002304",
+    "event_ts": "2026-10-02T14:24:00Z",
+    "factory_id": "F-04",
+    "machine_id": "P-001",
+    "machine_sk": "6624c78adaa44f2b0afabcf4c94303ee543fe9207e2140821173c6da9b7f546e",
+    "operating_status": "operating",
+    "pressure_bar": 3.675,
+    "received_ts": "2026-10-02T14:24:03Z",
+    "rpm": 2844.8,
+    "schema_version": 2,
+    "source_line": 17629,
+    "source_path": "telemetry/schema_v2/part-00000.jsonl",
+    "temperature_c": 55.051,
+    "vibration_rms_mm_s": 3.191
+  },
+  "label_status_counts": {
+    "censored": 240,
+    "eligible": 10388,
+    "maintenance": 457,
+    "stopped": 435
+  },
+  "machine_history_example": [
+    {
+      "factory_id": "F-01",
+      "installed_at": "2026-04-04T00:00:00Z",
+      "is_current": false,
+      "machine_id": "P-001",
+      "machine_sk": "39601b0a366eefc3b25f9a005d1e6c2c803c02fc5e66264d21517a3463d635b3",
+      "machine_type": "centrifugal_pump",
+      "rated_rpm": 3000,
+      "recorded_ts": "2026-10-01T00:00:00Z",
+      "valid_from_ts": "2026-10-01T00:00:00Z",
+      "valid_to_ts": "2026-10-02T00:00:00Z"
+    },
+    {
+      "factory_id": "F-04",
+      "installed_at": "2026-04-04T00:00:00Z",
+      "is_current": true,
+      "machine_id": "P-001",
+      "machine_sk": "6624c78adaa44f2b0afabcf4c94303ee543fe9207e2140821173c6da9b7f546e",
+      "machine_type": "centrifugal_pump",
+      "rated_rpm": 3000,
+      "recorded_ts": "2026-10-02T00:05:00Z",
+      "valid_from_ts": "2026-10-02T00:00:00Z",
+      "valid_to_ts": null
+    }
+  ],
+  "parquet_bytes": 9740877,
+  "parquet_file_count": 37,
+  "passed": true,
+  "runtime": {
+    "base_commit": "cf0b3faf3f0ecb98c8d1362f170a9a27b62a7ccf",
+    "java": "17.0.19",
+    "master": "local[2]",
+    "python": "3.10.12",
+    "source_sha256": [
+      {
+        "path": "generator/__init__.py",
+        "sha256": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172"
+      },
+      {
+        "path": "generator/__main__.py",
+        "sha256": "045e4f5ac449b48e75856dba9a3a1c25cca6d985e5ba57bcc86792f893c25ba5"
+      },
+      {
+        "path": "generator/config.py",
+        "sha256": "c85eb7541e1aa98563ce450ca5a3106bdfc6306e9a33d25558d90a8377495273"
+      },
+      {
+        "path": "generator/quality.py",
+        "sha256": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000"
+      },
+      {
+        "path": "generator/simulation.py",
+        "sha256": "e5fdb7a357d95e2b911ea0d7f5164b62e4d166b04107969369266d2899f8d63a"
+      },
+      {
+        "path": "generator/storage.py",
+        "sha256": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d"
+      },
+      {
+        "path": "pipelines/__init__.py",
+        "sha256": "3fa18d7c6802d683dbcc51d2e39ebc899374ed8cba9eeee50bd5eb00ba57f90c"
+      },
+      {
+        "path": "pipelines/batch_job.py",
+        "sha256": "7d6f623dbdf0c9db0041cc82a604ba16c191e0cf6d40bb4a399c2f67309bae09"
+      },
+      {
+        "path": "pipelines/features.py",
+        "sha256": "701f8b979d10da87724945fc79e625978d0807f3ffe0ece35a045069bbd37af4"
+      },
+      {
+        "path": "pipelines/source_loader.py",
+        "sha256": "fb2e1688a9c9150c2a17fc2fa660541f76cf1cdff38f211b7780f8082f6b97cb"
+      },
+      {
+        "path": "pipelines/spark_checks.py",
+        "sha256": "922658ecfafda7f7645406d82604266b410b574341e1a020683dc4f416625d06"
+      },
+      {
+        "path": "pipelines/temporal.py",
+        "sha256": "e0f7136601e0f75130832d670d62de834a3c3787d6357be2a865d58a50909e97"
+      },
+      {
+        "path": "pipelines/transforms.py",
+        "sha256": "a05a8aa054cedd4f6da194f487a93601e3d9a8dd1f0bfc359305396279fcaf33"
+      },
+      {
+        "path": "ml/__init__.py",
+        "sha256": "f72c7b8641a6376aa7bac523df071c3205a7c21276534aeb6aa9b32412890e98"
+      },
+      {
+        "path": "ml/baseline.py",
+        "sha256": "46b370ca6665a0309c23380b76cd2915971782c159f3297969a8602ac0e537dc"
+      },
+      {
+        "path": "ml/evaluation.py",
+        "sha256": "8379f97241b4e889e0c4a44f42983420f0840446272aabc1f41f1ffde6baeb4f"
+      },
+      {
+        "path": "tests/test_generator.py",
+        "sha256": "aeff14b978e94986f00efaea679ee223a608e1a71f0669757265a66ff15085ef"
+      },
+      {
+        "path": "tests/test_temporal.py",
+        "sha256": "d5c32e9427fcdf4c3309ea6b29ff8211b735100a508ed53b300cfc95f8759757"
+      }
+    ],
+    "spark": "3.5.9"
+  },
+  "schema_unique_counts": {
+    "1": 28800,
+    "2": 28800
+  },
+  "schemas": {
+    "bronze.raw_department_records": {
+      "fields": [
+        {
+          "metadata": {
+            "isSigned": false,
+            "scale": 0
+          },
+          "name": "source_path",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {
+            "isSigned": true,
+            "scale": 0
+          },
+          "name": "source_line",
+          "nullable": true,
+          "type": "long"
+        },
+        {
+          "metadata": {
+            "isSigned": false,
+            "scale": 0
+          },
+          "name": "payload",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "source_run",
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "ingested_at",
+          "nullable": false,
+          "type": "timestamp"
+        }
+      ],
+      "type": "struct"
+    },
+    "gold.dim_machine": {
+      "fields": [
+        {
+          "metadata": {},
+          "name": "machine_id",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "factory_id",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "machine_type",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "installed_at",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "valid_from_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "recorded_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "rated_rpm",
+          "nullable": true,
+          "type": "integer"
+        },
+        {
+          "metadata": {},
+          "name": "valid_to_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "is_current",
+          "nullable": false,
+          "type": "boolean"
+        },
+        {
+          "metadata": {},
+          "name": "machine_sk",
+          "nullable": true,
+          "type": "string"
+        }
+      ],
+      "type": "struct"
+    },
+    "gold.fact_telemetry": {
+      "fields": [
+        {
+          "metadata": {},
+          "name": "event_id",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "machine_id",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "operating_status",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "event_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "received_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "created_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "temperature_c",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "vibration_rms_mm_s",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "current_a",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "rpm",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "pressure_bar",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "schema_version",
+          "nullable": true,
+          "type": "integer"
+        },
+        {
+          "metadata": {
+            "isSigned": false,
+            "scale": 0
+          },
+          "name": "source_path",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {
+            "isSigned": true,
+            "scale": 0
+          },
+          "name": "source_line",
+          "nullable": true,
+          "type": "long"
+        },
+        {
+          "metadata": {},
+          "name": "machine_sk",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "factory_id",
+          "nullable": true,
+          "type": "string"
+        }
+      ],
+      "type": "struct"
+    },
+    "gold.feat_machine_10m": {
+      "fields": [
+        {
+          "metadata": {},
+          "name": "machine_id",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "event_timestamp",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "temperature_mean_10m",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "vibration_max_10m",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "current_mean_10m",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "current_std_10m",
+          "nullable": false,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "rpm_mean_10m",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "reading_count_10m",
+          "nullable": false,
+          "type": "long"
+        },
+        {
+          "metadata": {},
+          "name": "max_received_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "max_feature_event_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "prior_failures_24h",
+          "nullable": false,
+          "type": "long"
+        },
+        {
+          "metadata": {},
+          "name": "machine_age_days",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "created",
+          "nullable": false,
+          "type": "timestamp"
+        }
+      ],
+      "type": "struct"
+    },
+    "gold.label_failure_1h": {
+      "fields": [
+        {
+          "metadata": {},
+          "name": "machine_id",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "event_timestamp",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "operating_status",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "next_failure_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "interventions",
+          "nullable": false,
+          "type": "long"
+        },
+        {
+          "metadata": {},
+          "name": "label_end_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "label_available_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "label_status",
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "failure_in_next_1h",
+          "nullable": true,
+          "type": "integer"
+        }
+      ],
+      "type": "struct"
+    },
+    "gold.training_failure_1h": {
+      "fields": [
+        {
+          "metadata": {},
+          "name": "machine_id",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "event_timestamp",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "temperature_mean_10m",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "vibration_max_10m",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "current_mean_10m",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "current_std_10m",
+          "nullable": false,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "rpm_mean_10m",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "reading_count_10m",
+          "nullable": false,
+          "type": "long"
+        },
+        {
+          "metadata": {},
+          "name": "max_received_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "max_feature_event_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "prior_failures_24h",
+          "nullable": false,
+          "type": "long"
+        },
+        {
+          "metadata": {},
+          "name": "machine_age_days",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "created",
+          "nullable": false,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "operating_status",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "next_failure_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "interventions",
+          "nullable": false,
+          "type": "long"
+        },
+        {
+          "metadata": {},
+          "name": "label_end_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "label_available_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "label_status",
+          "nullable": false,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "failure_in_next_1h",
+          "nullable": true,
+          "type": "integer"
+        },
+        {
+          "metadata": {},
+          "name": "split",
+          "nullable": true,
+          "type": "string"
+        }
+      ],
+      "type": "struct"
+    },
+    "silver.stg_telemetry": {
+      "fields": [
+        {
+          "metadata": {},
+          "name": "event_id",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "machine_id",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "operating_status",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {},
+          "name": "event_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "received_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "created_ts",
+          "nullable": true,
+          "type": "timestamp"
+        },
+        {
+          "metadata": {},
+          "name": "temperature_c",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "vibration_rms_mm_s",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "current_a",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "rpm",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "pressure_bar",
+          "nullable": true,
+          "type": "double"
+        },
+        {
+          "metadata": {},
+          "name": "schema_version",
+          "nullable": true,
+          "type": "integer"
+        },
+        {
+          "metadata": {
+            "isSigned": false,
+            "scale": 0
+          },
+          "name": "source_path",
+          "nullable": true,
+          "type": "string"
+        },
+        {
+          "metadata": {
+            "isSigned": true,
+            "scale": 0
+          },
+          "name": "source_line",
+          "nullable": true,
+          "type": "long"
+        }
+      ],
+      "type": "struct"
+    }
+  },
+  "scope": "single small local[2] baseline run; no optimization/100GB/cluster-serving claim",
+  "source_run": "day2-final",
+  "split_boundaries": {
+    "purge_rule": "label_available_ts < next split start; availability includes 30s recording delay",
+    "train_end_exclusive": "2026-10-02T04:48:00Z",
+    "validation_end_exclusive": "2026-10-02T14:24:00Z"
+  }
+}

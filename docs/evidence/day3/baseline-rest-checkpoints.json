@@ -1,0 +1,141 @@
+{
+  "counts": {
+    "completed": 2,
+    "failed": 1,
+    "in_progress": 0,
+    "restored": 0,
+    "total": 3
+  },
+  "history": [
+    {
+      "alignment_buffered": 0,
+      "checkpoint_type": "CHECKPOINT",
+      "checkpointed_size": 49007,
+      "className": "completed",
+      "discarded": false,
+      "end_to_end_duration": 66,
+      "external_path": "file:/workspace/data/stream/day3-complete/baseline-checkpoints/55f14b1c63a03492e0bb84e6045fd8a2/chk-2",
+      "id": 2,
+      "is_savepoint": false,
+      "latest_ack_timestamp": 1792667182356,
+      "num_acknowledged_subtasks": 4,
+      "num_subtasks": 4,
+      "persisted_data": 0,
+      "processed_data": 818,
+      "savepointFormat": null,
+      "state_size": 49007,
+      "status": "COMPLETED",
+      "tasks": {},
+      "trigger_timestamp": 1792667182290
+    },
+    {
+      "alignment_buffered": 0,
+      "checkpoint_type": "CHECKPOINT",
+      "checkpointed_size": 44053,
+      "className": "completed",
+      "discarded": true,
+      "end_to_end_duration": 109,
+      "external_path": "file:/workspace/data/stream/day3-complete/baseline-checkpoints/55f14b1c63a03492e0bb84e6045fd8a2/chk-1",
+      "id": 1,
+      "is_savepoint": false,
+      "latest_ack_timestamp": 1792667177399,
+      "num_acknowledged_subtasks": 4,
+      "num_subtasks": 4,
+      "persisted_data": 0,
+      "processed_data": 0,
+      "savepointFormat": null,
+      "state_size": 44053,
+      "status": "COMPLETED",
+      "tasks": {},
+      "trigger_timestamp": 1792667177290
+    }
+  ],
+  "latest": {
+    "completed": {
+      "alignment_buffered": 0,
+      "checkpoint_type": "CHECKPOINT",
+      "checkpointed_size": 49007,
+      "className": "completed",
+      "discarded": false,
+      "end_to_end_duration": 66,
+      "external_path": "file:/workspace/data/stream/day3-complete/baseline-checkpoints/55f14b1c63a03492e0bb84e6045fd8a2/chk-2",
+      "id": 2,
+      "is_savepoint": false,
+      "latest_ack_timestamp": 1792667182356,
+      "num_acknowledged_subtasks": 4,
+      "num_subtasks": 4,
+      "persisted_data": 0,
+      "processed_data": 818,
+      "savepointFormat": null,
+      "state_size": 49007,
+      "status": "COMPLETED",
+      "tasks": {},
+      "trigger_timestamp": 1792667182290
+    },
+    "failed": null,
+    "restored": null,
+    "savepoint": null
+  },
+  "summary": {
+    "alignment_buffered": {
+      "avg": 0,
+      "max": 0,
+      "min": 0,
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "p999": 0.0
+    },
+    "checkpointed_size": {
+      "avg": 46530,
+      "max": 49007,
+      "min": 44053,
+      "p50": 46530.0,
+      "p90": 49007.0,
+      "p95": 49007.0,
+      "p99": 49007.0,
+      "p999": 49007.0
+    },
+    "end_to_end_duration": {
+      "avg": 87,
+      "max": 109,
+      "min": 66,
+      "p50": 87.5,
+      "p90": 109.0,
+      "p95": 109.0,
+      "p99": 109.0,
+      "p999": 109.0
+    },
+    "persisted_data": {
+      "avg": 0,
+      "max": 0,
+      "min": 0,
+      "p50": 0.0,
+      "p90": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "p999": 0.0
+    },
+    "processed_data": {
+      "avg": 409,
+      "max": 818,
+      "min": 0,
+      "p50": 409.0,
+      "p90": 818.0,
+      "p95": 818.0,
+      "p99": 818.0,
+      "p999": 818.0
+    },
+    "state_size": {
+      "avg": 46530,
+      "max": 49007,
+      "min": 44053,
+      "p50": 46530.0,
+      "p90": 49007.0,
+      "p95": 49007.0,
+      "p99": 49007.0,
+      "p999": 49007.0
+    }
+  }
+}

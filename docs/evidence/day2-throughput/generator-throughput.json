@@ -1,0 +1,279 @@
+{
+  "passed": true,
+  "captured_utc": "2026-10-22T09:57:49.5565680Z",
+  "machine": "THIENAN",
+  "cpu": "AMD Ryzen 5 5500",
+  "base_commit": "cf0b3faf3f0ecb98c8d1362f170a9a27b62a7ccf",
+  "python": "Python 3.13.14",
+  "free_ram_bytes_before": 5315424256,
+  "free_disk_bytes_before": 401891651584,
+  "format": "JSONL",
+  "compression": "none",
+  "runs": [
+    {
+      "shard": "shard-01",
+      "config": {
+        "seed": 42,
+        "start_ts": "2026-10-01T00:00:00Z",
+        "duration_hours": 48,
+        "machine_count": 32,
+        "sample_seconds": 60,
+        "hot_factory_share": 0.7,
+        "schema_v2_fraction": 0.5,
+        "offline_duplicate_rate": 0.02,
+        "stream_duplicate_rate": 0.015,
+        "late_rate": 0.05,
+        "late_min_seconds": 300,
+        "late_max_seconds": 600,
+        "retry_delay_seconds": 2,
+        "export_delay_seconds": 3600,
+        "wear_per_hour": 0.035,
+        "failure_threshold": 1.0,
+        "repair_minutes": 45,
+        "maintenance_every_hours": 18,
+        "maintenance_minutes": 20
+      },
+      "unique_readings": 92160,
+      "offline_bytes": 29809588.0,
+      "total_source_bytes": 69732259.0,
+      "quality_checks": 35,
+      "generation": {
+        "arguments": [
+          "-m",
+          "generator",
+          "generate",
+          "--config",
+          "outputs/throughput2-tree/shard-01-config.json",
+          "--output",
+          "data/source/throughput2-tree/shard-01"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 4.9633692,
+        "observed_peak_process_tree_working_set_bytes": 264388608,
+        "observed_process_count": 3
+      },
+      "inspection": {
+        "arguments": [
+          "-m",
+          "generator",
+          "inspect",
+          "--source",
+          "data/source/throughput2-tree/shard-01",
+          "--report",
+          "outputs/throughput2-tree/shard-01-quality.json"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 5.6926048,
+        "observed_peak_process_tree_working_set_bytes": 474206208,
+        "observed_process_count": 3
+      }
+    },
+    {
+      "shard": "shard-02",
+      "config": {
+        "seed": 43,
+        "start_ts": "2026-10-01T00:00:00Z",
+        "duration_hours": 48,
+        "machine_count": 32,
+        "sample_seconds": 60,
+        "hot_factory_share": 0.7,
+        "schema_v2_fraction": 0.5,
+        "offline_duplicate_rate": 0.02,
+        "stream_duplicate_rate": 0.015,
+        "late_rate": 0.05,
+        "late_min_seconds": 300,
+        "late_max_seconds": 600,
+        "retry_delay_seconds": 2,
+        "export_delay_seconds": 3600,
+        "wear_per_hour": 0.035,
+        "failure_threshold": 1.0,
+        "repair_minutes": 45,
+        "maintenance_every_hours": 18,
+        "maintenance_minutes": 20
+      },
+      "unique_readings": 92160,
+      "offline_bytes": 29806799.0,
+      "total_source_bytes": 69726252.0,
+      "quality_checks": 35,
+      "generation": {
+        "arguments": [
+          "-m",
+          "generator",
+          "generate",
+          "--config",
+          "outputs/throughput2-tree/shard-02-config.json",
+          "--output",
+          "data/source/throughput2-tree/shard-02"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 4.9028747,
+        "observed_peak_process_tree_working_set_bytes": 262619136,
+        "observed_process_count": 3
+      },
+      "inspection": {
+        "arguments": [
+          "-m",
+          "generator",
+          "inspect",
+          "--source",
+          "data/source/throughput2-tree/shard-02",
+          "--report",
+          "outputs/throughput2-tree/shard-02-quality.json"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 5.6549871,
+        "observed_peak_process_tree_working_set_bytes": 470769664,
+        "observed_process_count": 3
+      }
+    },
+    {
+      "shard": "shard-03",
+      "config": {
+        "seed": 44,
+        "start_ts": "2026-10-01T00:00:00Z",
+        "duration_hours": 48,
+        "machine_count": 32,
+        "sample_seconds": 60,
+        "hot_factory_share": 0.7,
+        "schema_v2_fraction": 0.5,
+        "offline_duplicate_rate": 0.02,
+        "stream_duplicate_rate": 0.015,
+        "late_rate": 0.05,
+        "late_min_seconds": 300,
+        "late_max_seconds": 600,
+        "retry_delay_seconds": 2,
+        "export_delay_seconds": 3600,
+        "wear_per_hour": 0.035,
+        "failure_threshold": 1.0,
+        "repair_minutes": 45,
+        "maintenance_every_hours": 18,
+        "maintenance_minutes": 20
+      },
+      "unique_readings": 92160,
+      "offline_bytes": 29808173.0,
+      "total_source_bytes": 69729199.0,
+      "quality_checks": 35,
+      "generation": {
+        "arguments": [
+          "-m",
+          "generator",
+          "generate",
+          "--config",
+          "outputs/throughput2-tree/shard-03-config.json",
+          "--output",
+          "data/source/throughput2-tree/shard-03"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 4.6099561,
+        "observed_peak_process_tree_working_set_bytes": 264777728,
+        "observed_process_count": 3
+      },
+      "inspection": {
+        "arguments": [
+          "-m",
+          "generator",
+          "inspect",
+          "--source",
+          "data/source/throughput2-tree/shard-03",
+          "--report",
+          "outputs/throughput2-tree/shard-03-quality.json"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 5.888132,
+        "observed_peak_process_tree_working_set_bytes": 474169344,
+        "observed_process_count": 3
+      }
+    },
+    {
+      "shard": "shard-04",
+      "config": {
+        "seed": 45,
+        "start_ts": "2026-10-01T00:00:00Z",
+        "duration_hours": 48,
+        "machine_count": 32,
+        "sample_seconds": 60,
+        "hot_factory_share": 0.7,
+        "schema_v2_fraction": 0.5,
+        "offline_duplicate_rate": 0.02,
+        "stream_duplicate_rate": 0.015,
+        "late_rate": 0.05,
+        "late_min_seconds": 300,
+        "late_max_seconds": 600,
+        "retry_delay_seconds": 2,
+        "export_delay_seconds": 3600,
+        "wear_per_hour": 0.035,
+        "failure_threshold": 1.0,
+        "repair_minutes": 45,
+        "maintenance_every_hours": 18,
+        "maintenance_minutes": 20
+      },
+      "unique_readings": 92160,
+      "offline_bytes": 29809070.0,
+      "total_source_bytes": 69731320.0,
+      "quality_checks": 35,
+      "generation": {
+        "arguments": [
+          "-m",
+          "generator",
+          "generate",
+          "--config",
+          "outputs/throughput2-tree/shard-04-config.json",
+          "--output",
+          "data/source/throughput2-tree/shard-04"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 4.7266683,
+        "observed_peak_process_tree_working_set_bytes": 263663616,
+        "observed_process_count": 3
+      },
+      "inspection": {
+        "arguments": [
+          "-m",
+          "generator",
+          "inspect",
+          "--source",
+          "data/source/throughput2-tree/shard-04",
+          "--report",
+          "outputs/throughput2-tree/shard-04-quality.json"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 6.5697181,
+        "observed_peak_process_tree_working_set_bytes": 472604672,
+        "observed_process_count": 3
+      }
+    }
+  ],
+  "unique_readings": 368640.0,
+  "offline_bytes": 119233630.0,
+  "generation_seconds": 19.2028683,
+  "offline_bytes_per_generation_second": 6209157.305942676,
+  "memory_measurement": "Maximum sampled sum of working sets for the venv launcher and discovered descendants. Wait 50ms between samples, discover child PIDs every >=250ms. Observed lower bound, shared pages may be counted twice; excludes other applications.",
+  "script_sha256": "29068dae2eb5130fa6859fa199071336f9ab9a73037d7dc2f987ef7a6ab560d1",
+  "source_sha256": [
+    {
+      "sha256": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172",
+      "path": "generator\\__init__.py"
+    },
+    {
+      "sha256": "045e4f5ac449b48e75856dba9a3a1c25cca6d985e5ba57bcc86792f893c25ba5",
+      "path": "generator\\__main__.py"
+    },
+    {
+      "sha256": "c85eb7541e1aa98563ce450ca5a3106bdfc6306e9a33d25558d90a8377495273",
+      "path": "generator\\config.py"
+    },
+    {
+      "sha256": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000",
+      "path": "generator\\quality.py"
+    },
+    {
+      "sha256": "e5fdb7a357d95e2b911ea0d7f5164b62e4d166b04107969369266d2899f8d63a",
+      "path": "generator\\simulation.py"
+    },
+    {
+      "sha256": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d",
+      "path": "generator\\storage.py"
+    }
+  ],
+  "scope": "Sequential independent 48h simulations with distinct seeds, not one continuous simulation or a chunked generator. One run per seed, filesystem cache uncontrolled. Generation time includes stream fixture creation; offline byte numerator excludes stream and manifest. No 100GB or Spark optimization claim."
+}

@@ -1,0 +1,93 @@
+test_anomaly_rate_boundaries (test_generator.GeneratorTests.test_anomaly_rate_boundaries)
+Zero and full rates preserve keys while selecting exact expected counts. ... ok
+test_cli_can_generate_inspect_compare_and_reject_overwrite (test_generator.GeneratorTests.test_cli_can_generate_inspect_compare_and_reject_overwrite)
+A learner can run the public commands without installed packages or PYTHONPATH. ... ok
+test_cli_reports_cannot_overwrite_source (test_generator.GeneratorTests.test_cli_reports_cannot_overwrite_source)
+Inspect/compare must reject report paths inside either immutable source run. ... ok
+test_different_seed_changes_measurements (test_generator.GeneratorTests.test_different_seed_changes_measurements)
+A different seed changes telemetry, not merely the run metadata. ... ok
+test_fractional_anomaly_counts_round_down (test_generator.GeneratorTests.test_fractional_anomaly_counts_round_down)
+The configured denominator is unique events and counts use floor, not probability. ... ok
+test_hot_factory_rounding (test_generator.GeneratorTests.test_hot_factory_rounding)
+Seven of ten machines produce exactly 70% of unique readings at F-01. ... ok
+test_invalid_config_partitions (test_generator.GeneratorTests.test_invalid_config_partitions)
+Reject negative rates, invalid types, grids, horizons and oversized workloads. ... ok
+test_known_counts_and_cardinality (test_generator.GeneratorTests.test_known_counts_and_cardinality)
+The 60-row fixture must contain six offline extras and three stream retries. ... ok
+test_late_events_are_really_out_of_order (test_generator.GeneratorTests.test_late_events_are_really_out_of_order)
+Arrival ordering includes at least one event-time inversion on the known fixture. ... ok
+test_persisted_corruption_fails_manifest_validation (test_generator.GeneratorTests.test_persisted_corruption_fails_manifest_validation)
+A whitespace-only file mutation still invalidates immutable-source evidence. ... ok
+test_persisted_sources_are_reproducible_and_checked (test_generator.GeneratorTests.test_persisted_sources_are_reproducible_and_checked)
+All bytes including manifests agree across fresh directories, then read-back passes. ... ok
+test_preventive_maintenance_stops_and_restarts_motor (test_generator.GeneratorTests.test_preventive_maintenance_stops_and_restarts_motor)
+Maintenance has a recorded interval and telemetry returns to operating afterward. ... ok
+test_schema_transition_boundaries (test_generator.GeneratorTests.test_schema_transition_boundaries)
+The added pressure column is physically absent in v1, present in v2. ... ok
+test_seed_produces_identical_content (test_generator.GeneratorTests.test_seed_produces_identical_content)
+Identical configuration produces identical in-memory source tables. ... ok
+test_source_overwrite_is_refused (test_generator.GeneratorTests.test_source_overwrite_is_refused)
+An existing run is preserved, even if it is an empty directory. ... ok
+test_stream_replay_dedup_oracle_is_idempotent (test_generator.GeneratorTests.test_stream_replay_dedup_oracle_is_idempotent)
+Replaying all deliveries twice must still yield the same 60 event IDs. ... ok
+test_timezone_normalization (test_generator.GeneratorTests.test_timezone_normalization)
+Equivalent offset timestamps normalize to exactly the same UTC instant. ... ok
+test_transport_settings_do_not_change_physical_history (test_generator.GeneratorTests.test_transport_settings_do_not_change_physical_history)
+Network anomalies cannot change source failures or measured sensor values. ... ok
+test_unknown_configuration_option_is_rejected (test_generator.GeneratorTests.test_unknown_configuration_option_is_rejected)
+A misspelled option must fail rather than silently using its default. ... ok
+test_unobserved_recovery_is_null (test_generator.GeneratorTests.test_unobserved_recovery_is_null)
+A stop beyond the observation boundary never exports a known future recovery. ... ok
+test_validator_rejects_arrival_before_measurement (test_generator.GeneratorTests.test_validator_rejects_arrival_before_measurement)
+Availability cannot precede the measurement timestamp. ... ok
+test_validator_rejects_conflicting_duplicate (test_generator.GeneratorTests.test_validator_rejects_conflicting_duplicate)
+A repeated event ID with a different sensor reading is a source conflict. ... ok
+test_validator_rejects_label_leakage_column (test_generator.GeneratorTests.test_validator_rejects_label_leakage_column)
+Latent truth and future labels cannot be exported inside telemetry. ... ok
+test_validator_rejects_missing_failure_truth (test_generator.GeneratorTests.test_validator_rejects_missing_failure_truth)
+A failed motor requires a corresponding physical failure interval. ... ok
+test_validator_rejects_missing_reading (test_generator.GeneratorTests.test_validator_rejects_missing_reading)
+Removing all copies of one event violates the complete machine-time grid. ... ok
+test_validator_rejects_nonfinite_sensor (test_generator.GeneratorTests.test_validator_rejects_nonfinite_sensor)
+A sensor NaN is invalid JSON/source data, never a successful quality check. ... ok
+test_validator_rejects_retry_before_arrival (test_generator.GeneratorTests.test_validator_rejects_retry_before_arrival)
+A stream envelope cannot be delivered before its first gateway receipt. ... ok
+test_wear_controls_failures (test_generator.GeneratorTests.test_wear_controls_failures)
+High wear causes real stop events while negligible wear has no failures. ... ok
+test_exact_threshold_and_no_alarms (test_temporal.EvaluationTests.test_exact_threshold_and_no_alarms)
+A score at the threshold triggers an alert; an empty alert set has zero precision. ... ok
+test_invalid_probability_inputs_fail (test_temporal.EvaluationTests.test_invalid_probability_inputs_fail)
+Do not silently evaluate missing labels or nonfinite/out-of-range probabilities. ... ok
+test_known_confusion_matrix (test_temporal.EvaluationTests.test_known_confusion_matrix)
+Two correct and two incorrect decisions give precision/recall/F1 of one half. ... ok
+test_threshold_is_chosen_from_validation_f1 (test_temporal.EvaluationTests.test_threshold_is_chosen_from_validation_f1)
+The known validation fixture has best F1 at threshold 0.2. ... ok
+test_import_counts_have_no_stream_copy (test_temporal.SourcePreparationTests.test_import_counts_have_no_stream_copy)
+CSV rows equal original offline rows plus an explicit source metadata change. ... ok
+test_invalid_changes_are_rejected (test_temporal.SourcePreparationTests.test_invalid_changes_are_rejected)
+Unknown machines, out-of-range effects, early recording and duplicate changes fail. ... ok
+test_metadata_effect_and_availability_are_distinct (test_temporal.SourcePreparationTests.test_metadata_effect_and_availability_are_distinct)
+A snapshot can become effective before its department update is recorded. ... ok
+test_run_id_cannot_escape_path_or_sql (test_temporal.SourcePreparationTests.test_run_id_cannot_escape_path_or_sql)
+Dataset names cannot add SQL statements or traverse filesystem directories. ... ok
+test_already_failed_snapshot_is_ineligible (test_temporal.TemporalContractTests.test_already_failed_snapshot_is_ineligible)
+A failure at t is current downtime, not a future positive training example. ... ok
+test_failure_after_horizon_is_negative (test_temporal.TemporalContractTests.test_failure_after_horizon_is_negative)
+One second beyond the horizon does not label the current snapshot positive. ... ok
+test_failure_at_one_hour_is_positive (test_temporal.TemporalContractTests.test_failure_at_one_hour_is_positive)
+The upper horizon endpoint is included. ... ok
+test_label_availability_purges_split_boundaries (test_temporal.TemporalContractTests.test_label_availability_purges_split_boundaries)
+A label available exactly at the next partition is excluded from the previous one. ... ok
+test_maintenance_intervention_censors_even_a_positive (test_temporal.TemporalContractTests.test_maintenance_intervention_censors_even_a_positive)
+The conservative intervention policy removes a horizon with maintenance. ... ok
+test_observation_end_is_exclusive (test_temporal.TemporalContractTests.test_observation_end_is_exclusive)
+Never turn an unobserved horizon tail into a negative label. ... ok
+test_other_machine_failure_does_not_change_label (test_temporal.TemporalContractTests.test_other_machine_failure_does_not_change_label)
+Labels are per machine rather than shared across the plant. ... ok
+test_reading_requires_event_time_and_arrival_time (test_temporal.TemporalContractTests.test_reading_requires_event_time_and_arrival_time)
+Late/future readings and the exclusive old boundary cannot enter the feature. ... ok
+
+----------------------------------------------------------------------
+Ran 44 tests in 1.836s
+
+OK

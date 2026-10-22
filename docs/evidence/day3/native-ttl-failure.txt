@@ -1,0 +1,486 @@
+[Heap backend: outputs/day3-verified/generated-console.txt]
+ Container iot-coursework-stream-kafka-1 Running 
+ Container iot-coursework-stream-kafka-1 Waiting 
+ Container iot-coursework-stream-kafka-1 Healthy 
+ Container iot-stream-day3-verified-generated Creating 
+ Container iot-stream-day3-verified-generated Created 
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 295, in _execute
+    response = task()
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 370, in <lambda>
+    lambda: self.create_worker().do_instruction(request), request)
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 629, in do_instruction
+    return getattr(self, request_type)(
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 667, in process_bundle
+    bundle_processor.process_bundle(instruction_id))
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/bundle_processor.py", line 1061, in process_bundle
+    input_op_by_transform_id[element.transform_id].process_encoded(
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/bundle_processor.py", line 231, in process_encoded
+    self.output(decoded_value)
+  File "apache_beam/runners/worker/operations.py", line 526, in apache_beam.runners.worker.operations.Operation.output
+  File "apache_beam/runners/worker/operations.py", line 528, in apache_beam.runners.worker.operations.Operation.output
+  File "apache_beam/runners/worker/operations.py", line 237, in apache_beam.runners.worker.operations.SingletonElementConsumerSet.receive
+  File "apache_beam/runners/worker/operations.py", line 240, in apache_beam.runners.worker.operations.SingletonElementConsumerSet.receive
+  File "pyflink/fn_execution/beam/beam_operations_fast.pyx", line 169, in pyflink.fn_execution.beam.beam_operations_fast.FunctionOperation.process
+  File "pyflink/fn_execution/beam/beam_operations_fast.pyx", line 182, in pyflink.fn_execution.beam.beam_operations_fast.FunctionOperation.process
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/fn_execution/datastream/process/input_handler.py", line 53, in process_element
+    yield from _emit_results(timestamp,
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/fn_execution/datastream/process/input_handler.py", line 123, in _emit_results
+    for result in results:
+  File "/workspace/pipelines/stream_job.py", line 61, in process_element
+    old = self.seen.value() if self.enabled else None
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/fn_execution/state_impl.py", line 168, in value
+    for i in self.get_internal_state().read():
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/bundle_processor.py", line 532, in __iter__
+    for elem in self.first:
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/bundle_processor.py", line 364, in __iter__
+    self._state_handler.blocking_get(self._state_key, self._coder_impl))
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1185, in blocking_get
+    return self._state_cache.get(
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/statecache.py", line 303, in get
+    raise err
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/statecache.py", line 287, in get
+    value = loading_value.value()
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/statecache.py", line 206, in value
+    raise err
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/statecache.py", line 195, in load
+    self._value = loading_fn(key)
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1187, in <lambda>
+    lambda key: self._partially_cached_iterable(state_key, coder))
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1288, in _partially_cached_iterable
+    data, continuation_token = self._underlying.get_raw(state_key, None)
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1064, in get_raw
+    response = self._blocking_request(
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1109, in _blocking_request
+    raise RuntimeError(response.error)
+RuntimeError: java.lang.UnsupportedOperationException: A serializer has already been registered for the state; re-registration is not allowed.
+	at org.apache.flink.runtime.state.StateSerializerProvider$EagerlyRegisteredStateSerializerProvider.registerNewSerializerForRestoredState(StateSerializerProvider.java:346)
+	at org.apache.flink.runtime.state.RegisteredKeyValueStateBackendMetaInfo.updateNamespaceSerializer(RegisteredKeyValueStateBackendMetaInfo.java:132)
+	at org.apache.flink.runtime.state.heap.HeapKeyedStateBackend.tryRegisterStateTable(HeapKeyedStateBackend.java:231)
+	at org.apache.flink.runtime.state.heap.HeapKeyedStateBackend.createOrUpdateInternalState(HeapKeyedStateBackend.java:371)
+	at org.apache.flink.runtime.state.heap.HeapKeyedStateBackend.createOrUpdateInternalState(HeapKeyedStateBackend.java:358)
+	at org.apache.flink.runtime.state.ttl.TtlStateFactory.createTtlStateContext(TtlStateFactory.java:222)
+	at org.apache.flink.runtime.state.ttl.TtlStateFactory.createListState(TtlStateFactory.java:159)
+	at org.apache.flink.runtime.state.ttl.TtlStateFactory.createState(TtlStateFactory.java:129)
+	at org.apache.flink.runtime.state.ttl.TtlStateFactory.createStateAndWrapWithTtlIfEnabled(TtlStateFactory.java:69)
+	at org.apache.flink.runtime.state.AbstractKeyedStateBackend.getOrCreateKeyedState(AbstractKeyedStateBackend.java:361)
+	at org.apache.flink.runtime.state.AbstractKeyedStateBackend.getPartitionedState(AbstractKeyedStateBackend.java:412)
+	at org.apache.flink.streaming.api.runners.python.beam.state.BeamKeyedStateStore.getListState(BeamKeyedStateStore.java:137)
+	at org.apache.flink.streaming.api.runners.python.beam.state.BeamStateRequestHandler.handle(BeamStateRequestHandler.java:78)
+	at org.apache.beam.runners.fnexecution.state.GrpcStateService$Inbound.onNext(GrpcStateService.java:131)
+	at org.apache.beam.runners.fnexecution.state.GrpcStateService$Inbound.onNext(GrpcStateService.java:119)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.stub.ServerCalls$StreamingServerCallHandler$StreamingServerCallListener.onMessage(ServerCalls.java:262)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailableInternal(ServerCallImpl.java:332)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailable(ServerCallImpl.java:315)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.internal.ServerImpl$JumpToApplicationThreadServerStreamListener$1MessagesAvailable.runInContext(ServerImpl.java:834)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.internal.ContextRunnable.run(ContextRunnable.java:37)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.internal.SerializingExecutor.run(SerializingExecutor.java:133)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+
+
+Exception in thread read_grpc_client_inputs:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/data_plane.py", line 669, in <lambda>
+    target=lambda: self._read_inputs(elements_iterator),
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/data_plane.py", line 652, in _read_inputs
+    for elements in elements_iterator:
+  File "/usr/local/lib/python3.10/dist-packages/grpc/_channel.py", line 547, in __next__
+    return self._next()
+  File "/usr/local/lib/python3.10/dist-packages/grpc/_channel.py", line 965, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.CANCELLED
+	details = "Multiplexer hanging up"
+	debug_error_string = "CANCELLED:Multiplexer hanging up"
+>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 295, in _execute
+    response = task()
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 370, in <lambda>
+    lambda: self.create_worker().do_instruction(request), request)
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 629, in do_instruction
+    return getattr(self, request_type)(
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 667, in process_bundle
+    bundle_processor.process_bundle(instruction_id))
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/bundle_processor.py", line 1061, in process_bundle
+    input_op_by_transform_id[element.transform_id].process_encoded(
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/bundle_processor.py", line 231, in process_encoded
+    self.output(decoded_value)
+  File "apache_beam/runners/worker/operations.py", line 526, in apache_beam.runners.worker.operations.Operation.output
+  File "apache_beam/runners/worker/operations.py", line 528, in apache_beam.runners.worker.operations.Operation.output
+  File "apache_beam/runners/worker/operations.py", line 237, in apache_beam.runners.worker.operations.SingletonElementConsumerSet.receive
+  File "apache_beam/runners/worker/operations.py", line 240, in apache_beam.runners.worker.operations.SingletonElementConsumerSet.receive
+  File "pyflink/fn_execution/beam/beam_operations_fast.pyx", line 169, in pyflink.fn_execution.beam.beam_operations_fast.FunctionOperation.process
+  File "pyflink/fn_execution/beam/beam_operations_fast.pyx", line 182, in pyflink.fn_execution.beam.beam_operations_fast.FunctionOperation.process
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/fn_execution/datastream/process/input_handler.py", line 53, in process_element
+    yield from _emit_results(timestamp,
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/fn_execution/datastream/process/input_handler.py", line 123, in _emit_results
+    for result in results:
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/fn_execution/datastream/window/window_operator.py", line 399, in process_element
+    self.window_state.add(value)
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/fn_execution/state_impl.py", line 273, in add
+    accumulator = self._get_accumulator()
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/fn_execution/state_impl.py", line 289, in _get_accumulator
+    for i in self.get_internal_state().read():
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/bundle_processor.py", line 532, in __iter__
+    for elem in self.first:
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/bundle_processor.py", line 364, in __iter__
+    self._state_handler.blocking_get(self._state_key, self._coder_impl))
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1185, in blocking_get
+    return self._state_cache.get(
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/statecache.py", line 303, in get
+    raise err
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/statecache.py", line 287, in get
+    value = loading_value.value()
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/statecache.py", line 206, in value
+    raise err
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/statecache.py", line 195, in load
+    self._value = loading_fn(key)
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1187, in <lambda>
+    lambda key: self._partially_cached_iterable(state_key, coder))
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1288, in _partially_cached_iterable
+    data, continuation_token = self._underlying.get_raw(state_key, None)
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1064, in get_raw
+    response = self._blocking_request(
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1109, in _blocking_request
+    raise RuntimeError(response.error)
+RuntimeError: Unknown process bundle instruction id '1175'
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/workspace/pipelines/stream_job.py", line 200, in <module>
+    main()
+  File "/workspace/pipelines/stream_job.py", line 190, in main
+    result = env.execute(f"iot-{'baseline' if args.baseline else 'corrected'}-{args.topic}")
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/datastream/stream_execution_environment.py", line 830, in execute
+    return JobExecutionResult(self._j_stream_execution_environment.execute(j_stream_graph))
+  File "/usr/local/lib/python3.10/dist-packages/py4j/java_gateway.py", line 1322, in __call__
+    return_value = get_return_value(
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/util/exceptions.py", line 146, in deco
+    return f(*a, **kw)
+  File "/usr/local/lib/python3.10/dist-packages/py4j/protocol.py", line 326, in get_return_value
+    raise Py4JJavaError(
+py4j.protocol.Py4JJavaError: An error occurred while calling o33.execute.
+: org.apache.flink.runtime.client.JobExecutionException: Job execution failed.
+	at org.apache.flink.runtime.jobmaster.JobResult.toJobExecutionResult(JobResult.java:144)
+	at org.apache.flink.runtime.minicluster.MiniClusterJobClient.lambda$getJobExecutionResult$3(MiniClusterJobClient.java:141)
+	at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.complete(Unknown Source)
+	at org.apache.flink.runtime.rpc.pekko.PekkoInvocationHandler.lambda$invokeRpc$1(PekkoInvocationHandler.java:268)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.complete(Unknown Source)
+	at org.apache.flink.util.concurrent.FutureUtils.doForward(FutureUtils.java:1315)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.lambda$null$1(ClassLoadingUtils.java:93)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:68)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.lambda$guardCompletionWithContextClassLoader$2(ClassLoadingUtils.java:92)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.complete(Unknown Source)
+	at org.apache.flink.runtime.concurrent.pekko.ScalaFutureUtils$1.onComplete(ScalaFutureUtils.java:47)
+	at org.apache.pekko.dispatch.OnComplete.internal(Future.scala:310)
+	at org.apache.pekko.dispatch.OnComplete.internal(Future.scala:307)
+	at org.apache.pekko.dispatch.japi$CallbackBridge.apply(Future.scala:234)
+	at org.apache.pekko.dispatch.japi$CallbackBridge.apply(Future.scala:231)
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)
+	at org.apache.flink.runtime.concurrent.pekko.ScalaFutureUtils$DirectExecutionContext.execute(ScalaFutureUtils.java:65)
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:72)
+	at scala.concurrent.impl.Promise$DefaultPromise.$anonfun$tryComplete$1(Promise.scala:288)
+	at scala.concurrent.impl.Promise$DefaultPromise.$anonfun$tryComplete$1$adapted(Promise.scala:288)
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:288)
+	at org.apache.pekko.pattern.PromiseActorRef.$bang(AskSupport.scala:624)
+	at org.apache.pekko.pattern.PipeToSupport$PipeableFuture$$anonfun$pipeTo$1.applyOrElse(PipeToSupport.scala:33)
+	at scala.concurrent.Future.$anonfun$andThen$1(Future.scala:536)
+	at scala.concurrent.impl.Promise.liftedTree1$1(Promise.scala:33)
+	at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:33)
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)
+	at org.apache.pekko.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:73)
+	at org.apache.pekko.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:110)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:85)
+	at org.apache.pekko.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:110)
+	at org.apache.pekko.dispatch.TaskInvocation.run(AbstractDispatcher.scala:59)
+	at org.apache.pekko.dispatch.ForkJoinExecutorConfigurator$PekkoForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:61)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source)
+Caused by: org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailure(ExecutionFailureHandler.java:219)
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailureAndReport(ExecutionFailureHandler.java:166)
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.getGlobalFailureHandlingResult(ExecutionFailureHandler.java:140)
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.handleGlobalFailure(DefaultScheduler.java:324)
+	at org.apache.flink.runtime.scheduler.UpdateSchedulerNgOnInternalFailuresListener.notifyGlobalFailure(UpdateSchedulerNgOnInternalFailuresListener.java:57)
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraph.failGlobal(DefaultExecutionGraph.java:1092)
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraph.failGlobalIfExecutionIsStillRunning(DefaultExecutionGraph.java:1080)
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraph$1.lambda$failJobDueToTaskFailure$1(DefaultExecutionGraph.java:486)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.lambda$handleRunAsync$4(PekkoRpcActor.java:460)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:68)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRunAsync(PekkoRpcActor.java:460)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcMessage(PekkoRpcActor.java:225)
+	at org.apache.flink.runtime.rpc.pekko.FencedPekkoRpcActor.handleRpcMessage(FencedPekkoRpcActor.java:88)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleMessage(PekkoRpcActor.java:174)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:33)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:29)
+	at scala.PartialFunction.applyOrElse(PartialFunction.scala:127)
+	at scala.PartialFunction.applyOrElse$(PartialFunction.scala:126)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.applyOrElse(CaseStatements.scala:29)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:175)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+	at org.apache.pekko.actor.Actor.aroundReceive(Actor.scala:547)
+	at org.apache.pekko.actor.Actor.aroundReceive$(Actor.scala:545)
+	at org.apache.pekko.actor.AbstractActor.aroundReceive(AbstractActor.scala:229)
+	at org.apache.pekko.actor.ActorCell.receiveMessage(ActorCell.scala:590)
+	at org.apache.pekko.actor.ActorCell.invoke(ActorCell.scala:557)
+	at org.apache.pekko.dispatch.Mailbox.processMailbox(Mailbox.scala:272)
+	at org.apache.pekko.dispatch.Mailbox.run(Mailbox.scala:233)
+	at org.apache.pekko.dispatch.Mailbox.exec(Mailbox.scala:245)
+	... 5 more
+Caused by: org.apache.flink.util.FlinkRuntimeException: Exceeded checkpoint tolerable failure threshold. The latest checkpoint failed due to Asynchronous task checkpoint failed., view the Checkpoint History tab or the Job Manager log to find out why continuous checkpoints failed.
+	at org.apache.flink.runtime.checkpoint.CheckpointFailureManager.checkFailureAgainstCounter(CheckpointFailureManager.java:212)
+	at org.apache.flink.runtime.checkpoint.CheckpointFailureManager.handleTaskLevelCheckpointException(CheckpointFailureManager.java:191)
+	at org.apache.flink.runtime.checkpoint.CheckpointFailureManager.handleCheckpointException(CheckpointFailureManager.java:124)
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.abortPendingCheckpoint(CheckpointCoordinator.java:2281)
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.receiveDeclineMessage(CheckpointCoordinator.java:1171)
+	at org.apache.flink.runtime.scheduler.ExecutionGraphHandler.lambda$declineCheckpoint$3(ExecutionGraphHandler.java:123)
+	at org.apache.flink.runtime.scheduler.ExecutionGraphHandler.lambda$processCheckpointCoordinatorMessage$4(ExecutionGraphHandler.java:139)
+	at org.apache.flink.util.MdcUtils.lambda$wrapRunnable$1(MdcUtils.java:70)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+
+
+
+
+[RocksDB backend: outputs/day3-rocksdb/generated-console.txt]
+ Container iot-coursework-stream-kafka-1 Running 
+ Container iot-coursework-stream-kafka-1 Waiting 
+ Container iot-coursework-stream-kafka-1 Healthy 
+ Container iot-stream-day3-rocksdb-generated Creating 
+ Container iot-stream-day3-rocksdb-generated Created 
+Exception in thread read_grpc_client_inputs:
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/data_plane.py", line 669, in <lambda>
+    target=lambda: self._read_inputs(elements_iterator),
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/data_plane.py", line 652, in _read_inputs
+    for elements in elements_iterator:
+  File "/usr/local/lib/python3.10/dist-packages/grpc/_channel.py", line 547, in __next__
+    return self._next()
+  File "/usr/local/lib/python3.10/dist-packages/grpc/_channel.py", line 965, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.CANCELLED
+	details = "Multiplexer hanging up"
+	debug_error_string = "CANCELLED:Multiplexer hanging up"
+>
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 295, in _execute
+    response = task()
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 370, in <lambda>
+    lambda: self.create_worker().do_instruction(request), request)
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 629, in do_instruction
+    return getattr(self, request_type)(
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 667, in process_bundle
+    bundle_processor.process_bundle(instruction_id))
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/bundle_processor.py", line 1061, in process_bundle
+    input_op_by_transform_id[element.transform_id].process_encoded(
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/bundle_processor.py", line 231, in process_encoded
+    self.output(decoded_value)
+  File "apache_beam/runners/worker/operations.py", line 526, in apache_beam.runners.worker.operations.Operation.output
+  File "apache_beam/runners/worker/operations.py", line 528, in apache_beam.runners.worker.operations.Operation.output
+  File "apache_beam/runners/worker/operations.py", line 237, in apache_beam.runners.worker.operations.SingletonElementConsumerSet.receive
+  File "apache_beam/runners/worker/operations.py", line 240, in apache_beam.runners.worker.operations.SingletonElementConsumerSet.receive
+  File "pyflink/fn_execution/beam/beam_operations_fast.pyx", line 169, in pyflink.fn_execution.beam.beam_operations_fast.FunctionOperation.process
+  File "pyflink/fn_execution/beam/beam_operations_fast.pyx", line 182, in pyflink.fn_execution.beam.beam_operations_fast.FunctionOperation.process
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/fn_execution/datastream/process/input_handler.py", line 53, in process_element
+    yield from _emit_results(timestamp,
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/fn_execution/datastream/process/input_handler.py", line 123, in _emit_results
+    for result in results:
+  File "/workspace/pipelines/stream_job.py", line 61, in process_element
+    old = self.seen.value() if self.enabled else None
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/fn_execution/state_impl.py", line 168, in value
+    for i in self.get_internal_state().read():
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/bundle_processor.py", line 532, in __iter__
+    for elem in self.first:
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/bundle_processor.py", line 364, in __iter__
+    self._state_handler.blocking_get(self._state_key, self._coder_impl))
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1185, in blocking_get
+    return self._state_cache.get(
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/statecache.py", line 303, in get
+    raise err
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/statecache.py", line 287, in get
+    value = loading_value.value()
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/statecache.py", line 206, in value
+    raise err
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/statecache.py", line 195, in load
+    self._value = loading_fn(key)
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1187, in <lambda>
+    lambda key: self._partially_cached_iterable(state_key, coder))
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1288, in _partially_cached_iterable
+    data, continuation_token = self._underlying.get_raw(state_key, None)
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1064, in get_raw
+    response = self._blocking_request(
+  File "/usr/local/lib/python3.10/dist-packages/apache_beam/runners/worker/sdk_worker.py", line 1109, in _blocking_request
+    raise RuntimeError(response.error)
+RuntimeError: java.lang.UnsupportedOperationException: A serializer has already been registered for the state; re-registration is not allowed.
+	at org.apache.flink.runtime.state.StateSerializerProvider$EagerlyRegisteredStateSerializerProvider.registerNewSerializerForRestoredState(StateSerializerProvider.java:346)
+	at org.apache.flink.runtime.state.RegisteredKeyValueStateBackendMetaInfo.updateNamespaceSerializer(RegisteredKeyValueStateBackendMetaInfo.java:132)
+	at org.apache.flink.contrib.streaming.state.RocksDBKeyedStateBackend.updateRestoredStateMetaInfo(RocksDBKeyedStateBackend.java:822)
+	at org.apache.flink.contrib.streaming.state.RocksDBKeyedStateBackend.tryRegisterKvStateInformation(RocksDBKeyedStateBackend.java:753)
+	at org.apache.flink.contrib.streaming.state.RocksDBKeyedStateBackend.createOrUpdateInternalState(RocksDBKeyedStateBackend.java:973)
+	at org.apache.flink.contrib.streaming.state.RocksDBKeyedStateBackend.createOrUpdateInternalState(RocksDBKeyedStateBackend.java:960)
+	at org.apache.flink.runtime.state.ttl.TtlStateFactory.createTtlStateContext(TtlStateFactory.java:222)
+	at org.apache.flink.runtime.state.ttl.TtlStateFactory.createListState(TtlStateFactory.java:159)
+	at org.apache.flink.runtime.state.ttl.TtlStateFactory.createState(TtlStateFactory.java:129)
+	at org.apache.flink.runtime.state.ttl.TtlStateFactory.createStateAndWrapWithTtlIfEnabled(TtlStateFactory.java:69)
+	at org.apache.flink.runtime.state.AbstractKeyedStateBackend.getOrCreateKeyedState(AbstractKeyedStateBackend.java:361)
+	at org.apache.flink.runtime.state.AbstractKeyedStateBackend.getPartitionedState(AbstractKeyedStateBackend.java:412)
+	at org.apache.flink.streaming.api.runners.python.beam.state.BeamKeyedStateStore.getListState(BeamKeyedStateStore.java:137)
+	at org.apache.flink.streaming.api.runners.python.beam.state.BeamStateRequestHandler.handle(BeamStateRequestHandler.java:78)
+	at org.apache.beam.runners.fnexecution.state.GrpcStateService$Inbound.onNext(GrpcStateService.java:131)
+	at org.apache.beam.runners.fnexecution.state.GrpcStateService$Inbound.onNext(GrpcStateService.java:119)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.stub.ServerCalls$StreamingServerCallHandler$StreamingServerCallListener.onMessage(ServerCalls.java:262)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailableInternal(ServerCallImpl.java:332)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailable(ServerCallImpl.java:315)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.internal.ServerImpl$JumpToApplicationThreadServerStreamListener$1MessagesAvailable.runInContext(ServerImpl.java:834)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.internal.ContextRunnable.run(ContextRunnable.java:37)
+	at org.apache.beam.vendor.grpc.v1p48p1.io.grpc.internal.SerializingExecutor.run(SerializingExecutor.java:133)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/workspace/pipelines/stream_job.py", line 202, in <module>
+    main()
+  File "/workspace/pipelines/stream_job.py", line 191, in main
+    result = env.execute(f"iot-{'baseline' if args.baseline else 'corrected'}-{args.topic}")
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/datastream/stream_execution_environment.py", line 830, in execute
+    return JobExecutionResult(self._j_stream_execution_environment.execute(j_stream_graph))
+  File "/usr/local/lib/python3.10/dist-packages/py4j/java_gateway.py", line 1322, in __call__
+    return_value = get_return_value(
+  File "/usr/local/lib/python3.10/dist-packages/pyflink/util/exceptions.py", line 146, in deco
+    return f(*a, **kw)
+  File "/usr/local/lib/python3.10/dist-packages/py4j/protocol.py", line 326, in get_return_value
+    raise Py4JJavaError(
+py4j.protocol.Py4JJavaError: An error occurred while calling o37.execute.
+: org.apache.flink.runtime.client.JobExecutionException: Job execution failed.
+	at org.apache.flink.runtime.jobmaster.JobResult.toJobExecutionResult(JobResult.java:144)
+	at org.apache.flink.runtime.minicluster.MiniClusterJobClient.lambda$getJobExecutionResult$3(MiniClusterJobClient.java:141)
+	at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.complete(Unknown Source)
+	at org.apache.flink.runtime.rpc.pekko.PekkoInvocationHandler.lambda$invokeRpc$1(PekkoInvocationHandler.java:268)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.complete(Unknown Source)
+	at org.apache.flink.util.concurrent.FutureUtils.doForward(FutureUtils.java:1315)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.lambda$null$1(ClassLoadingUtils.java:93)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:68)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.lambda$guardCompletionWithContextClassLoader$2(ClassLoadingUtils.java:92)
+	at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.postComplete(Unknown Source)
+	at java.base/java.util.concurrent.CompletableFuture.complete(Unknown Source)
+	at org.apache.flink.runtime.concurrent.pekko.ScalaFutureUtils$1.onComplete(ScalaFutureUtils.java:47)
+	at org.apache.pekko.dispatch.OnComplete.internal(Future.scala:310)
+	at org.apache.pekko.dispatch.OnComplete.internal(Future.scala:307)
+	at org.apache.pekko.dispatch.japi$CallbackBridge.apply(Future.scala:234)
+	at org.apache.pekko.dispatch.japi$CallbackBridge.apply(Future.scala:231)
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)
+	at org.apache.flink.runtime.concurrent.pekko.ScalaFutureUtils$DirectExecutionContext.execute(ScalaFutureUtils.java:65)
+	at scala.concurrent.impl.CallbackRunnable.executeWithValue(Promise.scala:72)
+	at scala.concurrent.impl.Promise$DefaultPromise.$anonfun$tryComplete$1(Promise.scala:288)
+	at scala.concurrent.impl.Promise$DefaultPromise.$anonfun$tryComplete$1$adapted(Promise.scala:288)
+	at scala.concurrent.impl.Promise$DefaultPromise.tryComplete(Promise.scala:288)
+	at org.apache.pekko.pattern.PromiseActorRef.$bang(AskSupport.scala:624)
+	at org.apache.pekko.pattern.PipeToSupport$PipeableFuture$$anonfun$pipeTo$1.applyOrElse(PipeToSupport.scala:33)
+	at scala.concurrent.Future.$anonfun$andThen$1(Future.scala:536)
+	at scala.concurrent.impl.Promise.liftedTree1$1(Promise.scala:33)
+	at scala.concurrent.impl.Promise.$anonfun$transform$1(Promise.scala:33)
+	at scala.concurrent.impl.CallbackRunnable.run(Promise.scala:64)
+	at org.apache.pekko.dispatch.BatchingExecutor$AbstractBatch.processBatch(BatchingExecutor.scala:73)
+	at org.apache.pekko.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1(BatchingExecutor.scala:110)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:85)
+	at org.apache.pekko.dispatch.BatchingExecutor$BlockableBatch.run(BatchingExecutor.scala:110)
+	at org.apache.pekko.dispatch.TaskInvocation.run(AbstractDispatcher.scala:59)
+	at org.apache.pekko.dispatch.ForkJoinExecutorConfigurator$PekkoForkJoinTask.exec(ForkJoinExecutorConfigurator.scala:61)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(Unknown Source)
+Caused by: org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailure(ExecutionFailureHandler.java:219)
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.handleFailureAndReport(ExecutionFailureHandler.java:166)
+	at org.apache.flink.runtime.executiongraph.failover.ExecutionFailureHandler.getGlobalFailureHandlingResult(ExecutionFailureHandler.java:140)
+	at org.apache.flink.runtime.scheduler.DefaultScheduler.handleGlobalFailure(DefaultScheduler.java:324)
+	at org.apache.flink.runtime.scheduler.UpdateSchedulerNgOnInternalFailuresListener.notifyGlobalFailure(UpdateSchedulerNgOnInternalFailuresListener.java:57)
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraph.failGlobal(DefaultExecutionGraph.java:1092)
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraph.failGlobalIfExecutionIsStillRunning(DefaultExecutionGraph.java:1080)
+	at org.apache.flink.runtime.executiongraph.DefaultExecutionGraph$1.lambda$failJobDueToTaskFailure$1(DefaultExecutionGraph.java:486)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.lambda$handleRunAsync$4(PekkoRpcActor.java:460)
+	at org.apache.flink.runtime.concurrent.ClassLoadingUtils.runWithContextClassLoader(ClassLoadingUtils.java:68)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRunAsync(PekkoRpcActor.java:460)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleRpcMessage(PekkoRpcActor.java:225)
+	at org.apache.flink.runtime.rpc.pekko.FencedPekkoRpcActor.handleRpcMessage(FencedPekkoRpcActor.java:88)
+	at org.apache.flink.runtime.rpc.pekko.PekkoRpcActor.handleMessage(PekkoRpcActor.java:174)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:33)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:29)
+	at scala.PartialFunction.applyOrElse(PartialFunction.scala:127)
+	at scala.PartialFunction.applyOrElse$(PartialFunction.scala:126)
+	at org.apache.pekko.japi.pf.UnitCaseStatement.applyOrElse(CaseStatements.scala:29)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:175)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+	at scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:176)
+	at org.apache.pekko.actor.Actor.aroundReceive(Actor.scala:547)
+	at org.apache.pekko.actor.Actor.aroundReceive$(Actor.scala:545)
+	at org.apache.pekko.actor.AbstractActor.aroundReceive(AbstractActor.scala:229)
+	at org.apache.pekko.actor.ActorCell.receiveMessage(ActorCell.scala:590)
+	at org.apache.pekko.actor.ActorCell.invoke(ActorCell.scala:557)
+	at org.apache.pekko.dispatch.Mailbox.processMailbox(Mailbox.scala:272)
+	at org.apache.pekko.dispatch.Mailbox.run(Mailbox.scala:233)
+	at org.apache.pekko.dispatch.Mailbox.exec(Mailbox.scala:245)
+	... 5 more
+Caused by: org.apache.flink.util.FlinkRuntimeException: Exceeded checkpoint tolerable failure threshold. The latest checkpoint failed due to Asynchronous task checkpoint failed., view the Checkpoint History tab or the Job Manager log to find out why continuous checkpoints failed.
+	at org.apache.flink.runtime.checkpoint.CheckpointFailureManager.checkFailureAgainstCounter(CheckpointFailureManager.java:212)
+	at org.apache.flink.runtime.checkpoint.CheckpointFailureManager.handleTaskLevelCheckpointException(CheckpointFailureManager.java:191)
+	at org.apache.flink.runtime.checkpoint.CheckpointFailureManager.handleCheckpointException(CheckpointFailureManager.java:124)
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.abortPendingCheckpoint(CheckpointCoordinator.java:2281)
+	at org.apache.flink.runtime.checkpoint.CheckpointCoordinator.receiveDeclineMessage(CheckpointCoordinator.java:1171)
+	at org.apache.flink.runtime.scheduler.ExecutionGraphHandler.lambda$declineCheckpoint$3(ExecutionGraphHandler.java:123)
+	at org.apache.flink.runtime.scheduler.ExecutionGraphHandler.lambda$processCheckpointCoordinatorMessage$4(ExecutionGraphHandler.java:139)
+	at org.apache.flink.util.MdcUtils.lambda$wrapRunnable$1(MdcUtils.java:70)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+
+

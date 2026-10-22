@@ -1,0 +1,441 @@
+{
+  "commands": [
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-topics.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--create",
+        "--topic",
+        "iot-day3-complete-baseline",
+        "--partitions",
+        "1",
+        "--replication-factor",
+        "1"
+      ],
+      "exit_code": 0,
+      "output": "Created topic iot-day3-complete-baseline.\n"
+    },
+    {
+      "arguments": [
+        "run",
+        "--rm",
+        "--service-ports",
+        "--name",
+        "iot-stream-day3-complete-baseline",
+        "flink",
+        "-m",
+        "pipelines.stream_job",
+        "--topic",
+        "iot-day3-complete-baseline",
+        "--records",
+        "22",
+        "--database",
+        "data/stream/day3-complete/baseline.sqlite",
+        "--runtime-report",
+        "outputs/day3-complete/baseline-runtime.json",
+        "--baseline"
+      ],
+      "status": "started"
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-baseline",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-baseline",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-baseline",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-get-offsets.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-baseline"
+      ],
+      "exit_code": 0,
+      "output": "iot-day3-complete-baseline:0:22\n"
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-topics.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--create",
+        "--topic",
+        "iot-day3-complete-corrected",
+        "--partitions",
+        "1",
+        "--replication-factor",
+        "1"
+      ],
+      "exit_code": 0,
+      "output": "Created topic iot-day3-complete-corrected.\n"
+    },
+    {
+      "arguments": [
+        "run",
+        "--rm",
+        "--service-ports",
+        "--name",
+        "iot-stream-day3-complete-corrected",
+        "flink",
+        "-m",
+        "pipelines.stream_job",
+        "--topic",
+        "iot-day3-complete-corrected",
+        "--records",
+        "22",
+        "--database",
+        "data/stream/day3-complete/corrected.sqlite",
+        "--runtime-report",
+        "outputs/day3-complete/corrected-runtime.json"
+      ],
+      "status": "started"
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-corrected",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-corrected",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-corrected",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-get-offsets.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-corrected"
+      ],
+      "exit_code": 0,
+      "output": "iot-day3-complete-corrected:0:22\n"
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-topics.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--create",
+        "--topic",
+        "iot-day3-complete-retention-probe",
+        "--partitions",
+        "1",
+        "--replication-factor",
+        "1"
+      ],
+      "exit_code": 0,
+      "output": "Created topic iot-day3-complete-retention-probe.\n"
+    },
+    {
+      "arguments": [
+        "run",
+        "--rm",
+        "--service-ports",
+        "--name",
+        "iot-stream-day3-complete-retention-probe",
+        "flink",
+        "-m",
+        "pipelines.stream_job",
+        "--topic",
+        "iot-day3-complete-retention-probe",
+        "--records",
+        "6",
+        "--database",
+        "data/stream/day3-complete/retention-probe.sqlite",
+        "--runtime-report",
+        "outputs/day3-complete/retention-probe-runtime.json",
+        "--dedup-retention-ms",
+        "1500"
+      ],
+      "status": "started"
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-retention-probe",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-retention-probe",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-retention-probe",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-get-offsets.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-retention-probe"
+      ],
+      "exit_code": 0,
+      "output": "iot-day3-complete-retention-probe:0:6\n"
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-topics.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--create",
+        "--topic",
+        "iot-day3-complete-generated",
+        "--partitions",
+        "1",
+        "--replication-factor",
+        "1"
+      ],
+      "exit_code": 0,
+      "output": "Created topic iot-day3-complete-generated.\n"
+    },
+    {
+      "arguments": [
+        "run",
+        "--rm",
+        "--service-ports",
+        "--name",
+        "iot-stream-day3-complete-generated",
+        "flink",
+        "-m",
+        "pipelines.stream_job",
+        "--topic",
+        "iot-day3-complete-generated",
+        "--records",
+        "116928",
+        "--database",
+        "data/stream/day3-complete/generated.sqlite",
+        "--runtime-report",
+        "outputs/day3-complete/generated-runtime.json",
+        "--checkpoint-interval-ms",
+        "30000"
+      ],
+      "status": "started"
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-generated",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-get-offsets.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-day3-complete-generated"
+      ],
+      "exit_code": 0,
+      "output": "iot-day3-complete-generated:0:116928\n"
+    }
+  ]
+}

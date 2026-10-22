@@ -1,0 +1,6 @@
+ Container iot-coursework-stream-kafka-1 Running 
+ Container iot-coursework-stream-kafka-1 Waiting 
+ Container iot-coursework-stream-kafka-1 Healthy 
+ Container iot-stream-day3-complete-generated Creating 
+ Container iot-stream-day3-complete-generated Created 
+{"passed": true, "job_id": "2b61e279b438fcad091042b174b3aee9", "flink": "1.20.3", "python": "3.10.12", "job_runtime_ms": 344779, "wall_seconds": 353.03416145200026, "records": 116928, "watermark_delay_minutes": 15, "dedup_retention_processing_ms": 604800000, "retention_implementation": "processing-time expiry plus state-clearing timer, no native StateTtlConfig", "replay_protection_after_expiry": "persistent local event_id ledger, retained for the scenario lifetime", "sqlite_commit_policy": "each write, WAL synchronous=NORMAL on Linux volume; explicit post-job snapshots", "result_snapshot_available_utc": "2026-10-22T11:13:43.406039+00:00", "checkpoint_interval_ms": 30000, "state_backend": "EmbeddedRocksDBStateBackend", "scope": "bounded offsets, streaming execution, one Kafka partition and local Flink parallelism=1; no crash recovery/exactly-once claim"}

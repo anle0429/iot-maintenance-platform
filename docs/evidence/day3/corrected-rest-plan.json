@@ -1,0 +1,77 @@
+{
+  "plan": {
+    "jid": "206335d5a738cc7b7525da05a371d3bb",
+    "name": "iot-corrected-iot-day3-complete-corrected",
+    "nodes": [
+      {
+        "description": "Idempotent local result sink, Filter<br/>+- Sink: Print to Std. Out<br/>",
+        "id": "3ae2c4528726237cc2f626a3b137d36d",
+        "inputs": [
+          {
+            "exchange": "pipelined_bounded",
+            "id": "f1a8549402b4270e55f17092ab898159",
+            "num": 0,
+            "ship_strategy": "FORWARD"
+          },
+          {
+            "exchange": "pipelined_bounded",
+            "id": "f1a8549402b4270e55f17092ab898159",
+            "num": 1,
+            "ship_strategy": "FORWARD"
+          },
+          {
+            "exchange": "pipelined_bounded",
+            "id": "1f47e37d81ff856fd0d075813ec805ce",
+            "num": 2,
+            "ship_strategy": "FORWARD"
+          }
+        ],
+        "operator": "",
+        "operator_strategy": "",
+        "optimizer_properties": {},
+        "parallelism": 1
+      },
+      {
+        "description": "Window(TumblingEventTimeWindows(600000, 0), EventTimeTrigger, WindowAggregate, WindowResult)<br/>+- Map, Map<br/>",
+        "id": "f1a8549402b4270e55f17092ab898159",
+        "inputs": [
+          {
+            "exchange": "pipelined_bounded",
+            "id": "1f47e37d81ff856fd0d075813ec805ce",
+            "num": 0,
+            "ship_strategy": "HASH"
+          }
+        ],
+        "operator": "",
+        "operator_strategy": "",
+        "optimizer_properties": {},
+        "parallelism": 1
+      },
+      {
+        "description": "Immutable event dedup and watermark audit<br/>:- _stream_key_by_map_operator<br/>+- Map<br/>",
+        "id": "1f47e37d81ff856fd0d075813ec805ce",
+        "inputs": [
+          {
+            "exchange": "pipelined_bounded",
+            "id": "cbc357ccb763df2852fee8c4fc7d55f2",
+            "num": 0,
+            "ship_strategy": "HASH"
+          }
+        ],
+        "operator": "",
+        "operator_strategy": "",
+        "optimizer_properties": {},
+        "parallelism": 1
+      },
+      {
+        "description": "Source: Kafka telemetry source<br/>+- Extract-Timestamp<br/>   +- Timestamps/Watermarks<br/>      +- Remove-Timestamp<br/>         +- _stream_key_by_map_operator<br/>",
+        "id": "cbc357ccb763df2852fee8c4fc7d55f2",
+        "operator": "",
+        "operator_strategy": "",
+        "optimizer_properties": {},
+        "parallelism": 1
+      }
+    ],
+    "type": "STREAMING"
+  }
+}

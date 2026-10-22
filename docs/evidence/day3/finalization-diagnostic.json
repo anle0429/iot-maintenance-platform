@@ -1,0 +1,15 @@
+{
+  "run": "day3-checked",
+  "job_id": "76bb746382bf4bbdd7287fbcc2472aed",
+  "job_finished": true,
+  "milestone_passed": false,
+  "actual_audit_counts": {
+    "duplicate": 59304,
+    "unique": 57600
+  },
+  "expected_duplicate_audits": 59328,
+  "actual_windows": 5720,
+  "expected_windows": 5760,
+  "missing_ledger_snapshot": true,
+  "interpretation": "Final batched writes and ledger snapshot were not preserved by the UDF close path. Fix commits each write on Linux WAL/NORMAL storage and explicitly exports snapshots after env.execute; no upstream root-cause claim."
+}

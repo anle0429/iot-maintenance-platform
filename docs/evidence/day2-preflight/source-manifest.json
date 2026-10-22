@@ -1,0 +1,86 @@
+{
+  "expected_records": 58843,
+  "import_sha256": "3b7076718af10051ab53ed2738f7a0afed0441bbd84286522866dfd02d2cd8be",
+  "metadata_changes": [
+    {
+      "effective_ts": "2026-10-02T00:00:00Z",
+      "factory_id": "F-04",
+      "machine_id": "P-001",
+      "recorded_ts": "2026-10-02T00:05:00Z"
+    }
+  ],
+  "original_manifest": {
+    "compression": "none",
+    "config": {
+      "duration_hours": 48,
+      "export_delay_seconds": 3600,
+      "failure_threshold": 1.0,
+      "hot_factory_share": 0.7,
+      "late_max_seconds": 600,
+      "late_min_seconds": 300,
+      "late_rate": 0.05,
+      "machine_count": 20,
+      "maintenance_every_hours": 18,
+      "maintenance_minutes": 20,
+      "offline_duplicate_rate": 0.02,
+      "repair_minutes": 45,
+      "retry_delay_seconds": 2,
+      "sample_seconds": 60,
+      "schema_v2_fraction": 0.5,
+      "seed": 42,
+      "start_ts": "2026-10-01T00:00:00Z",
+      "stream_duplicate_rate": 0.015,
+      "wear_per_hour": 0.035
+    },
+    "files": [
+      {
+        "bytes": 4160,
+        "path": "machines.jsonl",
+        "rows": 20,
+        "sha256": "0dfb5a301622b60fdb9bcbe150912a6a7201e63352fd6d54ee21f7e29278a8b5"
+      },
+      {
+        "bytes": 8970,
+        "path": "maintenance_events.jsonl",
+        "rows": 39,
+        "sha256": "cd28925e5ae37235db2b0af0a66219058e22c811b724620bee29291d37383c77"
+      },
+      {
+        "bytes": 6727,
+        "path": "failure_events.jsonl",
+        "rows": 31,
+        "sha256": "22e19fc8ca4e069c6e6734b9e91e71b502d1e27798b65be4225b03bf9ce8a12e"
+      },
+      {
+        "bytes": 9004192,
+        "path": "telemetry/schema_v1/part-00000.jsonl",
+        "rows": 29393,
+        "sha256": "24cff8c00af7ee853e02de12002ef667b4905e56c7392ab9dfaf291a7e5eab58"
+      },
+      {
+        "bytes": 9607334,
+        "path": "telemetry/schema_v2/part-00000.jsonl",
+        "rows": 29359,
+        "sha256": "a1fe2c05341a8c81ec785db89320d4df8cff24ac2a32b5a306c635abf69f1b5d"
+      },
+      {
+        "bytes": 24950986,
+        "path": "stream/telemetry_deliveries.jsonl",
+        "rows": 58464,
+        "sha256": "409fe67290da9db81a64c374b338b60d294ffcbd3166341ce1c472b593eeb196"
+      }
+    ],
+    "format": "JSONL",
+    "observation_end_exclusive_ts": "2026-10-03T00:00:00Z",
+    "observation_start_ts": "2026-10-01T00:00:00Z",
+    "simulation_version": "1.0.0"
+  },
+  "source_counts": {
+    "failure_events.jsonl": 31,
+    "machine_changes.jsonl": 1,
+    "machines.jsonl": 20,
+    "maintenance_events.jsonl": 39,
+    "telemetry/schema_v1/part-00000.jsonl": 29393,
+    "telemetry/schema_v2/part-00000.jsonl": 29359
+  }
+}

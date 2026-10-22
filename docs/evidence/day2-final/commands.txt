@@ -1,0 +1,8 @@
+python.exe -m unittest discover -s tests -v
+exit_code=0 elapsed_seconds=2.199
+docker.exe compose -f infra/compose.yaml up -d --wait source
+exit_code=0 elapsed_seconds=4.273
+python.exe -m pipelines.source_loader --source data/source/day1 --run-id day2-final --docker C:\Users\thien\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe
+exit_code=0 elapsed_seconds=15.556
+docker.exe compose -f infra/compose.yaml run --rm batch --master local[2] --driver-memory 768m --conf spark.sql.shuffle.partitions=4 --conf spark.sql.session.timeZone=UTC --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=file:///workspace/data/spark-events pipelines/batch_job.py --run-id day2-final --output data/lakehouse/day2-final --report outputs/day2-final/batch-report.json
+exit_code=0 elapsed_seconds=97.663
