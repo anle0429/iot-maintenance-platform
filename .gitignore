@@ -1,0 +1,63 @@
+# Local environments and generated caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+.hypothesis/
+.ipynb_checkpoints/
+node_modules/
+
+# Secrets and local credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+kubeconfig*
+credentials.json
+secrets.local.*
+
+# Generated datasets, models, runtime state and bulk outputs
+data/
+outputs/
+artifacts/
+mlruns/
+mlartifacts/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+*.log
+
+# OS and editor state
+.DS_Store
+Thumbs.db
+.idea/
+
+# Local assistant instructions and personal development workflow
+AGENTS.md
+CLAUDE.md
+START_HERE.md
+MOVED_TO.md
+.codex/
+.claude/
+.cursor/
+.vscode/
+*.code-workspace
+/docs/status.md
+/docs/decisions.md
+/docs/roadmap.md
+/docs/two-machine-workflow.md
+/docs/git-setup.md
+/docs/environment-setup.md
+/docs/evidence/git-setup/
+/docs/evidence/environment-setup/
+/docs/evidence/day1/environment.json
+/references/coursework/domain/

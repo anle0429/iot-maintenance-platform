@@ -1,0 +1,73 @@
+python -m unittest discover -s tests -v
+test_anomaly_rate_boundaries (test_generator.GeneratorTests.test_anomaly_rate_boundaries)
+Zero and full rates preserve keys while selecting exact expected counts. ... ok
+test_cli_can_generate_inspect_compare_and_reject_overwrite (test_generator.GeneratorTests.test_cli_can_generate_inspect_compare_and_reject_overwrite)
+A learner can run the public commands without installed packages or PYTHONPATH. ... ok
+test_different_seed_changes_measurements (test_generator.GeneratorTests.test_different_seed_changes_measurements)
+A different seed changes telemetry, not merely the run metadata. ... ok
+test_fractional_anomaly_counts_round_down (test_generator.GeneratorTests.test_fractional_anomaly_counts_round_down)
+The configured denominator is unique events and counts use floor, not probability. ... ok
+test_hot_factory_rounding (test_generator.GeneratorTests.test_hot_factory_rounding)
+Seven of ten machines produce exactly 70% of unique readings at F-01. ... ok
+test_invalid_config_partitions (test_generator.GeneratorTests.test_invalid_config_partitions)
+Reject negative rates, invalid types, grids, horizons and oversized workloads. ... ok
+test_known_counts_and_cardinality (test_generator.GeneratorTests.test_known_counts_and_cardinality)
+The 60-row fixture must contain six offline extras and three stream retries. ... ok
+test_late_events_are_really_out_of_order (test_generator.GeneratorTests.test_late_events_are_really_out_of_order)
+Arrival ordering includes at least one event-time inversion on the known fixture. ... ok
+test_persisted_corruption_fails_manifest_validation (test_generator.GeneratorTests.test_persisted_corruption_fails_manifest_validation)
+A whitespace-only file mutation still invalidates immutable-source evidence. ... ok
+test_persisted_sources_are_reproducible_and_checked (test_generator.GeneratorTests.test_persisted_sources_are_reproducible_and_checked)
+All bytes including manifests agree across fresh directories, then read-back passes. ... ok
+test_preventive_maintenance_stops_and_restarts_motor (test_generator.GeneratorTests.test_preventive_maintenance_stops_and_restarts_motor)
+Maintenance has a recorded interval and telemetry returns to operating afterward. ... ok
+test_schema_transition_boundaries (test_generator.GeneratorTests.test_schema_transition_boundaries)
+The added pressure column is physically absent in v1, present in v2. ... ok
+test_seed_produces_identical_content (test_generator.GeneratorTests.test_seed_produces_identical_content)
+Identical configuration produces identical in-memory source tables. ... ok
+test_source_overwrite_is_refused (test_generator.GeneratorTests.test_source_overwrite_is_refused)
+An existing run is preserved, even if it is an empty directory. ... ok
+test_stream_replay_dedup_oracle_is_idempotent (test_generator.GeneratorTests.test_stream_replay_dedup_oracle_is_idempotent)
+Replaying all deliveries twice must still yield the same 60 event IDs. ... ok
+test_timezone_normalization (test_generator.GeneratorTests.test_timezone_normalization)
+Equivalent offset timestamps normalize to exactly the same UTC instant. ... ok
+test_transport_settings_do_not_change_physical_history (test_generator.GeneratorTests.test_transport_settings_do_not_change_physical_history)
+Network anomalies cannot change source failures or measured sensor values. ... ok
+test_unknown_configuration_option_is_rejected (test_generator.GeneratorTests.test_unknown_configuration_option_is_rejected)
+A misspelled option must fail rather than silently using its default. ... ok
+test_unobserved_recovery_is_null (test_generator.GeneratorTests.test_unobserved_recovery_is_null)
+A stop beyond the observation boundary never exports a known future recovery. ... ok
+test_validator_rejects_arrival_before_measurement (test_generator.GeneratorTests.test_validator_rejects_arrival_before_measurement)
+Availability cannot precede the measurement timestamp. ... ok
+test_validator_rejects_conflicting_duplicate (test_generator.GeneratorTests.test_validator_rejects_conflicting_duplicate)
+A repeated event ID with a different sensor reading is a source conflict. ... ok
+test_validator_rejects_label_leakage_column (test_generator.GeneratorTests.test_validator_rejects_label_leakage_column)
+Latent truth and future labels cannot be exported inside telemetry. ... ok
+test_validator_rejects_missing_failure_truth (test_generator.GeneratorTests.test_validator_rejects_missing_failure_truth)
+A failed motor requires a corresponding physical failure interval. ... ok
+test_validator_rejects_missing_reading (test_generator.GeneratorTests.test_validator_rejects_missing_reading)
+Removing all copies of one event violates the complete machine-time grid. ... ok
+test_validator_rejects_nonfinite_sensor (test_generator.GeneratorTests.test_validator_rejects_nonfinite_sensor)
+A sensor NaN is invalid JSON/source data, never a successful quality check. ... ok
+test_validator_rejects_retry_before_arrival (test_generator.GeneratorTests.test_validator_rejects_retry_before_arrival)
+A stream envelope cannot be delivered before its first gateway receipt. ... ok
+test_wear_controls_failures (test_generator.GeneratorTests.test_wear_controls_failures)
+High wear causes real stop events while negligible wear has no failures. ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 1.347s
+
+OK
+exit_code=0 elapsed_seconds=1.645
+python -m generator generate --config generator/configs/dev.json --output data/source/day1
+Generated 57,600 unique events; 43,582,369 payload bytes in data\source\day1
+exit_code=0 elapsed_seconds=3.273
+python -m generator inspect --source data/source/day1 --report docs/evidence/day1/quality.json
+PASS: 35/35 checks; report=docs\evidence\day1\quality.json
+exit_code=0 elapsed_seconds=3.606
+python -m generator generate --config generator/configs/dev.json --output data/source/day1-repeat
+Generated 57,600 unique events; 43,582,369 payload bytes in data\source\day1-repeat
+exit_code=0 elapsed_seconds=2.980
+python -m generator compare --left data/source/day1 --right data/source/day1-repeat --report docs/evidence/day1/reproducibility.json
+Reproducibility PASS: 7 files; report=docs\evidence\day1\reproducibility.json
+exit_code=0 elapsed_seconds=6.822
