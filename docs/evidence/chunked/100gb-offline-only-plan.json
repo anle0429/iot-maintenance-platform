@@ -1,0 +1,22 @@
+{
+  "actual_free_bytes_now": 390963044352,
+  "assumed_budget_bytes": {
+    "free_reserve": 20000000000,
+    "logs": 5000000000,
+    "processed_outputs_1_5_times_offline": 150000000000,
+    "shuffle_1_times_offline": 100000000000,
+    "source_with_20_percent_margin": 120000000000
+  },
+  "disk_budget_fits_now": false,
+  "estimated_required_free_bytes": 395000000000,
+  "estimated_unique_rows_for_target": 309152102,
+  "future_stream_enabled": false,
+  "generation_authorized_by_plan": false,
+  "kind": "estimate_only",
+  "measured_bytes_per_unique_including_offline_extras_and_metadata": 323.46537326388886,
+  "measured_pilot_offline_bytes": 37263211,
+  "measured_pilot_unique_rows": 115200,
+  "passed": true,
+  "scope": "No generation performed. Physical row widths/event frequency can change with horizon; measure an intermediate continuous workload and ingest/shuffle footprint before a large run.",
+  "target_offline_bytes": 100000000000
+}

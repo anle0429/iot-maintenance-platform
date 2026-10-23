@@ -1,0 +1,276 @@
+{
+  "passed": true,
+  "captured_utc": "2026-10-23T05:08:21.7508747Z",
+  "machine": "THIENAN",
+  "cpu": "AMD Ryzen 5 5500",
+  "python": "Python 3.13.14",
+  "base_commit": "f739e66400f50385eee06bb090eaf3e3253aabee",
+  "free_ram_bytes_before": 3881242624,
+  "free_disk_bytes_before": 391605764096,
+  "format": "JSONL",
+  "compression": "none",
+  "pilot_unique_rows": 115200,
+  "pilot_offline_bytes": 37263211,
+  "scale_unique_rows": 460800,
+  "scale_offline_bytes": 149023279,
+  "workload_row_ratio": 4,
+  "memory_measurement": "Sampled sum of launcher/descendant working sets; wait 50ms, discover descendants >=250ms. Observed lower bound; shared pages may be counted twice. One run per workload, background apps/cache uncontrolled.",
+  "commands": {
+    "pilot-generate": {
+      "arguments": [
+        "-m",
+        "generator.chunked",
+        "generate",
+        "--config",
+        "generator/configs/chunked-pilot.json",
+        "--output",
+        "data/source/chunked-release/pilot",
+        "--chunk-rows",
+        "4096"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.7371429,
+      "observed_peak_process_tree_working_set_bytes": 53415936,
+      "observed_process_count": 3
+    },
+    "pilot-inspect": {
+      "arguments": [
+        "-m",
+        "generator.chunked",
+        "inspect",
+        "--source",
+        "data/source/chunked-release/pilot",
+        "--report",
+        "outputs/chunked-release/pilot-quality.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.0787291,
+      "observed_peak_process_tree_working_set_bytes": 52035584,
+      "observed_process_count": 3
+    },
+    "repeat-generate": {
+      "arguments": [
+        "-m",
+        "generator.chunked",
+        "generate",
+        "--config",
+        "generator/configs/chunked-pilot.json",
+        "--output",
+        "data/source/chunked-release/repeat",
+        "--chunk-rows",
+        "4096"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.3498144,
+      "observed_peak_process_tree_working_set_bytes": 53440512,
+      "observed_process_count": 3
+    },
+    "repeat-compare": {
+      "arguments": [
+        "-m",
+        "generator.chunked",
+        "compare",
+        "--left",
+        "data/source/chunked-release/pilot",
+        "--right",
+        "data/source/chunked-release/repeat",
+        "--report",
+        "outputs/chunked-release/repeat-comparison.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.6753624,
+      "observed_peak_process_tree_working_set_bytes": 53268480,
+      "observed_process_count": 3
+    },
+    "different-chunks-generate": {
+      "arguments": [
+        "-m",
+        "generator.chunked",
+        "generate",
+        "--config",
+        "generator/configs/chunked-pilot.json",
+        "--output",
+        "data/source/chunked-release/different-chunks",
+        "--chunk-rows",
+        "257"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 9.1305265,
+      "observed_peak_process_tree_working_set_bytes": 51990528,
+      "observed_process_count": 3
+    },
+    "different-chunks-compare": {
+      "arguments": [
+        "-m",
+        "generator.chunked",
+        "compare",
+        "--left",
+        "data/source/chunked-release/pilot",
+        "--right",
+        "data/source/chunked-release/different-chunks",
+        "--report",
+        "outputs/chunked-release/different-chunks-comparison.json",
+        "--logical-only"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 11.8181584,
+      "observed_peak_process_tree_working_set_bytes": 53420032,
+      "observed_process_count": 3
+    },
+    "scale-generate": {
+      "arguments": [
+        "-m",
+        "generator.chunked",
+        "generate",
+        "--config",
+        "outputs/chunked-release/scale-config.json",
+        "--output",
+        "data/source/chunked-release/scale",
+        "--chunk-rows",
+        "4096"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 30.7140382,
+      "observed_peak_process_tree_working_set_bytes": 53776384,
+      "observed_process_count": 3
+    },
+    "scale-inspect": {
+      "arguments": [
+        "-m",
+        "generator.chunked",
+        "inspect",
+        "--source",
+        "data/source/chunked-release/scale",
+        "--report",
+        "outputs/chunked-release/scale-quality.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 24.4181378,
+      "observed_peak_process_tree_working_set_bytes": 53477376,
+      "observed_process_count": 3
+    },
+    "plan-with-stream": {
+      "arguments": [
+        "-m",
+        "generator.chunked",
+        "plan",
+        "--source",
+        "data/source/chunked-release/pilot",
+        "--target-offline-gb",
+        "100",
+        "--report",
+        "outputs/chunked-release/100gb-with-stream-plan.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.7477378,
+      "observed_peak_process_tree_working_set_bytes": 53469184,
+      "observed_process_count": 3
+    },
+    "plan-offline-only": {
+      "arguments": [
+        "-m",
+        "generator.chunked",
+        "plan",
+        "--source",
+        "data/source/chunked-release/pilot",
+        "--target-offline-gb",
+        "100",
+        "--report",
+        "outputs/chunked-release/100gb-offline-only-plan.json",
+        "--offline-only"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.2087977,
+      "observed_peak_process_tree_working_set_bytes": 51445760,
+      "observed_process_count": 3
+    },
+    "legacy-generate": {
+      "arguments": [
+        "-m",
+        "generator",
+        "generate",
+        "--config",
+        "generator/configs/dev.json",
+        "--output",
+        "data/source/chunked-release/legacy"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.5824642,
+      "observed_peak_process_tree_working_set_bytes": 184668160,
+      "observed_process_count": 3
+    },
+    "legacy-compare": {
+      "arguments": [
+        "-m",
+        "generator",
+        "compare",
+        "--left",
+        "data/source/day1",
+        "--right",
+        "data/source/chunked-release/legacy",
+        "--report",
+        "outputs/chunked-release/legacy-regression.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.5368213,
+      "observed_peak_process_tree_working_set_bytes": 314638336,
+      "observed_process_count": 3
+    }
+  },
+  "script_sha256": "5876bb73f8da96b438238ab953b116badb6539e26f4532043c7ae4ce38184768",
+  "source_sha256": [
+    {
+      "sha256": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172",
+      "path": "generator/__init__.py"
+    },
+    {
+      "sha256": "045e4f5ac449b48e75856dba9a3a1c25cca6d985e5ba57bcc86792f893c25ba5",
+      "path": "generator/__main__.py"
+    },
+    {
+      "sha256": "da846d8671936ea371226581c504071e05905d03afb2fbf43861a854373c5241",
+      "path": "generator/capacity.py"
+    },
+    {
+      "sha256": "a8ff63b5f518dbd117ea92926e08b8d2d98dc24601fe359eebab1faca042e79e",
+      "path": "generator/chunk_quality.py"
+    },
+    {
+      "sha256": "9b8705e9156966c08c02fd604739c3cb416a48fbc0881f21c5cce735e03f1b2c",
+      "path": "generator/chunked.py"
+    },
+    {
+      "sha256": "087682ae48dceb64865cdca983b7642ab9d256bb0083da165d296196c21cb3de",
+      "path": "generator/config.py"
+    },
+    {
+      "sha256": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000",
+      "path": "generator/quality.py"
+    },
+    {
+      "sha256": "1179f67674b71c3c9b1b09d3a72f32f24df30647004b0ccf82fecebe673a360c",
+      "path": "generator/simulation.py"
+    },
+    {
+      "sha256": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d",
+      "path": "generator/storage.py"
+    },
+    {
+      "sha256": "b7ef26d551655e49545adb6245b34c0ba5d6eaf4e6998c2a842f62176ed4265d",
+      "path": "tests/test_chunked.py"
+    },
+    {
+      "sha256": "aeff14b978e94986f00efaea679ee223a608e1a71f0669757265a66ff15085ef",
+      "path": "tests/test_generator.py"
+    },
+    {
+      "sha256": "c9f878d48d1fbe05d8333f9422829f49bdddfc8815821e02df3e92d82448dc2d",
+      "path": "tests/test_streaming.py"
+    },
+    {
+      "sha256": "d5c32e9427fcdf4c3309ea6b29ff8211b735100a508ed53b300cfc95f8759757",
+      "path": "tests/test_temporal.py"
+    }
+  ],
+  "scope": "Small continuous sources only; 100 GB plans are estimates, not generated data. No Spark/Flink performance benchmark or large-source ingestion claimed."
+}

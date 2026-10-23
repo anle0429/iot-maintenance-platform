@@ -1,0 +1,121 @@
+{
+  "checks": {
+    "actual_byte_counts": true,
+    "bounded_stream_join": true,
+    "catalog_and_all_part_checksums": true,
+    "complete_unique_time_grid": true,
+    "completion_and_manifest": true,
+    "factory_skew": true,
+    "global_late_count_and_delay": true,
+    "global_offline_duplicate_count_and_payload": true,
+    "global_stream_duplicate_count": true,
+    "machine_keys_and_snapshot": true,
+    "motor_status_matches_stops": true,
+    "no_unlisted_files": true,
+    "schema_and_sensor_types": true,
+    "stop_keys_intervals_censoring_availability": true,
+    "stored_row_chunk_bound": true,
+    "stream_global_arrival_order": true,
+    "stream_payload_matches_offline": true,
+    "stream_primary_and_retry_identity": true,
+    "table_logical_hashes": true
+  },
+  "chunk_rows": 4096,
+  "compression": "none",
+  "config": {
+    "duration_hours": 192,
+    "export_delay_seconds": 3600,
+    "failure_threshold": 1.0,
+    "hot_factory_share": 0.7,
+    "late_max_seconds": 600,
+    "late_min_seconds": 300,
+    "late_rate": 0.05,
+    "machine_count": 40,
+    "maintenance_every_hours": 18,
+    "maintenance_minutes": 20,
+    "offline_duplicate_rate": 0.02,
+    "repair_minutes": 45,
+    "retry_delay_seconds": 2,
+    "sample_seconds": 60,
+    "schema_v2_fraction": 0.5,
+    "seed": 42,
+    "start_ts": "2026-10-01T00:00:00Z",
+    "stream_duplicate_rate": 0.015,
+    "wear_per_hour": 0.035
+  },
+  "factory_unique_counts": {
+    "F-01": 322560,
+    "F-02": 69120,
+    "F-03": 69120
+  },
+  "failure_events": 287,
+  "format": "JSONL",
+  "format_version": "chunked-jsonl-1",
+  "generation_peak_pending_deliveries": 110,
+  "late_delay_seconds_max": 600.0,
+  "late_delay_seconds_min": 300.0,
+  "late_unique_events": 23040,
+  "maintenance_events": 361,
+  "offline_duplicate_extras": 9216,
+  "offline_payload_bytes": 149023279,
+  "operating_status_unique_counts": {
+    "failed": 12915,
+    "maintenance": 7220,
+    "operating": 440665
+  },
+  "passed": true,
+  "payload_bytes": 348609132,
+  "schema_unique_counts": {
+    "1": 230400,
+    "2": 230400
+  },
+  "scope": "Full readback of this source, using its ordered-grid contract; no whole-dataset sets, no 100GB claim from estimates.",
+  "source_files": 237,
+  "source_total_bytes": 348651626,
+  "stream": {
+    "deliveries": 467712,
+    "duplicate_extras": 6912,
+    "event_time_inversions": 16065,
+    "generated": true,
+    "peak_join_events": 72
+  },
+  "tables": {
+    "failures": {
+      "bytes": 62279,
+      "logical_sha256": "dcdd456d14e22fd85d34e4efeb5e7eedfe6db124b91635d77cdb55a84c29f828",
+      "parts": 1,
+      "rows": 287
+    },
+    "machines": {
+      "bytes": 8320,
+      "logical_sha256": "2bacdf030fb7e4db0e743f518a1cdfe29385bfd79a4425dedf0756667b7279ef",
+      "parts": 1,
+      "rows": 40
+    },
+    "maintenance": {
+      "bytes": 83030,
+      "logical_sha256": "532bc6ce4c414405a42644bc981b3179d761b7afa49577f813ea5ac5a8835a88",
+      "parts": 1,
+      "rows": 361
+    },
+    "stream": {
+      "bytes": 199585853,
+      "logical_sha256": "780df2f0ff7787296190d95c29f49fdae62d806b4162030766625a1d86170487",
+      "parts": 115,
+      "rows": 467712
+    },
+    "v1": {
+      "bytes": 71954558,
+      "logical_sha256": "1ac8d74624f4386bf602c8117cdac3838c2328c9852e5bf82690ac3e19baf45e",
+      "parts": 58,
+      "rows": 234905
+    },
+    "v2": {
+      "bytes": 76915092,
+      "logical_sha256": "1090f4902e2f6587e15d6a3fe160bb3b3f67d5a4b8a0cde36c13fa3a32b95f65",
+      "parts": 58,
+      "rows": 235111
+    }
+  },
+  "unique_telemetry_rows": 460800
+}

@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "captured_utc": "2026-10-23T05:10:16.312522+00:00",
+  "run": "chunked-release",
+  "host_unit_tests": 74,
+  "source_file_fingerprints_match": 13,
+  "tested_wrapper_hash_matches": true,
+  "pilot_config_hash": "d90613560eeb8c2aafce80e80f14e54046d9fc5655b981092e3ae02ea541aa6b",
+  "sources": [
+    {
+      "source": "pilot",
+      "unique_rows": 115200,
+      "actual_offline_bytes": 37263211,
+      "readback_checks": 19
+    },
+    {
+      "source": "scale",
+      "unique_rows": 460800,
+      "actual_offline_bytes": 149023279,
+      "readback_checks": 19
+    }
+  ],
+  "byte_identical_repeat": true,
+  "chunk_size_independent_logical_data": true,
+  "legacy_source_files_byte_identical": 7,
+  "original_rubric_requirement_rows_preserved": 93,
+  "module_function_class_docstrings_present": true,
+  "technical_document_links_exist": true,
+  "source_secret_absent_from_git_candidates": true,
+  "assistant_handoff_setup_bulk_data_ignored": true,
+  "capacity_plan_is_estimate_only": true,
+  "scope": "Actual small continuous sources and artifact checks. No >=100GB, Parquet, large-source ingest, API coverage/mutation/load or new Spark/Flink benchmark claim.",
+  "tested_source_and_wrapper_hashes_match_git_index": true,
+  "technical_doc_links_target_tracked_files": true,
+  "secret_absent_from_git_index": true,
+  "git_index_excludes_assistant_setup_and_bulk_data": true,
+  "staged_whitespace_check": true
+}

@@ -89,3 +89,9 @@ Train/validation/test chia theo thời gian. Loại hàng train có cửa sổ n
 `generator/quality.py` đo lại dữ liệu đã đọc từ đĩa: toàn bộ time grid, khóa/FK, schema/key/type, interval và trạng thái motor, tỷ lệ/lateness/skew, cardinality, envelope/retry và checksum từng tệp. Test cố tình làm sai timestamp/payload/thiếu reading/failure để kiểm validation báo lỗi. Kết quả thật và giới hạn xem [mốc ngày 1](day1-generator.md).
 
 Nguồn kỹ thuật: [Python random 3.13](https://docs.python.org/3.13/library/random.html) mô tả instance riêng và giới hạn tái lập giữa phiên bản. Không tái sử dụng mã repo tham khảo.
+
+## Nguồn chunked JSONL v1
+
+[Mốc chunked](chunked-generator.md) giữ grain/units/timestamps/status/schema như trên, nhưng lưu sáu table thành part có giới hạn số stored rows và catalog files.jsonl. Telemetry xếp event time rồi số máy, duplicate kề original có thể ở hai part; stream parts nối theo published_ts/delivery_id. Đây là contract thứ tự để validator kiểm grid và bounded arrival join, không phải giả định mọi nguồn IoT đều có thứ tự này.
+
+Transport `sequential-exact-1` chọn đủ floor(N×rate) trên toàn run, tính count bằng phân số của biểu diễn thập phân để tránh float floor sai ở biên. Chunk boundary không đổi dữ liệu; physical simulator1.0 và nguồn legacy mặc định đã kiểm giống7file cũ. Các ID bị chọn transport có thể khác lệnh legacy; không trộn hai source phiên bản khác trong một run dù event_id vật lý giống nhau. Feature/nhãn vẫn cần event time và first arrival/availability như trước. Catalog/manifest phải được adapter đọc đúng; các loader hiện tại chưa tự hỗ trợ layout này.

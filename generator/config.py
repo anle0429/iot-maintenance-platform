@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 import json
 import math
 from pathlib import Path
+from typing import ClassVar
 
 
 def parse_ts(value: str) -> datetime:
@@ -23,6 +24,8 @@ def iso_ts(value: datetime) -> str:
 @dataclass(frozen=True)
 class Config:
     """Describe a small simulation; rates count extra/selected rows per unique event."""
+
+    row_limit: ClassVar[int | None] = 100_000
 
     seed: int = 42
     start_ts: str = "2026-10-01T00:00:00Z"
@@ -69,8 +72,8 @@ class Config:
             raise ValueError("sample_seconds must divide 60, with a maximum of 60")
         if self.late_min_seconds > self.late_max_seconds or self.late_min_seconds <= 3:
             raise ValueError("late delays must be ordered and greater than the normal 0..3s delay")
-        if self.unique_rows > 100_000:
-            raise ValueError("day-1 in-memory generator is capped at 100,000 unique rows; use a future chunked generator for scale")
+        if self.row_limit is not None and self.unique_rows > self.row_limit:
+            raise ValueError("day-1 in-memory generator is capped at 100,000 unique rows; use generator.chunked for scale")
 
     @property
     def start(self) -> datetime:
