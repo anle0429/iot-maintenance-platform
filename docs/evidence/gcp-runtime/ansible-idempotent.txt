@@ -1,0 +1,242 @@
+# Account identifiers redacted; raw log SHA is in verification.json.
+
+PLAY [Bootstrap the approved IoT VM] *******************************************
+
+TASK [Gathering Facts] *********************************************************
+[WARNING]: Host 'localhost' is using the discovered Python interpreter at '/usr/bin/python3.12', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [localhost]
+
+TASK [Require an explicit target project and VM] *******************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [Read the actual Google Cloud project] ************************************
+ok: [localhost]
+
+TASK [Read the actual VM name] *************************************************
+ok: [localhost]
+
+TASK [Refuse any other machine before package or disk changes] *****************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [common : Install base utilities from signed Ubuntu repositories] *********
+ok: [localhost]
+
+TASK [storage : Prepare each approved data device] *****************************
+included: /srv/iot-data/workspace/iot-maintenance-platform/infra/ansible/roles/storage/tasks/disk.yml for localhost => (item={'device': '/dev/disk/by-id/google-coursework-data', 'bytes': 536870912000, 'label': 'iot-data', 'mount': '/srv/iot-data'})
+included: /srv/iot-data/workspace/iot-maintenance-platform/infra/ansible/roles/storage/tasks/disk.yml for localhost => (item={'device': '/dev/disk/by-id/google-coursework-scratch', 'bytes': 161061273600, 'label': 'iot-fast', 'mount': '/srv/iot-fast'})
+
+TASK [storage : Resolve the explicitly named Google disk] **********************
+ok: [localhost]
+
+TASK [storage : Require a Google disk symlink] *********************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [storage : Read exact disk size] ******************************************
+ok: [localhost]
+
+TASK [storage : Refuse an incorrectly sized device] ****************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [storage : Inspect filesystem and partition signatures without changing them] ***
+ok: [localhost]
+
+TASK [storage : Refuse unfamiliar or multiple signatures] **********************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [storage : Read an existing filesystem label] *****************************
+ok: [localhost]
+
+TASK [storage : Refuse foreign filesystem labels] ******************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [storage : Create ext4 only on the verified blank disk, without force] ****
+skipping: [localhost]
+
+TASK [storage : Create the mount directory] ************************************
+ok: [localhost]
+
+TASK [storage : Read its mounted UUID if present] ******************************
+ok: [localhost]
+
+TASK [storage : Read the approved device UUID] *********************************
+ok: [localhost]
+
+TASK [storage : Refuse another device already mounted at the target] ***********
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [storage : Inspect a not-yet-mounted target for existing files] ***********
+skipping: [localhost]
+
+TASK [storage : Refuse to hide existing files under a new mount] ***************
+skipping: [localhost]
+
+TASK [storage : Persist the exact UUID mount] **********************************
+ok: [localhost]
+
+TASK [storage : Mount the verified filesystem] *********************************
+skipping: [localhost]
+
+TASK [storage : Resolve the explicitly named Google disk] **********************
+ok: [localhost]
+
+TASK [storage : Require a Google disk symlink] *********************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [storage : Read exact disk size] ******************************************
+ok: [localhost]
+
+TASK [storage : Refuse an incorrectly sized device] ****************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [storage : Inspect filesystem and partition signatures without changing them] ***
+ok: [localhost]
+
+TASK [storage : Refuse unfamiliar or multiple signatures] **********************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [storage : Read an existing filesystem label] *****************************
+ok: [localhost]
+
+TASK [storage : Refuse foreign filesystem labels] ******************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [storage : Create ext4 only on the verified blank disk, without force] ****
+skipping: [localhost]
+
+TASK [storage : Create the mount directory] ************************************
+ok: [localhost]
+
+TASK [storage : Read its mounted UUID if present] ******************************
+ok: [localhost]
+
+TASK [storage : Read the approved device UUID] *********************************
+ok: [localhost]
+
+TASK [storage : Refuse another device already mounted at the target] ***********
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [storage : Inspect a not-yet-mounted target for existing files] ***********
+skipping: [localhost]
+
+TASK [storage : Refuse to hide existing files under a new mount] ***************
+skipping: [localhost]
+
+TASK [storage : Persist the exact UUID mount] **********************************
+ok: [localhost]
+
+TASK [storage : Mount the verified filesystem] *********************************
+skipping: [localhost]
+
+TASK [storage : Create learner-owned project and evidence roots] ***************
+ok: [localhost] => (item=/srv/iot-data/workspace)
+ok: [localhost] => (item=/srv/iot-data/evidence)
+ok: [localhost] => (item=/srv/iot-fast/spark-scratch)
+
+TASK [docker : Create Docker keyring] ******************************************
+ok: [localhost]
+
+TASK [docker : Download Docker repository signing key over HTTPS] **************
+ok: [localhost]
+
+TASK [docker : Configure the signed Docker Ubuntu repository] ******************
+ok: [localhost]
+
+TASK [docker : Refresh package metadata after adding the Docker repository] ****
+skipping: [localhost]
+
+TASK [docker : Install Docker engine and Compose plugin] ***********************
+ok: [localhost]
+
+TASK [docker : Create dedicated daemon directories on the mounted SSD] *********
+ok: [localhost] => (item=/srv/iot-fast/docker)
+ok: [localhost] => (item=/srv/iot-fast/containerd)
+
+TASK [docker : Create daemon configuration directories] ************************
+ok: [localhost] => (item=/etc/docker)
+ok: [localhost] => (item=/etc/containerd)
+
+TASK [docker : Configure bounded logs and Docker data root] ********************
+ok: [localhost]
+
+TASK [docker : Configure the separate containerd image store on SSD] ***********
+ok: [localhost]
+
+TASK [docker : Permit the existing VM operator to use Docker] ******************
+ok: [localhost]
+
+TASK [docker : Create service drop-in directories] *****************************
+ok: [localhost] => (item=containerd)
+ok: [localhost] => (item=docker)
+
+TASK [docker : Require the SSD mount before daemon startup] ********************
+ok: [localhost] => (item=containerd)
+ok: [localhost] => (item=docker)
+
+TASK [docker : Enable the installed daemon services] ***************************
+ok: [localhost] => (item=containerd)
+ok: [localhost] => (item=docker)
+
+TASK [docker : Apply pending daemon configuration before runtime checks] *******
+
+TASK [docker : Verify Docker reports the intended SSD root] ********************
+ok: [localhost]
+
+TASK [docker : Require the approved Docker root] *******************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [pilot : Require explicit immutable pilot inputs] *************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [pilot : Run the reviewed cloud resource profile against the validated source] ***
+ok: [localhost]
+
+TASK [pilot : Show the actual pilot result or existing success marker] *********
+ok: [localhost] => {
+    "pilot_result.stdout": "skipped, since /srv/iot-data/workspace/iot-maintenance-platform/data/lakehouse/cloud-optimized-26/_RUN_SUCCESS.json exists"
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=52   changed=0    unreachable=0    failed=0    skipped=9    rescued=0    ignored=0   
+

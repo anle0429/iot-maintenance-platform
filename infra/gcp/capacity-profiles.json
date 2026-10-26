@@ -1,0 +1,23 @@
+{
+  "basic": {
+    "machine_type": "e2-standard-4", "vcpus": 4, "ram_gib": 16,
+    "boot_gib": 50, "boot_type": "pd-standard", "data_gib": 500,
+    "data_type": "pd-standard", "scratch_gib": 0, "scratch_type": "pd-balanced",
+    "suggested_spark_threads": 2, "suggested_spark_heap_gib": 1,
+    "suggested_spark_container_gib": 2.5, "suggested_shuffle_partitions": 8
+  },
+  "standard": {
+    "machine_type": "e2-standard-8", "vcpus": 8, "ram_gib": 32,
+    "boot_gib": 50, "boot_type": "pd-balanced", "data_gib": 500,
+    "data_type": "pd-standard", "scratch_gib": 150, "scratch_type": "pd-balanced",
+    "suggested_spark_threads": 6, "suggested_spark_heap_gib": 10,
+    "suggested_spark_container_gib": 14, "suggested_shuffle_partitions": 48
+  },
+  "accelerated": {
+    "machine_type": "e2-highmem-8", "vcpus": 8, "ram_gib": 64,
+    "boot_gib": 50, "boot_type": "pd-balanced", "data_gib": 500,
+    "data_type": "pd-standard", "scratch_gib": 150, "scratch_type": "pd-balanced",
+    "suggested_spark_threads": 6, "suggested_spark_heap_gib": 20,
+    "suggested_spark_container_gib": 28, "suggested_shuffle_partitions": 48
+  }
+}

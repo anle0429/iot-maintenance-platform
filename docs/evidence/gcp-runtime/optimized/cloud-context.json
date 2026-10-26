@@ -1,0 +1,20 @@
+{
+  "captured_utc": "2026-10-26T18:31:18.110360+00:00",
+  "host": "iot-cw-vm",
+  "platform": "Linux-7.0.0-1014-gcp-x86_64-with-glibc2.39",
+  "cpu_count": 8,
+  "host_python": "3.12.3",
+  "mode": "optimized",
+  "profile": "accelerated",
+  "threads": 6,
+  "heap_gib": 20,
+  "container_bytes": 30064771072,
+  "shuffle_partitions": 16,
+  "free_ram_bytes_before": 66038013952,
+  "scratch": "/srv/iot-fast/spark-scratch/cloud-optimized-26",
+  "source_manifest_sha256": "90de4d538465d2b72f1afaa711589e9e7dc898243a63699120fad1970792eeb9",
+  "image_id": "sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417",
+  "launcher_sha256": "31b853bafac543dc3848663bf3b76149dea8f2f6bacf32804d7aed37f8505368",
+  "source_bundle_manifest_sha256": "1aecd0fc358158fb3fc779b42b850e7abad3ce43fda774249a6a054e36dd0434",
+  "scope": "One bounded cloud run with unchanged chunk ingest. Baseline uses HDD scratch/local[2]/1GiB heap; optimized uses SSD scratch/local[6]/20GiB heap and 16 partitions. No isolated attribution, stable speedup or 100GB claim."
+}

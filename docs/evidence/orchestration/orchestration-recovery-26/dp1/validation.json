@@ -1,0 +1,654 @@
+{
+  "application_id": "local-1793044454675",
+  "batch": "orchestration-recovery-26",
+  "checks": [
+    {
+      "expected": 58752,
+      "name": "persisted_row_count",
+      "observed": 58752,
+      "passed": true,
+      "table": "bronze/raw_telemetry"
+    },
+    {
+      "expected": {
+        "fields": [
+          {
+            "metadata": {},
+            "name": "event_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "machine_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "operating_status",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "event_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "received_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "created_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "temperature_c",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "vibration_rms_mm_s",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "current_a",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "rpm",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "pressure_bar",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "schema_version",
+            "nullable": true,
+            "type": "integer"
+          },
+          {
+            "metadata": {},
+            "name": "source_path",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "source_manifest_sha256",
+            "nullable": true,
+            "type": "string"
+          }
+        ],
+        "type": "struct"
+      },
+      "name": "persisted_schema",
+      "observed": {
+        "fields": [
+          {
+            "metadata": {},
+            "name": "event_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "machine_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "operating_status",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "event_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "received_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "created_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "temperature_c",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "vibration_rms_mm_s",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "current_a",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "rpm",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "pressure_bar",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "schema_version",
+            "nullable": true,
+            "type": "integer"
+          },
+          {
+            "metadata": {},
+            "name": "source_path",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "source_manifest_sha256",
+            "nullable": true,
+            "type": "string"
+          }
+        ],
+        "type": "struct"
+      },
+      "passed": true,
+      "table": "bronze/raw_telemetry"
+    },
+    {
+      "expected": 20,
+      "name": "persisted_row_count",
+      "observed": 20,
+      "passed": true,
+      "table": "bronze/raw_machines"
+    },
+    {
+      "expected": {
+        "fields": [
+          {
+            "metadata": {},
+            "name": "machine_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "factory_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "machine_type",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "installed_at",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "valid_from_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "valid_to_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "rated_rpm",
+            "nullable": true,
+            "type": "integer"
+          },
+          {
+            "metadata": {},
+            "name": "is_current",
+            "nullable": true,
+            "type": "boolean"
+          },
+          {
+            "metadata": {},
+            "name": "source_path",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "source_manifest_sha256",
+            "nullable": true,
+            "type": "string"
+          }
+        ],
+        "type": "struct"
+      },
+      "name": "persisted_schema",
+      "observed": {
+        "fields": [
+          {
+            "metadata": {},
+            "name": "machine_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "factory_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "machine_type",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "installed_at",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "valid_from_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "valid_to_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "rated_rpm",
+            "nullable": true,
+            "type": "integer"
+          },
+          {
+            "metadata": {},
+            "name": "is_current",
+            "nullable": true,
+            "type": "boolean"
+          },
+          {
+            "metadata": {},
+            "name": "source_path",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "source_manifest_sha256",
+            "nullable": true,
+            "type": "string"
+          }
+        ],
+        "type": "struct"
+      },
+      "passed": true,
+      "table": "bronze/raw_machines"
+    },
+    {
+      "expected": 31,
+      "name": "persisted_row_count",
+      "observed": 31,
+      "passed": true,
+      "table": "bronze/raw_failures"
+    },
+    {
+      "expected": {
+        "fields": [
+          {
+            "metadata": {},
+            "name": "failure_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "machine_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "failure_type",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "failure_start_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "recovered_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "recorded_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "source_path",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "source_manifest_sha256",
+            "nullable": true,
+            "type": "string"
+          }
+        ],
+        "type": "struct"
+      },
+      "name": "persisted_schema",
+      "observed": {
+        "fields": [
+          {
+            "metadata": {},
+            "name": "failure_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "machine_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "failure_type",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "failure_start_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "recovered_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "recorded_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "source_path",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "source_manifest_sha256",
+            "nullable": true,
+            "type": "string"
+          }
+        ],
+        "type": "struct"
+      },
+      "passed": true,
+      "table": "bronze/raw_failures"
+    },
+    {
+      "expected": 39,
+      "name": "persisted_row_count",
+      "observed": 39,
+      "passed": true,
+      "table": "bronze/raw_maintenance"
+    },
+    {
+      "expected": {
+        "fields": [
+          {
+            "metadata": {},
+            "name": "maintenance_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "machine_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "maintenance_type",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "component",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "start_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "end_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "created_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "source_path",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "source_manifest_sha256",
+            "nullable": true,
+            "type": "string"
+          }
+        ],
+        "type": "struct"
+      },
+      "name": "persisted_schema",
+      "observed": {
+        "fields": [
+          {
+            "metadata": {},
+            "name": "maintenance_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "machine_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "maintenance_type",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "component",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "start_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "end_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "created_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "source_path",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "source_manifest_sha256",
+            "nullable": true,
+            "type": "string"
+          }
+        ],
+        "type": "struct"
+      },
+      "passed": true,
+      "table": "bronze/raw_maintenance"
+    },
+    {
+      "expected": true,
+      "name": "exact_multiset_readback",
+      "observed": true,
+      "passed": true,
+      "table": "bronze/raw_telemetry"
+    },
+    {
+      "expected": 58752,
+      "name": "catalog_count",
+      "observed": 58752,
+      "passed": true,
+      "table": "bronze/raw_telemetry"
+    },
+    {
+      "expected": true,
+      "name": "required_fields_and_times",
+      "observed": true,
+      "passed": true,
+      "table": "bronze/raw_telemetry"
+    },
+    {
+      "expected": true,
+      "name": "firmware_contract",
+      "observed": true,
+      "passed": true,
+      "table": "bronze/raw_telemetry"
+    },
+    {
+      "expected": 0,
+      "name": "machine_foreign_key",
+      "observed": 0,
+      "passed": true,
+      "table": "bronze/raw_telemetry"
+    },
+    {
+      "expected": true,
+      "name": "exact_multiset_readback",
+      "observed": true,
+      "passed": true,
+      "table": "bronze/raw_machines"
+    },
+    {
+      "expected": true,
+      "name": "exact_multiset_readback",
+      "observed": true,
+      "passed": true,
+      "table": "bronze/raw_failures"
+    },
+    {
+      "expected": true,
+      "name": "exact_multiset_readback",
+      "observed": true,
+      "passed": true,
+      "table": "bronze/raw_maintenance"
+    },
+    {
+      "expected": "139ca56f976c0799fae0e37bc227a6dc173e395987271fcbeea844450f8836a9",
+      "name": "source_manifest_binding",
+      "observed": "139ca56f976c0799fae0e37bc227a6dc173e395987271fcbeea844450f8836a9",
+      "passed": true,
+      "table": "bronze/raw_telemetry"
+    }
+  ],
+  "manifest_sha256": "13b2f889927b2ad8e799b04cdde3dac739b4596efaa81a44cc4cc3afe4285fd2",
+  "passed": true,
+  "source_manifest_sha256": "139ca56f976c0799fae0e37bc227a6dc173e395987271fcbeea844450f8836a9",
+  "stage": "dp1",
+  "validated_utc": "2026-10-26T19:54:35.894308+00:00"
+}

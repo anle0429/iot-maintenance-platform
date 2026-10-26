@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "verified_utc": "2026-10-26T16:25:14.052880+00:00",
+  "machine": "THIENAN",
+  "base_commit": "fc41b6360eab5ee3cffd3eb79857379dd1338d3f",
+  "branch": "codex/chunk-parquet-ingest",
+  "git_state": "Local changes, not committed or pushed in this milestone",
+  "runs": [
+    {
+      "run": "ingest-small-26",
+      "passed": true,
+      "application_id": "local-1793030641363",
+      "unit_tests_at_run": 82,
+      "spark_checks": 13,
+      "source_offline_bytes": 37263211,
+      "core_code_hashes_match_current": true,
+      "compose_note": "Historical compose hashes retained; UI bind/history profile changed after earlier runs."
+    },
+    {
+      "run": "ingest-medium-26",
+      "passed": true,
+      "application_id": "local-1793030779262",
+      "unit_tests_at_run": 84,
+      "spark_checks": 13,
+      "source_offline_bytes": 1117608156,
+      "core_code_hashes_match_current": true,
+      "compose_note": "Historical compose hashes retained; UI bind/history profile changed after earlier runs."
+    },
+    {
+      "run": "ingest-boundary-26",
+      "passed": true,
+      "application_id": "local-1793031159883",
+      "unit_tests_at_run": 84,
+      "spark_checks": 13,
+      "source_offline_bytes": 21152,
+      "core_code_hashes_match_current": true,
+      "compose_note": "Historical compose hashes retained; UI bind/history profile changed after earlier runs."
+    }
+  ],
+  "rubric_original_93_rows_first_seven_fields_unchanged": true,
+  "new_python_docstrings_checked": true,
+  "technical_doc_links_exist": true,
+  "original_history_application_and_screenshot_hashes_checked": true,
+  "setup_handoff_data_outputs_secrets_excluded_from_git_candidates": true,
+  "scope": "Local source hashes, original successful reports/markers, exact artifact sizes, recomputed event metrics and code provenance; no new benchmark or 100GB claim."
+}

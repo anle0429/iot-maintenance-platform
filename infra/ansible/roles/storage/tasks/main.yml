@@ -1,0 +1,18 @@
+# Mount only named, size-checked coursework disks; existing foreign signatures cause failure.
+- name: Prepare each approved data device
+  ansible.builtin.include_tasks: disk.yml
+  loop: "{{ iot_disks }}"
+  loop_control:
+    loop_var: iot_disk
+
+- name: Create learner-owned project and evidence roots
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ iot_owner }}"
+    group: "{{ iot_owner }}"
+    mode: '0755'
+  loop:
+    - /srv/iot-data/workspace
+    - /srv/iot-data/evidence
+    - /srv/iot-fast/spark-scratch

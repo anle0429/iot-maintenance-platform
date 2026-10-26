@@ -1,0 +1,70 @@
+# Account identifiers redacted; raw log SHA-256 is in verification.json.
+google_project_service.required["compute.googleapis.com"]: Creating...
+google_project_service.required["iap.googleapis.com"]: Creating...
+google_project_service.required["iam.googleapis.com"]: Creating...
+google_project_service.required["oslogin.googleapis.com"]: Creating...
+google_project_service.required["iap.googleapis.com"]: Creation complete after 4s [id=<PROJECT_ID>/iap.googleapis.com]
+google_project_service.required["oslogin.googleapis.com"]: Creation complete after 4s [id=<PROJECT_ID>/oslogin.googleapis.com]
+google_project_service.required["iam.googleapis.com"]: Creation complete after 4s [id=<PROJECT_ID>/iam.googleapis.com]
+google_project_service.required["compute.googleapis.com"]: Creation complete after 4s [id=<PROJECT_ID>/compute.googleapis.com]
+google_project_iam_member.operator["roles/iap.tunnelResourceAccessor"]: Creating...
+google_project_iam_member.operator["roles/compute.osAdminLogin"]: Creating...
+google_service_account.workload: Creating...
+google_compute_network.coursework: Creating...
+google_compute_disk.scratch[0]: Creating...
+google_compute_disk.data: Creating...
+google_project_iam_member.operator["roles/compute.osAdminLogin"]: Still creating... [00m10s elapsed]
+google_project_iam_member.operator["roles/iap.tunnelResourceAccessor"]: Still creating... [00m10s elapsed]
+google_compute_network.coursework: Still creating... [00m10s elapsed]
+google_service_account.workload: Still creating... [00m10s elapsed]
+google_compute_disk.scratch[0]: Still creating... [00m10s elapsed]
+google_compute_disk.data: Still creating... [00m10s elapsed]
+google_compute_disk.scratch[0]: Creation complete after 11s [id=projects/<PROJECT_ID>/zones/us-central1-a/disks/iot-cw-scratch]
+google_compute_disk.data: Creation complete after 12s [id=projects/<PROJECT_ID>/zones/us-central1-a/disks/iot-cw-data]
+google_project_iam_member.operator["roles/iap.tunnelResourceAccessor"]: Still creating... [00m20s elapsed]
+google_project_iam_member.operator["roles/compute.osAdminLogin"]: Still creating... [00m20s elapsed]
+google_compute_network.coursework: Still creating... [00m20s elapsed]
+google_service_account.workload: Still creating... [00m20s elapsed]
+google_compute_network.coursework: Creation complete after 21s [id=projects/<PROJECT_ID>/global/networks/iot-cw-network]
+google_compute_subnetwork.coursework: Creating...
+google_compute_firewall.iap_ssh: Creating...
+google_service_account.workload: Creation complete after 29s [id=projects/<PROJECT_ID>/serviceAccounts/iot-cw-vm@<PROJECT_ID>.iam.gserviceaccount.com]
+google_service_account_iam_member.operator: Creating...
+google_project_iam_member.operator["roles/compute.osAdminLogin"]: Still creating... [00m30s elapsed]
+google_project_iam_member.operator["roles/iap.tunnelResourceAccessor"]: Still creating... [00m30s elapsed]
+google_compute_subnetwork.coursework: Still creating... [00m10s elapsed]
+google_compute_firewall.iap_ssh: Still creating... [00m10s elapsed]
+google_compute_firewall.iap_ssh: Creation complete after 12s [id=projects/<PROJECT_ID>/global/firewalls/iot-cw-iap-ssh]
+google_service_account_iam_member.operator: Creation complete after 4s [id=projects/<PROJECT_ID>/serviceAccounts/iot-cw-vm@<PROJECT_ID>.iam.gserviceaccount.com/roles/iam.serviceAccountUser/user:<OPERATOR_EMAIL>]
+google_project_iam_member.operator["roles/compute.osAdminLogin"]: Creation complete after 35s [id=<PROJECT_ID>/roles/compute.osAdminLogin/user:<OPERATOR_EMAIL>]
+google_project_iam_member.operator["roles/iap.tunnelResourceAccessor"]: Creation complete after 35s [id=<PROJECT_ID>/roles/iap.tunnelResourceAccessor/user:<OPERATOR_EMAIL>]
+google_compute_subnetwork.coursework: Still creating... [00m20s elapsed]
+google_compute_subnetwork.coursework: Creation complete after 24s [id=projects/<PROJECT_ID>/regions/us-central1/subnetworks/iot-cw-subnet]
+google_compute_instance.coursework: Creating...
+google_compute_instance.coursework: Still creating... [00m10s elapsed]
+google_compute_instance.coursework: Still creating... [00m20s elapsed]
+google_compute_instance.coursework: Creation complete after 27s [id=projects/<PROJECT_ID>/zones/us-central1-a/instances/iot-cw-vm]
+
+Apply complete! Resources: 14 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+capacity_profile = {
+  "boot_gib" = 50
+  "boot_type" = "pd-balanced"
+  "data_gib" = 500
+  "data_type" = "pd-standard"
+  "machine_type" = "e2-highmem-8"
+  "ram_gib" = 64
+  "scratch_gib" = 150
+  "scratch_type" = "pd-balanced"
+  "suggested_shuffle_partitions" = 48
+  "suggested_spark_container_gib" = 28
+  "suggested_spark_heap_gib" = 20
+  "suggested_spark_threads" = 6
+  "vcpus" = 8
+}
+connection_command = "gcloud compute ssh iot-cw-vm --project=<PROJECT_ID> --zone=us-central1-a --tunnel-through-iap"
+data_disk_bytes_before_filesystem = 536870912000
+session_limit_hours = 8
+vm_name = "iot-cw-vm"

@@ -1,0 +1,67 @@
+ Network iot-coursework-ingest_default Creating 
+ Network iot-coursework-ingest_default Creating 
+ Network iot-coursework-ingest_default Created 
+ Network iot-coursework-ingest_default Created 
+ Container iot-cloud-baseline-26 Creating 
+ Container iot-cloud-baseline-26 Created 
+26/10/26 18:18:15 INFO SparkContext: Running Spark version 3.5.9
+26/10/26 18:18:15 INFO SparkContext: OS info Linux, 7.0.0-1014-gcp, amd64
+26/10/26 18:18:15 INFO SparkContext: Java version 17.0.19
+26/10/26 18:18:15 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/10/26 18:18:15 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+26/10/26 18:18:16 INFO ResourceUtils: ==============================================================
+26/10/26 18:18:16 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/10/26 18:18:16 INFO ResourceUtils: ==============================================================
+26/10/26 18:18:16 INFO SparkContext: Submitted application: iot-chunk-parquet-ingest
+26/10/26 18:18:16 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/10/26 18:18:16 INFO ResourceProfile: Limiting resource is cpu
+26/10/26 18:18:16 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/10/26 18:18:16 INFO SecurityManager: Changing view acls to: spark
+26/10/26 18:18:16 INFO SecurityManager: Changing modify acls to: spark
+26/10/26 18:18:16 INFO SecurityManager: Changing view acls groups to: 
+26/10/26 18:18:16 INFO SecurityManager: Changing modify acls groups to: 
+26/10/26 18:18:16 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark; groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY
+26/10/26 18:18:16 INFO Utils: Successfully started service 'sparkDriver' on port 37109.
+26/10/26 18:18:16 INFO SparkEnv: Registering MapOutputTracker
+26/10/26 18:18:16 INFO SparkEnv: Registering BlockManagerMaster
+26/10/26 18:18:16 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/10/26 18:18:16 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/10/26 18:18:16 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/10/26 18:18:16 INFO DiskBlockManager: Created local directory at /scratch/cloud-baseline-26/blockmgr-2fcefd2f-4636-4759-a7f4-693b85efc63d
+26/10/26 18:18:16 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+26/10/26 18:18:16 INFO SparkEnv: Registering OutputCommitCoordinator
+26/10/26 18:18:16 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/10/26 18:18:16 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/10/26 18:18:17 INFO Executor: Starting executor ID driver on host 0.0.0.0
+26/10/26 18:18:17 INFO Executor: OS info Linux, 7.0.0-1014-gcp, amd64
+26/10/26 18:18:17 INFO Executor: Java version 17.0.19
+26/10/26 18:18:17 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/10/26 18:18:17 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@367bf7fa for default.
+26/10/26 18:18:17 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 33385.
+26/10/26 18:18:17 INFO NettyBlockTransferService: Server created on 127.0.0.1 0.0.0.0:33385
+26/10/26 18:18:17 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/10/26 18:18:17 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 33385, None)
+26/10/26 18:18:17 INFO BlockManagerMasterEndpoint: Registering block manager 127.0.0.1:33385 with 434.4 MiB RAM, BlockManagerId(driver, 127.0.0.1, 33385, None)
+26/10/26 18:18:17 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 33385, None)
+26/10/26 18:18:17 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 127.0.0.1, 33385, None)
+26/10/26 18:18:17 INFO SingleEventLogFileWriter: Logging events to file:/workspace/data/ingest-events/local-1793038696920.inprogress
+PASS: 5 Spark known-answer checks
+26/10/26 18:19:35 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:35 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:35 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:35 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:38 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:38 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:39 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:39 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:52 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:52 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:52 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:52 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:54 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:54 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:54 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:19:54 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:20:39 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+26/10/26 18:20:39 WARN RowBasedKeyValueBatch: Calling spill() on RowBasedKeyValueBatch. Will not spill but return 0.
+PASS: chunked ingest; Bronze=3525120, Silver=3456000, checks=13

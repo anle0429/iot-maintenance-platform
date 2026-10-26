@@ -1,0 +1,29 @@
+# Deploy the real bounded Spark pilot once; the success marker makes repeat configuration idempotent.
+- name: Require explicit immutable pilot inputs
+  ansible.builtin.assert:
+    that:
+      - iot_pilot_name is defined
+      - iot_pilot_name is match('^[a-zA-Z0-9_-]{1,40}$')
+      - iot_pilot_source is defined
+      - iot_pilot_receipt is defined
+- name: Run the reviewed cloud resource profile against the validated source
+  become: false
+  ansible.builtin.command:
+    argv:
+      - python3
+      - scripts/run-cloud-ingest.py
+      - --run-name
+      - "{{ iot_pilot_name }}"
+      - --source
+      - "{{ iot_pilot_source }}"
+      - --receipt
+      - "{{ iot_pilot_receipt }}"
+      - --mode
+      - optimized
+      - --skip-build
+    chdir: /srv/iot-data/workspace/iot-maintenance-platform
+    creates: "/srv/iot-data/workspace/iot-maintenance-platform/data/lakehouse/{{ iot_pilot_name }}/_RUN_SUCCESS.json"
+  register: pilot_result
+- name: Show the actual pilot result or existing success marker
+  ansible.builtin.debug:
+    var: pilot_result.stdout

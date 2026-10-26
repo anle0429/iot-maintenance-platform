@@ -1,0 +1,27 @@
+{
+  "kind": "estimate_only",
+  "target_offline_bytes": 100000000000,
+  "assumed_per_volume_budget_bytes": {
+    "/srv/iot-data": {
+      "source_with_20_percent_margin": 120000000000,
+      "processed_outputs_1_5_times_offline": 150000000000,
+      "logs": 5000000000,
+      "reserve": 20000000000
+    },
+    "/srv/iot-fast": {
+      "shuffle_1_times_offline": 100000000000,
+      "future_platform_image_state_margin": 15000000000,
+      "reserve": 20000000000
+    }
+  },
+  "actual_free_bytes_now": {
+    "/srv/iot-data": 520351039488,
+    "/srv/iot-fast": 152528543744
+  },
+  "generation_authorized_by_plan": false,
+  "scope": "Uses explicit conservative assumptions, not extrapolated claims of completed 100GB or measured peak scratch. Recheck free space, generator throughput, session duration and full downstream footprint before a large run.",
+  "fits_now": {
+    "/srv/iot-data": true,
+    "/srv/iot-fast": true
+  }
+}

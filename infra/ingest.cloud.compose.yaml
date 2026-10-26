@@ -1,0 +1,9 @@
+# Override only the on-demand ingest resources/scratch; publish UI on the VM loopback as in the base file.
+services:
+  ingest:
+    cpus: ${IOT_INGEST_CPUS:-6}
+    mem_limit: ${IOT_INGEST_MEMORY:-28g}
+    volumes:
+      - type: bind
+        source: ${IOT_INGEST_SCRATCH:?Set a new project-owned scratch directory}
+        target: /scratch

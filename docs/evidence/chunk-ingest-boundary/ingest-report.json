@@ -1,0 +1,191 @@
+{
+  "application_id": "local-1793031159883",
+  "bronze_telemetry_rows": 66,
+  "cgroup_memory_before_shutdown": {
+    "memory.current": 792637440,
+    "memory.peak": 792915968
+  },
+  "checks": [
+    "latest_export_across_parts",
+    "replay_preserves_unique_keys",
+    "schema_v1_null_v2_pressure",
+    "conflicting_payload_rejected",
+    "exact_multiset_parquet_roundtrip",
+    "all_telemetry_rows_exact_after_parquet",
+    "bronze_counts_match_catalog",
+    "v1_pressure_null_v2_pressure_present",
+    "all_metadata_rows_exact_after_parquet",
+    "silver_unique_grain",
+    "silver_latest_export",
+    "silver_machine_foreign_key",
+    "actual_parquet_footer_codecs_snappy"
+  ],
+  "config": {
+    "duration_hours": 1,
+    "export_delay_seconds": 3600,
+    "failure_threshold": 1.0,
+    "hot_factory_share": 0.7,
+    "late_max_seconds": 600,
+    "late_min_seconds": 300,
+    "late_rate": 0.1,
+    "machine_count": 1,
+    "maintenance_every_hours": 18,
+    "maintenance_minutes": 20,
+    "offline_duplicate_rate": 0.1,
+    "repair_minutes": 45,
+    "retry_delay_seconds": 2,
+    "sample_seconds": 60,
+    "schema_v2_fraction": 0.5,
+    "seed": 42,
+    "start_ts": "2026-10-01T00:00:00Z",
+    "stream_duplicate_rate": 0.0,
+    "wear_per_hour": 1e-05
+  },
+  "duplicates_removed": 6,
+  "job_wall_seconds": 82.38275864100001,
+  "metadata_rows": {
+    "failures": 0,
+    "machines": 1,
+    "maintenance": 0
+  },
+  "passed": true,
+  "python": "3.10.12",
+  "query_comparison": {
+    "median_seconds": {
+      "jsonl": 0.22974980399999367,
+      "parquet_snappy": 0.2932670580000831
+    },
+    "physical_plans": {
+      "jsonl": "AdaptiveSparkPlan isFinalPlan=false\n+- HashAggregate(keys=[], functions=[count(1), sum(temperature_c#566), max(vibration_rms_mm_s#567)], output=[rows#2075L, temperature_sum#2077, vibration_max#2079])\n   +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=6161]\n      +- HashAggregate(keys=[], functions=[partial_count(1), partial_sum(temperature_c#566), partial_max(vibration_rms_mm_s#567)], output=[count#2100L, sum#2101, max#2102])\n         +- Union\n            :- Project [temperature_c#566, vibration_rms_mm_s#567]\n            :  +- Filter ((isnotnull(event_ts#563) AND (event_ts#563 >= 2026-10-01 00:24:00)) AND (event_ts#563 < 2026-10-01 00:27:00))\n            :     +- FileScan json [event_ts#563,temperature_c#566,vibration_rms_mm_s#567] Batched: false, DataFilters: [isnotnull(event_ts#563), (event_ts#563 >= 2026-10-01 00:24:00), (event_ts#563 < 2026-10-01 00:27..., Format: JSON, Location: InMemoryFileIndex(1 paths)[file:/workspace/data/source/ingest-boundary-26/telemetry/schema_v1], PartitionFilters: [], PushedFilters: [IsNotNull(event_ts), GreaterThanOrEqual(event_ts,2026-10-01 00:24:00.0), LessThan(event_ts,2026-..., ReadSchema: struct<event_ts:timestamp,temperature_c:double,vibration_rms_mm_s:double>\n            +- Project [temperature_c#620, vibration_rms_mm_s#621]\n               +- Filter ((isnotnull(event_ts#617) AND (event_ts#617 >= 2026-10-01 00:24:00)) AND (event_ts#617 < 2026-10-01 00:27:00))\n                  +- FileScan json [event_ts#617,temperature_c#620,vibration_rms_mm_s#621] Batched: false, DataFilters: [isnotnull(event_ts#617), (event_ts#617 >= 2026-10-01 00:24:00), (event_ts#617 < 2026-10-01 00:27..., Format: JSON, Location: InMemoryFileIndex(1 paths)[file:/workspace/data/source/ingest-boundary-26/telemetry/schema_v2], PartitionFilters: [], PushedFilters: [IsNotNull(event_ts), GreaterThanOrEqual(event_ts,2026-10-01 00:24:00.0), LessThan(event_ts,2026-..., ReadSchema: struct<event_ts:timestamp,temperature_c:double,vibration_rms_mm_s:double>\n",
+      "parquet_snappy": "AdaptiveSparkPlan isFinalPlan=false\n+- HashAggregate(keys=[], functions=[count(1), sum(temperature_c#744), max(vibration_rms_mm_s#745)], output=[rows#2114L, temperature_sum#2116, vibration_max#2118])\n   +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=6231]\n      +- HashAggregate(keys=[], functions=[partial_count(1), partial_sum(temperature_c#744), partial_max(vibration_rms_mm_s#745)], output=[count#2140L, sum#2141, max#2142])\n         +- Project [temperature_c#744, vibration_rms_mm_s#745]\n            +- Filter ((isnotnull(event_ts#741) AND (event_ts#741 >= 2026-10-01 00:24:00)) AND (event_ts#741 < 2026-10-01 00:27:00))\n               +- FileScan parquet [event_ts#741,temperature_c#744,vibration_rms_mm_s#745] Batched: true, DataFilters: [isnotnull(event_ts#741), (event_ts#741 >= 2026-10-01 00:24:00), (event_ts#741 < 2026-10-01 00:27..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/workspace/data/lakehouse/ingest-boundary-26/bronze/raw_telemetry], PartitionFilters: [], PushedFilters: [IsNotNull(event_ts), GreaterThanOrEqual(event_ts,2026-10-01 00:24:00.0), LessThan(event_ts,2026-..., ReadSchema: struct<event_ts:timestamp,temperature_c:double,vibration_rms_mm_s:double>\n"
+    },
+    "repetitions": 3,
+    "results": {
+      "jsonl": {
+        "rows": 4,
+        "temperature_sum": 213.46699999999998,
+        "vibration_max": 3.299
+      },
+      "parquet_snappy": {
+        "rows": 4,
+        "temperature_sum": 213.46699999999998,
+        "vibration_max": 3.299
+      }
+    },
+    "scope": "Same query/data, no Spark cache; alternating execution order. OS/file cache and other apps uncontrolled; not a general performance guarantee.",
+    "seconds": {
+      "jsonl": [
+        0.25105320200009373,
+        0.20350937100010924,
+        0.22974980399999367
+      ],
+      "parquet_snappy": [
+        0.3360283629999685,
+        0.2819646569998895,
+        0.2932670580000831
+      ]
+    },
+    "window_end_exclusive": "2026-10-01T00:27:00Z",
+    "window_start": "2026-10-01T00:24:00Z"
+  },
+  "receipt_sha256": "7f91a111252f0dc092e33eb24b5bf856fd2a5218264021c3e1356a544f9e855a",
+  "sample_trace": {
+    "bronze_copies": [
+      {
+        "created_ts": "2026-10-01T00:00:01Z",
+        "current_a": 8.864,
+        "event_id": "E-50c316a1d1d50806-P-001-000000",
+        "event_ts": "2026-10-01T00:00:00Z",
+        "ingested_at": "2026-10-26T16:12:54.836188Z",
+        "machine_id": "P-001",
+        "operating_status": "operating",
+        "pressure_bar": null,
+        "received_ts": "2026-10-01T00:00:01Z",
+        "rpm": 2656.9,
+        "schema_version": 1,
+        "source_manifest_sha256": "1dc1ca3a75d053623275748ae8a2e9dab78f9bf9380415489b123755ec6df410",
+        "source_path": "telemetry/schema_v1/part-000000.jsonl",
+        "temperature_c": 43.915,
+        "vibration_rms_mm_s": 2.108
+      }
+    ],
+    "silver": {
+      "created_ts": "2026-10-01T00:00:01Z",
+      "current_a": 8.864,
+      "event_id": "E-50c316a1d1d50806-P-001-000000",
+      "event_ts": "2026-10-01T00:00:00Z",
+      "ingested_at": "2026-10-26T16:12:54.836188Z",
+      "machine_id": "P-001",
+      "operating_status": "operating",
+      "pressure_bar": null,
+      "received_ts": "2026-10-01T00:00:01Z",
+      "rpm": 2656.9,
+      "schema_version": 1,
+      "source_manifest_sha256": "1dc1ca3a75d053623275748ae8a2e9dab78f9bf9380415489b123755ec6df410",
+      "source_path": "telemetry/schema_v1/part-000000.jsonl",
+      "temperature_c": 43.915,
+      "vibration_rms_mm_s": 2.108
+    }
+  },
+  "schema_rows": [
+    {
+      "pressure_nonnull": 0,
+      "rows": 32,
+      "schema_version": 1
+    },
+    {
+      "pressure_nonnull": 34,
+      "rows": 34,
+      "schema_version": 2
+    }
+  ],
+  "scope": "Local[2] typed JSONL to plain Snappy Parquet folders; no PostgreSQL bulk staging, feature/model retraining, Airflow deployment or >=100GB claim.",
+  "silver_unique_rows": 60,
+  "source_manifest_sha256": "1dc1ca3a75d053623275748ae8a2e9dab78f9bf9380415489b123755ec6df410",
+  "source_offline_bytes": 21152,
+  "source_total_bytes": 25313,
+  "spark_version": "3.5.9",
+  "storage": {
+    "bronze/raw_failures": {
+      "bytes": 1020,
+      "files": 1,
+      "footer_rows": 0,
+      "observed_footer_codecs": [],
+      "row_groups": 0
+    },
+    "bronze/raw_machines": {
+      "bytes": 3442,
+      "files": 1,
+      "footer_rows": 1,
+      "observed_footer_codecs": [
+        "SNAPPY"
+      ],
+      "row_groups": 1
+    },
+    "bronze/raw_maintenance": {
+      "bytes": 1098,
+      "files": 1,
+      "footer_rows": 0,
+      "observed_footer_codecs": [],
+      "row_groups": 0
+    },
+    "bronze/raw_telemetry": {
+      "bytes": 44886,
+      "files": 8,
+      "footer_rows": 66,
+      "observed_footer_codecs": [
+        "SNAPPY"
+      ],
+      "row_groups": 8
+    },
+    "silver/stg_telemetry": {
+      "bytes": 44534,
+      "files": 8,
+      "footer_rows": 60,
+      "observed_footer_codecs": [
+        "SNAPPY"
+      ],
+      "row_groups": 8
+    }
+  }
+}

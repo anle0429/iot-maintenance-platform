@@ -1,0 +1,111 @@
+# Install the official pinned Docker engine and place both daemon and containerd storage on the SSD.
+- name: Create Docker keyring
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+- name: Download Docker repository signing key over HTTPS
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: '0644'
+- name: Configure the signed Docker Ubuntu repository
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/docker.sources
+    mode: '0644'
+    content: |
+      Types: deb
+      URIs: https://download.docker.com/linux/ubuntu
+      Suites: noble
+      Components: stable
+      Architectures: amd64
+      Signed-By: /etc/apt/keyrings/docker.asc
+  register: docker_repository
+- name: Refresh package metadata after adding the Docker repository
+  ansible.builtin.apt:
+    update_cache: true
+    lock_timeout: 180
+  when: docker_repository.changed
+- name: Install Docker engine and Compose plugin
+  ansible.builtin.apt:
+    name:
+      - docker-ce=5:29.9.2-1~ubuntu.24.04~noble
+      - docker-ce-cli=5:29.9.2-1~ubuntu.24.04~noble
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+    update_cache: false
+    lock_timeout: 180
+- name: Create dedicated daemon directories on the mounted SSD
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop: [/srv/iot-fast/docker, /srv/iot-fast/containerd]
+- name: Create daemon configuration directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop: [/etc/docker, /etc/containerd]
+- name: Configure bounded logs and Docker data root
+  ansible.builtin.copy:
+    dest: /etc/docker/daemon.json
+    mode: '0644'
+    validate: /usr/bin/dockerd --validate --config-file %s
+    content: |
+      {"data-root":"/srv/iot-fast/docker","log-driver":"local","log-opts":{"max-size":"10m","max-file":"3"}}
+  notify: Restart Docker
+- name: Configure the separate containerd image store on SSD
+  ansible.builtin.copy:
+    dest: /etc/containerd/config.toml
+    mode: '0644'
+    validate: /usr/bin/containerd --config %s config dump
+    content: |
+      version = 3
+      root = "/srv/iot-fast/containerd"
+      disabled_plugins = ["io.containerd.grpc.v1.cri", "io.containerd.cri.v1.images", "io.containerd.cri.v1.runtime"]
+  notify:
+    - Restart containerd
+    - Restart Docker
+- name: Permit the existing VM operator to use Docker
+  ansible.builtin.user:
+    name: "{{ iot_owner }}"
+    groups: docker
+    append: true
+- name: Create service drop-in directories
+  ansible.builtin.file:
+    path: "/etc/systemd/system/{{ item }}.service.d"
+    state: directory
+    mode: '0755'
+  loop: [containerd, docker]
+- name: Require the SSD mount before daemon startup
+  ansible.builtin.copy:
+    dest: "/etc/systemd/system/{{ item }}.service.d/iot-storage.conf"
+    mode: '0644'
+    content: |
+      [Unit]
+      RequiresMountsFor=/srv/iot-fast
+  loop: [containerd, docker]
+  notify:
+    - Reload systemd
+    - Restart containerd
+    - Restart Docker
+- name: Enable the installed daemon services
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop: [containerd, docker]
+- name: Apply pending daemon configuration before runtime checks
+  ansible.builtin.meta: flush_handlers
+- name: Verify Docker reports the intended SSD root
+  ansible.builtin.command:
+    argv: [docker, info, --format, "{{ '{{' }}.DockerRootDir{{ '}}' }}"]
+  changed_when: false
+  register: docker_root
+- name: Require the approved Docker root
+  ansible.builtin.assert:
+    that: [docker_root.stdout == '/srv/iot-fast/docker']

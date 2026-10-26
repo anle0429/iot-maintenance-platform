@@ -2,7 +2,9 @@
 
 Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cảm biến mô phỏng, dự đoán sự cố trong một giờ tới và trợ lý tra cứu tình trạng máy/tài liệu.
 
-**Trạng thái:** đã có bằng chứng [batch](docs/day2-batch.md) (19 kiểm tra Spark) và [Kafka/Flink](docs/day3-streaming.md) (10 kiểm tra tích hợp). Host hiện qua **74 unittest**; [generator theo chunk](docs/chunked-generator.md) đã sinh/đọc kiểm một lịch sử 460.800 readings, 149.023.279 byte offline, cùng phép đo RAM và kiểm tái lập. Chưa đạt offline 100 GB; loader lớn/Parquet/API còn chưa làm, tập test ML trước vẫn thiếu ca hỏng.
+**Trạng thái:** đã chạy thật [Airflow DP1–DP3 và DataHub trên VM](docs/orchestration.md):64 rules qua trên14 bảng đầu ra, một batch lỗi bị chặn downstream và batch phục hồi thành công. **91 unittest** qua trên Windows/Linux; có ảnh ba DAG và lịch sử validation PASS→FAIL→PASS. Các mốc [batch](docs/day2-batch.md), [Kafka/Flink](docs/day3-streaming.md), [chunk → Parquet](docs/chunk-ingest.md) giữ nguyên bằng chứng riêng. Nguồn liên tục lớn nhất **1.117.608.156 byte offline**, Bronze3.525.120/Silver3.456.000; chưa100GB/API, tập test ML trước vẫn thiếu ca hỏng.
+
+Đã [triển khai VM Google Cloud](docs/gcp-runtime.md) 8vCPU/64GiB với Ansible, IAP và đĩa HDD/SSD tách riêng. Cùng workload1,12GB trên một VM: baseline223,942s→optimized100,892s, disk spill967MB→0, cả hai13checks/84tests qua. Một lượt mỗi cấu hình, chưa benchmark100GB hoặc bằng chứng hoàn thành toàn coursework.
 
 ## Mục lục
 
@@ -14,6 +16,10 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Kafka/Flink: event time, late arrival và replay](docs/day3-streaming.md)
 - [Đo nguồn trung gian và RAM](docs/generator-throughput.md)
 - [Generator theo chunk và ngân sách 100 GB](docs/chunked-generator.md)
+- [Catalog → Spark → Parquet: kiểm đúng, dung lượng và query](docs/chunk-ingest.md)
+- [Google Cloud VM: Terraform plan, quota và dự toán](docs/gcp-vm.md)
+- [VM đã chạy: Ansible, cùng workload nhanh 2,22 lần và cách tự chạy](docs/gcp-runtime.md)
+- [Airflow DP1–DP3, validation chặn lỗi và DataHub lineage/assertions](docs/orchestration.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist rubric](docs/rubric-tracker.md)
 - [Cấu trúc hiện tại](#cấu-trúc-hiện-tại)
@@ -30,6 +36,8 @@ docs/
   day2-batch.md              PostgreSQL/Spark, feature, nhãn và baseline đã chạy
   day3-streaming.md          Kafka/Flink, watermark, dedup và kiểm replay
   chunked-generator.md       Sinh/đọc kiểm theo chunk, đo RAM và dự trù dung lượng
+  chunk-ingest.md            Spark đọc catalog, Parquet Bronze/Silver và số đo thực
+  orchestration.md           Ba DAG trên VM, validation/lineage, lỗi và phục hồi đã chạy
   rubric-tracker.md          Trích yêu cầu/điểm từ hai sheet 50%, trạng thái và bằng chứng
   evidence/day1/             Output kiểm thử, thống kê và thông tin runtime
   evidence/day2-final/       Bằng chứng batch end-to-end và code/runtime hashes
@@ -45,8 +53,9 @@ generator/                   Mô phỏng máy, lỗi vận chuyển, lưu nguồ
   capacity.py                Ước tính riêng nguồn/output/shuffle/log/reserve
 scripts/                     Lệnh PowerShell chạy generator, batch và stream verification
 pipelines/                   PostgreSQL/Spark, feature/label, Kafka/Flink và kiểm tra thời gian
+airflow/dags/                DP1 Bronze → DP2 Silver/Gold → DP3 features, validation và metadata
 ml/                          Baseline logistic regression và metrics/threshold
-infra/                       Compose, image Spark/Flink và schema PostgreSQL nguồn
+infra/                       Compose/image, Terraform VM, Ansible, Airflow/DataHub và source SQL
 tests/                       Bộ dữ liệu biết đáp án, biên và corruption tests
 requirements.txt             Host dùng standard library; dependency Spark/Flink khóa trong Dockerfile
 ```

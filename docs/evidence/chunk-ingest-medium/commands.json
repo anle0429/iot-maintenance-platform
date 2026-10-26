@@ -1,0 +1,94 @@
+[
+  {
+    "executable": "python.exe",
+    "arguments": [
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 6.1090199
+  },
+  {
+    "executable": "docker.exe",
+    "arguments": [
+      "compose",
+      "-f",
+      "infra/ingest.compose.yaml",
+      "run",
+      "--rm",
+      "--user",
+      "0",
+      "--entrypoint",
+      "chmod",
+      "ingest",
+      "1777",
+      "/scratch"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 1.0129178
+  },
+  {
+    "executable": "docker.exe",
+    "arguments": [
+      "compose",
+      "-f",
+      "infra/ingest.compose.yaml",
+      "run",
+      "--rm",
+      "--service-ports",
+      "--name",
+      "iot-ingest-ingest-medium-26",
+      "ingest",
+      "--master",
+      "local[2]",
+      "--driver-memory",
+      "1g",
+      "--conf",
+      "spark.sql.session.timeZone=UTC",
+      "--conf",
+      "spark.driver.bindAddress=0.0.0.0",
+      "--conf",
+      "spark.driver.host=127.0.0.1",
+      "--conf",
+      "spark.local.dir=/scratch/ingest-medium-26",
+      "--conf",
+      "spark.eventLog.enabled=true",
+      "--conf",
+      "spark.eventLog.dir=file:///workspace/data/ingest-events",
+      "pipelines/chunk_ingest.py",
+      "--source",
+      "data/source/chunk-ingest-26",
+      "--receipt",
+      "outputs/ingest-medium-26/receipt.json",
+      "--output",
+      "data/lakehouse/ingest-medium-26",
+      "--report",
+      "outputs/ingest-medium-26/ingest-report.json",
+      "--partitions",
+      "8",
+      "--query-repetitions",
+      "3",
+      "--ui-pause-seconds",
+      "45"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 303.9269513
+  },
+  {
+    "executable": "python.exe",
+    "arguments": [
+      "-m",
+      "pipelines.ingest_metrics",
+      "--log",
+      "data/ingest-events/local-1793030779262",
+      "--report",
+      "outputs/ingest-medium-26/spark-metrics.json"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.3558292
+  }
+]

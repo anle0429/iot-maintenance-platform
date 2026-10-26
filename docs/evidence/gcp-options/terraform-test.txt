@@ -1,0 +1,12 @@
+tests\plan.tftest.hcl... in progress
+  run "bounded_vm_plan"... pass
+  run "standard_profile_plan"... pass
+  run "accelerated_profile_plan"... pass
+  run "reject_unreviewed_profile"... pass
+  run "reject_public_operator"... pass
+  run "reject_unbounded_session"... pass
+  run "reject_unreviewed_disk"... pass
+tests\plan.tftest.hcl... tearing down
+tests\plan.tftest.hcl... pass
+
+Success! 7 passed, 0 failed.

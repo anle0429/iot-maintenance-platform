@@ -6,6 +6,12 @@
 *.yaml text eol=lf
 *.yml text eol=lf
 *.toml text eol=lf
+*.tf text eol=lf
+*.hcl text eol=lf
+*.tfvars.example text eol=lf
+*.txt text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
 *.json text eol=lf
 *.jsonl text eol=lf
 *.sql text eol=lf
@@ -14,3 +20,5 @@
 *.png binary
 *.jpg binary
 *.parquet binary
+# Preserve captured console spacing; source code still uses normal whitespace checks.
+docs/evidence/**/*.txt -whitespace

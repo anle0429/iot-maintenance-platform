@@ -1,0 +1,141 @@
+{
+  "checks": {
+    "completed_stage_replay": {
+      "exit_code": 0,
+      "files": 7,
+      "same_part_hashes": true
+    },
+    "fixture-null-machine-26": {
+      "dag_states": [
+        "failed",
+        null,
+        null
+      ],
+      "indexed_datasets": 4,
+      "stages": {
+        "dp1": {
+          "checks": 17,
+          "failed_rules": [
+            "exact_multiset_readback",
+            "required_fields_and_times",
+            "machine_foreign_key"
+          ],
+          "parquet_bytes": 2274964,
+          "passed": false,
+          "source_manifest_sha256": "139ca56f976c0799fae0e37bc227a6dc173e395987271fcbeea844450f8836a9",
+          "tables": {
+            "bronze/raw_failures": 31,
+            "bronze/raw_machines": 20,
+            "bronze/raw_maintenance": 39,
+            "bronze/raw_telemetry": 58752
+          }
+        }
+      }
+    },
+    "orchestration-good-26": {
+      "dag_states": [
+        "success",
+        "success",
+        "success"
+      ],
+      "indexed_datasets": 14,
+      "stages": {
+        "dp1": {
+          "checks": 17,
+          "failed_rules": [],
+          "parquet_bytes": 2285153,
+          "passed": true,
+          "source_manifest_sha256": "139ca56f976c0799fae0e37bc227a6dc173e395987271fcbeea844450f8836a9",
+          "tables": {
+            "bronze/raw_failures": 31,
+            "bronze/raw_machines": 20,
+            "bronze/raw_maintenance": 39,
+            "bronze/raw_telemetry": 58752
+          }
+        },
+        "dp2": {
+          "checks": 32,
+          "failed_rules": [],
+          "parquet_bytes": 4789891,
+          "passed": true,
+          "source_manifest_sha256": "139ca56f976c0799fae0e37bc227a6dc173e395987271fcbeea844450f8836a9",
+          "tables": {
+            "gold/dim_factory": 3,
+            "gold/dim_machine": 20,
+            "gold/fact_failure": 31,
+            "gold/fact_maintenance": 39,
+            "gold/fact_telemetry": 57600,
+            "silver/stg_failures": 31,
+            "silver/stg_maintenance": 39,
+            "silver/stg_telemetry": 57600
+          }
+        },
+        "dp3": {
+          "checks": 15,
+          "failed_rules": [],
+          "parquet_bytes": 583182,
+          "passed": true,
+          "source_manifest_sha256": "139ca56f976c0799fae0e37bc227a6dc173e395987271fcbeea844450f8836a9",
+          "tables": {
+            "features/feat_machine_10m": 11520,
+            "features/label_failure_1h": 11520
+          }
+        }
+      }
+    },
+    "orchestration-recovery-26": {
+      "dag_states": [
+        "success",
+        "success",
+        "success"
+      ],
+      "indexed_datasets": 14,
+      "stages": {
+        "dp1": {
+          "checks": 17,
+          "failed_rules": [],
+          "parquet_bytes": 2285153,
+          "passed": true,
+          "source_manifest_sha256": "139ca56f976c0799fae0e37bc227a6dc173e395987271fcbeea844450f8836a9",
+          "tables": {
+            "bronze/raw_failures": 31,
+            "bronze/raw_machines": 20,
+            "bronze/raw_maintenance": 39,
+            "bronze/raw_telemetry": 58752
+          }
+        },
+        "dp2": {
+          "checks": 32,
+          "failed_rules": [],
+          "parquet_bytes": 4789891,
+          "passed": true,
+          "source_manifest_sha256": "139ca56f976c0799fae0e37bc227a6dc173e395987271fcbeea844450f8836a9",
+          "tables": {
+            "gold/dim_factory": 3,
+            "gold/dim_machine": 20,
+            "gold/fact_failure": 31,
+            "gold/fact_maintenance": 39,
+            "gold/fact_telemetry": 57600,
+            "silver/stg_failures": 31,
+            "silver/stg_maintenance": 39,
+            "silver/stg_telemetry": 57600
+          }
+        },
+        "dp3": {
+          "checks": 15,
+          "failed_rules": [],
+          "parquet_bytes": 583183,
+          "passed": true,
+          "source_manifest_sha256": "139ca56f976c0799fae0e37bc227a6dc173e395987271fcbeea844450f8836a9",
+          "tables": {
+            "features/feat_machine_10m": 11520,
+            "features/label_failure_1h": 11520
+          }
+        }
+      }
+    }
+  },
+  "passed": true,
+  "scope": "20 machines / 48 continuous hours, actual Airflow scheduler + Spark + DataHub OSS; no 100GB or model-quality claim.",
+  "verified_utc": "2026-10-26T19:57:39.536036+00:00"
+}

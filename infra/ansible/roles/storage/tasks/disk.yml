@@ -1,0 +1,88 @@
+# Refuse boot disks, occupied mounts and unfamiliar filesystems before formatting a new blank disk.
+- name: Resolve the explicitly named Google disk
+  ansible.builtin.stat:
+    path: "{{ iot_disk.device }}"
+    follow: false
+  register: device_stat
+- name: Require a Google disk symlink
+  ansible.builtin.assert:
+    that:
+      - device_stat.stat.exists
+      - device_stat.stat.islnk
+- name: Read exact disk size
+  ansible.builtin.command:
+    argv: [blockdev, --getsize64, "{{ iot_disk.device }}"]
+  changed_when: false
+  register: device_bytes
+- name: Refuse an incorrectly sized device
+  ansible.builtin.assert:
+    that:
+      - device_bytes.stdout | int == iot_disk.bytes
+      - iot_disk.bytes | int > 53687091200
+- name: Inspect filesystem and partition signatures without changing them
+  ansible.builtin.command:
+    argv: [wipefs, --no-act, --json, "{{ iot_disk.device }}"]
+  changed_when: false
+  register: device_signatures
+- name: Refuse unfamiliar or multiple signatures
+  ansible.builtin.assert:
+    that:
+      - >-
+        ((device_signatures.stdout | from_json).signatures | default([], true) | length == 0)
+        or
+        (((device_signatures.stdout | from_json).signatures | length == 1)
+        and (device_signatures.stdout | from_json).signatures[0].type == 'ext4')
+- name: Read an existing filesystem label
+  ansible.builtin.command:
+    argv: [blkid, -s, LABEL, -o, value, "{{ iot_disk.device }}"]
+  changed_when: false
+  failed_when: false
+  register: device_label
+- name: Refuse foreign filesystem labels
+  ansible.builtin.assert:
+    that:
+      - device_label.stdout == iot_disk.label
+  when: (device_signatures.stdout | from_json).signatures | default([], true) | length > 0
+- name: Create ext4 only on the verified blank disk, without force
+  ansible.builtin.command:
+    argv: [mkfs.ext4, -m, '1', -L, "{{ iot_disk.label }}", "{{ iot_disk.device }}"]
+  when: (device_signatures.stdout | from_json).signatures | default([], true) | length == 0
+- name: Create the mount directory
+  ansible.builtin.file:
+    path: "{{ iot_disk.mount }}"
+    state: directory
+    mode: '0755'
+- name: Read its mounted UUID if present
+  ansible.builtin.command:
+    argv: [findmnt, -n, -o, UUID, --mountpoint, "{{ iot_disk.mount }}"]
+  changed_when: false
+  failed_when: false
+  register: current_mount
+- name: Read the approved device UUID
+  ansible.builtin.command:
+    argv: [blkid, -s, UUID, -o, value, "{{ iot_disk.device }}"]
+  changed_when: false
+  register: device_uuid
+- name: Refuse another device already mounted at the target
+  ansible.builtin.assert:
+    that:
+      - current_mount.rc != 0 or current_mount.stdout == device_uuid.stdout
+- name: Inspect a not-yet-mounted target for existing files
+  ansible.builtin.command:
+    argv: [find, "{{ iot_disk.mount }}", -mindepth, '1', -maxdepth, '1', -print, -quit]
+  changed_when: false
+  register: target_contents
+  when: current_mount.rc != 0
+- name: Refuse to hide existing files under a new mount
+  ansible.builtin.assert:
+    that: [target_contents.stdout == '']
+  when: current_mount.rc != 0
+- name: Persist the exact UUID mount
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    regexp: "^\\S+\\s+{{ iot_disk.mount | regex_escape }}\\s+"
+    line: "UUID={{ device_uuid.stdout }} {{ iot_disk.mount }} ext4 defaults,nofail 0 2"
+- name: Mount the verified filesystem
+  ansible.builtin.command:
+    argv: [mount, "{{ iot_disk.mount }}"]
+  when: current_mount.rc != 0

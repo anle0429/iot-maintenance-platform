@@ -1,0 +1,175 @@
+{
+  "captured_utc": "2026-10-26T16:14:04.4890371Z",
+  "machine": "THIENAN",
+  "cpu": "AMD Ryzen 5 5500",
+  "base_commit": "fc41b6360eab5ee3cffd3eb79857379dd1338d3f",
+  "free_ram_bytes_before": 3436134400,
+  "free_disk_bytes_before": 346262446080,
+  "source": "data/source/ingest-boundary-26",
+  "script_sha256": "1b440a057df087fd8ef1047ccf87637cce2639d40ee3e1be9240eaf848008ced",
+  "spark_image_id": "sha256:f794cf2433d348c8cb70c84d8048d3056a14602cdfa9b368dfc02d81815edb0e",
+  "resource_limits": {
+    "shuffle_partitions": 8,
+    "container": "2560m",
+    "cpus": 2,
+    "driver_heap": "1g",
+    "local_master": "local[2]"
+  },
+  "ui_pause_seconds": 45,
+  "output_total_bytes": 100173.0,
+  "source_sha256": [
+    {
+      "path": "generator/__init__.py",
+      "sha256": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172"
+    },
+    {
+      "path": "generator/__main__.py",
+      "sha256": "045e4f5ac449b48e75856dba9a3a1c25cca6d985e5ba57bcc86792f893c25ba5"
+    },
+    {
+      "path": "generator/capacity.py",
+      "sha256": "da846d8671936ea371226581c504071e05905d03afb2fbf43861a854373c5241"
+    },
+    {
+      "path": "generator/chunk_quality.py",
+      "sha256": "a8ff63b5f518dbd117ea92926e08b8d2d98dc24601fe359eebab1faca042e79e"
+    },
+    {
+      "path": "generator/chunked.py",
+      "sha256": "9b8705e9156966c08c02fd604739c3cb416a48fbc0881f21c5cce735e03f1b2c"
+    },
+    {
+      "path": "generator/config.py",
+      "sha256": "087682ae48dceb64865cdca983b7642ab9d256bb0083da165d296196c21cb3de"
+    },
+    {
+      "path": "generator/configs/chunked-pilot.json",
+      "sha256": "d90613560eeb8c2aafce80e80f14e54046d9fc5655b981092e3ae02ea541aa6b"
+    },
+    {
+      "path": "generator/configs/dev.json",
+      "sha256": "6363a2ba3c8f5d73263c8156fcd92ec55d82b98002b01d8c51b5932da2231c42"
+    },
+    {
+      "path": "generator/configs/ingest-boundary.json",
+      "sha256": "a560d5090e5ac1ca03462c79860c2be45a3a19ca8b560ee7510a9903dca6f27b"
+    },
+    {
+      "path": "generator/configs/ingest-medium.json",
+      "sha256": "bf608be8b6756b450089b199a6032da838ac7660ac010bdebc99a48e967c106f"
+    },
+    {
+      "path": "generator/configs/machine_changes.json",
+      "sha256": "784bf042cd643d3a66ad26a2a1ed7a5e5e4329c050ec4295ead319be7491b0b5"
+    },
+    {
+      "path": "generator/quality.py",
+      "sha256": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000"
+    },
+    {
+      "path": "generator/simulation.py",
+      "sha256": "1179f67674b71c3c9b1b09d3a72f32f24df30647004b0ccf82fecebe673a360c"
+    },
+    {
+      "path": "generator/storage.py",
+      "sha256": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d"
+    },
+    {
+      "path": "infra/compose.yaml",
+      "sha256": "45b4d989699f31e026532f6770f3ef7d0d53bdcedb9dcad8a9a0e2b83c92a18f"
+    },
+    {
+      "path": "infra/flink/Dockerfile",
+      "sha256": "75be46a5b6bcda4a1d34908e47d298ef64c78078bc1abdc9de4451afceeafebf"
+    },
+    {
+      "path": "infra/ingest.compose.yaml",
+      "sha256": "ea2dcb4317c7c20ad29eaad1ad6bbd85673e101d8aeb18459d401a3b31a675bf"
+    },
+    {
+      "path": "infra/spark/Dockerfile",
+      "sha256": "15f0c6334edce333a7b1fee52deefa252793917f53f5d877a0aabcc57b836c8c"
+    },
+    {
+      "path": "infra/streaming.compose.yaml",
+      "sha256": "544fee1c8a97d745ca26f01f9ae13a7ee04dee09c81797baec76da57a5c7ea25"
+    },
+    {
+      "path": "pipelines/__init__.py",
+      "sha256": "3fa18d7c6802d683dbcc51d2e39ebc899374ed8cba9eeee50bd5eb00ba57f90c"
+    },
+    {
+      "path": "pipelines/batch_job.py",
+      "sha256": "7d6f623dbdf0c9db0041cc82a604ba16c191e0cf6d40bb4a399c2f67309bae09"
+    },
+    {
+      "path": "pipelines/chunk_ingest.py",
+      "sha256": "bfedefd3aa72bb6eb3cb84d2ce4108d7c1b4970f31600c93353db2dca7e6c213"
+    },
+    {
+      "path": "pipelines/chunk_source.py",
+      "sha256": "0e0e14b524632f3f3be658cdd800af6216c450f556aadebb53440f9cb5dcb63a"
+    },
+    {
+      "path": "pipelines/features.py",
+      "sha256": "701f8b979d10da87724945fc79e625978d0807f3ffe0ece35a045069bbd37af4"
+    },
+    {
+      "path": "pipelines/ingest_metrics.py",
+      "sha256": "8012bef681482ea2f3b137916f9e96d9fb7caccd26a2e26d7a9548855206fa1a"
+    },
+    {
+      "path": "pipelines/source_loader.py",
+      "sha256": "fb2e1688a9c9150c2a17fc2fa660541f76cf1cdff38f211b7780f8082f6b97cb"
+    },
+    {
+      "path": "pipelines/spark_checks.py",
+      "sha256": "922658ecfafda7f7645406d82604266b410b574341e1a020683dc4f416625d06"
+    },
+    {
+      "path": "pipelines/stream_contract.py",
+      "sha256": "cd2a85c2bd8dda070ac0e174d12ac787201412425f75899a63c4580d69f9de06"
+    },
+    {
+      "path": "pipelines/stream_job.py",
+      "sha256": "478c4c9c7b38e56a93e53fd5236c432016e7fe2c3ee829202a4dc7979a9c46db"
+    },
+    {
+      "path": "pipelines/stream_verification.py",
+      "sha256": "7f959636c6ef74c4330a5ca8a9f480696762ecf34ecb506eef69afc947c6f3ae"
+    },
+    {
+      "path": "pipelines/temporal.py",
+      "sha256": "e0f7136601e0f75130832d670d62de834a3c3787d6357be2a865d58a50909e97"
+    },
+    {
+      "path": "pipelines/transforms.py",
+      "sha256": "a05a8aa054cedd4f6da194f487a93601e3d9a8dd1f0bfc359305396279fcaf33"
+    },
+    {
+      "path": "tests/test_chunk_source.py",
+      "sha256": "45dd88dfee5b1a0a8ceb0cbd430811b6f57ec726389ff1b0a266d97ea9ad1b18"
+    },
+    {
+      "path": "tests/test_chunked.py",
+      "sha256": "b7ef26d551655e49545adb6245b34c0ba5d6eaf4e6998c2a842f62176ed4265d"
+    },
+    {
+      "path": "tests/test_generator.py",
+      "sha256": "aeff14b978e94986f00efaea679ee223a608e1a71f0669757265a66ff15085ef"
+    },
+    {
+      "path": "tests/test_ingest_metrics.py",
+      "sha256": "3a75bba772f28ef66709d87906f513a7497f27031aa427f1dca5034598bd15e8"
+    },
+    {
+      "path": "tests/test_streaming.py",
+      "sha256": "c9f878d48d1fbe05d8333f9422829f49bdddfc8815821e02df3e92d82448dc2d"
+    },
+    {
+      "path": "tests/test_temporal.py",
+      "sha256": "d5c32e9427fcdf4c3309ea6b29ff8211b735100a508ed53b300cfc95f8759757"
+    }
+  ],
+  "scope": "One local ingest plus three same-query timing pairs; actual event metrics and cgroup memory, no large-scale/production/Airflow claim."
+}

@@ -1,0 +1,78 @@
+{
+  "catalog": {
+    "bytes": 6946,
+    "path": "files.jsonl",
+    "sha256": "9518fab037454f4962beb71f702ff1fb9834d71f7ab4160fa0952bb3b3055593"
+  },
+  "chunk_rows": 100000,
+  "compression": "none",
+  "config": {
+    "duration_hours": 288,
+    "export_delay_seconds": 3600,
+    "failure_threshold": 1.0,
+    "hot_factory_share": 0.7,
+    "late_max_seconds": 600,
+    "late_min_seconds": 300,
+    "late_rate": 0.05,
+    "machine_count": 200,
+    "maintenance_every_hours": 18,
+    "maintenance_minutes": 20,
+    "offline_duplicate_rate": 0.02,
+    "repair_minutes": 45,
+    "retry_delay_seconds": 2,
+    "sample_seconds": 60,
+    "schema_v2_fraction": 0.5,
+    "seed": 42,
+    "start_ts": "2026-10-01T00:00:00Z",
+    "stream_duplicate_rate": 0.015,
+    "wear_per_hour": 0.035
+  },
+  "format": "JSONL",
+  "format_version": "chunked-jsonl-1",
+  "max_buffered_deliveries": 250000,
+  "offline_payload_bytes": 1117608156,
+  "payload_bytes": 1117608156,
+  "peak_pending_deliveries": 0,
+  "physical_simulation_version": "1.0.0",
+  "scope": "Continuous history; state O(machines + bounded lateness), no resumable/checkpointed generation.",
+  "stream_generated": false,
+  "tables": {
+    "failures": {
+      "bytes": 490113,
+      "logical_sha256": "47b961ec6622d5bd82fc5ce0d9b406eb3c51a96b82cd0de327005d43941b0c75",
+      "parts": 1,
+      "rows": 2259
+    },
+    "machines": {
+      "bytes": 41600,
+      "logical_sha256": "b9013567c220f5ed82ece47f6da98e37bf1d138125770ae5119a4b8d38f6d26b",
+      "parts": 1,
+      "rows": 200
+    },
+    "maintenance": {
+      "bytes": 628130,
+      "logical_sha256": "064da448bc208feb8d255f108543ecd9f8f3814524486e1457f8f056bf42fe7e",
+      "parts": 1,
+      "rows": 2731
+    },
+    "stream": {
+      "bytes": 0,
+      "logical_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "parts": 0,
+      "rows": 0
+    },
+    "v1": {
+      "bytes": 539863447,
+      "logical_sha256": "9dbf1dccf9683263eb4999fad086821187a865d362e43614b276f3f7ac9b4f85",
+      "parts": 18,
+      "rows": 1762470
+    },
+    "v2": {
+      "bytes": 576584866,
+      "logical_sha256": "12cb398509831a637e75396471bd8aa152bad9bb15c21546a716473ce0187bd5",
+      "parts": 18,
+      "rows": 1762650
+    }
+  },
+  "transport_selection": "sequential-exact-1"
+}

@@ -1,0 +1,46 @@
+ Container iot-ingest-ingest-small-26 Creating 
+ Container iot-ingest-ingest-small-26 Created 
+26/10/26 16:04:00 INFO SparkContext: Running Spark version 3.5.9
+26/10/26 16:04:00 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/10/26 16:04:00 INFO SparkContext: Java version 17.0.19
+26/10/26 16:04:00 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/10/26 16:04:00 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+26/10/26 16:04:00 INFO ResourceUtils: ==============================================================
+26/10/26 16:04:00 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/10/26 16:04:00 INFO ResourceUtils: ==============================================================
+26/10/26 16:04:00 INFO SparkContext: Submitted application: iot-chunk-parquet-ingest
+26/10/26 16:04:00 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/10/26 16:04:00 INFO ResourceProfile: Limiting resource is cpu
+26/10/26 16:04:00 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/10/26 16:04:00 INFO SecurityManager: Changing view acls to: spark
+26/10/26 16:04:00 INFO SecurityManager: Changing modify acls to: spark
+26/10/26 16:04:00 INFO SecurityManager: Changing view acls groups to: 
+26/10/26 16:04:00 INFO SecurityManager: Changing modify acls groups to: 
+26/10/26 16:04:00 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark; groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY
+26/10/26 16:04:00 INFO Utils: Successfully started service 'sparkDriver' on port 45595.
+26/10/26 16:04:00 INFO SparkEnv: Registering MapOutputTracker
+26/10/26 16:04:01 INFO SparkEnv: Registering BlockManagerMaster
+26/10/26 16:04:01 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/10/26 16:04:01 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/10/26 16:04:01 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/10/26 16:04:01 INFO DiskBlockManager: Created local directory at /scratch/ingest-small-26/blockmgr-3b9f6f28-a65f-4cfd-b4c8-10685a2610fc
+26/10/26 16:04:01 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+26/10/26 16:04:01 INFO SparkEnv: Registering OutputCommitCoordinator
+26/10/26 16:04:01 INFO JettyUtils: Start Jetty 127.0.0.1:4040 for SparkUI
+26/10/26 16:04:01 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/10/26 16:04:01 INFO Executor: Starting executor ID driver on host localhost
+26/10/26 16:04:01 INFO Executor: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/10/26 16:04:01 INFO Executor: Java version 17.0.19
+26/10/26 16:04:01 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/10/26 16:04:01 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@5a3efd2 for default.
+26/10/26 16:04:01 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 38989.
+26/10/26 16:04:01 INFO NettyBlockTransferService: Server created on localhost:38989
+26/10/26 16:04:01 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/10/26 16:04:01 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, localhost, 38989, None)
+26/10/26 16:04:01 INFO BlockManagerMasterEndpoint: Registering block manager localhost:38989 with 434.4 MiB RAM, BlockManagerId(driver, localhost, 38989, None)
+26/10/26 16:04:01 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, localhost, 38989, None)
+26/10/26 16:04:01 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, localhost, 38989, None)
+26/10/26 16:04:01 INFO SingleEventLogFileWriter: Logging events to file:/workspace/data/ingest-events/local-1793030641363.inprogress
+PASS: 5 Spark known-answer checks
+UI ready: http://127.0.0.1:14040; waiting 30s
+PASS: chunked ingest; Bronze=117504, Silver=115200, checks=13

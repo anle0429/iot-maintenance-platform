@@ -1,0 +1,8 @@
+# Install the small set of OS dependencies needed by storage, Docker and the stdlib coursework tools.
+- name: Install base utilities from signed Ubuntu repositories
+  ansible.builtin.apt:
+    name: [ca-certificates, curl, git, util-linux, e2fsprogs, python3-venv, python3-apt]
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+    lock_timeout: 180

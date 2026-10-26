@@ -1,0 +1,61 @@
+{
+  "captured_utc": "2026-10-26T18:56:57.037146+00:00",
+  "host": "iot-cw-vm",
+  "kernel": "7.0.0-1014-gcp",
+  "host_python": "3.12.3",
+  "cpu_count": 8,
+  "cpu_model": "AMD EPYC 7B12",
+  "memory_total_bytes": 67419459584,
+  "docker": {
+    "ServerVersion": "29.9.2",
+    "DockerRootDir": "/srv/iot-fast/docker",
+    "Driver": "overlayfs",
+    "CgroupVersion": "2",
+    "NCPU": 8,
+    "MemTotal": 67419459584
+  },
+  "compose_version": "5.6.1",
+  "containerd_version": "containerd containerd v2.4.2 b7a25261e029d68978bbf290df0a62fc819b3c51",
+  "mounts": {
+    "/srv/iot-data": {
+      "total_bytes": 527295578112,
+      "free_bytes": 520351035392,
+      "mount": {
+        "filesystems": [
+          {
+            "target": "/srv/iot-data",
+            "source": "/dev/sdb",
+            "fstype": "ext4",
+            "uuid": "ea92c715-b5b5-46e4-826c-440b307186b9"
+          }
+        ]
+      }
+    },
+    "/srv/iot-fast": {
+      "total_bytes": 157396975616,
+      "free_bytes": 152528543744,
+      "mount": {
+        "filesystems": [
+          {
+            "target": "/srv/iot-fast",
+            "source": "/dev/sdc",
+            "fstype": "ext4",
+            "uuid": "81cd083f-bf8e-4121-aa59-2fd163312772"
+          }
+        ]
+      }
+    }
+  },
+  "source_files_match_manifest": true,
+  "runtime_source_manifest_sha256": "ba3d2fc5e4613cadbfa92ccba53eacfadbc38908c099f004f9f09caaff0210bc",
+  "bootstrap_sha256": {
+    "infra/ansible/bootstrap.yml": "1b452651b10ac9f08e339a20c61baca10de56289ae0c653556436026c97369ba",
+    "infra/ansible/requirements-controller.txt": "7d2bb2b354745d51dc77dbc80110438594dd805da51df7989bbd9ea24710238d",
+    "infra/ansible/roles/storage/tasks/disk.yml": "10b83fbbb7bac00be71e7a4ffa2962f15f940ac4e4df82d22ce8df1671c85a95",
+    "infra/ansible/roles/storage/tasks/main.yml": "e35fa21ea5090b43310fced728a246da77f36621e0750d1bdbee518f74105e21",
+    "infra/ansible/roles/pilot/tasks/main.yml": "037d828e1fbc3012f3371be59c6680dacc4b8b7b6ce3e59492e341cf04c04e71",
+    "infra/ansible/roles/docker/handlers/main.yml": "fd5a0dc6f7f65e19f12663226318fda0f88d0906d1385280361f12ab7296a6f7",
+    "infra/ansible/roles/docker/tasks/main.yml": "60f1727e8a90c50e33621eec5b17a9ff38449de3c53f347abb04204849ac55f5",
+    "infra/ansible/roles/common/tasks/main.yml": "38e206498d279307cb88d6d7e5f9571ea406a7e8ddef23985de8c5d82526b1ef"
+  }
+}

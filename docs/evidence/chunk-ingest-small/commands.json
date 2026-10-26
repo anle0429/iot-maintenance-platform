@@ -1,0 +1,103 @@
+[
+  {
+    "executable": "python.exe",
+    "arguments": [
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 6.2041531
+  },
+  {
+    "executable": "python.exe",
+    "arguments": [
+      "-m",
+      "pipelines.chunk_source",
+      "--source",
+      "data/source/chunked-release/pilot",
+      "--report",
+      "outputs/ingest-small-26/receipt.json"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 4.6052451
+  },
+  {
+    "executable": "docker.exe",
+    "arguments": [
+      "compose",
+      "-f",
+      "infra/ingest.compose.yaml",
+      "run",
+      "--rm",
+      "--user",
+      "0",
+      "--entrypoint",
+      "chmod",
+      "ingest",
+      "1777",
+      "/scratch"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 1.250297
+  },
+  {
+    "executable": "docker.exe",
+    "arguments": [
+      "compose",
+      "-f",
+      "infra/ingest.compose.yaml",
+      "run",
+      "--rm",
+      "--service-ports",
+      "--name",
+      "iot-ingest-ingest-small-26",
+      "ingest",
+      "--master",
+      "local[2]",
+      "--driver-memory",
+      "1g",
+      "--conf",
+      "spark.sql.session.timeZone=UTC",
+      "--conf",
+      "spark.local.dir=/scratch/ingest-small-26",
+      "--conf",
+      "spark.eventLog.enabled=true",
+      "--conf",
+      "spark.eventLog.dir=file:///workspace/data/ingest-events",
+      "pipelines/chunk_ingest.py",
+      "--source",
+      "data/source/chunked-release/pilot",
+      "--receipt",
+      "outputs/ingest-small-26/receipt.json",
+      "--output",
+      "data/lakehouse/ingest-small-26",
+      "--report",
+      "outputs/ingest-small-26/ingest-report.json",
+      "--partitions",
+      "8",
+      "--query-repetitions",
+      "3",
+      "--ui-pause-seconds",
+      "30"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 91.0879659
+  },
+  {
+    "executable": "python.exe",
+    "arguments": [
+      "-m",
+      "pipelines.ingest_metrics",
+      "--log",
+      "data/ingest-events/local-1793030641363",
+      "--report",
+      "outputs/ingest-small-26/spark-metrics.json"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.3060657
+  }
+]

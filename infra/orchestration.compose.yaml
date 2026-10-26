@@ -1,0 +1,85 @@
+# Private, single-VM coursework orchestration; publish only loopback UI ports.
+name: iot-orchestration
+x-airflow: &airflow
+  image: iot-coursework-airflow:3.1.7
+  build:
+    context: ..
+    dockerfile: infra/airflow/Dockerfile
+  user: "50000:0"
+  group_add: ["${DOCKER_GID:?run start-orchestration.py}"]
+  environment: &airflow-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:${AIRFLOW_DB_PASSWORD}@airflow-db/airflow
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    AIRFLOW__CORE__DAGS_FOLDER: ${IOT_ROOT}/airflow/dags
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "false"
+    AIRFLOW__CORE__PARALLELISM: "3"
+    AIRFLOW__CORE__MAX_ACTIVE_TASKS_PER_DAG: "2"
+    AIRFLOW__CORE__EXECUTION_API_SERVER_URL: http://airflow-api:8080/execution/
+    AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS: learner:admin
+    AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_PASSWORDS_FILE: /opt/airflow/secrets/airflow-users.json
+    AIRFLOW__API_AUTH__JWT_SECRET: ${AIRFLOW_JWT_SECRET}
+    AIRFLOW__API__SECRET_KEY: ${AIRFLOW_API_SECRET}
+    AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW_FERNET_KEY}
+    AIRFLOW__LOGGING__LOGGING_LEVEL: INFO
+    AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: "true"
+    AIRFLOW__DAG_PROCESSOR__REFRESH_INTERVAL: "10"
+    PYTHONPATH: ${IOT_ROOT}
+    IOT_ROOT: ${IOT_ROOT}
+    DATAHUB_GMS_URL: http://datahub-gms:8080
+  volumes:
+    - ${IOT_ROOT}:${IOT_ROOT}:ro
+    - ${IOT_ROOT}/outputs:${IOT_ROOT}/outputs
+    - ${IOT_ROOT}/data:${IOT_ROOT}/data
+    - ${IOT_ROOT}/data/runtime/airflow-logs:/opt/airflow/logs
+    - ${IOT_ROOT}/data/runtime/secrets:/opt/airflow/secrets
+    - /var/run/docker.sock:/var/run/docker.sock
+  working_dir: ${IOT_ROOT}
+  networks: [metadata]
+  mem_limit: 3g
+  cpus: 2
+  restart: unless-stopped
+  depends_on:
+    airflow-db:
+      condition: service_healthy
+services:
+  airflow-db:
+    image: postgres:16.11-bookworm
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: ${AIRFLOW_DB_PASSWORD}
+      POSTGRES_DB: airflow
+    volumes: [airflow-db:/var/lib/postgresql/data]
+    networks: [metadata]
+    mem_limit: 1g
+    cpus: 1
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U airflow"]
+      interval: 5s
+      retries: 20
+  airflow-init:
+    <<: *airflow
+    command: db migrate
+    restart: "no"
+  airflow-api:
+    <<: *airflow
+    command: api-server --workers 1
+    ports: ["127.0.0.1:18480:8080"]
+    healthcheck:
+      test: [CMD, curl, --fail, http://localhost:8080/api/v2/monitor/health]
+      interval: 15s
+      retries: 30
+      start_period: 60s
+  airflow-scheduler:
+    <<: *airflow
+    command: scheduler
+  airflow-dag-processor:
+    <<: *airflow
+    command: dag-processor
+networks:
+  metadata:
+    name: iot-metadata
+    external: true
+volumes:
+  airflow-db:

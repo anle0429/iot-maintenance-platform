@@ -1,0 +1,285 @@
+{
+  "airflow": "3.1.7",
+  "checked_utc": "2026-10-26T19:57:39.534220+00:00",
+  "cpu_count": 8,
+  "datahub_sdk": "1.6.0",
+  "disk_free_bytes": {
+    "/srv/iot-data": 520311848960,
+    "/srv/iot-fast": 133858365440
+  },
+  "images": [
+    {
+      "id": "sha256:da0a69c50e858fc8e5cd7b5caac82e1832d7bbc59c964f14d45c7c7233ce9b01",
+      "repo_digests": [
+        "iot-coursework-airflow@sha256:da0a69c50e858fc8e5cd7b5caac82e1832d7bbc59c964f14d45c7c7233ce9b01"
+      ],
+      "tags": [
+        "iot-coursework-airflow:3.1.7"
+      ]
+    },
+    {
+      "id": "sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695",
+      "repo_digests": [
+        "iot-coursework-metadata@sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695"
+      ],
+      "tags": [
+        "iot-coursework-metadata:1.6.0"
+      ]
+    },
+    {
+      "id": "sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417",
+      "repo_digests": [
+        "iot-coursework-spark@sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417"
+      ],
+      "tags": [
+        "iot-coursework-spark:3.5.9"
+      ]
+    }
+  ],
+  "machine": "iot-cw-vm",
+  "meminfo": [
+    "MemTotal:       65839316 kB",
+    "MemFree:        45118932 kB",
+    "MemAvailable:   59078644 kB"
+  ],
+  "python_host": "3.12.3",
+  "runtime_source": "Working-tree snapshot over IAP; Git commit mapping verified on PC after commit.",
+  "source_files": [
+    {
+      "path": "airflow/dags/iot_data_pipelines.py",
+      "sha256": "930c89c802261a241d75b6667e14f0a4a96ea5808a757fac93bd3b318471b970"
+    },
+    {
+      "path": "generator/__init__.py",
+      "sha256": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172"
+    },
+    {
+      "path": "generator/__main__.py",
+      "sha256": "045e4f5ac449b48e75856dba9a3a1c25cca6d985e5ba57bcc86792f893c25ba5"
+    },
+    {
+      "path": "generator/capacity.py",
+      "sha256": "da846d8671936ea371226581c504071e05905d03afb2fbf43861a854373c5241"
+    },
+    {
+      "path": "generator/chunk_quality.py",
+      "sha256": "a8ff63b5f518dbd117ea92926e08b8d2d98dc24601fe359eebab1faca042e79e"
+    },
+    {
+      "path": "generator/chunked.py",
+      "sha256": "9b8705e9156966c08c02fd604739c3cb416a48fbc0881f21c5cce735e03f1b2c"
+    },
+    {
+      "path": "generator/config.py",
+      "sha256": "087682ae48dceb64865cdca983b7642ab9d256bb0083da165d296196c21cb3de"
+    },
+    {
+      "path": "generator/quality.py",
+      "sha256": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000"
+    },
+    {
+      "path": "generator/simulation.py",
+      "sha256": "1179f67674b71c3c9b1b09d3a72f32f24df30647004b0ccf82fecebe673a360c"
+    },
+    {
+      "path": "generator/storage.py",
+      "sha256": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d"
+    },
+    {
+      "path": "infra/airflow/Dockerfile",
+      "sha256": "21418ff3cd56be61909808bf1a2a0ce843c43baa56899479f0174fb6a35c7e02"
+    },
+    {
+      "path": "infra/ansible/bootstrap.yml",
+      "sha256": "1b452651b10ac9f08e339a20c61baca10de56289ae0c653556436026c97369ba"
+    },
+    {
+      "path": "infra/ansible/roles/common/tasks/main.yml",
+      "sha256": "38e206498d279307cb88d6d7e5f9571ea406a7e8ddef23985de8c5d82526b1ef"
+    },
+    {
+      "path": "infra/ansible/roles/docker/handlers/main.yml",
+      "sha256": "fd5a0dc6f7f65e19f12663226318fda0f88d0906d1385280361f12ab7296a6f7"
+    },
+    {
+      "path": "infra/ansible/roles/docker/tasks/main.yml",
+      "sha256": "60f1727e8a90c50e33621eec5b17a9ff38449de3c53f347abb04204849ac55f5"
+    },
+    {
+      "path": "infra/ansible/roles/pilot/tasks/main.yml",
+      "sha256": "037d828e1fbc3012f3371be59c6680dacc4b8b7b6ce3e59492e341cf04c04e71"
+    },
+    {
+      "path": "infra/ansible/roles/storage/tasks/disk.yml",
+      "sha256": "10b83fbbb7bac00be71e7a4ffa2962f15f940ac4e4df82d22ce8df1671c85a95"
+    },
+    {
+      "path": "infra/ansible/roles/storage/tasks/main.yml",
+      "sha256": "e35fa21ea5090b43310fced728a246da77f36621e0750d1bdbee518f74105e21"
+    },
+    {
+      "path": "infra/compose.yaml",
+      "sha256": "45b4d989699f31e026532f6770f3ef7d0d53bdcedb9dcad8a9a0e2b83c92a18f"
+    },
+    {
+      "path": "infra/datahub/Dockerfile",
+      "sha256": "2a555caf6cda681c7e850af75978d7d60fbe267dba7c269ded51b008c1ef54b2"
+    },
+    {
+      "path": "infra/datahub.compose.yaml",
+      "sha256": "f6e1d4a8eb1af69c494803e917248179fde59441a163d32d4cee6a3644b2e02a"
+    },
+    {
+      "path": "infra/flink/Dockerfile",
+      "sha256": "75be46a5b6bcda4a1d34908e47d298ef64c78078bc1abdc9de4451afceeafebf"
+    },
+    {
+      "path": "infra/gcp/estimate.py",
+      "sha256": "c7d5223e866fde17c15f5d2b3d29cebe68f66bfc76d1534ff5c3eca17faef9ee"
+    },
+    {
+      "path": "infra/ingest.cloud.compose.yaml",
+      "sha256": "68b785ecd22a6350453f01012678f44e6a28700ae18936406216e29c399dc9ff"
+    },
+    {
+      "path": "infra/ingest.compose.yaml",
+      "sha256": "cf1a0601c74e01436e8c783e5d04f8f01f94012b07a6688ecc652f9e0b9743a2"
+    },
+    {
+      "path": "infra/orchestration.compose.yaml",
+      "sha256": "63d4e6b75f9945984a8a413febb80f77cdb20e4b6b4bf2bd5d41abd68b2367d8"
+    },
+    {
+      "path": "infra/spark/Dockerfile",
+      "sha256": "15f0c6334edce333a7b1fee52deefa252793917f53f5d877a0aabcc57b836c8c"
+    },
+    {
+      "path": "infra/streaming.compose.yaml",
+      "sha256": "544fee1c8a97d745ca26f01f9ae13a7ee04dee09c81797baec76da57a5c7ea25"
+    },
+    {
+      "path": "ml/__init__.py",
+      "sha256": "f72c7b8641a6376aa7bac523df071c3205a7c21276534aeb6aa9b32412890e98"
+    },
+    {
+      "path": "ml/baseline.py",
+      "sha256": "46b370ca6665a0309c23380b76cd2915971782c159f3297969a8602ac0e537dc"
+    },
+    {
+      "path": "ml/evaluation.py",
+      "sha256": "8379f97241b4e889e0c4a44f42983420f0840446272aabc1f41f1ffde6baeb4f"
+    },
+    {
+      "path": "pipelines/__init__.py",
+      "sha256": "3fa18d7c6802d683dbcc51d2e39ebc899374ed8cba9eeee50bd5eb00ba57f90c"
+    },
+    {
+      "path": "pipelines/airflow_tasks.py",
+      "sha256": "c657b418c10c5e0fe7345b2b3d7550c965a4cf3dfaf8f0095d5f37b0e97fdedc"
+    },
+    {
+      "path": "pipelines/batch_job.py",
+      "sha256": "7d6f623dbdf0c9db0041cc82a604ba16c191e0cf6d40bb4a399c2f67309bae09"
+    },
+    {
+      "path": "pipelines/chunk_ingest.py",
+      "sha256": "bfedefd3aa72bb6eb3cb84d2ce4108d7c1b4970f31600c93353db2dca7e6c213"
+    },
+    {
+      "path": "pipelines/chunk_source.py",
+      "sha256": "0e0e14b524632f3f3be658cdd800af6216c450f556aadebb53440f9cb5dcb63a"
+    },
+    {
+      "path": "pipelines/features.py",
+      "sha256": "701f8b979d10da87724945fc79e625978d0807f3ffe0ece35a045069bbd37af4"
+    },
+    {
+      "path": "pipelines/ingest_metrics.py",
+      "sha256": "8012bef681482ea2f3b137916f9e96d9fb7caccd26a2e26d7a9548855206fa1a"
+    },
+    {
+      "path": "pipelines/metadata_publish.py",
+      "sha256": "348edd61be0956c29cb4d944e6d3910093016b569395cbf36527db65cc05bff3"
+    },
+    {
+      "path": "pipelines/orchestrated_job.py",
+      "sha256": "0b52842cb7130c3352263dbf9b69996e5c77869552728656d37b8ed832452f0c"
+    },
+    {
+      "path": "pipelines/orchestration_contract.py",
+      "sha256": "ba13ec6b1083fa84a65488f3de4192eae48bd7768f8a877363cfc808f12e977a"
+    },
+    {
+      "path": "pipelines/source_loader.py",
+      "sha256": "fb2e1688a9c9150c2a17fc2fa660541f76cf1cdff38f211b7780f8082f6b97cb"
+    },
+    {
+      "path": "pipelines/spark_checks.py",
+      "sha256": "922658ecfafda7f7645406d82604266b410b574341e1a020683dc4f416625d06"
+    },
+    {
+      "path": "pipelines/stream_contract.py",
+      "sha256": "cd2a85c2bd8dda070ac0e174d12ac787201412425f75899a63c4580d69f9de06"
+    },
+    {
+      "path": "pipelines/stream_job.py",
+      "sha256": "478c4c9c7b38e56a93e53fd5236c432016e7fe2c3ee829202a4dc7979a9c46db"
+    },
+    {
+      "path": "pipelines/stream_verification.py",
+      "sha256": "7f959636c6ef74c4330a5ca8a9f480696762ecf34ecb506eef69afc947c6f3ae"
+    },
+    {
+      "path": "pipelines/temporal.py",
+      "sha256": "e0f7136601e0f75130832d670d62de834a3c3787d6357be2a865d58a50909e97"
+    },
+    {
+      "path": "pipelines/transforms.py",
+      "sha256": "a05a8aa054cedd4f6da194f487a93601e3d9a8dd1f0bfc359305396279fcaf33"
+    },
+    {
+      "path": "scripts/collect-orchestration-evidence.py",
+      "sha256": "6beeaa50c159bc68f0bee17c2ed3407fb8587b134266898faa788b0306561ec0"
+    },
+    {
+      "path": "scripts/run-cloud-ingest.py",
+      "sha256": "31b853bafac543dc3848663bf3b76149dea8f2f6bacf32804d7aed37f8505368"
+    },
+    {
+      "path": "scripts/start-orchestration.py",
+      "sha256": "8bbe02fcb3d468e10123959ec5360417b8fd79cf9ca784b14dec19f1862a824d"
+    },
+    {
+      "path": "scripts/verify-orchestration.py",
+      "sha256": "d2c3056135ada5d53f072c5c45718570dbea377ec9fc1d08f90167df69a5a245"
+    },
+    {
+      "path": "tests/test_chunk_source.py",
+      "sha256": "45dd88dfee5b1a0a8ceb0cbd430811b6f57ec726389ff1b0a266d97ea9ad1b18"
+    },
+    {
+      "path": "tests/test_chunked.py",
+      "sha256": "b7ef26d551655e49545adb6245b34c0ba5d6eaf4e6998c2a842f62176ed4265d"
+    },
+    {
+      "path": "tests/test_generator.py",
+      "sha256": "aeff14b978e94986f00efaea679ee223a608e1a71f0669757265a66ff15085ef"
+    },
+    {
+      "path": "tests/test_ingest_metrics.py",
+      "sha256": "3a75bba772f28ef66709d87906f513a7497f27031aa427f1dca5034598bd15e8"
+    },
+    {
+      "path": "tests/test_orchestration_contract.py",
+      "sha256": "d012fb257e3693afb5a232ef0383a49b34f7d9e371e8e16f40a9a0e2af69d928"
+    },
+    {
+      "path": "tests/test_streaming.py",
+      "sha256": "c9f878d48d1fbe05d8333f9422829f49bdddfc8815821e02df3e92d82448dc2d"
+    },
+    {
+      "path": "tests/test_temporal.py",
+      "sha256": "d5c32e9427fcdf4c3309ea6b29ff8211b735100a508ed53b300cfc95f8759757"
+    }
+  ]
+}

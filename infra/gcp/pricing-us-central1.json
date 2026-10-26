@@ -1,0 +1,22 @@
+{
+  "kind": "public_list_price_estimate_only",
+  "checked_date": "2026-10-26",
+  "region": "us-central1",
+  "currency": "USD",
+  "machine_type": "e2-standard-4",
+  "vm_per_hour": "0.13402284",
+  "vm_hourly_by_machine_type": {
+    "e2-standard-4": "0.13402284",
+    "e2-standard-8": "0.26804568",
+    "e2-highmem-8": "0.36159864"
+  },
+  "standard_disk_per_gib_hour": "0.000054795",
+  "balanced_disk_per_gib_hour": "0.000136986",
+  "external_ipv4_per_running_hour": "0.005",
+  "sources": {
+    "compute": "https://cloud.google.com/products/compute/pricing/general-purpose",
+    "disk": "https://cloud.google.com/compute/disks-image-pricing",
+    "ipv4": "https://cloud.google.com/vpc/network-pricing#ipaddress"
+  },
+  "scope": "Public on-demand USD rates observed for Iowa, no CUD/Spot/Free Tier discounts subtracted. This is not an account-specific quote or an authorization to provision. Excludes data transfer, logging, snapshots, taxes, exchange rates and other services."
+}

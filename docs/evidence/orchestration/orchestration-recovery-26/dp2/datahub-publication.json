@@ -1,0 +1,284 @@
+{
+  "acknowledged_aspects": 133,
+  "assertions": [
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)",
+      "name": "persisted_row_count",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-a9b880f96efc9ac104f2976a6249fcaec1cd1e85bbe833ec41f89520c0573044"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)",
+      "name": "persisted_schema",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-61e8f962e979fd61c9227ac6e2b57ec9513f7ada12e3f2b3a033199b1b112812"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_failures,DEV)",
+      "name": "persisted_row_count",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-694f575f93628c72ff8661b9bf52cf3d5049435bf6e6669bb34d1f0fb0aea7e9"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_failures,DEV)",
+      "name": "persisted_schema",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-a78cf612cfc9cac057d087f47bdc165c62f941a1f4d30faab6dd961734978dd9"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_maintenance,DEV)",
+      "name": "persisted_row_count",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-1313ec00c06b9be561fdedddf4c8af37134f284297c495955aaa056fed6a6530"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_maintenance,DEV)",
+      "name": "persisted_schema",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-55847829df10ce6217fd9afcaff92d147758874f77543d1e5013809eb17fb163"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)",
+      "name": "persisted_row_count",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-f858f70bb6c8a3fe502e99dd14f240f457718f638c3e4ac740a37f30477598cf"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)",
+      "name": "persisted_schema",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-84d5da200951c43878f2e3726e412f35318f57b227dc4dbc948c00b7d591dc64"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_factory,DEV)",
+      "name": "persisted_row_count",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-55bf3d4eb8aa8379df4f92b853fd1a5a9f6960522a6f4e03aeff775dd5bc45dd"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_factory,DEV)",
+      "name": "persisted_schema",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-6a11e114e102f0c03593a6912f14f860ead9e7dd9980bd42bd1919edec340198"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_telemetry,DEV)",
+      "name": "persisted_row_count",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-fec93bbb79cf50a8d3789fac7e12810bdaabeb20ea2d0938ddc9b62689f928b2"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_telemetry,DEV)",
+      "name": "persisted_schema",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-377a4408e2b76df6827ce2ff821d680a7f5e5a90418caf324d0a681e9866ba07"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_failure,DEV)",
+      "name": "persisted_row_count",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-19c9eb38b10d6684f194b4d6a3530861b4d504f4636860722cd04f737f7daa54"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_failure,DEV)",
+      "name": "persisted_schema",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-20d25397781174bcecdaa4c0b4e9efc751e8e09458a0ec2ef144f6b471662517"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_maintenance,DEV)",
+      "name": "persisted_row_count",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-8c4bf454df106186e9d8b1362216bb6597184dffc014df18537f63cddf07576a"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_maintenance,DEV)",
+      "name": "persisted_schema",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-10a3f8e46ffb81f15aa7c3df97df301d8db0a3ad391eb7f1281f4e6d6894dda7"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)",
+      "name": "exact_multiset_readback",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-725f3fd73ccc12b1d6f03d242b600b82c7cca972628f31afbc64a815ee0dc070"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)",
+      "name": "expected_unique_events",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-415e5f15546d38e0d16ade143c6523d6e7bff9e060acc8ac17b3d9cbdffbc21d"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)",
+      "name": "unique_event_id",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-cfc8815384406510df21f29ce6f23a3b84ee79ca1347c7cce53dce25a47bd7ed"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)",
+      "name": "replay_idempotent",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-e862deb68debf39003f0d27df8de2045f9498da25544513c58e1a40d286ee255"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)",
+      "name": "latest_created_export",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-e6dc14a3653112b4310d9e778b35ca130982353355dd9893216542e460e2a689"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)",
+      "name": "one_current_version",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-c7d13b4da940826774a34cfab0d43ad373983ef298e7e88cefbf64dc3db56252"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)",
+      "name": "valid_scd_intervals",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-354c95836a3aace64cf7acab7247731d0a6f9ee0a1abd588298abe67a9c1e050"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_telemetry,DEV)",
+      "name": "dimension_join_preserves_rows",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-50fe5c805896daed5226e52b77b13ee2865c862c8502cc59e315c0c59cfa656e"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_telemetry,DEV)",
+      "name": "dimension_foreign_key",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-46b9d003954a4ae44132bf19e6146530967ea1c9bc0f9677d573ed8c2efbc2c6"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_failure,DEV)",
+      "name": "dimension_join_preserves_rows",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-cbff5466d34b161b3c143eee00fc909d704a408001d193942eada6814845dfa8"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_failure,DEV)",
+      "name": "dimension_foreign_key",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-11b7ca33a2925c37ce74efd5776f042037b5c6a40b26be47b69234e769612fb9"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_maintenance,DEV)",
+      "name": "dimension_join_preserves_rows",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-db99a982dd307b36b817c135404177e27c7aec49a0bf0492521532ae06352f9e"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_maintenance,DEV)",
+      "name": "dimension_foreign_key",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-ff40195c68324327a650e5921c30cee3e6a11619b3100fa92a221f74d675fb6d"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_failures,DEV)",
+      "name": "exact_multiset_readback",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-180684308233b854e52470d8c148532c07a9ed81785913b8855c7767fa737f74"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_maintenance,DEV)",
+      "name": "exact_multiset_readback",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-5632e6e38711ba7962f8624d3bbaaa8cb52f291cb8337dbd99109a8d213a7f1e"
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_factory,DEV)",
+      "name": "exact_multiset_readback",
+      "result": "SUCCESS",
+      "urn": "urn:li:assertion:iot-3154299cf3602d3293d6d7f88bce03d2dc149828cf196e0b49dfc122dbcaade5"
+    }
+  ],
+  "batch": "orchestration-recovery-26",
+  "datasets_read_back": [
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)",
+      "schema_fields": 14,
+      "upstreams": [
+        "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_telemetry,DEV)"
+      ]
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_failures,DEV)",
+      "schema_fields": 8,
+      "upstreams": [
+        "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_failures,DEV)"
+      ]
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_maintenance,DEV)",
+      "schema_fields": 9,
+      "upstreams": [
+        "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_maintenance,DEV)"
+      ]
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)",
+      "schema_fields": 11,
+      "upstreams": [
+        "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_machines,DEV)"
+      ]
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_factory,DEV)",
+      "schema_fields": 1,
+      "upstreams": [
+        "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)"
+      ]
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_telemetry,DEV)",
+      "schema_fields": 16,
+      "upstreams": [
+        "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)",
+        "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)"
+      ]
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_failure,DEV)",
+      "schema_fields": 10,
+      "upstreams": [
+        "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_failures,DEV)",
+        "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)"
+      ]
+    },
+    {
+      "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_maintenance,DEV)",
+      "schema_fields": 11,
+      "upstreams": [
+        "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_maintenance,DEV)",
+        "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)"
+      ]
+    }
+  ],
+  "flow": "urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm)",
+  "job": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm),ingest)",
+  "job_inputs": [
+    "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_failures,DEV)",
+    "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_machines,DEV)",
+    "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_maintenance,DEV)",
+    "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_telemetry,DEV)"
+  ],
+  "job_outputs": [
+    "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)",
+    "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_failures,DEV)",
+    "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_maintenance,DEV)",
+    "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)",
+    "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_factory,DEV)",
+    "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_telemetry,DEV)",
+    "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_failure,DEV)",
+    "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_maintenance,DEV)"
+  ],
+  "published": true,
+  "published_utc": "2026-10-26T19:55:49.981613+00:00",
+  "scope": "GMS schema/lineage/job/assertion definition readback; assertion run history verified separately via GraphQL.",
+  "sdk": "1.6.0",
+  "stage": "dp2",
+  "validation_passed": true,
+  "validation_sha256": "b36ab6a67e80458522a2fe87bc3d9c4f1b4391deca2f3adf58e2f2f3144c9367"
+}

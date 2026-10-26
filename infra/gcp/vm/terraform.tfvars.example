@@ -1,0 +1,9 @@
+# Copy to terraform.tfvars locally; real project/account values stay out of Git.
+project_id      = "your-project-id"
+operator_member = "user:learner@example.com"
+name_prefix     = "iot-cw"
+region          = "us-central1"
+zone            = "us-central1-a"
+profile         = "basic"
+data_disk_gib   = 500
+session_hours   = 8

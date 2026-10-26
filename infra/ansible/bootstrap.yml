@@ -1,0 +1,50 @@
+# Configure only the explicitly identified coursework VM; never run this playbook against an arbitrary host.
+- name: Bootstrap the approved IoT VM
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  vars:
+    iot_owner: "{{ lookup('ansible.builtin.env', 'USER') }}"
+    iot_disks:
+      - device: /dev/disk/by-id/google-coursework-data
+        bytes: 536870912000
+        label: iot-data
+        mount: /srv/iot-data
+      - device: /dev/disk/by-id/google-coursework-scratch
+        bytes: 161061273600
+        label: iot-fast
+        mount: /srv/iot-fast
+  pre_tasks:
+    - name: Require an explicit target project and VM
+      ansible.builtin.assert:
+        that:
+          - expected_project_id is defined
+          - expected_vm_name is defined
+          - ansible_facts.distribution == 'Ubuntu'
+          - ansible_facts.distribution_version == '24.04'
+    - name: Read the actual Google Cloud project
+      ansible.builtin.uri:
+        url: http://metadata.google.internal/computeMetadata/v1/project/project-id
+        headers: {Metadata-Flavor: Google}
+        return_content: true
+        use_proxy: false
+      register: metadata_project
+    - name: Read the actual VM name
+      ansible.builtin.uri:
+        url: http://metadata.google.internal/computeMetadata/v1/instance/name
+        headers: {Metadata-Flavor: Google}
+        return_content: true
+        use_proxy: false
+      register: metadata_vm
+    - name: Refuse any other machine before package or disk changes
+      ansible.builtin.assert:
+        that:
+          - metadata_project.content == expected_project_id
+          - metadata_vm.content == expected_vm_name
+  roles:
+    - common
+    - storage
+    - docker
+    - role: pilot
+      when: iot_deploy_pilot | default(false) | bool

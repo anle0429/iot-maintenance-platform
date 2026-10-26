@@ -1,0 +1,124 @@
+{
+  "kind": "authenticated_terraform_plan_not_applied",
+  "created_utc": "2026-10-26T17:44:23.484483+00:00",
+  "resource_actions": [
+    {
+      "address": "google_compute_disk.data",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "google_compute_firewall.iap_ssh",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "google_compute_instance.coursework",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "google_compute_network.coursework",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "google_compute_subnetwork.coursework",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "google_project_iam_member.operator[\"roles/compute.osAdminLogin\"]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "google_project_iam_member.operator[\"roles/iap.tunnelResourceAccessor\"]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "google_project_service.required[\"compute.googleapis.com\"]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "google_project_service.required[\"iam.googleapis.com\"]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "google_project_service.required[\"iap.googleapis.com\"]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "google_project_service.required[\"oslogin.googleapis.com\"]",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "google_service_account.workload",
+      "actions": [
+        "create"
+      ]
+    },
+    {
+      "address": "google_service_account_iam_member.operator",
+      "actions": [
+        "create"
+      ]
+    }
+  ],
+  "add": 13,
+  "change": 0,
+  "destroy": 0,
+  "vm": {
+    "name": "iot-cw-vm",
+    "machine_type": "e2-standard-4",
+    "zone": "us-central1-a",
+    "boot_disk_gib": 50,
+    "data_disk_gib": 500,
+    "data_disk_type": "pd-standard",
+    "max_session_seconds": 28800,
+    "termination_action": "STOP"
+  },
+  "network": {
+    "iap_source": [
+      "35.235.240.0/20"
+    ],
+    "ssh_ports": [
+      "22"
+    ],
+    "ephemeral_ipv4": true,
+    "public_application_ingress": false
+  },
+  "billing_link_enabled": true,
+  "project_active": true,
+  "free_trial_balance_verified": false,
+  "account_identifiers_omitted": true,
+  "existing_coursework_vm_count_before_apply": 0,
+  "raw_plan_sha256": "ecbd96d3b001752d6d7aa11d7466577167fee8918a9402bc32ec787405550573",
+  "module_sha256": {
+    "infra/gcp/estimate.py": "5a0d592403e4f23af8f3d829a4104f3b9df54c916392ab72210f90053d529417",
+    "infra/gcp/pricing-us-central1.json": "9cae7b99d1910766ad7a55726ee50cb0bc978acd79f8563d04d79f2a5ff59418",
+    "infra/gcp/vm/.terraform.lock.hcl": "3d074fb86810d0313d03cd6f596742d38b13ee312a531aacd687eb7a33b0ea54",
+    "infra/gcp/vm/main.tf": "c1403f46860b8725601dc2bb032ce4224ca79c247abdc31ad6dbe87a348c1d21",
+    "infra/gcp/vm/outputs.tf": "6ff592b3c3dcf276250a28a511df37b07684b3066be891e9bdc0b7be5cfc8410",
+    "infra/gcp/vm/variables.tf": "941f89b9cb54845ba2f275a5da7638330e86a4d6406afb898e0dec6e5a426774",
+    "infra/gcp/vm/versions.tf": "c786e2b5dc05d46174f774f18ded6a3f188667d360e8c0d8a0afeb95ca366966",
+    "infra/gcp/vm/tests/plan.tftest.hcl": "c80dd09006e4071ef797712f65292ead80eb5aff228111e500212193fa61ea83"
+  },
+  "scope": "A real authenticated plan, not a deployment. The earlier balanced-disk plan was superseded after quota review. Actual image, provisioning, IAP connectivity, disk mounting and runtime auto-stop remain unverified."
+}

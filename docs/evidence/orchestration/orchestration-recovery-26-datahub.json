@@ -1,0 +1,2359 @@
+{
+  "batch": "orchestration-recovery-26",
+  "checked_utc": "2026-10-26T19:57:28.807093+00:00",
+  "datasets": [
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "source_manifest_binding",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-501db8034cd4a2e554a7c16b8557e8934c3668f4fe6eeb4149f72ef3768e1ae6"
+          },
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-d960c728a9fff4b97b1dccc4d40d725b4517960b6fd8ca3e09c28084fa7e5aa9"
+          },
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-3d97a184e79d8040f976468f2242a828ca7c8b3802f60915fea08c843b95f26d"
+          },
+          {
+            "info": {
+              "description": "exact_multiset_readback",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 1,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "FAILURE"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 2,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-8abc065214f9de5f78ae3a0537d5f419c7d89b674f84402cfd8f6409d9b191cc"
+          },
+          {
+            "info": {
+              "description": "firmware_contract",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-c6bef2b139586b7ddfc220e816ba491762dd5d75ae8588e01ee1b20bd6f61437"
+          },
+          {
+            "info": {
+              "description": "catalog_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-acbbf91ad9523e9545ec610c13d1904e99f14528cb29b3bed09db6656abcb225"
+          },
+          {
+            "info": {
+              "description": "required_fields_and_times",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 1,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "FAILURE"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 2,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-55f2b0944254e9f8c478b6b94dd75a27269b73143aae20188190896c6893fb5c"
+          },
+          {
+            "info": {
+              "description": "machine_foreign_key",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 1,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "FAILURE"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 2,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-9f7618295ed33b051dfcfc61fc3b0901cfd782c1f9972aece27fe5b59388ed0b"
+          }
+        ],
+        "total": 8
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp1_bronze,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:file,iot.raw.telemetry,DEV)"
+            },
+            "type": "DownstreamOf"
+          }
+        ],
+        "total": 2
+      },
+      "name": "bronze/raw_telemetry",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_telemetry,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-3fdbed1b92307715e4cbdc0684b4777cc6a9dd95a7da77b88aaf77d1e52ee235"
+          },
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-c6b8d255f6a46e851bdf79f06a7cbe26d12d6b6119e60a276e9cd5173462f27d"
+          },
+          {
+            "info": {
+              "description": "exact_multiset_readback",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-9d17bddaee1966e4c3c495899711f4571fe7b36fe5a4caa4b9ae2587e1c30871"
+          }
+        ],
+        "total": 3
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp1_bronze,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:file,iot.raw.machines,DEV)"
+            },
+            "type": "DownstreamOf"
+          }
+        ],
+        "total": 2
+      },
+      "name": "bronze/raw_machines",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_machines,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-3c81853e08d8f073c12e81a871fdf2ab58bc0dc2c71e9dee53e5a1f178229f1b"
+          },
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-464e941ae205372d52684e27f2aedd37fbe92e93ca900543a6e768179e202c30"
+          },
+          {
+            "info": {
+              "description": "exact_multiset_readback",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-b1910eb8fa41a56a6e3c1cf4e8197a1840555a83b33cb4cf2614a73047453163"
+          }
+        ],
+        "total": 3
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp1_bronze,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:file,iot.raw.failures,DEV)"
+            },
+            "type": "DownstreamOf"
+          }
+        ],
+        "total": 2
+      },
+      "name": "bronze/raw_failures",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_failures,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "exact_multiset_readback",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-8f48160ca646d85747c25c5c910796a5fc89e1a3df2713402aba586b6c81e86a"
+          },
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-0f19468c2b87074c457aa94eae8c92a439735eb3a1c88a805250ff9af8cea3ee"
+          },
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044475894
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "fixture-null-machine-26",
+                  "timestampMillis": 1793044347742
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044089898
+                }
+              ],
+              "succeeded": 3,
+              "total": 3
+            },
+            "urn": "urn:li:assertion:iot-0a7442a2056aa77100739629fd8e2b117bcc41eb9ff7d459b94c3320a8050a76"
+          }
+        ],
+        "total": 3
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp1_bronze,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:file,iot.raw.maintenance,DEV)"
+            },
+            "type": "DownstreamOf"
+          }
+        ],
+        "total": 2
+      },
+      "name": "bronze/raw_maintenance",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_maintenance,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-a9b880f96efc9ac104f2976a6249fcaec1cd1e85bbe833ec41f89520c0573044"
+          },
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-61e8f962e979fd61c9227ac6e2b57ec9513f7ada12e3f2b3a033199b1b112812"
+          },
+          {
+            "info": {
+              "description": "expected_unique_events",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-415e5f15546d38e0d16ade143c6523d6e7bff9e060acc8ac17b3d9cbdffbc21d"
+          },
+          {
+            "info": {
+              "description": "unique_event_id",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-cfc8815384406510df21f29ce6f23a3b84ee79ca1347c7cce53dce25a47bd7ed"
+          },
+          {
+            "info": {
+              "description": "replay_idempotent",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-e862deb68debf39003f0d27df8de2045f9498da25544513c58e1a40d286ee255"
+          },
+          {
+            "info": {
+              "description": "exact_multiset_readback",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-725f3fd73ccc12b1d6f03d242b600b82c7cca972628f31afbc64a815ee0dc070"
+          },
+          {
+            "info": {
+              "description": "latest_created_export",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-e6dc14a3653112b4310d9e778b35ca130982353355dd9893216542e460e2a689"
+          }
+        ],
+        "total": 7
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_telemetry,DEV)"
+            },
+            "type": "DownstreamOf"
+          }
+        ],
+        "total": 2
+      },
+      "name": "silver/stg_telemetry",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-694f575f93628c72ff8661b9bf52cf3d5049435bf6e6669bb34d1f0fb0aea7e9"
+          },
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-a78cf612cfc9cac057d087f47bdc165c62f941a1f4d30faab6dd961734978dd9"
+          },
+          {
+            "info": {
+              "description": "exact_multiset_readback",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-180684308233b854e52470d8c148532c07a9ed81785913b8855c7767fa737f74"
+          }
+        ],
+        "total": 3
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_failures,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          }
+        ],
+        "total": 2
+      },
+      "name": "silver/stg_failures",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_failures,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-1313ec00c06b9be561fdedddf4c8af37134f284297c495955aaa056fed6a6530"
+          },
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-55847829df10ce6217fd9afcaff92d147758874f77543d1e5013809eb17fb163"
+          },
+          {
+            "info": {
+              "description": "exact_multiset_readback",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-5632e6e38711ba7962f8624d3bbaaa8cb52f291cb8337dbd99109a8d213a7f1e"
+          }
+        ],
+        "total": 3
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_maintenance,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          }
+        ],
+        "total": 2
+      },
+      "name": "silver/stg_maintenance",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_maintenance,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-84d5da200951c43878f2e3726e412f35318f57b227dc4dbc948c00b7d591dc64"
+          },
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-f858f70bb6c8a3fe502e99dd14f240f457718f638c3e4ac740a37f30477598cf"
+          },
+          {
+            "info": {
+              "description": "valid_scd_intervals",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-354c95836a3aace64cf7acab7247731d0a6f9ee0a1abd588298abe67a9c1e050"
+          },
+          {
+            "info": {
+              "description": "one_current_version",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-c7d13b4da940826774a34cfab0d43ad373983ef298e7e88cefbf64dc3db56252"
+          }
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.bronze.raw_machines,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          }
+        ],
+        "total": 2
+      },
+      "name": "gold/dim_machine",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-55bf3d4eb8aa8379df4f92b853fd1a5a9f6960522a6f4e03aeff775dd5bc45dd"
+          },
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-6a11e114e102f0c03593a6912f14f860ead9e7dd9980bd42bd1919edec340198"
+          },
+          {
+            "info": {
+              "description": "exact_multiset_readback",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-3154299cf3602d3293d6d7f88bce03d2dc149828cf196e0b49dfc122dbcaade5"
+          }
+        ],
+        "total": 3
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          }
+        ],
+        "total": 2
+      },
+      "name": "gold/dim_factory",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_factory,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-fec93bbb79cf50a8d3789fac7e12810bdaabeb20ea2d0938ddc9b62689f928b2"
+          },
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-377a4408e2b76df6827ce2ff821d680a7f5e5a90418caf324d0a681e9866ba07"
+          },
+          {
+            "info": {
+              "description": "dimension_foreign_key",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-46b9d003954a4ae44132bf19e6146530967ea1c9bc0f9677d573ed8c2efbc2c6"
+          },
+          {
+            "info": {
+              "description": "dimension_join_preserves_rows",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-50fe5c805896daed5226e52b77b13ee2865c862c8502cc59e315c0c59cfa656e"
+          }
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          }
+        ],
+        "total": 3
+      },
+      "name": "gold/fact_telemetry",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_telemetry,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-19c9eb38b10d6684f194b4d6a3530861b4d504f4636860722cd04f737f7daa54"
+          },
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-20d25397781174bcecdaa4c0b4e9efc751e8e09458a0ec2ef144f6b471662517"
+          },
+          {
+            "info": {
+              "description": "dimension_join_preserves_rows",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-cbff5466d34b161b3c143eee00fc909d704a408001d193942eada6814845dfa8"
+          },
+          {
+            "info": {
+              "description": "dimension_foreign_key",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-11b7ca33a2925c37ce74efd5776f042037b5c6a40b26be47b69234e769612fb9"
+          }
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_failures,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          }
+        ],
+        "total": 3
+      },
+      "name": "gold/fact_failure",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_failure,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-10a3f8e46ffb81f15aa7c3df97df301d8db0a3ad391eb7f1281f4e6d6894dda7"
+          },
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-8c4bf454df106186e9d8b1362216bb6597184dffc014df18537f63cddf07576a"
+          },
+          {
+            "info": {
+              "description": "dimension_join_preserves_rows",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-db99a982dd307b36b817c135404177e27c7aec49a0bf0492521532ae06352f9e"
+          },
+          {
+            "info": {
+              "description": "dimension_foreign_key",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044543471
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044166590
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-ff40195c68324327a650e5921c30cee3e6a11619b3100fa92a221f74d675fb6d"
+          }
+        ],
+        "total": 4
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_maintenance,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          }
+        ],
+        "total": 3
+      },
+      "name": "gold/fact_maintenance",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.fact_maintenance,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-979770aa137500d3fb6bd84c9b6808135a7a4570bf89c9c41211bb0d89572b8e"
+          },
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-15107e72c681dcac6b5465f092ccee2cf91d9ffef0414b3761a562c5a2490f6e"
+          },
+          {
+            "info": {
+              "description": "expected_five_minute_grid",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-bb1dc1290899647ba0e99bc5c34bbc4a0745f6b025c6a6c726fe7fff843e8f9e"
+          },
+          {
+            "info": {
+              "description": "machine_time_grain",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-636400cdc2f719a35a9501acfcf166076f6475943e598d3b5d95b6e9ccdbfa55"
+          },
+          {
+            "info": {
+              "description": "event_and_arrival_availability",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-d11686b6ab836f6ef8ebe8e413453d05f27f4d3f4542b754acc9f1c2508fc119"
+          },
+          {
+            "info": {
+              "description": "label_columns_excluded",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-f04b39970ba53bd7d81d226e2ad4438b99a55422f4d4ab9f7cac7ad37aedfbe1"
+          },
+          {
+            "info": {
+              "description": "known_answer_oracles",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-ca424b0375a555b32ae555e62b571bede24e5447d387c26ccd0850d43904d99f"
+          },
+          {
+            "info": {
+              "description": "independent_source_trace_mean",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-216240bc9b678970bf7b1b351f1a76ad20a66d3f2600fad3040d9e40d89a152e"
+          },
+          {
+            "info": {
+              "description": "independent_source_trace_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-f555bf84922bf4d51d3cb70ef1e2292a9a728d261ec458195c0b7b45fd24cfc0"
+          }
+        ],
+        "total": 9
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp3_features,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.gold.dim_machine,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_failures,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)"
+            },
+            "type": "DownstreamOf"
+          }
+        ],
+        "total": 4
+      },
+      "name": "features/feat_machine_10m",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.features.feat_machine_10m,DEV)"
+    },
+    {
+      "assertions": {
+        "assertions": [
+          {
+            "info": {
+              "description": "persisted_schema",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-d175e9ced45fe4ef53314d9cd29b377aee7e816d60f35b4deb31a131ae0fae77"
+          },
+          {
+            "info": {
+              "description": "persisted_row_count",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-5072aaf16150c833220d0d6c5cc4d3fc98d00df72984dcd23f06963fafe79001"
+          },
+          {
+            "info": {
+              "description": "labels_match_grid",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-fb723bd7abe7816b8ffa7bc1117fb10de9711fa34885687f554438c3c8710d0c"
+          },
+          {
+            "info": {
+              "description": "ineligible_is_unknown",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-36cd29171c037c16ac92a5158c981a124ca813f1c9239d2ace9e51fc6fd309b1"
+          },
+          {
+            "info": {
+              "description": "future_failure_interval",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-5414a4edc54010a9505c56feafdc3566fa9ae86ca576c71d4fa6098607d39429"
+          },
+          {
+            "info": {
+              "description": "tail_is_censored",
+              "type": "CUSTOM"
+            },
+            "runEvents": {
+              "failed": 0,
+              "runEvents": [
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-recovery-26",
+                  "timestampMillis": 1793044601003
+                },
+                {
+                  "result": {
+                    "type": "SUCCESS"
+                  },
+                  "runId": "orchestration-good-26",
+                  "timestampMillis": 1793044227693
+                }
+              ],
+              "succeeded": 2,
+              "total": 2
+            },
+            "urn": "urn:li:assertion:iot-29f5ee5b6fed715e5ece8bbc29115b602aa0e0f577e44098cc30558565ba74cb"
+          }
+        ],
+        "total": 6
+      },
+      "lineage": {
+        "relationships": [
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_maintenance,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATA_JOB",
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp3_features,iot-vm),ingest)"
+            },
+            "type": "Produces"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_failures,DEV)"
+            },
+            "type": "DownstreamOf"
+          },
+          {
+            "entity": {
+              "type": "DATASET",
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)"
+            },
+            "type": "DownstreamOf"
+          }
+        ],
+        "total": 4
+      },
+      "name": "features/label_failure_1h",
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.features.label_failure_1h,DEV)"
+    }
+  ],
+  "passed": true
+}

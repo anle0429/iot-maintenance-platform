@@ -70,7 +70,7 @@ Lệnh cũ `python -m generator` vẫn giữ guard 100.000 unique rows. Lệnh m
 
 [Planner](../generator/capacity.py) lấy byte offline thật/unique từ pilot, dùng 100 GB = **100.000.000.000 byte**. Dự trù tách nguồn (có/không stream, thêm 20% margin), processed outputs 1,5×offline, shuffle 1×offline, log 5 GB và reserve 20 GB. Đây là các giả định bảo thủ để review, chưa phải footprint Spark đo trên workload lớn. Kích thước dòng/tần suất sự cố thay đổi theo horizon; cần tập trung gian và đo ingest/shuffle trước lượt lớn.
 
-Output mới chưa được nối vào `source_loader`/batch job/Flink driver cũ: các job đó vẫn dùng layout nguồn ngày 1 và một phần còn materialize trong RAM. Bước kế tiếp là adapter đọc catalog/part có giới hạn, đo/đánh giá Parquet và một workload liên tục trung gian, rồi chốt ngân sách nguồn + output + shuffle + log. Không thể suy từ generator mới rằng toàn pipeline đã xử lý được 100 GB.
+Output mới chưa được nối vào `source_loader`/batch job/Flink driver cũ: các job đó vẫn dùng layout nguồn ngày 1 và một phần còn materialize trong RAM. **Mốc tiếp nối 26/10:** [adapter catalog và Spark ingest riêng](chunk-ingest.md) đã đọc nguồn liên tục 1.117.608.156 byte offline vào Bronze/Silver Snappy Parquet, có exact readback, query/footprint/spill và UI thật. Chưa Gold/feature/Feast/Airflow cho nguồn lớn; vẫn cần ngân sách nguồn + output + đỉnh shuffle + log trước 100 GB. Không thể suy từ generator mới rằng toàn pipeline đã xử lý được 100 GB.
 
 ## Kết quả kiểm chứng và cách đọc số đo
 

@@ -1,0 +1,367 @@
+{
+  "airflow": {
+    "dag_processor": {
+      "latest_dag_processor_heartbeat": "2026-10-26T19:57:20.036893+00:00",
+      "status": "healthy"
+    },
+    "metadatabase": {
+      "status": "healthy"
+    },
+    "scheduler": {
+      "latest_scheduler_heartbeat": "2026-10-26T19:57:16.951183+00:00",
+      "status": "healthy"
+    },
+    "triggerer": {
+      "latest_triggerer_heartbeat": null,
+      "status": null
+    }
+  },
+  "checked_utc": "2026-10-26T19:57:26.141131+00:00",
+  "containers": [
+    {
+      "health": "healthy",
+      "image": "iot-coursework-airflow:3.1.7",
+      "image_id": "sha256:da0a69c50e858fc8e5cd7b5caac82e1832d7bbc59c964f14d45c7c7233ce9b01",
+      "memory_limit": 3221225472,
+      "name": "/iot-orchestration-airflow-api-1",
+      "nano_cpus": 2000000000,
+      "ports": {
+        "8080/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "18480"
+          }
+        ]
+      },
+      "state": {
+        "ExitCode": 0,
+        "FinishedAt": "0001-01-01T00:00:00Z",
+        "OOMKilled": false,
+        "StartedAt": "2026-10-26T19:46:30.703642217Z",
+        "Status": "running"
+      }
+    },
+    {
+      "health": null,
+      "image": "iot-coursework-airflow:3.1.7",
+      "image_id": "sha256:da0a69c50e858fc8e5cd7b5caac82e1832d7bbc59c964f14d45c7c7233ce9b01",
+      "memory_limit": 3221225472,
+      "name": "/iot-orchestration-airflow-scheduler-1",
+      "nano_cpus": 2000000000,
+      "ports": {
+        "8080/tcp": null
+      },
+      "state": {
+        "ExitCode": 0,
+        "FinishedAt": "0001-01-01T00:00:00Z",
+        "OOMKilled": false,
+        "StartedAt": "2026-10-26T19:46:31.130619155Z",
+        "Status": "running"
+      }
+    },
+    {
+      "health": null,
+      "image": "iot-coursework-airflow:3.1.7",
+      "image_id": "sha256:da0a69c50e858fc8e5cd7b5caac82e1832d7bbc59c964f14d45c7c7233ce9b01",
+      "memory_limit": 3221225472,
+      "name": "/iot-orchestration-airflow-dag-processor-1",
+      "nano_cpus": 2000000000,
+      "ports": {
+        "8080/tcp": null
+      },
+      "state": {
+        "ExitCode": 0,
+        "FinishedAt": "0001-01-01T00:00:00Z",
+        "OOMKilled": false,
+        "StartedAt": "2026-10-26T19:46:30.930652978Z",
+        "Status": "running"
+      }
+    },
+    {
+      "health": "healthy",
+      "image": "postgres:16.11-bookworm",
+      "image_id": "sha256:a2420e9555e2224583fe84d0bb3f0b967e69354ae3a0be55a9c14e251388c4eb",
+      "memory_limit": 1073741824,
+      "name": "/iot-orchestration-airflow-db-1",
+      "nano_cpus": 1000000000,
+      "ports": {
+        "5432/tcp": null
+      },
+      "state": {
+        "ExitCode": 0,
+        "FinishedAt": "0001-01-01T00:00:00Z",
+        "OOMKilled": false,
+        "StartedAt": "2026-10-26T19:46:02.53074024Z",
+        "Status": "running"
+      }
+    },
+    {
+      "health": "healthy",
+      "image": "acryldata/datahub-frontend-react:v1.6.0.3",
+      "image_id": "sha256:c8106e606b2bc1ad7737b593535d4c37df136d16eed03e7c42a42babcbf74f02",
+      "memory_limit": 2147483648,
+      "name": "/iot-datahub-datahub-frontend-1",
+      "nano_cpus": 2000000000,
+      "ports": {
+        "9002/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "19002"
+          }
+        ]
+      },
+      "state": {
+        "ExitCode": 0,
+        "FinishedAt": "0001-01-01T00:00:00Z",
+        "OOMKilled": false,
+        "StartedAt": "2026-10-26T19:45:52.476773832Z",
+        "Status": "running"
+      }
+    },
+    {
+      "health": "healthy",
+      "image": "acryldata/datahub-gms:v1.6.0.3",
+      "image_id": "sha256:858b36e3fe00c4af02e47c51252b90d6013f9e789851d05be0f4145e5fed260e",
+      "memory_limit": 4294967296,
+      "name": "/iot-datahub-datahub-gms-1",
+      "nano_cpus": 2000000000,
+      "ports": {
+        "8080/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "18080"
+          }
+        ]
+      },
+      "state": {
+        "ExitCode": 0,
+        "FinishedAt": "0001-01-01T00:00:00Z",
+        "OOMKilled": false,
+        "StartedAt": "2026-10-26T19:45:52.229483399Z",
+        "Status": "running"
+      }
+    },
+    {
+      "health": null,
+      "image": "acryldata/datahub-upgrade:v1.6.0.3",
+      "image_id": "sha256:00b8013c4e7973e7ebf7fd89dbdf6c72e3f8035b6c6a9de30a7a7759e5587063",
+      "memory_limit": 4294967296,
+      "name": "/iot-datahub-datahub-upgrade-1",
+      "nano_cpus": 2000000000,
+      "ports": {},
+      "state": {
+        "ExitCode": 0,
+        "FinishedAt": "2026-10-26T19:45:51.937354339Z",
+        "OOMKilled": false,
+        "StartedAt": "2026-10-26T19:45:06.529193212Z",
+        "Status": "exited"
+      }
+    },
+    {
+      "health": "healthy",
+      "image": "confluentinc/cp-kafka:8.0.0",
+      "image_id": "sha256:9cdc8119cb39c45f0efa6da8e2220058020c7433e3ba3a3ce11a8006a18cb336",
+      "memory_limit": 2147483648,
+      "name": "/iot-datahub-broker-1",
+      "nano_cpus": 2000000000,
+      "ports": {
+        "9092/tcp": null
+      },
+      "state": {
+        "ExitCode": 0,
+        "FinishedAt": "0001-01-01T00:00:00Z",
+        "OOMKilled": false,
+        "StartedAt": "2026-10-26T19:42:03.692859037Z",
+        "Status": "running"
+      }
+    },
+    {
+      "health": "healthy",
+      "image": "mysql:8.0.44",
+      "image_id": "sha256:9c3380eac945af0736031b200027f581925927c81e010056214a4bd6b6693714",
+      "memory_limit": 2147483648,
+      "name": "/iot-datahub-mysql-1",
+      "nano_cpus": 2000000000,
+      "ports": {
+        "3306/tcp": null,
+        "33060/tcp": null
+      },
+      "state": {
+        "ExitCode": 0,
+        "FinishedAt": "0001-01-01T00:00:00Z",
+        "OOMKilled": false,
+        "StartedAt": "2026-10-26T19:42:03.11988411Z",
+        "Status": "running"
+      }
+    },
+    {
+      "health": "healthy",
+      "image": "opensearchproject/opensearch:2.19.3",
+      "image_id": "sha256:e96cc6ae1500a073d973c0906f30f7cf4d9c461f32f855f9242a2da933660cdd",
+      "memory_limit": 3221225472,
+      "name": "/iot-datahub-search-1",
+      "nano_cpus": 2000000000,
+      "ports": {
+        "9200/tcp": null,
+        "9300/tcp": null,
+        "9600/tcp": null,
+        "9650/tcp": null
+      },
+      "state": {
+        "ExitCode": 0,
+        "FinishedAt": "0001-01-01T00:00:00Z",
+        "OOMKilled": false,
+        "StartedAt": "2026-10-26T19:42:03.427965112Z",
+        "Status": "running"
+      }
+    }
+  ],
+  "dags": {
+    "dags": [
+      {
+        "bundle_name": "dags-folder",
+        "bundle_version": null,
+        "dag_display_name": "iot_dp1_bronze",
+        "dag_id": "iot_dp1_bronze",
+        "description": "DP1: immutable Spark ingest, persisted-data validation and DataHub metadata",
+        "file_token": "eyJidW5kbGVfbmFtZSI6ImRhZ3MtZm9sZGVyIiwicmVsYXRpdmVfZmlsZWxvYyI6ImlvdF9kYXRhX3BpcGVsaW5lcy5weSJ9.Nm3ctwSqqWnbMYxNVCwhcmBMWgY",
+        "fileloc": "/srv/iot-data/workspace/iot-maintenance-platform/airflow/dags/iot_data_pipelines.py",
+        "has_import_errors": false,
+        "has_task_concurrency_limits": false,
+        "is_paused": false,
+        "is_stale": false,
+        "last_expired": null,
+        "last_parse_duration": 0.22104669700001978,
+        "last_parsed_time": "2026-10-26T19:56:56.826777Z",
+        "max_active_runs": 1,
+        "max_active_tasks": 2,
+        "max_consecutive_failed_dag_runs": 0,
+        "next_dagrun_data_interval_end": null,
+        "next_dagrun_data_interval_start": null,
+        "next_dagrun_logical_date": null,
+        "next_dagrun_run_after": null,
+        "owners": [
+          "airflow"
+        ],
+        "relative_fileloc": "iot_data_pipelines.py",
+        "tags": [
+          {
+            "dag_display_name": "iot_dp1_bronze",
+            "dag_id": "iot_dp1_bronze",
+            "name": "coursework"
+          },
+          {
+            "dag_display_name": "iot_dp1_bronze",
+            "dag_id": "iot_dp1_bronze",
+            "name": "dp1"
+          },
+          {
+            "dag_display_name": "iot_dp1_bronze",
+            "dag_id": "iot_dp1_bronze",
+            "name": "iot"
+          }
+        ],
+        "timetable_description": "Never, external triggers only",
+        "timetable_summary": null
+      },
+      {
+        "bundle_name": "dags-folder",
+        "bundle_version": null,
+        "dag_display_name": "iot_dp2_warehouse",
+        "dag_id": "iot_dp2_warehouse",
+        "description": "DP2: immutable Spark ingest, persisted-data validation and DataHub metadata",
+        "file_token": "eyJidW5kbGVfbmFtZSI6ImRhZ3MtZm9sZGVyIiwicmVsYXRpdmVfZmlsZWxvYyI6ImlvdF9kYXRhX3BpcGVsaW5lcy5weSJ9.Nm3ctwSqqWnbMYxNVCwhcmBMWgY",
+        "fileloc": "/srv/iot-data/workspace/iot-maintenance-platform/airflow/dags/iot_data_pipelines.py",
+        "has_import_errors": false,
+        "has_task_concurrency_limits": false,
+        "is_paused": false,
+        "is_stale": false,
+        "last_expired": null,
+        "last_parse_duration": 0.22104669700001978,
+        "last_parsed_time": "2026-10-26T19:56:56.829507Z",
+        "max_active_runs": 1,
+        "max_active_tasks": 2,
+        "max_consecutive_failed_dag_runs": 0,
+        "next_dagrun_data_interval_end": null,
+        "next_dagrun_data_interval_start": null,
+        "next_dagrun_logical_date": null,
+        "next_dagrun_run_after": null,
+        "owners": [
+          "airflow"
+        ],
+        "relative_fileloc": "iot_data_pipelines.py",
+        "tags": [
+          {
+            "dag_display_name": "iot_dp2_warehouse",
+            "dag_id": "iot_dp2_warehouse",
+            "name": "coursework"
+          },
+          {
+            "dag_display_name": "iot_dp2_warehouse",
+            "dag_id": "iot_dp2_warehouse",
+            "name": "dp2"
+          },
+          {
+            "dag_display_name": "iot_dp2_warehouse",
+            "dag_id": "iot_dp2_warehouse",
+            "name": "iot"
+          }
+        ],
+        "timetable_description": "Never, external triggers only",
+        "timetable_summary": null
+      },
+      {
+        "bundle_name": "dags-folder",
+        "bundle_version": null,
+        "dag_display_name": "iot_dp3_features",
+        "dag_id": "iot_dp3_features",
+        "description": "DP3: immutable Spark ingest, persisted-data validation and DataHub metadata",
+        "file_token": "eyJidW5kbGVfbmFtZSI6ImRhZ3MtZm9sZGVyIiwicmVsYXRpdmVfZmlsZWxvYyI6ImlvdF9kYXRhX3BpcGVsaW5lcy5weSJ9.Nm3ctwSqqWnbMYxNVCwhcmBMWgY",
+        "fileloc": "/srv/iot-data/workspace/iot-maintenance-platform/airflow/dags/iot_data_pipelines.py",
+        "has_import_errors": false,
+        "has_task_concurrency_limits": false,
+        "is_paused": false,
+        "is_stale": false,
+        "last_expired": null,
+        "last_parse_duration": 0.22104669700001978,
+        "last_parsed_time": "2026-10-26T19:56:56.832000Z",
+        "max_active_runs": 1,
+        "max_active_tasks": 2,
+        "max_consecutive_failed_dag_runs": 0,
+        "next_dagrun_data_interval_end": null,
+        "next_dagrun_data_interval_start": null,
+        "next_dagrun_logical_date": null,
+        "next_dagrun_run_after": null,
+        "owners": [
+          "airflow"
+        ],
+        "relative_fileloc": "iot_data_pipelines.py",
+        "tags": [
+          {
+            "dag_display_name": "iot_dp3_features",
+            "dag_id": "iot_dp3_features",
+            "name": "coursework"
+          },
+          {
+            "dag_display_name": "iot_dp3_features",
+            "dag_id": "iot_dp3_features",
+            "name": "dp3"
+          },
+          {
+            "dag_display_name": "iot_dp3_features",
+            "dag_id": "iot_dp3_features",
+            "name": "iot"
+          }
+        ],
+        "timetable_description": "Never, external triggers only",
+        "timetable_summary": null
+      }
+    ],
+    "total_entries": 3
+  },
+  "datahub_gms_health": "",
+  "import_errors": {
+    "import_errors": [],
+    "total_entries": 0
+  }
+}

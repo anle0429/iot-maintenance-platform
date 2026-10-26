@@ -1,0 +1,17 @@
+{
+  "name": "iot-cw-vm",
+  "status_at_verification": "RUNNING",
+  "machine_type": "e2-highmem-8",
+  "creation_timestamp": "2026-10-26T10:58:15.517-07:00",
+  "max_run_seconds": 28800,
+  "termination_action": "STOP",
+  "boot_image": "ubuntu-2404-noble-amd64-v20261024",
+  "disk_gib": [
+    50,
+    500,
+    150
+  ],
+  "public_application_firewall_rules": 0,
+  "iap_ssh_verified": true,
+  "scope": "GCE API fields and actual SSH/OS observations; auto-stop is configured, not yet observed at 8h; no reboot/crash recovery test."
+}

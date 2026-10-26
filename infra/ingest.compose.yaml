@@ -1,0 +1,36 @@
+# Run only an on-demand local Spark ingest job; no PostgreSQL, Kafka or other service is started.
+name: iot-coursework-ingest
+services:
+  ingest:
+    image: iot-coursework-spark:3.5.9
+    build:
+      context: ./spark
+    mem_limit: 2560m
+    cpus: 2
+    environment:
+      SPARK_LOCAL_IP: 0.0.0.0
+    ports:
+      - 127.0.0.1:14040:4040
+    volumes:
+      - ../pipelines:/workspace/pipelines:ro
+      - ../generator:/workspace/generator:ro
+      - ../data:/workspace/data
+      - ../outputs:/workspace/outputs
+      - ingest-scratch:/scratch
+  history:
+    profiles: [history]
+    image: iot-coursework-spark:3.5.9
+    mem_limit: 768m
+    cpus: 1
+    entrypoint: [/opt/spark/bin/spark-class]
+    command: [org.apache.spark.deploy.history.HistoryServer]
+    environment:
+      SPARK_LOCAL_IP: 0.0.0.0
+      SPARK_DAEMON_MEMORY: 512m
+      SPARK_HISTORY_OPTS: -Dspark.history.fs.logDirectory=file:/workspace/data/ingest-events -Dspark.history.fs.numReplayThreads=1
+    ports:
+      - 127.0.0.1:14041:18080
+    volumes:
+      - ../data/ingest-events:/workspace/data/ingest-events:ro
+volumes:
+  ingest-scratch:

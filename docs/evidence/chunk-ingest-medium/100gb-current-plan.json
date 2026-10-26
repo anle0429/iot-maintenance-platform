@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "kind": "estimate_only",
+  "target_offline_bytes": 100000000000,
+  "measured_pilot_offline_bytes": 1117608156,
+  "measured_pilot_unique_rows": 3456000,
+  "measured_bytes_per_unique_including_offline_extras_and_metadata": 323.38198958333334,
+  "estimated_unique_rows_for_target": 309231817,
+  "future_stream_enabled": false,
+  "assumed_budget_bytes": {
+    "source_with_20_percent_margin": 120000000000,
+    "processed_outputs_1_5_times_offline": 150000000000,
+    "shuffle_1_times_offline": 100000000000,
+    "logs": 5000000000,
+    "free_reserve": 20000000000
+  },
+  "estimated_required_free_bytes": 395000000000,
+  "actual_free_bytes_now": 346017071104,
+  "disk_budget_fits_now": false,
+  "generation_authorized_by_plan": false,
+  "scope": "No generation performed. Physical row widths/event frequency can change with horizon; measure an intermediate continuous workload and ingest/shuffle footprint before a large run.",
+  "captured_utc": "2026-10-26T16:19:59.981081+00:00",
+  "new_measurements_note": "Intermediate Bronze/Silver and cumulative spill are measured; Gold/feature/warehouse and peak concurrent scratch at 100GB remain unmeasured. Retain conservative original assumptions."
+}

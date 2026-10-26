@@ -1,0 +1,56 @@
+{
+  "kind": "estimate_only",
+  "captured_utc": "2026-10-26T17:54:43.825952+00:00",
+  "rates": {
+    "kind": "public_list_price_estimate_only",
+    "checked_date": "2026-10-26",
+    "region": "us-central1",
+    "currency": "USD",
+    "machine_type": "e2-standard-4",
+    "vm_per_hour": "0.13402284",
+    "vm_hourly_by_machine_type": {
+      "e2-standard-4": "0.13402284",
+      "e2-standard-8": "0.26804568",
+      "e2-highmem-8": "0.36159864"
+    },
+    "standard_disk_per_gib_hour": "0.000054795",
+    "balanced_disk_per_gib_hour": "0.000136986",
+    "external_ipv4_per_running_hour": "0.005",
+    "sources": {
+      "compute": "https://cloud.google.com/products/compute/pricing/general-purpose",
+      "disk": "https://cloud.google.com/compute/disks-image-pricing",
+      "ipv4": "https://cloud.google.com/vpc/network-pricing#ipaddress"
+    },
+    "scope": "Public on-demand USD rates observed for Iowa, no CUD/Spot/Free Tier discounts subtracted. This is not an account-specific quote or an authorization to provision. Excludes data transfer, logging, snapshots, taxes, exchange rates and other services."
+  },
+  "profile": "accelerated",
+  "configuration": {
+    "machine_type": "e2-highmem-8",
+    "vcpus": 8,
+    "ram_gib": 64,
+    "boot_gib": 50,
+    "boot_type": "pd-balanced",
+    "data_gib": 500,
+    "data_type": "pd-standard",
+    "scratch_gib": 150,
+    "scratch_type": "pd-balanced",
+    "suggested_spark_threads": 6,
+    "suggested_spark_heap_gib": 20,
+    "suggested_spark_container_gib": 28,
+    "suggested_shuffle_partitions": 48,
+    "running_hours": "8",
+    "retained_disk_hours": "24"
+  },
+  "estimated_usd": {
+    "vm": "2.892789",
+    "ephemeral_ipv4": "0.040000",
+    "boot_disk": "0.164383",
+    "data_disk": "0.657540",
+    "scratch_disk": "0.493150",
+    "subtotal": "4.247862",
+    "with_30_percent_contingency": "5.522220"
+  },
+  "charges_measured": false,
+  "free_trial_credit_remaining_verified": false,
+  "scope": "Retained disks are billed after VM STOP. A contingency is not a spend cap. Actual quota, trial credit, pricing and excluded services must be checked before an approved apply."
+}

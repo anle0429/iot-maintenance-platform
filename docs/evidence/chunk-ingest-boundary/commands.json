@@ -1,0 +1,107 @@
+[
+  {
+    "executable": "python.exe",
+    "arguments": [
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 6.27573
+  },
+  {
+    "executable": "python.exe",
+    "arguments": [
+      "-m",
+      "pipelines.chunk_source",
+      "--source",
+      "data/source/ingest-boundary-26",
+      "--report",
+      "outputs/ingest-boundary-26/receipt.json"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.2879804
+  },
+  {
+    "executable": "docker.exe",
+    "arguments": [
+      "compose",
+      "-f",
+      "infra/ingest.compose.yaml",
+      "run",
+      "--rm",
+      "--user",
+      "0",
+      "--entrypoint",
+      "chmod",
+      "ingest",
+      "1777",
+      "/scratch"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 1.0128201
+  },
+  {
+    "executable": "docker.exe",
+    "arguments": [
+      "compose",
+      "-f",
+      "infra/ingest.compose.yaml",
+      "run",
+      "--rm",
+      "--service-ports",
+      "--name",
+      "iot-ingest-ingest-boundary-26",
+      "ingest",
+      "--master",
+      "local[2]",
+      "--driver-memory",
+      "1g",
+      "--conf",
+      "spark.sql.session.timeZone=UTC",
+      "--conf",
+      "spark.driver.bindAddress=0.0.0.0",
+      "--conf",
+      "spark.driver.host=127.0.0.1",
+      "--conf",
+      "spark.local.dir=/scratch/ingest-boundary-26",
+      "--conf",
+      "spark.eventLog.enabled=true",
+      "--conf",
+      "spark.eventLog.dir=file:///workspace/data/ingest-events",
+      "pipelines/chunk_ingest.py",
+      "--source",
+      "data/source/ingest-boundary-26",
+      "--receipt",
+      "outputs/ingest-boundary-26/receipt.json",
+      "--output",
+      "data/lakehouse/ingest-boundary-26",
+      "--report",
+      "outputs/ingest-boundary-26/ingest-report.json",
+      "--partitions",
+      "8",
+      "--query-repetitions",
+      "3",
+      "--ui-pause-seconds",
+      "45"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 88.2493717
+  },
+  {
+    "executable": "python.exe",
+    "arguments": [
+      "-m",
+      "pipelines.ingest_metrics",
+      "--log",
+      "data/ingest-events/local-1793031159883",
+      "--report",
+      "outputs/ingest-boundary-26/spark-metrics.json"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.2968199
+  }
+]
