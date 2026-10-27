@@ -1,0 +1,268 @@
+{
+  "description": "Private host telemetry profiles. Windows0.32.0 actual PC; Linux1.12.1 configuration requires native verification. Rates use30s, not instant cumulative counters.",
+  "profiles": {
+    "windows": {
+      "exporter_version": "0.32.0",
+      "metric_names": [
+        "windows_cpu_time_seconds_total",
+        "windows_memory_available_bytes",
+        "windows_memory_physical_total_bytes",
+        "windows_logical_disk_free_bytes",
+        "windows_logical_disk_size_bytes",
+        "windows_logical_disk_read_bytes_total",
+        "windows_logical_disk_write_bytes_total",
+        "windows_net_bytes_received_total",
+        "windows_net_bytes_sent_total",
+        "windows_exporter_collector_success",
+        "windows_exporter_build_info"
+      ],
+      "collectors": [
+        "cpu",
+        "memory",
+        "logical_disk",
+        "net"
+      ],
+      "panels": [
+        {
+          "id": 1,
+          "title": "CPU non-idle / all logical cores",
+          "unit": "percent",
+          "targets": [
+            {
+              "expr": "(100 * (1 - avg by (host) (rate(windows_cpu_time_seconds_total{job=\"iot-host\",host=\"$host\",mode=\"idle\"}[30s])))) and on (host) (min by (host) (count_over_time(windows_cpu_time_seconds_total{job=\"iot-host\",host=\"$host\",mode=\"idle\"}[30s])) >= 15)",
+              "legendFormat": "{{host}} busy"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "RAM unavailable / total",
+          "unit": "percent",
+          "targets": [
+            {
+              "expr": "100 * (1 - windows_memory_available_bytes{job=\"iot-host\",host=\"$host\"} / windows_memory_physical_total_bytes{job=\"iot-host\",host=\"$host\"})",
+              "legendFormat": "{{host}} RAM"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "RAM available",
+          "unit": "bytes",
+          "targets": [
+            {
+              "expr": "windows_memory_available_bytes{job=\"iot-host\",host=\"$host\"}",
+              "legendFormat": "{{host}} available"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "title": "Disk unavailable / total",
+          "unit": "percent",
+          "targets": [
+            {
+              "expr": "100 * (1 - windows_logical_disk_free_bytes{job=\"iot-host\",host=\"$host\"} / windows_logical_disk_size_bytes{job=\"iot-host\",host=\"$host\"})",
+              "legendFormat": "{{host}} / {{volume}}"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "title": "Disk available",
+          "unit": "bytes",
+          "targets": [
+            {
+              "expr": "windows_logical_disk_free_bytes{job=\"iot-host\",host=\"$host\"}",
+              "legendFormat": "{{host}} / {{volume}}"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "title": "Disk I/O / selected volumes or whole disks",
+          "unit": "Bps",
+          "targets": [
+            {
+              "expr": "(sum by (host) (rate(windows_logical_disk_read_bytes_total{job=\"iot-host\",host=\"$host\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_logical_disk_read_bytes_total{job=\"iot-host\",host=\"$host\"}[30s])) >= 15)",
+              "legendFormat": "Read B/s"
+            },
+            {
+              "expr": "(sum by (host) (rate(windows_logical_disk_write_bytes_total{job=\"iot-host\",host=\"$host\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_logical_disk_write_bytes_total{job=\"iot-host\",host=\"$host\"}[30s])) >= 15)",
+              "legendFormat": "Write B/s"
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "title": "Network I/O / all non-loopback interfaces",
+          "unit": "Bps",
+          "targets": [
+            {
+              "expr": "(sum by (host) (rate(windows_net_bytes_received_total{job=\"iot-host\",host=\"$host\",nic!~\"(?i).*loopback.*\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_net_bytes_received_total{job=\"iot-host\",host=\"$host\",nic!~\"(?i).*loopback.*\"}[30s])) >= 15)",
+              "legendFormat": "RX B/s"
+            },
+            {
+              "expr": "(sum by (host) (rate(windows_net_bytes_sent_total{job=\"iot-host\",host=\"$host\",nic!~\"(?i).*loopback.*\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_net_bytes_sent_total{job=\"iot-host\",host=\"$host\",nic!~\"(?i).*loopback.*\"}[30s])) >= 15)",
+              "legendFormat": "TX B/s"
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "title": "Exporter reachable",
+          "unit": "short",
+          "targets": [
+            {
+              "expr": "up{job=\"iot-host\",host=\"$host\"}",
+              "legendFormat": "{{host}} up"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "title": "Minimum success / enabled collectors",
+          "unit": "short",
+          "targets": [
+            {
+              "expr": "min by (host) (windows_exporter_collector_success{job=\"iot-host\",host=\"$host\"})",
+              "legendFormat": "{{host}} collector success"
+            }
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "exporter_version": "1.12.1",
+      "metric_names": [
+        "node_cpu_seconds_total",
+        "node_memory_MemAvailable_bytes",
+        "node_memory_MemTotal_bytes",
+        "node_filesystem_avail_bytes",
+        "node_filesystem_size_bytes",
+        "node_disk_read_bytes_total",
+        "node_disk_written_bytes_total",
+        "node_network_receive_bytes_total",
+        "node_network_transmit_bytes_total",
+        "node_scrape_collector_success",
+        "node_exporter_build_info"
+      ],
+      "collectors": [
+        "cpu",
+        "meminfo",
+        "filesystem",
+        "diskstats",
+        "netdev"
+      ],
+      "panels": [
+        {
+          "id": 1,
+          "title": "CPU non-idle / all logical cores",
+          "unit": "percent",
+          "targets": [
+            {
+              "expr": "(100 * (1 - avg by (host) (rate(node_cpu_seconds_total{job=\"iot-host\",host=\"$host\",mode=\"idle\"}[30s])))) and on (host) (min by (host) (count_over_time(node_cpu_seconds_total{job=\"iot-host\",host=\"$host\",mode=\"idle\"}[30s])) >= 15)",
+              "legendFormat": "{{host}} busy"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "RAM unavailable / total",
+          "unit": "percent",
+          "targets": [
+            {
+              "expr": "100 * (1 - node_memory_MemAvailable_bytes{job=\"iot-host\",host=\"$host\"} / node_memory_MemTotal_bytes{job=\"iot-host\",host=\"$host\"})",
+              "legendFormat": "{{host}} RAM"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "RAM available",
+          "unit": "bytes",
+          "targets": [
+            {
+              "expr": "node_memory_MemAvailable_bytes{job=\"iot-host\",host=\"$host\"}",
+              "legendFormat": "{{host}} available"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "title": "Disk unavailable / total",
+          "unit": "percent",
+          "targets": [
+            {
+              "expr": "100 * (1 - node_filesystem_avail_bytes{job=\"iot-host\",host=\"$host\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"} / node_filesystem_size_bytes{job=\"iot-host\",host=\"$host\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"})",
+              "legendFormat": "{{host}} / {{mountpoint}}"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "title": "Disk available",
+          "unit": "bytes",
+          "targets": [
+            {
+              "expr": "node_filesystem_avail_bytes{job=\"iot-host\",host=\"$host\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"}",
+              "legendFormat": "{{host}} / {{mountpoint}}"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "title": "Disk I/O / selected volumes or whole disks",
+          "unit": "Bps",
+          "targets": [
+            {
+              "expr": "(sum by (host) (rate(node_disk_read_bytes_total{job=\"iot-host\",host=\"$host\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s]))) and on (host) (min by (host) (count_over_time(node_disk_read_bytes_total{job=\"iot-host\",host=\"$host\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s])) >= 15)",
+              "legendFormat": "Read B/s"
+            },
+            {
+              "expr": "(sum by (host) (rate(node_disk_written_bytes_total{job=\"iot-host\",host=\"$host\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s]))) and on (host) (min by (host) (count_over_time(node_disk_written_bytes_total{job=\"iot-host\",host=\"$host\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s])) >= 15)",
+              "legendFormat": "Write B/s"
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "title": "Network I/O / all non-loopback interfaces",
+          "unit": "Bps",
+          "targets": [
+            {
+              "expr": "(sum by (host) (rate(node_network_receive_bytes_total{job=\"iot-host\",host=\"$host\",device!=\"lo\"}[30s]))) and on (host) (min by (host) (count_over_time(node_network_receive_bytes_total{job=\"iot-host\",host=\"$host\",device!=\"lo\"}[30s])) >= 15)",
+              "legendFormat": "RX B/s"
+            },
+            {
+              "expr": "(sum by (host) (rate(node_network_transmit_bytes_total{job=\"iot-host\",host=\"$host\",device!=\"lo\"}[30s]))) and on (host) (min by (host) (count_over_time(node_network_transmit_bytes_total{job=\"iot-host\",host=\"$host\",device!=\"lo\"}[30s])) >= 15)",
+              "legendFormat": "TX B/s"
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "title": "Exporter reachable",
+          "unit": "short",
+          "targets": [
+            {
+              "expr": "up{job=\"iot-host\",host=\"$host\"}",
+              "legendFormat": "{{host}} up"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "title": "Minimum success / enabled collectors",
+          "unit": "short",
+          "targets": [
+            {
+              "expr": "min by (host) (node_scrape_collector_success{job=\"iot-host\",host=\"$host\"})",
+              "legendFormat": "{{host}} collector success"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

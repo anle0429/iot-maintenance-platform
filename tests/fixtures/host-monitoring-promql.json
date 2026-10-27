@@ -1,0 +1,649 @@
+{
+  "rule_files": [],
+  "evaluation_interval": "1s",
+  "tests": [
+    {
+      "interval": "1s",
+      "input_series": [
+        {
+          "series": "windows_cpu_time_seconds_total{core=\"0\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mode=\"idle\"}",
+          "values": "100+0.5x40"
+        },
+        {
+          "series": "windows_cpu_time_seconds_total{core=\"1\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mode=\"idle\"}",
+          "values": "100+1x40"
+        },
+        {
+          "series": "windows_cpu_time_seconds_total{core=\"0\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mode=\"user\"}",
+          "values": "100+100x40"
+        },
+        {
+          "series": "windows_memory_available_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "4294967296+0x40"
+        },
+        {
+          "series": "windows_memory_physical_total_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "17179869184+0x40"
+        },
+        {
+          "series": "windows_logical_disk_free_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",volume=\"C:\"}",
+          "values": "50000000000+0x40"
+        },
+        {
+          "series": "windows_logical_disk_size_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",volume=\"C:\"}",
+          "values": "200000000000+0x40"
+        },
+        {
+          "series": "windows_logical_disk_read_bytes_total{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",volume=\"C:\"}",
+          "values": "100+2048x40"
+        },
+        {
+          "series": "windows_logical_disk_write_bytes_total{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",volume=\"C:\"}",
+          "values": "100+4096x40"
+        },
+        {
+          "series": "windows_net_bytes_received_total{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",nic=\"Ethernet\"}",
+          "values": "100+1000x40"
+        },
+        {
+          "series": "windows_net_bytes_received_total{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",nic=\"Loopback test\"}",
+          "values": "100+100000x40"
+        },
+        {
+          "series": "windows_net_bytes_sent_total{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",nic=\"Ethernet\"}",
+          "values": "100+2000x40"
+        },
+        {
+          "series": "windows_net_bytes_sent_total{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",nic=\"Loopback test\"}",
+          "values": "100+100000x40"
+        },
+        {
+          "series": "windows_exporter_collector_success{collector=\"cpu\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "windows_exporter_collector_success{collector=\"memory\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "windows_exporter_collector_success{collector=\"logical_disk\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "windows_exporter_collector_success{collector=\"net\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "up{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "(100 * (1 - avg by (host) (rate(windows_cpu_time_seconds_total{job=\"iot-host\",host=\"pc-test\",mode=\"idle\"}[30s])))) and on (host) (min by (host) (count_over_time(windows_cpu_time_seconds_total{job=\"iot-host\",host=\"pc-test\",mode=\"idle\"}[30s])) >= 15)",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 25
+            }
+          ]
+        },
+        {
+          "expr": "100 * (1 - windows_memory_available_bytes{job=\"iot-host\",host=\"pc-test\"} / windows_memory_physical_total_bytes{job=\"iot-host\",host=\"pc-test\"})",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+              "value": 75
+            }
+          ]
+        },
+        {
+          "expr": "windows_memory_available_bytes{job=\"iot-host\",host=\"pc-test\"}",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "windows_memory_available_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+              "value": 4294967296
+            }
+          ]
+        },
+        {
+          "expr": "100 * (1 - windows_logical_disk_free_bytes{job=\"iot-host\",host=\"pc-test\"} / windows_logical_disk_size_bytes{job=\"iot-host\",host=\"pc-test\"})",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",volume=\"C:\"}",
+              "value": 75
+            }
+          ]
+        },
+        {
+          "expr": "windows_logical_disk_free_bytes{job=\"iot-host\",host=\"pc-test\"}",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "windows_logical_disk_free_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",volume=\"C:\"}",
+              "value": 50000000000
+            }
+          ]
+        },
+        {
+          "expr": "(sum by (host) (rate(windows_logical_disk_read_bytes_total{job=\"iot-host\",host=\"pc-test\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_logical_disk_read_bytes_total{job=\"iot-host\",host=\"pc-test\"}[30s])) >= 15)",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 2048
+            }
+          ]
+        },
+        {
+          "expr": "(sum by (host) (rate(windows_logical_disk_write_bytes_total{job=\"iot-host\",host=\"pc-test\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_logical_disk_write_bytes_total{job=\"iot-host\",host=\"pc-test\"}[30s])) >= 15)",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 4096
+            }
+          ]
+        },
+        {
+          "expr": "(sum by (host) (rate(windows_net_bytes_received_total{job=\"iot-host\",host=\"pc-test\",nic!~\"(?i).*loopback.*\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_net_bytes_received_total{job=\"iot-host\",host=\"pc-test\",nic!~\"(?i).*loopback.*\"}[30s])) >= 15)",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 1000
+            }
+          ]
+        },
+        {
+          "expr": "(sum by (host) (rate(windows_net_bytes_sent_total{job=\"iot-host\",host=\"pc-test\",nic!~\"(?i).*loopback.*\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_net_bytes_sent_total{job=\"iot-host\",host=\"pc-test\",nic!~\"(?i).*loopback.*\"}[30s])) >= 15)",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 2000
+            }
+          ]
+        },
+        {
+          "expr": "up{job=\"iot-host\",host=\"pc-test\"}",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "up{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "expr": "min by (host) (windows_exporter_collector_success{job=\"iot-host\",host=\"pc-test\"})",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "interval": "1s",
+      "input_series": [
+        {
+          "series": "node_cpu_seconds_total{cpu=\"0\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mode=\"idle\"}",
+          "values": "100+0.5x40"
+        },
+        {
+          "series": "node_cpu_seconds_total{cpu=\"1\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mode=\"idle\"}",
+          "values": "100+1x40"
+        },
+        {
+          "series": "node_cpu_seconds_total{cpu=\"0\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mode=\"user\"}",
+          "values": "100+100x40"
+        },
+        {
+          "series": "node_memory_MemAvailable_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "4294967296+0x40"
+        },
+        {
+          "series": "node_memory_MemTotal_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "17179869184+0x40"
+        },
+        {
+          "series": "node_filesystem_avail_bytes{device=\"/dev/sda1\",fstype=\"ext4\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mountpoint=\"/\"}",
+          "values": "50000000000+0x40"
+        },
+        {
+          "series": "node_filesystem_size_bytes{device=\"/dev/sda1\",fstype=\"ext4\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mountpoint=\"/\"}",
+          "values": "200000000000+0x40"
+        },
+        {
+          "series": "node_disk_read_bytes_total{device=\"sda\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "100+2048x40"
+        },
+        {
+          "series": "node_disk_written_bytes_total{device=\"sda\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "100+4096x40"
+        },
+        {
+          "series": "node_network_receive_bytes_total{device=\"eth0\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "100+1000x40"
+        },
+        {
+          "series": "node_network_receive_bytes_total{device=\"lo\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "100+100000x40"
+        },
+        {
+          "series": "node_network_transmit_bytes_total{device=\"eth0\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "100+2000x40"
+        },
+        {
+          "series": "node_network_transmit_bytes_total{device=\"lo\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "100+100000x40"
+        },
+        {
+          "series": "node_scrape_collector_success{collector=\"cpu\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "node_scrape_collector_success{collector=\"meminfo\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "node_scrape_collector_success{collector=\"filesystem\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "node_scrape_collector_success{collector=\"diskstats\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "node_scrape_collector_success{collector=\"netdev\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "up{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "(100 * (1 - avg by (host) (rate(node_cpu_seconds_total{job=\"iot-host\",host=\"pc-test\",mode=\"idle\"}[30s])))) and on (host) (min by (host) (count_over_time(node_cpu_seconds_total{job=\"iot-host\",host=\"pc-test\",mode=\"idle\"}[30s])) >= 15)",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 25
+            }
+          ]
+        },
+        {
+          "expr": "100 * (1 - node_memory_MemAvailable_bytes{job=\"iot-host\",host=\"pc-test\"} / node_memory_MemTotal_bytes{job=\"iot-host\",host=\"pc-test\"})",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+              "value": 75
+            }
+          ]
+        },
+        {
+          "expr": "node_memory_MemAvailable_bytes{job=\"iot-host\",host=\"pc-test\"}",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "node_memory_MemAvailable_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+              "value": 4294967296
+            }
+          ]
+        },
+        {
+          "expr": "100 * (1 - node_filesystem_avail_bytes{job=\"iot-host\",host=\"pc-test\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"} / node_filesystem_size_bytes{job=\"iot-host\",host=\"pc-test\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"})",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{device=\"/dev/sda1\",fstype=\"ext4\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mountpoint=\"/\"}",
+              "value": 75
+            }
+          ]
+        },
+        {
+          "expr": "node_filesystem_avail_bytes{job=\"iot-host\",host=\"pc-test\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"}",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "node_filesystem_avail_bytes{device=\"/dev/sda1\",fstype=\"ext4\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mountpoint=\"/\"}",
+              "value": 50000000000
+            }
+          ]
+        },
+        {
+          "expr": "(sum by (host) (rate(node_disk_read_bytes_total{job=\"iot-host\",host=\"pc-test\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s]))) and on (host) (min by (host) (count_over_time(node_disk_read_bytes_total{job=\"iot-host\",host=\"pc-test\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s])) >= 15)",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 2048
+            }
+          ]
+        },
+        {
+          "expr": "(sum by (host) (rate(node_disk_written_bytes_total{job=\"iot-host\",host=\"pc-test\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s]))) and on (host) (min by (host) (count_over_time(node_disk_written_bytes_total{job=\"iot-host\",host=\"pc-test\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s])) >= 15)",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 4096
+            }
+          ]
+        },
+        {
+          "expr": "(sum by (host) (rate(node_network_receive_bytes_total{job=\"iot-host\",host=\"pc-test\",device!=\"lo\"}[30s]))) and on (host) (min by (host) (count_over_time(node_network_receive_bytes_total{job=\"iot-host\",host=\"pc-test\",device!=\"lo\"}[30s])) >= 15)",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 1000
+            }
+          ]
+        },
+        {
+          "expr": "(sum by (host) (rate(node_network_transmit_bytes_total{job=\"iot-host\",host=\"pc-test\",device!=\"lo\"}[30s]))) and on (host) (min by (host) (count_over_time(node_network_transmit_bytes_total{job=\"iot-host\",host=\"pc-test\",device!=\"lo\"}[30s])) >= 15)",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 2000
+            }
+          ]
+        },
+        {
+          "expr": "up{job=\"iot-host\",host=\"pc-test\"}",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "up{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "expr": "min by (host) (node_scrape_collector_success{job=\"iot-host\",host=\"pc-test\"})",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "interval": "10s",
+      "input_series": [
+        {
+          "series": "reset_total{host=\"pc-test\"}",
+          "values": "100 110 5 15 25"
+        },
+        {
+          "series": "new_total{host=\"pc-test\"}",
+          "values": "0 10 20 30 40"
+        },
+        {
+          "series": "gap_total{host=\"pc-test\"}",
+          "values": "100 110 _ _ _"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "rate(reset_total[40s])",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 0.8333333333333334
+            }
+          ]
+        },
+        {
+          "expr": "rate(new_total[30s])",
+          "eval_time": "20s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 0.6666666666666666
+            }
+          ]
+        },
+        {
+          "expr": "rate(gap_total[50s])",
+          "eval_time": "40s",
+          "exp_samples": [
+            {
+              "labels": "{host=\"pc-test\"}",
+              "value": 0.5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "interval": "1s",
+      "input_series": [
+        {
+          "series": "windows_cpu_time_seconds_total{core=\"0\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mode=\"idle\"}",
+          "values": "100+0.5x40"
+        },
+        {
+          "series": "windows_cpu_time_seconds_total{core=\"1\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mode=\"idle\"}",
+          "values": "100+1x40"
+        },
+        {
+          "series": "windows_cpu_time_seconds_total{core=\"0\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mode=\"user\"}",
+          "values": "100+100x40"
+        },
+        {
+          "series": "windows_memory_available_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "4294967296+0x40"
+        },
+        {
+          "series": "windows_memory_physical_total_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "17179869184+0x40"
+        },
+        {
+          "series": "windows_logical_disk_free_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",volume=\"C:\"}",
+          "values": "50000000000+0x40"
+        },
+        {
+          "series": "windows_logical_disk_size_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",volume=\"C:\"}",
+          "values": "200000000000+0x40"
+        },
+        {
+          "series": "windows_logical_disk_read_bytes_total{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",volume=\"C:\"}",
+          "values": "100+2048x40"
+        },
+        {
+          "series": "windows_logical_disk_write_bytes_total{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",volume=\"C:\"}",
+          "values": "100+4096x40"
+        },
+        {
+          "series": "windows_net_bytes_received_total{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",nic=\"Ethernet\"}",
+          "values": "100+1000x40"
+        },
+        {
+          "series": "windows_net_bytes_received_total{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",nic=\"Loopback test\"}",
+          "values": "100+100000x40"
+        },
+        {
+          "series": "windows_net_bytes_sent_total{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",nic=\"Ethernet\"}",
+          "values": "100+2000x40"
+        },
+        {
+          "series": "windows_net_bytes_sent_total{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",nic=\"Loopback test\"}",
+          "values": "100+100000x40"
+        },
+        {
+          "series": "windows_exporter_collector_success{collector=\"cpu\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "windows_exporter_collector_success{collector=\"memory\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "windows_exporter_collector_success{collector=\"logical_disk\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "windows_exporter_collector_success{collector=\"net\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "up{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "(100 * (1 - avg by (host) (rate(windows_cpu_time_seconds_total{job=\"iot-host\",host=\"pc-test\",mode=\"idle\"}[30s])))) and on (host) (min by (host) (count_over_time(windows_cpu_time_seconds_total{job=\"iot-host\",host=\"pc-test\",mode=\"idle\"}[30s])) >= 15)",
+          "eval_time": "10s",
+          "exp_samples": []
+        },
+        {
+          "expr": "(sum by (host) (rate(windows_logical_disk_read_bytes_total{job=\"iot-host\",host=\"pc-test\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_logical_disk_read_bytes_total{job=\"iot-host\",host=\"pc-test\"}[30s])) >= 15)",
+          "eval_time": "10s",
+          "exp_samples": []
+        },
+        {
+          "expr": "(sum by (host) (rate(windows_logical_disk_write_bytes_total{job=\"iot-host\",host=\"pc-test\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_logical_disk_write_bytes_total{job=\"iot-host\",host=\"pc-test\"}[30s])) >= 15)",
+          "eval_time": "10s",
+          "exp_samples": []
+        },
+        {
+          "expr": "(sum by (host) (rate(windows_net_bytes_received_total{job=\"iot-host\",host=\"pc-test\",nic!~\"(?i).*loopback.*\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_net_bytes_received_total{job=\"iot-host\",host=\"pc-test\",nic!~\"(?i).*loopback.*\"}[30s])) >= 15)",
+          "eval_time": "10s",
+          "exp_samples": []
+        },
+        {
+          "expr": "(sum by (host) (rate(windows_net_bytes_sent_total{job=\"iot-host\",host=\"pc-test\",nic!~\"(?i).*loopback.*\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_net_bytes_sent_total{job=\"iot-host\",host=\"pc-test\",nic!~\"(?i).*loopback.*\"}[30s])) >= 15)",
+          "eval_time": "10s",
+          "exp_samples": []
+        }
+      ]
+    },
+    {
+      "interval": "1s",
+      "input_series": [
+        {
+          "series": "node_cpu_seconds_total{cpu=\"0\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mode=\"idle\"}",
+          "values": "100+0.5x40"
+        },
+        {
+          "series": "node_cpu_seconds_total{cpu=\"1\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mode=\"idle\"}",
+          "values": "100+1x40"
+        },
+        {
+          "series": "node_cpu_seconds_total{cpu=\"0\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mode=\"user\"}",
+          "values": "100+100x40"
+        },
+        {
+          "series": "node_memory_MemAvailable_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "4294967296+0x40"
+        },
+        {
+          "series": "node_memory_MemTotal_bytes{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "17179869184+0x40"
+        },
+        {
+          "series": "node_filesystem_avail_bytes{device=\"/dev/sda1\",fstype=\"ext4\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mountpoint=\"/\"}",
+          "values": "50000000000+0x40"
+        },
+        {
+          "series": "node_filesystem_size_bytes{device=\"/dev/sda1\",fstype=\"ext4\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\",mountpoint=\"/\"}",
+          "values": "200000000000+0x40"
+        },
+        {
+          "series": "node_disk_read_bytes_total{device=\"sda\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "100+2048x40"
+        },
+        {
+          "series": "node_disk_written_bytes_total{device=\"sda\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "100+4096x40"
+        },
+        {
+          "series": "node_network_receive_bytes_total{device=\"eth0\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "100+1000x40"
+        },
+        {
+          "series": "node_network_receive_bytes_total{device=\"lo\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "100+100000x40"
+        },
+        {
+          "series": "node_network_transmit_bytes_total{device=\"eth0\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "100+2000x40"
+        },
+        {
+          "series": "node_network_transmit_bytes_total{device=\"lo\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "100+100000x40"
+        },
+        {
+          "series": "node_scrape_collector_success{collector=\"cpu\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "node_scrape_collector_success{collector=\"meminfo\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "node_scrape_collector_success{collector=\"filesystem\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "node_scrape_collector_success{collector=\"diskstats\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "node_scrape_collector_success{collector=\"netdev\",host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        },
+        {
+          "series": "up{host=\"pc-test\",instance=\"127.0.0.1:9182\",job=\"iot-host\"}",
+          "values": "1+0x40"
+        }
+      ],
+      "promql_expr_test": [
+        {
+          "expr": "(100 * (1 - avg by (host) (rate(node_cpu_seconds_total{job=\"iot-host\",host=\"pc-test\",mode=\"idle\"}[30s])))) and on (host) (min by (host) (count_over_time(node_cpu_seconds_total{job=\"iot-host\",host=\"pc-test\",mode=\"idle\"}[30s])) >= 15)",
+          "eval_time": "10s",
+          "exp_samples": []
+        },
+        {
+          "expr": "(sum by (host) (rate(node_disk_read_bytes_total{job=\"iot-host\",host=\"pc-test\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s]))) and on (host) (min by (host) (count_over_time(node_disk_read_bytes_total{job=\"iot-host\",host=\"pc-test\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s])) >= 15)",
+          "eval_time": "10s",
+          "exp_samples": []
+        },
+        {
+          "expr": "(sum by (host) (rate(node_disk_written_bytes_total{job=\"iot-host\",host=\"pc-test\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s]))) and on (host) (min by (host) (count_over_time(node_disk_written_bytes_total{job=\"iot-host\",host=\"pc-test\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s])) >= 15)",
+          "eval_time": "10s",
+          "exp_samples": []
+        },
+        {
+          "expr": "(sum by (host) (rate(node_network_receive_bytes_total{job=\"iot-host\",host=\"pc-test\",device!=\"lo\"}[30s]))) and on (host) (min by (host) (count_over_time(node_network_receive_bytes_total{job=\"iot-host\",host=\"pc-test\",device!=\"lo\"}[30s])) >= 15)",
+          "eval_time": "10s",
+          "exp_samples": []
+        },
+        {
+          "expr": "(sum by (host) (rate(node_network_transmit_bytes_total{job=\"iot-host\",host=\"pc-test\",device!=\"lo\"}[30s]))) and on (host) (min by (host) (count_over_time(node_network_transmit_bytes_total{job=\"iot-host\",host=\"pc-test\",device!=\"lo\"}[30s])) >= 15)",
+          "eval_time": "10s",
+          "exp_samples": []
+        }
+      ]
+    }
+  ]
+}
