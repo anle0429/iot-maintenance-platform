@@ -1,0 +1,52 @@
+# Loopback-only tracking/registry, database-backed versions and persisted real artifacts.
+name: iot-mlflow
+services:
+  tracking:
+    image: iot-coursework-mlflow:3.17.2
+    build:
+      context: ./ml
+    mem_limit: 3g
+    cpus: 0.5
+    restart: unless-stopped
+    command:
+      - -m
+      - mlflow
+      - server
+      - --host
+      - 0.0.0.0
+      - --port
+      - "5000"
+      - --workers
+      - "1"
+      - --backend-store-uri
+      - sqlite:////state/mlflow.db
+      - --serve-artifacts
+      - --artifacts-destination
+      - /state/artifacts
+      - --allowed-hosts
+      - "localhost:*,127.0.0.1:*,tracking:*"
+    ports:
+      - 127.0.0.1:15000:5000
+    volumes:
+      - ../data/mlflow:/state
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; assert urllib.request.urlopen('http://127.0.0.1:5000/health',timeout=3).status == 200"]
+      interval: 5s
+      timeout: 4s
+      retries: 30
+  tools:
+    profiles: [tools]
+    image: iot-coursework-mlflow:3.17.2
+    mem_limit: 4g
+    cpus: 1
+    environment:
+      MLFLOW_TRACKING_URI: http://tracking:5000
+      MLFLOW_ENABLE_SYSTEM_METRICS_LOGGING: "false"
+    volumes:
+      - ../ml:/workspace/ml:ro
+      - ${IOT_ML_WORKSPACE:-../data/ml-workspaces/unused}:/kfp-workspace:ro
+      - ${IOT_ML_REPORTS_ROOT:-../outputs}:${IOT_ML_REPORTS_ROOT:-/reports}:ro
+      - ${IOT_ML_REGISTRY_OUTPUT:-../outputs/model-registry}:/registry-output
+networks:
+  default:
+    internal: true

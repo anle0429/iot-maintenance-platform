@@ -1,0 +1,47 @@
+07:49:33.469 - INFO - Running pipeline: [95m'iot-failure-training-v1'[0m
+/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/local/orchestrator/task_executor.py:100: UserWarning: Task 'load-feast': settings ['cpu_limit', 'memory_limit'] have no effect in the current local runner and will be ignored.
+  _warn_local_only_noops(task_name, task_spec, executor_spec.container)
+--------------------------------------------------------------------------------
+07:49:33.475 - INFO - Executing task [96m'load-feast'[0m
+07:49:33.475 - INFO - Streamed logs:
+
+    Found image 'iot-coursework-feast:0.67.0'
+
+    Traceback (most recent call last):
+      File "<frozen runpy>", line 198, in _run_module_as_main
+      File "<frozen runpy>", line 88, in _run_code
+      File "/workspace/ml/training_load.py", line 34, in <module>
+        run(parser.parse_args())
+      File "/workspace/ml/training_load.py", line 17, in run
+        native_load(SimpleNamespace(protocol=args.protocol,state=args.state,batch_report=args.batch_report,
+      File "/workspace/feature_store/load.py", line 52, in run
+        with (args.destination / '.load.lock').open('a') as lock, (args.state.parent / 'write.lock').open('a') as registry_lock:
+                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      File "/usr/local/lib/python3.12/pathlib.py", line 1013, in open
+        return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    PermissionError: [Errno 13] Permission denied: '/workspace/data/feast/write.lock'
+07:54:07.512 - ERROR - Task [96m'load-feast'[0m finished with status [91mFAILURE[0m
+--------------------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/run-kfp-local.py", line 96, in <module>
+    parser.add_argument('--ingest-fence',type=Path);run(parser.parse_args())
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/run-kfp-local.py", line 69, in run
+    training_pipeline(workspace='/kfp-workspace/training')
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/dsl/base_component.py", line 101, in __call__
+    return pipeline_task.PipelineTask(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/dsl/pipeline_task.py", line 223, in __init__
+    self._execute_locally(args=args)
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/dsl/pipeline_task.py", line 233, in _execute_locally
+    self._outputs = pipeline_orchestrator.run_local_pipeline(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/local/pipeline_orchestrator.py", line 44, in run_local_pipeline
+    return _run_local_pipeline_implementation(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/local/pipeline_orchestrator.py", line 149, in _run_local_pipeline_implementation
+    log_and_maybe_raise_for_failure(
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/local/pipeline_orchestrator.py", line 184, in log_and_maybe_raise_for_failure
+    raise RuntimeError(msg)
+RuntimeError: Pipeline [95m'iot-failure-training-v1'[0m finished with status [91mFAILURE[0m. Inner task failed: [96m'load-feast'[0m.

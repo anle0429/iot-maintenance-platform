@@ -27,3 +27,6 @@ docs/evidence/feast/** -text -whitespace
 infra/feast/requirements.lock -text -whitespace
 # Preserve native stream-push reports, console logs and historical source snapshots.
 docs/evidence/stream-push/** -text -whitespace
+# Preserve captured ML SDK/oracle/registry evidence without newline conversion.
+docs/evidence/ml-training/** -text -whitespace
+infra/ml/requirements-*.lock -text -whitespace

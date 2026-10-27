@@ -1,0 +1,225 @@
+07:57:46.948 - INFO - Running pipeline: [95m'iot-failure-training-v1'[0m
+/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/local/orchestrator/task_executor.py:100: UserWarning: Task 'load-feast': settings ['cpu_limit', 'memory_limit'] have no effect in the current local runner and will be ignored.
+  _warn_local_only_noops(task_name, task_spec, executor_spec.container)
+--------------------------------------------------------------------------------
+07:57:46.963 - INFO - Executing task [96m'load-feast'[0m
+07:57:46.964 - INFO - Streamed logs:
+
+    Found image 'iot-coursework-feast:0.67.0'
+
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-01', 'rows': 54075, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-02', 'rows': 52119, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-03', 'rows': 52362, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-04', 'rows': 52147, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-05', 'rows': 52323, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-06', 'rows': 52489, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-07', 'rows': 52135, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-08', 'rows': 52181, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-09', 'rows': 52562, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-10', 'rows': 52139, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-11', 'rows': 52191, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-12', 'rows': 52421, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-13', 'rows': 52236, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-14', 'rows': 52125, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-15', 'rows': 52543, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-16', 'rows': 52212, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-17', 'rows': 52162, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-18', 'rows': 52584, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-19', 'rows': 52186, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-20', 'rows': 52231, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-21', 'rows': 52544, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-22', 'rows': 52211, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-23', 'rows': 52086, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-24', 'rows': 52523, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-25', 'rows': 52228, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-26', 'rows': 52177, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-27', 'rows': 52546, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-28', 'rows': 52078, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-29', 'rows': 52230, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-30', 'rows': 52487, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-10-31', 'rows': 52230, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-01', 'rows': 52193, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-02', 'rows': 52533, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-03', 'rows': 52196, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-04', 'rows': 52216, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-05', 'rows': 52515, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-06', 'rows': 52125, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-07', 'rows': 52161, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-08', 'rows': 52413, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-09', 'rows': 52175, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-10', 'rows': 52257, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-11', 'rows': 50121, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-12', 'rows': 52148, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-13', 'rows': 52088, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-14', 'rows': 52556, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-15', 'rows': 52146, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-16', 'rows': 52212, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-17', 'rows': 52533, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-18', 'rows': 52143, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-19', 'rows': 52109, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-20', 'rows': 50197, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-21', 'rows': 52193, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-22', 'rows': 52236, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-23', 'rows': 52527, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-24', 'rows': 52183, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-25', 'rows': 52189, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-26', 'rows': 52583, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-27', 'rows': 52159, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-28', 'rows': 52178, 'reused': False}
+    /usr/local/lib/python3.12/site-packages/ibis/backends/duckdb/__init__.py:332: DeprecationWarning: fetch_arrow_table() is deprecated, use to_arrow_table() instead.
+      meta = result.fetch_arrow_table()
+    {'completed_day': '2026-11-29', 'rows': 50136, 'reused': False}
+    {'passed': True, 'rows': 3132184, 'native_rows_this_invocation': 3132184, 'reused_rows': 0}
+08:08:00.964 - INFO - Task [96m'load-feast'[0m finished with status [92mSUCCESS[0m
+08:08:00.964 - INFO - Task [96m'load-feast'[0m has no outputs
+--------------------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/run-kfp-local.py", line 107, in <module>
+    parser.add_argument('--ingest-fence',type=Path);run(parser.parse_args())
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/run-kfp-local.py", line 80, in run
+    training_pipeline(workspace='/kfp-workspace/training')
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/dsl/base_component.py", line 101, in __call__
+    return pipeline_task.PipelineTask(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/dsl/pipeline_task.py", line 223, in __init__
+    self._execute_locally(args=args)
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/dsl/pipeline_task.py", line 233, in _execute_locally
+    self._outputs = pipeline_orchestrator.run_local_pipeline(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/local/pipeline_orchestrator.py", line 44, in run_local_pipeline
+    return _run_local_pipeline_implementation(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/local/pipeline_orchestrator.py", line 129, in _run_local_pipeline_implementation
+    outputs, dag_status = dag_orchestrator.run_dag(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/local/orchestrator/dag_orchestrator.py", line 99, in run_dag
+    outputs, task_status = task_executor.execute_single_task(
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/local/orchestrator/task_executor.py", line 94, in execute_single_task
+    task_arguments = OrchestratorUtils.make_task_arguments(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/local/orchestrator/orchestrator_utils.py", line 201, in make_task_arguments
+    task_arguments[input_name] = io_store.get_task_output(
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kfp-venv/lib/python3.12/site-packages/kfp/local/io.py", line 111, in get_task_output
+    raise ValueError(
+ValueError: Tried to get output 'cohort' from task 'load-feast', but task 'load-feast' not found.

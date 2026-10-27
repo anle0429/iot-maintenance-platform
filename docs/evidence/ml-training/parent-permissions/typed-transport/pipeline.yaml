@@ -1,0 +1,87 @@
+# PIPELINE DEFINITION
+# Name: iot-typed-artifact-known-answer
+# Description: Use a genuine typed artifact dependency, not an explicit path passed outside KFP.
+components:
+  comp-read-known:
+    executorLabel: exec-read-known
+    inputDefinitions:
+      artifacts:
+        sample:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+    outputDefinitions:
+      artifacts:
+        receipt:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+  comp-write-known:
+    executorLabel: exec-write-known
+    outputDefinitions:
+      artifacts:
+        sample:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+deploymentSpec:
+  executors:
+    exec-read-known:
+      container:
+        args:
+        - --input
+        - '{{$.inputs.artifacts[''sample''].path}}'
+        - --output
+        - '{{$.outputs.artifacts[''receipt''].path}}'
+        - --name
+        - receipt
+        - --executor-input
+        - '{{$}}'
+        command:
+        - python3
+        - -m
+        - ml.kfp_artifacts
+        image: iot-coursework-spark:3.5.9
+    exec-write-known:
+      container:
+        args:
+        - --output
+        - '{{$.outputs.artifacts[''sample''].path}}'
+        - --name
+        - sample
+        - --executor-input
+        - '{{$}}'
+        command:
+        - python3
+        - -m
+        - ml.kfp_artifacts
+        image: iot-coursework-feast:0.67.0
+pipelineInfo:
+  description: Use a genuine typed artifact dependency, not an explicit path passed
+    outside KFP.
+  name: iot-typed-artifact-known-answer
+root:
+  dag:
+    tasks:
+      read-known:
+        cachingOptions: {}
+        componentRef:
+          name: comp-read-known
+        dependentTasks:
+        - write-known
+        inputs:
+          artifacts:
+            sample:
+              taskOutputArtifact:
+                outputArtifactKey: sample
+                producerTask: write-known
+        taskInfo:
+          name: read-known
+      write-known:
+        cachingOptions: {}
+        componentRef:
+          name: comp-write-known
+        taskInfo:
+          name: write-known
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.17.3

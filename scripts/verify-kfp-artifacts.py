@@ -1,0 +1,53 @@
+"""Verify typed KFP artifact transport with two actual Docker components before another full native load."""
+
+import argparse,json,sys
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
+from ml.training_contract import save,digest
+
+
+def run(args):
+    """Require the downstream task to read the upstream artifact through KFP's own IO store."""
+    import docker
+    from docker.types import Mount
+    from kfp import dsl,local,compiler
+
+    @dsl.container_component
+    def write_known(sample:dsl.Output[dsl.Artifact]):
+        """Write a descriptor and its proper typed ExecutorOutput metadata."""
+        return dsl.ContainerSpec(image='iot-coursework-feast:0.67.0',command=['python3','-m','ml.kfp_artifacts'],args=[
+            '--output',sample.path,'--name','sample','--executor-input',dsl.PIPELINE_TASK_EXECUTOR_INPUT_PLACEHOLDER])
+
+    @dsl.container_component
+    def read_known(sample:dsl.Input[dsl.Artifact],receipt:dsl.Output[dsl.Artifact]):
+        """Fail if the exact upstream value is absent or could not be resolved by KFP."""
+        return dsl.ContainerSpec(image='iot-coursework-spark:3.5.9',command=['python3','-m','ml.kfp_artifacts'],args=[
+            '--input',sample.path,'--output',receipt.path,'--name','receipt','--executor-input',dsl.PIPELINE_TASK_EXECUTOR_INPUT_PLACEHOLDER])
+
+    @dsl.pipeline(name='iot-typed-artifact-known-answer')
+    def smoke_pipeline():
+        """Use a genuine typed artifact dependency, not an explicit path passed outside KFP."""
+        first=write_known();second=read_known(sample=first.outputs['sample'])
+        first.set_caching_options(False);second.set_caching_options(False)
+
+    args.output.mkdir(parents=True,exist_ok=False);(args.output/'artifacts').mkdir();(args.output/'artifacts').chmod(0o777)
+    compiler.Compiler().compile(smoke_pipeline,str(args.output/'pipeline.yaml'))
+    local.init(runner=local.DockerRunner(entrypoint=[],mem_limit=1024**3,nano_cpus=500_000_000,
+        mounts=[Mount('/workspace/ml',str(ROOT/'ml'),type='bind',read_only=True)],
+        environment={'PYTHONPATH':'/workspace','IOT_KFP_LOCAL_ARTIFACT_ROOT':str(args.output/'artifacts')}),
+        pipeline_root=str(args.output/'artifacts'),workspace_root=str(args.output/'disposable-sdk-workspace'),enable_caching=False)
+    smoke_pipeline()
+    files={}
+    for p in (args.output/'artifacts').rglob('*'):
+        if p.is_file() and p.name in ['sample','receipt']:
+            value=json.loads(p.read_text());assert value['passed'] and value['value']==7
+            files[p.name]={'sha256':digest(p),'path':str(p),'uid':value['uid'],'gid':value['gid']}
+    if set(files)!= {'sample','receipt'}:raise ValueError('Both typed output artifacts must survive pipeline completion')
+    if files['sample']['uid']!=10001 or files['receipt']['uid']!=185:
+        raise ValueError('Verify the actual distinct Feast and Spark image users, without root overrides')
+    save(args.output/'verification.json',{'passed':True,'artifacts':files,'helper_sha256':digest(ROOT/'ml/kfp_artifacts.py'),
+        'code_sha256':digest(Path(__file__)),'scope':'Two real KFP Docker tasks with typed upstream/downstream artifact transport; not training quality or a deployed cluster.'})
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',type=Path,required=True);run(parser.parse_args())

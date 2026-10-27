@@ -1,0 +1,29 @@
+[
+  {
+    "name": "modest_mirzakhani",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "memory_bytes": 10737418240,
+    "nano_cpus": 2000000000,
+    "command": [
+      "python",
+      "-m",
+      "ml.training_load",
+      "--workspace",
+      "/kfp-workspace/training",
+      "--protocol",
+      "/workspace/ml/protocols/medium-60d-v1.json",
+      "--state",
+      "/workspace/data/feast/batch-medium-27",
+      "--batch-report",
+      "/workspace/outputs/feast-batch-27/batch/report.json",
+      "--artifacts",
+      "/workspace/data/feature-datasets/feature-medium-27-v2/artifacts",
+      "--feature-report",
+      "/workspace/outputs/feature-medium-27-v2/feature-report.json",
+      "--output",
+      "/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v2/artifacts/iot-failure-training-v1-2026-10-27-07-57-46-948440/load-feast/cohort"
+    ],
+    "user": "10001:10001",
+    "running_observed": true
+  }
+]

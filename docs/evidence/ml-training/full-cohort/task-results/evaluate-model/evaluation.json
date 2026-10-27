@@ -1,0 +1,91 @@
+{
+  "passed": true,
+  "kind": "holdout-evaluation",
+  "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+  "selection_descriptor": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/train-model/selection",
+  "selection_sha256": "f9bef0d71e71c824f478c9f5df341920bb6bb322b97bc23247f530a7b910744f",
+  "fixed_threshold": 0.7,
+  "validation": {
+    "tp": 12748,
+    "fp": 15222,
+    "fn": 7080,
+    "tn": 433082,
+    "threshold": 0.7,
+    "precision": 0.4557740436181623,
+    "recall": 0.6429291910429695,
+    "f1": 0.533411439809197,
+    "area_under_pr": 0.5957776550421778
+  },
+  "test": {
+    "tp": 13115,
+    "fp": 14536,
+    "fn": 6842,
+    "tn": 433891,
+    "threshold": 0.7,
+    "precision": 0.47430472677299196,
+    "recall": 0.6571629002355064,
+    "f1": 0.5509578222147539,
+    "area_under_pr": 0.6151480584811881
+  },
+  "constant_training_prevalence_comparator": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 19957,
+    "tn": 448427,
+    "threshold": 0.7,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "area_under_pr": 0.04260820181731229
+  },
+  "pr_auc_implementation": "Spark3.5.9 BinaryClassificationEvaluator areaUnderPR, numBins=0, trapezoidal PR integral; not average precision",
+  "split_counts": {
+    "test": {
+      "rows": 468384,
+      "positive_rows": 19957,
+      "failure_episodes": 1687,
+      "first": "2026-11-21T00:00:00",
+      "last": "2026-11-29T22:55:00",
+      "negative_rows": 448427
+    },
+    "validation": {
+      "rows": 468132,
+      "positive_rows": 19828,
+      "failure_episodes": 1677,
+      "first": "2026-11-12T00:00:00",
+      "last": "2026-11-20T22:55:00",
+      "negative_rows": 448304
+    },
+    "train": {
+      "rows": 2195668,
+      "positive_rows": 93603,
+      "failure_episodes": 7870,
+      "first": "2026-10-01T00:00:00",
+      "last": "2026-11-11T22:55:00",
+      "negative_rows": 2102065
+    }
+  },
+  "portable_spark_max_abs_probability_difference": 4.440892098500626e-16,
+  "artifacts": [
+    {
+      "path": "/ml-data/training/evaluation",
+      "files": {
+        "holdout-opened.json": "e52bae3b6d219bcd019f41094572073241ac409fcc8477d618d4c35c8d0d5bed",
+        "predictions/._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        "predictions/.part-00000-a020ab5e-675f-4331-9473-1caeccd5ed85-c000.snappy.parquet.crc": "2a07bf4aec6253c1e99c57977abe33f6702eddaec0b0480d93c8caa4dbb2e593",
+        "predictions/.part-00001-a020ab5e-675f-4331-9473-1caeccd5ed85-c000.snappy.parquet.crc": "2c4a835a152660b646e4bdcc6c37e536061c22bc9b0db64617db384f799e4a8b",
+        "predictions/_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "predictions/part-00000-a020ab5e-675f-4331-9473-1caeccd5ed85-c000.snappy.parquet": "4a248a2871bc9bc0ee32f2d37006b00bec7b2fdc8fda6ae9b218ba927c556986",
+        "predictions/part-00001-a020ab5e-675f-4331-9473-1caeccd5ed85-c000.snappy.parquet": "09306d377b54951fd8ea04e9fd4b298fa8818a700be0fa3bdf7d30bbe400630e"
+      }
+    }
+  ],
+  "code_sha256": "4169038faf6c32a8d838131b2167e513fa556a832f889057c86696629a145a90",
+  "limitations": [
+    "Synthetic pump data; no real equipment performance claim",
+    "Same machines across time; not an unseen-machine generalization test",
+    "Nearby snapshots share failures; positive rows are not independent events",
+    "No new training or evaluation has run when this version was declared"
+  ],
+  "completed_utc": "2026-10-27T09:00:20.536338+00:00"
+}

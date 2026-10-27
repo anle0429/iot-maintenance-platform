@@ -1,0 +1,91 @@
+{
+  "passed": true,
+  "kind": "holdout-evaluation",
+  "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+  "selection_descriptor": "/proof/known-answers/selection.json",
+  "selection_sha256": "6f88ac49dd8319e6d97c8065463e7953478e71f899cbd1ff745756a8cd1da2ca",
+  "fixed_threshold": 0.9,
+  "validation": {
+    "tp": 60,
+    "fp": 0,
+    "fn": 0,
+    "tn": 60,
+    "threshold": 0.9,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "area_under_pr": 1.0
+  },
+  "test": {
+    "tp": 60,
+    "fp": 0,
+    "fn": 0,
+    "tn": 60,
+    "threshold": 0.9,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "area_under_pr": 1.0
+  },
+  "constant_training_prevalence_comparator": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 60,
+    "tn": 60,
+    "threshold": 0.9,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "area_under_pr": 0.5
+  },
+  "pr_auc_implementation": "Spark3.5.9 BinaryClassificationEvaluator areaUnderPR, numBins=0, trapezoidal PR integral; not average precision",
+  "split_counts": {
+    "validation": {
+      "rows": 120,
+      "positive_rows": 60,
+      "failure_episodes": 30,
+      "first": "2026-11-13T00:00:00",
+      "last": "2026-11-13T09:55:00",
+      "negative_rows": 60
+    },
+    "test": {
+      "rows": 120,
+      "positive_rows": 60,
+      "failure_episodes": 30,
+      "first": "2026-11-22T00:00:00",
+      "last": "2026-11-22T09:55:00",
+      "negative_rows": 60
+    },
+    "train": {
+      "rows": 120,
+      "positive_rows": 60,
+      "failure_episodes": 30,
+      "first": "2026-10-02T00:00:00",
+      "last": "2026-10-02T09:55:00",
+      "negative_rows": 60
+    }
+  },
+  "portable_spark_max_abs_probability_difference": 1.3183898417423734e-16,
+  "artifacts": [
+    {
+      "path": "/proof/known-answers/evaluation",
+      "files": {
+        "holdout-opened.json": "91ce2d9d03238c7cfc9d8bbe3e4fd371d6e22b694a4a0101eef1676953e5b1cc",
+        "predictions/._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        "predictions/.part-00000-68151c55-d31f-47a8-b805-487fb75512c2-c000.snappy.parquet.crc": "1d07ee902792e3d199fbd2acca76edb2a523662c34a14897d8031dc6df67da2f",
+        "predictions/.part-00001-68151c55-d31f-47a8-b805-487fb75512c2-c000.snappy.parquet.crc": "37e8b3b768e351dad7d6f97e596495d45d1afb8cfe9bfb2e599f4b04894eb29a",
+        "predictions/_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "predictions/part-00000-68151c55-d31f-47a8-b805-487fb75512c2-c000.snappy.parquet": "faf4488685013ac4e29d34bdc2e5f75bcd7e95c46d0587773f12e89ce73b690a",
+        "predictions/part-00001-68151c55-d31f-47a8-b805-487fb75512c2-c000.snappy.parquet": "4bf69277c9ebcfa9f5c50eb94efc32695b620e4a6faee7884e6df70a76ebc231"
+      }
+    }
+  ],
+  "code_sha256": "4169038faf6c32a8d838131b2167e513fa556a832f889057c86696629a145a90",
+  "limitations": [
+    "Synthetic pump data; no real equipment performance claim",
+    "Same machines across time; not an unseen-machine generalization test",
+    "Nearby snapshots share failures; positive rows are not independent events",
+    "No new training or evaluation has run when this version was declared"
+  ],
+  "completed_utc": "2026-10-27T08:43:01.141859+00:00"
+}

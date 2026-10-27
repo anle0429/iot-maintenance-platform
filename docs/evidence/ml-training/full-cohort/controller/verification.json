@@ -1,0 +1,153 @@
+{
+  "passed": true,
+  "preflight_sha256": "f7c9a9aae1d69b75e7ef7e5c4a41e169646f0078684511c7ff57dc1154d27646",
+  "pipeline_yaml_sha256": "a7196cb3ab7ef959a557ab159015e78a82f4f879e96dc4c1b74ce2e706c3347d",
+  "components": [
+    {
+      "name": "objective_ishizaka",
+      "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+      "memory_bytes": 10737418240,
+      "nano_cpus": 2000000000,
+      "command": [
+        "python",
+        "-m",
+        "ml.training_load",
+        "--workspace",
+        "/ml-data/training",
+        "--protocol",
+        "/workspace/ml/protocols/medium-60d-v1.json",
+        "--state",
+        "/workspace/data/feast/batch-medium-27",
+        "--batch-report",
+        "/workspace/outputs/feast-batch-27/batch/report.json",
+        "--artifacts",
+        "/workspace/data/feature-datasets/feature-medium-27-v2/artifacts",
+        "--feature-report",
+        "/workspace/outputs/feature-medium-27-v2/feature-report.json",
+        "--output",
+        "/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/load-feast/cohort",
+        "--executor-input",
+        "{\"inputs\": {\"parameterValues\": {\"workspace\": \"/ml-data/training\"}}, \"outputs\": {\"artifacts\": {\"cohort\": {\"artifacts\": [{\"name\": \"cohort\", \"type\": {\"schemaTitle\": \"system.Dataset\", \"schemaVersion\": \"0.0.1\"}, \"uri\": \"/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/load-feast/cohort\", \"metadata\": {}}]}}, \"outputFile\": \"/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/load-feast/executor_output.json\"}}"
+      ],
+      "user": "10001:10001",
+      "running_observed": true
+    },
+    {
+      "name": "friendly_cannon",
+      "image_id": "sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417",
+      "memory_bytes": 10737418240,
+      "nano_cpus": 2000000000,
+      "command": [
+        "/opt/spark/bin/spark-submit",
+        "--master",
+        "local[2]",
+        "--driver-memory",
+        "6g",
+        "--conf",
+        "spark.driver.maxResultSize=128m",
+        "--conf",
+        "spark.local.dir=/ml-scratch",
+        "/workspace/ml/training_job.py",
+        "--step",
+        "split",
+        "--input",
+        "/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/load-feast/cohort",
+        "--output",
+        "/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/split-time/partitions",
+        "--workspace",
+        "/ml-data/training",
+        "--protocol",
+        "/workspace/ml/protocols/medium-60d-v1.json",
+        "--executor-input",
+        "{\"inputs\": {\"artifacts\": {\"cohort\": {\"artifacts\": [{\"name\": \"cohort\", \"type\": {\"schemaTitle\": \"system.Dataset\", \"schemaVersion\": \"0.0.1\"}, \"uri\": \"/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/load-feast/cohort\", \"metadata\": {}}]}}, \"parameterValues\": {\"workspace\": \"/ml-data/training\"}}, \"outputs\": {\"artifacts\": {\"partitions\": {\"artifacts\": [{\"name\": \"partitions\", \"type\": {\"schemaTitle\": \"system.Dataset\", \"schemaVersion\": \"0.0.1\"}, \"uri\": \"/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/split-time/partitions\", \"metadata\": {}}]}}, \"outputFile\": \"/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/split-time/executor_output.json\"}}"
+      ],
+      "user": "spark",
+      "running_observed": true
+    },
+    {
+      "name": "magical_ardinghelli",
+      "image_id": "sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417",
+      "memory_bytes": 10737418240,
+      "nano_cpus": 2000000000,
+      "command": [
+        "/opt/spark/bin/spark-submit",
+        "--master",
+        "local[2]",
+        "--driver-memory",
+        "6g",
+        "--conf",
+        "spark.driver.maxResultSize=128m",
+        "--conf",
+        "spark.local.dir=/ml-scratch",
+        "/workspace/ml/training_job.py",
+        "--step",
+        "train",
+        "--input",
+        "/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/split-time/partitions",
+        "--output",
+        "/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/train-model/selection",
+        "--workspace",
+        "/ml-data/training",
+        "--protocol",
+        "/workspace/ml/protocols/medium-60d-v1.json",
+        "--executor-input",
+        "{\"inputs\": {\"artifacts\": {\"partitions\": {\"artifacts\": [{\"name\": \"partitions\", \"type\": {\"schemaTitle\": \"system.Dataset\", \"schemaVersion\": \"0.0.1\"}, \"uri\": \"/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/split-time/partitions\", \"metadata\": {}}]}}, \"parameterValues\": {\"workspace\": \"/ml-data/training\"}}, \"outputs\": {\"artifacts\": {\"selection\": {\"artifacts\": [{\"name\": \"selection\", \"type\": {\"schemaTitle\": \"system.Artifact\", \"schemaVersion\": \"0.0.1\"}, \"uri\": \"/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/train-model/selection\", \"metadata\": {}}]}}, \"outputFile\": \"/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/train-model/executor_output.json\"}}"
+      ],
+      "user": "spark",
+      "running_observed": true
+    },
+    {
+      "name": "recursing_leavitt",
+      "image_id": "sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417",
+      "memory_bytes": 10737418240,
+      "nano_cpus": 2000000000,
+      "command": [
+        "/opt/spark/bin/spark-submit",
+        "--master",
+        "local[2]",
+        "--driver-memory",
+        "6g",
+        "--conf",
+        "spark.driver.maxResultSize=128m",
+        "--conf",
+        "spark.local.dir=/ml-scratch",
+        "/workspace/ml/training_job.py",
+        "--step",
+        "evaluate",
+        "--input",
+        "/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/train-model/selection",
+        "--output",
+        "/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/evaluate-model/evaluation",
+        "--workspace",
+        "/ml-data/training",
+        "--protocol",
+        "/workspace/ml/protocols/medium-60d-v1.json",
+        "--executor-input",
+        "{\"inputs\": {\"artifacts\": {\"selection\": {\"artifacts\": [{\"name\": \"selection\", \"type\": {\"schemaTitle\": \"system.Artifact\", \"schemaVersion\": \"0.0.1\"}, \"uri\": \"/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/train-model/selection\", \"metadata\": {}}]}}, \"parameterValues\": {\"workspace\": \"/ml-data/training\"}}, \"outputs\": {\"artifacts\": {\"evaluation\": {\"artifacts\": [{\"name\": \"evaluation\", \"type\": {\"schemaTitle\": \"system.Artifact\", \"schemaVersion\": \"0.0.1\"}, \"uri\": \"/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/evaluate-model/evaluation\", \"metadata\": {}}]}}, \"outputFile\": \"/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/evaluate-model/executor_output.json\"}}"
+      ],
+      "user": "spark",
+      "running_observed": true
+    }
+  ],
+  "stage_artifacts": {
+    "holdout-evaluation": {
+      "path": "artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/evaluate-model/evaluation",
+      "sha256": "a982c34027ca57969930553fa22c1261d18ad9686fcac93123c155da40232526"
+    },
+    "validation-selected-model": {
+      "path": "artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/train-model/selection",
+      "sha256": "f9bef0d71e71c824f478c9f5df341920bb6bb322b97bc23247f530a7b910744f"
+    },
+    "temporal-split": {
+      "path": "artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/split-time/partitions",
+      "sha256": "a1f2b724bccd13eadd2174af234c8c6be8a65ef62ebbd4157a763eb169fe77b7"
+    },
+    "feast-cohort": {
+      "path": "artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/load-feast/cohort",
+      "sha256": "5a76d1c868d96a5f85bb299f26b68186f7fe741f956c5683ab05f97db606ed45"
+    }
+  },
+  "seconds": 925.8875861249999,
+  "full_ingest_code_unchanged": true,
+  "scope": "Four genuine KFP DockerRunner components and full native cohort/actual model evaluation. Not a deployed Kubeflow cluster/UI or100GB ML."
+}

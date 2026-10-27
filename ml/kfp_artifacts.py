@@ -1,0 +1,26 @@
+"""Publish typed KFP artifact metadata after a sealed descriptor is written, using only the standard library."""
+
+import argparse,json,os
+from pathlib import Path
+from ml.training_contract import save
+
+
+def publish(executor_input,output_name,descriptor):
+    """Emit the ExecutorOutput artifact list expected by local KFP and the cluster executor."""
+    inputs=json.loads(executor_input);outputs=inputs['outputs'];artifact=outputs['artifacts'][output_name]
+    if len(artifact['artifacts'])!=1 or not json.loads(Path(descriptor).read_text()).get('passed'):
+        raise ValueError('Only a completed single output artifact can be published')
+    save(Path(outputs['outputFile']),{'artifacts':{output_name:artifact}})
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output',type=Path,required=True);parser.add_argument('--executor-input',required=True)
+    parser.add_argument('--name',required=True);parser.add_argument('--input',type=Path)
+    args=parser.parse_args()
+    if args.input is not None:
+        data=json.loads(args.input.read_text())
+        if data.get('value')!=7:raise ValueError('Typed KFP artifact input differs from the known value')
+    save(args.output,{'passed':True,'value':7,'uid':os.getuid(),'gid':os.getgid(),
+        'scope':'Typed artifact transport smoke only, not a Feast or training run'})
+    publish(args.executor_input,args.name,args.output)

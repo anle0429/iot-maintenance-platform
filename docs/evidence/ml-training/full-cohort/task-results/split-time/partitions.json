@@ -1,0 +1,111 @@
+{
+  "passed": true,
+  "kind": "temporal-split",
+  "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+  "input_descriptor_sha256": "5a76d1c868d96a5f85bb299f26b68186f7fe741f956c5683ab05f97db606ed45",
+  "native_report_sha256": "29f0c3c7b3af396a876b40ca0fea9d5648efc22edcee2f8273b5f30715af1466",
+  "source_manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5",
+  "split_paths": {
+    "test": "/ml-data/training/splits/test",
+    "validation": "/ml-data/training/splits/validation",
+    "train": "/ml-data/training/splits/train"
+  },
+  "counts": {
+    "test": {
+      "rows": 468384,
+      "positive_rows": 19957,
+      "failure_episodes": 1687,
+      "first": "2026-11-21T00:00:00",
+      "last": "2026-11-29T22:55:00",
+      "negative_rows": 448427
+    },
+    "validation": {
+      "rows": 468132,
+      "positive_rows": 19828,
+      "failure_episodes": 1677,
+      "first": "2026-11-12T00:00:00",
+      "last": "2026-11-20T22:55:00",
+      "negative_rows": 448304
+    },
+    "train": {
+      "rows": 2195668,
+      "positive_rows": 93603,
+      "failure_episodes": 7870,
+      "first": "2026-10-01T00:00:00",
+      "last": "2026-11-11T22:55:00",
+      "negative_rows": 2102065
+    }
+  },
+  "artifacts": [
+    {
+      "path": "/ml-data/training/splits/train",
+      "files": {
+        "._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        ".part-00000-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet.crc": "f5cf773c158dd67ceb22e3ac8bfeef9fbde6c81828cd268004e6710a77d1c21d",
+        ".part-00001-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet.crc": "3facfa43ecca6c90bcfbb6d16b1963c8a8c963268029d7150ee389b61182ad46",
+        ".part-00002-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet.crc": "7629990ff4a54538bc345d390efd0bb7c8eda9970f9fc1603408c19983e81ece",
+        ".part-00003-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet.crc": "8e72870af599541f5337f57bd6d668dd82907bab6b4d00d039f096dd37f6db96",
+        ".part-00004-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet.crc": "f12bc72aadc5df37902bc449cf2a67239481fe5dab2736b5ab0a6b5218dfa525",
+        ".part-00005-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet.crc": "e996a85ec8686bf0e6c33dd40ebbf1b9a8d6107b3ea729febb76cc08ac9bf2fa",
+        ".part-00006-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet.crc": "9834570431c5659d83d5f400d0393877cd7c8bfd32843f59c4f23f31f8124803",
+        ".part-00007-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet.crc": "d29adef2d4bfc26912166aa0a837086debe60b88deadcedab0eeaa15f6c11083",
+        "_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "part-00000-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet": "68b76149bf1d83808570ab709123cec7e8d9e662c6234c8d27242e0f4cfa9487",
+        "part-00001-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet": "49a066b1ffeafa393e8a93d7259b78e2958701eb0fae1ff9bd55b11f546079ed",
+        "part-00002-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet": "9a84b3151b78acd0fb6bd231fdcb6fd6f1e7290e88982c1c6af5e999ff76c4b6",
+        "part-00003-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet": "efc18136ebff728b3c23e9195af118f517f0aad0920d3e3e29093536a3c8b80b",
+        "part-00004-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet": "d2eb8daacd5caddea37468f0aff97565cf00efa1d5f3b48e19842317b6e4d312",
+        "part-00005-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet": "b2e27dfd3f42671794440943c7862259870ff6627100d803a4d9bceb6d74e504",
+        "part-00006-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet": "73ec32b53998cf54370bec63dee8bf985c33e0f5f6a2ee433f6e1f23caf5dfbd",
+        "part-00007-eefd3c93-a2a1-43b0-9827-9f705352e59f-c000.snappy.parquet": "96cc3e8f79746d22ab365d0c05fcfadb09d9031cefbbf6d906495018951d6e24"
+      }
+    },
+    {
+      "path": "/ml-data/training/splits/validation",
+      "files": {
+        "._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        ".part-00000-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet.crc": "ed0a3181e4104c333ca0c2c4a327a0425710aa51c4d2d27b1abbe8f838dd6835",
+        ".part-00001-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet.crc": "5be4106203b221dc0ae8abde42c5c17c03e20d895aa9c7052a05bd2c94b2c856",
+        ".part-00002-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet.crc": "f587ae500a4e22d54bd503f31881db081b31630f07721bf9915d614bf5885258",
+        ".part-00003-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet.crc": "e20ba146d45718de670caec1bafc56dc19567ef9f55ee5255be48187fb00de1f",
+        ".part-00004-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet.crc": "4389dfe62de4d623a6439c7391728cdb77c51945fdec453187e2d78b55b97f1e",
+        ".part-00005-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet.crc": "89e8bf1fa41a58eed938cd1bc40cb910994b190e3b3da3ac6271efa6d5833981",
+        ".part-00006-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet.crc": "220fc6f86716649640741598b7702340025f2c67a4b7206fefedf9dd20399ff4",
+        ".part-00007-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet.crc": "20124a0441bd4de473db0be788b961646ff4e55d9c03f3fdfbec3642e47754ae",
+        "_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "part-00000-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet": "bd0f4ee4c93b7470bdde675786aa14c6bceae36d8ce2a2376ddf697fe22386d1",
+        "part-00001-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet": "a0d65b71d7db59553e6696e4fdc2b9728680b3a396c1be6bad696d32ebb55b3a",
+        "part-00002-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet": "e886dabf4041b312738bc2e1d5307d5ea95cae9f21fb997cd36197c0501a38ba",
+        "part-00003-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet": "8a4f683b2bc522f02bbd76540eb82434a3e23c0db78a80ed8bc7193443e7d9f3",
+        "part-00004-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet": "956f2f17aab1fb2bc96c38d0515842f51bea9de6205fd2668be945455fdf604a",
+        "part-00005-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet": "c13f1f6ebcae0fb5bfa2c27b111e0b5d1a9c02603de031544fd4a264faa309d6",
+        "part-00006-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet": "c0b5d76954ef959d8f89d1ec1061b434532f3645dd1e956d4457b46fbed99f39",
+        "part-00007-42b72109-5a0e-4bbf-b7ad-08e917cad6d6-c000.snappy.parquet": "25777a9cca911d0b6f689e9b9c11615a32fcd203d9754bc36b22d3c3651e11f2"
+      }
+    },
+    {
+      "path": "/ml-data/training/splits/test",
+      "files": {
+        "._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        ".part-00000-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet.crc": "c765a24b0cc68ce0cbd97239f2b4b1d8d6826c8d29fc3cd2eba6811de52f3a53",
+        ".part-00001-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet.crc": "c971ec55f50cef510cca00153e11fa8533bdd195b1475be0d71c212209b3ca14",
+        ".part-00002-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet.crc": "c19977a2315a69233c092c50cb00e5b5c1765a7081751118322ec343f9a5a948",
+        ".part-00003-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet.crc": "fb5013298fe38a7200cb268cbb0482418c17556806e25bd27e39f08105e29059",
+        ".part-00004-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet.crc": "c4e8797832797d632235835c2d329c7363e9911e5bf075063e1b774055789703",
+        ".part-00005-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet.crc": "e530f2c452f071680db3369b765b89049dbdbd72f0bd2a7577277ab5101db943",
+        ".part-00006-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet.crc": "45645542fab81ab8cdecbddcd4ce7bc5d32170f5f5cd4f0a16e52beb61f617c1",
+        ".part-00007-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet.crc": "f34a5ec48158ae938ada7d4f46d8b650d72a76743b345d3ad36dd4a839151a3b",
+        "_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "part-00000-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet": "99c1b477f23e337141258e8b907197f3532b2e50f52df1bf233dbbf2a782d51f",
+        "part-00001-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet": "8a4975a129d1b79589ae3556758fe8c6bf978b68e5cfd90d34dbb95d84a74ea7",
+        "part-00002-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet": "ca3630d2559c34a39eb793245333a48dc8cc12493bb3925340e8b62130b9a28b",
+        "part-00003-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet": "d5f561ff78ea777d5fe8fdec9388db59005ae1a3a5092193e12c4b0db3a36d28",
+        "part-00004-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet": "8e2ae5976940618cd69f1d0deac34a4632102b95966cb07ca1e2550d26bc5ea5",
+        "part-00005-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet": "b4ff2f4553cc39aef9dbd0d9666642957645c4adfcb6b5e4b641d97aa4213ff9",
+        "part-00006-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet": "7085811c8714fbbc4ee723448fcc6e8489d78b17d31e8b27494190197d583aae",
+        "part-00007-66af435b-3f48-44a1-a129-ec4dadaf5b11-c000.snappy.parquet": "fa26a3e5604013e7ef4041538d3996e5ee29542b6112d35ff7fefc2f3da6b54a"
+      }
+    }
+  ],
+  "code_sha256": "4169038faf6c32a8d838131b2167e513fa556a832f889057c86696629a145a90"
+}
