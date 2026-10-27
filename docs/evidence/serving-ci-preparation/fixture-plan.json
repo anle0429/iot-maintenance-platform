@@ -1,0 +1,375 @@
+{
+  "release": "serve-jenkins-1",
+  "commit": "3effa1d692f2aed6cd3dfade7508aa74333a6861",
+  "pin": {
+    "name": "iot-pump-failure-v1",
+    "version": "2",
+    "run_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "portable_sha256": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9",
+    "training_code_commit": "cccccccccccccccccccccccccccccccccccccccc",
+    "data_version": "a2e41db0a3c5cdfe8442476f83070bf203f62266f37cc939db411dc6b42ff731",
+    "threshold": 0.7,
+    "production": true
+  },
+  "predictor_image": "iot-coursework-predictor:serve-jenkins-1",
+  "feature_image": "iot-coursework-feature-api:serve-jenkins-1",
+  "isvc": {
+    "apiVersion": "serving.kserve.io/v1beta1",
+    "kind": "InferenceService",
+    "metadata": {
+      "name": "iot-pump-serve-jenkins-1",
+      "namespace": "iot-serving",
+      "annotations": {
+        "serving.kserve.io/deploymentMode": "Standard",
+        "sidecar.istio.io/inject": "false",
+        "coursework.iot/model-portable-sha256": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9",
+        "coursework.iot/source-commit": "3effa1d692f2aed6cd3dfade7508aa74333a6861",
+        "coursework.iot/model-version": "2"
+      },
+      "labels": {
+        "iot.coursework/release": "serve-jenkins-1"
+      }
+    },
+    "spec": {
+      "predictor": {
+        "minReplicas": 1,
+        "maxReplicas": 2,
+        "serviceAccountName": "iot-predictor",
+        "securityContext": {
+          "runAsNonRoot": true,
+          "runAsUser": 10001,
+          "runAsGroup": 10001,
+          "fsGroup": 10001,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "containers": [
+          {
+            "name": "kserve-container",
+            "image": "iot-coursework-predictor:serve-jenkins-1",
+            "imagePullPolicy": "Never",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "name": "http1",
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              },
+              "limits": {
+                "cpu": "500m",
+                "memory": "512Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "readOnlyRootFilesystem": true,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              }
+            },
+            "startupProbe": {
+              "httpGet": {
+                "path": "/health/ready",
+                "port": 8080
+              },
+              "periodSeconds": 2,
+              "failureThreshold": 30
+            },
+            "readinessProbe": {
+              "httpGet": {
+                "path": "/health/ready",
+                "port": 8080
+              },
+              "periodSeconds": 5
+            },
+            "livenessProbe": {
+              "httpGet": {
+                "path": "/health/live",
+                "port": 8080
+              },
+              "periodSeconds": 10
+            },
+            "volumeMounts": [
+              {
+                "name": "tmp",
+                "mountPath": "/tmp"
+              }
+            ]
+          }
+        ],
+        "volumes": [
+          {
+            "name": "tmp",
+            "emptyDir": {
+              "medium": "Memory",
+              "sizeLimit": "32Mi"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "redis": [
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "online-serve-jenkins-1",
+        "namespace": "iot-features",
+        "labels": {
+          "iot.coursework/release": "serve-jenkins-1"
+        }
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "app": "online-serve-jenkins-1"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "online-serve-jenkins-1",
+              "iot.coursework/release": "serve-jenkins-1"
+            }
+          },
+          "spec": {
+            "automountServiceAccountToken": false,
+            "securityContext": {
+              "runAsNonRoot": true,
+              "runAsUser": 10001,
+              "runAsGroup": 10001,
+              "fsGroup": 10001,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "containers": [
+              {
+                "name": "redis",
+                "image": "redis:7.2-alpine@sha256:49aaa47789a458bb5d2786dfc3f95b930eb7e24bd484514307932c5bad5853e5",
+                "command": [
+                  "redis-server",
+                  "--maxmemory",
+                  "128mb",
+                  "--maxmemory-policy",
+                  "noeviction",
+                  "--save",
+                  "",
+                  "--appendonly",
+                  "no"
+                ],
+                "ports": [
+                  {
+                    "containerPort": 6379
+                  }
+                ],
+                "resources": {
+                  "requests": {
+                    "cpu": "50m",
+                    "memory": "64Mi"
+                  },
+                  "limits": {
+                    "cpu": "500m",
+                    "memory": "256Mi"
+                  }
+                },
+                "securityContext": {
+                  "allowPrivilegeEscalation": false,
+                  "readOnlyRootFilesystem": true,
+                  "capabilities": {
+                    "drop": [
+                      "ALL"
+                    ]
+                  }
+                },
+                "readinessProbe": {
+                  "exec": {
+                    "command": [
+                      "redis-cli",
+                      "ping"
+                    ]
+                  }
+                },
+                "livenessProbe": {
+                  "exec": {
+                    "command": [
+                      "redis-cli",
+                      "ping"
+                    ]
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "data",
+                    "mountPath": "/data"
+                  }
+                ]
+              }
+            ],
+            "volumes": [
+              {
+                "name": "data",
+                "emptyDir": {
+                  "medium": "Memory",
+                  "sizeLimit": "32Mi"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "name": "online-serve-jenkins-1",
+        "namespace": "iot-features",
+        "labels": {
+          "iot.coursework/release": "serve-jenkins-1"
+        }
+      },
+      "spec": {
+        "selector": {
+          "app": "online-serve-jenkins-1"
+        },
+        "ports": [
+          {
+            "port": 6379,
+            "targetPort": 6379
+          }
+        ],
+        "type": "ClusterIP"
+      }
+    }
+  ],
+  "feature_values": {
+    "image": {
+      "repository": "iot-coursework-feature-api",
+      "tag": "serve-jenkins-1",
+      "pullPolicy": "Never"
+    },
+    "resources": {
+      "requests": {
+        "cpu": "100m",
+        "memory": "256Mi"
+      },
+      "limits": {
+        "cpu": "1",
+        "memory": "1Gi"
+      }
+    },
+    "env": [
+      {
+        "name": "IOT_FEAST_REDIS",
+        "value": "online-serve-jenkins-1.iot-features.svc.cluster.local:6379"
+      },
+      {
+        "name": "IOT_SERVING_STATE",
+        "value": "/state"
+      },
+      {
+        "name": "IOT_KSERVE_URL",
+        "value": "http://iot-pump-serve-jenkins-1-predictor.iot-serving.svc.cluster.local"
+      },
+      {
+        "name": "IOT_MODEL_PIN",
+        "value": "/app/model-pin.json"
+      }
+    ],
+    "initContainers": [
+      {
+        "name": "copy-state",
+        "image": "iot-coursework-feature-api:serve-jenkins-1",
+        "imagePullPolicy": "Never",
+        "command": [
+          "python",
+          "-c",
+          "import shutil,pathlib; p=pathlib.Path('/state/registry'); p.mkdir(); [shutil.copyfile('/seed/'+n,'/state/'+n) for n in ['context.json','verification.json','_READY.json']]; shutil.copyfile('/seed/registry.db','/state/registry/registry.db')"
+        ],
+        "resources": {
+          "requests": {
+            "cpu": "50m",
+            "memory": "64Mi"
+          },
+          "limits": {
+            "cpu": "500m",
+            "memory": "256Mi"
+          }
+        },
+        "securityContext": {
+          "allowPrivilegeEscalation": false,
+          "readOnlyRootFilesystem": true,
+          "capabilities": {
+            "drop": [
+              "ALL"
+            ]
+          }
+        },
+        "volumeMounts": [
+          {
+            "name": "seed",
+            "mountPath": "/seed",
+            "readOnly": true
+          },
+          {
+            "name": "state",
+            "mountPath": "/state"
+          }
+        ]
+      }
+    ],
+    "volumes": [
+      {
+        "name": "seed",
+        "configMap": {
+          "name": "iot-feature-state-serve-jenkins-1"
+        }
+      },
+      {
+        "name": "state",
+        "emptyDir": {
+          "medium": "Memory",
+          "sizeLimit": "16Mi"
+        }
+      },
+      {
+        "name": "tmp",
+        "emptyDir": {
+          "medium": "Memory",
+          "sizeLimit": "32Mi"
+        }
+      }
+    ],
+    "volumeMounts": [
+      {
+        "name": "state",
+        "mountPath": "/state"
+      },
+      {
+        "name": "tmp",
+        "mountPath": "/tmp"
+      }
+    ],
+    "revisionMarker": "serve-jenkins-1",
+    "autoscaling": {
+      "enabled": true,
+      "minReplicas": 1,
+      "maxReplicas": 2,
+      "targetCPUUtilizationPercentage": 60
+    }
+  },
+  "seed_configmap": "iot-feature-state-serve-jenkins-1",
+  "predictor_url": "http://iot-pump-serve-jenkins-1-predictor.iot-serving.svc.cluster.local"
+}

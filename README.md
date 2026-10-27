@@ -10,6 +10,8 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [KFP trên cluster bốn bước](docs/kfp-cluster.md) đã PASS với nativeFeast3.132.184dòng; testPR-AUC0,6151/F10,5510 theo protocol giữ nguyên. Modelversion2 đã đăng ký MLflow và đọc lại dữ liệu/model; KServe vẫn phục vụ version1. [Feature API→Feast→KServe](docs/feature-api.md) đã kiểm200máy/195prediction/5stopped409, cùng127PCtests/1POSIXskip,57nativefeaturetests;211statements/56branches100%. Mutation featureAPI413/48984,46%, predictor209/24684,96%; Locust10users đạt96,655req/s,p95 32ms/0fail trong60s. [Notebook 5 bước/6ô](docs/training-notebook.md) và [KFP 5 task/two-executor](docs/distributed-training.md) đã kiểm thật; [incrementaldata/model3](docs/incremental-data-versioning.md) đã liên kết đúng dữ liệu. [Tự động version dữ liệu/model4–5](docs/automatic-ml-versioning.md) đã chạy trong Notebook/KFP. [CI materialization](docs/ci-materialization.md) đã test/build/auto-deploy thật, kiểm initial/incremental/replay đủ200máy và DataHub; còn CI/CD training, production API và các mục vận hành final.
 
+[CI training](docs/ci-training.md) còn cần build mới trên VM; bản sửa đường dẫn Jenkins đã qua regression test. [Serving CI](docs/ci-serving.md) đã có mã/gói nguồn và kiểm PC37test cùng207test cô lập/1POSIXskip. Chưa native build/mutation/rollout; full cutover bị chặn cho tới khi có A/B routing và monitoring thật.
+
 ## Mục lục
 
 - [Phạm vi và dữ liệu](docs/domain-proposal.md)

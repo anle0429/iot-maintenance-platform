@@ -1,5 +1,7 @@
 # Checklist rubric và bằng chứng
 
+Cập nhật27/10: [Serving CI chuẩn bị](ci-serving.md) đã qua37contract tests/207isolated tests/1POSIXskip và Helm lint/render trên PC. Bản sửa bind Jenkins của training chưa lên VM. Chưa native CI/A/B; chốt không cho full cutover thiếu A/B. FinalF29/F33/F34/F52 vẫnĐang làm;93tiêu chí nguồn giữ nguyên.
+
 Cập nhật27/10: [MMD joint-drift audit](joint-drift.md) đã kiểm PC19tests/6caCLI, verifier độc lập1.194statistics; không gộp với API/nativeproof. Ý tưởng1 vẫn cần xác nhận ngoài lớp; availability/replay đã học không nhận novel. Giữ57final+93legacy nguồn.
 
 Cập nhật27/10: [Version pin serving](versioned-serving.md) đã có220PCtests/2POSIXskips, coverage416statements/114branches100%,128HTTPfixturepredictions/0fail. Mutation/native build/Locust/CI mới chưa chạy; finalF11/F13/F15/F33/F34Đang làm. VM đãSTOP, quyền phiên tiếp theo còn chờ. Tiêu chí nguồn93giữ nguyên.
