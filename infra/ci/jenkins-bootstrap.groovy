@@ -40,6 +40,10 @@ environment.envVars.put('IOT_DEPLOY_ROOT', input.deploy_root)
 environment.envVars.put('IOT_AIRFLOW_URL', 'http://airflow-api:8080')
 instance.globalNodeProperties.replace(environment)
 def job = instance.getItem('iot-dp1-dp3') ?: instance.createProject(WorkflowJob, 'iot-dp1-dp3')
+// A controller restart must not append a second copy of the job's parameters.
+while (job.getProperty(ParametersDefinitionProperty.class) != null) {
+  job.removeProperty(ParametersDefinitionProperty.class)
+}
 job.addProperty(new ParametersDefinitionProperty(new StringParameterDefinition('SOURCE_COMMIT', input.source_commit, 'Sealed trusted source commit on this VM')))
 job.setDefinition(new CpsFlowDefinition(new File('/opt/iot-ci/Jenkinsfile').getText('UTF-8'), true))
 job.save()
