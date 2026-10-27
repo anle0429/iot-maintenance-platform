@@ -1,0 +1,49 @@
+# A trusted, manually dispatched release uses the existing private VM; no PR code runs there.
+name: DP1-DP3 test build deploy
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: iot-private-data-pipelines
+  cancel-in-progress: false
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: [self-hosted, linux, x64, iot-coursework]
+    timeout-minutes: 35
+    env:
+      IOT_DEPLOY_ROOT: /srv/iot-data/workspace/iot-maintenance-platform
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Test source and immutable artifact gates
+        run: python3 scripts/ci-data-pipelines.py test
+      - name: Build versioned Spark and metadata images
+        run: python3 scripts/ci-data-pipelines.py build
+      - name: Auto-deploy the tested DAGs and sealed release
+        run: python3 scripts/ci-data-pipelines.py deploy
+      - name: DP1 native ingest validation and metadata
+        env:
+          IOT_AIRFLOW_PASSWORD: ${{ secrets.IOT_AIRFLOW_PASSWORD }}
+        run: python3 scripts/ci-data-pipelines.py verify --stage dp1
+      - name: DP2 native warehouse validation and metadata
+        env:
+          IOT_AIRFLOW_PASSWORD: ${{ secrets.IOT_AIRFLOW_PASSWORD }}
+        run: python3 scripts/ci-data-pipelines.py verify --stage dp2
+      - name: DP3 native feature validation and metadata
+        env:
+          IOT_AIRFLOW_PASSWORD: ${{ secrets.IOT_AIRFLOW_PASSWORD }}
+        run: python3 scripts/ci-data-pipelines.py verify --stage dp3
+      - name: Stop only this release's containers after a failure or cancellation
+        if: failure() || cancelled()
+        run: python3 scripts/ci-data-pipelines.py cleanup
+      - name: Preserve small native receipts even when a gate fails
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: data-pipelines-${{ github.run_id }}-${{ github.run_attempt }}
+          path: outputs/ci-data-pipelines/
+          if-no-files-found: warn
+          retention-days: 7
