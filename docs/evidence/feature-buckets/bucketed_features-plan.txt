@@ -1,0 +1,51 @@
+*(20) Project [machine_id#0, event_timestamp#1, temperature_mean_10m#356, vibration_max_10m#358, current_mean_10m#360, current_std_10m#370, rpm_mean_10m#372, reading_count_10m#374L, max_received_ts#376, max_feature_event_ts#378, prior_failures_24h#449L, machine_age_days#465, 2026-10-27 04:00:51.281485 AS created#498]
++- *(20) SortMergeJoin [machine_id#0, event_timestamp#1], [machine_id#483, event_timestamp#484], Inner
+   :- *(13) Project [machine_id#0, event_timestamp#1, temperature_mean_10m#356, vibration_max_10m#358, current_mean_10m#360, current_std_10m#370, rpm_mean_10m#372, reading_count_10m#374L, max_received_ts#376, max_feature_event_ts#378, prior_failures_24h#449L]
+   :  +- *(13) SortMergeJoin [machine_id#0, event_timestamp#1], [machine_id#469, event_timestamp#470], Inner
+   :     :- *(6) Sort [machine_id#0 ASC NULLS FIRST, event_timestamp#1 ASC NULLS FIRST], false, 0
+   :     :  +- *(6) HashAggregate(keys=[machine_id#0, event_timestamp#1], functions=[avg(temperature_c#10), max(vibration_rms_mm_s#11), avg(current_a#12), stddev_pop(current_a#12), avg(rpm#13), count(event_id#6), max(received_ts#9), max(event_ts#8)], output=[machine_id#0, event_timestamp#1, temperature_mean_10m#356, vibration_max_10m#358, current_mean_10m#360, current_std_10m#370, rpm_mean_10m#372, reading_count_10m#374L, max_received_ts#376, max_feature_event_ts#378])
+   :     :     +- Exchange hashpartitioning(machine_id#0, event_timestamp#1, 4), ENSURE_REQUIREMENTS, [plan_id=862]
+   :     :        +- *(5) HashAggregate(keys=[machine_id#0, event_timestamp#1], functions=[partial_avg(temperature_c#10), partial_max(vibration_rms_mm_s#11), partial_avg(current_a#12), partial_stddev_pop(current_a#12), partial_avg(rpm#13), partial_count(event_id#6), partial_max(received_ts#9), partial_max(event_ts#8)], output=[machine_id#0, event_timestamp#1, sum#663, count#664L, max#665, sum#666, count#667L, n#384, avg#385, m2#386, sum#668, count#669L, count#670L, max#671, max#672])
+   :     :           +- *(5) Project [machine_id#0, event_timestamp#1, event_id#6, event_ts#8, received_ts#9, temperature_c#10, vibration_rms_mm_s#11, current_a#12, rpm#13]
+   :     :              +- *(5) SortMergeJoin [machine_id#0, _bucket#303L], [machine_id#7, _bucket#307L], LeftOuter, (((event_ts#8 > event_timestamp#1 + INTERVAL '-10' MINUTE) AND (event_ts#8 <= event_timestamp#1)) AND (received_ts#9 <= event_timestamp#1))
+   :     :                 :- *(2) Sort [machine_id#0 ASC NULLS FIRST, _bucket#303L ASC NULLS FIRST], false, 0
+   :     :                 :  +- Exchange hashpartitioning(machine_id#0, _bucket#303L, 4), ENSURE_REQUIREMENTS, [plan_id=847]
+   :     :                 :     +- *(1) Generate explode(array(_bucket#298L, (_bucket#298L + -1))), [machine_id#0, event_timestamp#1], false, [_bucket#303L]
+   :     :                 :        +- *(1) Project [machine_id#0, event_timestamp#1, FLOOR((cast(unix_micros(event_timestamp#1) as double) / 6.0E8)) AS _bucket#298L]
+   :     :                 :           +- *(1) Filter (isnotnull(machine_id#0) AND isnotnull(event_timestamp#1))
+   :     :                 :              +- *(1) Scan ExistingRDD[machine_id#0,event_timestamp#1,operating_status#2]
+   :     :                 +- *(4) Sort [machine_id#7 ASC NULLS FIRST, _bucket#307L ASC NULLS FIRST], false, 0
+   :     :                    +- Exchange hashpartitioning(machine_id#7, _bucket#307L, 4), ENSURE_REQUIREMENTS, [plan_id=853]
+   :     :                       +- *(3) Project [event_id#6, machine_id#7, event_ts#8, received_ts#9, temperature_c#10, vibration_rms_mm_s#11, current_a#12, rpm#13, FLOOR((cast(unix_micros(event_ts#8) as double) / 6.0E8)) AS _bucket#307L]
+   :     :                          +- *(3) Filter (((isnotnull(machine_id#7) AND isnotnull(FLOOR((cast(unix_micros(event_ts#8) as double) / 6.0E8)))) AND isnotnull(event_ts#8)) AND isnotnull(received_ts#9))
+   :     :                             +- *(3) Scan ExistingRDD[event_id#6,machine_id#7,event_ts#8,received_ts#9,temperature_c#10,vibration_rms_mm_s#11,current_a#12,rpm#13]
+   :     +- *(12) Sort [machine_id#469 ASC NULLS FIRST, event_timestamp#470 ASC NULLS FIRST], false, 0
+   :        +- *(12) HashAggregate(keys=[machine_id#469, event_timestamp#470], functions=[count(failure_id#28)], output=[machine_id#469, event_timestamp#470, prior_failures_24h#449L])
+   :           +- Exchange hashpartitioning(machine_id#469, event_timestamp#470, 4), ENSURE_REQUIREMENTS, [plan_id=884]
+   :              +- *(11) HashAggregate(keys=[machine_id#469, event_timestamp#470], functions=[partial_count(failure_id#28)], output=[machine_id#469, event_timestamp#470, count#674L])
+   :                 +- *(11) Project [machine_id#469, event_timestamp#470, failure_id#28]
+   :                    +- *(11) SortMergeJoin [machine_id#469, _bucket#412L], [machine_id#29, _bucket#416L], LeftOuter, (((failure_start_ts#30 > event_timestamp#470 + INTERVAL '-24' HOUR) AND (failure_start_ts#30 <= event_timestamp#470)) AND (recorded_ts#31 <= event_timestamp#470))
+   :                       :- *(8) Sort [machine_id#469 ASC NULLS FIRST, _bucket#412L ASC NULLS FIRST], false, 0
+   :                       :  +- Exchange hashpartitioning(machine_id#469, _bucket#412L, 4), ENSURE_REQUIREMENTS, [plan_id=869]
+   :                       :     +- *(7) Generate explode(array(_bucket#407L, (_bucket#407L + -1))), [machine_id#469, event_timestamp#470], false, [_bucket#412L]
+   :                       :        +- *(7) Project [machine_id#469, event_timestamp#470, FLOOR((cast(unix_micros(event_timestamp#470) as double) / 8.64E10)) AS _bucket#407L]
+   :                       :           +- *(7) Filter (isnotnull(machine_id#469) AND isnotnull(event_timestamp#470))
+   :                       :              +- *(7) Scan ExistingRDD[machine_id#469,event_timestamp#470,operating_status#471]
+   :                       +- *(10) Sort [machine_id#29 ASC NULLS FIRST, _bucket#416L ASC NULLS FIRST], false, 0
+   :                          +- Exchange hashpartitioning(machine_id#29, _bucket#416L, 4), ENSURE_REQUIREMENTS, [plan_id=875]
+   :                             +- *(9) Project [failure_id#28, machine_id#29, failure_start_ts#30, recorded_ts#31, FLOOR((cast(unix_micros(failure_start_ts#30) as double) / 8.64E10)) AS _bucket#416L]
+   :                                +- *(9) Filter (((isnotnull(machine_id#29) AND isnotnull(FLOOR((cast(unix_micros(failure_start_ts#30) as double) / 8.64E10)))) AND isnotnull(failure_start_ts#30)) AND isnotnull(recorded_ts#31))
+   :                                   +- *(9) Scan ExistingRDD[failure_id#28,machine_id#29,failure_start_ts#30,recorded_ts#31]
+   +- *(19) Sort [machine_id#483 ASC NULLS FIRST, event_timestamp#484 ASC NULLS FIRST], false, 0
+      +- Exchange hashpartitioning(machine_id#483, event_timestamp#484, 4), ENSURE_REQUIREMENTS, [plan_id=909]
+         +- *(18) Project [machine_id#483, event_timestamp#484, (cast((unix_timestamp(event_timestamp#484, yyyy-MM-dd HH:mm:ss, Some(UTC), false) - unix_timestamp(installed_at#23, yyyy-MM-dd HH:mm:ss, Some(UTC), false)) as double) / 86400.0) AS machine_age_days#465]
+            +- *(18) SortMergeJoin [machine_id#483], [machine_id#22], Inner, (valid_from_ts#24 <= event_timestamp#484)
+               :- *(15) Sort [machine_id#483 ASC NULLS FIRST], false, 0
+               :  +- Exchange hashpartitioning(machine_id#483, 4), ENSURE_REQUIREMENTS, [plan_id=895]
+               :     +- *(14) Project [machine_id#483, event_timestamp#484]
+               :        +- *(14) Filter (isnotnull(machine_id#483) AND isnotnull(event_timestamp#484))
+               :           +- *(14) Scan ExistingRDD[machine_id#483,event_timestamp#484,operating_status#485]
+               +- *(17) Sort [machine_id#22 ASC NULLS FIRST], false, 0
+                  +- Exchange hashpartitioning(machine_id#22, 4), ENSURE_REQUIREMENTS, [plan_id=901]
+                     +- *(16) Filter (isnotnull(machine_id#22) AND isnotnull(valid_from_ts#24))
+                        +- *(16) Scan ExistingRDD[machine_id#22,installed_at#23,valid_from_ts#24]

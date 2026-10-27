@@ -1,0 +1,26 @@
+{
+  "scope": "Private GitHub release verification on the PC and VM code synchronization; no dataset or full100GB Spark rerun.",
+  "clone": {
+    "passed": true,
+    "checked_utc": "2026-10-27T03:57:14.575705+00:00",
+    "git_commit": "e944b29f847359ebbea1891bd034cc4ee2a21664",
+    "tracked_files": 463,
+    "tests": 130,
+    "tests_skipped": 0,
+    "tests_elapsed_seconds": 11.758,
+    "test_log_sha256": "e376f2e5a2ec0c73843b56260f067c7d5dd67c757ba47eb05c8439817e8e8332",
+    "audit": "PASS exact V4/resource/report/source/admission/frozen-protocol bindings, historical V3 snapshots, 93 original rubric fields, relative links and privacy/path checks",
+    "scope": "Fresh private GitHub clone on the same PC with its existing Python3.13.14 environment; not a laptop, full Docker or 100GB replay."
+  },
+  "vm_synchronization": {
+    "passed": true,
+    "checked_utc": "2026-10-27T03:52:53.104051+00:00",
+    "git_commit": "e944b29f847359ebbea1891bd034cc4ee2a21664",
+    "tracked_files_verified": 463,
+    "source_manifest_unchanged": true,
+    "same_nine_platform_images_running": true,
+    "active_dag_runs": 0,
+    "gms_http_200": true,
+    "scope": "Quiescent code/docs Git archive synchronization after completed jobs. Dataset/volumes/secrets unchanged, no services restarted or VM session extended. No pipeline rerun from clone."
+  }
+}

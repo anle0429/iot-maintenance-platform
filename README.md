@@ -26,6 +26,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Spark skew: cùng query, ba cặp đo, kết quả đúng và ảnh UI](docs/skew-benchmark.md)
 - [Runner nguồn lớn: HDD scratch, hai lượt checksum và live guards](docs/large-ingest-runner.md)
 - [Protocol ML60ngày: chia theo thời gian, purge và holdout trước metric](docs/ml-evaluation-protocol.md)
+- [Feature theo bucket thời gian: kiểm đúng ranh giới và dữ liệu đến muộn](docs/bounded-features.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist rubric](docs/rubric-tracker.md)
 - [Cấu trúc hiện tại](#cấu-trúc-hiện-tại)

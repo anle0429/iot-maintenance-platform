@@ -80,4 +80,8 @@ LượtV3 trước đó cũng PASS nhưng peak scratch8.290.946.837B/nguồn5,59
 
 Tính thử một phiên8giờ mới, trừ10phút boot/recovery, thì cả5gates qua với tài nguyên hiện có. Đây là **đề xuất cần quyền**, chưa mở lại VM. Dự toán8giờVM và24giờgiữcácđĩahiệncó là [5,522220USD gồm30%dựphòng](evidence/large-ingest-runner/admission/next-session-estimate.json), chưa gồm mạng/thuế; không phải actualbill hoặc spendcap. Đĩa500GiBstandard +200GiBbalanced khoảng1,315USD/ngày dù VMSTOP. Giá tham chiếu: [E2highmem8 tạiIowa](https://cloud.google.com/products/compute/pricing/general-purpose?hl=en), [PersistentDisk](https://cloud.google.com/compute/disks-image-pricing), [IPv4](https://cloud.google.com/vpc/pricing).
 
+## Kiểm bản đã push
+
+[Release receipt](evidence/large-ingest-runner/release.json): commit `e944b29f847359ebbea1891bd034cc4ee2a21664` đã pushprivate `main`; clone mới từGitHub trên cùngPC qua130unit/0skip/11,758giây và kiểmSHAexecution/reports/resources/markers/protocol,93tiêu chí gốc và relative links. VM nhận463file qua verifiedGitarchive lúc03:52:53UTC27/10; nguồn lớn giữ nguyên,0DAGrunning/queued/0importerrors,9platformimages vẫn chạy/GMS200. Không restart service hoặc kéo dài phiênVM. Dữ liệu/runtime/secrets/setup/handoff riêng không có trongarchive; đây chưa phải chạy lại Docker/full100GB từclone hoặc kiểm trên laptop.
+
 Giữ nguyên [mốc nguồn102,45GB](scale-100gb.md) và [benchmark skew](skew-benchmark.md) đã có. Chưa Spark/Gold/feature/ML toàn100GB, chưa tích hợp launcher mới vàoAirflow, và chưa có resume. Bước tiếp theo cần phiên VM thực được phép, kiểm lại scheduling/resources/code hashes rồi mới admission và launch mới; không dùng hypothetical clock để chạy.

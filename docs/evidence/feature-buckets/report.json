@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checks": {
+    "range_features_grain": true,
+    "range_features_oracle": true,
+    "range_labels_grain": true,
+    "range_labels_oracle": true,
+    "bucketed_features_grain": true,
+    "bucketed_features_oracle": true,
+    "bucketed_labels_grain": true,
+    "bucketed_labels_oracle": true
+  },
+  "snapshot_rows": 9,
+  "telemetry_rows": 168,
+  "failure_rows": 192,
+  "maintenance_rows": 4,
+  "scope": "Tiny temporal correctness fixture; no production switch, performance, medium-scale feature or ML quality claim.",
+  "spark": "3.5.9",
+  "python": "3.10.12",
+  "application_id": "local-1793073627075",
+  "elapsed_seconds": 34.059158051997656,
+  "checked_utc": "2026-10-27T04:00:59.499926+00:00",
+  "code_sha256": {
+    "pipelines/features.py": "701f8b979d10da87724945fc79e625978d0807f3ffe0ece35a045069bbd37af4",
+    "pipelines/bounded_features.py": "84031099243e0edb2b820b9a6c6ba19815e451180727a436749be596b7b34033",
+    "pipelines/feature_checks.py": "97128853c033f445ab956d7dbf5d481bc65593ddaf167196150caf77167ecc4d",
+    "pipelines/temporal.py": "e0f7136601e0f75130832d670d62de834a3c3787d6357be2a865d58a50909e97"
+  }
+}

@@ -1,0 +1,41 @@
+*(20) Project [machine_id#0, event_timestamp#1, temperature_mean_10m#44, vibration_max_10m#45, current_mean_10m#46, current_std_10m#47, rpm_mean_10m#48, reading_count_10m#49L, max_received_ts#50, max_feature_event_ts#51, prior_failures_24h#86L, machine_age_days#91, 2026-10-27 04:00:34.37476 AS created#124]
++- *(20) SortMergeJoin [machine_id#0, event_timestamp#1], [machine_id#109, event_timestamp#110], Inner
+   :- *(13) Project [machine_id#0, event_timestamp#1, temperature_mean_10m#44, vibration_max_10m#45, current_mean_10m#46, current_std_10m#47, rpm_mean_10m#48, reading_count_10m#49L, max_received_ts#50, max_feature_event_ts#51, prior_failures_24h#86L]
+   :  +- *(13) SortMergeJoin [machine_id#0, event_timestamp#1], [machine_id#95, event_timestamp#96], Inner
+   :     :- *(6) Sort [machine_id#0 ASC NULLS FIRST, event_timestamp#1 ASC NULLS FIRST], false, 0
+   :     :  +- Exchange hashpartitioning(machine_id#0, event_timestamp#1, 4), ENSURE_REQUIREMENTS, [plan_id=190]
+   :     :     +- *(5) HashAggregate(keys=[machine_id#0, event_timestamp#1], functions=[avg(temperature_c#10), max(vibration_rms_mm_s#11), avg(current_a#12), stddev_pop(current_a#12), avg(rpm#13), count(event_id#6), max(received_ts#9), max(event_ts#8)], output=[machine_id#0, event_timestamp#1, temperature_mean_10m#44, vibration_max_10m#45, current_mean_10m#46, current_std_10m#47, rpm_mean_10m#48, reading_count_10m#49L, max_received_ts#50, max_feature_event_ts#51])
+   :     :        +- *(5) HashAggregate(keys=[machine_id#0, event_timestamp#1], functions=[partial_avg(temperature_c#10), partial_max(vibration_rms_mm_s#11), partial_avg(current_a#12), partial_stddev_pop(current_a#12), partial_avg(rpm#13), partial_count(event_id#6), partial_max(received_ts#9), partial_max(event_ts#8)], output=[machine_id#0, event_timestamp#1, sum#207, count#208L, max#209, sum#210, count#211L, n#60, avg#61, m2#62, sum#212, count#213L, count#214L, max#215, max#216])
+   :     :           +- *(5) Project [machine_id#0, event_timestamp#1, event_id#6, event_ts#8, received_ts#9, temperature_c#10, vibration_rms_mm_s#11, current_a#12, rpm#13]
+   :     :              +- *(5) SortMergeJoin [machine_id#0], [machine_id#7], LeftOuter, (((event_ts#8 > event_timestamp#1 + INTERVAL '-10' MINUTE) AND (event_ts#8 <= event_timestamp#1)) AND (received_ts#9 <= event_timestamp#1))
+   :     :                 :- *(2) Sort [machine_id#0 ASC NULLS FIRST], false, 0
+   :     :                 :  +- Exchange hashpartitioning(machine_id#0, 4), ENSURE_REQUIREMENTS, [plan_id=174]
+   :     :                 :     +- *(1) Project [machine_id#0, event_timestamp#1]
+   :     :                 :        +- *(1) Filter (isnotnull(machine_id#0) AND isnotnull(event_timestamp#1))
+   :     :                 :           +- *(1) Scan ExistingRDD[machine_id#0,event_timestamp#1,operating_status#2]
+   :     :                 +- *(4) Sort [machine_id#7 ASC NULLS FIRST], false, 0
+   :     :                    +- Exchange hashpartitioning(machine_id#7, 4), ENSURE_REQUIREMENTS, [plan_id=180]
+   :     :                       +- *(3) Filter ((isnotnull(machine_id#7) AND isnotnull(event_ts#8)) AND isnotnull(received_ts#9))
+   :     :                          +- *(3) Scan ExistingRDD[event_id#6,machine_id#7,event_ts#8,received_ts#9,temperature_c#10,vibration_rms_mm_s#11,current_a#12,rpm#13]
+   :     +- *(12) Sort [machine_id#95 ASC NULLS FIRST, event_timestamp#96 ASC NULLS FIRST], false, 0
+   :        +- Exchange hashpartitioning(machine_id#95, event_timestamp#96, 4), ENSURE_REQUIREMENTS, [plan_id=303]
+   :           +- *(11) HashAggregate(keys=[machine_id#95, event_timestamp#96], functions=[count(failure_id#28)], output=[machine_id#95, event_timestamp#96, prior_failures_24h#86L])
+   :              +- *(11) HashAggregate(keys=[machine_id#95, event_timestamp#96], functions=[partial_count(failure_id#28)], output=[machine_id#95, event_timestamp#96, count#218L])
+   :                 +- *(11) Project [machine_id#95, event_timestamp#96, failure_id#28]
+   :                    +- *(11) SortMergeJoin [machine_id#95], [machine_id#29], LeftOuter, (((failure_start_ts#30 <= event_timestamp#96) AND (recorded_ts#31 <= event_timestamp#96)) AND (failure_start_ts#30 > event_timestamp#96 + INTERVAL '-24' HOUR))
+   :                       :- *(8) Sort [machine_id#95 ASC NULLS FIRST], false, 0
+   :                       :  +- ReusedExchange [machine_id#95, event_timestamp#96], Exchange hashpartitioning(machine_id#0, 4), ENSURE_REQUIREMENTS, [plan_id=174]
+   :                       +- *(10) Sort [machine_id#29 ASC NULLS FIRST], false, 0
+   :                          +- Exchange hashpartitioning(machine_id#29, 4), ENSURE_REQUIREMENTS, [plan_id=202]
+   :                             +- *(9) Filter ((isnotnull(machine_id#29) AND isnotnull(failure_start_ts#30)) AND isnotnull(recorded_ts#31))
+   :                                +- *(9) Scan ExistingRDD[failure_id#28,machine_id#29,failure_start_ts#30,recorded_ts#31]
+   +- *(19) Sort [machine_id#109 ASC NULLS FIRST, event_timestamp#110 ASC NULLS FIRST], false, 0
+      +- Exchange hashpartitioning(machine_id#109, event_timestamp#110, 4), ENSURE_REQUIREMENTS, [plan_id=355]
+         +- *(18) Project [machine_id#109, event_timestamp#110, (cast((unix_timestamp(event_timestamp#110, yyyy-MM-dd HH:mm:ss, Some(UTC), false) - unix_timestamp(installed_at#23, yyyy-MM-dd HH:mm:ss, Some(UTC), false)) as double) / 86400.0) AS machine_age_days#91]
+            +- *(18) SortMergeJoin [machine_id#109], [machine_id#22], Inner, (valid_from_ts#24 <= event_timestamp#110)
+               :- *(15) Sort [machine_id#109 ASC NULLS FIRST], false, 0
+               :  +- ReusedExchange [machine_id#109, event_timestamp#110], Exchange hashpartitioning(machine_id#0, 4), ENSURE_REQUIREMENTS, [plan_id=174]
+               +- *(17) Sort [machine_id#22 ASC NULLS FIRST], false, 0
+                  +- Exchange hashpartitioning(machine_id#22, 4), ENSURE_REQUIREMENTS, [plan_id=228]
+                     +- *(16) Filter (isnotnull(machine_id#22) AND isnotnull(valid_from_ts#24))
+                        +- *(16) Scan ExistingRDD[machine_id#22,installed_at#23,valid_from_ts#24]

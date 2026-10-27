@@ -1,0 +1,40 @@
+*(16) Project [machine_id#0, event_timestamp#1, operating_status#2, next_failure_ts#556, interventions#600L, label_end_ts#619, label_available_ts#626, label_status#634, CASE WHEN (label_status#634 = eligible) THEN cast(isnotnull(next_failure_ts#556) as int) END AS failure_in_next_1h#643]
++- *(16) Project [machine_id#0, event_timestamp#1, operating_status#2, next_failure_ts#556, interventions#600L, label_end_ts#619, label_end_ts#619 + INTERVAL '30' SECOND AS label_available_ts#626, CASE WHEN NOT (operating_status#2 = operating) THEN stopped WHEN (label_end_ts#619 >= 2026-10-04 00:00:00) THEN censored WHEN (interventions#600L > 0) THEN maintenance ELSE eligible END AS label_status#634]
+   +- *(16) Project [machine_id#0, event_timestamp#1, operating_status#2, next_failure_ts#556, interventions#600L, event_timestamp#1 + INTERVAL '01' HOUR AS label_end_ts#619]
+      +- *(16) SortMergeJoin [machine_id#0, event_timestamp#1], [machine_id#611, event_timestamp#612], Inner
+         :- *(9) Project [machine_id#0, event_timestamp#1, operating_status#2, next_failure_ts#556]
+         :  +- *(9) SortMergeJoin [machine_id#0, event_timestamp#1], [machine_id#604, event_timestamp#605], Inner
+         :     :- *(2) Sort [machine_id#0 ASC NULLS FIRST, event_timestamp#1 ASC NULLS FIRST], false, 0
+         :     :  +- Exchange hashpartitioning(machine_id#0, event_timestamp#1, 4), ENSURE_REQUIREMENTS, [plan_id=1176]
+         :     :     +- *(1) Filter (isnotnull(machine_id#0) AND isnotnull(event_timestamp#1))
+         :     :        +- *(1) Scan ExistingRDD[machine_id#0,event_timestamp#1,operating_status#2]
+         :     +- *(8) Sort [machine_id#604 ASC NULLS FIRST, event_timestamp#605 ASC NULLS FIRST], false, 0
+         :        +- *(8) HashAggregate(keys=[machine_id#604, event_timestamp#605], functions=[min(failure_start_ts#30)], output=[machine_id#604, event_timestamp#605, next_failure_ts#556])
+         :           +- Exchange hashpartitioning(machine_id#604, event_timestamp#605, 4), ENSURE_REQUIREMENTS, [plan_id=1197]
+         :              +- *(7) HashAggregate(keys=[machine_id#604, event_timestamp#605], functions=[partial_min(failure_start_ts#30)], output=[machine_id#604, event_timestamp#605, min#703])
+         :                 +- *(7) Project [machine_id#604, event_timestamp#605, failure_start_ts#30]
+         :                    +- *(7) SortMergeJoin [machine_id#604, _bucket#519L], [machine_id#29, _bucket#523L], LeftOuter, ((failure_start_ts#30 > event_timestamp#605) AND (failure_start_ts#30 <= event_timestamp#605 + INTERVAL '01' HOUR))
+         :                       :- *(4) Sort [machine_id#604 ASC NULLS FIRST, _bucket#519L ASC NULLS FIRST], false, 0
+         :                       :  +- Exchange hashpartitioning(machine_id#604, _bucket#519L, 4), ENSURE_REQUIREMENTS, [plan_id=1182]
+         :                       :     +- *(3) Generate explode(array(_bucket#514L, (_bucket#514L + 1))), [machine_id#604, event_timestamp#605], false, [_bucket#519L]
+         :                       :        +- *(3) Project [machine_id#604, event_timestamp#605, FLOOR((cast(unix_micros(event_timestamp#605) as double) / 3.6E9)) AS _bucket#514L]
+         :                       :           +- *(3) Filter (isnotnull(machine_id#604) AND isnotnull(event_timestamp#605))
+         :                       :              +- *(3) Scan ExistingRDD[machine_id#604,event_timestamp#605,operating_status#606]
+         :                       +- *(6) Sort [machine_id#29 ASC NULLS FIRST, _bucket#523L ASC NULLS FIRST], false, 0
+         :                          +- Exchange hashpartitioning(machine_id#29, _bucket#523L, 4), ENSURE_REQUIREMENTS, [plan_id=1188]
+         :                             +- *(5) Project [machine_id#29, failure_start_ts#30, FLOOR((cast(unix_micros(failure_start_ts#30) as double) / 3.6E9)) AS _bucket#523L]
+         :                                +- *(5) Filter ((isnotnull(machine_id#29) AND isnotnull(FLOOR((cast(unix_micros(failure_start_ts#30) as double) / 3.6E9)))) AND isnotnull(failure_start_ts#30))
+         :                                   +- *(5) Scan ExistingRDD[failure_id#28,machine_id#29,failure_start_ts#30,recorded_ts#31]
+         +- *(15) Sort [machine_id#611 ASC NULLS FIRST, event_timestamp#612 ASC NULLS FIRST], false, 0
+            +- *(15) HashAggregate(keys=[machine_id#611, event_timestamp#612], functions=[count(maintenance_id#36)], output=[machine_id#611, event_timestamp#612, interventions#600L])
+               +- Exchange hashpartitioning(machine_id#611, event_timestamp#612, 4), ENSURE_REQUIREMENTS, [plan_id=1304]
+                  +- *(14) HashAggregate(keys=[machine_id#611, event_timestamp#612], functions=[partial_count(maintenance_id#36)], output=[machine_id#611, event_timestamp#612, count#705L])
+                     +- *(14) Project [machine_id#611, event_timestamp#612, maintenance_id#36]
+                        +- *(14) SortMergeJoin [machine_id#611, _bucket#567L], [machine_id#37, _bucket#571L], LeftOuter, ((start_ts#38 > event_timestamp#612) AND (start_ts#38 <= event_timestamp#612 + INTERVAL '01' HOUR))
+                           :- *(11) Sort [machine_id#611 ASC NULLS FIRST, _bucket#567L ASC NULLS FIRST], false, 0
+                           :  +- ReusedExchange [machine_id#611, event_timestamp#612, _bucket#567L], Exchange hashpartitioning(machine_id#604, _bucket#519L, 4), ENSURE_REQUIREMENTS, [plan_id=1182]
+                           +- *(13) Sort [machine_id#37 ASC NULLS FIRST, _bucket#571L ASC NULLS FIRST], false, 0
+                              +- Exchange hashpartitioning(machine_id#37, _bucket#571L, 4), ENSURE_REQUIREMENTS, [plan_id=1214]
+                                 +- *(12) Project [maintenance_id#36, machine_id#37, start_ts#38, FLOOR((cast(unix_micros(start_ts#38) as double) / 3.6E9)) AS _bucket#571L]
+                                    +- *(12) Filter ((isnotnull(machine_id#37) AND isnotnull(FLOOR((cast(unix_micros(start_ts#38) as double) / 3.6E9)))) AND isnotnull(start_ts#38))
+                                       +- *(12) Scan ExistingRDD[maintenance_id#36,machine_id#37,start_ts#38]

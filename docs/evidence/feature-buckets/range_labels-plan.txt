@@ -1,0 +1,38 @@
+*(16) Project [machine_id#0, event_timestamp#1, operating_status#2, next_failure_ts#138, interventions#143L, label_end_ts#163, label_available_ts#170, label_status#178, CASE WHEN (label_status#178 = eligible) THEN cast(isnotnull(next_failure_ts#138) as int) END AS failure_in_next_1h#187]
++- *(16) Project [machine_id#0, event_timestamp#1, operating_status#2, next_failure_ts#138, interventions#143L, label_end_ts#163, label_end_ts#163 + INTERVAL '30' SECOND AS label_available_ts#170, CASE WHEN NOT (operating_status#2 = operating) THEN stopped WHEN (label_end_ts#163 >= 2026-10-04 00:00:00) THEN censored WHEN (interventions#143L > 0) THEN maintenance ELSE eligible END AS label_status#178]
+   +- *(16) Project [machine_id#0, event_timestamp#1, operating_status#2, next_failure_ts#138, interventions#143L, event_timestamp#1 + INTERVAL '01' HOUR AS label_end_ts#163]
+      +- *(16) SortMergeJoin [machine_id#0, event_timestamp#1], [machine_id#155, event_timestamp#156], Inner
+         :- *(9) Project [machine_id#0, event_timestamp#1, operating_status#2, next_failure_ts#138]
+         :  +- *(9) SortMergeJoin [machine_id#0, event_timestamp#1], [machine_id#148, event_timestamp#149], Inner
+         :     :- *(2) Sort [machine_id#0 ASC NULLS FIRST, event_timestamp#1 ASC NULLS FIRST], false, 0
+         :     :  +- Exchange hashpartitioning(machine_id#0, event_timestamp#1, 4), ENSURE_REQUIREMENTS, [plan_id=520]
+         :     :     +- *(1) Filter (isnotnull(machine_id#0) AND isnotnull(event_timestamp#1))
+         :     :        +- *(1) Scan ExistingRDD[machine_id#0,event_timestamp#1,operating_status#2]
+         :     +- *(8) Sort [machine_id#148 ASC NULLS FIRST, event_timestamp#149 ASC NULLS FIRST], false, 0
+         :        +- Exchange hashpartitioning(machine_id#148, event_timestamp#149, 4), ENSURE_REQUIREMENTS, [plan_id=542]
+         :           +- *(7) HashAggregate(keys=[machine_id#148, event_timestamp#149], functions=[min(failure_start_ts#30)], output=[machine_id#148, event_timestamp#149, next_failure_ts#138])
+         :              +- *(7) HashAggregate(keys=[machine_id#148, event_timestamp#149], functions=[partial_min(failure_start_ts#30)], output=[machine_id#148, event_timestamp#149, min#285])
+         :                 +- *(7) Project [machine_id#148, event_timestamp#149, failure_start_ts#30]
+         :                    +- *(7) SortMergeJoin [machine_id#148], [machine_id#29], LeftOuter, ((failure_start_ts#30 > event_timestamp#149) AND (failure_start_ts#30 <= event_timestamp#149 + INTERVAL '01' HOUR))
+         :                       :- *(4) Sort [machine_id#148 ASC NULLS FIRST], false, 0
+         :                       :  +- Exchange hashpartitioning(machine_id#148, 4), ENSURE_REQUIREMENTS, [plan_id=526]
+         :                       :     +- *(3) Project [machine_id#148, event_timestamp#149]
+         :                       :        +- *(3) Filter (isnotnull(machine_id#148) AND isnotnull(event_timestamp#149))
+         :                       :           +- *(3) Scan ExistingRDD[machine_id#148,event_timestamp#149,operating_status#150]
+         :                       +- *(6) Sort [machine_id#29 ASC NULLS FIRST], false, 0
+         :                          +- Exchange hashpartitioning(machine_id#29, 4), ENSURE_REQUIREMENTS, [plan_id=532]
+         :                             +- *(5) Project [machine_id#29, failure_start_ts#30]
+         :                                +- *(5) Filter (isnotnull(machine_id#29) AND isnotnull(failure_start_ts#30))
+         :                                   +- *(5) Scan ExistingRDD[failure_id#28,machine_id#29,failure_start_ts#30,recorded_ts#31]
+         +- *(15) Sort [machine_id#155 ASC NULLS FIRST, event_timestamp#156 ASC NULLS FIRST], false, 0
+            +- Exchange hashpartitioning(machine_id#155, event_timestamp#156, 4), ENSURE_REQUIREMENTS, [plan_id=645]
+               +- *(14) HashAggregate(keys=[machine_id#155, event_timestamp#156], functions=[count(maintenance_id#36)], output=[machine_id#155, event_timestamp#156, interventions#143L])
+                  +- *(14) HashAggregate(keys=[machine_id#155, event_timestamp#156], functions=[partial_count(maintenance_id#36)], output=[machine_id#155, event_timestamp#156, count#287L])
+                     +- *(14) Project [machine_id#155, event_timestamp#156, maintenance_id#36]
+                        +- *(14) SortMergeJoin [machine_id#155], [machine_id#37], LeftOuter, ((start_ts#38 > event_timestamp#156) AND (start_ts#38 <= event_timestamp#156 + INTERVAL '01' HOUR))
+                           :- *(11) Sort [machine_id#155 ASC NULLS FIRST], false, 0
+                           :  +- ReusedExchange [machine_id#155, event_timestamp#156], Exchange hashpartitioning(machine_id#148, 4), ENSURE_REQUIREMENTS, [plan_id=526]
+                           +- *(13) Sort [machine_id#37 ASC NULLS FIRST], false, 0
+                              +- Exchange hashpartitioning(machine_id#37, 4), ENSURE_REQUIREMENTS, [plan_id=558]
+                                 +- *(12) Filter (isnotnull(machine_id#37) AND isnotnull(start_ts#38))
+                                    +- *(12) Scan ExistingRDD[maintenance_id#36,machine_id#37,start_ts#38]
