@@ -1,0 +1,90 @@
+{
+  "source_commit": "da1b180880f8069f6eb3ed2be71f5bc94737c789",
+  "files": {
+    "ab-metrics.txt": {
+      "sha256": "b4241eda6fd523966d62d0c2833da206d80e241904664be0ce28794a0f71b06d",
+      "bytes": 6017
+    },
+    "baseline-metrics-after.txt": {
+      "sha256": "c72d6eff7004127192cacbeb3c7dfcaa4cd192c4cdb7874ca2dc081949334af4",
+      "bytes": 1539
+    },
+    "baseline-metrics-before.txt": {
+      "sha256": "ab49e2347470278996ed9ce2956c15d52bebd696822cc2baa93ae659a20d2d9b",
+      "bytes": 1506
+    },
+    "candidate-metrics-after.txt": {
+      "sha256": "927b05ff602b6547e9fe88fa68d0a43857934005e947b9a9e330209966786988",
+      "bytes": 1537
+    },
+    "candidate-metrics-before.txt": {
+      "sha256": "f1ad632a15ed31d4489d8c0a14b15676b29f8f5cd96457514a45ef2b6a179ebf",
+      "bytes": 1505
+    },
+    "client-observations.json": {
+      "sha256": "282ed9e7fe718108ec28d517dbf0bfff811a866cc798e4111f287c77f31efc4b",
+      "bytes": 161741
+    },
+    "fixture-values.json": {
+      "sha256": "c15ebb9eb64ebc34cda6389b78461a67dc3aac19ffe2fbd02d7e20d521ddeacb",
+      "bytes": 3216
+    },
+    "helm-lint.redacted.txt": {
+      "sha256": "fd2a7afb9a5180599f470702a07fd8bed151c3bcd7dc7b81fbca271615cf1a64",
+      "bytes": 126
+    },
+    "helm-rendered.yaml": {
+      "sha256": "35afd4edd762009b279b2c49bce79e462458571ccf9b55e1a603f3bbee61ec0c",
+      "bytes": 5146
+    },
+    "historical-adaba.manifest.json": {
+      "sha256": "980e600adcaf57d290a947f6b5d951d4aaa77aec64cb67ab91a096c67b13879e",
+      "bytes": 7592
+    },
+    "http-ledger.factored.json": {
+      "sha256": "a6a277c4bc280c3de328e102ed65b46b353c4062f1563115998ee37861b56c02",
+      "bytes": 489412
+    },
+    "http-tests.txt": {
+      "sha256": "aa48d1be696d8c2a0941cec6c7e5cc0d392b7d86c1f16f8dc9bcfbc9ec54b07c",
+      "bytes": 112
+    },
+    "http-verification.json": {
+      "sha256": "39c162ab7209ed0835d72874834e0042bdb59a7ee860fbcb216484ea3138c8f2",
+      "bytes": 1012
+    },
+    "preparation.json": {
+      "sha256": "f1f2a360aa1e0d449c4aced999c7fbced745db692fe3c7f878b1f84503116fb7",
+      "bytes": 9082
+    },
+    "sealed-coverage.json": {
+      "sha256": "52eb37cf180a579a848902c30cf49ac96139a3c3ba5906806d6b918ae0c97426",
+      "bytes": 85074
+    },
+    "sealed-junit.xml": {
+      "sha256": "5accd4947f672291437d809b672ba3ec7199f2683bd1340466d067b762b4ccf6",
+      "bytes": 35670
+    },
+    "sealed-tests.redacted.txt": {
+      "sha256": "365302ce4c797ae91105f211f9569545994e243ea8eab863791ede7af38eb339",
+      "bytes": 2244
+    },
+    "source.manifest.json": {
+      "sha256": "457c475eb61c7a0d21695986e844ac401c91da24c1f30b66f3f0d683ee5e25fe",
+      "bytes": 7981
+    },
+    "unit-coverage.json": {
+      "sha256": "19ae927304c8c107fa71ea3765bc61e1cc918ba8f0c2cec9a33dc2955b83f76c",
+      "bytes": 21244
+    },
+    "unit-tests.redacted.txt": {
+      "sha256": "c34d532332b947b96a6a1c4b8697361f77bbb7496c705514454221a750d0b0ca",
+      "bytes": 816
+    },
+    "verification.json": {
+      "sha256": "89ea9649ddca59caeedc3857362e41b5919735d44bdd616931dcbd099023d94f",
+      "bytes": 11548
+    }
+  },
+  "scope": "PC preparation only. HTTP ledger explicitly factored without semantic loss; three consoles path-only redacted. Other copied artifacts retained as recorded."
+}

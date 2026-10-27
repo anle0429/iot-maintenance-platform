@@ -1,5 +1,7 @@
 # Checklist rubric và bằng chứng
 
+Cập nhật27/10: [Phase A/B CI](ci-ab-deployment.md) đã nối source73file/49contracts/262sealedtests/1skip và800HTTPtrialPC có readiness nền, không tăngsnapshotdrift. Chưa nativebuild/deploy/SQL/CI SUCCESS; finalF33/F34/F52Doing.93sourcecriteria giữ nguyên.
+
 Cập nhật27/10: [A/B API](ab-testing.md) có20test/400HTTPpredictions/40retryPC, modelcounters và driftreadbacks khớp; sealed69file227PASS/1POSIXskip. Grafana chỉJSON, chưa nativeCI/A-B/mutation. FinalF52/F53Doing; giữ93sourcecriteria lịch sử.
 
 Cập nhật27/10: [Serving CI chuẩn bị](ci-serving.md) đã qua37contract tests/207isolated tests/1POSIXskip và Helm lint/render trên PC. Bản sửa bind Jenkins của training chưa lên VM. Chưa native CI/A/B; chốt không cho full cutover thiếu A/B. FinalF29/F33/F34/F52 vẫnĐang làm;93tiêu chí nguồn giữ nguyên.

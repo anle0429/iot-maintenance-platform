@@ -43,6 +43,6 @@ python scripts/export-production-model.py \
 
 Credentials dùng môi trường/credential manager của CI; URL có user/password hoặc query token bị từ chối. Với snapshot hiện tại chưa có version production, exporter sẽ chặn. Cần quyết định release của môi trường lab, rồi mới gắn nhãn và đọc lại; exporter không thực hiện promotion.
 
-[Mã Jenkins serving và kiểm PC](ci-serving.md) đã có packet nguồn, API gates, paired stage/switch và chốt A/B; chưa cài job/build images hoặc chạy native. [A/B router và monitoring](ab-testing.md) đã chạyHTTPthật trênPC với fixtures; fullcutover vẫn bị chặn chờ phaseCI và bằng chứngA/B native. Tiếp theo cần production SDK export, Linux mutation/load, image/HTTP/rollout/rollback trên VM; F33/F34 vẫn chưa hoàn tất.
+[Mã Jenkins serving và kiểm PC](ci-serving.md) đã có packet nguồn, API gates, paired stage/switch và chốt A/B; chưa cài job/build images hoặc chạy native. [A/B router và monitoring](ab-testing.md) đã chạyHTTPthật trênPC với fixtures; [phaseCI đã nối mã](ci-ab-deployment.md), nhưng fullcutover vẫn cần bằng chứngA/B native. Tiếp theo cần production SDK export, Linux mutation/load, image/HTTP/rollout/rollback trên VM; F33/F34 vẫn chưa hoàn tất.
 
 Quy ước tag/alias/stage tham khảo [MLflow registry workflow chính thức](https://mlflow.org/docs/latest/ml/model-registry/workflow/); source và số đo bên trên xác định phạm vi dự án đã kiểm.

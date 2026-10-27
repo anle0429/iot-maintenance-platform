@@ -1,0 +1,60 @@
+# HELP iot_ab_requests_total Unique completed trial IDs
+# TYPE iot_ab_requests_total counter
+iot_ab_requests_total{experiment="serve-jenkins-7",variant="baseline",version="1"} 372.0
+iot_ab_requests_total{experiment="serve-jenkins-7",variant="candidate",version="2"} 428.0
+# HELP iot_ab_failures_total Unique non200 trial outcomes
+# TYPE iot_ab_failures_total counter
+iot_ab_failures_total{experiment="serve-jenkins-7",variant="baseline",version="1"} 0.0
+iot_ab_failures_total{experiment="serve-jenkins-7",variant="candidate",version="2"} 0.0
+# HELP iot_ab_request_seconds Server model path duration, excluding lock wait and network
+# TYPE iot_ab_request_seconds histogram
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.005",variant="baseline",version="1"} 349.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.01",variant="baseline",version="1"} 359.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.025",variant="baseline",version="1"} 368.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.05",variant="baseline",version="1"} 372.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.1",variant="baseline",version="1"} 372.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.25",variant="baseline",version="1"} 372.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.5",variant="baseline",version="1"} 372.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="1",variant="baseline",version="1"} 372.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="5",variant="baseline",version="1"} 372.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="+Inf",variant="baseline",version="1"} 372.0
+iot_ab_request_seconds_count{experiment="serve-jenkins-7",variant="baseline",version="1"} 372.0
+iot_ab_request_seconds_sum{experiment="serve-jenkins-7",variant="baseline",version="1"} 1.3675095000653528
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.005",variant="candidate",version="2"} 403.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.01",variant="candidate",version="2"} 416.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.025",variant="candidate",version="2"} 427.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.05",variant="candidate",version="2"} 428.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.1",variant="candidate",version="2"} 428.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.25",variant="candidate",version="2"} 428.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="0.5",variant="candidate",version="2"} 428.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="1",variant="candidate",version="2"} 428.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="5",variant="candidate",version="2"} 428.0
+iot_ab_request_seconds_bucket{experiment="serve-jenkins-7",le="+Inf",variant="candidate",version="2"} 428.0
+iot_ab_request_seconds_count{experiment="serve-jenkins-7",variant="candidate",version="2"} 428.0
+iot_ab_request_seconds_sum{experiment="serve-jenkins-7",variant="candidate",version="2"} 1.4638916998665081
+# HELP iot_ab_mean_risk_score Mean score of successful unique trials; not accuracy
+# TYPE iot_ab_mean_risk_score gauge
+iot_ab_mean_risk_score{experiment="serve-jenkins-7",variant="baseline",version="1"} 0.7234001576723641
+iot_ab_mean_risk_score{experiment="serve-jenkins-7",variant="candidate",version="2"} 0.7234001576723641
+# HELP iot_ab_unique_snapshots Distinct machine and feature-time snapshots
+# TYPE iot_ab_unique_snapshots gauge
+iot_ab_unique_snapshots{experiment="serve-jenkins-7",variant="baseline",version="1"} 93.0
+iot_ab_unique_snapshots{experiment="serve-jenkins-7",variant="candidate",version="2"} 107.0
+# HELP iot_ab_feature_psi Shared-reference marginal PSI without ground truth
+# TYPE iot_ab_feature_psi gauge
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="temperature_mean_10m",variant="baseline",version="1"} 0.0008811448577982424
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="vibration_max_10m",variant="baseline",version="1"} 0.0008811448577982424
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="current_mean_10m",variant="baseline",version="1"} 0.0008811448577982424
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="current_std_10m",variant="baseline",version="1"} 0.0008811448577982424
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="rpm_mean_10m",variant="baseline",version="1"} 0.0008811448577982424
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="reading_count_10m",variant="baseline",version="1"} 0.0008811448577982424
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="machine_age_days",variant="baseline",version="1"} 0.0008811448577982424
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="prior_failures_24h",variant="baseline",version="1"} 0.0008811448577982424
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="temperature_mean_10m",variant="candidate",version="2"} 0.001564494431761938
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="vibration_max_10m",variant="candidate",version="2"} 0.001564494431761938
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="current_mean_10m",variant="candidate",version="2"} 0.001564494431761938
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="current_std_10m",variant="candidate",version="2"} 0.001564494431761938
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="rpm_mean_10m",variant="candidate",version="2"} 0.001564494431761938
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="reading_count_10m",variant="candidate",version="2"} 0.001564494431761938
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="machine_age_days",variant="candidate",version="2"} 0.001564494431761938
+iot_ab_feature_psi{experiment="serve-jenkins-7",feature="prior_failures_24h",variant="candidate",version="2"} 0.001564494431761938

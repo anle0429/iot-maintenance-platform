@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "http_predictions": 800,
+  "concurrent_replays": 40,
+  "unique_snapshots": 200,
+  "cohort_counts": {
+    "baseline": 372,
+    "candidate": 428
+  },
+  "predictor_counter_deltas": {
+    "baseline": 492.0,
+    "candidate": 548.0
+  },
+  "background_readiness_calls": 125,
+  "registry_is_fixture": true,
+  "online_features_are_fixture": true,
+  "offline_oracle_is_fixture": true,
+  "same_legacy_weights": true,
+  "kubernetes_contacted": false,
+  "native_deployed": false,
+  "retained_local_sqlite": {
+    "rows": 800,
+    "semantic_rows_sha256": "70cc0e58fc8b2192c715d6dd970feca1eeefd58b54f4c93aef351d1f9077b60a",
+    "seal_sha256": "6afb28cbb8814087078c2feb4b5248242e7af8620f78c7974550ba602148a6d0"
+  },
+  "readonly_ledger_check_preserved_bytes": true,
+  "scope": "Actual CI probe/driver HTTP transport across three PC loopback ASGI servers with background readiness activity. No K8s deploy, native Feast, registry promotion, two trained models or Grafana claim."
+}
