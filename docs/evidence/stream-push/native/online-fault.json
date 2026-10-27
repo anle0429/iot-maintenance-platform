@@ -1,0 +1,36 @@
+{
+  "binding": {
+    "code_sha256": {
+      "feature_store/common.py": "1763fa6da99f357256dd6bb5c6521224796240aa61ee59be422c9ff32be18441",
+      "feature_store/outbox.py": "c7df81b1415b01e00593cc3eeab74e7f9f56e5f89e305427c29fd823f358d431",
+      "feature_store/push.py": "3a116e0968449c9bf675f193669d7dbc2e983cadf4c4b13932facb6960432b5d"
+    },
+    "columns": [
+      "machine_id",
+      "event_timestamp",
+      "created",
+      "reading_count",
+      "temperature_sum",
+      "temperature_mean",
+      "vibration_max"
+    ],
+    "project": "iot_windows_6aaffa3e8004",
+    "source_id": "native-window-push-native-27-v2",
+    "view": "machine_tumbling_final_10m"
+  },
+  "checked_utc": "2026-10-27T06:27:25.752437+00:00",
+  "checks": {
+    "offline_count_at_fault": true,
+    "one_pending_intent": true,
+    "online_write_was_real": true
+  },
+  "code_sha256": "81b473fdca4149f6fff616c20cac3a872b98e1de7c1d8b9bd522a64466b86cd3",
+  "completed_intents": 0,
+  "expected_exit_code": 3,
+  "expected_injected_fault_observed": true,
+  "modes": [],
+  "offline_rows": 0,
+  "passed": true,
+  "scope": "Real native Feast/Redis/Parquet writes and process-phase retry tests; injected failures are intentionally nonzero. Not distributed transactions, power-loss-safe Parquet rewrite or live Flink deployment.",
+  "step": "online-fault"
+}

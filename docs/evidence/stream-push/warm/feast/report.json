@@ -1,0 +1,60 @@
+{
+  "binding": {
+    "code_sha256": {
+      "feature_store/common.py": "1763fa6da99f357256dd6bb5c6521224796240aa61ee59be422c9ff32be18441",
+      "feature_store/outbox.py": "c7df81b1415b01e00593cc3eeab74e7f9f56e5f89e305427c29fd823f358d431",
+      "feature_store/push.py": "3a116e0968449c9bf675f193669d7dbc2e983cadf4c4b13932facb6960432b5d"
+    },
+    "columns": [
+      "machine_id",
+      "event_timestamp",
+      "created",
+      "reading_count",
+      "temperature_sum",
+      "temperature_mean",
+      "vibration_max"
+    ],
+    "project": "iot_windows_3511a31809e3",
+    "source_id": "kafka-flink-finalized-feast-stream-warm-27",
+    "view": "machine_tumbling_final_10m"
+  },
+  "clock_policy": "event_timestamp is simulated window end; created is actual Flink finalization audit time. Historical equality uses created filterFalse and does not claim availability at simulated window end.",
+  "completed_utc": "2026-10-27T07:04:32.532290+00:00",
+  "historical_rows": 3,
+  "machines": 2,
+  "offline_rows": 3,
+  "offline_sha256": "18927de439d6622f1fcea1bcd581573e3b370d33d5a63bd99be965d92c6775b5",
+  "passed": true,
+  "poll_observations": 173,
+  "push_events": [
+    {
+      "event_timestamp": "2026-10-01T00:10:00Z",
+      "machine_id": "P-001",
+      "mode": "native_online_and_offline",
+      "pushed_wall_utc": "2026-10-27T07:03:18.143311+00:00",
+      "source_created_wall_utc": "2026-10-27T07:03:14.736748+00:00"
+    },
+    {
+      "event_timestamp": "2026-10-01T00:10:00Z",
+      "machine_id": "P-002",
+      "mode": "native_online_and_offline",
+      "pushed_wall_utc": "2026-10-27T07:03:20.111619+00:00",
+      "source_created_wall_utc": "2026-10-27T07:03:14.737225+00:00"
+    },
+    {
+      "event_timestamp": "2026-10-01T00:20:00Z",
+      "machine_id": "P-001",
+      "mode": "native_online_and_offline",
+      "pushed_wall_utc": "2026-10-27T07:04:16.152008+00:00",
+      "source_created_wall_utc": "2026-10-27T07:04:13.017254+00:00"
+    }
+  ],
+  "scope": "A bounded polling push job consuming committed final Flink outputs, with native Feast offline/online/historical readback. Not a transactional Flink checkpoint sink, model rolling features or continuous production deployment.",
+  "seconds": 125.96474153700001,
+  "source_database": "/var/lib/iot-ledgers/8b566643af78d4bcecad83d9.sqlite",
+  "source_done_sha256": "fbb12b53b586dbecb95ba713b606134fd0af6135b0440add854dcc29651d9db8",
+  "source_id": "kafka-flink-finalized-feast-stream-warm-27",
+  "source_windows_semantic_sha256": "ac905a39e43ea09a41430d0c3a291a188fc62bd46c866ee3fbab8a3ef8ba03ab",
+  "verified_utc": "2026-10-27T07:04:32.531675+00:00",
+  "worker_code_sha256": "46656f34c692e69e86656efb5aff38846cc4580d8fc974289ef98fc99deba33b"
+}

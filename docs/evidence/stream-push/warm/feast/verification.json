@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "preflight_sha256": "2fdc782ca90f562d8667fa350a629604344ff96169e452d8f90c71bc30551c2d",
+  "worker_report_sha256": "61dfc3f6ae5d51b9d07e644021693bc1192ae442bb135e7edf9e8382a625f3b4",
+  "worker_ready_sha256": "9aa652710650b09a3faf7f11f04c2c9be78f1b67581ba95799513da55c2745a0",
+  "source_report_sha256": "8c4a41b37d8b46fbba2e38c3f8f85120ad442932e96fadaabf718f958037732c",
+  "observed_live_push_sha256": "8919509e1cd890e1214c3e81a045639808de9b4f969295257d3606d45ad301b9",
+  "source_done_sha256": "fbb12b53b586dbecb95ba713b606134fd0af6135b0440add854dcc29651d9db8",
+  "source_window_rows": 3,
+  "source_reading_count_total": 5,
+  "too_late_event_ids": [
+    "E"
+  ],
+  "full_ingest_code_unchanged": true,
+  "scope": "Real single-partition Kafka/Flink final windows pushed before source completion, then exact native Feast offline/history/online checks. Not a transactional checkpoint sink, model rolling features or100GB streaming."
+}

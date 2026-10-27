@@ -1,0 +1,194 @@
+{
+  "passed": true,
+  "commands": [
+    {
+      "step": "online-fault",
+      "argv": [
+        "docker",
+        "compose",
+        "-f",
+        "/srv/iot-data/workspace/iot-maintenance-platform/infra/feast.compose.yaml",
+        "run",
+        "--rm",
+        "--name",
+        "iot-push-native-check-27-v2",
+        "tools",
+        "-m",
+        "feature_store.push_checks",
+        "--step",
+        "online-fault",
+        "--state",
+        "/workspace/data/feast/push-native-27-v2",
+        "--output",
+        "/workspace/outputs/push-native-27-v2/online-fault.json"
+      ],
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "seconds": 24.288807470999927,
+      "actual_limits": {
+        "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+        "memory_bytes": 8589934592,
+        "nano_cpus": 1000000000
+      },
+      "report_sha256": "5ff5860a38275814861b5fd87d5990ddca5b3e6549f474eb086712918535b7e7"
+    },
+    {
+      "step": "recover-online",
+      "argv": [
+        "docker",
+        "compose",
+        "-f",
+        "/srv/iot-data/workspace/iot-maintenance-platform/infra/feast.compose.yaml",
+        "run",
+        "--rm",
+        "--name",
+        "iot-push-native-check-27-v2",
+        "tools",
+        "-m",
+        "feature_store.push_checks",
+        "--step",
+        "recover-online",
+        "--state",
+        "/workspace/data/feast/push-native-27-v2",
+        "--output",
+        "/workspace/outputs/push-native-27-v2/recover-online.json"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "seconds": 11.912835494999854,
+      "actual_limits": {
+        "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+        "memory_bytes": 8589934592,
+        "nano_cpus": 1000000000
+      },
+      "report_sha256": "8297737d870ffa0e37dd66f886667370712953a503c0b4701e1426dd18c80725"
+    },
+    {
+      "step": "ack-fault",
+      "argv": [
+        "docker",
+        "compose",
+        "-f",
+        "/srv/iot-data/workspace/iot-maintenance-platform/infra/feast.compose.yaml",
+        "run",
+        "--rm",
+        "--name",
+        "iot-push-native-check-27-v2",
+        "tools",
+        "-m",
+        "feature_store.push_checks",
+        "--step",
+        "ack-fault",
+        "--state",
+        "/workspace/data/feast/push-native-27-v2",
+        "--output",
+        "/workspace/outputs/push-native-27-v2/ack-fault.json"
+      ],
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "seconds": 16.589092374000757,
+      "actual_limits": {
+        "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+        "memory_bytes": 8589934592,
+        "nano_cpus": 1000000000
+      },
+      "report_sha256": "f33a2c97a68ccc4b45859c45bba8a8ac3e0c47ddf0b6fc20994ca241767a1d7b"
+    },
+    {
+      "step": "recover-ack",
+      "argv": [
+        "docker",
+        "compose",
+        "-f",
+        "/srv/iot-data/workspace/iot-maintenance-platform/infra/feast.compose.yaml",
+        "run",
+        "--rm",
+        "--name",
+        "iot-push-native-check-27-v2",
+        "tools",
+        "-m",
+        "feature_store.push_checks",
+        "--step",
+        "recover-ack",
+        "--state",
+        "/workspace/data/feast/push-native-27-v2",
+        "--output",
+        "/workspace/outputs/push-native-27-v2/recover-ack.json"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "seconds": 16.38870020000013,
+      "actual_limits": {
+        "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+        "memory_bytes": 8589934592,
+        "nano_cpus": 1000000000
+      },
+      "report_sha256": "c002b1118afd825f7d842a83d1e078cf537de431e16dd0efce644618310f851b"
+    },
+    {
+      "step": "finish",
+      "argv": [
+        "docker",
+        "compose",
+        "-f",
+        "/srv/iot-data/workspace/iot-maintenance-platform/infra/feast.compose.yaml",
+        "run",
+        "--rm",
+        "--name",
+        "iot-push-native-check-27-v2",
+        "tools",
+        "-m",
+        "feature_store.push_checks",
+        "--step",
+        "finish",
+        "--state",
+        "/workspace/data/feast/push-native-27-v2",
+        "--output",
+        "/workspace/outputs/push-native-27-v2/finish.json"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "seconds": 22.520210513000166,
+      "actual_limits": {
+        "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+        "memory_bytes": 8589934592,
+        "nano_cpus": 1000000000
+      },
+      "report_sha256": "9fcc66e6a665ce7037916218d48486a54854b87d8429c348422c60b0a32a9c63"
+    },
+    {
+      "step": "baseline",
+      "argv": [
+        "docker",
+        "compose",
+        "-f",
+        "/srv/iot-data/workspace/iot-maintenance-platform/infra/feast.compose.yaml",
+        "run",
+        "--rm",
+        "--name",
+        "iot-push-native-check-27-v2",
+        "tools",
+        "-m",
+        "feature_store.push_checks",
+        "--step",
+        "baseline",
+        "--state",
+        "/workspace/data/feast/push-native-baseline-27-v2",
+        "--output",
+        "/workspace/outputs/push-native-27-v2/baseline.json"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "seconds": 18.286331037999844,
+      "actual_limits": {
+        "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+        "memory_bytes": 8589934592,
+        "nano_cpus": 1000000000
+      },
+      "report_sha256": "a4fe0fa5eaef7dab57c8df352787001d60a0f1ee2d059e95f06f1c2f1acc4211"
+    }
+  ],
+  "preflight_sha256": "698f5e90cf5ae6ea26a6d892c2ca0209ff4ed4be89817e2ab71a4cd9eef2ed2f",
+  "full_ingest_code_unchanged_after": true,
+  "scope": "Six separate native SDK processes: both store-boundary failures, restart reconciliation, older-window protection, replay/corruption and isolated append-only baseline. Not live Flink/100GB/ML proof."
+}

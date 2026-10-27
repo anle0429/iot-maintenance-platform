@@ -1,0 +1,6 @@
+# Keep the finite Flink fixture and broker within the CPU headroom beside the guarded100GB job.
+services:
+  kafka:
+    cpus: 0.5
+  flink:
+    cpus: 1

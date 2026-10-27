@@ -1,0 +1,19 @@
+{
+  "code_sha256": {
+    "feature_store/common.py": "1763fa6da99f357256dd6bb5c6521224796240aa61ee59be422c9ff32be18441",
+    "feature_store/outbox.py": "c7df81b1415b01e00593cc3eeab74e7f9f56e5f89e305427c29fd823f358d431",
+    "feature_store/push.py": "3a116e0968449c9bf675f193669d7dbc2e983cadf4c4b13932facb6960432b5d"
+  },
+  "columns": [
+    "machine_id",
+    "event_timestamp",
+    "created",
+    "reading_count",
+    "temperature_sum",
+    "temperature_mean",
+    "vibration_max"
+  ],
+  "project": "iot_windows_a00382212b60",
+  "source_id": "kafka-flink-finalized-feast-stream-ui-27",
+  "view": "machine_tumbling_final_10m"
+}

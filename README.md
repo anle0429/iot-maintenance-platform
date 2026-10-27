@@ -8,7 +8,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [Benchmark skew mới](docs/skew-benchmark.md) trên 17,28 triệu dòng Silver: ba cặp query cho kết quả giống hệt, trung vị15,339→8,577giây khi broadcast bảng chính sách nhà máy; có ảnh Spark UI thật. 111 unittest qua trên PC và VM sau khi thêm planner tài nguyên. [Gate Spark lớn](docs/scale-100gb.md#gate-cho-spark-toàn-nguồn-lớn): lịch sử time gate đã chặn lượt cũ. Phiên VM mới được duyệt và lượt Spark toàn nguồn đang chạy từ04:46UTC27/10, chưa có kết quả cuối.
 
-[Feature60ngày](docs/medium-feature-dataset.md) đã chạy trênVM:3.456.000snapshots,3.132.184dòng đủ điều kiện theo protocol cố định; validation/test đều có đủ classes và sự cố độc lập.136unit test và ba kiểm tra cohortSpark qua, input/output/marker được đối chiếu. [Feast](docs/feast-feature-store.md) đã compact/register3,456triệu snapshots, materialize initial/incremental200máy và native load toàn3.132.184eligible rows; exact toàn bộ feature/nhãn, replay và corruption check qua. [Airflow materialization/DataHub](docs/feast-materialization.md) đã kiểm initial/incremental200máy, replay, lùi checkpoint và6assertions/ảnhthật. Chưa huấn luyện mới/KFP hoặc streaming Feast.
+[Feature60ngày](docs/medium-feature-dataset.md) đã chạy trênVM:3.456.000snapshots,3.132.184dòng đủ điều kiện theo protocol cố định; validation/test đều có đủ classes và sự cố độc lập.136unit test và ba kiểm tra cohortSpark qua, input/output/marker được đối chiếu. [Feast](docs/feast-feature-store.md) đã compact/register3,456triệu snapshots, materialize initial/incremental200máy và native load toàn3.132.184eligible rows; exact toàn bộ feature/nhãn, replay và corruption check qua. [Airflow materialization/DataHub](docs/feast-materialization.md) đã kiểm initial/incremental200máy, replay, lùi checkpoint và6assertions/ảnhthật. [Flink → Feast](docs/stream-feast-push.md) đã kiểm live push ba cửa sổ vào offline/online, retry hai biên ghi và readiness trước source; 140 unit tests qua. Chưa huấn luyện mới/KFP hoặc streaming toàn mini-coursework.
 
 ## Mục lục
 
@@ -32,6 +32,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Feature60ngày: nhãn, purge, loại dòng và class/episode support](docs/medium-feature-dataset.md)
 - [Feast offline/online: PIT, compaction, full-cohort load và retry](docs/feast-feature-store.md)
 - [Airflow Feast: incremental/checkpoint, chặn lùi thời gian và DataHub](docs/feast-materialization.md)
+- [Flink → Feast: live push, retry, readiness và giới hạn checkpoint](docs/stream-feast-push.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist rubric](docs/rubric-tracker.md)
 - [Cấu trúc hiện tại](#cấu-trúc-hiện-tại)

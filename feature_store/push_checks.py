@@ -1,0 +1,94 @@
+"""Exercise actual native push writes in separate process phases, including failures at both store boundaries."""
+
+import argparse
+from datetime import datetime,timedelta,timezone
+import json
+from pathlib import Path
+
+from feast.data_source import PushMode
+
+from feature_store.common import digest,save,utc_now
+from feature_store.push import PUSH,WindowPusher,feature_frame
+
+
+def fixture():
+    """Return independent absolute window values, including a new older window after a newer one."""
+    start=datetime(2026,10,1,tzinfo=timezone.utc)
+    def row(machine,minute,value):
+        """Keep event and actual availability clocks explicit and stable across process retries."""
+        return {'kind':'window','machine_id':machine,'window_start':(start+timedelta(minutes=minute-10)).isoformat(),
+                'event_timestamp':(start+timedelta(minutes=minute)).isoformat(),'created':'2026-10-27T06:00:00+00:00',
+                'reading_count':2,'temperature_sum':2*value,'temperature_mean':float(value),'vibration_max':value/10}
+    return [row('A',10,15),row('A',20,40),row('A',0,5),row('B',10,100)]
+
+
+def run(args):
+    """Expect nonzero exits only for explicitly injected boundaries, then recover through real persisted state."""
+    if args.output.exists():
+        raise ValueError('Preserve each native push check report; choose a new file')
+    rows=fixture();modes=[];checks={};fault=False
+    with WindowPusher(args.state,'native-window-'+args.state.name) as writer:
+        if args.step in ('online-fault','ack-fault'):
+            row,kind,message=(rows[0],'after_online','Injected after online write, before offline append') if args.step=='online-fault' else (rows[1],'after_both_before_ack','Injected after both stores, before durable acknowledgement')
+            try:
+                writer.push(row,kind)
+            except RuntimeError as error:
+                if str(error)!=message:
+                    raise
+                fault=True
+            if not fault:
+                raise ValueError('Native store-boundary fault was not observed')
+            history=writer.offline_frame();intents=writer.outbox.records()
+            checks['offline_count_at_fault']=len(history)==(0 if args.step=='online-fault' else 2)
+            checks['one_pending_intent']=sum(x['completed_utc'] is None for x in intents)==1
+            online=writer.online_values(['A'])
+            checks['online_write_was_real']=online.iloc[0].temperature_mean==row['temperature_mean']
+        elif args.step=='recover-online':
+            modes.append(writer.push(rows[0]));checks['one_offline_row_after_retry']=len(writer.offline_frame())==1
+            checks['native_both_store_retry']=modes==['native_online_and_offline']
+        elif args.step=='recover-ack':
+            before=digest(writer.offline);modes.append(writer.push(rows[1]))
+            checks['offline_append_not_repeated']=digest(writer.offline)==before and len(writer.offline_frame())==2
+            checks['partial_ack_reconciled_online_only']=modes==['reconciled_online_only']
+        elif args.step=='finish':
+            modes.extend(writer.push(r) for r in rows[2:])
+            before=digest(writer.offline)
+            replay=[writer.push(r) for r in rows]
+            checks['completed_replay_noop']=replay==['completed_replay_noop']*4 and digest(writer.offline)==before
+            try:
+                writer.push({**rows[1],'vibration_max':999.0})
+            except ValueError as error:
+                checks['conflicting_finalized_value_rejected']='Conflicting finalized window' in str(error)
+            else:
+                checks['conflicting_finalized_value_rejected']=False
+            checks['conflict_left_offline_unchanged']=digest(writer.offline)==before
+            verified=writer.verify()
+            checks['all_offline_and_native_historical_rows_exact']=verified['offline_rows']==verified['historical_rows']==4
+            online=writer.online_values(['A','B']).sort_values('machine_id')
+            checks['older_new_window_cannot_regress_online']=online.temperature_mean.tolist()==[40.0,100.0]
+        else:
+            # Deliberately unsafe baseline is isolated; it demonstrates the provider's append semantics.
+            frame=feature_frame(sorted([r|{'created':'2026-10-27T06:00:00+00:00'} for r in rows],key=lambda r:(r['machine_id'],r['event_timestamp'])))
+            writer.store.push(PUSH,frame,to=PushMode.ONLINE_AND_OFFLINE)
+            writer.store.push(PUSH,frame,to=PushMode.ONLINE_AND_OFFLINE)
+            history=writer.offline_frame()
+            checks['unprotected_push_appends_eight_physical_rows']=len(history)==8 and len(history.drop_duplicates(['machine_id','event_timestamp']))==4
+            writer.check_latest_online(history)
+        if not all(checks.values()):
+            raise ValueError('Native push check differs: '+json.dumps(checks))
+        checks={name:bool(value) for name,value in checks.items()}
+        report={'passed':True,'step':args.step,'checks':checks,'expected_injected_fault_observed':fault,'expected_exit_code':3 if fault else 0,
+                'offline_rows':len(writer.offline_frame()),'modes':modes,'completed_intents':sum(x['completed_utc'] is not None for x in writer.outbox.records()),
+                'binding':writer.binding,'code_sha256':digest(Path(__file__)),'checked_utc':utc_now(),
+                'scope':'Real native Feast/Redis/Parquet writes and process-phase retry tests; injected failures are intentionally nonzero. Not distributed transactions, power-loss-safe Parquet rewrite or live Flink deployment.'}
+        save(args.output,report)
+        print({'passed':True,'step':args.step,'offline_rows':report['offline_rows'],'injected_fault':fault},flush=True)
+    return 3 if fault else 0
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--step',required=True,choices=('online-fault','recover-online','ack-fault','recover-ack','finish','baseline'))
+    parser.add_argument('--state',type=Path,required=True)
+    parser.add_argument('--output',type=Path,required=True)
+    raise SystemExit(run(parser.parse_args()))

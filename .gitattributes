@@ -25,3 +25,5 @@ docs/evidence/**/*.txt -whitespace
 # Keep captured Feast evidence and its installed dependency lock byte-identical.
 docs/evidence/feast/** -text -whitespace
 infra/feast/requirements.lock -text -whitespace
+# Preserve native stream-push reports, console logs and historical source snapshots.
+docs/evidence/stream-push/** -text -whitespace

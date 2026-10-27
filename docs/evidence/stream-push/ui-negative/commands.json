@@ -1,0 +1,122 @@
+{
+  "commands": [
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-topics.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--create",
+        "--topic",
+        "iot-feast-stream-ui-27-corrected",
+        "--partitions",
+        "1",
+        "--replication-factor",
+        "1"
+      ],
+      "exit_code": 0,
+      "output": "Created topic iot-feast-stream-ui-27-corrected.\n"
+    },
+    {
+      "arguments": [
+        "run",
+        "--rm",
+        "--service-ports",
+        "--name",
+        "iot-stream-feast-stream-ui-27-corrected",
+        "flink",
+        "-m",
+        "pipelines.stream_job",
+        "--topic",
+        "iot-feast-stream-ui-27-corrected",
+        "--records",
+        "22",
+        "--database",
+        "data/stream/feast-stream-ui-27/corrected.sqlite",
+        "--runtime-report",
+        "outputs/feast-stream-ui-27/corrected-runtime.json"
+      ],
+      "status": "started"
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-feast-stream-ui-27-corrected",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-feast-stream-ui-27-corrected",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-console-producer.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-feast-stream-ui-27-corrected",
+        "--producer-property",
+        "acks=all",
+        "--producer-property",
+        "enable.idempotence=true"
+      ],
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "arguments": [
+        "exec",
+        "-T",
+        "-e",
+        "KAFKA_HEAP_OPTS=-Xms32m -Xmx128m",
+        "kafka",
+        "/opt/kafka/bin/kafka-get-offsets.sh",
+        "--bootstrap-server",
+        "kafka:9092",
+        "--topic",
+        "iot-feast-stream-ui-27-corrected"
+      ],
+      "exit_code": 0,
+      "output": "iot-feast-stream-ui-27-corrected:0:22\n"
+    }
+  ]
+}

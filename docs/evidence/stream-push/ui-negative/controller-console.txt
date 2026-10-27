@@ -1,0 +1,11 @@
+ Container iot-coursework-stream-kafka-1 Starting 
+ Container iot-coursework-stream-kafka-1 Started 
+ Container iot-coursework-stream-kafka-1 Waiting 
+ Container iot-coursework-stream-kafka-1 Healthy 
+UI capture ready: corrected; http://127.0.0.1:18081; waiting 45s
+Traceback (most recent call last):
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/run-stream-push.py", line 194, in <module>
+    run(parser.parse_args())
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/run-stream-push.py", line 169, in run
+    raise ValueError('No acknowledged push was observed while the real Flink source job was still running')
+ValueError: No acknowledged push was observed while the real Flink source job was still running

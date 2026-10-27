@@ -1,0 +1,258 @@
+{
+  "duration": 29557,
+  "end-time": -1,
+  "isStoppable": false,
+  "jid": "42e275a813f383dfb009b7e204c1bb2c",
+  "job-type": "STREAMING",
+  "maxParallelism": -1,
+  "name": "iot-corrected-iot-feast-stream-live-27-corrected",
+  "now": 1793083154944,
+  "plan": {
+    "jid": "42e275a813f383dfb009b7e204c1bb2c",
+    "name": "iot-corrected-iot-feast-stream-live-27-corrected",
+    "nodes": [
+      {
+        "description": "Idempotent local result sink, Filter<br/>+- Sink: Print to Std. Out<br/>",
+        "id": "3ae2c4528726237cc2f626a3b137d36d",
+        "inputs": [
+          {
+            "exchange": "pipelined_bounded",
+            "id": "f1a8549402b4270e55f17092ab898159",
+            "num": 0,
+            "ship_strategy": "FORWARD"
+          },
+          {
+            "exchange": "pipelined_bounded",
+            "id": "f1a8549402b4270e55f17092ab898159",
+            "num": 1,
+            "ship_strategy": "FORWARD"
+          },
+          {
+            "exchange": "pipelined_bounded",
+            "id": "1f47e37d81ff856fd0d075813ec805ce",
+            "num": 2,
+            "ship_strategy": "FORWARD"
+          }
+        ],
+        "operator": "",
+        "operator_strategy": "",
+        "optimizer_properties": {},
+        "parallelism": 1
+      },
+      {
+        "description": "Window(TumblingEventTimeWindows(600000, 0), EventTimeTrigger, WindowAggregate, WindowResult)<br/>+- Map, Map<br/>",
+        "id": "f1a8549402b4270e55f17092ab898159",
+        "inputs": [
+          {
+            "exchange": "pipelined_bounded",
+            "id": "1f47e37d81ff856fd0d075813ec805ce",
+            "num": 0,
+            "ship_strategy": "HASH"
+          }
+        ],
+        "operator": "",
+        "operator_strategy": "",
+        "optimizer_properties": {},
+        "parallelism": 1
+      },
+      {
+        "description": "Immutable event dedup and watermark audit<br/>:- _stream_key_by_map_operator<br/>+- Map<br/>",
+        "id": "1f47e37d81ff856fd0d075813ec805ce",
+        "inputs": [
+          {
+            "exchange": "pipelined_bounded",
+            "id": "cbc357ccb763df2852fee8c4fc7d55f2",
+            "num": 0,
+            "ship_strategy": "HASH"
+          }
+        ],
+        "operator": "",
+        "operator_strategy": "",
+        "optimizer_properties": {},
+        "parallelism": 1
+      },
+      {
+        "description": "Source: Kafka telemetry source<br/>+- Extract-Timestamp<br/>   +- Timestamps/Watermarks<br/>      +- Remove-Timestamp<br/>         +- _stream_key_by_map_operator<br/>",
+        "id": "cbc357ccb763df2852fee8c4fc7d55f2",
+        "operator": "",
+        "operator_strategy": "",
+        "optimizer_properties": {},
+        "parallelism": 1
+      }
+    ],
+    "type": "STREAMING"
+  },
+  "start-time": 1793083125387,
+  "state": "RUNNING",
+  "status-counts": {
+    "CANCELED": 0,
+    "CANCELING": 0,
+    "CREATED": 0,
+    "DEPLOYING": 0,
+    "FAILED": 0,
+    "FINISHED": 0,
+    "INITIALIZING": 0,
+    "RECONCILING": 0,
+    "RUNNING": 4,
+    "SCHEDULED": 0
+  },
+  "timestamps": {
+    "CANCELED": 0,
+    "CANCELLING": 0,
+    "CREATED": 1793083125709,
+    "FAILED": 0,
+    "FAILING": 0,
+    "FINISHED": 0,
+    "INITIALIZING": 1793083125387,
+    "RECONCILING": 0,
+    "RESTARTING": 0,
+    "RUNNING": 1793083126387,
+    "SUSPENDED": 0
+  },
+  "vertices": [
+    {
+      "duration": 28141,
+      "end-time": -1,
+      "id": "cbc357ccb763df2852fee8c4fc7d55f2",
+      "maxParallelism": 128,
+      "metrics": {
+        "accumulated-backpressured-time": 0,
+        "accumulated-busy-time": 0.0,
+        "accumulated-idle-time": 0,
+        "read-bytes": 0,
+        "read-bytes-complete": false,
+        "read-records": 0,
+        "read-records-complete": false,
+        "write-bytes": 0,
+        "write-bytes-complete": false,
+        "write-records": 0,
+        "write-records-complete": false
+      },
+      "name": "Source: Kafka telemetry source -> Extract-Timestamp -> Timestamps/Watermarks -> Remove-Timestamp -> _stream_key_by_map_operator",
+      "parallelism": 1,
+      "slotSharingGroupId": "98bcfd537d6687b9e1914fdabdbb8301",
+      "start-time": 1793083126803,
+      "status": "RUNNING",
+      "tasks": {
+        "CANCELED": 0,
+        "CANCELING": 0,
+        "CREATED": 0,
+        "DEPLOYING": 0,
+        "FAILED": 0,
+        "FINISHED": 0,
+        "INITIALIZING": 0,
+        "RECONCILING": 0,
+        "RUNNING": 1,
+        "SCHEDULED": 0
+      }
+    },
+    {
+      "duration": 28059,
+      "end-time": -1,
+      "id": "1f47e37d81ff856fd0d075813ec805ce",
+      "maxParallelism": 128,
+      "metrics": {
+        "accumulated-backpressured-time": 0,
+        "accumulated-busy-time": 0.0,
+        "accumulated-idle-time": 0,
+        "read-bytes": 0,
+        "read-bytes-complete": false,
+        "read-records": 0,
+        "read-records-complete": false,
+        "write-bytes": 0,
+        "write-bytes-complete": false,
+        "write-records": 0,
+        "write-records-complete": false
+      },
+      "name": "Immutable event dedup and watermark audit -> (_stream_key_by_map_operator, Map)",
+      "parallelism": 1,
+      "slotSharingGroupId": "98bcfd537d6687b9e1914fdabdbb8301",
+      "start-time": 1793083126885,
+      "status": "RUNNING",
+      "tasks": {
+        "CANCELED": 0,
+        "CANCELING": 0,
+        "CREATED": 0,
+        "DEPLOYING": 0,
+        "FAILED": 0,
+        "FINISHED": 0,
+        "INITIALIZING": 0,
+        "RECONCILING": 0,
+        "RUNNING": 1,
+        "SCHEDULED": 0
+      }
+    },
+    {
+      "duration": 28045,
+      "end-time": -1,
+      "id": "f1a8549402b4270e55f17092ab898159",
+      "maxParallelism": 128,
+      "metrics": {
+        "accumulated-backpressured-time": 0,
+        "accumulated-busy-time": 0.0,
+        "accumulated-idle-time": 0,
+        "read-bytes": 0,
+        "read-bytes-complete": false,
+        "read-records": 0,
+        "read-records-complete": false,
+        "write-bytes": 0,
+        "write-bytes-complete": false,
+        "write-records": 0,
+        "write-records-complete": false
+      },
+      "name": "10 minute event time aggregate -> Map, Map",
+      "parallelism": 1,
+      "slotSharingGroupId": "98bcfd537d6687b9e1914fdabdbb8301",
+      "start-time": 1793083126899,
+      "status": "RUNNING",
+      "tasks": {
+        "CANCELED": 0,
+        "CANCELING": 0,
+        "CREATED": 0,
+        "DEPLOYING": 0,
+        "FAILED": 0,
+        "FINISHED": 0,
+        "INITIALIZING": 0,
+        "RECONCILING": 0,
+        "RUNNING": 1,
+        "SCHEDULED": 0
+      }
+    },
+    {
+      "duration": 28043,
+      "end-time": -1,
+      "id": "3ae2c4528726237cc2f626a3b137d36d",
+      "maxParallelism": 128,
+      "metrics": {
+        "accumulated-backpressured-time": 0,
+        "accumulated-busy-time": 0.0,
+        "accumulated-idle-time": 0,
+        "read-bytes": 0,
+        "read-bytes-complete": false,
+        "read-records": 0,
+        "read-records-complete": false,
+        "write-bytes": 0,
+        "write-bytes-complete": false,
+        "write-records": 0,
+        "write-records-complete": false
+      },
+      "name": "Idempotent local result sink, Filter -> Sink: Print to Std. Out",
+      "parallelism": 1,
+      "slotSharingGroupId": "98bcfd537d6687b9e1914fdabdbb8301",
+      "start-time": 1793083126901,
+      "status": "RUNNING",
+      "tasks": {
+        "CANCELED": 0,
+        "CANCELING": 0,
+        "CREATED": 0,
+        "DEPLOYING": 0,
+        "FAILED": 0,
+        "FINISHED": 0,
+        "INITIALIZING": 0,
+        "RECONCILING": 0,
+        "RUNNING": 1,
+        "SCHEDULED": 0
+      }
+    }
+  ]
+}

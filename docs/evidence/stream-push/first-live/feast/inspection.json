@@ -1,0 +1,55 @@
+{
+  "code_sha256": "8d47d54776312d69f6beac91c10c8470a2b39651c39ac46572c6250669cd1c29",
+  "inspected_utc": "2026-10-27T07:03:19.705405+00:00",
+  "offline_rows": 3,
+  "offline_sha256": "3fcb763969490cad27feb1a08fb6d5de46325a16dbfaeafba772a4d7697b0e3b",
+  "offline_values": [
+    {
+      "created": "2026-10-27T06:39:13.258478+00:00",
+      "event_timestamp": "2026-10-01T00:10:00+00:00",
+      "machine_id": "P-001",
+      "reading_count": 3,
+      "temperature_mean": 20.0,
+      "temperature_sum": 60.0,
+      "vibration_max": 3.0
+    },
+    {
+      "created": "2026-10-27T06:40:09.614576+00:00",
+      "event_timestamp": "2026-10-01T00:20:00+00:00",
+      "machine_id": "P-001",
+      "reading_count": 1,
+      "temperature_mean": 40.0,
+      "temperature_sum": 40.0,
+      "vibration_max": 4.0
+    },
+    {
+      "created": "2026-10-27T06:39:13.258915+00:00",
+      "event_timestamp": "2026-10-01T00:10:00+00:00",
+      "machine_id": "P-002",
+      "reading_count": 1,
+      "temperature_mean": 100.0,
+      "temperature_sum": 100.0,
+      "vibration_max": 10.0
+    }
+  ],
+  "online_values": [
+    {
+      "machine_id": "P-001",
+      "reading_count": 1,
+      "temperature_mean": 40.0,
+      "temperature_sum": 40.0,
+      "vibration_max": 4.0
+    },
+    {
+      "machine_id": "P-002",
+      "reading_count": 1,
+      "temperature_mean": 100.0,
+      "temperature_sum": 100.0,
+      "vibration_max": 10.0
+    }
+  ],
+  "passed": true,
+  "scope": "Actual native online feature values and persisted offline rows, not a screenshot or model prediction. Redis expiry is an error here, not silently filled data.",
+  "source_file_unchanged": true,
+  "worker_report_sha256": "7451053bf2ba39a6637c00330ec4c85674ba7732fa646a7f91eafe98cc6a1fd0"
+}

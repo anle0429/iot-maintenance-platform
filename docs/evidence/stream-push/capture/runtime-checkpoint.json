@@ -1,0 +1,41 @@
+{
+  "checked_utc": "2026-10-27T07:19:21.327283+00:00",
+  "systemd_state": "MainPID=0\nResult=success\nId=iot-feast-stream-live-27.service\nActiveState=inactive\n\nMainPID=0\nResult=exit-code\nId=iot-feast-stream-ui-27.service\nActiveState=failed\n\nMainPID=0\nResult=success\nId=iot-feast-stream-warm-27.service\nActiveState=inactive\n\nMainPID=0\nResult=success\nId=iot-push-native-27-v2.service\nActiveState=inactive\n\nMainPID=0\nResult=success\nId=iot-flink-image-27.service\nActiveState=inactive\n\nMainPID=0\nResult=success\nId=iot-inspect-stream-stores-27.service\nActiveState=inactive\n\nMainPID=9342\nResult=success\nId=iot-large-100gb-27.service\nActiveState=active\n",
+  "large_ingest_progress": {
+    "checked_utc": "2026-10-27T05:52:34.045334+00:00",
+    "phase": "bronze_full_readback"
+  },
+  "large_spark_rest": {
+    "app": "local-1793077546565",
+    "running_jobs": [
+      {
+        "jobId": 43,
+        "name": "count at NativeMethodAccessorImpl.java:0",
+        "stageIds": [
+          90
+        ],
+        "status": "RUNNING",
+        "numTasks": 1463,
+        "numActiveTasks": 7,
+        "numCompletedTasks": 763,
+        "numFailedTasks": 0
+      }
+    ],
+    "active_stages": [
+      {
+        "stageId": 90,
+        "attemptId": 0,
+        "status": "ACTIVE",
+        "numTasks": 1463,
+        "numActiveTasks": 7,
+        "numCompleteTasks": 763,
+        "numFailedTasks": 0,
+        "inputBytes": 59243490543,
+        "inputRecords": 471136000,
+        "shuffleReadBytes": 0,
+        "shuffleWriteBytes": 29941192056
+      }
+    ]
+  },
+  "full_ingest_code_unchanged": true
+}

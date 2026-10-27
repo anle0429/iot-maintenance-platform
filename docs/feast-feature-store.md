@@ -85,3 +85,7 @@ Scratch cần thư mục có quyền ghi choUID10001. Trên máy khác bỏ bi�
 Khi trình bày: feature builder quyết định thông tin nào có tại `t`; Feast quản lý lookup/PIT và online storage. Một PIT join hoặc số dòng khớp không tự chứng minh tránh mọi leakage, nên mốc này có fixture availability, upstream arrival checks, exact toàn bộ giá trị và corruption test riêng.
 
 Tài liệu chính thức: [Feast0.67.0](https://pypi.org/project/feast/0.67.0/), [DuckDB offline](https://docs.feast.dev/reference/offline-stores/duckdb), [Redis online](https://docs.feast.dev/reference/online-stores/redis), [PIT joins](https://docs.feast.dev/getting-started/concepts/point-in-time-joins).
+
+## Streaming monitoring view
+
+[Flink → Feast](stream-feast-push.md) đã kiểm push live ba finalized tumbling windows vào cả offline/online store, native retry hai biên ghi và readiness trước source. View bốn trường này riêng tám rolling feature của model; chưa streaming toàn mini-coursework hoặc transaction checkpoint.
