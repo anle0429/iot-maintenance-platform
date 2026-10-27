@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "export_function_sha256": "c6baeef15416bc02b7aab499c90d1e764c0ff743077b5dedbd8b60f00922f474",
+  "controller_image_id": "sha256:3edb872a72669b7f50cf4a62393ac3d6e52c18e08c03f7343071d257e411a966",
+  "docker_manifest_id": "sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e",
+  "docker_export_config_digest": "sha256:6ba07ec4a6a7be3fa314e1eeda6a15a2232c5c53d555bc923b32a8259177e193",
+  "cri_config_id": "sha256:6ba07ec4a6a7be3fa314e1eeda6a15a2232c5c53d555bc923b32a8259177e193",
+  "cri_raw_sha256": "b414a3716828cd77a9c940ccc0deb6a8e425597219d054c35838498d4a40733c",
+  "private_service": {
+    "name": "ml-pipeline",
+    "namespace": "kubeflow",
+    "type": "ClusterIP"
+  },
+  "service_raw_sha256": "37732353d15a2fdaab48bd408cc60f28387c62e404e77071f32386cf3b49dec7",
+  "sdk_read_only_api": {
+    "passed": true,
+    "page_runs": 1
+  },
+  "kubeconfig_readonly_mount": true,
+  "kubeconfig_copied": false,
+  "workload_submitted": false,
+  "checked_utc": "2026-10-27T20:37:24.300811+00:00",
+  "scope": "Actual containerd image identity, kubectl service discovery and KFP SDK GET through planned transient controller mounts. No build, source deployment, run or registry write."
+}
