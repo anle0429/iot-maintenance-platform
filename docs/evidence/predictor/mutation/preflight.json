@@ -1,0 +1,17 @@
+{
+  "source_sha256": {
+    "services/__init__.py": "8955d44c39c2acd561243c6cd5604b9b1b40490dd2aebcbf207763019ebffe7c",
+    "services/predictor/runtime.py": "807f279ca9875320824eb44675af88a02f4ffc09cdc89028e191867d912d1bcb",
+    "services/predictor/app.py": "ec707e19d83f0b7331d167cca6b3c33ff00ca3a074827f3c2edfdef46bdf4c6a",
+    "services/predictor/__init__.py": "03485db3bf9d8822fecf87ac4bba41199d5855c556014f5343e65fc261217853",
+    "services/predictor/contracts.py": "5cab032dae3ede91c9cfd5446da195b99b03349f3ed04a915be92f0ed3da12ce",
+    "ml/__init__.py": "f72c7b8641a6376aa7bac523df071c3205a7c21276534aeb6aa9b32412890e98",
+    "ml/protocol.py": "a2f9aaa604e194db1ba3b2531d46a26e3349bfe1d6b39aa9be91e4c72735fb7f",
+    "ml/training_contract.py": "bab648fe1a06425393d5093847e59b978186d3ababf419dcd52f8dae3cab6186",
+    "tests/api/test_predictor.py": "3fea466055b1a1568fea43a10d8c412c15cb85177ee9b0c4ac861487c9233dc9",
+    "tests/fixtures/predictor-native-spark.json": "a572f260bed42403d931df53f3ca3bf1925e41f3150c4dcfcccdc89d650455a0",
+    "models/pump-failure-v1/portable.json": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9",
+    "models/pump-failure-v1/lineage.json": "4c2b206e2945aff07ac44c54985aa0ce8a1c1f1e013c1a678dea7038216cb4a5"
+  },
+  "scope": "Changed predictor files only. mutmut3 does not mutate class-level Pydantic declarations; HTTP validation tests cover those separately. No claim for future feature retrieval API."
+}

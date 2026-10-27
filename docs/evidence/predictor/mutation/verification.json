@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-27T10:29:49.918776+00:00",
+  "unit_after_completion": {
+    "MainPID": "0",
+    "Result": "success",
+    "CPUQuotaPerSecUSec": "infinity",
+    "MemoryMax": "infinity",
+    "ActiveState": "inactive"
+  },
+  "requested_limits": {
+    "memory_bytes": 4294967296,
+    "cpu_quota_percent": 100,
+    "source": "Explicit systemd-run launch arguments; not a retained runtime limits measurement. Transient unit properties had already reset after completion."
+  },
+  "initial": {
+    "total": 246,
+    "killed": 191,
+    "survived": 55,
+    "uncovered": 0,
+    "timeout": 0,
+    "suspicious": 0,
+    "skipped": 0,
+    "score_percent": 77.64227642276423
+  },
+  "followup": {
+    "total": 246,
+    "killed": 209,
+    "survived": 37,
+    "uncovered": 0,
+    "timeout": 0,
+    "suspicious": 0,
+    "skipped": 0,
+    "score_percent": 84.95934959349593
+  },
+  "additional_detected_mutants": 18,
+  "preflight_sha256": "74518b3cb8e44827ac1f9507b1c03e13fe8892f6cedff3e02f7a3795a4aa35d5",
+  "completion_sha256": "5a517925aa698aac19ac8270bc3e2218811ff19d69345b48303f4690557a6245",
+  "source_test_sha256": "3fea466055b1a1568fea43a10d8c412c15cb85177ee9b0c4ac861487c9233dc9",
+  "all246_mutants_rerun": true,
+  "mutants_excluded": 0,
+  "full_ingest_code_unchanged": true,
+  "scope": "Native mutmut3.8 predictor function bodies only,71baseline tests and246mutants, strict killed/total denominator including remaining survivors. Pydantic class-level declarations are not mutated by v3; no claim for feature/chunk API, load or KServe."
+}
