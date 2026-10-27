@@ -37,3 +37,5 @@ infra/predictor/requirements.lock -text -whitespace
 tests/fixtures/predictor-native-spark.json -text
 models/pump-failure-v1/portable.json -text
 models/pump-failure-v1/lineage.json -text -whitespace
+# Keep full-scale native receipts, History API responses and screenshots byte-identical.
+docs/evidence/full-ingest/** -text -whitespace

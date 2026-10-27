@@ -1,5 +1,7 @@
 # Runner Spark cho nguồn lớn
 
+**Cập nhật27/10,11:02UTC:** [Spark toàn nguồn102,45GB đã PASS](full-scale-ingest.md):323,136M→316,8Munique,13checks/45.852tasks/0failed, pre/postfullchecksums,3cặpquery/ảnhUI thật; scratchHDDpeak70,06GB, SSDcòn122,42GB. Các đoạn dưới giữ lịch sử trước mốc này; không còn coi fullrun là chưa thực hiện. Gold/feature/ML100GB và tích hợp runner lớn vàoAirflow vẫn chưa có proof.
+
 Runner này dùng nguồn đã sinh và có semantic receipt; không sinh lại dữ liệu. Nó đưa JSONL vào Bronze/Silver Snappy Parquet, kiểm exact multiset, schema evolution, duplicate/latest export, khóa máy và ba cặp query JSONL/Parquet. Gold, feature và model là các bước khác cần kiểm chứng riêng.
 
 ## Vì sao cần runner riêng?

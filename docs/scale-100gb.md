@@ -1,5 +1,7 @@
 # Nguồn offline 100 GB trên VM
 
+**Cập nhật27/10,11:02UTC:** [Spark toàn nguồn102,45GB đã PASS](full-scale-ingest.md):323,136M→316,8Munique,13checks/45.852tasks/0failed, pre/postfullchecksums,3cặpquery/ảnhUI thật; scratchHDDpeak70,06GB, SSDcòn122,42GB. Các đoạn dưới giữ lịch sử trước mốc này; không còn coi fullrun là chưa thực hiện. Gold/feature/ML100GB và tích hợp runner lớn vàoAirflow vẫn chưa có proof.
+
 Mốc này tiếp tục Airflow/DataHub trên cùng VM 8 vCPU/64 GiB. Mục tiêu là **một nguồn liên tục có ít nhất 100.000.000.000 byte offline thật**, rồi đọc kiểm đầy đủ; không cộng nhiều nguồn/seed để đủ dung lượng. Đã hoàn tất **102.447.847.856 byte offline**, 316.800.000 readings không trùng, đầy đủ checksum và 14 quy tắc semantic readback. [Kiểm chứng tổng](evidence/scale-source/verification.json), [report nguồn lớn](evidence/scale-source/scale-100gb-26/verification.json).
 
 ## Tại sao phải tính lại?
