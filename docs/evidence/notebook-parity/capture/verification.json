@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "captured_utc": "2026-10-27T18:48:26.119900+00:00",
+  "run": "notebook-parity-27-v2",
+  "ml_stages": 5,
+  "code_cells": 6,
+  "source_code_sha256": {
+    "ml/notebook_load.py": "8ce3b33bc5976f6fcfa2ef6119e33c99749322cdfead42d01bd3e96ca1391f34",
+    "ml/snapshot.py": "6228917cb9d535a0cc7f5db12e25e495b623723098b9e481a889c68db5fa6250",
+    "ml/notebook_runtime.py": "3ae58aef62f2188622f9f1abdf801a3d3dbbae5998cb84c1463076092adf7fbf",
+    "ml/training_job.py": "4169038faf6c32a8d838131b2167e513fa556a832f889057c86696629a145a90",
+    "ml/training_contract.py": "bab648fe1a06425393d5093847e59b978186d3ababf419dcd52f8dae3cab6186",
+    "ml/protocols/medium-60d-v1.json": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "ml/notebook_validate.py": "7124f271ff1ae4231ec2265e299d4a946a0edc5c9d658961e6e05a6d2cd1577e",
+    "scripts/run-training-notebook.py": "62542b6a3a30c7ea106bd0a65b091247ec14c110b9f780d0217b85333dec2bd3",
+    "notebooks/01_failure_training.ipynb": "cde601b1da51b3b29c5a2b0d78eb41a26d7101debd30aa70b0481c1f5ba039c2"
+  },
+  "resource_samples": 10,
+  "minimum_observed_memory_bytes": 55389175808,
+  "minimum_observed_free_disk_bytes": {
+    "/srv/iot-data": 358162653184,
+    "/srv/iot-fast": 104664289280
+  },
+  "scope": "Unmodified native Jupyter notebook, five local[2] ML stages and failed predecessor. Existing five-task/two-executor KFP proof is separate. Frozen protocol reproduction; no holdout retuning or claimed 100GB training."
+}

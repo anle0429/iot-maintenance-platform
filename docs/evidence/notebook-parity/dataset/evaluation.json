@@ -1,0 +1,91 @@
+{
+  "passed": true,
+  "kind": "holdout-evaluation",
+  "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+  "selection_descriptor": "/ml-data/selection.json",
+  "selection_sha256": "c578134198c604454fec3a184ef5262b6861839192be81db4e0b356797de6781",
+  "fixed_threshold": 0.7,
+  "validation": {
+    "tp": 12748,
+    "fp": 15222,
+    "fn": 7080,
+    "tn": 433082,
+    "threshold": 0.7,
+    "precision": 0.4557740436181623,
+    "recall": 0.6429291910429695,
+    "f1": 0.533411439809197,
+    "area_under_pr": 0.5957776550421778
+  },
+  "test": {
+    "tp": 13115,
+    "fp": 14536,
+    "fn": 6842,
+    "tn": 433891,
+    "threshold": 0.7,
+    "precision": 0.47430472677299196,
+    "recall": 0.6571629002355064,
+    "f1": 0.5509578222147539,
+    "area_under_pr": 0.6151480584811881
+  },
+  "constant_training_prevalence_comparator": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 19957,
+    "tn": 448427,
+    "threshold": 0.7,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "area_under_pr": 0.04260820181731229
+  },
+  "pr_auc_implementation": "Spark3.5.9 BinaryClassificationEvaluator areaUnderPR, numBins=0, trapezoidal PR integral; not average precision",
+  "split_counts": {
+    "validation": {
+      "rows": 468132,
+      "positive_rows": 19828,
+      "failure_episodes": 1677,
+      "first": "2026-11-12T00:00:00",
+      "last": "2026-11-20T22:55:00",
+      "negative_rows": 448304
+    },
+    "test": {
+      "rows": 468384,
+      "positive_rows": 19957,
+      "failure_episodes": 1687,
+      "first": "2026-11-21T00:00:00",
+      "last": "2026-11-29T22:55:00",
+      "negative_rows": 448427
+    },
+    "train": {
+      "rows": 2195668,
+      "positive_rows": 93603,
+      "failure_episodes": 7870,
+      "first": "2026-10-01T00:00:00",
+      "last": "2026-11-11T22:55:00",
+      "negative_rows": 2102065
+    }
+  },
+  "portable_spark_max_abs_probability_difference": 4.440892098500626e-16,
+  "artifacts": [
+    {
+      "path": "/ml-data/evaluation",
+      "files": {
+        "holdout-opened.json": "2f1b9a8e0453348a41caeda303744854681d832af7df1c3b79882858377acafb",
+        "predictions/._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        "predictions/.part-00000-fd7543e9-fd8f-4fba-a0df-14be428dd7c5-c000.snappy.parquet.crc": "b5540d026ad633c079d45d567ff80413ed4ffaf48a80ee43926c62951b4d5012",
+        "predictions/.part-00001-fd7543e9-fd8f-4fba-a0df-14be428dd7c5-c000.snappy.parquet.crc": "366e1bc50b80f82a75dacca8b08119a4f222568ec7d3359ca7c173ef05e4fd71",
+        "predictions/_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "predictions/part-00000-fd7543e9-fd8f-4fba-a0df-14be428dd7c5-c000.snappy.parquet": "505e2ededbe07c6346ae38c738e744b6da1be04d9995b868d8981e567ef318b5",
+        "predictions/part-00001-fd7543e9-fd8f-4fba-a0df-14be428dd7c5-c000.snappy.parquet": "8acbae4ab3df48a49dc417d4310cbfac7ef69d14b9dd9df5eb92d0d078b32a41"
+      }
+    }
+  ],
+  "code_sha256": "4169038faf6c32a8d838131b2167e513fa556a832f889057c86696629a145a90",
+  "limitations": [
+    "Synthetic pump data; no real equipment performance claim",
+    "Same machines across time; not an unseen-machine generalization test",
+    "Nearby snapshots share failures; positive rows are not independent events",
+    "No new training or evaluation has run when this version was declared"
+  ],
+  "completed_utc": "2026-10-27T18:47:55.146217+00:00"
+}

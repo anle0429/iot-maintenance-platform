@@ -1,0 +1,21 @@
+{
+  "run": "notebook-parity-27",
+  "checked_utc": "2026-10-27T18:07:20.362912+00:00",
+  "deadline_utc": "2026-10-27T20:49:51.550000+00:00",
+  "images": {
+    "feast": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "spark": "sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417"
+  },
+  "code_sha256": {
+    "ml/notebook_load.py": "8ce3b33bc5976f6fcfa2ef6119e33c99749322cdfead42d01bd3e96ca1391f34",
+    "ml/snapshot.py": "6228917cb9d535a0cc7f5db12e25e495b623723098b9e481a889c68db5fa6250",
+    "ml/notebook_runtime.py": "c4c1beb4d98258ef240834afd44d6fa1f60ed287677ef1d993153fd0f279e9c6",
+    "ml/training_job.py": "4169038faf6c32a8d838131b2167e513fa556a832f889057c86696629a145a90",
+    "ml/training_contract.py": "bab648fe1a06425393d5093847e59b978186d3ababf419dcd52f8dae3cab6186",
+    "ml/protocols/medium-60d-v1.json": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "ml/notebook_validate.py": "7124f271ff1ae4231ec2265e299d4a946a0edc5c9d658961e6e05a6d2cd1577e",
+    "scripts/run-training-notebook.py": "62542b6a3a30c7ea106bd0a65b091247ec14c110b9f780d0217b85333dec2bd3",
+    "notebooks/01_failure_training.ipynb": "cde601b1da51b3b29c5a2b0d78eb41a26d7101debd30aa70b0481c1f5ba039c2"
+  },
+  "scope": "Executed Jupyter cells, native Feast and bounded local[2] Spark; not distributed training."
+}

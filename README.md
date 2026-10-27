@@ -8,7 +8,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [Feature60ngày](docs/medium-feature-dataset.md)/[Feast](docs/feast-feature-store.md) có3.456.000snapshots/3.132.184training rows theo protocol cố định; native full retrieval/nhãn và replay/corruption đã kiểm. [Airflow materialization](docs/feast-materialization.md) đã chạy initial/incremental/replay200máy, chặn lùi checkpoint và publish DataHub. [Flink→Feast](docs/stream-feast-push.md) có live push ba cửa sổ, fault/retry và readiness trước source; chưa toàn mini-coursework stream.
 
-[KFP trên cluster bốn bước](docs/kfp-cluster.md) đã PASS với nativeFeast3.132.184dòng; testPR-AUC0,6151/F10,5510 theo protocol giữ nguyên. Modelversion2 đã đăng ký MLflow và đọc lại dữ liệu/model; KServe vẫn phục vụ version1. [Feature API→Feast→KServe](docs/feature-api.md) đã kiểm200máy/195prediction/5stopped409, cùng127PCtests/1POSIXskip,57nativefeaturetests;211statements/56branches100%. Mutation featureAPI413/48984,46%, predictor209/24684,96%; Locust10users đạt96,655req/s,p95 32ms/0fail trong60s. Chưa distributedtraining, notebook, incrementaldata versioning hoặc toàn bộ vận hành final.
+[KFP trên cluster bốn bước](docs/kfp-cluster.md) đã PASS với nativeFeast3.132.184dòng; testPR-AUC0,6151/F10,5510 theo protocol giữ nguyên. Modelversion2 đã đăng ký MLflow và đọc lại dữ liệu/model; KServe vẫn phục vụ version1. [Feature API→Feast→KServe](docs/feature-api.md) đã kiểm200máy/195prediction/5stopped409, cùng127PCtests/1POSIXskip,57nativefeaturetests;211statements/56branches100%. Mutation featureAPI413/48984,46%, predictor209/24684,96%; Locust10users đạt96,655req/s,p95 32ms/0fail trong60s. [Notebook 5 bước/6ô](docs/training-notebook.md) và [KFP 5 task/two-executor](docs/distributed-training.md) đã kiểm thật; [incrementaldata/model3](docs/incremental-data-versioning.md) đã liên kết đúng dữ liệu. Còn tự động versioning/registration và các mục vận hành final chưa đủ bằng chứng.
 
 ## Mục lục
 
@@ -150,7 +150,7 @@ Get-Content outputs/practice-chunks/chunked-report.json
 - [Rubric gốc](references/coursework/rubic/EDAI%20K11.xlsx).
 - [Repo tham khảo](https://github.com/cvinhnguyen/card-fraud-platform).
 
-- [Notebook ML tiếng Việt đã chạy thật](docs/training-notebook.md): Feast → nhãn snapshot → temporal split → train/validation → lưu và nạp lại model.
+- [Notebook ML tiếng Việt đã chạy thật](docs/training-notebook.md): Feast → nhãn snapshot → temporal split → train/validation → nạp lại model → tái lập holdout, đủ5bước như KFP.
 
 - [Huấn luyện phân tán trên Kubeflow](docs/distributed-training.md): hai executor thực thi task LR, nguồn trung gian60ngày.
 - [Phiên bản dữ liệu tăng dần](docs/incremental-data-versioning.md): nativeMLflow, phần đổi mới được upload và fullrestore đã kiểm.

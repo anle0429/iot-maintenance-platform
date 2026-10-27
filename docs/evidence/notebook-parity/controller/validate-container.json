@@ -1,0 +1,31 @@
+{
+  "name": "notebook-parity-27-v2-validate",
+  "id": "410f6ce949d3c2608226048722d60e6918abf582334d5d7d89cce4dc99489657",
+  "image": "sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417",
+  "user": "spark",
+  "memory": 10737418240,
+  "nano_cpus": 2000000000,
+  "exit_code": 0,
+  "oom_killed": false,
+  "seconds": 43.85717508899688,
+  "started_utc": "2026-10-27T18:46:07.57129433Z",
+  "finished_utc": "2026-10-27T18:46:51.115275993Z",
+  "command": [
+    "/opt/spark/bin/spark-submit",
+    "--master",
+    "local[2]",
+    "--driver-memory",
+    "6g",
+    "--conf",
+    "spark.driver.maxResultSize=128m",
+    "--conf",
+    "spark.local.dir=/ml-scratch",
+    "/workspace/ml/notebook_validate.py",
+    "--selection",
+    "/ml-data/selection.json",
+    "--protocol",
+    "/workspace/ml/protocols/medium-60d-v1.json",
+    "--output",
+    "/ml-data/validation-reload.json"
+  ]
+}

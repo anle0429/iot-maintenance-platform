@@ -1,0 +1,42 @@
+26/10/27 18:46:11 INFO SparkContext: Running Spark version 3.5.9
+26/10/27 18:46:11 INFO SparkContext: OS info Linux, 7.0.0-1014-gcp, amd64
+26/10/27 18:46:11 INFO SparkContext: Java version 17.0.19
+26/10/27 18:46:11 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/10/27 18:46:11 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+26/10/27 18:46:11 INFO ResourceUtils: ==============================================================
+26/10/27 18:46:11 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/10/27 18:46:11 INFO ResourceUtils: ==============================================================
+26/10/27 18:46:11 INFO SparkContext: Submitted application: iot-notebook-validation-reload
+26/10/27 18:46:11 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/10/27 18:46:11 INFO ResourceProfile: Limiting resource is cpu
+26/10/27 18:46:11 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/10/27 18:46:11 INFO SecurityManager: Changing view acls to: spark
+26/10/27 18:46:11 INFO SecurityManager: Changing modify acls to: spark
+26/10/27 18:46:11 INFO SecurityManager: Changing view acls groups to: 
+26/10/27 18:46:11 INFO SecurityManager: Changing modify acls groups to: 
+26/10/27 18:46:11 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark; groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY
+26/10/27 18:46:12 INFO Utils: Successfully started service 'sparkDriver' on port 34785.
+26/10/27 18:46:12 INFO SparkEnv: Registering MapOutputTracker
+26/10/27 18:46:12 INFO SparkEnv: Registering BlockManagerMaster
+26/10/27 18:46:12 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/10/27 18:46:12 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/10/27 18:46:12 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/10/27 18:46:12 INFO DiskBlockManager: Created local directory at /ml-scratch/blockmgr-3056ab77-1911-45b8-ac95-736f25ee7ec8
+26/10/27 18:46:12 INFO MemoryStore: MemoryStore started with capacity 3.4 GiB
+26/10/27 18:46:12 INFO SparkEnv: Registering OutputCommitCoordinator
+26/10/27 18:46:12 INFO JettyUtils: Start Jetty 127.0.0.1:4040 for SparkUI
+26/10/27 18:46:12 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/10/27 18:46:13 INFO Executor: Starting executor ID driver on host localhost
+26/10/27 18:46:13 INFO Executor: OS info Linux, 7.0.0-1014-gcp, amd64
+26/10/27 18:46:13 INFO Executor: Java version 17.0.19
+26/10/27 18:46:13 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/10/27 18:46:13 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@6be31a50 for default.
+26/10/27 18:46:13 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 42081.
+26/10/27 18:46:13 INFO NettyBlockTransferService: Server created on localhost:42081
+26/10/27 18:46:13 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/10/27 18:46:13 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, localhost, 42081, None)
+26/10/27 18:46:13 INFO BlockManagerMasterEndpoint: Registering block manager localhost:42081 with 3.4 GiB RAM, BlockManagerId(driver, localhost, 42081, None)
+26/10/27 18:46:13 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, localhost, 42081, None)
+26/10/27 18:46:13 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, localhost, 42081, None)
+26/10/27 18:46:32 WARN InstanceBuilder: Failed to load implementation from:dev.ludovic.netlib.blas.JNIBLAS
+26/10/27 18:46:32 WARN InstanceBuilder: Failed to load implementation from:dev.ludovic.netlib.blas.VectorBLAS

@@ -6,7 +6,7 @@
 
 ![Run Succeeded và thời gian thật](evidence/distributed-training/screenshots/run-succeeded-detail.jpg)
 
-Pipeline dùng chung các kernel với [notebook đã execute](training-notebook.md), thêm bước holdout reproduction sau kiểm model. Native Feast lấy mới **3.132.184 dòng**; train/validation/test vẫn là **2.195.668 / 468.132 / 468.384**. Không dùng lại daypart của lượt notebook hoặc chuyển ranh giới/ngưỡng theo kết quả test.
+Pipeline dùng chung các kernel với [notebook đã execute](training-notebook.md). Notebook ban đầu có bốn bước; [lượt Notebook 5 bước hoàn tất 18:47:57 UTC](evidence/notebook-parity/execution/execution.json) đã bổ sung holdout reproduction sau kiểm model, thống nhất **5 bước ML ở cả hai phía**; ô init không tính là bước ML. Native Feast của mỗi lượt lấy mới **3.132.184 dòng**; train/validation/test vẫn là **2.195.668 / 468.132 / 468.384**. Không dùng lại daypart của lượt notebook hoặc chuyển ranh giới/ngưỡng theo kết quả test.
 
 ## Điều gì chứng minh phân tán?
 
@@ -24,7 +24,7 @@ Task train dùng Spark `k8s://...`, driver trong pod KFP và **hai executor pod 
 
 ## Kết quả và bảo vệ dữ liệu
 
-[Evaluation](evidence/distributed-training/capture/task-artifacts/evaluation.json): ngưỡng0,7 chọn bằng validation, test precision0,4743 / recall0,6572 / F1=0,5510 / PR-AUC0,6151; TP13.115/FP14.536/FN6.842/TN433.891. PR-AUC là tích phân hình thang Spark không chia bin, không phải average precision. Portable score khớp native Spark trên toàn468.384hàng test, delta lớn nhất4,44e-16. Đây là tái lập protocol đã đóng băng, không có tuning mới từ holdout.
+[Evaluation](evidence/distributed-training/capture/task-artifacts/evaluation.json): ngưỡng0,7 chọn bằng validation, test precision0,4743 / recall0,6572 / F1=0,5510 / PR-AUC0,6151; TP13.115/FP14.536/FN6.842/TN433.891. PR-AUC là tích phân hình thang Spark không chia bin, không phải average precision. Portable score khớp native Spark trên toàn 468.384hàng test, delta lớn nhất4,44e-16. Đây là tái lập protocol đã đóng băng, không có tuning mới từ holdout.
 
 [Năm typed artifacts](evidence/distributed-training/capture/artifact-verification.json) đã được tải từ object store KFP thật; inventory mọi tệp data/model tham chiếu đã được đọc và so SHA. Credentials object store chỉ tồn tại trong bộ nhớ tiến trình đọc bằng chứng. Dữ liệu/model binary và event log gốc ở VM, Git giữ các receipt/ảnh nhỏ. Cohort này thuộc nguồn trung gian60ngày, không phải training100GB. Dữ liệu mô phỏng, score chưa calibration và model chưa tự thay vào dịch vụ version1.
 
@@ -42,7 +42,7 @@ sudo data/runtime/kfp-venv/bin/python scripts/run-notebook-kfp.py \
   --oracle outputs/distributed-oracle/distributed-oracle-new/verification.json
 ```
 
-Runner compile từ source hiện tại; không phụ thuộc file prepared riêng của phiên trước. Nó cần90phút, RAM khả dụng24GiB và40GB trống trên các đĩa data/scratch; chỉ hủy run của mình khi reserve/deadline chạm guard. [Role](../infra/kfp/spark-driver-rbac.yaml) bổ sung pods/services/configmaps trong namespace coursework, không cấp Secret/cluster/cloudIAM. Đây là namespace một người dùng, chưa phải thiết kế multi-tenant.
+Runner compile từ source hiện tại; không phụ thuộc file prepared riêng của phiên trước. Nó cần 90 phút, RAM khả dụng24GiB và40GB trống trên các đĩa data/scratch; chỉ hủy run của mình khi reserve/deadline chạm guard. [Role](../infra/kfp/spark-driver-rbac.yaml) bổ sung pods/services/configmaps trong namespace coursework, không cấp Secret/cluster/cloudIAM. Đây là namespace một người dùng, chưa phải thiết kế multi-tenant.
 
 Các lượt lỗi được giữ: [Concat literal làm sai đường dẫn](evidence/distributed-training/attempt-path/diagnosis/load-main.txt), [HOSTNAME bị cắt63ký tự](evidence/distributed-training/attempt-identity/diagnosis/cancellation-reason.json), [lượt gửi sớm đã dừng](evidence/distributed-training/attempt-premature/stop-before-repair.json), [image chỉ có python3](evidence/distributed-training/attempt-python/diagnosis/train-main.txt). Backend ghi `FAILED` sau yêu cầu terminate; không sửa thành CANCELED. Sửa bằng Python path wrapper, DownwardAPI metadata.name/status.podIP, đúng interpreter và oracle nhỏ trước lần chạy tiếp. Không đổi nhãn, kernel ML hoặc protocol để biến lượt lỗi thành thành công.
 
