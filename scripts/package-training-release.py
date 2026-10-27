@@ -21,8 +21,10 @@ def package(commit,output):
     files+=guarded+['scripts/ci-training.py','scripts/compile-ci-training.py','scripts/package-training-release.py',
         'infra/ci/Training.Jenkinsfile','infra/ci/Training.Dockerfile','infra/ci/Training.Dockerfile.dockerignore',
         'infra/ci/TrainingController.Dockerfile','infra/ci/TrainingController.Dockerfile.dockerignore',
-        'infra/ci/requirements-training-controller.lock','tests/__init__.py','tests/test_ci_training.py','tests/test_automatic_versions.py',
+        'infra/ci/requirements-training-controller.lock','tests/test_ci_training.py','tests/test_automatic_versions.py',
         'tests/test_data_versions.py','tests/test_model_data_link.py','tests/test_notebook_holdout_gate.py']
+    if 'tests/__init__.py' in git('ls-tree','-r','--name-only',resolved,'tests').decode().splitlines():
+        files+=['tests/__init__.py']
     manifest_path=output.with_suffix('.manifest.json')
     if output.exists() or manifest_path.exists():raise FileExistsError('Preserve previous release packets')
     output.parent.mkdir(parents=True,exist_ok=True)
