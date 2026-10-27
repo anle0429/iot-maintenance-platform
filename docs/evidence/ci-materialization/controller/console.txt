@@ -1,0 +1,176 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/iot-materialization
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 20 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare sealed source)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test contracts)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-materialization/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-materialization.py test
+test_missing_machine_or_failed_comparison_rejected (test_ci_materialization.MaterializationCITests.test_missing_machine_or_failed_comparison_rejected) ... ok
+test_native_known_answer (test_ci_materialization.MaterializationCITests.test_native_known_answer) ... ok
+test_replay_changed_values_or_extra_interval_rejected (test_ci_materialization.MaterializationCITests.test_replay_changed_values_or_extra_interval_rejected) ... ok
+test_safe_identity (test_ci_materialization.MaterializationCITests.test_safe_identity) ... ok
+test_shared_project_and_changed_source_rejected (test_ci_materialization.MaterializationCITests.test_shared_project_and_changed_source_rejected) ... ok
+test_wrong_previous_checkpoint_rejected (test_ci_materialization.MaterializationCITests.test_wrong_previous_checkpoint_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.009s
+
+OK
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build verified SDK images)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-materialization/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-materialization.py build
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Materialization.Dockerfile
+#1 transferring dockerfile: 756B 0.0s done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-feast:0.67.0
+#2 DONE 0.0s
+
+#3 [1/5] FROM docker.io/library/iot-coursework-feast:0.67.0@sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff
+#3 resolve docker.io/library/iot-coursework-feast:0.67.0@sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff 0.0s done
+#3 CACHED
+
+#4 [internal] load build context
+#4 transferring context:
+#4 transferring context: 105.10kB done
+#4 DONE 0.0s
+
+#5 [2/5] COPY feature_store /opt/iot-release/feature_store
+#5 DONE 0.0s
+
+#6 [3/5] COPY ml/__init__.py ml/protocol.py /opt/iot-release/ml/
+#6 DONE 0.1s
+
+#7 [4/5] COPY ml/protocols/medium-60d-v1.json /opt/iot-release/ml/protocols/
+#7 DONE 0.0s
+
+#8 [5/5] WORKDIR /workspace
+#8 DONE 0.1s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 0.2s done
+#9 exporting manifest sha256:ce69832616d25fc2204b1413222a4016179e6b7dbb47453080bb8c30f8a7d037 0.0s done
+#9 exporting config sha256:cf47325424fbe404430c426df8e86ac88430a1ef35974526e6d55ff9b13b2452 0.0s done
+#9 exporting attestation manifest sha256:0fff055cbd0dc6882976fde068218498e322369e75eeae0e04740c91950f3404 0.0s done
+#9 exporting manifest list sha256:28734a75fea84db69e1f4eba1fa95fb4a3f13619dba244b56ae1b07e05024aba 0.0s done
+#9 naming to docker.io/library/iot-ci-materialization-feast:mat-jenkins-1
+#9 naming to docker.io/library/iot-ci-materialization-feast:mat-jenkins-1 done
+#9 unpacking to docker.io/library/iot-ci-materialization-feast:mat-jenkins-1 0.1s done
+#9 DONE 0.5s
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Materialization.Dockerfile
+#1 transferring dockerfile: 756B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-metadata:1.6.0
+#2 DONE 0.0s
+
+#3 [1/5] FROM docker.io/library/iot-coursework-metadata:1.6.0@sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695
+#3 resolve docker.io/library/iot-coursework-metadata:1.6.0@sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695 0.0s done
+#3 CACHED
+
+#4 [internal] load build context
+#4 transferring context: 979B done
+#4 DONE 0.0s
+
+#5 [2/5] COPY feature_store /opt/iot-release/feature_store
+#5 DONE 0.0s
+
+#6 [3/5] COPY ml/__init__.py ml/protocol.py /opt/iot-release/ml/
+#6 DONE 0.0s
+
+#7 [4/5] COPY ml/protocols/medium-60d-v1.json /opt/iot-release/ml/protocols/
+#7 DONE 0.0s
+
+#8 [5/5] WORKDIR /workspace
+#8 DONE 0.1s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 0.2s done
+#9 exporting manifest sha256:f977fbec4f932c30c7922075ab3255bc7c1aa2f74a636ab84ba3d71d06bb20e5 0.0s done
+#9 exporting config sha256:c8cbe7b06db0aba339a39c79e121a21e755b947bd21d38147c4decba23ab7114 0.0s done
+#9 exporting attestation manifest sha256:b827d5e01c52fbb8b01a47a8e8598080a34850fafee10b262b80404e50a1becf 0.0s done
+#9 exporting manifest list sha256:6cf2c67a387f2afbc64a53be8ad241e4e5a22d6a7b9d08a23fd7502ac4a784e6 0.0s done
+#9 naming to docker.io/library/iot-ci-materialization-metadata:mat-jenkins-1 done
+#9 unpacking to docker.io/library/iot-ci-materialization-metadata:mat-jenkins-1
+#9 unpacking to docker.io/library/iot-ci-materialization-metadata:mat-jenkins-1 0.1s done
+#9 DONE 0.4s
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Auto-deploy Airflow pipeline)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-materialization/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-materialization.py deploy
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Initial incremental replay readback)
+[Pipeline] withCredentials
+Masking supported pattern matches of $IOT_AIRFLOW_PASSWORD
+[Pipeline] {
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-materialization/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-materialization.py verify
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

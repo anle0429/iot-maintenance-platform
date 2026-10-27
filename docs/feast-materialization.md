@@ -1,5 +1,7 @@
 # Airflow incremental materialization và DataHub
 
+Ngày27/10 đã có [CI materialization riêng](ci-materialization.md): Jenkins test/build/auto-deploy và8task initial/incremental/replay/metadata chạy thật trên namespace CI tách riêng. Những receipt lịch sử trong tài liệu này vẫn giữ nguyên; CI không ghi ngược checkpoint/namespace cũ.
+
 [DAG thực chạy](../airflow/dags/iot_feast_materialization.py) đưa 8 feature của 200máy từ offline Feast qua Redis, kiểm lại toàn bộ vector rồi mới gửi metadata. Nguồn là bản feature200máy×60ngày đã kiểm, giữ nguyên dataset/registry huấn luyện; registry online của DAG dùng project riêng `iot_materialization`.
 
 `register_bound_source → materialize_incremental → validate_online → publish_to_datahub`. Airflow3.1.7/LocalExecutor, manual runs, max_active_runs1 và pool `feast_jobs`1slot. [Task launcher](../feature_store/airflow_tasks.py) dùng SDK Feast0.67.0 riêng1CPU/8GiB, publisher DataHub1.6.0 riêng1CPU/2GiB. [18 container thực tế](evidence/feast-materialization/capture/native-containers.json) xác nhận image ID, giới hạn và exit code. Không chạy Spark mới để materialize bộ feature đã có.

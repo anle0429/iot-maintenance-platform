@@ -1,0 +1,153 @@
+{
+  "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+  "actions": [
+    {
+      "_class": "hudson.model.ParametersAction",
+      "parameters": [
+        {
+          "_class": "hudson.model.StringParameterValue",
+          "name": "SOURCE_COMMIT",
+          "value": "a6e36f79745350e8aac081a99fe878757bd81bb2"
+        }
+      ]
+    },
+    {
+      "_class": "hudson.model.CauseAction"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.libs.LibrariesAction"
+    },
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.workflow.cps.EnvActionImpl"
+    },
+    {},
+    {},
+    {},
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.displayurlapi.actions.RunDisplayAction"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.pipeline.modeldefinition.actions.RestartDeclarativePipelineAction"
+    },
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.views.FlowGraphAction"
+    },
+    {},
+    {}
+  ],
+  "artifacts": [
+    {
+      "fileName": "admission.json",
+      "relativePath": "build-1/outputs/ci-materialization/admission.json"
+    },
+    {
+      "fileName": "airflow.json",
+      "relativePath": "build-1/outputs/ci-materialization/airflow.json"
+    },
+    {
+      "fileName": "build.json",
+      "relativePath": "build-1/outputs/ci-materialization/build.json"
+    },
+    {
+      "fileName": "datahub-indexed.json",
+      "relativePath": "build-1/outputs/ci-materialization/datahub-indexed.json"
+    },
+    {
+      "fileName": "deployment.json",
+      "relativePath": "build-1/outputs/ci-materialization/deployment.json"
+    },
+    {
+      "fileName": "_MATERIALIZED_SUCCESS.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/incremental/_MATERIALIZED_SUCCESS.json"
+    },
+    {
+      "fileName": "datahub-publication.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/incremental/datahub-publication.json"
+    },
+    {
+      "fileName": "materialization.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/incremental/materialization.json"
+    },
+    {
+      "fileName": "validation.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/incremental/validation.json"
+    },
+    {
+      "fileName": "incremental-materialize-container.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/incremental-materialize-container.json"
+    },
+    {
+      "fileName": "incremental-publish-container.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/incremental-publish-container.json"
+    },
+    {
+      "fileName": "incremental-validate-container.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/incremental-validate-container.json"
+    },
+    {
+      "fileName": "_MATERIALIZED_SUCCESS.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/initial/_MATERIALIZED_SUCCESS.json"
+    },
+    {
+      "fileName": "materialization.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/initial/materialization.json"
+    },
+    {
+      "fileName": "registration.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/initial/registration.json"
+    },
+    {
+      "fileName": "validation.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/initial/validation.json"
+    },
+    {
+      "fileName": "initial-materialize-container.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/initial-materialize-container.json"
+    },
+    {
+      "fileName": "initial-register-container.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/initial-register-container.json"
+    },
+    {
+      "fileName": "initial-validate-container.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/initial-validate-container.json"
+    },
+    {
+      "fileName": "_MATERIALIZED_SUCCESS.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/replay/_MATERIALIZED_SUCCESS.json"
+    },
+    {
+      "fileName": "materialization.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/replay/materialization.json"
+    },
+    {
+      "fileName": "validation.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/replay/validation.json"
+    },
+    {
+      "fileName": "replay-materialize-container.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/replay-materialize-container.json"
+    },
+    {
+      "fileName": "replay-validate-container.json",
+      "relativePath": "build-1/outputs/ci-materialization/native/replay-validate-container.json"
+    },
+    {
+      "fileName": "test.json",
+      "relativePath": "build-1/outputs/ci-materialization/test.json"
+    },
+    {
+      "fileName": "verification.json",
+      "relativePath": "build-1/outputs/ci-materialization/verification.json"
+    }
+  ],
+  "building": false,
+  "duration": 107727,
+  "number": 1,
+  "result": "SUCCESS",
+  "timestamp": 1793132057125,
+  "url": "http://127.0.0.1:18787/job/iot-materialization/1/"
+}

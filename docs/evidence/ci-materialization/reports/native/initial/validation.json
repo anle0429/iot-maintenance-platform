@@ -1,0 +1,72 @@
+{
+  "binding": {
+    "batch_report_sha256": "04866c95764dbcd3a61d0f6fdc66ca5b35b3aae78a8be11ea069b7bfacc6adea",
+    "compact_sha256": "d43019682b7138c764db78684948071b5dfc442ae924f3fd35c0cf850a2c4ea1",
+    "features": [
+      "temperature_mean_10m",
+      "vibration_max_10m",
+      "current_mean_10m",
+      "current_std_10m",
+      "rpm_mean_10m",
+      "reading_count_10m",
+      "machine_age_days",
+      "prior_failures_24h"
+    ],
+    "project": "iot_ci_mat_1",
+    "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "source": "/workspace/data/feast/batch-medium-27/machine_rolling.parquet"
+  },
+  "checks": {
+    "all_online_vectors_match_source": true,
+    "durable_checkpoint": true,
+    "no_unsealed_writer": true,
+    "requested_cutoff": true,
+    "sealed_report": true,
+    "source_binding": true
+  },
+  "code_sha256": "e92afd3efef5b26ee71bbe42130d105669843272a9c90f0d9df4e609bb1b5117",
+  "cutoff": "2026-11-29T23:00:00+00:00",
+  "materialization_report_sha256": "b5e09a011aaefc63c6bdf8f41c2477bbd7de7ce47b10d8eb25db7873af16e6dd",
+  "online_comparison": {
+    "as_of_simulated_utc": "2026-11-29T23:00:00+00:00",
+    "machines": 200,
+    "passed": true,
+    "sample": [
+      {
+        "current_mean_10m": 12.028555555555556,
+        "current_std_10m": 1.929802990008802,
+        "machine_age_days": 239.95833333333334,
+        "machine_id": "P-001",
+        "prior_failures_24h": 2,
+        "reading_count_10m": 9,
+        "rpm_mean_10m": 2739.855555555556,
+        "temperature_mean_10m": 50.21355555555555,
+        "vibration_max_10m": 3.792
+      },
+      {
+        "current_mean_10m": 13.607111111111113,
+        "current_std_10m": 1.9468356344731108,
+        "machine_age_days": 246.95833333333334,
+        "machine_id": "P-002",
+        "prior_failures_24h": 2,
+        "reading_count_10m": 9,
+        "rpm_mean_10m": 2801.2888888888892,
+        "temperature_mean_10m": 52.64411111111111,
+        "vibration_max_10m": 3.121
+      },
+      {
+        "current_mean_10m": 16.63222222222222,
+        "current_std_10m": 1.4207408691538188,
+        "machine_age_days": 253.95833333333334,
+        "machine_id": "P-003",
+        "prior_failures_24h": 0,
+        "reading_count_10m": 9,
+        "rpm_mean_10m": 2841.1555555555556,
+        "temperature_mean_10m": 67.56144444444445,
+        "vibration_max_10m": 7.572
+      }
+    ]
+  },
+  "passed": true,
+  "validated_utc": "2026-10-27T20:15:01.959040+00:00"
+}

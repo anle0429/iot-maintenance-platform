@@ -1,5 +1,7 @@
 # Checklist rubric và bằng chứng
 
+Cập nhật27/10: [CI materialization](ci-materialization.md) Jenkins build1SUCCESS,8task native Airflow/200máy initial–incremental–replay và6DataHubassertions đã indexed. FinalF28có bằng chứng; F29trainingCIvàproductionAPICI còn riêng. Tiêu chí nguồn93dòng lịch sử giữ nguyên.
+
 Cập nhật27/10: [automaticdata/model versioning](automatic-ml-versioning.md) đã kiểm trên hai native full runs,model4–5; finalF26–27 có bằng chứng. Các dòng nguồn93tiêu chí lịch sử giữ nguyên.
 
 Cập nhật27/10: [Notebook và KFP đều5bước ML](training-notebook.md) đã có lượt chạy thật; tiến độ chuẩn chính ghi tại [F23–F25 của final](final-rubric-tracker.md). Giữ nguyên tiêu chí nguồn93dòng lịch sử bên dưới.

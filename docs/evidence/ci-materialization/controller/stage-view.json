@@ -1,0 +1,104 @@
+{
+  "_links": {
+    "self": {
+      "href": "/job/iot-materialization/1/wfapi/describe"
+    },
+    "artifacts": {
+      "href": "/job/iot-materialization/1/wfapi/artifacts"
+    }
+  },
+  "id": "1",
+  "name": "#1",
+  "status": "SUCCESS",
+  "startTimeMillis": 1793132057133,
+  "endTimeMillis": 1793132164860,
+  "durationMillis": 107727,
+  "queueDurationMillis": 8,
+  "pauseDurationMillis": 0,
+  "stages": [
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-materialization/1/execution/node/10/wfapi/describe"
+        }
+      },
+      "id": "10",
+      "name": "Prepare sealed source",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793132059456,
+      "durationMillis": 662,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-materialization/1/execution/node/19/wfapi/describe"
+        }
+      },
+      "id": "19",
+      "name": "Test contracts",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793132060160,
+      "durationMillis": 740,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-materialization/1/execution/node/28/wfapi/describe"
+        }
+      },
+      "id": "28",
+      "name": "Build verified SDK images",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793132060945,
+      "durationMillis": 5525,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-materialization/1/execution/node/37/wfapi/describe"
+        }
+      },
+      "id": "37",
+      "name": "Auto-deploy Airflow pipeline",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793132066513,
+      "durationMillis": 687,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-materialization/1/execution/node/46/wfapi/describe"
+        }
+      },
+      "id": "46",
+      "name": "Initial incremental replay readback",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793132067238,
+      "durationMillis": 96967,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-materialization/1/execution/node/59/wfapi/describe"
+        }
+      },
+      "id": "59",
+      "name": "Declarative: Post Actions",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793132164246,
+      "durationMillis": 428,
+      "pauseDurationMillis": 0
+    }
+  ]
+}

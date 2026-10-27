@@ -1,0 +1,107 @@
+{
+  "passed": true,
+  "run": "mat-jenkins-1",
+  "dataset": {
+    "urn": "urn:li:dataset:(urn:li:dataPlatform:redis,iot.feast.iot_ci_mat_1.machine_rolling_10m,DEV)",
+    "name": "feast/online/machine_rolling_10m",
+    "lineage": {
+      "relationships": [
+        {
+          "entity": {
+            "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_materialization,iot-vm),incremental_materialize)",
+            "type": "DATA_JOB"
+          }
+        },
+        {
+          "entity": {
+            "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.feast.machine_rolling_batch,DEV)",
+            "type": "DATASET"
+          }
+        }
+      ]
+    },
+    "assertions": {
+      "assertions": [
+        {
+          "urn": "urn:li:assertion:iot-feast-0e91bd6be9e676a1aa87f078b3850f914ece0b781f104f595e6939cf2b983784",
+          "runEvents": {
+            "runEvents": [
+              {
+                "runId": "mat-jenkins-1",
+                "result": {
+                  "type": "SUCCESS"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "urn": "urn:li:assertion:iot-feast-f3ccfbcca906047b534e19c33f96abab405f8fd6e53b4278e5f5a277dd7e3481",
+          "runEvents": {
+            "runEvents": [
+              {
+                "runId": "mat-jenkins-1",
+                "result": {
+                  "type": "SUCCESS"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "urn": "urn:li:assertion:iot-feast-1486b237a3277747bd7981078825e3de1b74f817848292a47066ade4af51e029",
+          "runEvents": {
+            "runEvents": [
+              {
+                "runId": "mat-jenkins-1",
+                "result": {
+                  "type": "SUCCESS"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "urn": "urn:li:assertion:iot-feast-aabae2721a86093d6fd40604f1ab9f5f1d2f9c33e49220884a72f8f8c2c144f0",
+          "runEvents": {
+            "runEvents": [
+              {
+                "runId": "mat-jenkins-1",
+                "result": {
+                  "type": "SUCCESS"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "urn": "urn:li:assertion:iot-feast-6dfb0d74f372864d3a38b4aa54f4c4a9bf2d4b020eaa07d5affcb60e37fe3fc1",
+          "runEvents": {
+            "runEvents": [
+              {
+                "runId": "mat-jenkins-1",
+                "result": {
+                  "type": "SUCCESS"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "urn": "urn:li:assertion:iot-feast-56cef9fcf2cd225a40be2c84f7abd5fd987da74f3c0b8cb911892365e4c15821",
+          "runEvents": {
+            "runEvents": [
+              {
+                "runId": "mat-jenkins-1",
+                "result": {
+                  "type": "SUCCESS"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "checked_utc": "2026-10-27T20:15:49.083105+00:00"
+}

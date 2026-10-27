@@ -1,0 +1,8 @@
+2026-10-27T20:13:33+00:00 iot-cw-vm systemd[1]: Started iot-materialization-ci-27.service - /usr/bin/python3 /tmp/run-materialization-ci-native-27.py.
+2026-10-27T20:13:34+00:00 iot-cw-vm python3[1059970]: Traceback (most recent call last):
+2026-10-27T20:13:34+00:00 iot-cw-vm python3[1059970]:   File "/tmp/run-materialization-ci-native-27.py", line 30, in <module>
+2026-10-27T20:13:34+00:00 iot-cw-vm python3[1059970]:     xml.find('description').text='Sealed source: native initial/incremental/replay materialization, isolated state, test/build/auto-deploy.'
+2026-10-27T20:13:34+00:00 iot-cw-vm python3[1059970]:     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-27T20:13:34+00:00 iot-cw-vm python3[1059970]: AttributeError: 'NoneType' object has no attribute 'text'
+2026-10-27T20:13:34+00:00 iot-cw-vm systemd[1]: iot-materialization-ci-27.service: Main process exited, code=exited, status=1/FAILURE
+2026-10-27T20:13:34+00:00 iot-cw-vm systemd[1]: iot-materialization-ci-27.service: Failed with result 'exit-code'.
