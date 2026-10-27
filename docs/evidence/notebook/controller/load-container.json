@@ -1,0 +1,32 @@
+{
+  "name": "notebook-medium-27-load",
+  "id": "0eef2c6e6b02c219a068400a9ea5fcdb0112bebcfa5d0da6db115cffdc3f0b5c",
+  "image": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+  "user": "10001:10001",
+  "memory": 10737418240,
+  "nano_cpus": 2000000000,
+  "exit_code": 0,
+  "oom_killed": false,
+  "seconds": 516.762884107,
+  "started_utc": "2026-10-27T12:56:40.415430391Z",
+  "finished_utc": "2026-10-27T13:05:16.887864113Z",
+  "command": [
+    "python",
+    "-m",
+    "ml.notebook_load",
+    "--workspace",
+    "/ml-data/input",
+    "--output",
+    "/ml-data/cohort.json",
+    "--protocol",
+    "/workspace/ml/protocols/medium-60d-v1.json",
+    "--state",
+    "/workspace/data/feast/batch-medium-27",
+    "--batch-report",
+    "/workspace/outputs/feast-batch-27/batch/report.json",
+    "--artifacts",
+    "/workspace/data/feature-datasets/feature-medium-27-v2/artifacts",
+    "--feature-report",
+    "/workspace/outputs/feature-medium-27-v2/feature-report.json"
+  ]
+}

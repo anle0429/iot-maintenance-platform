@@ -57,3 +57,11 @@ sudo k3s kubectl port-forward -n iot-features svc/feature-api --address=127.0.0.
 PC/laptop forward qua IAP tới VM127.0.0.1:18082, rồi xem`/docs`, GET`/v1/machines/P-001/features` hoặc POST`/v1/machines/P-001:predict`. Cài test tooling từ [requirements-test](../infra/feature-api/requirements-test.txt), chạy`python -m pytest tests/api --cov=services.predictor --cov=services.feature_api --cov-branch`. [Offline checker](../scripts/verify-feature-api-offline.py) chạy trong image SDK với workspace inputs readonly; chỉ output proof được ghi.
 
 Chưa Helm/atomic rollback/autoscale, drift API, gateway/auth/HTTPS và dashboard đầy đủ theo [final tracker](final-rubric-tracker.md). KServe/API vẫn pin version1; cluster modelversion2 mới là candidate, chưa production.63nativefile được gắn [manifest](evidence/feature-api/capture/manifest.json)/[mapping](evidence/feature-api/capture/evidence-map.json), rawdata/credentials/helpers không có trong Git.
+
+## Ảnh báo cáo tải thật
+
+![Locust 10 người dùng: 5.770 request, 0 lỗi, p95 32 ms](evidence/feature-api/screenshots/locust-10-users-html.jpg)
+
+![Locust 1 người dùng: 597 request, 0 lỗi, p95 7 ms](evidence/feature-api/screenshots/locust-1-user-html.jpg)
+
+Ảnh chụp trực tiếp hai HTML gốc, không sửa pixel. Đồng hồ trong trình duyệt là America/Chicago; report gốc và receipt ghi UTC. [Ràng buộc ảnh/HTML](evidence/feature-api/screenshots/locust-capture.json). Đây là tải có pacing trong 60 giây trên cùng VM, không đo công suất tối đa hay tốc độ dự đoán.

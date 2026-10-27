@@ -1,5 +1,7 @@
 # Bốn bước ML với protocol đã đóng băng
 
+Cập nhật: [KFP cluster thực](kfp-cluster.md) đã chạy bốn task thành công; [notebook đã execute](training-notebook.md) bổ sung hiểu và tự chạy ML. Các mục local bên dưới giữ bằng chứng theo thời điểm; distributed training và incremental data versioning của rubric final vẫn là mốc riêng.
+
 Pipeline [KFP](../ml/kfp_training.py) tách việc lấy dữ liệu, chia tập, huấn luyện và đánh giá thành bốn container có phụ thuộc rõ. Mục đích là truy được một dự đoán về model, tập feature và nguồn đã tạo ra nó.
 
 ## Quy tắc không đổi sau khi nhìn metric

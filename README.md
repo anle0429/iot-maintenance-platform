@@ -149,3 +149,5 @@ Get-Content outputs/practice-chunks/chunked-report.json
 - [Đề tổng](references/coursework/coursework_proposal.md).
 - [Rubric gốc](references/coursework/rubic/EDAI%20K11.xlsx).
 - [Repo tham khảo](https://github.com/cvinhnguyen/card-fraud-platform).
+
+- [Notebook ML tiếng Việt đã chạy thật](docs/training-notebook.md): Feast → nhãn snapshot → temporal split → train/validation → lưu và nạp lại model.

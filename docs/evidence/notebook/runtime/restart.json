@@ -1,0 +1,57 @@
+{
+  "captured_utc": "2026-10-27T12:50:44.819092+00:00",
+  "deadline_utc": "2026-10-27T20:49:51.550Z",
+  "max_run_seconds": 28800,
+  "memory": {
+    "returncode": 0,
+    "stdout": "               total        used        free      shared  buff/cache   available\nMem:     67419451392  3376066560 61916958720    20348928  2796331008 64043384832\nSwap:              0           0           0\n",
+    "stderr": ""
+  },
+  "disks": {
+    "/": {
+      "total": 50884108288,
+      "used": 3710152704,
+      "free": 47157178368
+    },
+    "/srv/iot-data": {
+      "total": 527295578112,
+      "used": 148387655680,
+      "free": 373522436096
+    },
+    "/srv/iot-fast": {
+      "total": 157396975616,
+      "used": 49111486464,
+      "free": 106658099200
+    }
+  },
+  "mounts": {
+    "returncode": 1,
+    "stdout": "",
+    "stderr": ""
+  },
+  "node": {
+    "returncode": 0,
+    "stdout": "NAME        STATUS   ROLES           AGE    VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION   CONTAINER-RUNTIME\niot-cw-vm   Ready    control-plane   104m   v1.35.9+k3s1   10.42.0.2     <none>        Ubuntu 24.04.5 LTS   7.0.0-1014-gcp   containerd://2.2.7-k3s1\n",
+    "stderr": ""
+  },
+  "deployments": {
+    "returncode": 0,
+    "stdout": "NAMESPACE      NAME                              READY   UP-TO-DATE   AVAILABLE   AGE\ncert-manager   cert-manager                      1/1     1            1           90m\ncert-manager   cert-manager-cainjector           1/1     1            1           90m\ncert-manager   cert-manager-webhook              0/1     1            0           90m\niot-features   feature-api                       0/1     1            0           63m\niot-features   online                            1/1     1            1           64m\niot-serving    iot-pump-failure-v1-predictor     0/1     1            0           88m\nkserve         kserve-controller-manager         0/1     1            0           89m\nkube-system    coredns                           0/1     1            0           104m\nkube-system    local-path-provisioner            1/1     1            1           104m\nkube-system    metrics-server                    0/1     1            0           104m\nkubeflow       cache-deployer-deployment         1/1     1            1           87m\nkubeflow       cache-server                      1/1     1            1           87m\nkubeflow       metadata-envoy-deployment         1/1     1            1           87m\nkubeflow       metadata-grpc-deployment          0/1     1            0           87m\nkubeflow       metadata-writer                   0/1     1            0           87m\nkubeflow       ml-pipeline                       0/1     1            0           87m\nkubeflow       ml-pipeline-persistenceagent      0/1     1            0           87m\nkubeflow       ml-pipeline-scheduledworkflow     0/1     1            0           87m\nkubeflow       ml-pipeline-ui                    0/1     1            0           87m\nkubeflow       ml-pipeline-viewer-crd            1/1     1            1           87m\nkubeflow       ml-pipeline-visualizationserver   0/1     1            0           87m\nkubeflow       mysql                             1/1     1            1           87m\nkubeflow       seaweedfs                         0/1     1            0           87m\nkubeflow       workflow-controller               1/1     1            1           87m\n",
+    "stderr": ""
+  },
+  "pods": {
+    "returncode": 0,
+    "stdout": "NAMESPACE      NAME                                                                       READY   STATUS      RESTARTS        AGE\ncert-manager   cert-manager-564c99cc8f-wjlvt                                              1/1     Running     1 (7m52s ago)   90m\ncert-manager   cert-manager-cainjector-85878d4fb8-4l6pf                                   1/1     Running     1 (7m52s ago)   90m\ncert-manager   cert-manager-webhook-574bc9799f-4kntb                                      0/1     Running     1 (7m52s ago)   90m\niot-features   feature-api-7cbb967c9-8h6pv                                                0/1     Running     1 (7m51s ago)   63m\niot-features   online-677cb57b98-7dfjq                                                    1/1     Running     1 (7m52s ago)   64m\niot-serving    iot-pump-failure-v1-predictor-774894bdbb-q82m4                             0/1     Running     1 (7m51s ago)   88m\nkserve         kserve-controller-manager-7bf66bcddc-9cwpl                                 1/2     Running     2 (7m52s ago)   89m\nkube-system    coredns-b644fd95b-5xsss                                                    0/1     Running     1 (21s ago)     104m\nkube-system    local-path-provisioner-d9d8769b6-9hh7r                                     1/1     Running     1 (21s ago)     104m\nkube-system    metrics-server-7f4b6d9bd7-cgtxs                                            0/1     Running     1 (21s ago)     104m\nkubeflow       cache-deployer-deployment-64d79fdd44-b4h25                                 1/1     Running     1 (7m52s ago)   87m\nkubeflow       cache-server-cbc9884c-ztgtf                                                1/1     Running     1 (7m52s ago)   87m\nkubeflow       iot-failure-training-cluster-v1-595p4-system-container-driver-2497188447   0/2     Completed   0               68m\nkubeflow       iot-failure-training-cluster-v1-595p4-system-container-driver-2660385886   0/2     Completed   0               69m\nkubeflow       iot-failure-training-cluster-v1-595p4-system-container-driver-314545130    0/2     Completed   0               71m\nkubeflow       iot-failure-training-cluster-v1-595p4-system-container-driver-426676198    0/2     Completed   0               79m\nkubeflow       iot-failure-training-cluster-v1-595p4-system-container-impl-1840077564     0/2     Error       0               68m\nkubeflow       iot-failure-training-cluster-v1-595p4-system-container-impl-2804702039     0/2     Completed   0               70m\nkubeflow       iot-failure-training-cluster-v1-595p4-system-container-impl-773343659      0/2     Completed   0               79m\nkubeflow       iot-failure-training-cluster-v1-595p4-system-container-impl-775959875      0/2     Completed   0               69m\nkubeflow       iot-failure-training-cluster-v1-595p4-system-dag-driver-721722323          0/2     Completed   0               79m\nkubeflow       iot-failure-training-cluster-v1-xj6pp-system-container-driver-3443096558   0/2     Completed   0               50m\nkubeflow       iot-failure-training-cluster-v1-xj6pp-system-container-driver-4041643339   0/2     Completed   0               49m\nkubeflow       iot-failure-training-cluster-v1-xj6pp-system-container-driver-447487920    0/2     Completed   0               52m\nkubeflow       iot-failure-training-cluster-v1-xj6pp-system-container-driver-980123647    0/2     Completed   0               60m\nkubeflow       iot-failure-training-cluster-v1-xj6pp-system-container-impl-1622148595     0/2     Completed   0               50m\nkubeflow       iot-failure-training-cluster-v1-xj6pp-system-container-impl-2562929312     0/2     Completed   0               49m\nkubeflow       iot-failure-training-cluster-v1-xj6pp-system-container-impl-3005984445     0/2     Completed   0               51m\nkubeflow       iot-failure-training-cluster-v1-xj6pp-system-container-impl-4117767452     0/2     Completed   0               60m\nkubeflow       iot-failure-training-cluster-v1-xj6pp-system-dag-driver-1188858470         0/2     Completed   0               60m\nkubeflow       metadata-envoy-deployment-b7d648dc8-z5kbp                                  1/1     Running     1 (7m51s ago)   87m\nkubeflow       metadata-grpc-deployment-8488465494-bsf5j                                  0/1     Unknown     0               87m\nkubeflow       metadata-writer-6f4744cf58-lqxcq                                           0/1     Error       0               87m\nkubeflow       ml-pipeline-57cc65b764-ndtxz                                               0/1     Unknown     0               87m\nkubeflow       ml-pipeline-persistenceagent-55578856d8-9mrjk                              0/1     Completed   0               87m\nkubeflow       ml-pipeline-scheduledworkflow-6bf66f7b47-d6tgd                             0/1     Completed   0               87m\nkubeflow       ml-pipeline-ui-65467df886-h6hmr                                            0/1     Running     1 (21s ago)     87m\nkubeflow       ml-pipeline-viewer-crd-5dc4967db6-j9pmv                                    1/1     Running     1 (7m52s ago)   87m\nkubeflow       ml-pipeline-visualizationserver-589c8d586c-bz7xt                           0/1     Running     1 (21s ago)     87m\nkubeflow       mysql-5d6d5f8584-k7qcm                                                     1/1     Running     1 (7m51s ago)   87m\nkubeflow       seaweedfs-794c445bc6-hzmgx                                                 0/1     Unknown     0               87m\nkubeflow       workflow-controller-6d75c864cf-mnxnq                                       1/1     Running     1 (21s ago)     87m\n",
+    "stderr": ""
+  },
+  "docker": {
+    "returncode": 0,
+    "stdout": "iot-predictor-predictor-1:Up 11 seconds (health: starting)\niot-mlflow-tracking-1:Up 11 seconds (health: starting)\niot-feast-online-1:Up 11 seconds (healthy)\niot-orchestration-airflow-api-1:Up 11 seconds (health: starting)\niot-orchestration-airflow-scheduler-1:Up 11 seconds\niot-orchestration-airflow-dag-processor-1:Up 11 seconds\niot-orchestration-airflow-db-1:Up 11 seconds (healthy)\niot-datahub-datahub-frontend-1:Up 11 seconds (health: starting)\niot-datahub-datahub-gms-1:Up 11 seconds (health: starting)\niot-datahub-broker-1:Up 11 seconds (health: starting)\niot-datahub-mysql-1:Up 11 seconds (health: starting)\niot-datahub-search-1:Up 11 seconds (healthy)\n",
+    "stderr": ""
+  },
+  "k3s_limits": {
+    "returncode": 0,
+    "stdout": "CPUQuotaPerSecUSec=2s\nMemoryMax=8589934592\n",
+    "stderr": ""
+  }
+}
