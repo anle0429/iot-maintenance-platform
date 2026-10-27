@@ -1,0 +1,61 @@
+# Existing single-node VM paths only. Retain storage on claim deletion; no cloud disks are provisioned.
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: iot-ml-code
+spec:
+  capacity: {storage: 10Gi}
+  accessModes: [ReadWriteOnce]
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ''
+  claimRef: {namespace: kubeflow, name: iot-ml-code}
+  hostPath: {path: /srv/iot-data/workspace/iot-maintenance-platform, type: Directory}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: {name: iot-ml-code, namespace: kubeflow}
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: {requests: {storage: 10Gi}}
+  storageClassName: ''
+  volumeName: iot-ml-code
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata: {name: iot-ml-workspace}
+spec:
+  capacity: {storage: 20Gi}
+  accessModes: [ReadWriteOnce]
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ''
+  claimRef: {namespace: kubeflow, name: iot-ml-workspace}
+  hostPath: {path: /srv/iot-data/workspace/iot-maintenance-platform/data/ml-workspaces/training-cluster-27, type: Directory}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: {name: iot-ml-workspace, namespace: kubeflow}
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: {requests: {storage: 20Gi}}
+  storageClassName: ''
+  volumeName: iot-ml-workspace
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata: {name: iot-ml-scratch}
+spec:
+  capacity: {storage: 20Gi}
+  accessModes: [ReadWriteOnce]
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ''
+  claimRef: {namespace: kubeflow, name: iot-ml-scratch}
+  hostPath: {path: /srv/iot-fast/ml-scratch/training-cluster-27, type: Directory}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: {name: iot-ml-scratch, namespace: kubeflow}
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: {requests: {storage: 20Gi}}
+  storageClassName: ''
+  volumeName: iot-ml-scratch

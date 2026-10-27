@@ -1,0 +1,20 @@
+# Bound standalone KFP backend containers while allowing explicit 10Gi training-task limits.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kubeflow
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: iot-backend-defaults
+  namespace: kubeflow
+spec:
+  limits:
+    - type: Container
+      default:
+        cpu: '1'
+        memory: 2Gi
+      defaultRequest:
+        cpu: 50m
+        memory: 128Mi
