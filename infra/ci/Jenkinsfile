@@ -1,0 +1,58 @@
+// Run a sealed, trusted source commit through real tests, images and private Airflow deployment.
+pipeline {
+  agent any
+  options { timeout(time: 35, unit: 'MINUTES'); disableConcurrentBuilds() }
+  environment { IOT_CI_PROVIDER = 'jenkins' }
+  stages {
+    stage('Prepare sealed source') {
+      steps {
+        script {
+          if (!(params.SOURCE_COMMIT ==~ /[0-9a-f]{40}/)) { error('Invalid sealed source commit') }
+          env.IOT_CI_COMMIT = params.SOURCE_COMMIT
+        }
+        sh '''set +x
+          mkdir "build-$BUILD_NUMBER"
+          cp -R "$IOT_DEPLOY_ROOT/data/ci/source/$IOT_CI_COMMIT/tree/." "build-$BUILD_NUMBER/"
+        '''
+      }
+    }
+    stage('Test') {
+      steps { dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-data-pipelines.py test' } }
+    }
+    stage('Build verified images') {
+      steps { dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-data-pipelines.py build' } }
+    }
+    stage('Auto-deploy Airflow DAGs') {
+      steps { dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-data-pipelines.py deploy' } }
+    }
+    stage('DP1 ingest validate publish') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'iot-airflow', usernameVariable: 'IOT_AIRFLOW_USER', passwordVariable: 'IOT_AIRFLOW_PASSWORD')]) {
+          dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-data-pipelines.py verify --stage dp1' }
+        }
+      }
+    }
+    stage('DP2 warehouse validate publish') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'iot-airflow', usernameVariable: 'IOT_AIRFLOW_USER', passwordVariable: 'IOT_AIRFLOW_PASSWORD')]) {
+          dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-data-pipelines.py verify --stage dp2' }
+        }
+      }
+    }
+    stage('DP3 features validate publish') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'iot-airflow', usernameVariable: 'IOT_AIRFLOW_USER', passwordVariable: 'IOT_AIRFLOW_PASSWORD')]) {
+          dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-data-pipelines.py verify --stage dp3' }
+        }
+      }
+    }
+  }
+  post {
+    unsuccessful {
+      dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-data-pipelines.py cleanup' }
+    }
+    always {
+      archiveArtifacts artifacts: "build-${env.BUILD_NUMBER}/outputs/ci-data-pipelines/**", allowEmptyArchive: true, fingerprint: true
+    }
+  }
+}

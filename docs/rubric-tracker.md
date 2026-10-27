@@ -1,5 +1,7 @@
 # Checklist rubric và bằng chứng
 
+Cập nhật27/10: [haiAPI tự HPA1→2→1 bằng CPU thật](api-autoscaling.md),79.172request bounded0errors; F09–F10 ở tracker final đã có evidence. CI/CD chưa chạy thành công; không dùng sourceworkflow để nhận đã deploy.
+
 **Cập nhật27/10:** người dùng đã chọn [rubric final-coursework](final-rubric-tracker.md) làm chuẩn chính. Bảng93dòng bên dưới giữ lịch sử hai sheet50%; không cộng điểm với final. Hai ý tưởng availability/replay đang được hiểu là đã học, chưa dùng để nhận novel idea.
 
 Nguồn: `references/coursework/rubic/EDAI K11.xlsx`. Trích nguyên nội dung tiêu chí có điểm ở hai sheet 50%; các cột ngày, trạng thái và evidence là phần lập kế hoạch của dự án.

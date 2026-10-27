@@ -1,0 +1,7 @@
+# Keep all runtime secrets, data and assistant files outside the controller image.
+**
+!infra/
+!infra/ci/
+!infra/ci/Jenkins.Dockerfile
+!infra/ci/Jenkinsfile
+!infra/ci/jenkins-bootstrap.groovy

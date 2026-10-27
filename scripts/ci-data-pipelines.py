@@ -1,4 +1,4 @@
-"""Test, package, auto-deploy and verify the three real Airflow data pipelines from a trusted GitHub commit."""
+"""Test, package, auto-deploy and verify the three real Airflow data pipelines from a sealed trusted source commit."""
 import argparse
 from datetime import datetime, timezone
 from hashlib import sha256
@@ -34,7 +34,7 @@ def api(path, token=None, body=None):
     headers = {'Content-Type': 'application/json'}
     if token:
         headers['Authorization'] = 'Bearer '+token
-    request = Request('http://127.0.0.1:18480'+path, headers=headers,
+    request = Request(os.environ.get('IOT_AIRFLOW_URL', 'http://127.0.0.1:18480')+path, headers=headers,
         data=json.dumps(body).encode() if body is not None else None)
     try:
         with urlopen(request, timeout=20) as response:
@@ -44,18 +44,25 @@ def api(path, token=None, body=None):
 
 
 def run(args):
-    """Fail closed outside the trusted main dispatch; a successful CI job must finish real scheduler tasks."""
-    commit = os.environ['GITHUB_SHA']
-    release = 'gha-'+os.environ['GITHUB_RUN_ID']+'-'+os.environ['GITHUB_RUN_ATTEMPT']
-    if os.environ.get('GITHUB_EVENT_NAME') != 'workflow_dispatch' or os.environ.get('GITHUB_REF') != 'refs/heads/main':
-        raise ValueError('Only a trusted manual main release may use this private deployment runner')
-    if not re.fullmatch('[0-9a-f]{40}', commit) or not re.fullmatch(r'gha-[0-9]+-[0-9]+', release):
+    """Verify the sealed commit before each phase; successful CI must finish the real scheduler tasks."""
+    commit = os.environ['IOT_CI_COMMIT']
+    release = 'jenkins-'+os.environ['BUILD_NUMBER']+'-1'
+    if os.environ.get('IOT_CI_PROVIDER') != 'jenkins' or not os.environ.get('JENKINS_URL'):
+        raise ValueError('Only the authenticated private Jenkins pipeline may deploy this sealed release')
+    if not re.fullmatch('[0-9a-f]{40}', commit) or not re.fullmatch(r'jenkins-[0-9]+-1', release):
         raise ValueError('Invalid release identity')
-    if subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip() != commit:
-        raise ValueError('Checkout differs from the requested GitHub commit')
-    if subprocess.check_output(['git', 'diff', '--name-only', 'HEAD'], cwd=ROOT, text=True).strip():
-        raise ValueError('Tracked checkout source has uncommitted changes')
     deploy = Path(os.environ['IOT_DEPLOY_ROOT']).resolve()
+    seal_path = deploy/'data/ci/source'/commit/'manifest.json'
+    seal = json.loads(seal_path.read_text())
+    if seal['commit'] != commit:
+        raise ValueError('Source seal belongs to another Git commit')
+    for name, expected in seal['files'].items():
+        path = (ROOT/name).resolve()
+        if not path.is_relative_to(ROOT) or digest(path) != expected:
+            raise ValueError('Workspace differs from the sealed source: '+name)
+    executable = {p.relative_to(ROOT).as_posix() for folder in ['generator', 'pipelines'] for p in (ROOT/folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts}
+    if executable != {n for n in seal['files'] if n.startswith(('generator/', 'pipelines/'))}:
+        raise ValueError('Unsealed executable source was added to the workspace')
     directory = deploy/'data/ci/releases'/release
     out = ROOT/'outputs/ci-data-pipelines'
     out.mkdir(parents=True, exist_ok=True)
@@ -65,7 +72,7 @@ def run(args):
             'tests.test_chunk_source', 'tests.test_chunked', '-v'], cwd=ROOT, check=True)
         for name in ['scripts/ci-data-pipelines.py', 'infra/ci/iot_ci_data_pipelines.py']:
             compile((ROOT/name).read_text(), name, 'exec')
-        save(out/'test.json', {'passed': True, 'commit': commit, 'release': release,
+        save(out/'test.json', {'passed': True, 'commit': commit, 'release': release, 'source_seal_sha256': digest(seal_path),
             'seconds': time.monotonic()-started,
             'scope': 'Existing known-answer generator, source receipt, corruption, replay and artifact-boundary tests. Native Spark checks also run after deployment.'})
     elif args.phase == 'build':
@@ -74,12 +81,12 @@ def run(args):
         session = json.loads((deploy/'data/runtime/ci/session.json').read_text())
         stop = datetime.fromisoformat(session['auto_stop_utc'])
         ram = int(next(line.split()[1] for line in Path('/proc/meminfo').read_text().splitlines() if line.startswith('MemAvailable:')))*1024
-        if (stop-datetime.now(timezone.utc)).total_seconds() < 2400 or ram < 16*1024**3 or min(shutil.disk_usage(p).free for p in ['/srv/iot-data', '/srv/iot-fast']) < 15_000_000_000:
+        if (stop-datetime.now(timezone.utc)).total_seconds() < 2400 or ram < 16*1024**3 or min(shutil.disk_usage(p).free for p in [deploy, Path('/srv/iot-fast/ci')]) < 15_000_000_000:
             raise ValueError('CI requires40minutes in the approved VM session,16GiB available RAM and15GB free on each data disk')
         directory.mkdir(parents=True, exist_ok=False)
         work = directory/'work'
         work.mkdir()
-        sources = subprocess.check_output(['git', 'ls-files', 'generator', 'pipelines'], cwd=ROOT, text=True).splitlines()
+        sources = sorted(name for name in seal['files'] if name.startswith(('generator/', 'pipelines/')))
         for name in sources:
             target = work/name
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -135,7 +142,7 @@ def run(args):
             subprocess.run(['docker', 'stop', '--time', '20', *ids], check=True)
         save(out/'cleanup.json', {'release': release, 'stopped_only_owned_containers': ids})
     else:
-        token = api('/auth/token', body={'username': 'learner', 'password': os.environ['IOT_AIRFLOW_PASSWORD']})['access_token']
+        token = api('/auth/token', body={'username': os.environ.get('IOT_AIRFLOW_USER', 'learner'), 'password': os.environ['IOT_AIRFLOW_PASSWORD']})['access_token']
         dag = DAGS[args.stage]
         deadline = time.monotonic()+180
         while time.monotonic() < deadline:
@@ -177,7 +184,7 @@ def run(args):
         save(out/(args.stage+'-verification.json'), {'passed': True, 'commit': commit, 'release': release,
             'dag_id': dag, 'rules_passed': len(validation['checks']), 'containers': receipts,
             'completed_utc': datetime.now(timezone.utc).isoformat(),
-            'scope': 'Real GitHub test/build/auto-deploy, Airflow ingest/validate/DataHub publish on the continuous 20-machine48h pilot. Not100GB CI or production-model API CI.'})
+            'scope': 'Real Jenkins test/build/auto-deploy, Airflow ingest/validate/DataHub publish on the continuous 20-machine48h pilot. Not100GB CI or production-model API CI.'})
 
 
 if __name__ == '__main__':

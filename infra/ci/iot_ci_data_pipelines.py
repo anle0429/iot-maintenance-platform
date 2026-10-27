@@ -16,7 +16,7 @@ def execute(stage, operation):
     """Run the packaged source with immutable inputs; propagate failure and retain the real container receipt."""
     config = get_current_context()['dag_run'].conf
     release = config['release']
-    if not re.fullmatch(r'gha-[0-9]+-[0-9]+', release):
+    if not re.fullmatch(r'jenkins-[0-9]+-1', release):
         raise ValueError('Invalid CI release ID')
     root = Path(os.environ['IOT_ROOT'])
     directory = root/'data/ci/releases'/release
