@@ -76,6 +76,8 @@ Lưu ý đọc evidence: câu `scope` chung trong `cloud-context.json` còn mô 
 
 32 partitions vẫn tạo 64 file cho mỗi bảng telemetry vì writer đặt `maxRecordsPerFile=500000`: mỗi partition có hơn 500.000 dòng và tách thành hai file; thêm 3 file metadata thành 131 file. Silver 693.321.312 byte lớn hơn Bronze telemetry 607.934.240 byte trong lượt này dù loại 2% extras; số byte còn phụ thuộc thứ tự/encoding/nén, chưa có phép đo tách riêng nguyên nhân. Không dùng số dòng giảm để tự kết luận tối ưu storage đã hoàn tất.
 
+Manifest bundle v3 gốc trên VM dùng CRLF; Git lưu bản LF theo `.gitattributes`. Do đó hash metadata trong context là `ba3d2fc5…`, còn blob Git là `92a8c66c…`. [Ánh xạ đầy đủ](evidence/scale-source/git-source-mapping.json) kiểm phép đổi line endings này, tách khỏi21 file thực thi khớp nguyên byte. Các manifest/catalog/receipt nguồn mới đều giữ byte LF và các marker vẫn khớp; không thay hash nguồn để bỏ qua kiểm tra.
+
 ## Giới hạn phiên và lần khởi động lại thật
 
 Sau tập trung gian, plan cũ qua HDD/SSD/RAM nhưng **không đủ thời gian phiên**. [Plan bị chặn](evidence/scale-source/vm-restart/rejected-old-session-plan.json) không được dùng để bắt đầu sinh lớn. Đã kiểm 0 DAG run đang hoạt động và 0 Spark container, sau đó STOP/START **cùng VM/đĩa/cấu hình**; giới hạn 28800 giây và hành động STOP giữ nguyên. Đây là kiểm khởi động lại thủ công, chưa phải bằng chứng đã chờ tự STOP sau 8 giờ.

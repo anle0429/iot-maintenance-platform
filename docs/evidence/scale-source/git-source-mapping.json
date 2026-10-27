@@ -5,6 +5,13 @@
   "execution_state": "Working tree extending the base commit, bound to exact runtime file hashes below; not an execution of a preexisting final Git commit.",
   "runtime_files": 21,
   "all_runtime_bytes_match_git": true,
+  "legacy_bundle_manifest": {
+    "path": "docs/evidence/gcp-runtime/runtime-source-v3-manifest.json",
+    "runtime_context_sha256": "ba3d2fc5e4613cadbfa92ccba53eacfadbc38908c099f004f9f09caaff0210bc",
+    "git_content_sha256": "92a8c66c550790023c2b1e03c36a2188ac5ed81f7146f66a44ca9d5575452aaf",
+    "match": "CRLF_to_LF_metadata_only",
+    "scope": "Original v3 bundle-manifest text used CRLF; Git stores LF. Spark/generator execution bytes were not changed by this metadata normalization."
+  },
   "old_calibration_snapshot_bindings": 4,
   "rubric_rows_original_fields_unchanged": 93,
   "sources": {
