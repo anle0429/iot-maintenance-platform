@@ -1,0 +1,21 @@
+# Exported context contains only sealed technical files; package the runtime source closure.
+**
+!ml/
+!ml/**
+!feature_store/
+!feature_store/**
+!scripts/
+!scripts/version-feast-dataset.py
+!scripts/run-training-notebook.py
+!scripts/run-versioned-training.py
+!scripts/create-versioned-source-binding.py
+!scripts/configure-kfp-registry.py
+!notebooks/
+!notebooks/01_failure_training.ipynb
+!infra/
+!infra/kfp/
+!infra/kfp/**
+!infra/ml-versioning/
+!infra/ml-versioning/**
+**/__pycache__/
+**/*.pyc

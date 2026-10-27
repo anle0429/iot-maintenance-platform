@@ -2,7 +2,7 @@
 import argparse,json,os,re,subprocess,sys,time
 from datetime import datetime,timezone
 from pathlib import Path
-from shutil import disk_usage
+from shutil import disk_usage,copyfile
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from ml.training_contract import digest,save
 from ml.automatic_versions import context
@@ -34,7 +34,19 @@ def run(args):
         'source_snapshot_commit':binding['commit'],'deadline_utc':args.deadline_utc,'ram_available_bytes':ram(),
         'sdk_version':kfp.__version__,'oracle_sha256':digest(ROOT/args.oracle),'source_binding_sha256':digest(args.source_binding),
         'scope':'Admission only. Five tasks, successful native persistence and two working executors still required.'})
-    package=out/'pipeline.yaml';compiler.Compiler().compile(versioned_pipeline,str(package))
+    package=out/'pipeline.yaml'
+    deployment=None
+    if getattr(args,'deployment_manifest',None):
+        deployment=json.loads(args.deployment_manifest.read_text())
+        if (not deployment['passed'] or deployment['commit']!=binding['commit']
+                or deployment['source_sha256']!=binding['files']
+                or digest(Path(deployment['pipeline_path']))!=deployment['pipeline_sha256']):
+            raise ValueError('CI package differs from its tested and deployed source')
+        copyfile(deployment['pipeline_path'],package)
+        save(out/'ci-deployment.json',{'manifest_sha256':digest(args.deployment_manifest),
+            'pipeline_sha256':digest(package),'commit':binding['commit'],'images':deployment['images']})
+    else:
+        compiler.Compiler().compile(versioned_pipeline,str(package))
     k=['/usr/local/bin/k3s','kubectl'];service=json.loads(subprocess.check_output(k+['get','service','ml-pipeline','-n','kubeflow','-o','json'],text=True))
     client=kfp.Client(host='http://'+service['spec']['clusterIP']+':8888',namespace='kubeflow')
     result=client.create_run_from_pipeline_package(str(package),arguments={'workspace':'/ml-data/'+args.run,'source_binding':pod_binding},
@@ -76,4 +88,5 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     for n in ['run','deadline-utc']:parser.add_argument('--'+n,required=True)
     parser.add_argument('--source-binding',type=Path,required=True);parser.add_argument('--oracle',type=Path,required=True)
+    parser.add_argument('--deployment-manifest',type=Path)
     run(parser.parse_args())
