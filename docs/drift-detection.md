@@ -1,5 +1,7 @@
 # Phát hiện thay đổi phân bố cảm biến
 
+Bổ sung27/10: [MMD audit offline](joint-drift.md) kiểm quan hệ chung của cảm biến khi PSI từng cột không đổi. Đã có proof PC với controlled fixtures; chưa thay endpoint, image hoặc kết quả native bên dưới.
+
 API drift nhận một cửa sổ feature và so với tham chiếu huấn luyện đã cố định. Ví dụ cảm biến nhiệt bị lệch20°C và cảm biến rung nhân1,8 sẽ làm phân bố đầu vào thay đổi. Kết quả là tín hiệu cần điều tra dữ liệu; không phải bằng chứng model dự đoán sai hay máy chắc chắn sắp hỏng.
 
 ## Thiết kế và tính đúng đắn

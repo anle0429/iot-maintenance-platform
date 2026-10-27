@@ -1,0 +1,131 @@
+{
+  "passed": true,
+  "source_commit": "07a36edb67e222c415f8f985bd0e648769cfe05f",
+  "source_sha256": {
+    "ml/joint_drift.py": "d7c0d33e8d7406d151db76d76993aa016b9937c325aceaf2df09cc9128f2ce51",
+    "ml/protocols/joint-drift-v1.json": "accaee091ab2d88002646b2e8eb64414f9fbebfcf6e991979f8bdb15e481740c",
+    "scripts/audit-joint-drift.py": "a2f2dab527b3e01e0212fdb7fecb28d48d89c1c167f44d0f49b43ea863b09a45",
+    "tests/test_joint_drift.py": "d3e86b9dc01a44d00855a08172c7a5bbcf797dad9e001d0786307ed9f3de1eae",
+    "services/drift_api/contracts.py": "11ac649335a364bdfcece7e1954ff88578f2ff6a057226fa741e9205c33ad2de",
+    "services/drift_api/detector.py": "dd2c23ff16343fd72146552d46bdb7490439026557d43e59b07e885f11c555b8",
+    "services/predictor/contracts.py": "5cab032dae3ede91c9cfd5446da195b99b03349f3ed04a915be92f0ed3da12ce"
+  },
+  "policy_declared_commit": "1791ffa61388d42ff5c8cfe87a12d8bb75b39240",
+  "policy_sha256": "accaee091ab2d88002646b2e8eb64414f9fbebfcf6e991979f8bdb15e481740c",
+  "machine": "ThienAn",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "completed_utc": "2026-10-27T21:27:16.986563+00:00",
+  "cases": {
+    "unchanged": {
+      "rows": 64,
+      "psi_alert": false,
+      "joint_alert": false,
+      "mmd_squared": 0.0,
+      "tail_fraction": 1.0,
+      "max_marginal_psi": 0.0,
+      "gram_payload_bytes": 131072,
+      "public_cli_wall_seconds": 0.47889820000273176,
+      "report_sha256": "ba91ee24168e4622131a144f26d2c4c49c137c4bef8f31e75a144b546f421143",
+      "existing_report_preserved": true
+    },
+    "association": {
+      "rows": 64,
+      "psi_alert": false,
+      "joint_alert": true,
+      "mmd_squared": 0.1633685868193866,
+      "tail_fraction": 0.005,
+      "max_marginal_psi": 0.0,
+      "gram_payload_bytes": 131072,
+      "public_cli_wall_seconds": 0.40911140000389423,
+      "report_sha256": "8b073f5c92e0d068fb4eae8be04388059b328df739fe16f6c4e96ff26117ca5f"
+    },
+    "marginal-offset": {
+      "rows": 64,
+      "psi_alert": true,
+      "joint_alert": true,
+      "mmd_squared": 1.260575674337402,
+      "tail_fraction": 0.005,
+      "max_marginal_psi": 3.9399663286601605,
+      "gram_payload_bytes": 131072,
+      "public_cli_wall_seconds": 0.40927380000357516,
+      "report_sha256": "0720bb69417793ce5dea960eee846741c962f4e9bfff53dd4d2adcbec9282df9"
+    },
+    "constant": {
+      "rows": 32,
+      "psi_alert": false,
+      "joint_alert": false,
+      "mmd_squared": 0.0,
+      "tail_fraction": 1.0,
+      "max_marginal_psi": 0.0,
+      "gram_payload_bytes": 32768,
+      "public_cli_wall_seconds": 0.35747399998945184,
+      "report_sha256": "5919a2a0c803c98ff30d13183c1b6df43130bb550050b1ee8a62cc7979ac8b21"
+    },
+    "nonlinear": {
+      "rows": 96,
+      "psi_alert": false,
+      "joint_alert": true,
+      "mmd_squared": 0.06813679447590015,
+      "tail_fraction": 0.005,
+      "max_marginal_psi": 0.0,
+      "gram_payload_bytes": 294912,
+      "public_cli_wall_seconds": 0.5288795000087703,
+      "report_sha256": "d6b86ef9758cfbf61718d71476994f366460a20d0df602b63ba27981cc4c1f92",
+      "temperature_vibration_covariance": {
+        "reference": 0.0,
+        "current": 0.0
+      }
+    },
+    "maximum": {
+      "rows": 128,
+      "psi_alert": false,
+      "joint_alert": false,
+      "mmd_squared": 0.0,
+      "tail_fraction": 1.0,
+      "max_marginal_psi": 0.0,
+      "gram_payload_bytes": 524288,
+      "public_cli_wall_seconds": 0.6775637999962782,
+      "report_sha256": "b16187bf8508f114ea5db5ec2be04a3a2baf447abc54dd48fe701b72f1b2958b"
+    }
+  },
+  "maximum_profile": {
+    "matrix_rows": 256,
+    "gram_payload_bytes": 524288,
+    "traced_current_bytes": 60321,
+    "traced_peak_bytes": 728744,
+    "profiled_wall_seconds": 3.553419899995788,
+    "metric": "Python tracemalloc peak during compare after reference/request validation; not process RSS or a native deployment benchmark"
+  },
+  "input_hashes_unchanged": {
+    "unchanged": {
+      "reference.json": "1a61ff74aae290898ea1bc26039c1d2bdb5086a01d7886273655cd00b4bd3725",
+      "window.json": "a9663b5438c5420d5b4325545840d272091fad8fc3eefb3346270a51d45defff"
+    },
+    "association": {
+      "reference.json": "1a61ff74aae290898ea1bc26039c1d2bdb5086a01d7886273655cd00b4bd3725",
+      "window.json": "618bd3062f59e1a536944a076141d5c4e54176cecc8d82685250cfcc03da9732"
+    },
+    "marginal-offset": {
+      "reference.json": "1a61ff74aae290898ea1bc26039c1d2bdb5086a01d7886273655cd00b4bd3725",
+      "window.json": "044743d97e5ff5f36db497c2192cfc057b4e11494f1b7a70ac97c6228fe186bd"
+    },
+    "constant": {
+      "reference.json": "3e7b64577e2041f839f36e70235fb9d1657ffa829b8d72af9e7169faaab90738",
+      "window.json": "f25f699e8044a5d960e525cbc976457620b9026b6baa9af7b3b29d1c41c2aee6"
+    },
+    "nonlinear": {
+      "reference.json": "93de7b61549ddb5798a45633cad1f622a015c9be344b5db6556bd9c2ecdd5c6b",
+      "window.json": "44c5295d65e5edb94d43e2ebb1bf7eb58c21122b6d99f144fc032ba0ca9b26f9"
+    },
+    "maximum": {
+      "reference.json": "44dac1f8da4c898b03500915995092c0151aface2fb53bfb5e963ee5689eafd8",
+      "window.json": "c9ff3b0c7b002b3aba7201a4035bfd8636e3b037693babb9d0f2c294fcdb19f6"
+    }
+  },
+  "unit_tests_passed": 19,
+  "coverage_statements": 56,
+  "coverage_branches": 14,
+  "coverage_percent": 100,
+  "scope": "PC offline public-CLI diagnostic on explicit controlled cohorts. No live drift API changes, registry changes, model quality claim or calibrated false-alarm guarantee. Nonlinear equal-covariance case supplements the originally declared association check."
+}

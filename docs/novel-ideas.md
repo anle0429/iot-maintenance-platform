@@ -12,8 +12,8 @@ Người dùng cung cấp hai lịch **EDAI-K9** và **DSAI-K9** ngày27/10 đ�
 
 Người dùng trước đó đã xác nhận availability guard và replay reconciliation đã học. Giữ hai cơ chế này vì tính đúng đắn, không nhận là hai novel ideas.
 
-MMD chưa được nêu đích danh trong bất kỳ ô không rỗng nào của hai workbook. Đây là **ứng viên** để phát hiện thay đổi quan hệ giữa cảm biến khi các phân bố biên giữ nguyên, bổ sung cho PSI hiện có. Sự vắng mặt trong lịch không chứng minh chưa từng được giảng; chưa đánh dấu mục này có bằng chứng triển khai hay đã đáp ứng tính ngoài lớp.
+MMD chưa được nêu đích danh trong bất kỳ ô không rỗng nào của hai workbook. Đây là **ứng viên** để phát hiện thay đổi quan hệ giữa cảm biến khi các phân bố biên giữ nguyên, bổ sung cho PSI hiện có. [Audit MMD đã triển khai và kiểm trên PC](joint-drift.md):19tests,6caCLI và verifier độc lập1.194permutationstatistics; hai ca joint-shift có mọiPSI=0 nhưng phát tín hiệu. Ca phi tuyến còn giữ covariance=0. Policy cố định trước thí nghiệm; có đầu vào/report/hình và giới hạn inference. Sự vắng mặt trong lịch không chứng minh chưa từng được giảng; F58 vẫn cần xác nhận ngoài lớp, chưa nhận hoàn tất tiêu chí hoặc đãdeploynative.
 
 Đã đọc lại hai file gốc và đối chiếu snapshot:281ô có nội dung ở EDAI,388ô ở DSAI,11ô trích dẫn liên quan khớp từng giá trị/SHA256; cả hai file giữ nguyên byte. Tổng669ô không thấy tênMMD/maximum mean discrepancy. Nội dung lịch chỉ là nguồn tham chiếu, không trở thành lệnh triển khai hay thay đổi rubric đã được người dùng chốt.
 
-Hai mục novel ideas trong tracker vẫn chưa hoàn tất. Bước lựa chọn tiếp theo cần gắn kỹ thuật cụ thể với hạn chế thật của hệ thống, phép thử có đáp án và phạm vi nội dung lớp; không thêm công nghệ chỉ để đủ số lượng.
+Hai mục novel ideas trong tracker vẫn chưa hoàn tất. MMD đã có proof nhỏ về giá trị bổ sung; còn xác nhận ngoài lớp và bước dùng cohort thực có lineage. Ý tưởng thứ hai vẫn cần chọn theo hạn chế thật của hệ thống và kiểm chứng cụ thể; không thêm công nghệ chỉ để đủ số lượng.

@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "method": "Independent direct AA/BB/AB Gaussian sums; no production estimator import or cached row-total formula",
+  "source_sha256": "26ed7116a5df9a7c13d78d463c1c7bf4439323fc6092f3d153495b67965fddb2",
+  "policy_sha256": "accaee091ab2d88002646b2e8eb64414f9fbebfcf6e991979f8bdb15e481740c",
+  "cases": {
+    "unchanged": {
+      "independent_observed_mmd_squared": 0.0,
+      "permutation_statistics_checked": 199,
+      "max_permutation_delta": 6.661338147750939e-16,
+      "same_tail_fraction": 1.0
+    },
+    "association": {
+      "independent_observed_mmd_squared": 0.1633685868193866,
+      "permutation_statistics_checked": 199,
+      "max_permutation_delta": 6.661338147750939e-16,
+      "same_tail_fraction": 0.005
+    },
+    "marginal-offset": {
+      "independent_observed_mmd_squared": 1.260575674337402,
+      "permutation_statistics_checked": 199,
+      "max_permutation_delta": 3.3306690738754696e-16,
+      "same_tail_fraction": 0.005
+    },
+    "constant": {
+      "independent_observed_mmd_squared": 0.0,
+      "permutation_statistics_checked": 199,
+      "max_permutation_delta": 0.0,
+      "same_tail_fraction": 1.0
+    },
+    "nonlinear": {
+      "independent_observed_mmd_squared": 0.06813679447590015,
+      "permutation_statistics_checked": 199,
+      "max_permutation_delta": 3.3306690738754696e-16,
+      "same_tail_fraction": 0.005
+    },
+    "maximum": {
+      "independent_observed_mmd_squared": 0.0,
+      "permutation_statistics_checked": 199,
+      "max_permutation_delta": 6.661338147750939e-16,
+      "same_tail_fraction": 1.0
+    }
+  },
+  "elapsed_seconds": 2.1447661999991396,
+  "scope": "Numerical verification of saved diagnostic fixtures; no calibrated false-alarm claim"
+}

@@ -155,6 +155,7 @@ Get-Content outputs/practice-chunks/chunked-report.json
 - [Huấn luyện phân tán trên Kubeflow](docs/distributed-training.md): hai executor thực thi task LR, nguồn trung gian60ngày.
 - [Phiên bản dữ liệu tăng dần](docs/incremental-data-versioning.md): nativeMLflow, phần đổi mới được upload và fullrestore đã kiểm.
 - [Generator và API drift](docs/drift-detection.md): cấu hình lệch cảm biến, bảng nhãn/feature thật, HTTP và kiểm thử.
+- [Audit quan hệ cảm biến bằng MMD](docs/joint-drift.md):6caCLI/19tests; bắtjointshiftkhiPSI=0, kểcảcovariance0. Diagnosticoffline,cònxácnhậnngoàilớp/cohortnative.
 - [Deploy API bằng Helm](docs/api-deployment.md): rolling update và tự rollback đã thử trên hai API.
 - [Autoscale hai API](docs/api-autoscaling.md): CPU HPA thật1→2→1, workload có giới hạn và replay không ghi trùng.
 - [CI/CD DP1–DP3](docs/ci-data-pipelines.md): Jenkins test/build/auto-deploy, ba DAG thật và DataHub readback.

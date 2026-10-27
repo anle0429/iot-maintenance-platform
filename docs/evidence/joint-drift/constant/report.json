@@ -1,0 +1,405 @@
+{
+  "format": "iot-joint-drift-audit-v1",
+  "reference_id": "5c2be3db291ed578686161b730e53dd3446d2ca9a331ce0f470637ee3b1a67ff",
+  "window_id": "known-window",
+  "window_sha256": "f4a09d696bbb357b34d642cd9c44383f42ee397d77abf9e0181eb60c042e72c5",
+  "policy_sha256": "accaee091ab2d88002646b2e8eb64414f9fbebfcf6e991979f8bdb15e481740c",
+  "policy": {
+    "format": "iot-joint-drift-policy-v1",
+    "estimator": "biased-mmd-squared-including-diagonals",
+    "kernel": "gaussian-rbf",
+    "sigma": 1.0,
+    "feature_scales": {
+      "temperature_mean_10m": 20.0,
+      "vibration_max_10m": 2.0,
+      "current_mean_10m": 10.0,
+      "current_std_10m": 2.0,
+      "rpm_mean_10m": 1000.0,
+      "reading_count_10m": 10.0,
+      "machine_age_days": 365.0,
+      "prior_failures_24h": 1.0
+    },
+    "scaling_source": "Engineering unit scales fixed before the experiment; no scaler or bandwidth fit to the compared groups",
+    "min_unique_rows": 32,
+    "max_unique_rows_per_group": 128,
+    "permutations": 199,
+    "seed": 1127,
+    "tail_formula": "(1 + count(permuted_mmd_squared >= observed_mmd_squared - tie_tolerance)) / (permutations + 1)",
+    "tie_tolerance": 1e-12,
+    "diagnostic_tail_threshold": 0.05,
+    "inference_scope": "Exchangeability is not established for overlapping IoT windows or reused reference samples. Tail fraction and alert are diagnostics, not calibrated p-values or false-alarm guarantees. No automatic retraining or model-quality claim.",
+    "sampling": "No implicit subsampling. Oversized unique groups are rejected before Gram matrix allocation. Caller must define a bounded cohort before inspecting its comparison.",
+    "known_answer_plan": [
+      "Scalar two-point Gaussian kernel oracle independent of production estimator",
+      "Same multiset and order/duplicate-ID replay preserve score and diagnostic",
+      "Reverse temperature-vibration association while preserving every marginal multiset: PSI must be zero and MMD diagnostic must alert",
+      "Constant identical vectors have zero MMD and tie-corrected tail fraction one",
+      "Marginal sensor offset is detected by both PSI and joint diagnostic",
+      "Reject future/unavailable snapshots, conflicting IDs, labels and groups outside declared bounds"
+    ],
+    "method_reference": "https://www.jmlr.org/papers/volume13/gretton12a/gretton12a.pdf"
+  },
+  "reference_rows": 32,
+  "current_unique_rows": 32,
+  "psi": {
+    "reference_id": "5c2be3db291ed578686161b730e53dd3446d2ca9a331ce0f470637ee3b1a67ff",
+    "window_id": "known-window",
+    "start": "2026-10-01T00:00:00+00:00",
+    "end": "2026-10-01T01:00:00+00:00",
+    "unique_rows": 32,
+    "reference_rows": 32,
+    "lineage": {
+      "fixture": "declared-association-switch"
+    },
+    "policy": {
+      "bins": 10,
+      "psi_threshold": 0.2,
+      "drifted_feature_fraction": 0.25,
+      "pseudocount": 0.5
+    },
+    "features": {
+      "temperature_mean_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          30.0
+        ],
+        "reference_counts": [
+          0,
+          32
+        ],
+        "current_counts": [
+          0,
+          32
+        ]
+      },
+      "vibration_max_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          1.0
+        ],
+        "reference_counts": [
+          0,
+          32
+        ],
+        "current_counts": [
+          0,
+          32
+        ]
+      },
+      "current_mean_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          12.0
+        ],
+        "reference_counts": [
+          0,
+          32
+        ],
+        "current_counts": [
+          0,
+          32
+        ]
+      },
+      "current_std_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          1.0
+        ],
+        "reference_counts": [
+          0,
+          32
+        ],
+        "current_counts": [
+          0,
+          32
+        ]
+      },
+      "rpm_mean_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          3000.0
+        ],
+        "reference_counts": [
+          0,
+          32
+        ],
+        "current_counts": [
+          0,
+          32
+        ]
+      },
+      "reading_count_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          10
+        ],
+        "reference_counts": [
+          0,
+          32
+        ],
+        "current_counts": [
+          0,
+          32
+        ]
+      },
+      "machine_age_days": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          180.0
+        ],
+        "reference_counts": [
+          0,
+          32
+        ],
+        "current_counts": [
+          0,
+          32
+        ]
+      },
+      "prior_failures_24h": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          0
+        ],
+        "reference_counts": [
+          0,
+          32
+        ],
+        "current_counts": [
+          0,
+          32
+        ]
+      }
+    },
+    "drifted_feature_fraction": 0.0,
+    "drift_detected": false,
+    "scope": "Label-free marginal covariate drift; no ground truth, accuracy or concept-drift claim."
+  },
+  "joint": {
+    "mmd_squared": 0.0,
+    "permutation_tail_fraction": 1.0,
+    "permutation_exceedances": 199,
+    "permutation_statistics": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "diagnostic_alert": false,
+    "p_value": null,
+    "exchangeability_verified": false
+  },
+  "resources": {
+    "matrix_rows": 64,
+    "gram_payload_bytes": 32768,
+    "gram_payload_cap_bytes": 524288
+  },
+  "scope": "Exchangeability is not established for overlapping IoT windows or reused reference samples. Tail fraction and alert are diagnostics, not calibrated p-values or false-alarm guarantees. No automatic retraining or model-quality claim.",
+  "input_sha256": {
+    "reference": "3e7b64577e2041f839f36e70235fb9d1657ffa829b8d72af9e7169faaab90738",
+    "window": "f25f699e8044a5d960e525cbc976457620b9026b6baa9af7b3b29d1c41c2aee6"
+  }
+}
