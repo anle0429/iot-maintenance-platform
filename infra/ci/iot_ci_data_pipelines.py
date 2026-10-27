@@ -43,11 +43,12 @@ def execute(stage, operation):
                str(work/'outputs'): {'bind': '/work/outputs', 'mode': 'rw'},
                str(Path('/srv/iot-fast/ci')/release): {'bind': '/tmp/spark', 'mode': 'rw'}}
     client = docker.from_env()
+    runtime_options = {'entrypoint': ['python3', '-m', 'pipelines.ci_metadata']} if publish else {}
     container = client.containers.run(image, command, detach=True, working_dir='/work',
         environment={'PYTHONPATH': '/opt/iot-release', 'DATAHUB_GMS_URL': 'http://datahub-gms:8080'},
         volumes=volumes, network='iot-metadata', mem_limit='2g' if publish else '5g',
         nano_cpus=1_000_000_000 if publish else 2_000_000_000,
-        labels={'iot.ci.release': release, 'iot.stage': stage, 'iot.operation': operation})
+        labels={'iot.ci.release': release, 'iot.stage': stage, 'iot.operation': operation}, **runtime_options)
     receipt = work/'outputs'/f'{stage}-{operation}-container.json'
     try:
         for line in container.logs(stream=True, follow=True):

@@ -179,6 +179,8 @@ def run(args):
         publication = json.loads((stage/'datahub-publication.json').read_text())
         if not validation['passed'] or not publication['datasets_read_back']:
             raise ValueError('Scheduler success without successful validation and metadata readback')
+        if publication['flow'] != f'urn:li:dataFlow:(airflow,{dag},iot-vm)':
+            raise ValueError('DataHub must identify the actual CI DAG that produced this release')
         for name in ['validation.json', 'datahub-publication.json', '_INGESTED.json']:
             shutil.copyfile(stage/name, out/(args.stage+'-'+name))
         receipts = {}
