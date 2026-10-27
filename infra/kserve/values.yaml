@@ -1,0 +1,31 @@
+# Predictive controller only; the model image uses an internal Kubernetes service with no public ingress.
+kserve:
+  controller:
+    deploymentMode: Standard
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+    rbacProxy:
+      resources:
+        requests:
+          cpu: 20m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 128Mi
+    gateway:
+      domain: iot.internal
+      disableIngressCreation: true
+      ingressGateway:
+        enableGatewayApi: false
+        createGateway: false
+        className: nginx
+  localmodel:
+    enabled: false
+  security:
+    autoMountServiceAccountToken: false

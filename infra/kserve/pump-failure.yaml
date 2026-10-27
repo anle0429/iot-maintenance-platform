@@ -1,0 +1,80 @@
+# Serve the registry-verified model inside its image using KServe Standard mode and private cluster services.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: iot-serving
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: iot-predictor
+  namespace: iot-serving
+automountServiceAccountToken: false
+---
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: iot-pump-failure-v1
+  namespace: iot-serving
+  annotations:
+    serving.kserve.io/deploymentMode: Standard
+    sidecar.istio.io/inject: 'false'
+    coursework.iot/model-portable-sha256: 699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9
+spec:
+  predictor:
+    minReplicas: 1
+    maxReplicas: 2
+    serviceAccountName: iot-predictor
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 10001
+      runAsGroup: 10001
+      fsGroup: 10001
+      seccompProfile:
+        type: RuntimeDefault
+    containers:
+      - name: kserve-container
+        image: iot-coursework-predictor:v1
+        imagePullPolicy: Never
+        ports:
+          - containerPort: 8080
+            name: http1
+            protocol: TCP
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop: [ALL]
+        startupProbe:
+          httpGet:
+            path: /health/ready
+            port: 8080
+          periodSeconds: 2
+          failureThreshold: 30
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8080
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8080
+          periodSeconds: 10
+        volumeMounts:
+          - name: tmp
+            mountPath: /tmp
+    volumes:
+      - name: tmp
+        emptyDir:
+          medium: Memory
+          sizeLimit: 32Mi

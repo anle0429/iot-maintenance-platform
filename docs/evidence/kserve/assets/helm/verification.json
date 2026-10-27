@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-27T11:01:58.372213+00:00",
+  "helm_version": "v3.20.0+gb2e4314",
+  "binary_sha256": "1f7ed083dbc200a10fdfe04df94c21530140fdc955de5a1daed2694150f77b17",
+  "tar_sha256": "dbb4c8fc8e19d159d1a63dda8db655f9ffa4aac1b9a6b188b34a40957119b286",
+  "vendor_checksum_verified": true,
+  "charts": {
+    "kserve-crd": {
+      "archive": "kserve-crd-v0.20.0.tgz",
+      "bytes": 113414,
+      "sha256": "0b5437558fa3a77684a08b1480252404db2b7729f46f0605f5744f41a8efd44c",
+      "oci": "oci://ghcr.io/kserve/charts/kserve-crd",
+      "version": "v0.20.0"
+    },
+    "kserve-resources": {
+      "archive": "kserve-resources-v0.20.0.tgz",
+      "bytes": 17504,
+      "sha256": "1d43f36f47037f5e604c69fb78dace2c0e30c80c2a44324c701efd8a8b7631ce",
+      "oci": "oci://ghcr.io/kserve/charts/kserve-resources",
+      "version": "v0.20.0"
+    }
+  },
+  "actual_limits_while_running": {
+    "MainPID": "734075",
+    "CPUQuotaPerSecUSec": "1s",
+    "MemoryMax": "1073741824",
+    "ActiveState": "active"
+  },
+  "full_ingest_code_unchanged": true,
+  "scope": "Official Helm3.20.0 verified/executed for read-only chart pull/show. No host binary install, cluster changes or Helm release creation."
+}

@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "completed_utc": "2026-10-27T11:21:55.413577+00:00",
+  "code_sha256": {
+    "infra/kserve/pump-failure.yaml": "413aeda776cb0d7c3d70f171c8fc4be393e24aaab26531558335a8cd267dfc42",
+    "infra/kserve/values.yaml": "a133384d5e4c2d738571d2d17187bdca014d68695569429c747fa770490c5509"
+  },
+  "inferenceservice_ready": true,
+  "pod_name": "iot-pump-failure-v1-predictor-774894bdbb-q82m4",
+  "pod_uid": "4318ac76-4d7a-4bff-8b7a-6b4aa15ee5db",
+  "pod_image_id": "sha256:57457f83f0b99318b82ae5e7bcea9893c7314710bab6238838cc1fef92f2d675",
+  "pod_run_as_user": 10001,
+  "private_service": "http://10.53.201.44:80",
+  "golden_rows": 32,
+  "max_abs_score_difference": 2.220446049250313e-16,
+  "metadata": {
+    "name": "iot-pump-failure-v1",
+    "version": "1",
+    "run_id": "c629f87591294157a6b30040c8c12715",
+    "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "portable_sha256": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9",
+    "training_code_commit": "cbcb1edae4df9c9af4198b6685ee9d184d9d1e6e",
+    "data_version": "29f0c3c7b3af396a876b40ca0fea9d5648efc22edcee2f8273b5f30715af1466",
+    "features": [
+      "temperature_mean_10m",
+      "vibration_max_10m",
+      "current_mean_10m",
+      "current_std_10m",
+      "rpm_mean_10m",
+      "reading_count_10m",
+      "machine_age_days",
+      "prior_failures_24h"
+    ],
+    "threshold": 0.7,
+    "score_kind": "uncalibrated_class_weighted_logistic",
+    "data_scope": "synthetic-medium-60d",
+    "production": false
+  },
+  "scope": "Real KServe Standard InferenceService/controller-created pod and private ClusterIP HTTP, frozen32Spark probes, no feature retrieval or public ingress claim."
+}

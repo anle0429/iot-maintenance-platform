@@ -1,0 +1,67 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "coursework.iot/model-portable-sha256": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9",
+          "serving.kserve.io/deploymentMode": "Standard",
+          "sidecar.istio.io/inject": "false"
+        },
+        "creationTimestamp": "2026-10-27T11:21:50Z",
+        "labels": {
+          "app": "isvc.iot-pump-failure-v1-predictor",
+          "component": "predictor",
+          "serving.kserve.io/inferenceservice": "iot-pump-failure-v1"
+        },
+        "name": "iot-pump-failure-v1-predictor",
+        "namespace": "iot-serving",
+        "ownerReferences": [
+          {
+            "apiVersion": "serving.kserve.io/v1beta1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "InferenceService",
+            "name": "iot-pump-failure-v1",
+            "uid": "d4913c91-fa42-4bd7-8afd-ee5c4a46c597"
+          }
+        ],
+        "resourceVersion": "1077",
+        "uid": "e92dcb89-9596-406b-91cb-4684bc06f7c5"
+      },
+      "spec": {
+        "clusterIP": "10.53.201.44",
+        "clusterIPs": [
+          "10.53.201.44"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "http1",
+            "port": 80,
+            "protocol": "TCP",
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "app": "isvc.iot-pump-failure-v1-predictor"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

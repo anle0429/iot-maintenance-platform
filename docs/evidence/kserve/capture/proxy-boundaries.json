@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "path": "/api/v1/namespaces/iot-serving/pods",
+      "method": "GET",
+      "http_status": 200
+    },
+    {
+      "path": "/api/v1/namespaces/iot-serving/secrets",
+      "method": "GET",
+      "http_status": 403
+    },
+    {
+      "path": "/api/v1/namespaces/iot-serving/pods",
+      "method": "POST",
+      "http_status": 403
+    }
+  ]
+}

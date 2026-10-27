@@ -1,0 +1,186 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "apps/v1",
+      "kind": "ReplicaSet",
+      "metadata": {
+        "annotations": {
+          "coursework.iot/model-portable-sha256": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9",
+          "deployment.kubernetes.io/desired-replicas": "1",
+          "deployment.kubernetes.io/max-replicas": "2",
+          "deployment.kubernetes.io/revision": "1",
+          "serving.kserve.io/deploymentMode": "Standard",
+          "sidecar.istio.io/inject": "false"
+        },
+        "creationTimestamp": "2026-10-27T11:21:50Z",
+        "generation": 1,
+        "labels": {
+          "app": "isvc.iot-pump-failure-v1-predictor",
+          "component": "predictor",
+          "pod-template-hash": "774894bdbb",
+          "serving.kserve.io/inferenceservice": "iot-pump-failure-v1"
+        },
+        "name": "iot-pump-failure-v1-predictor-774894bdbb",
+        "namespace": "iot-serving",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Deployment",
+            "name": "iot-pump-failure-v1-predictor",
+            "uid": "6c60e899-5246-49a0-9489-e2e559c801a2"
+          }
+        ],
+        "resourceVersion": "1113",
+        "uid": "d0b9e023-bca1-4ed6-8371-c429f14cde7a"
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "app": "isvc.iot-pump-failure-v1-predictor",
+            "pod-template-hash": "774894bdbb"
+          }
+        },
+        "template": {
+          "metadata": {
+            "annotations": {
+              "coursework.iot/model-portable-sha256": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9",
+              "serving.kserve.io/deploymentMode": "Standard",
+              "sidecar.istio.io/inject": "false"
+            },
+            "labels": {
+              "app": "isvc.iot-pump-failure-v1-predictor",
+              "component": "predictor",
+              "pod-template-hash": "774894bdbb",
+              "serving.kserve.io/inferenceservice": "iot-pump-failure-v1"
+            },
+            "name": "iot-pump-failure-v1-predictor",
+            "namespace": "iot-serving"
+          },
+          "spec": {
+            "automountServiceAccountToken": false,
+            "containers": [
+              {
+                "env": [
+                  {
+                    "name": "INFERENCE_SERVICE_NAME",
+                    "value": "iot-pump-failure-v1"
+                  }
+                ],
+                "image": "iot-coursework-predictor:v1",
+                "imagePullPolicy": "Never",
+                "livenessProbe": {
+                  "failureThreshold": 3,
+                  "httpGet": {
+                    "path": "/health/live",
+                    "port": 8080,
+                    "scheme": "HTTP"
+                  },
+                  "periodSeconds": 10,
+                  "successThreshold": 1,
+                  "timeoutSeconds": 1
+                },
+                "name": "kserve-container",
+                "ports": [
+                  {
+                    "containerPort": 8080,
+                    "name": "http1",
+                    "protocol": "TCP"
+                  }
+                ],
+                "readinessProbe": {
+                  "failureThreshold": 3,
+                  "httpGet": {
+                    "path": "/health/ready",
+                    "port": 8080,
+                    "scheme": "HTTP"
+                  },
+                  "periodSeconds": 5,
+                  "successThreshold": 1,
+                  "timeoutSeconds": 1
+                },
+                "resources": {
+                  "limits": {
+                    "cpu": "500m",
+                    "memory": "512Mi"
+                  },
+                  "requests": {
+                    "cpu": "100m",
+                    "memory": "128Mi"
+                  }
+                },
+                "securityContext": {
+                  "allowPrivilegeEscalation": false,
+                  "capabilities": {
+                    "drop": [
+                      "ALL"
+                    ]
+                  },
+                  "readOnlyRootFilesystem": true
+                },
+                "startupProbe": {
+                  "failureThreshold": 30,
+                  "httpGet": {
+                    "path": "/health/ready",
+                    "port": 8080,
+                    "scheme": "HTTP"
+                  },
+                  "periodSeconds": 2,
+                  "successThreshold": 1,
+                  "timeoutSeconds": 1
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/tmp",
+                    "name": "tmp"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "schedulerName": "default-scheduler",
+            "securityContext": {
+              "fsGroup": 10001,
+              "runAsGroup": 10001,
+              "runAsNonRoot": true,
+              "runAsUser": 10001,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "serviceAccount": "iot-predictor",
+            "serviceAccountName": "iot-predictor",
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [
+              {
+                "emptyDir": {
+                  "medium": "Memory",
+                  "sizeLimit": "32Mi"
+                },
+                "name": "tmp"
+              }
+            ]
+          }
+        }
+      },
+      "status": {
+        "availableReplicas": 1,
+        "fullyLabeledReplicas": 1,
+        "observedGeneration": 1,
+        "readyReplicas": 1,
+        "replicas": 1,
+        "terminatingReplicas": 0
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

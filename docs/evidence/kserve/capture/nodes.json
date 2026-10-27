@@ -1,0 +1,348 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Node",
+      "metadata": {
+        "annotations": {
+          "flannel.alpha.coreos.com/backend-data": "{\"VNI\":1,\"VtepMAC\":\"be:26:2b:fe:8d:b7\"}",
+          "flannel.alpha.coreos.com/backend-type": "vxlan",
+          "flannel.alpha.coreos.com/kube-subnet-manager": "true",
+          "flannel.alpha.coreos.com/public-ip": "10.42.0.2",
+          "k3s.io/encryption-config-hash": "start-9991f24a40b7a68f7ff4677404553e6ef669659f999d1ea5d700a64ee601f9f2",
+          "k3s.io/node-args": "[\"server\",\"--data-dir\",\"/srv/iot-fast/k3s\",\"--default-local-storage-path\",\"/srv/iot-fast/k3s-storage\",\"--write-kubeconfig-mode\",\"0600\",\"--node-name\",\"iot-cw-vm\",\"--node-ip\",\"10.42.0.2\",\"--bind-address\",\"0.0.0.0\",\"--advertise-address\",\"10.42.0.2\",\"--tls-san\",\"localhost\",\"--tls-san\",\"127.0.0.1\",\"--tls-san\",\"10.42.0.2\",\"--cluster-cidr\",\"10.52.0.0/16\",\"--service-cidr\",\"10.53.0.0/16\",\"--cluster-dns\",\"10.53.0.10\",\"--flannel-iface\",\"ens4\",\"--secrets-encryption\",\"true\",\"--disable-cloud-controller\",\"true\",\"--disable\",\"traefik\",\"--disable\",\"servicelb\",\"--kubelet-arg\",\"max-pods=60\",\"--kubelet-arg\",\"eviction-hard=memory.available\\u003c2Gi,nodefs.available\\u003c10%,imagefs.available\\u003c15%\"]",
+          "k3s.io/node-config-hash": "WBW3YFTJOMSZ7JBENZPNMWEVKFY7UMA4E4H5QZ5XBT7K6ANOP4TQ====",
+          "k3s.io/node-env": "{}",
+          "node.alpha.kubernetes.io/ttl": "0",
+          "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+        },
+        "creationTimestamp": "2026-10-27T11:05:54Z",
+        "finalizers": [
+          "wrangler.cattle.io/node"
+        ],
+        "labels": {
+          "beta.kubernetes.io/arch": "amd64",
+          "beta.kubernetes.io/os": "linux",
+          "kubernetes.io/arch": "amd64",
+          "kubernetes.io/hostname": "iot-cw-vm",
+          "kubernetes.io/os": "linux",
+          "node-role.kubernetes.io/control-plane": "true"
+        },
+        "name": "iot-cw-vm",
+        "resourceVersion": "2152",
+        "uid": "139c83cb-4a3d-4d58-a7ee-411a5be5fa5b"
+      },
+      "spec": {
+        "podCIDR": "10.52.0.0/24",
+        "podCIDRs": [
+          "10.52.0.0/24"
+        ]
+      },
+      "status": {
+        "addresses": [
+          {
+            "address": "10.42.0.2",
+            "type": "InternalIP"
+          },
+          {
+            "address": "iot-cw-vm",
+            "type": "Hostname"
+          }
+        ],
+        "allocatable": {
+          "cpu": "8",
+          "ephemeral-storage": "45795697384",
+          "hugepages-1Gi": "0",
+          "hugepages-2Mi": "0",
+          "memory": "63742160Ki",
+          "pods": "60"
+        },
+        "capacity": {
+          "cpu": "8",
+          "ephemeral-storage": "49691512Ki",
+          "hugepages-1Gi": "0",
+          "hugepages-2Mi": "0",
+          "memory": "65839312Ki",
+          "pods": "60"
+        },
+        "conditions": [
+          {
+            "lastHeartbeatTime": "2026-10-27T11:29:00Z",
+            "lastTransitionTime": "2026-10-27T11:05:54Z",
+            "message": "kubelet has sufficient memory available",
+            "reason": "KubeletHasSufficientMemory",
+            "status": "False",
+            "type": "MemoryPressure"
+          },
+          {
+            "lastHeartbeatTime": "2026-10-27T11:29:00Z",
+            "lastTransitionTime": "2026-10-27T11:05:54Z",
+            "message": "kubelet has no disk pressure",
+            "reason": "KubeletHasNoDiskPressure",
+            "status": "False",
+            "type": "DiskPressure"
+          },
+          {
+            "lastHeartbeatTime": "2026-10-27T11:29:00Z",
+            "lastTransitionTime": "2026-10-27T11:05:54Z",
+            "message": "kubelet has sufficient PID available",
+            "reason": "KubeletHasSufficientPID",
+            "status": "False",
+            "type": "PIDPressure"
+          },
+          {
+            "lastHeartbeatTime": "2026-10-27T11:29:00Z",
+            "lastTransitionTime": "2026-10-27T11:05:54Z",
+            "message": "kubelet is posting ready status",
+            "reason": "KubeletReady",
+            "status": "True",
+            "type": "Ready"
+          }
+        ],
+        "daemonEndpoints": {
+          "kubeletEndpoint": {
+            "Port": 10250
+          }
+        },
+        "features": {
+          "supplementalGroupsPolicy": true
+        },
+        "images": [
+          {
+            "names": [
+              "ghcr.io/kubeflow/kfp-visualization-server@sha256:37049dc7ebc3c74efd09ecfab5f6466a341830106e6927ec8a832b41bf507347",
+              "ghcr.io/kubeflow/kfp-visualization-server:2.17.2"
+            ],
+            "sizeBytes": 1085107862
+          },
+          {
+            "names": [
+              "docker.io/library/iot-coursework-spark:3.5.9"
+            ],
+            "sizeBytes": 680966077
+          },
+          {
+            "names": [
+              "ghcr.io/kubeflow/kfp-cache-deployer@sha256:e8f34c3dcbc4c21f6905748b4419967cca903f4672acd5660fa643f1e88153b1",
+              "ghcr.io/kubeflow/kfp-cache-deployer:2.17.2"
+            ],
+            "sizeBytes": 316846229
+          },
+          {
+            "names": [
+              "docker.io/library/iot-coursework-feast:0.67.0"
+            ],
+            "sizeBytes": 243518630
+          },
+          {
+            "names": [
+              "docker.io/library/mysql@sha256:76f0358884cb92d9a086d24e5671c38048d3fef40f2588703d73eb55392d6b69",
+              "docker.io/library/mysql:8.4"
+            ],
+            "sizeBytes": 238331738
+          },
+          {
+            "names": [
+              "ghcr.io/kubeflow/kfp-frontend@sha256:0da8b3f14a7bb2677834e8b68a68a2b2056bcc0c7a5c2a83c9722ea7fe2282a3",
+              "ghcr.io/kubeflow/kfp-frontend:2.17.2"
+            ],
+            "sizeBytes": 201674629
+          },
+          {
+            "names": [
+              "ghcr.io/kubeflow/kfp-metadata-envoy@sha256:5a5f21dff51a33ea6f5e8683ed9ff4cec1090d6c6742fdc3eb0101771c39c951",
+              "ghcr.io/kubeflow/kfp-metadata-envoy:2.17.2"
+            ],
+            "sizeBytes": 136088358
+          },
+          {
+            "names": [
+              "ghcr.io/chrislusf/seaweedfs@sha256:6620371e8af8282056685c652d4637265698c9e2c2d59f9594e6ac333ad6c634",
+              "ghcr.io/chrislusf/seaweedfs:4.34"
+            ],
+            "sizeBytes": 104802306
+          },
+          {
+            "names": [
+              "ghcr.io/kubeflow/kfp-api-server@sha256:8e9f9e66d127fe27f61236bc35a66e8558c58e5f828ad50b15257220140bf023",
+              "ghcr.io/kubeflow/kfp-api-server:2.17.2"
+            ],
+            "sizeBytes": 94364346
+          },
+          {
+            "names": [
+              "ghcr.io/kubeflow/kfp-metadata-writer@sha256:6e501e2e0b0be514ce5d8ce1c4becb12b252ef7eaab4ebb4ec5111a9d4d40ee6",
+              "ghcr.io/kubeflow/kfp-metadata-writer:2.17.2"
+            ],
+            "sizeBytes": 76757260
+          },
+          {
+            "names": [
+              "gcr.io/tfx-oss-public/ml_metadata_store_server@sha256:51404ef4419c1426da80f3e14a83dcb55f65bb5a971371d36d14cec1e50af830",
+              "gcr.io/tfx-oss-public/ml_metadata_store_server:1.14.0"
+            ],
+            "sizeBytes": 70679133
+          },
+          {
+            "names": [
+              "docker.io/library/iot-coursework-predictor:v1"
+            ],
+            "sizeBytes": 51531306
+          },
+          {
+            "names": [
+              "quay.io/argoproj/workflow-controller@sha256:4001b58f3c34bb65015c79919157e45f51f4d7450806c64987abdb7dc86f8453",
+              "quay.io/argoproj/workflow-controller:v4.0.5"
+            ],
+            "sizeBytes": 45897999
+          },
+          {
+            "names": [
+              "docker.io/kserve/kserve-controller@sha256:61850d24e78dba875b8c78215e3f9f9dbcec52340eeb18b293978dad1797f653",
+              "docker.io/kserve/kserve-controller:v0.20.0"
+            ],
+            "sizeBytes": 44272842
+          },
+          {
+            "names": [
+              "ghcr.io/kubeflow/kfp-scheduled-workflow-controller@sha256:d46f96664c89acd6b8eb5c3b57f941f762254c18cd9544d7cfaca181b5624ecd",
+              "ghcr.io/kubeflow/kfp-scheduled-workflow-controller:2.17.2"
+            ],
+            "sizeBytes": 38658298
+          },
+          {
+            "names": [
+              "ghcr.io/kubeflow/kfp-cache-server@sha256:3a1c57ad0dc91e5bab0223850da4b8ba683ed60e95c7efff69552f5babbb5e89",
+              "ghcr.io/kubeflow/kfp-cache-server:2.17.2"
+            ],
+            "sizeBytes": 36364729
+          },
+          {
+            "names": [
+              "ghcr.io/kubeflow/kfp-persistence-agent@sha256:c05bc60bd96e54ceacb2d98c0b02949f6063a5937cb01d29403f43ff01de7123",
+              "ghcr.io/kubeflow/kfp-persistence-agent:2.17.2"
+            ],
+            "sizeBytes": 33779674
+          },
+          {
+            "names": [
+              "quay.io/brancz/kube-rbac-proxy@sha256:754ab2a723c8fc7ea8e09ae1224f8af5be91849b8b2f2a3735c6237f1c534187",
+              "quay.io/brancz/kube-rbac-proxy:v0.18.0"
+            ],
+            "sizeBytes": 31101039
+          },
+          {
+            "names": [
+              "ghcr.io/kubeflow/kfp-viewer-crd-controller@sha256:9c97159869d7de18fb02ceb324ffb622784367205fbc95c9150317f237c31202",
+              "ghcr.io/kubeflow/kfp-viewer-crd-controller:2.17.2"
+            ],
+            "sizeBytes": 29081475
+          },
+          {
+            "names": [
+              "quay.io/jetstack/cert-manager-controller@sha256:9f4f96a33c7774cef24466fcd85031997531a03a8d117f151126baa8d1290dcc",
+              "quay.io/jetstack/cert-manager-controller:v1.21.3"
+            ],
+            "sizeBytes": 24987113
+          },
+          {
+            "names": [
+              "docker.io/rancher/mirrored-coredns-coredns@sha256:7efd3c635b03efd68c4e8398fc45f0d993d0e9ab016f72c1cefb0fd6d01aa286",
+              "docker.io/rancher/mirrored-coredns-coredns:1.14.7"
+            ],
+            "sizeBytes": 24261571
+          },
+          {
+            "names": [
+              "docker.io/rancher/mirrored-metrics-server@sha256:d9862115e7c7881280d3d75ca26bda8ffc0fc213315979575bf23ce9826205c0",
+              "docker.io/rancher/mirrored-metrics-server:v0.9.0"
+            ],
+            "sizeBytes": 23258428
+          },
+          {
+            "names": [
+              "quay.io/jetstack/cert-manager-webhook@sha256:055ac8e9de6a0ba6763794838fe38944acc650f68ebe1b01dd8be079e580f458",
+              "quay.io/jetstack/cert-manager-webhook:v1.21.3"
+            ],
+            "sizeBytes": 19918209
+          },
+          {
+            "names": [
+              "docker.io/rancher/local-path-provisioner@sha256:e757967a5ec338f6a9b371c5a9688bedaa8c3578ea3dd4db329ea0084be0a86f",
+              "docker.io/rancher/local-path-provisioner:v0.0.37"
+            ],
+            "sizeBytes": 15066012
+          },
+          {
+            "names": [
+              "quay.io/jetstack/cert-manager-cainjector@sha256:083d0e906f8eb44e255fe4ff817ae54e49f9ed82e22f1011bb4e9e4f4b8a641f",
+              "quay.io/jetstack/cert-manager-cainjector:v1.21.3"
+            ],
+            "sizeBytes": 12481729
+          },
+          {
+            "names": [
+              "docker.io/library/alpine@sha256:ff7f0c727dd796aa36787bfcd9a64bf35a6ce72a73451b3359fde849b6703d63",
+              "docker.io/library/alpine:3.23"
+            ],
+            "sizeBytes": 3863078
+          },
+          {
+            "names": [
+              "docker.io/rancher/mirrored-library-busybox@sha256:101b4afd76732482eff9b95cae5f94bcf295e521fbec4e01b69c5421f3f3f3e5",
+              "docker.io/rancher/mirrored-library-busybox:1.37.0"
+            ],
+            "sizeBytes": 2151353
+          },
+          {
+            "names": [
+              "docker.io/rancher/mirrored-pause@sha256:f548e0e8e3dc1896ca956272154dde3314e8cc4fde0a57577ee9fa1c63f5baf4",
+              "docker.io/rancher/mirrored-pause:3.10.2"
+            ],
+            "sizeBytes": 320805
+          }
+        ],
+        "nodeInfo": {
+          "architecture": "amd64",
+          "bootID": "ee9952bf-bdb7-4c8a-b2c0-d73a19089510",
+          "containerRuntimeVersion": "containerd://2.2.7-k3s1",
+          "kernelVersion": "7.0.0-1014-gcp",
+          "kubeProxyVersion": "",
+          "kubeletVersion": "v1.35.9+k3s1",
+          "machineID": "fba09dadd9b441568bbe8aad3233b8cd",
+          "operatingSystem": "linux",
+          "osImage": "Ubuntu 24.04.5 LTS",
+          "systemUUID": "3f54627f-6ecd-995a-bee5-0827b1866187"
+        },
+        "runtimeHandlers": [
+          {
+            "features": {
+              "recursiveReadOnlyMounts": true,
+              "userNamespaces": true
+            },
+            "name": ""
+          },
+          {
+            "features": {
+              "recursiveReadOnlyMounts": true,
+              "userNamespaces": true
+            },
+            "name": "runc"
+          },
+          {
+            "features": {
+              "recursiveReadOnlyMounts": false,
+              "userNamespaces": false
+            },
+            "name": "runhcs-wcow-process"
+          }
+        ]
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

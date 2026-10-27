@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-27T11:06:10.205115+00:00",
+  "version": "k3s version v1.35.9+k3s1 (58877f27)\ngo version go1.26.8",
+  "actual_control_plane_limits": {
+    "MainPID": "742223",
+    "CPUQuotaPerSecUSec": "2s",
+    "MemoryMax": "8589934592",
+    "ActiveState": "active"
+  },
+  "node": {
+    "name": "iot-cw-vm",
+    "kubelet_version": "v1.35.9+k3s1",
+    "capacity": {
+      "cpu": "8",
+      "ephemeral-storage": "49691512Ki",
+      "hugepages-1Gi": "0",
+      "hugepages-2Mi": "0",
+      "memory": "65839312Ki",
+      "pods": "60"
+    },
+    "allocatable": {
+      "cpu": "8",
+      "ephemeral-storage": "45795697384",
+      "hugepages-1Gi": "0",
+      "hugepages-2Mi": "0",
+      "memory": "63742160Ki",
+      "pods": "60"
+    },
+    "ready": true
+  },
+  "kubeconfig_mode": "0600",
+  "preflight_sha256": "de6dfd9ee017346af8c81fe2e757d6dae184f0409889304b87ea3d163eb3c938",
+  "apply_console_sha256": "d97ffa6100225c66c16e0e0d1b18325e5a5fe73a0256c508d7bb0482455f6869",
+  "idempotency_console_sha256": "fdbf194e804c4f45f47b7bf2787e89801987b86a8c0f3266aa3deb23e9d15595",
+  "idempotent_changed_zero": true,
+  "full_ingest_code_unchanged": true,
+  "scope": "Actual pinned single-node K3s on existing VM, private VPC/IAP firewall unchanged, encrypted secrets and SSDstate, Ansible second run changed0. No KServe/KFP deployment claim yet."
+}

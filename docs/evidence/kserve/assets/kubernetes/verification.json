@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-27T10:26:13.151200+00:00",
+  "files": {
+    "k3s": {
+      "url": "https://github.com/k3s-io/k3s/releases/download/v1.35.9%2Bk3s1/k3s",
+      "bytes": 78237858,
+      "sha256": "897acb21cca57d477a211102251a6591450ce767344a9faaa121a1007ca9fa9a"
+    },
+    "k3s-sha256sum-amd64.txt": {
+      "url": "https://github.com/k3s-io/k3s/releases/download/v1.35.9%2Bk3s1/sha256sum-amd64.txt",
+      "bytes": 359,
+      "sha256": "b6a1a49b8dc3d672dbf9908548eea082ed6cc2db12f546a6809f7a8a4ef97ad1"
+    },
+    "kserve-v0.20.0.yaml": {
+      "url": "https://github.com/kserve/kserve/releases/download/v0.20.0/kserve.yaml",
+      "bytes": 7051337,
+      "sha256": "6e6c1a5ceeb889e6ac41d68a551fa8c7d1fc1abcba10284154a0872bcc0d3fb8"
+    },
+    "cert-manager-v1.21.3.yaml": {
+      "url": "https://github.com/cert-manager/cert-manager/releases/download/v1.21.3/cert-manager.yaml",
+      "bytes": 1034826,
+      "sha256": "c04a51295adda2b1a775146751f973e787190778c7f35180861d9678876e5c74"
+    },
+    "k3s-install.sh": {
+      "url": "https://raw.githubusercontent.com/k3s-io/k3s/v1.35.9%2Bk3s1/install.sh",
+      "bytes": 36465,
+      "sha256": "8598e002e61d658fed7b7542fc6d2c66d8da6eae69e088830105d2ee1ffb6d91"
+    },
+    "kfp-2.17.2.tar.gz": {
+      "url": "https://github.com/kubeflow/pipelines/archive/refs/tags/2.17.2.tar.gz",
+      "bytes": 8007993,
+      "sha256": "d220e895bff838c43557a5bb5269fe1b995b6470abccc4989dc83269bba443dd"
+    }
+  },
+  "k3s_vendor_checksum_verified": true,
+  "elapsed_seconds": 3.203859739998734,
+  "full_ingest_code_unchanged": true,
+  "scope": "Official assets downloaded only; no installer execution, no service/config/network change, no Kubernetes/KServe/KFP deployment claim."
+}

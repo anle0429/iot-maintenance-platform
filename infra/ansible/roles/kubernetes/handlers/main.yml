@@ -1,0 +1,6 @@
+# Reload/restart only the dedicated K3s service when its owned configuration changes.
+- name: Restart coursework K3s
+  ansible.builtin.systemd_service:
+    name: k3s
+    state: restarted
+    daemon_reload: true

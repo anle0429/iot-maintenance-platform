@@ -1,0 +1,75 @@
+# Install the pinned private single-node cluster only after the full-scale Spark verification is sealed.
+- name: Configure Kubernetes on the approved existing coursework VM
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  vars:
+    iot_repo: "{{ playbook_dir }}/../.."
+    iot_cluster_assets: "{{ iot_repo }}/data/runtime/kubernetes-assets-27"
+    iot_k3s_release: v1.35.9+k3s1
+    iot_k3s_binary_sha256: 897acb21cca57d477a211102251a6591450ce767344a9faaa121a1007ca9fa9a
+    iot_k3s_installer_sha256: 8598e002e61d658fed7b7542fc6d2c66d8da6eae69e088830105d2ee1ffb6d91
+  pre_tasks:
+    - name: Require the approved project and VM identity
+      ansible.builtin.assert:
+        that:
+          - expected_project_id is defined
+          - expected_vm_name is defined
+          - ansible_facts.distribution == 'Ubuntu'
+          - ansible_facts.distribution_version == '24.04'
+          - ansible_facts.memtotal_mb >= 60000
+      no_log: true
+    - name: Read the actual project identity
+      ansible.builtin.uri:
+        url: http://metadata.google.internal/computeMetadata/v1/project/project-id
+        headers: {Metadata-Flavor: Google}
+        return_content: true
+        use_proxy: false
+      register: iot_metadata_project
+      no_log: true
+    - name: Read the actual VM identity
+      ansible.builtin.uri:
+        url: http://metadata.google.internal/computeMetadata/v1/instance/name
+        headers: {Metadata-Flavor: Google}
+        return_content: true
+        use_proxy: false
+      register: iot_metadata_vm
+      no_log: true
+    - name: Refuse any different host
+      ansible.builtin.assert:
+        that:
+          - iot_metadata_project.content == expected_project_id
+          - iot_metadata_vm.content == expected_vm_name
+      no_log: true
+    - name: Require completed full-source verification and actual resource reserves
+      ansible.builtin.command:
+        argv:
+          - python3
+          - -c
+          - |
+            import json,subprocess
+            from pathlib import Path
+            from hashlib import sha256
+            from shutil import disk_usage
+            root=Path('{{ iot_repo }}').resolve()
+            unit=subprocess.check_output(['systemctl','show','iot-large-100gb-27','--property=MainPID,ActiveState'],text=True)
+            assert 'MainPID=0' in unit and 'ActiveState=inactive' in unit,'Full Spark must terminate before cluster networking changes'
+            folder=root/'outputs/scale-ingest-100gb-27'
+            raw=(folder/'verification.json').read_bytes();v=json.loads(raw)
+            assert v['passed'] and v['source_offline_bytes']>=100_000_000_000
+            assert json.loads((folder/'_RUN_SUCCESS.json').read_text())['verification_sha256']==sha256(raw).hexdigest()
+            assert sha256((folder/'ingest-report.json').read_bytes()).hexdigest()==v['ingest_report_sha256']
+            for name,digest in v['execution_sha256'].items():assert sha256((root/name).read_bytes()).hexdigest()==digest,name
+            available=int(next(x.split()[1] for x in Path('/proc/meminfo').read_text().splitlines() if x.startswith('MemAvailable:')))*1024
+            assert available>=24*1024**3 and disk_usage('/srv/iot-fast').free>=40_000_000_000
+            assert subprocess.check_output(['findmnt','-n','-o','TARGET','--target','/srv/iot-fast'],text=True).strip()=='/srv/iot-fast'
+            print(json.dumps({'passed':True,'source_offline_bytes':v['source_offline_bytes'],'available_ram_bytes':available,'ssd_free_bytes':disk_usage('/srv/iot-fast').free}))
+      changed_when: false
+      check_mode: false
+      register: iot_cluster_admission
+    - name: Show admitted resource summary
+      ansible.builtin.debug:
+        var: iot_cluster_admission.stdout
+  roles:
+    - kubernetes
