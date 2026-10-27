@@ -1,0 +1,112 @@
+{
+  "protocol_version": "medium-60d-v1",
+  "declared_utc": "2026-10-27T02:48:23.747874Z",
+  "state": "frozen_before_first_new_training_run",
+  "new_model_metrics_observed": false,
+  "source": {
+    "run": "scale-intermediate-26",
+    "manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5",
+    "offline_bytes": 5587984353,
+    "machine_count": 200,
+    "duration_hours": 1440,
+    "clock": "simulated_event_time_not_wall_clock"
+  },
+  "chronological_split": {
+    "start_inclusive": "2026-10-01T00:00:00Z",
+    "train_end_exclusive": "2026-11-12T00:00:00Z",
+    "validation_end_exclusive": "2026-11-21T00:00:00Z",
+    "observation_end_exclusive": "2026-11-30T00:00:00Z",
+    "label_available_must_precede_next_split": true
+  },
+  "sampling": {
+    "snapshot_seconds": 300,
+    "feature_lookback_seconds": 600,
+    "feature_old_boundary": "exclusive",
+    "feature_new_boundary": "inclusive",
+    "telemetry_received_no_later_than_snapshot": true,
+    "past_failure_lookback_seconds": 86400,
+    "failure_recorded_no_later_than_snapshot": true
+  },
+  "label": {
+    "name": "failure_in_next_1h",
+    "horizon_seconds": 3600,
+    "interval": "(snapshot,snapshot+1h]",
+    "physical_truth_operating_required": true,
+    "physical_truth_status_is_label_metadata_only": true,
+    "future_maintenance_start_excludes_label": true,
+    "label_end_at_or_after_observation_end_is_unknown": true,
+    "available_delay_seconds": 30,
+    "ineligible_label": null
+  },
+  "cohort": {
+    "minimum_arrived_readings_10m": 1,
+    "all_eight_features_must_be_finite": true,
+    "exclude_ineligible_labels_before_training": true,
+    "report_all_exclusion_counts": true
+  },
+  "feature_allowlist": [
+    "temperature_mean_10m",
+    "vibration_max_10m",
+    "current_mean_10m",
+    "current_std_10m",
+    "rpm_mean_10m",
+    "reading_count_10m",
+    "machine_age_days",
+    "prior_failures_24h"
+  ],
+  "baseline": {
+    "algorithm": "Spark MLlib logistic regression",
+    "max_iter": 40,
+    "reg_param": 0.1,
+    "scale_fit_partition": "train",
+    "standard_scaler_with_mean": true,
+    "standard_scaler_with_std": true,
+    "class_weights": "inverse train class frequency only",
+    "constant_comparator": "training positive prevalence"
+  },
+  "threshold": {
+    "selection_partition": "validation",
+    "grid": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "primary": "maximum F1",
+    "tie_break": [
+      "precision",
+      "higher threshold"
+    ],
+    "test_reuse_for_selection": false
+  },
+  "evaluation_gate": {
+    "validation_and_test_minimum_positive_rows": 20,
+    "validation_and_test_minimum_negative_rows": 20,
+    "validation_and_test_minimum_distinct_failure_episodes": 5,
+    "insufficient_data_action": "report not estimable; do not move existing split boundaries"
+  },
+  "reporting": [
+    "split row and class counts",
+    "excluded and purged counts",
+    "distinct failure episodes",
+    "precision",
+    "recall",
+    "F1",
+    "PR-AUC with implementation identified",
+    "confusion matrix",
+    "constant comparator",
+    "fixed threshold",
+    "source/protocol/feature/run/model hashes"
+  ],
+  "limitations": [
+    "Synthetic pump data; no real equipment performance claim",
+    "Same machines across time; not an unseen-machine generalization test",
+    "Nearby snapshots share failures; positive rows are not independent events",
+    "No new training or evaluation has run when this version was declared"
+  ]
+}
