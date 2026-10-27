@@ -53,6 +53,12 @@ docker compose -f infra/data-versions.compose.yaml run --no-deps publisher \
 
 Tool thực tế1CPU/4GiB, UID10001, root readonly, chỉ vào Docker network MLflow riêng, không publish cổng. Kho dùng SQLite lock để serialize publication; blob hỏng không tự bị ghi đè. Pending run cùng context có thể được kiểm lại, còn receipt/restore hoàn tất không chạy đè.
 
-[Model/data gate](../ml/model_data_link.py) kiểm protocol, nguồn, native report, input descriptor và manifest của chính split dùng train; cùng protocol nhưng khác native pull vẫn bị chặn. [CLI đăng ký model](../ml/register_incremental_model.py) và [source snapshot](../scripts/create-source-snapshot.py) chuẩn bị bước nối model với data run; tới lúc tài liệu này được tạo, model mới chưa được đăng ký bằng CLI này. Còn tích hợp thành bước tự động sau mỗi pull trong pipeline/CI.
+[Model/data gate](../ml/model_data_link.py) kiểm protocol, nguồn, native report, input descriptor và manifest của chính split dùng train; cùng protocol nhưng khác native pull vẫn bị chặn. [CLI đăng ký model](../ml/register_incremental_model.py) và [source snapshot](../scripts/create-source-snapshot.py) đã chạy thật: model **version3**, run **`0f2fe09b6f974eadb858424a70edc7e6`**, alias `candidate`, `production=false`.
+
+[Receipt đăng ký](evidence/data-versions/registry/registration.json) gắn dataset version60ngày với data run `49ea21884b9048efb051db5150cff842`, source commit `f348c941cf7a7a2a8b3ddf3631fc87e666ef91f8` và native descriptor của đúng split distributed. Model run có weights, hyperparameters, metrics và metadata tham chiếu; **0byte dataset payload upload lặp**. Nạp lại model từ registry rồi so200dự đoán với Spark gốc: sai số tuyệt đối lớn nhất **2,22×10⁻¹⁶**. Source commit mô tả21tệp training/data đã đối chiếu từng byte; code đăng ký có SHA riêng trong receipt, không suy ra Git HEAD của VM từ máy phát triển.
+
+![MLflow version3 với data version và candidate](evidence/data-versions/registry/screenshots/model-version-3.jpg)
+
+[Kiểm container thực](evidence/data-versions/registry/verification.json):1CPU/4GiB, UID10001, root readonly, imageMLflow3.17.2. Serving vẫn dùng version1; version3 chưa được promote. Còn tích hợp versioning/registration thành bước tự động sau mỗi pull trong pipeline/CI. Các phiên bản1/2 trước đó vẫn giữ lịch sử cơ chế full-copy; không gán chứng cứ incremental của version3 cho chúng.
 
 API MLflow dùng theo [tài liệu chính thức](https://mlflow.org/docs/latest/api_reference/python_api/mlflow.client.html). [Manifest37tệp native](evidence/data-versions/capture/manifest.json) và [mapping](evidence/data-versions/capture/evidence-map.json) giữ các receipt, canonical hashes và metadata tải từ server; bulk blobs, runtime index và secrets được giữ ngoài Git.
