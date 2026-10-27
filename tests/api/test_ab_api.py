@@ -247,6 +247,15 @@ def test_http_capacity_failures_and_unavailable_monitoring(tmp_path):
             assert client.get('/metrics').status_code==503
 
 
+def test_nonfinite_or_malformed_rejected_input_always_has_safe_json_errors(runtime):
+    with TestClient(api.create_app(runtime)) as client:
+        for body in [b'{"failure_in_next_1h":NaN}',b'{"variant":Infinity}',b'[NaN]',b'{']:
+            reply=client.post('/v1/machines/P-001:predict',content=body,headers={'Content-Type':'application/json','X-Request-ID':'invalid'})
+            assert reply.status_code==422 and isinstance(reply.json()['detail'],list)
+            assert all('input' not in error for error in reply.json()['detail'])
+        assert runtime.snapshot()['observations']==[]
+
+
 def test_native_startup_uses_existing_sdk_state_and_two_fixed_urls(runtime,tmp_path,monkeypatch):
     config={'experiment':'native-fixture',**{name:{'url':'http://'+name+'.svc.cluster.local','pin':runtime.pins[name]} for name in runtime.runtimes}}
     source=tmp_path/'config.json';source.write_text(json.dumps(config));reference=tmp_path/'reference.json'

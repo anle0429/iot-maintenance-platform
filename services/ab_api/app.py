@@ -5,6 +5,7 @@ from typing import Annotated
 import asyncio,json,os
 from fastapi import FastAPI,Header,HTTPException,Path as APIPath,Response,Request
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel,ConfigDict
 from prometheus_client import CONTENT_TYPE_LATEST
 from services.ab_api.runtime import ABRuntime,TrialConflict,TrialCapacity,UnknownMachine
@@ -35,6 +36,11 @@ def create_app(runtime=None):
         yield
         app.state.runtime=None
     app=FastAPI(title='IoT two-model experiment',version='1.0.0',lifespan=lifespan);app.state.runtime=None
+
+    @app.exception_handler(RequestValidationError)
+    async def invalid_request(request,exc):
+        """Omit echoed input so NaN/Infinity or rejected labels cannot break error JSON serialization."""
+        return JSONResponse({'detail':[{key:error[key] for key in ['loc','msg','type']} for error in exc.errors()]},status_code=422)
 
     @app.middleware('http')
     async def bound_body(request:Request,call_next):
