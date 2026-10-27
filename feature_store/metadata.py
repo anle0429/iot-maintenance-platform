@@ -6,6 +6,7 @@ from hashlib import sha256
 import json
 import os
 from pathlib import Path
+import re
 
 from datahub.emitter.mce_builder import make_data_flow_urn, make_data_job_urn, make_dataset_urn
 from datahub.emitter.mcp import MetadataChangeProposalWrapper
@@ -16,7 +17,7 @@ import datahub.metadata.schema_classes as S
 from feature_store.common import digest, save, utc_now
 
 
-def publish(directory: Path):
+def publish(directory: Path, dag: str = 'iot_feast_materialization', run_id: str = None):
     """Read bound validation results, emit synchronous aspects and verify GMS schema/lineage/job readback."""
     validation = json.loads((directory / 'validation.json').read_text())
     materialization = json.loads((directory / 'materialization.json').read_text())
@@ -25,17 +26,23 @@ def publish(directory: Path):
             or json.loads((directory / '_MATERIALIZED_SUCCESS.json').read_text())['report_sha256'] != digest(directory / 'materialization.json')):
         raise ValueError('Refuse publication of an unverified materialization')
     binding = validation['binding']
-    run = directory.name
+    project = binding['project']
+    if (dag != 'iot_feast_materialization' or project != 'iot_materialization') and not (
+            dag == 'iot_ci_materialization' and re.fullmatch(r'iot_ci_mat_[1-9][0-9]*', project)):
+        raise ValueError('Metadata producing job does not match the isolated materialization namespace')
+    run = run_id or directory.name
+    if not re.fullmatch(r'[a-z][a-z0-9-]{2,63}', run):
+        raise ValueError('Invalid materialization run identity')
     endpoint = os.environ['DATAHUB_GMS_URL']
     emitter = DatahubRestEmitter(gms_server=endpoint)
     graph = DataHubGraph(DatahubClientConfig(server=endpoint))
     emitter.test_connection()
-    dag = 'iot_feast_materialization'
     flow = make_data_flow_urn('airflow', dag, 'iot-vm')
-    job = make_data_job_urn('airflow', dag, 'materialize_incremental', 'iot-vm')
+    job_name = 'incremental_materialize' if dag == 'iot_ci_materialization' else 'materialize_incremental'
+    job = make_data_job_urn('airflow', dag, job_name, 'iot-vm')
     original = make_dataset_urn('parquet', 'iot.medium.features.feat_machine_10m', 'DEV')
     compact = make_dataset_urn('parquet', 'iot.feast.machine_rolling_batch', 'DEV')
-    online = make_dataset_urn('redis', 'iot.feast.iot_materialization.machine_rolling_10m', 'DEV')
+    online = make_dataset_urn('redis', 'iot.feast.' + project + '.machine_rolling_10m', 'DEV')
     url = 'http://localhost:18480/dags/' + dag + '/runs/' + run
     properties = {'run': run, 'protocol_sha256': binding['protocol_sha256'], 'compact_sha256': binding['compact_sha256'],
                   'cutoff_simulated_utc': validation['cutoff'], 'mode': materialization['mode'],
@@ -46,7 +53,7 @@ def publish(directory: Path):
     try:
         emit('urn:li:dataPlatform:redis', S.DataPlatformInfoClass(name='redis', displayName='Redis (Feast online)', type='KEY_VALUE_STORE', datasetNameDelimiter='.'))
         emit(flow, S.DataFlowInfoClass(name=dag, description='Verified immutable offline features to incremental online vectors on the simulated clock.', externalUrl=url, customProperties=properties))
-        emit(job, S.DataJobInfoClass(name='materialize_incremental', type='COMMAND', flowUrn=flow, externalUrl=url, customProperties=properties))
+        emit(job, S.DataJobInfoClass(name=job_name, type='COMMAND', flowUrn=flow, externalUrl=url, customProperties=properties))
         emit(job, S.DataJobInputOutputClass(inputDatasets=[compact], outputDatasets=[online]))
         emit(original, S.DatasetPropertiesClass(name='medium/feat_machine_10m', description='Original128-file arrival-aware60-day feature snapshot. Separate from the48-hour DP3 pilot.',
              customProperties={'path': 'data/feature-datasets/feature-medium-27-v2/artifacts/features/feat_machine_10m', 'rows': '3456000', 'protocol_sha256': binding['protocol_sha256']}))
@@ -63,7 +70,7 @@ def publish(directory: Path):
         emit(online, S.DatasetProfileClass(timestampMillis=timestamp, rowCount=validation['online_comparison']['machines'], columnCount=len(fields)))
         assertions = []
         for name, passed in validation['checks'].items():
-            assertion = 'urn:li:assertion:iot-feast-' + sha256(name.encode()).hexdigest()
+            assertion = 'urn:li:assertion:iot-feast-' + sha256((name if project == 'iot_materialization' else project + ':' + name).encode()).hexdigest()
             emit(assertion, S.AssertionInfoClass(type='CUSTOM', description=name, source=S.AssertionSourceClass(type='EXTERNAL'),
                  customAssertion=S.CustomAssertionInfoClass(type='Feast materialization contract', entity=online, logic=name+' == true')))
             emit(assertion, S.AssertionRunEventClass(timestampMillis=timestamp, runId=run, asserteeUrn=online, assertionUrn=assertion,
@@ -94,4 +101,7 @@ def publish(directory: Path):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--reports', type=Path, required=True)
-    publish(parser.parse_args().reports)
+    parser.add_argument('--dag', default='iot_feast_materialization')
+    parser.add_argument('--run-id')
+    args = parser.parse_args()
+    publish(args.reports, args.dag, args.run_id)

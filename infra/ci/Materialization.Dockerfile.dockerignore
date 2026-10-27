@@ -1,0 +1,14 @@
+# Include only the explicitly packaged application files.
+**
+!feature_store/
+!feature_store/**
+!ml/
+!ml/__init__.py
+!ml/protocol.py
+!ml/protocols/
+!ml/protocols/medium-60d-v1.json
+!infra/
+!infra/ci/
+!infra/ci/Materialization.Dockerfile
+**/__pycache__/
+**/*.pyc

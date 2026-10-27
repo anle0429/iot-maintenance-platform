@@ -6,6 +6,7 @@ import fcntl
 from hashlib import sha256
 import json
 from pathlib import Path
+import re
 
 from feature_store.batch import online_matches
 from feature_store.common import create_store, digest, save, utc_now
@@ -19,6 +20,9 @@ PROJECT = 'iot_materialization'
 def run(args):
     """Keep the training registry untouched; refuse time regression and unsealed writer attempts."""
     protocol = load_protocol(args.protocol)
+    project = getattr(args, 'project', PROJECT)
+    if project != PROJECT and not re.fullmatch(r'iot_ci_mat_[1-9][0-9]*', project):
+        raise ValueError('Only the existing project or an isolated CI materialization project is allowed')
     end = datetime.fromisoformat(args.end.replace('Z', '+00:00'))
     if end.tzinfo is None or end.utcoffset() != timedelta(0):
         raise ValueError('Materialization cutoff must explicitly use UTC')
@@ -33,7 +37,7 @@ def run(args):
             or digest(args.batch_report.parent / 'compaction.json') != batch['compaction_sha256']
             or digest(compact) != batch['compact_sha256']):
         raise ValueError('Immutable batch binding differs')
-    binding = {'project': PROJECT, 'protocol_sha256': PROTOCOL_SHA256, 'batch_report_sha256': digest(args.batch_report),
+    binding = {'project': project, 'protocol_sha256': PROTOCOL_SHA256, 'batch_report_sha256': digest(args.batch_report),
                'compact_sha256': batch['compact_sha256'], 'source': str(compact), 'features': protocol['feature_allowlist']}
     args.state.mkdir(parents=True, exist_ok=True)
     args.reports.mkdir(parents=True, exist_ok=True)
@@ -44,7 +48,7 @@ def run(args):
             raise ValueError('Existing materialization state belongs to another immutable source')
         if args.operation != 'register' and not binding_path.exists():
             raise ValueError('Register the bound feature repository before materializing')
-        store, backend = create_store(PROJECT, args.state / 'registry')
+        store, backend = create_store(project, args.state / 'registry')
         try:
             if args.operation == 'register':
                 register_batch(store, compact, json.loads((args.batch_report.parent / 'compaction.json').read_text()), args.protocol)
@@ -123,6 +127,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--operation', choices=('register', 'materialize', 'validate'), required=True)
     parser.add_argument('--end', required=True)
+    parser.add_argument('--project', default=PROJECT)
     for name in ('source-state', 'batch-report', 'state', 'reports', 'protocol'):
         parser.add_argument('--' + name, required=True, type=Path)
     run(parser.parse_args())
