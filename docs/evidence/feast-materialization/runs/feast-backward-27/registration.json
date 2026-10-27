@@ -1,0 +1,23 @@
+{
+  "binding": {
+    "batch_report_sha256": "04866c95764dbcd3a61d0f6fdc66ca5b35b3aae78a8be11ea069b7bfacc6adea",
+    "compact_sha256": "d43019682b7138c764db78684948071b5dfc442ae924f3fd35c0cf850a2c4ea1",
+    "features": [
+      "temperature_mean_10m",
+      "vibration_max_10m",
+      "current_mean_10m",
+      "current_std_10m",
+      "rpm_mean_10m",
+      "reading_count_10m",
+      "machine_age_days",
+      "prior_failures_24h"
+    ],
+    "project": "iot_materialization",
+    "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "source": "/workspace/data/feast/batch-medium-27/machine_rolling.parquet"
+  },
+  "checked_utc": "2026-10-27T06:05:01.698382+00:00",
+  "code_sha256": "2b3275d23fddaba0820e89b5ddaa17050765e8052a0a9ec8fe0ade58b970f016",
+  "cutoff": "2026-11-29T23:00:00+00:00",
+  "passed": true
+}

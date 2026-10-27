@@ -80,7 +80,7 @@ Scratch cần thư mục có quyền ghi choUID10001. Trên máy khác bỏ bi�
 
 ## Phần tiếp theo và giới hạn
 
-Cần Airflow DAG materialize có lượt thành công/ảnh thật, streaming push cả offline/online, DataHub lineage cho feature store, KFP ít nhất4steps, MLflow và KServe. Nguồn offline tĩnh dừng ở29/11 23:55; sau Redis TTL theo wall clock, gọi incremental với cutoff không có dữ liệu mới không đảm bảo refresh key cũ. Serving phải kiểm freshness và phân biệt simulated time; chưa coi đây là dịch vụ dự đoán đang cập nhật liên tục.
+[Airflow materialization/DataHub](feast-materialization.md) đã chạy thật:200vector được cập nhật, replay không đổi, lùi checkpoint bị chặn, có ảnh thật và6assertions. Còn streaming push cả offline/online, KFP ít nhất4steps, MLflow và KServe. Nguồn offline tĩnh dừng ở29/11 23:55; sau Redis TTL theo wall clock, gọi incremental với cutoff không có dữ liệu mới không đảm bảo refresh key cũ. Serving phải kiểm freshness và phân biệt simulated time; chưa coi đây là dịch vụ dự đoán đang cập nhật liên tục.
 
 Khi trình bày: feature builder quyết định thông tin nào có tại `t`; Feast quản lý lookup/PIT và online storage. Một PIT join hoặc số dòng khớp không tự chứng minh tránh mọi leakage, nên mốc này có fixture availability, upstream arrival checks, exact toàn bộ giá trị và corruption test riêng.
 

@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "run": "feast-bootstrap-recovery-27",
+  "datasets": [
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.feast.machine_rolling_batch,DEV)",
+      "name": "feast/machine_rolling_batch",
+      "lineage": {
+        "total": 1,
+        "relationships": [
+          {
+            "entity": {
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.medium.features.feat_machine_10m,DEV)",
+              "type": "DATASET"
+            }
+          }
+        ]
+      },
+      "assertions": {
+        "assertions": []
+      }
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:redis,iot.feast.iot_materialization.machine_rolling_10m,DEV)",
+      "name": "feast/online/machine_rolling_10m",
+      "lineage": {
+        "total": 2,
+        "relationships": [
+          {
+            "entity": {
+              "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_feast_materialization,iot-vm),materialize_incremental)",
+              "type": "DATA_JOB"
+            }
+          },
+          {
+            "entity": {
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.feast.machine_rolling_batch,DEV)",
+              "type": "DATASET"
+            }
+          }
+        ]
+      },
+      "assertions": {
+        "assertions": [
+          {
+            "urn": "urn:li:assertion:iot-feast-dd80f0fd8f99cd70409b351aafd641a422354a463edb6241d4679c027c96bbab",
+            "runEvents": {
+              "runEvents": [
+                {
+                  "runId": "feast-bootstrap-recovery-27",
+                  "result": {
+                    "type": "SUCCESS"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "urn": "urn:li:assertion:iot-feast-6bb589f161af599f2c0bef684bc1e5e66abdfd747198bf9a71ab47d26d8c2d6a",
+            "runEvents": {
+              "runEvents": [
+                {
+                  "runId": "feast-bootstrap-recovery-27",
+                  "result": {
+                    "type": "SUCCESS"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "urn": "urn:li:assertion:iot-feast-fdfff49ff27d98843b826e0722ac051cb38cdafab5cac990351f9fb5f4b3b8d2",
+            "runEvents": {
+              "runEvents": [
+                {
+                  "runId": "feast-bootstrap-recovery-27",
+                  "result": {
+                    "type": "SUCCESS"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "urn": "urn:li:assertion:iot-feast-e3711c65701f97be17e90762f022bb4c3e256ea54594b54e84f53455bff3d1b0",
+            "runEvents": {
+              "runEvents": [
+                {
+                  "runId": "feast-bootstrap-recovery-27",
+                  "result": {
+                    "type": "SUCCESS"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "urn": "urn:li:assertion:iot-feast-fc323a33b8418f3b484a765ac986dca7d43ea6de0961557effa5f65021386d81",
+            "runEvents": {
+              "runEvents": [
+                {
+                  "runId": "feast-bootstrap-recovery-27",
+                  "result": {
+                    "type": "SUCCESS"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "urn": "urn:li:assertion:iot-feast-48c08fd3645babab66c10cf8fa62ed122e1001957cc80400911f8b682ceb4ab0",
+            "runEvents": {
+              "runEvents": [
+                {
+                  "runId": "feast-bootstrap-recovery-27",
+                  "result": {
+                    "type": "SUCCESS"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "checked_utc": "2026-10-27T06:04:08.081853+00:00"
+}

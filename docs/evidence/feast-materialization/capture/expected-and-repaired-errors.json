@@ -1,0 +1,12 @@
+[
+  {
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-backward-27/task_id=materialize_incremental/attempt=1.log",
+    "logged_utc": "2026-10-27T06:05:10.713354Z",
+    "actual_error": "ValueError: Cannot move the online materialization checkpoint backwards"
+  },
+  {
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-bootstrap-27/task_id=publish_to_datahub/attempt=1.log",
+    "logged_utc": "2026-10-27T06:00:25.173173Z",
+    "actual_error": "avro.errors.AvroTypeException: (<avro.schema.RecordSchema object at 0x710b6a158f80>, DataPlatformInfoClass({'name': 'redis', 'displayName': 'Redis (Feast online)', 'type': 'DATABASE', 'datasetNameDelimiter': '.', 'logoUrl': None}))"
+  }
+]

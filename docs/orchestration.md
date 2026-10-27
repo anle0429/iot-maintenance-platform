@@ -108,3 +108,5 @@ Airflow scheduler có Docker socket và DAG là mã tin cậy, tương đương 
 Phiên bản phụ trợ, image ID/digest thực và kết quả chạy được lưu trong bằng chứng runtime; tag không thay thế việc ghi image thực.
 
 Các lỗi triển khai đã sửa trước khi lấy bằng chứng: bộ Airflow constraints xung đột dependency SDK nên tách image; Compose DataHub cũ có image kafka-setup không được phát hành nên dùng profile KRaft/internal registry mới; hotfix cần system-client secret dùng chung; LTS không cấp session cho user chưa có entity nên bootstrap `learner`/role Admin trong catalog. Mật khẩu và token signing/system secrets sinh riêng, không dùng giá trị mẫu của quickstart. Các lượt khởi động lỗi chỉ giữ log local, không coi là kết quả thành công.
+
+**Feast27/10:** [DAG incremental mới](feast-materialization.md) đã chạy4task thật,200máy, checkpoint/validation/chặnbackward vàDataHub6assertions. Nó dùng feature200máy×60ngày riêng, không đổi nguồn/pipeline DP1–DP3 pilot48giờ ở trên; không rerunSpark trong lượt materialization.

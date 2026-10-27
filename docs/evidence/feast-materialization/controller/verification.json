@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "runs": [
+    {
+      "run": "feast-bootstrap-recovery-27",
+      "cutoff": "2026-11-29T23:00:00Z",
+      "expected_success": true,
+      "state": "success",
+      "seconds": 51.11970466300045
+    },
+    {
+      "run": "feast-incremental-27",
+      "cutoff": "2026-11-30T00:00:00Z",
+      "expected_success": true,
+      "state": "success",
+      "seconds": 43.76881126999979
+    },
+    {
+      "run": "feast-backward-27",
+      "cutoff": "2026-11-29T23:00:00Z",
+      "expected_success": false,
+      "state": "failed",
+      "seconds": 28.545791700000336
+    },
+    {
+      "run": "feast-replay-27",
+      "cutoff": "2026-11-30T00:00:00Z",
+      "expected_success": true,
+      "state": "success",
+      "seconds": 36.63906337499975
+    }
+  ],
+  "all200online_vectors_match_each_cutoff": true,
+  "incremental_changed_vectors": 200,
+  "backward_checkpoint_unchanged": true,
+  "replay_unchanged_vectors": true,
+  "full_ingest_code_unchanged_after": true,
+  "preflight_sha256": "e58cc367e39c21b169b9dabd227ae6186d601d890e9d1527f7bba9828d69c7d1",
+  "files": {
+    "outputs/feast-materialization/feast-bootstrap-27-airflow.json": "7e537fc7f7cbfd468160cbb5d8569cfd3be73cead3a454fe670cce71aaf55658",
+    "outputs/feast-materialization/feast-backward-27-trigger.json": "d7591284debb7894febd23046b677ce9b7e293d198099908c500ae093e5b3f20",
+    "outputs/feast-materialization/feast-incremental-27-airflow.json": "95283dc12239c4ef24d30f4f3c3c81cd725cdcb3d5f72d00d168206d490a9844",
+    "outputs/feast-materialization/feast-bootstrap-recovery-27-datahub.json": "18573f7694d6af55ba230692b6b594c34e71abf1bdcfc6494a8f365e46631dfb",
+    "outputs/feast-materialization/feast-incremental-27-trigger.json": "619ae9d23770d70b5d0aecc32240c4f0f947aa8683219e249a729c6f998b5ee4",
+    "outputs/feast-materialization/feast-bootstrap-27-trigger.json": "8de8a454225967f9316dc0e0822ea70f01672128bac7622681965c32ad56691b",
+    "outputs/feast-materialization/feast-replay-27-airflow.json": "231afc4eb8c2f1a8b9b1de60f82a10a469f59a12ea6dfd8df7b459f0a5487d23",
+    "outputs/feast-materialization/feast-replay-27-datahub.json": "dfb49b47310f92a5620e4d0ed7166c92164c95e4f4d3ae57b40db388c998b986",
+    "outputs/feast-materialization/feast-backward-27-airflow.json": "b6121b470143319cc092b8fecf87e97b6d4b83e6f280375a18745827cef93e82",
+    "outputs/feast-materialization/feast-bootstrap-recovery-27-airflow.json": "0e8af13a31247db2c912f2511520b2c893058d943e36281397f9eecc0794b19a",
+    "outputs/feast-materialization/feast-incremental-27-datahub.json": "3aa9c9229f36390bb940e4b69e960807cdceb9b0a3b801c62a1f6f3dd8d0c580",
+    "outputs/feast-materialization/feast-bootstrap-recovery-27-trigger.json": "760b71aa043feeabf0e1a9764a9e394b712d2a00cf4863381c15c1e94aba9ee1",
+    "outputs/feast-materialization/feast-replay-27-trigger.json": "0abe7d6fce4229710b0c185f5cad191f0c7e30909c185e6dc103a3e0724bcbd4",
+    "outputs/feast-materialization/feast-incremental-27/datahub-publication.json": "8a512a97780c79ddd316ef743b4178862e9ba65ba72c9b0d0490cf1201445076",
+    "outputs/feast-materialization/feast-incremental-27/validation.json": "921d911cdfaf78add2e3fc0b66382eeeadf3b3e0a350ea4ce6adab557d7d3cb1",
+    "outputs/feast-materialization/feast-incremental-27/registration.json": "98c543649a090221970660fd48f3bd4ae0b62c71a3fd2598cb57f5a4c40e080d",
+    "outputs/feast-materialization/feast-incremental-27/_MATERIALIZED_SUCCESS.json": "b71802156eb8773608753adc744d301596ac38d3951bf52247bc1d712fb32c51",
+    "outputs/feast-materialization/feast-incremental-27/materialization.json": "a27c5f2a847df5802d1891b950f12fffde83d2758329b70946111610d77c9959",
+    "outputs/feast-materialization/feast-backward-27/registration.json": "05e96109af960d1a31250bff5adfe6a20124642bd874ac70709621f9b7262aed",
+    "outputs/feast-materialization/feast-replay-27/datahub-publication.json": "ecc28bd1ed74180b258a4694d2aa7444281926d20f6648d8758ebcafae040320",
+    "outputs/feast-materialization/feast-replay-27/validation.json": "e874a4586a5ab74b0765f7a12b0ffcc247bfeb363e0c16785a7f4c329496eb4b",
+    "outputs/feast-materialization/feast-replay-27/registration.json": "7746afd5d6b83eee209d015296ac64f49480d22863342cb03d73890d69c7dde5",
+    "outputs/feast-materialization/feast-replay-27/_MATERIALIZED_SUCCESS.json": "224b303148c0a072d47507af19ad3d46e57375de1517a45a39b27a7eec90546f",
+    "outputs/feast-materialization/feast-replay-27/materialization.json": "15625b545eb093b80df741138c77be18e0670df19eaeadfb84911a37ce719cf1",
+    "outputs/feast-materialization/feast-bootstrap-recovery-27/datahub-publication.json": "d6f2205336d8106b3f97a5a9b7cae3f8165180788560dfb331b20dbc79d805bf",
+    "outputs/feast-materialization/feast-bootstrap-recovery-27/validation.json": "b3445dca71c96115dc833bf742783d7a30271082852e0d8b0f26210224f43a7c",
+    "outputs/feast-materialization/feast-bootstrap-recovery-27/registration.json": "b8031b4316b1fa1ab2258377e90209e0121676be37a52e9809fba7cc85956d37",
+    "outputs/feast-materialization/feast-bootstrap-recovery-27/_MATERIALIZED_SUCCESS.json": "fd7d6f517d777e1815d6fa5e1b143c05b6a75c005a7b56a69f90a653fce03d29",
+    "outputs/feast-materialization/feast-bootstrap-recovery-27/materialization.json": "211142bfa06f55bba61e3ba007bdbda7f53126796cdd0593a6574071c26f8bd3",
+    "outputs/feast-materialization/feast-bootstrap-27/validation.json": "fb9373ff6758e4dfb85f3410434966a7aceda62434825ab8af8cf20f0e99e01b",
+    "outputs/feast-materialization/feast-bootstrap-27/registration.json": "a450e7ffce4ee1fa56fe2aff3165f9835b8243db3692c24c3c1ded5eef01ac41",
+    "outputs/feast-materialization/feast-bootstrap-27/_MATERIALIZED_SUCCESS.json": "9c77f4927ea820c0c9627d76daf60666d3c6b70f9a49012c12ae217801f354fd",
+    "outputs/feast-materialization/feast-bootstrap-27/materialization.json": "ab98301a626f5943c5cb03744ecd487aa37d96cd41e27222cbb0c7602b97eb97"
+  },
+  "scope": "Real Airflow scheduled task instances and native Feast initial/incremental/replay plus backward rejection; DataHub indexed lineage/assertion readback. Simulated backfill, not live streaming or training."
+}

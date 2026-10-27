@@ -1,0 +1,182 @@
+[
+  {
+    "operation": "materialize",
+    "container_id": "9bc90219659d64ab70c48f8bbc2e24cf35c94088abb9d074f66ad1ef0049056e",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 1,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-backward-27/task_id=materialize_incremental/attempt=1.log",
+    "logged_utc": "2026-10-27T06:05:11.461463Z"
+  },
+  {
+    "operation": "register",
+    "container_id": "4dfdcd0487673a6361c21047d610827519a7142422a1efd4cafb4ca5e83b7a91",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-backward-27/task_id=register_bound_source/attempt=1.log",
+    "logged_utc": "2026-10-27T06:05:02.456257Z"
+  },
+  {
+    "operation": "materialize",
+    "container_id": "46e2c2e3d27c0f02924f2aca8becf7efa7376ec256442f41bbf6bc1d1a41bd9c",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-bootstrap-27/task_id=materialize_incremental/attempt=1.log",
+    "logged_utc": "2026-10-27T06:00:11.382350Z"
+  },
+  {
+    "operation": "publish",
+    "container_id": "254c436b8be8ed3fb1aa14cb2f1c5b0982da40cd3ecf47eba7bcada2984d6a73",
+    "image_id": "sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695",
+    "exit_code": 1,
+    "memory_bytes": 2147483648,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-bootstrap-27/task_id=publish_to_datahub/attempt=1.log",
+    "logged_utc": "2026-10-27T06:00:25.489431Z"
+  },
+  {
+    "operation": "register",
+    "container_id": "2a9d166e2e225d4ecbb083601c22588c04f1c5e5882154f92f18ca721901f0a1",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-bootstrap-27/task_id=register_bound_source/attempt=1.log",
+    "logged_utc": "2026-10-27T05:59:59.199149Z"
+  },
+  {
+    "operation": "validate",
+    "container_id": "3b5efd7cb3f56c0a328fccd3f964d07f7ac6972efc3acee0f5533eac0c4af2aa",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-bootstrap-27/task_id=validate_online/attempt=1.log",
+    "logged_utc": "2026-10-27T06:00:21.201142Z"
+  },
+  {
+    "operation": "materialize",
+    "container_id": "654a5fa4d6b6c2cd49b16de6f6aac12c685338bc1765229e623bd3e545029840",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-bootstrap-recovery-27/task_id=materialize_incremental/attempt=1.log",
+    "logged_utc": "2026-10-27T06:03:38.635323Z"
+  },
+  {
+    "operation": "publish",
+    "container_id": "66d9c49a9c25224e13ee64677d7728f5405426554874b8be673d44ce1adc67b5",
+    "image_id": "sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695",
+    "exit_code": 0,
+    "memory_bytes": 2147483648,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-bootstrap-recovery-27/task_id=publish_to_datahub/attempt=1.log",
+    "logged_utc": "2026-10-27T06:03:59.998693Z"
+  },
+  {
+    "operation": "register",
+    "container_id": "e0ae25f207f38791379fe62a0e5cd4af4bdd01e00595266d3006f9a3cd208de9",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-bootstrap-recovery-27/task_id=register_bound_source/attempt=1.log",
+    "logged_utc": "2026-10-27T06:03:28.086764Z"
+  },
+  {
+    "operation": "validate",
+    "container_id": "540f93119857076097a27c6fe264cbf51b904c6f9e736c5d078643863028fbff",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-bootstrap-recovery-27/task_id=validate_online/attempt=1.log",
+    "logged_utc": "2026-10-27T06:03:49.658671Z"
+  },
+  {
+    "operation": "materialize",
+    "container_id": "71fba69ea7801bab3d9e9eaae85f4a6aba40ea5cbde5cce4d09f4ad8e453dbd5",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-incremental-27/task_id=materialize_incremental/attempt=1.log",
+    "logged_utc": "2026-10-27T06:04:31.797173Z"
+  },
+  {
+    "operation": "publish",
+    "container_id": "93338d11f16aaa70456388ef5a0500dfe0367d0a5080f5ae605fe927a060bed9",
+    "image_id": "sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695",
+    "exit_code": 0,
+    "memory_bytes": 2147483648,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-incremental-27/task_id=publish_to_datahub/attempt=1.log",
+    "logged_utc": "2026-10-27T06:04:46.395104Z"
+  },
+  {
+    "operation": "register",
+    "container_id": "07cf67f8f3d7dda6adc83593881636229180409028a71e8545abb23c7229a16b",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-incremental-27/task_id=register_bound_source/attempt=1.log",
+    "logged_utc": "2026-10-27T06:04:18.316155Z"
+  },
+  {
+    "operation": "validate",
+    "container_id": "0d91957d2c09877b8e86315dfb491b13b03968812b5d74d4b7a337f84a59a3b6",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-incremental-27/task_id=validate_online/attempt=1.log",
+    "logged_utc": "2026-10-27T06:04:42.938008Z"
+  },
+  {
+    "operation": "materialize",
+    "container_id": "3647f1f6d52b47fa78815a5534cb146ecca372eb296f888e477b8fac97f752b2",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-replay-27/task_id=materialize_incremental/attempt=1.log",
+    "logged_utc": "2026-10-27T06:05:39.899329Z"
+  },
+  {
+    "operation": "publish",
+    "container_id": "f99d2c86cf7185c50f2e1d426bacd53c2377b815fcb9f16809035a7fad760812",
+    "image_id": "sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695",
+    "exit_code": 0,
+    "memory_bytes": 2147483648,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-replay-27/task_id=publish_to_datahub/attempt=1.log",
+    "logged_utc": "2026-10-27T06:05:52.994581Z"
+  },
+  {
+    "operation": "register",
+    "container_id": "7d474a22e31038a7e84cae68740ccdcccd7fd59d790defd9c29f2cc5ae6859d1",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-replay-27/task_id=register_bound_source/attempt=1.log",
+    "logged_utc": "2026-10-27T06:05:30.182313Z"
+  },
+  {
+    "operation": "validate",
+    "container_id": "7a792220a677d822fdb166d847c17d5bd0fa6866c0f44f1c2d095799c2339c57",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "exit_code": 0,
+    "memory_bytes": 8589934592,
+    "nano_cpus": 1000000000,
+    "log": "data/runtime/airflow-logs/dag_id=iot_feast_materialization/run_id=feast-replay-27/task_id=validate_online/attempt=1.log",
+    "logged_utc": "2026-10-27T06:05:49.121750Z"
+  }
+]
