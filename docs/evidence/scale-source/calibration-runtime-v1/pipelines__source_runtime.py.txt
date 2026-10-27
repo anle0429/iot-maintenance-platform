@@ -1,0 +1,48 @@
+"""Bound pure timestamp/config caches to one isolated offline generation or validation process."""
+
+from contextlib import contextmanager
+from functools import cached_property, lru_cache
+
+from generator.chunked import ChunkConfig
+from generator.config import parse_ts
+
+
+class CachedChunkConfig(ChunkConfig):
+    """Cache immutable timestamps without changing dataclass fields, config JSON or physical IDs."""
+
+    @cached_property
+    def start(self):
+        """Parse the same immutable UTC start once instead of once per reading."""
+        return super().start
+
+    @cached_property
+    def end(self):
+        """Cache the immutable exclusive end used by simulation and interval checks."""
+        return super().end
+
+
+@contextmanager
+def timestamp_caches(enabled: bool = True):
+    """Memoize repeated pure conversions with a fixed 4096-entry bound, restoring aliases on exit."""
+    if not enabled:
+        yield
+        return
+    import generator.chunked as chunked
+    import generator.chunk_quality as quality
+    import generator.simulation as simulation
+    originals = [(module, name, getattr(module, name)) for module, name in
+                 ((chunked, 'iso_ts'), (quality, 'iso_ts'), (simulation, 'iso_ts'),
+                  (quality, 'parse_ts'), (quality, 'ChunkConfig'))]
+    iso = lru_cache(maxsize=4096)(chunked.iso_ts)
+    parsed = lru_cache(maxsize=4096)(parse_ts)
+    try:
+        for module in (chunked, quality, simulation):
+            module.iso_ts = iso
+        quality.parse_ts = parsed
+        quality.ChunkConfig = CachedChunkConfig
+        yield
+    finally:
+        for module, name, value in originals:
+            setattr(module, name, value)
+        iso.cache_clear()
+        parsed.cache_clear()

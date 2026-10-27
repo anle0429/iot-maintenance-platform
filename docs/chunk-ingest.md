@@ -123,3 +123,6 @@ Tiếp theo là tách các bước ingest/validate/transform để đưa vào Ai
 - [Spark 3.5.9 WebUI: SPARK_LOCAL_IP quyết định địa chỉ bind UI](https://github.com/apache/spark/blob/v3.5.9/core/src/main/scala/org/apache/spark/ui/WebUI.scala).
 - [Spark 3.5.9 event log, History Server và task metrics](https://spark.apache.org/docs/3.5.9/monitoring.html).
 - [Linux cgroup v2: memory.peak và memory accounting](https://docs.kernel.org/admin-guide/cgroup-v2.html).
+
+
+**Tiếp nối mốc nguồn100 GB (26–27/10/2026):** [Nguồn liên tục trên VM](scale-100gb.md) đã sinh và đọc kiểm toàn bộ **102.447.847.856 byte offline**, 316.800.000 unique readings,14 quality rules; Spark trung gian5,59 GB/13 checks và99 unit qua. Kết quả100 GB thuộc nguồn JSONL không nén, chưa là Spark/Gold/feature/ML hoặc Airflow toàn100 GB. Ngân sách mới tách HDD400 GB/SSD35 GB; trước Spark lớn cần kiểm lại và đặt scratch trên HDD. Các kết quả nhỏ phía trên giữ nguyên scope/thời điểm lịch sử.

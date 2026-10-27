@@ -101,3 +101,6 @@ Pilot có 2.304 offline extras/115.200 unique =2%, 5.760 late=5%, 1.728 retries=
 Kế hoạch100GB [offline-only](evidence/chunked/100gb-offline-only-plan.json) dự trù **395.000.000.000 byte**, đĩa lúc đo trống **390.963.044.352 byte**, `disk_budget_fits_now=false`. [Có stream](evidence/chunked/100gb-with-stream-plan.json) cần **555.741.200.752 byte** theo cùng giả định. Chưa sinh100GB; cần đo/giảm footprint hoặc có đủ dung lượng trước chạy lớn, không bỏ reserve/cap chỉ để qua guard.
 
 Kết quả chính nằm dưới `data/source/chunked-release`; lượt thử trước và lượt terminal bị ngắt giữ riêng trong data/outputs, không dùng làm bằng chứng chính. Script lưu số đo từng bước trong outputs để tránh mất toàn bộ phép đo khi terminal ngắt; report tổng chỉ xuất khi toàn protocol thành công.
+
+
+**Tiếp nối mốc nguồn100 GB (26–27/10/2026):** [Nguồn liên tục trên VM](scale-100gb.md) đã sinh và đọc kiểm toàn bộ **102.447.847.856 byte offline**, 316.800.000 unique readings,14 quality rules; Spark trung gian5,59 GB/13 checks và99 unit qua. Kết quả100 GB thuộc nguồn JSONL không nén, chưa là Spark/Gold/feature/ML hoặc Airflow toàn100 GB. Ngân sách mới tách HDD400 GB/SSD35 GB; trước Spark lớn cần kiểm lại và đặt scratch trên HDD. Các kết quả nhỏ phía trên giữ nguyên scope/thời điểm lịch sử.

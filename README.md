@@ -2,7 +2,7 @@
 
 Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cảm biến mô phỏng, dự đoán sự cố trong một giờ tới và trợ lý tra cứu tình trạng máy/tài liệu.
 
-**Trạng thái:** đã chạy thật [Airflow DP1–DP3 và DataHub trên VM](docs/orchestration.md):64 rules qua trên14 bảng đầu ra, một batch lỗi bị chặn downstream và batch phục hồi thành công. **91 unittest** qua trên Windows/Linux; có ảnh ba DAG và lịch sử validation PASS→FAIL→PASS. Các mốc [batch](docs/day2-batch.md), [Kafka/Flink](docs/day3-streaming.md), [chunk → Parquet](docs/chunk-ingest.md) giữ nguyên bằng chứng riêng. Nguồn liên tục lớn nhất **1.117.608.156 byte offline**, Bronze3.525.120/Silver3.456.000; chưa100GB/API, tập test ML trước vẫn thiếu ca hỏng.
+**Trạng thái:** đã sinh và đọc kiểm đầy đủ **102.447.847.856 byte offline**, 316.800.000 unique readings trên VM. [Mốc100 GB](docs/scale-100gb.md) có14 kiểm tra nguồn; Spark trung gian5,59 GB qua13 checks và99 unittest. [Airflow DP1–DP3/DataHub](docs/orchestration.md) đã kiểm pilot riêng:64 rules/14 bảng, chặn batch lỗi và phục hồi. Chưa Spark/Gold/feature toàn100 GB hoặc API; tập test ML trước vẫn thiếu ca hỏng.
 
 Đã [triển khai VM Google Cloud](docs/gcp-runtime.md) 8vCPU/64GiB với Ansible, IAP và đĩa HDD/SSD tách riêng. Cùng workload1,12GB trên một VM: baseline223,942s→optimized100,892s, disk spill967MB→0, cả hai13checks/84tests qua. Một lượt mỗi cấu hình, chưa benchmark100GB hoặc bằng chứng hoàn thành toàn coursework.
 
@@ -20,6 +20,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Google Cloud VM: Terraform plan, quota và dự toán](docs/gcp-vm.md)
 - [VM đã chạy: Ansible, cùng workload nhanh 2,22 lần và cách tự chạy](docs/gcp-runtime.md)
 - [Airflow DP1–DP3, validation chặn lỗi và DataHub lineage/assertions](docs/orchestration.md)
+- [Mốc nguồn 100 GB: ngân sách HDD/SSD/RAM, tập trung gian và cách tự chạy](docs/scale-100gb.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist rubric](docs/rubric-tracker.md)
 - [Cấu trúc hiện tại](#cấu-trúc-hiện-tại)
@@ -38,6 +39,7 @@ docs/
   chunked-generator.md       Sinh/đọc kiểm theo chunk, đo RAM và dự trù dung lượng
   chunk-ingest.md            Spark đọc catalog, Parquet Bronze/Silver và số đo thực
   orchestration.md           Ba DAG trên VM, validation/lineage, lỗi và phục hồi đã chạy
+  scale-100gb.md             Nguồn lớn liên tục, gate tài nguyên, số đo và giới hạn xử lý
   rubric-tracker.md          Trích yêu cầu/điểm từ hai sheet 50%, trạng thái và bằng chứng
   evidence/day1/             Output kiểm thử, thống kê và thông tin runtime
   evidence/day2-final/       Bằng chứng batch end-to-end và code/runtime hashes
@@ -58,6 +60,7 @@ ml/                          Baseline logistic regression và metrics/threshold
 infra/                       Compose/image, Terraform VM, Ansible, Airflow/DataHub và source SQL
 tests/                       Bộ dữ liệu biết đáp án, biên và corruption tests
 requirements.txt             Host dùng standard library; dependency Spark/Flink khóa trong Dockerfile
+requirements-scale.txt       Codec JSON tùy chọn cho source runner riêng trên VM
 ```
 
 Nguồn được sinh tại `data/source/`, báo cáo các lần chạy tại `outputs/`; hai thư mục này không đưa vào Git.
@@ -119,6 +122,8 @@ Get-Content outputs/practice-chunks/chunked-report.json
 ```
 
 [Hướng dẫn chunked](docs/chunked-generator.md) giải thích state liên tục qua file, kiểm byte/logical repeat và ngân sách đĩa. Lệnh này chỉ chạy pilot và lịch sử dài gấp bốn; kế hoạch 100 GB là ước tính. Loader/batch/Flink cũ vẫn dùng nguồn ngày 1, chưa tự chuyển sang layout chunked.
+
+[Source runner trên VM](docs/scale-100gb.md) bổ sung cache/codec đã kiểm byte tương đương, đo tài nguyên và giới hạn thời gian phiên. Dependency tùy chọn cài bằng `python -m pip install -r requirements-scale.txt` trong venv trước khi chạy các test codec; bộ test cơ bản vẫn chạy bằng standard library và báo skip nếu thiếu codec. Dữ liệu lớn ở đĩa VM, không tải qua Git khi clone trên laptop.
 
 ## Tài liệu đầu vào
 

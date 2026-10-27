@@ -1,0 +1,16 @@
+{
+  "same_vm_name": true,
+  "same_machine_type": true,
+  "machine_type": "e2-highmem-8",
+  "before": {
+    "cpu_platform": "AMD Rome",
+    "start_timestamp": "2026-10-26T10:58:30.186-07:00"
+  },
+  "after": {
+    "cpu_platform": "Intel Broadwell",
+    "start_timestamp": "2026-10-26T14:49:09.924-07:00"
+  },
+  "max_run_seconds": 28800,
+  "termination_action": "STOP",
+  "scope": "Sanitized actual GCE snapshots; calibration/intermediate preceded STOP/START, large-source run follows it. CPU platform changed although VM shape stayed the same."
+}

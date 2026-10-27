@@ -1,0 +1,42 @@
+{
+  "actual_resources": {
+    "checked_utc": "2026-10-26T21:46:17.327660+00:00",
+    "cpu_count": 8,
+    "free_bytes": {
+      "/srv/iot-data": 513096663040,
+      "/srv/iot-fast": 133836673024
+    },
+    "memory_available_bytes": 60350926848,
+    "memory_total_bytes": 67419459584
+  },
+  "estimated_generate_and_validate_seconds": 14124.17983195997,
+  "estimated_offline_payload_bytes": 102446379805,
+  "gates": {
+    "hdd": true,
+    "ram": true,
+    "session_time": false,
+    "ssd": true
+  },
+  "generation_eligible": false,
+  "hdd_budget_bytes": {
+    "free_reserve": 30000000000,
+    "future_processed_outputs": 150000000000,
+    "future_shuffle_on_hdd": 100000000000,
+    "logs": 5000000000,
+    "source_hard_cap": 115000000000
+  },
+  "intermediate_manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5",
+  "kind": "estimate_only_until_generation_completes",
+  "large_spark_execution_authorized": false,
+  "scope": "Only source generation/readback is gated here. Future 100GB Spark scratch is reserved on HDD; the existing optimized launcher still uses SSD and must not inherit this budget automatically.",
+  "session_finish_reserve_seconds": 1200,
+  "session_remaining_seconds": 15132.845350265503,
+  "source_reserve_bytes": 285000000000,
+  "ssd_budget_bytes": {
+    "free_reserve": 20000000000,
+    "platform_growth": 15000000000
+  },
+  "target_offline_payload_bytes": 100000000000,
+  "target_unique_rows": 316800000,
+  "timing_safety_factor": 1.2
+}

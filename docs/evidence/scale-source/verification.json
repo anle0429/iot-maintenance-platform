@@ -1,0 +1,88 @@
+{
+  "actual_100gb_complete": true,
+  "collected_utc": "2026-10-27T01:33:12.588471+00:00",
+  "passed": true,
+  "scope": "Full actual source quality and intermediate Spark only; no full 100GB Spark/Gold/feature performance claim.",
+  "source_runs": {
+    "scale-100gb-26": {
+      "offline_bytes": 102447847856,
+      "phases": {
+        "generate": {
+          "cpu_seconds": 7788.021223,
+          "peak_rss_bytes": 32169984,
+          "seconds": 7802.887082547
+        },
+        "validate": {
+          "cpu_seconds": 4577.374584,
+          "peak_rss_bytes": 54820864,
+          "seconds": 5375.480445252
+        }
+      },
+      "unique_rows": 316800000
+    },
+    "scale-calibration-base-26": {
+      "offline_bytes": 93139057,
+      "phases": {
+        "generate": {
+          "cpu_seconds": 9.820013,
+          "peak_rss_bytes": 24403968,
+          "seconds": 9.827280700999836
+        },
+        "validate": {
+          "cpu_seconds": 5.167674,
+          "peak_rss_bytes": 23560192,
+          "seconds": 5.170371670999884
+        }
+      },
+      "unique_rows": 288000
+    },
+    "scale-calibration-cached-26": {
+      "offline_bytes": 93139057,
+      "phases": {
+        "generate": {
+          "cpu_seconds": 7.375476999999999,
+          "peak_rss_bytes": 26238976,
+          "seconds": 7.378222945999369
+        },
+        "validate": {
+          "cpu_seconds": 4.416537,
+          "peak_rss_bytes": 24051712,
+          "seconds": 4.517091280999011
+        }
+      },
+      "unique_rows": 288000
+    },
+    "scale-calibration-fast-26": {
+      "offline_bytes": 93139057,
+      "phases": {
+        "generate": {
+          "cpu_seconds": 6.186424000000001,
+          "peak_rss_bytes": 26488832,
+          "seconds": 6.193026308999833
+        },
+        "validate": {
+          "cpu_seconds": 3.1525049999999997,
+          "peak_rss_bytes": 24338432,
+          "seconds": 3.152919161000682
+        }
+      },
+      "unique_rows": 288000
+    },
+    "scale-intermediate-26": {
+      "offline_bytes": 5587984353,
+      "phases": {
+        "generate": {
+          "cpu_seconds": 352.77412300000003,
+          "peak_rss_bytes": 28098560,
+          "seconds": 353.3020513119991
+        },
+        "validate": {
+          "cpu_seconds": 249.918028,
+          "peak_rss_bytes": 24535040,
+          "seconds": 288.7061228679995
+        }
+      },
+      "unique_rows": 17280000
+    }
+  }
+}

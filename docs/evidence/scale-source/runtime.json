@@ -1,0 +1,95 @@
+{
+  "captured_utc": "2026-10-27T01:33:12.574949+00:00",
+  "cpu_model": "Intel(R) Xeon(R) CPU @ 2.20GHz",
+  "files": [
+    {
+      "path": "generator/__init__.py",
+      "sha256": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172"
+    },
+    {
+      "path": "generator/__main__.py",
+      "sha256": "045e4f5ac449b48e75856dba9a3a1c25cca6d985e5ba57bcc86792f893c25ba5"
+    },
+    {
+      "path": "generator/capacity.py",
+      "sha256": "da846d8671936ea371226581c504071e05905d03afb2fbf43861a854373c5241"
+    },
+    {
+      "path": "generator/chunk_quality.py",
+      "sha256": "a8ff63b5f518dbd117ea92926e08b8d2d98dc24601fe359eebab1faca042e79e"
+    },
+    {
+      "path": "generator/chunked.py",
+      "sha256": "9b8705e9156966c08c02fd604739c3cb416a48fbc0881f21c5cce735e03f1b2c"
+    },
+    {
+      "path": "generator/config.py",
+      "sha256": "087682ae48dceb64865cdca983b7642ab9d256bb0083da165d296196c21cb3de"
+    },
+    {
+      "path": "generator/configs/scale-100gb.json",
+      "sha256": "1b15c68a560f083d016c4e43b43c2e7d444b1c58c0ed6415d05987fa7aa57994"
+    },
+    {
+      "path": "generator/configs/scale-calibration.json",
+      "sha256": "c33d0806ccd4fec899645c2105532e1f23ff588011e71be17ecef2d96c617805"
+    },
+    {
+      "path": "generator/configs/scale-intermediate.json",
+      "sha256": "b7853853ab2b98e0a26e508ef4a0d379d47b2f3c9cb667d017bdf0e2c47c105f"
+    },
+    {
+      "path": "generator/quality.py",
+      "sha256": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000"
+    },
+    {
+      "path": "generator/simulation.py",
+      "sha256": "1179f67674b71c3c9b1b09d3a72f32f24df30647004b0ccf82fecebe673a360c"
+    },
+    {
+      "path": "generator/storage.py",
+      "sha256": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d"
+    },
+    {
+      "path": "pipelines/scale_budget.py",
+      "sha256": "aa74ff1b37ad1901b055104e9e760af91fe24afe220d0effc836b844394bb21c"
+    },
+    {
+      "path": "pipelines/source_runtime.py",
+      "sha256": "9cb46d0777e96a575d94af7b0d1c34c3aa0170ca48766deaa3e52dddef47d6e6"
+    },
+    {
+      "path": "requirements-scale.txt",
+      "sha256": "9a5f8d7911906e83470ca212f0dc56ec2560bebc9e1b3fba98ef26b9e90274dd"
+    },
+    {
+      "path": "scripts/collect-scale-evidence.py",
+      "sha256": "135dcc8bb15f6f2226b1fffec8da08319500fd0895147b6c7892e66d4fddef01"
+    },
+    {
+      "path": "scripts/continue-scale-protocol.py",
+      "sha256": "ad195ad987c59bb38bcca248218339df8721f6fac69fde3707881ee377752cd1"
+    },
+    {
+      "path": "scripts/measure-scale-ingest.py",
+      "sha256": "08118a62e2b5cec4692466b46ede1846c9250bf28f40d770a365aaa73b4164eb"
+    },
+    {
+      "path": "scripts/run-scale-source.py",
+      "sha256": "86496216c1fc62c41e7c6c0bf4017624c0732c19c17d24b88fe70c40f4d8b315"
+    },
+    {
+      "path": "tests/test_scale_budget.py",
+      "sha256": "75cd76355404dad10c3465512dd9e1d17b32b8f2d82d795765f22006d484baca"
+    },
+    {
+      "path": "tests/test_source_runtime.py",
+      "sha256": "29c3035f8579dea7d3d60e7e20a73245d1d7f53281b25b9a182d6a65db84a65b"
+    }
+  ],
+  "host": "iot-cw-vm",
+  "orjson": "3.13.0",
+  "platform": "Linux-7.0.0-1014-gcp-x86_64-with-glibc2.39",
+  "python": "3.12.3",
+  "scope": "Working-tree source runtime fingerprint; commit mapping and fresh-clone verification follow on PC. Linux host Python scale venv is isolated from Airflow/Spark."
+}

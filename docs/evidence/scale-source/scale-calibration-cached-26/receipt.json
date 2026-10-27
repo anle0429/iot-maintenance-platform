@@ -1,0 +1,158 @@
+{
+  "passed": true,
+  "python": "3.12.3",
+  "quality": {
+    "checks": {
+      "actual_byte_counts": true,
+      "catalog_and_all_part_checksums": true,
+      "complete_unique_time_grid": true,
+      "completion_and_manifest": true,
+      "factory_skew": true,
+      "global_late_count_and_delay": true,
+      "global_offline_duplicate_count_and_payload": true,
+      "machine_keys_and_snapshot": true,
+      "motor_status_matches_stops": true,
+      "no_unlisted_files": true,
+      "schema_and_sensor_types": true,
+      "stop_keys_intervals_censoring_availability": true,
+      "stored_row_chunk_bound": true,
+      "table_logical_hashes": true
+    },
+    "chunk_rows": 100000,
+    "compression": "none",
+    "config": {
+      "duration_hours": 24,
+      "export_delay_seconds": 3600,
+      "failure_threshold": 1.0,
+      "hot_factory_share": 0.7,
+      "late_max_seconds": 600,
+      "late_min_seconds": 300,
+      "late_rate": 0.05,
+      "machine_count": 200,
+      "maintenance_every_hours": 18,
+      "maintenance_minutes": 20,
+      "offline_duplicate_rate": 0.02,
+      "repair_minutes": 45,
+      "retry_delay_seconds": 2,
+      "sample_seconds": 60,
+      "schema_v2_fraction": 0.5,
+      "seed": 42,
+      "start_ts": "2026-10-01T00:00:00Z",
+      "stream_duplicate_rate": 0.015,
+      "wear_per_hour": 0.035
+    },
+    "factory_unique_counts": {
+      "F-01": 201600,
+      "F-02": 43200,
+      "F-03": 43200
+    },
+    "failure_events": 248,
+    "format": "JSONL",
+    "format_version": "chunked-jsonl-1",
+    "generation_peak_pending_deliveries": 0,
+    "late_delay_seconds_max": 600.0,
+    "late_delay_seconds_min": 300.0,
+    "late_unique_events": 14400,
+    "maintenance_events": 70,
+    "offline_duplicate_extras": 5760,
+    "offline_payload_bytes": 93139057,
+    "operating_status_unique_counts": {
+      "failed": 11053,
+      "maintenance": 1370,
+      "operating": 275577
+    },
+    "passed": true,
+    "payload_bytes": 93139057,
+    "schema_unique_counts": {
+      "1": 144000,
+      "2": 144000
+    },
+    "scope": "Full readback of this source, using its ordered-grid contract; no whole-dataset sets, no 100GB claim from estimates.",
+    "source_files": 10,
+    "source_total_bytes": 93142642,
+    "stream": {
+      "generated": false,
+      "scope": "not generated; stream checks not applicable"
+    },
+    "tables": {
+      "failures": {
+        "bytes": 53726,
+        "logical_sha256": "529bd0d0d9fffe06a491500bd0e7f54b45f0893a0564740fce0520a62be5f2eb",
+        "parts": 1,
+        "rows": 248
+      },
+      "machines": {
+        "bytes": 41600,
+        "logical_sha256": "b9013567c220f5ed82ece47f6da98e37bf1d138125770ae5119a4b8d38f6d26b",
+        "parts": 1,
+        "rows": 200
+      },
+      "maintenance": {
+        "bytes": 16028,
+        "logical_sha256": "bd64e6a3921e15fea743c28303296c43e868386cd4a847bc97b999607fd91f92",
+        "parts": 1,
+        "rows": 70
+      },
+      "stream": {
+        "bytes": 0,
+        "logical_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "parts": 0,
+        "rows": 0
+      },
+      "v1": {
+        "bytes": 44963991,
+        "logical_sha256": "c5cf28f9bab662bad84ff92773b4766029e38c1e16f892f88ed8f16f1b8d1876",
+        "parts": 2,
+        "rows": 146791
+      },
+      "v2": {
+        "bytes": 48063712,
+        "logical_sha256": "2416b5197811476a3350178b2610137e12e6f32835aff9541c612be47996c347",
+        "parts": 2,
+        "rows": 146969
+      }
+    },
+    "unique_telemetry_rows": 288000
+  },
+  "receipt_version": 1,
+  "source_manifest_sha256": "1a98ffaaab1d9e89f3f86fcc49ad8fbe3d7e7f813e8233aef0230e4dc53827f2",
+  "validated_utc": "2026-10-26T21:23:25.245154+00:00",
+  "validator_sha256": [
+    {
+      "path": "generator/__init__.py",
+      "sha256": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172"
+    },
+    {
+      "path": "generator/__main__.py",
+      "sha256": "045e4f5ac449b48e75856dba9a3a1c25cca6d985e5ba57bcc86792f893c25ba5"
+    },
+    {
+      "path": "generator/capacity.py",
+      "sha256": "da846d8671936ea371226581c504071e05905d03afb2fbf43861a854373c5241"
+    },
+    {
+      "path": "generator/chunk_quality.py",
+      "sha256": "a8ff63b5f518dbd117ea92926e08b8d2d98dc24601fe359eebab1faca042e79e"
+    },
+    {
+      "path": "generator/chunked.py",
+      "sha256": "9b8705e9156966c08c02fd604739c3cb416a48fbc0881f21c5cce735e03f1b2c"
+    },
+    {
+      "path": "generator/config.py",
+      "sha256": "087682ae48dceb64865cdca983b7642ab9d256bb0083da165d296196c21cb3de"
+    },
+    {
+      "path": "generator/quality.py",
+      "sha256": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000"
+    },
+    {
+      "path": "generator/simulation.py",
+      "sha256": "1179f67674b71c3c9b1b09d3a72f32f24df30647004b0ccf82fecebe673a360c"
+    },
+    {
+      "path": "generator/storage.py",
+      "sha256": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d"
+    }
+  ]
+}

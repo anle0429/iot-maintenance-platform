@@ -1,0 +1,164 @@
+"""Measure and guard continuous offline source generation/readback on the existing Linux coursework VM."""
+
+import argparse
+from datetime import datetime, timezone
+import json
+import os
+from pathlib import Path
+import platform
+import resource
+import shutil
+import subprocess
+import sys
+import time
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from generator.chunked import ChunkConfig, digest_file, generate_chunked
+from pipelines.chunk_source import validation_receipt
+from pipelines.orchestration_contract import save, utc_now
+from pipelines.source_runtime import CachedChunkConfig, timestamp_caches
+
+
+def memory_available() -> int:
+    """Read reclaimable Linux memory, rather than treating the file cache as unavailable RAM."""
+    values = dict(line.split(':', 1) for line in Path('/proc/meminfo').read_text().splitlines())
+    return int(values['MemAvailable'].split()[0]) * 1024
+
+
+def resources() -> dict:
+    """Measure each mounted filesystem and actual available RAM without cloud identifiers or credentials."""
+    return {'checked_utc': utc_now(), 'memory_available_bytes': memory_available(),
+            'cpu_count': os.cpu_count(), 'free_bytes': {path: shutil.disk_usage(path).free
+                                                    for path in ('/srv/iot-data', '/srv/iot-fast')}}
+
+
+def worker(args, directory: Path, source: Path, config: ChunkConfig) -> None:
+    """Execute one measured phase in isolation; keep source bytes identical between cache modes."""
+    started = time.perf_counter()
+    usage = resource.getrusage(resource.RUSAGE_SELF)
+    with timestamp_caches(not args.baseline):
+        if args.worker == 'generate':
+            actual_config = config if args.baseline else CachedChunkConfig(**config.to_dict())
+            result = generate_chunked(actual_config, source, args.chunk_rows, False,
+                                      args.maximum_bytes, args.source_reserve_bytes)
+            payload = {'offline_payload_bytes': result['offline_payload_bytes'], 'tables': result['tables']}
+        else:
+            result = validation_receipt(source, directory / 'receipt.json')
+            payload = {'passed': result['passed'], 'checks': result['quality']['checks'],
+                       'offline_payload_bytes': result['quality']['offline_payload_bytes']}
+    after = resource.getrusage(resource.RUSAGE_SELF)
+    report = {'phase': args.worker, 'passed': True, 'seconds': time.perf_counter() - started,
+              'cpu_seconds': after.ru_utime + after.ru_stime - usage.ru_utime - usage.ru_stime,
+              'peak_rss_bytes': after.ru_maxrss * 1024, 'completed_utc': utc_now(), **payload}
+    save(directory / f'{args.worker}.json', report)
+    print(json.dumps({key: value for key, value in report.items() if key not in ('tables', 'checks')}), flush=True)
+
+
+def run(args, directory: Path, source: Path, config: ChunkConfig) -> None:
+    """Reserve future outputs/shuffle, monitor time/RAM/disk and retain any incomplete run for diagnosis."""
+    if directory.exists() or source.exists():
+        raise ValueError('run/source exists; preserve it and choose a new run name')
+    for mount in ('/srv/iot-data', '/srv/iot-fast'):
+        if not Path(mount).is_mount():
+            raise ValueError(f'required coursework mount missing: {mount}')
+    before = resources()
+    required_hdd = args.maximum_bytes + args.source_reserve_bytes
+    if before['free_bytes']['/srv/iot-data'] < required_hdd:
+        raise ValueError('HDD cannot fit source cap plus future output/shuffle/log/free reserve')
+    if before['free_bytes']['/srv/iot-fast'] < 35_000_000_000 or before['memory_available_bytes'] < 8 * 1024**3:
+        raise ValueError('insufficient SSD reserve or available RAM')
+    deadline = datetime.fromisoformat(args.deadline_utc.replace('Z', '+00:00')).timestamp() if args.deadline_utc else None
+    if args.estimated_seconds:
+        if deadline is None or time.time() + args.estimated_seconds + 1200 > deadline:
+            raise ValueError('measured duration estimate plus 20-minute reserve does not fit VM session')
+    directory.mkdir(parents=True)
+    save(directory / 'preflight.json', {'passed': True, 'resources': before,
+         'budget': {'source_hard_cap': args.maximum_bytes, 'hdd_output_shuffle_log_free_reserve': args.source_reserve_bytes,
+                    'hdd_required_now': required_hdd, 'ssd_platform_and_free_reserve': 35_000_000_000},
+         'deadline_utc': args.deadline_utc, 'estimated_seconds': args.estimated_seconds,
+         'config': config.to_dict(), 'optimization': 'none' if args.baseline else 'bounded_pure_timestamp_caches',
+         'source_commit': args.base_commit, 'python': platform.python_version(),
+         'code_sha256': [{'path': p.relative_to(ROOT).as_posix(), 'sha256': digest_file(p)}
+                         for p in [Path(__file__), ROOT / 'pipelines/source_runtime.py',
+                                   *sorted((ROOT / 'generator').glob('*.py'))]]})
+    started = time.perf_counter()
+    minimum_free_ram = before['memory_available_bytes']
+    minimum_free_hdd = before['free_bytes']['/srv/iot-data']
+    for phase in ('generate', 'validate'):
+        command = [sys.executable, str(Path(__file__).resolve()), *sys.argv[1:], '--worker', phase]
+        with (directory / f'{phase}-console.txt').open('w') as log:
+            process = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT, cwd=ROOT)
+            last_heartbeat = 0
+            try:
+                while process.poll() is None:
+                    current = resources()
+                    minimum_free_ram = min(minimum_free_ram, current['memory_available_bytes'])
+                    minimum_free_hdd = min(minimum_free_hdd, current['free_bytes']['/srv/iot-data'])
+                    if current['memory_available_bytes'] < 4 * 1024**3 or current['free_bytes']['/srv/iot-data'] < args.source_reserve_bytes:
+                        raise RuntimeError('resource reserve reached; incomplete run retained')
+                    if deadline and time.time() + 600 > deadline:
+                        raise RuntimeError('VM session ending; stop before forced STOP, retain source for diagnosis')
+                    if time.monotonic() - last_heartbeat > 15:
+                        progress = {'phase': phase, 'elapsed_seconds': time.perf_counter() - started,
+                                    'source_bytes_so_far': sum(p.stat().st_size for p in source.rglob('*') if p.is_file()) if source.exists() else 0,
+                                    'resources': current}
+                        save(directory / 'progress.json', progress)
+                        last_heartbeat = time.monotonic()
+                    time.sleep(2)
+                if process.returncode:
+                    raise RuntimeError(f'{phase} exited {process.returncode}; inspect the retained console log')
+            finally:
+                if process.poll() is None:
+                    process.terminate()
+                    try:
+                        process.wait(timeout=10)
+                    except subprocess.TimeoutExpired:
+                        process.kill()
+                        process.wait()
+    manifest = json.loads((source / 'manifest.json').read_text())
+    receipt = json.loads((directory / 'receipt.json').read_text())
+    actual = manifest['offline_payload_bytes']
+    if args.target_bytes and actual < args.target_bytes:
+        raise ValueError('actual offline payload below target; do not claim the scale milestone')
+    report = {'passed': receipt['passed'], 'actual_offline_payload_bytes': actual,
+              'target_bytes': args.target_bytes, 'source_total_bytes': receipt['quality']['source_total_bytes'],
+              'unique_rows': receipt['quality']['unique_telemetry_rows'], 'source_manifest_sha256': digest_file(source / 'manifest.json'),
+              'phase_reports': {phase: json.loads((directory / f'{phase}.json').read_text()) for phase in ('generate', 'validate')},
+              'elapsed_seconds': time.perf_counter() - started, 'minimum_available_ram_bytes': minimum_free_ram,
+              'minimum_hdd_free_bytes': minimum_free_hdd, 'after': resources(),
+              'scope': 'Actual continuous offline JSONL source with full catalog/hash/semantic readback; no 100GB Spark/Gold/feature throughput claim.'}
+    save(directory / 'verification.json', report)
+    save(directory / '_RUN_SUCCESS.json', {'verification_sha256': digest_file(directory / 'verification.json')})
+    print(json.dumps(report, indent=2), flush=True)
+
+
+def main() -> None:
+    """Keep conservative defaults; only an explicit large cap/target and measured time budget permit a large run."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--run-name', required=True)
+    parser.add_argument('--config', type=Path, required=True)
+    parser.add_argument('--chunk-rows', type=int, default=100_000)
+    parser.add_argument('--maximum-bytes', type=int, default=2 * 1024**3)
+    parser.add_argument('--source-reserve-bytes', type=int, default=285_000_000_000)
+    parser.add_argument('--target-bytes', type=int, default=0)
+    parser.add_argument('--deadline-utc', default='')
+    parser.add_argument('--estimated-seconds', type=float, default=0)
+    parser.add_argument('--base-commit', default='UNCOMMITTED')
+    parser.add_argument('--baseline', action='store_true')
+    parser.add_argument('--worker', choices=('generate', 'validate'))
+    args = parser.parse_args()
+    import re
+    if not re.fullmatch(r'[a-z][a-z0-9-]{0,62}', args.run_name):
+        raise ValueError('invalid run name')
+    os.chdir(ROOT)
+    config = ChunkConfig.load(args.config)
+    directory, source = ROOT / 'outputs' / args.run_name, ROOT / 'data/source' / args.run_name
+    if args.worker:
+        worker(args, directory, source, config)
+    else:
+        run(args, directory, source, config)
+
+
+if __name__ == '__main__':
+    main()

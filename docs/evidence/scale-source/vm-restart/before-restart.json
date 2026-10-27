@@ -1,0 +1,59 @@
+{
+  "checked_utc": "2026-10-26T21:47:18.959352+00:00",
+  "intermediate_passed": true,
+  "time_gate_blocked_large_run": true,
+  "active_airflow_runs": {
+    "iot_dp1_bronze": [],
+    "iot_dp2_warehouse": [],
+    "iot_dp3_features": []
+  },
+  "spark_containers_running": 0,
+  "services": [
+    {
+      "name": "/iot-orchestration-airflow-api-1",
+      "image_id": "sha256:da0a69c50e858fc8e5cd7b5caac82e1832d7bbc59c964f14d45c7c7233ce9b01",
+      "state": "running"
+    },
+    {
+      "name": "/iot-orchestration-airflow-scheduler-1",
+      "image_id": "sha256:da0a69c50e858fc8e5cd7b5caac82e1832d7bbc59c964f14d45c7c7233ce9b01",
+      "state": "running"
+    },
+    {
+      "name": "/iot-orchestration-airflow-dag-processor-1",
+      "image_id": "sha256:da0a69c50e858fc8e5cd7b5caac82e1832d7bbc59c964f14d45c7c7233ce9b01",
+      "state": "running"
+    },
+    {
+      "name": "/iot-orchestration-airflow-db-1",
+      "image_id": "sha256:a2420e9555e2224583fe84d0bb3f0b967e69354ae3a0be55a9c14e251388c4eb",
+      "state": "running"
+    },
+    {
+      "name": "/iot-datahub-datahub-frontend-1",
+      "image_id": "sha256:c8106e606b2bc1ad7737b593535d4c37df136d16eed03e7c42a42babcbf74f02",
+      "state": "running"
+    },
+    {
+      "name": "/iot-datahub-datahub-gms-1",
+      "image_id": "sha256:858b36e3fe00c4af02e47c51252b90d6013f9e789851d05be0f4145e5fed260e",
+      "state": "running"
+    },
+    {
+      "name": "/iot-datahub-broker-1",
+      "image_id": "sha256:9cdc8119cb39c45f0efa6da8e2220058020c7433e3ba3a3ce11a8006a18cb336",
+      "state": "running"
+    },
+    {
+      "name": "/iot-datahub-mysql-1",
+      "image_id": "sha256:9c3380eac945af0736031b200027f581925927c81e010056214a4bd6b6693714",
+      "state": "running"
+    },
+    {
+      "name": "/iot-datahub-search-1",
+      "image_id": "sha256:e96cc6ae1500a073d973c0906f30f7cf4d9c461f32f855f9242a2da933660cdd",
+      "state": "running"
+    }
+  ],
+  "scope": "Ready to STOP/START the same existing VM at a job boundary; no resource resize or extension of the 8-hour per-start limit."
+}

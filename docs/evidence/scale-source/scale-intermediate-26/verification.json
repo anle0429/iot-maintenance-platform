@@ -1,0 +1,95 @@
+{
+  "actual_offline_payload_bytes": 5587984353,
+  "after": {
+    "checked_utc": "2026-10-26T21:38:59.935278+00:00",
+    "cpu_count": 8,
+    "free_bytes": {
+      "/srv/iot-data": 514420011008,
+      "/srv/iot-fast": 133837012992
+    },
+    "memory_available_bytes": 60327555072
+  },
+  "elapsed_seconds": 644.5399359309995,
+  "minimum_available_ram_bytes": 14469562368,
+  "minimum_hdd_free_bytes": 514420027392,
+  "passed": true,
+  "phase_reports": {
+    "generate": {
+      "completed_utc": "2026-10-26T21:34:08.758366+00:00",
+      "cpu_seconds": 352.77412300000003,
+      "offline_payload_bytes": 5587984353,
+      "passed": true,
+      "peak_rss_bytes": 28098560,
+      "phase": "generate",
+      "seconds": 353.3020513119991,
+      "tables": {
+        "failures": {
+          "bytes": 2438556,
+          "logical_sha256": "599c37e9e8a583d779037575bb7d5c8bd9c8a3f812bdcb83f6acd5d452c4afc1",
+          "parts": 1,
+          "rows": 11238
+        },
+        "machines": {
+          "bytes": 41600,
+          "logical_sha256": "b9013567c220f5ed82ece47f6da98e37bf1d138125770ae5119a4b8d38f6d26b",
+          "parts": 1,
+          "rows": 200
+        },
+        "maintenance": {
+          "bytes": 3299350,
+          "logical_sha256": "eb975042de97dc26493cf1af08fade6d0502a3cdc3f531b4f11374b4d87f4e0b",
+          "parts": 1,
+          "rows": 14345
+        },
+        "stream": {
+          "bytes": 0,
+          "logical_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "parts": 0,
+          "rows": 0
+        },
+        "v1": {
+          "bytes": 2699308547,
+          "logical_sha256": "8af596bdb1954eef2d1815cf1e8996676b94ad7def718291f7f4d3dd8ac9296d",
+          "parts": 89,
+          "rows": 8812396
+        },
+        "v2": {
+          "bytes": 2882896300,
+          "logical_sha256": "b2cb1de875ca850c4656e840996fd1120ecdcdd675487a81eccb56283127c726",
+          "parts": 89,
+          "rows": 8813204
+        }
+      }
+    },
+    "validate": {
+      "checks": {
+        "actual_byte_counts": true,
+        "catalog_and_all_part_checksums": true,
+        "complete_unique_time_grid": true,
+        "completion_and_manifest": true,
+        "factory_skew": true,
+        "global_late_count_and_delay": true,
+        "global_offline_duplicate_count_and_payload": true,
+        "machine_keys_and_snapshot": true,
+        "motor_status_matches_stops": true,
+        "no_unlisted_files": true,
+        "schema_and_sensor_types": true,
+        "stop_keys_intervals_censoring_availability": true,
+        "stored_row_chunk_bound": true,
+        "table_logical_hashes": true
+      },
+      "completed_utc": "2026-10-26T21:38:58.519911+00:00",
+      "cpu_seconds": 249.918028,
+      "offline_payload_bytes": 5587984353,
+      "passed": true,
+      "peak_rss_bytes": 24535040,
+      "phase": "validate",
+      "seconds": 288.7061228679995
+    }
+  },
+  "scope": "Actual continuous offline JSONL source with full catalog/hash/semantic readback; no 100GB Spark/Gold/feature throughput claim.",
+  "source_manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5",
+  "source_total_bytes": 5588019099,
+  "target_bytes": 0,
+  "unique_rows": 17280000
+}
