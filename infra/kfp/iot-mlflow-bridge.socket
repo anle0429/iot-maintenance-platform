@@ -1,6 +1,6 @@
 # K3s pod network only; never bind this socket to the VM's external interface.
 [Unit]
-Description=Private K3s to existing MLflow loopback socket
+Description=Private K3s to existing MLflow socket
 After=k3s.service
 
 [Socket]

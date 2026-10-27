@@ -8,7 +8,7 @@ SOURCE_FILES=[
     'ml/protocol.py','ml/protocols/medium-60d-v1.json','ml/canonical_dataset.py','ml/data_versions.py',
     'ml/mlflow_data_versions.py','ml/model_data_link.py','ml/register_incremental_model.py','ml/portable_model.py',
     'scripts/version-feast-dataset.py','scripts/run-training-notebook.py','scripts/run-versioned-training.py',
-    'scripts/create-versioned-source-binding.py','notebooks/01_failure_training.ipynb',
+    'scripts/create-versioned-source-binding.py','scripts/configure-kfp-registry.py','notebooks/01_failure_training.ipynb',
     'infra/kfp/spark-executor.yaml','infra/kfp/versioning-volumes.yaml',
     'infra/kfp/iot-mlflow-bridge.socket','infra/kfp/iot-mlflow-bridge.service',
     'infra/ml-versioning/Feast.Dockerfile','infra/ml-versioning/Spark.Dockerfile',

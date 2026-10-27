@@ -1,11 +1,12 @@
-# Preserve the existing MLflow server and its loopback-only Docker publication.
+# Preserve the existing MLflow server; the upstream is read from its actual private Docker address.
 [Unit]
 Description=Proxy the private K3s socket to existing local MLflow
 Requires=iot-mlflow-bridge.socket
 After=iot-mlflow-bridge.socket
 
 [Service]
-ExecStart=/lib/systemd/systemd-socket-proxyd 127.0.0.1:15000
+EnvironmentFile=/etc/iot-coursework/mlflow-bridge.env
+ExecStart=/lib/systemd/systemd-socket-proxyd ${IOT_MLFLOW_UPSTREAM}
 DynamicUser=yes
 NoNewPrivileges=yes
 PrivateTmp=yes
