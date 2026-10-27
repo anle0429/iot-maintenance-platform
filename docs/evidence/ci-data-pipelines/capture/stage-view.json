@@ -1,0 +1,132 @@
+{
+  "_links": {
+    "self": {
+      "href": "/job/iot-dp1-dp3/2/wfapi/describe"
+    },
+    "artifacts": {
+      "href": "/job/iot-dp1-dp3/2/wfapi/artifacts"
+    }
+  },
+  "id": "2",
+  "name": "#2",
+  "status": "SUCCESS",
+  "startTimeMillis": 1793123951467,
+  "endTimeMillis": 1793124349576,
+  "durationMillis": 398109,
+  "queueDurationMillis": 14,
+  "pauseDurationMillis": 0,
+  "stages": [
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/2/execution/node/10/wfapi/describe"
+        }
+      },
+      "id": "10",
+      "name": "Prepare sealed source",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793123957271,
+      "durationMillis": 881,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/2/execution/node/19/wfapi/describe"
+        }
+      },
+      "id": "19",
+      "name": "Test",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793123958205,
+      "durationMillis": 3469,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/2/execution/node/28/wfapi/describe"
+        }
+      },
+      "id": "28",
+      "name": "Build verified images",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793123961737,
+      "durationMillis": 5003,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/2/execution/node/37/wfapi/describe"
+        }
+      },
+      "id": "37",
+      "name": "Auto-deploy Airflow DAGs",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793123966783,
+      "durationMillis": 605,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/2/execution/node/46/wfapi/describe"
+        }
+      },
+      "id": "46",
+      "name": "DP1 ingest validate publish",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793123967439,
+      "durationMillis": 127108,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/2/execution/node/59/wfapi/describe"
+        }
+      },
+      "id": "59",
+      "name": "DP2 warehouse validate publish",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793124094607,
+      "durationMillis": 141988,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/2/execution/node/72/wfapi/describe"
+        }
+      },
+      "id": "72",
+      "name": "DP3 features validate publish",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793124236658,
+      "durationMillis": 111892,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/2/execution/node/85/wfapi/describe"
+        }
+      },
+      "id": "85",
+      "name": "Declarative: Post Actions",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793124348665,
+      "durationMillis": 647,
+      "pauseDurationMillis": 0
+    }
+  ]
+}

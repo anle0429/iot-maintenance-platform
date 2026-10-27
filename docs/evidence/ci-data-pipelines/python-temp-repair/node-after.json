@@ -1,0 +1,30 @@
+{
+  "_class": "hudson.model.ComputerSet",
+  "computer": [
+    {
+      "_class": "hudson.model.Hudson$MasterComputer",
+      "displayName": "Built-In Node",
+      "monitorData": {
+        "hudson.node_monitors.SwapSpaceMonitor": {
+          "_class": "hudson.node_monitors.SwapSpaceMonitor$MemoryUsage2"
+        },
+        "hudson.node_monitors.TemporarySpaceMonitor": {
+          "_class": "hudson.node_monitors.DiskSpaceMonitorDescriptor$DiskSpace"
+        },
+        "hudson.node_monitors.DiskSpaceMonitor": {
+          "_class": "hudson.node_monitors.DiskSpaceMonitorDescriptor$DiskSpace"
+        },
+        "hudson.node_monitors.ArchitectureMonitor": "Linux (amd64)",
+        "hudson.node_monitors.ResponseTimeMonitor": {
+          "_class": "hudson.node_monitors.ResponseTimeMonitor$Data"
+        },
+        "hudson.node_monitors.ClockMonitor": {
+          "_class": "hudson.util.ClockDifference"
+        }
+      },
+      "offline": false,
+      "offlineCauseReason": "",
+      "temporarilyOffline": false
+    }
+  ]
+}

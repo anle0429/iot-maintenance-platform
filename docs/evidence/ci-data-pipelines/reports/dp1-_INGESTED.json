@@ -1,0 +1,535 @@
+{
+  "application_id": "local-1793123987396",
+  "batch": "jenkins-2-1",
+  "code_sha256": [
+    {
+      "path": "generator/__init__.py",
+      "sha256": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172"
+    },
+    {
+      "path": "generator/__main__.py",
+      "sha256": "045e4f5ac449b48e75856dba9a3a1c25cca6d985e5ba57bcc86792f893c25ba5"
+    },
+    {
+      "path": "generator/capacity.py",
+      "sha256": "da846d8671936ea371226581c504071e05905d03afb2fbf43861a854373c5241"
+    },
+    {
+      "path": "generator/chunk_quality.py",
+      "sha256": "a8ff63b5f518dbd117ea92926e08b8d2d98dc24601fe359eebab1faca042e79e"
+    },
+    {
+      "path": "generator/chunked.py",
+      "sha256": "9b8705e9156966c08c02fd604739c3cb416a48fbc0881f21c5cce735e03f1b2c"
+    },
+    {
+      "path": "generator/config.py",
+      "sha256": "087682ae48dceb64865cdca983b7642ab9d256bb0083da165d296196c21cb3de"
+    },
+    {
+      "path": "generator/drift.py",
+      "sha256": "a8398b3d513356b15e1cd6deaca9dcabb627df1126aaf7e8e4077841671cc18e"
+    },
+    {
+      "path": "generator/quality.py",
+      "sha256": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000"
+    },
+    {
+      "path": "generator/simulation.py",
+      "sha256": "1179f67674b71c3c9b1b09d3a72f32f24df30647004b0ccf82fecebe673a360c"
+    },
+    {
+      "path": "generator/storage.py",
+      "sha256": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d"
+    },
+    {
+      "path": "pipelines/__init__.py",
+      "sha256": "3fa18d7c6802d683dbcc51d2e39ebc899374ed8cba9eeee50bd5eb00ba57f90c"
+    },
+    {
+      "path": "pipelines/airflow_tasks.py",
+      "sha256": "c657b418c10c5e0fe7345b2b3d7550c965a4cf3dfaf8f0095d5f37b0e97fdedc"
+    },
+    {
+      "path": "pipelines/batch_job.py",
+      "sha256": "7d6f623dbdf0c9db0041cc82a604ba16c191e0cf6d40bb4a399c2f67309bae09"
+    },
+    {
+      "path": "pipelines/bounded_features.py",
+      "sha256": "84031099243e0edb2b820b9a6c6ba19815e451180727a436749be596b7b34033"
+    },
+    {
+      "path": "pipelines/chunk_ingest.py",
+      "sha256": "bdfd8c4454198710c77b0877ff326b6f89f2f40e5299336ac9ba953df9e160a8"
+    },
+    {
+      "path": "pipelines/chunk_source.py",
+      "sha256": "0e0e14b524632f3f3be658cdd800af6216c450f556aadebb53440f9cb5dcb63a"
+    },
+    {
+      "path": "pipelines/ci_metadata.py",
+      "sha256": "1b23fc699588026e837837d205b0ff2838e66f0e0fa1f5876da21f43eda09205"
+    },
+    {
+      "path": "pipelines/factory_policy.py",
+      "sha256": "5d996c0f0b6f8f010f89c152f086688e5319b9cbd90d70d682f3a091d5d3365e"
+    },
+    {
+      "path": "pipelines/feature_checks.py",
+      "sha256": "97128853c033f445ab956d7dbf5d481bc65593ddaf167196150caf77167ecc4d"
+    },
+    {
+      "path": "pipelines/feature_dataset.py",
+      "sha256": "b1494e49143cf46373edf3ad91f22495e128685677dc6e4b9373cb0b455ebfe8"
+    },
+    {
+      "path": "pipelines/features.py",
+      "sha256": "701f8b979d10da87724945fc79e625978d0807f3ffe0ece35a045069bbd37af4"
+    },
+    {
+      "path": "pipelines/ingest_budget.py",
+      "sha256": "9a9b52df51bf2d32acee113c0b07751797a1dd36c44f0c6837e4753fb8fc2e5d"
+    },
+    {
+      "path": "pipelines/ingest_control.py",
+      "sha256": "daf3bea54dea6d12843d268cf62b922d79ef27bad17586c508352bcdbbf09661"
+    },
+    {
+      "path": "pipelines/ingest_metrics.py",
+      "sha256": "cf1cc2ab9fb36d6ff2468413dbdb967e97c40670477d3b9a1842b822a3d93cb9"
+    },
+    {
+      "path": "pipelines/metadata_publish.py",
+      "sha256": "348edd61be0956c29cb4d944e6d3910093016b569395cbf36527db65cc05bff3"
+    },
+    {
+      "path": "pipelines/orchestrated_job.py",
+      "sha256": "0b52842cb7130c3352263dbf9b69996e5c77869552728656d37b8ed832452f0c"
+    },
+    {
+      "path": "pipelines/orchestration_contract.py",
+      "sha256": "ba13ec6b1083fa84a65488f3de4192eae48bd7768f8a877363cfc808f12e977a"
+    },
+    {
+      "path": "pipelines/scale_budget.py",
+      "sha256": "aa74ff1b37ad1901b055104e9e760af91fe24afe220d0effc836b844394bb21c"
+    },
+    {
+      "path": "pipelines/skew_job.py",
+      "sha256": "37f42bbf7f72a350b56d92c10c0d8a782d13d3727e4254d5303b76d41bc71c65"
+    },
+    {
+      "path": "pipelines/skew_metrics.py",
+      "sha256": "7a5cf4e004b7e2606016d546c911c154bc4b09c307861f456a559350736c274e"
+    },
+    {
+      "path": "pipelines/source_loader.py",
+      "sha256": "fb2e1688a9c9150c2a17fc2fa660541f76cf1cdff38f211b7780f8082f6b97cb"
+    },
+    {
+      "path": "pipelines/source_runtime.py",
+      "sha256": "9cb46d0777e96a575d94af7b0d1c34c3aa0170ca48766deaa3e52dddef47d6e6"
+    },
+    {
+      "path": "pipelines/spark_checks.py",
+      "sha256": "922658ecfafda7f7645406d82604266b410b574341e1a020683dc4f416625d06"
+    },
+    {
+      "path": "pipelines/stream_contract.py",
+      "sha256": "cd2a85c2bd8dda070ac0e174d12ac787201412425f75899a63c4580d69f9de06"
+    },
+    {
+      "path": "pipelines/stream_job.py",
+      "sha256": "478c4c9c7b38e56a93e53fd5236c432016e7fe2c3ee829202a4dc7979a9c46db"
+    },
+    {
+      "path": "pipelines/stream_verification.py",
+      "sha256": "7f959636c6ef74c4330a5ca8a9f480696762ecf34ecb506eef69afc947c6f3ae"
+    },
+    {
+      "path": "pipelines/temporal.py",
+      "sha256": "e0f7136601e0f75130832d670d62de834a3c3787d6357be2a865d58a50909e97"
+    },
+    {
+      "path": "pipelines/transforms.py",
+      "sha256": "a05a8aa054cedd4f6da194f487a93601e3d9a8dd1f0bfc359305396279fcaf33"
+    }
+  ],
+  "config": {
+    "duration_hours": 48,
+    "export_delay_seconds": 3600,
+    "failure_threshold": 1.0,
+    "hot_factory_share": 0.7,
+    "late_max_seconds": 600,
+    "late_min_seconds": 300,
+    "late_rate": 0.05,
+    "machine_count": 20,
+    "maintenance_every_hours": 18,
+    "maintenance_minutes": 20,
+    "offline_duplicate_rate": 0.02,
+    "repair_minutes": 45,
+    "retry_delay_seconds": 2,
+    "sample_seconds": 60,
+    "schema_v2_fraction": 0.5,
+    "seed": 42,
+    "start_ts": "2026-10-01T00:00:00Z",
+    "stream_duplicate_rate": 0.015,
+    "wear_per_hour": 0.035
+  },
+  "created_utc": "2026-10-27T18:00:12.611050+00:00",
+  "fault": "",
+  "files": [
+    {
+      "bytes": 4367,
+      "path": "bronze/raw_failures/part-00000-6d8d8840-ad40-4b8e-869a-0c5bc89ac4c6-c000.snappy.parquet",
+      "sha256": "70b505646fc242b16905a977f7093bd5fb2c153d4a6b571c01972f352d6df598"
+    },
+    {
+      "bytes": 3742,
+      "path": "bronze/raw_machines/part-00000-7a7b8013-a4aa-4b97-8e09-7cfa117c0b88-c000.snappy.parquet",
+      "sha256": "dc260af6fef1c9a808c5a7c29b33f31d0656d290dfdcd3ba0302c39851dece01"
+    },
+    {
+      "bytes": 4863,
+      "path": "bronze/raw_maintenance/part-00000-1163d907-9e0c-4fbe-9b5b-249ab16a9667-c000.snappy.parquet",
+      "sha256": "04a3ac779374295b6859074f31d9d84c9d2b8d65fa3a949aba42bf828d582ae8"
+    },
+    {
+      "bytes": 573757,
+      "path": "bronze/raw_telemetry/part-00000-50c48242-29e8-4b67-8ee9-9281a212430d-c000.snappy.parquet",
+      "sha256": "595da39963b96bf635168f83113b032d8831b38fc79ef91203e04d7fed23262b"
+    },
+    {
+      "bytes": 573065,
+      "path": "bronze/raw_telemetry/part-00001-50c48242-29e8-4b67-8ee9-9281a212430d-c000.snappy.parquet",
+      "sha256": "811744326adbc47d057fe16b142f4dce71e5e20cd11d93c7e74ff9a5f0cb3dd7"
+    },
+    {
+      "bytes": 573255,
+      "path": "bronze/raw_telemetry/part-00002-50c48242-29e8-4b67-8ee9-9281a212430d-c000.snappy.parquet",
+      "sha256": "927bfdde10d257b20daa4f8f58424957e0cf321300939f48eed3ba24e7e86455"
+    },
+    {
+      "bytes": 573465,
+      "path": "bronze/raw_telemetry/part-00003-50c48242-29e8-4b67-8ee9-9281a212430d-c000.snappy.parquet",
+      "sha256": "cf8b207207c43b6c7317561c43b46fe4ceda182fd6808041fbde931e81f69460"
+    }
+  ],
+  "known_answer_checks": {},
+  "python": "3.10.12",
+  "receipt_sha256": "b7582b0b7c2645fa5fa27bca531d7fec5fb0f190d494f76c12dc9029fa6b8a1b",
+  "source_manifest_sha256": "139ca56f976c0799fae0e37bc227a6dc173e395987271fcbeea844450f8836a9",
+  "spark": "3.5.9",
+  "stage": "dp1",
+  "tables": {
+    "bronze/raw_failures": {
+      "rows": 31,
+      "schema": {
+        "fields": [
+          {
+            "metadata": {},
+            "name": "failure_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "machine_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "failure_type",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "failure_start_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "recovered_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "recorded_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "source_path",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "source_manifest_sha256",
+            "nullable": true,
+            "type": "string"
+          }
+        ],
+        "type": "struct"
+      }
+    },
+    "bronze/raw_machines": {
+      "rows": 20,
+      "schema": {
+        "fields": [
+          {
+            "metadata": {},
+            "name": "machine_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "factory_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "machine_type",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "installed_at",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "valid_from_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "valid_to_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "rated_rpm",
+            "nullable": true,
+            "type": "integer"
+          },
+          {
+            "metadata": {},
+            "name": "is_current",
+            "nullable": true,
+            "type": "boolean"
+          },
+          {
+            "metadata": {},
+            "name": "source_path",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "source_manifest_sha256",
+            "nullable": true,
+            "type": "string"
+          }
+        ],
+        "type": "struct"
+      }
+    },
+    "bronze/raw_maintenance": {
+      "rows": 39,
+      "schema": {
+        "fields": [
+          {
+            "metadata": {},
+            "name": "maintenance_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "machine_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "maintenance_type",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "component",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "start_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "end_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "created_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "source_path",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "source_manifest_sha256",
+            "nullable": true,
+            "type": "string"
+          }
+        ],
+        "type": "struct"
+      }
+    },
+    "bronze/raw_telemetry": {
+      "rows": 58752,
+      "schema": {
+        "fields": [
+          {
+            "metadata": {},
+            "name": "event_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "machine_id",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "operating_status",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "event_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "received_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "created_ts",
+            "nullable": true,
+            "type": "timestamp"
+          },
+          {
+            "metadata": {},
+            "name": "temperature_c",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "vibration_rms_mm_s",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "current_a",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "rpm",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "pressure_bar",
+            "nullable": true,
+            "type": "double"
+          },
+          {
+            "metadata": {},
+            "name": "schema_version",
+            "nullable": true,
+            "type": "integer"
+          },
+          {
+            "metadata": {},
+            "name": "source_path",
+            "nullable": true,
+            "type": "string"
+          },
+          {
+            "metadata": {},
+            "name": "source_manifest_sha256",
+            "nullable": true,
+            "type": "string"
+          }
+        ],
+        "type": "struct"
+      }
+    }
+  },
+  "transformation_sha256": [
+    {
+      "path": "orchestrated_job.py",
+      "sha256": "0b52842cb7130c3352263dbf9b69996e5c77869552728656d37b8ed832452f0c"
+    },
+    {
+      "path": "orchestration_contract.py",
+      "sha256": "ba13ec6b1083fa84a65488f3de4192eae48bd7768f8a877363cfc808f12e977a"
+    },
+    {
+      "path": "chunk_ingest.py",
+      "sha256": "bdfd8c4454198710c77b0877ff326b6f89f2f40e5299336ac9ba953df9e160a8"
+    },
+    {
+      "path": "chunk_source.py",
+      "sha256": "0e0e14b524632f3f3be658cdd800af6216c450f556aadebb53440f9cb5dcb63a"
+    },
+    {
+      "path": "transforms.py",
+      "sha256": "a05a8aa054cedd4f6da194f487a93601e3d9a8dd1f0bfc359305396279fcaf33"
+    },
+    {
+      "path": "features.py",
+      "sha256": "701f8b979d10da87724945fc79e625978d0807f3ffe0ece35a045069bbd37af4"
+    },
+    {
+      "path": "spark_checks.py",
+      "sha256": "922658ecfafda7f7645406d82604266b410b574341e1a020683dc4f416625d06"
+    }
+  ],
+  "upstream_manifest_sha256": null
+}

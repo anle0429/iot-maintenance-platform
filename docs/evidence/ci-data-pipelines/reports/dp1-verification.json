@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "commit": "c9c29533a57b88f5ed7b4028faf2bff456fdf1ad",
+  "release": "jenkins-2-1",
+  "dag_id": "iot_ci_dp1_bronze",
+  "rules_passed": 17,
+  "containers": {
+    "ingest": {
+      "container_id": "682c56a06b3d413d2fea5c4291cb5ac0ad5877291ca74f3d506a88fc65257247",
+      "image_id": "sha256:09d6a9824d81c747162be2e426199b1469a13f0cf634465a66664454d54012aa",
+      "exit_code": 0,
+      "oom_killed": false,
+      "started_utc": "2026-10-27T17:59:37.815965565Z",
+      "finished_utc": "2026-10-27T18:00:13.374574226Z",
+      "memory_limit": 5368709120,
+      "nano_cpus": 2000000000,
+      "commit": "c9c29533a57b88f5ed7b4028faf2bff456fdf1ad",
+      "release": "jenkins-2-1",
+      "stage": "dp1",
+      "operation": "ingest"
+    },
+    "validate": {
+      "container_id": "5c28b5a0ab3fea28ffb4d2c23d81e24afe8b7eab5f8ba097df98338df7d4ff2d",
+      "image_id": "sha256:09d6a9824d81c747162be2e426199b1469a13f0cf634465a66664454d54012aa",
+      "exit_code": 0,
+      "oom_killed": false,
+      "started_utc": "2026-10-27T18:00:14.544254006Z",
+      "finished_utc": "2026-10-27T18:01:01.682884283Z",
+      "memory_limit": 5368709120,
+      "nano_cpus": 2000000000,
+      "commit": "c9c29533a57b88f5ed7b4028faf2bff456fdf1ad",
+      "release": "jenkins-2-1",
+      "stage": "dp1",
+      "operation": "validate"
+    },
+    "publish": {
+      "container_id": "271968ed6b9e689820c42e5e477debf9227acf768a021ebd6457c9a24aa809ff",
+      "image_id": "sha256:596fa84856ff0bd531fa2fc83e2bc271a1fa46cf7c8c701fdbd7c9b5afffcb8c",
+      "exit_code": 0,
+      "oom_killed": false,
+      "started_utc": "2026-10-27T18:01:03.223360007Z",
+      "finished_utc": "2026-10-27T18:01:16.548963662Z",
+      "memory_limit": 2147483648,
+      "nano_cpus": 1000000000,
+      "commit": "c9c29533a57b88f5ed7b4028faf2bff456fdf1ad",
+      "release": "jenkins-2-1",
+      "stage": "dp1",
+      "operation": "publish"
+    }
+  },
+  "completed_utc": "2026-10-27T18:01:20.899970+00:00",
+  "scope": "Real Jenkins test/build/auto-deploy, Airflow ingest/validate/DataHub publish on the continuous 20-machine48h pilot. Not100GB CI or production-model API CI."
+}

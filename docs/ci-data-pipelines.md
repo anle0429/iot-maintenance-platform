@@ -22,6 +22,34 @@ Cách dùng: chuẩn bị snapshot có commit/file hashes, chọn `SOURCE_COMMIT
 
 [Docker Jenkins chính thức](https://www.jenkins.io/doc/book/installing/docker/), [Pipeline](https://www.jenkins.io/doc/book/pipeline/), [Credentials Binding](https://plugins.jenkins.io/credentials-binding/).
 
-## Trạng thái
+## Kết quả native ngày27/10
 
-Checkpoint27/10: compile và34tests PC đã qua; Jenkins source đang chuẩn bị chạy thật. Chưa đánh dấu F30–F32 có bằng chứng chỉ từ code/config. Native receipts, ảnh stage và commit thực chạy sẽ bổ sung sau khi hoàn tất.
+**Jenkins build#2 SUCCESS**, commit nguồn `c9c29533a57b88f5ed7b4028faf2bff456fdf1ad`, runtime6phút38giây. Đây là một release phối hợp ba data pipeline, dùng chung test/build/deploy và kiểm riêng từng DAG. [Receipt cuối](evidence/ci-data-pipelines/native/verification.json), [stage API gốc](evidence/ci-data-pipelines/capture/stage-view.json), [commit trong UI](evidence/ci-data-pipelines/screenshots/jenkins-build2-source-commit.jpg).
+
+![Jenkins native: build2 xanh, build1 lỗi vẫn giữ](evidence/ci-data-pipelines/screenshots/jenkins-build2-all-stages.jpg)
+
+| Pipeline thực | Task ingest/validate/publish | Rules Spark | Đầu ra pilot |
+|---|---|---:|---|
+| [DP1](evidence/ci-data-pipelines/reports/dp1-verification.json) |3success|17/17|58.752 Bronze telemetry rows|
+| [DP2](evidence/ci-data-pipelines/reports/dp2-verification.json) |3success|32/32|57.600 unique Silver/Gold telemetry|
+| [DP3](evidence/ci-data-pipelines/reports/dp3-verification.json) |3success|15/15|11.520 feature rows và bảng nhãn riêng|
+
+Native **34tests qua**; pilot được full readback bằng đúng validator của release trước khi build. Hai image có source hash đã kiểm trong container độc lập; cả9container nghiệp vụ chạy đúng image ID mới đã build, exit0/khôngOOM. [Build/source/image receipt](evidence/ci-data-pipelines/reports/build.json), [source validation](evidence/ci-data-pipelines/reports/source-receipt.json), [test console](evidence/ci-data-pipelines/native/console.txt).
+
+[GraphQL readback14datasets](evidence/ci-data-pipelines/indexed/datahub.json) còn kiểm được producing job của đúng CI DAG và assertion run ID `jenkins-2-1`, không chỉ acknowledgment ghi metadata. Adapter [ci_metadata.py](../pipelines/ci_metadata.py) dùng đúng `iot_ci_dp*` trong tiến trình publish riêng; giữ nguyên publisher và các DAG thủ công cũ. Đây là pilot20máy48giờ; không nhận là CI100GB, CI production-model API hoặc CI huấn luyện.
+
+[Ảnh DP1](evidence/ci-data-pipelines/screenshots/dp1-native-verification.jpg), [DP2](evidence/ci-data-pipelines/screenshots/dp2-native-verification.jpg), [DP3](evidence/ci-data-pipelines/screenshots/dp3-native-verification.jpg) chụp đúng artifact do Jenkins lưu. Response HTTP của cả ba artifact giống từng byte với native report đã niêm phong. [Capture hashes](evidence/ci-data-pipelines/screenshots/capture.json), [83member capsule/map](evidence/ci-data-pipelines/capture/evidence-map.json), [manifest82payload](evidence/ci-data-pipelines/capture/manifest.json), [source bindings thành công/thất bại](evidence/ci-data-pipelines/capture/source-commit.json).
+
+## Lần lỗi và cách sửa
+
+Build#1 dừng ở test vì Python dùng `/tmp`128MiB, thấp hơn reserve1GiB của generator:34tests,28errors. [Console gốc](evidence/ci-data-pipelines/failed-build/console.txt). Các bước build/deploy/DP phía sau bị skip; Stage View tô đỏ chúng nên cần đọc console để hiểu đúng. Không ghi lại kết quả cũ thành PASS.
+
+Jenkins cũng từng đánh node offline do Java temporary space dưới1GiB. Sau đó **cả `TMPDIR` và `-Djava.io.tmpdir` chuyển sang `/var/jenkins_home/tmp` trên HDD hiện có**, giữ nguyên ngưỡng, memory2560MiB/CPU1,5 và guard16GiB/15GB cho CI. [Số đo trước/sau](evidence/ci-data-pipelines/python-temp-repair/verification.json), [runtime thực](evidence/ci-data-pipelines/capture/controller-runtime.json). Bootstrap đã sửa idempotence để restart không thêm bản sao tham số job. Client giữ cookie phiên khi dùng crumb CSRF; CSRF vẫn bật. API plugin cần quyền admin nên công cụ capture dùng xác thực riêng, không mở thêm quyền đọc anonymous.
+
+## Tự xem và chạy lại trên VM đã chuẩn bị
+
+1. Mở IAP tunnel loopback18787 tới cùng cổng18787 của VM, rồi vào `http://127.0.0.1:18787/job/iot-dp1-dp3/`. Xem build#2 và Full Stage View; từ danh sách gốc chọn build#2 để xem artifact/parameters.
+2. Để chạy lại, đăng nhập tài khoản Jenkins `learner` bằng credential riêng trên VM, chọn **Build with Parameters** và giữ source commit đã niêm phong `c9c29533a57b88f5ed7b4028faf2bff456fdf1ad`. Mật khẩu nằm ở runtime riêng `data/runtime/ci/jenkins-private/bootstrap.json`, không gửi vào chat/Git. Airflow credential đã ở Jenkins Credentials.
+3. Build mới tạo workspace/release riêng và chạy cả chuỗi; cần đủ giờ còn lại trước autoSTOP. File dữ liệu/secret/runtime không đi theo clone Git. Source SHA mới phải được xuất từ Git và nhập thành snapshot có manifest trước khi chọn trong job; nhập SHA không có snapshot sẽ bị chặn.
+
+Đây chưa phải SCM webhook. CI materialize/training/model-serving/stream push vẫn là các mốc riêng tiếp theo.

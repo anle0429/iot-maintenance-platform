@@ -1,0 +1,33 @@
+{
+  "container_id": "ac01afa762d78896553cc517a20cd88da10d9a29c338d01e83e715fe97a7c350",
+  "image_id": "sha256:1fe2fc571cda23b3a4c9b52bd4cc485f54bfcb15a281c4c14182410c088787ff",
+  "user": "999:987",
+  "memory_bytes": 2684354560,
+  "nano_cpus": 1500000000,
+  "read_only_root": true,
+  "cap_drop": [
+    "ALL"
+  ],
+  "security_options": [
+    "no-new-privileges"
+  ],
+  "port_bindings": {
+    "8080/tcp": [
+      {
+        "HostIp": "127.0.0.1",
+        "HostPort": "18787"
+      }
+    ]
+  },
+  "tmpfs": {
+    "/tmp": "rw,exec,size=128m"
+  },
+  "temporary_paths": {
+    "python": "/var/jenkins_home/tmp",
+    "java": "/var/jenkins_home/tmp"
+  },
+  "restart_policy": {
+    "Name": "no",
+    "MaximumRetryCount": 0
+  }
+}

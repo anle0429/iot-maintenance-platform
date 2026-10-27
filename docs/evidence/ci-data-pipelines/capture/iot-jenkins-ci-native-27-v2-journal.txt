@@ -1,0 +1,27 @@
+Oct 27 17:33:29 iot-cw-vm systemd[1]: Started iot-jenkins-ci-native-27-v2.service - /usr/bin/python3 /tmp/run-jenkins-ci-native-27-v2.py.
+Oct 27 17:34:14 iot-cw-vm python3[682234]: Traceback (most recent call last):
+Oct 27 17:34:14 iot-cw-vm python3[682234]:   File "/tmp/run-jenkins-ci-native-27-v2.py", line 48, in <module>
+Oct 27 17:34:14 iot-cw-vm python3[682234]:     http('/job/iot-dp1-dp3/buildWithParameters',data=urllib.parse.urlencode({'SOURCE_COMMIT':commit}).encode(),headers=headers)
+Oct 27 17:34:14 iot-cw-vm python3[682234]:   File "/tmp/run-jenkins-ci-native-27-v2.py", line 37, in http
+Oct 27 17:34:14 iot-cw-vm python3[682234]:     with urllib.request.urlopen(request,timeout=30) as response:return response.read(),response.status,dict(response.headers)
+Oct 27 17:34:14 iot-cw-vm python3[682234]:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Oct 27 17:34:14 iot-cw-vm python3[682234]:   File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+Oct 27 17:34:14 iot-cw-vm python3[682234]:     return opener.open(url, data, timeout)
+Oct 27 17:34:14 iot-cw-vm python3[682234]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Oct 27 17:34:14 iot-cw-vm python3[682234]:   File "/usr/lib/python3.12/urllib/request.py", line 521, in open
+Oct 27 17:34:14 iot-cw-vm python3[682234]:     response = meth(req, response)
+Oct 27 17:34:14 iot-cw-vm python3[682234]:                ^^^^^^^^^^^^^^^^^^^
+Oct 27 17:34:14 iot-cw-vm python3[682234]:   File "/usr/lib/python3.12/urllib/request.py", line 630, in http_response
+Oct 27 17:34:14 iot-cw-vm python3[682234]:     response = self.parent.error(
+Oct 27 17:34:14 iot-cw-vm python3[682234]:                ^^^^^^^^^^^^^^^^^^
+Oct 27 17:34:14 iot-cw-vm python3[682234]:   File "/usr/lib/python3.12/urllib/request.py", line 559, in error
+Oct 27 17:34:14 iot-cw-vm python3[682234]:     return self._call_chain(*args)
+Oct 27 17:34:14 iot-cw-vm python3[682234]:            ^^^^^^^^^^^^^^^^^^^^^^^
+Oct 27 17:34:14 iot-cw-vm python3[682234]:   File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+Oct 27 17:34:14 iot-cw-vm python3[682234]:     result = func(*args)
+Oct 27 17:34:14 iot-cw-vm python3[682234]:              ^^^^^^^^^^^
+Oct 27 17:34:14 iot-cw-vm python3[682234]:   File "/usr/lib/python3.12/urllib/request.py", line 639, in http_error_default
+Oct 27 17:34:14 iot-cw-vm python3[682234]:     raise HTTPError(req.full_url, code, msg, hdrs, fp)
+Oct 27 17:34:14 iot-cw-vm python3[682234]: urllib.error.HTTPError: HTTP Error 403: Forbidden
+Oct 27 17:34:14 iot-cw-vm systemd[1]: iot-jenkins-ci-native-27-v2.service: Main process exited, code=exited, status=1/FAILURE
+Oct 27 17:34:14 iot-cw-vm systemd[1]: iot-jenkins-ci-native-27-v2.service: Failed with result 'exit-code'.

@@ -1,0 +1,586 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Still waiting to schedule task
+Waiting for next available executor
+Pausing (shutting down)
+Resuming build at Tue Oct 27 17:44:18 UTC 2026 after Jenkins restart
+Running on Jenkins in /var/jenkins_home/workspace/iot-dp1-dp3
+Ready to run at Tue Oct 27 17:44:18 UTC 2026
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare sealed source)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-dp1-dp3/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-data-pipelines.py test
+test_added_or_missing_part_is_rejected (tests.test_orchestration_contract.ArtifactGateTests.test_added_or_missing_part_is_rejected) ... ok
+test_equal_length_corruption_is_rejected (tests.test_orchestration_contract.ArtifactGateTests.test_equal_length_corruption_is_rejected) ... ok
+test_missing_and_failed_validation_block_consumption (tests.test_orchestration_contract.ArtifactGateTests.test_missing_and_failed_validation_block_consumption) ... ok
+test_partial_directory_is_not_a_completed_stage (tests.test_orchestration_contract.ArtifactGateTests.test_partial_directory_is_not_a_completed_stage) ... ok
+test_successful_retry_preserves_parts (tests.test_orchestration_contract.ArtifactGateTests.test_successful_retry_preserves_parts) ... ok
+test_unsafe_run_ids_cannot_escape_project (tests.test_orchestration_contract.ArtifactGateTests.test_unsafe_run_ids_cannot_escape_project) ... ok
+test_validation_cannot_be_reused_after_manifest_change (tests.test_orchestration_contract.ArtifactGateTests.test_validation_cannot_be_reused_after_manifest_change) ... ok
+test_changed_part_after_validation_invalidates_receipt (tests.test_chunk_source.ChunkSourceTests.test_changed_part_after_validation_invalidates_receipt)
+The Spark-side adapter rehashes actual bytes rather than trusting an old passed flag. ... ERROR
+test_incomplete_generation_cannot_be_opened (tests.test_chunk_source.ChunkSourceTests.test_incomplete_generation_cannot_be_opened)
+A directory without a generation marker is not an ingestible source. ... ERROR
+test_receipt_binds_exact_manifest_and_table_bytes (tests.test_chunk_source.ChunkSourceTests.test_receipt_binds_exact_manifest_and_table_bytes)
+A valid receipt and verified source expose the expected offline records and part sequence. ... ERROR
+test_receipt_for_another_seed_is_rejected (tests.test_chunk_source.ChunkSourceTests.test_receipt_for_another_seed_is_rejected)
+Matching counts are insufficient when the source manifest/config differs. ... ERROR
+test_receipt_validator_version_must_match (tests.test_chunk_source.ChunkSourceTests.test_receipt_validator_version_must_match)
+Receipts from an older validator cannot silently certify a changed validation protocol. ... ERROR
+test_source_and_existing_receipt_are_preserved (tests.test_chunk_source.ChunkSourceTests.test_source_and_existing_receipt_are_preserved)
+Report guards must run before any source or evidence file is overwritten. ... ERROR
+test_source_changed_after_open_is_detected (tests.test_chunk_source.ChunkSourceTests.test_source_changed_after_open_is_detected)
+Post-ingest integrity checks catch mutation of a previously opened source. ... ERROR
+test_stream_is_excluded_even_when_fixture_was_generated (tests.test_chunk_source.ChunkSourceTests.test_stream_is_excluded_even_when_fixture_was_generated)
+Batch ingest must not accidentally count stream copies as additional offline telemetry. ... ERROR
+test_arrival_memory_guard_rejects_shape_before_writing (tests.test_chunked.ChunkedGeneratorTests.test_arrival_memory_guard_rejects_shape_before_writing)
+An unsafe lateness buffer is rejected without creating a partial dataset. ... ERROR
+test_checksum_and_unlisted_file_corruption_are_rejected (tests.test_chunked.ChunkedGeneratorTests.test_checksum_and_unlisted_file_corruption_are_rejected)
+Integrity checks include manifest binding and every file in the source directory. ... ERROR
+test_cli_distinguishes_byte_repeat_from_different_chunk_layout (tests.test_chunked.ChunkedGeneratorTests.test_cli_distinguishes_byte_repeat_from_different_chunk_layout)
+Different chunks may preserve logical data while failing a strict byte-repeat check. ... ERROR
+test_cli_protects_source_and_returns_failure_for_invalid_inspect (tests.test_chunked.ChunkedGeneratorTests.test_cli_protects_source_and_returns_failure_for_invalid_inspect)
+Public commands report failures without overwriting an immutable source file. ... ERROR
+test_decimal_rate_does_not_lose_an_event_at_an_integer_boundary (tests.test_chunked.ChunkedGeneratorTests.test_decimal_rate_does_not_lose_an_event_at_an_integer_boundary)
+180 readings at 70% means 126 selected events, despite binary float multiplication. ... ERROR
+test_exact_global_rates_with_single_row_parts (tests.test_chunked.ChunkedGeneratorTests.test_exact_global_rates_with_single_row_parts)
+N=120 gives two offline extras, six retries and twelve late readings even with chunk_rows=1. ... ERROR
+test_legacy_guard_stays_and_chunked_config_accepts_larger_horizon (tests.test_chunked.ChunkedGeneratorTests.test_legacy_guard_stays_and_chunked_config_accepts_larger_horizon)
+The new writer must not silently remove protection from the old materializing command. ... ok
+test_offline_only_and_capacity_plan_do_not_claim_generated_100gb (tests.test_chunked.ChunkedGeneratorTests.test_offline_only_and_capacity_plan_do_not_claim_generated_100gb)
+A plan uses measured bytes but never creates the target dataset or fabricates stream costs. ... ERROR
+test_overwrite_and_incomplete_run_guards (tests.test_chunked.ChunkedGeneratorTests.test_overwrite_and_incomplete_run_guards)
+An existing run stays intact; hitting a hard byte cap cannot create a completion marker. ... ERROR
+test_pre_refactor_physical_hashes_remain_unchanged (tests.test_chunked.ChunkedGeneratorTests.test_pre_refactor_physical_hashes_remain_unchanged)
+Two hashes captured before extraction protect RNG ordering, wear, stop events and sensors. ... ok
+test_rate_and_firmware_boundaries (tests.test_chunked.ChunkedGeneratorTests.test_rate_and_firmware_boundaries)
+Zero/full anomaly rates and all-v1/all-v2 sources remain valid across empty partitions. ... 
+  test_rate_and_firmware_boundaries (tests.test_chunked.ChunkedGeneratorTests.test_rate_and_firmware_boundaries) (rate=0, fraction=0)
+Zero/full anomaly rates and all-v1/all-v2 sources remain valid across empty partitions. ... ERROR
+  test_rate_and_firmware_boundaries (tests.test_chunked.ChunkedGeneratorTests.test_rate_and_firmware_boundaries) (rate=0, fraction=1)
+Zero/full anomaly rates and all-v1/all-v2 sources remain valid across empty partitions. ... ERROR
+  test_rate_and_firmware_boundaries (tests.test_chunked.ChunkedGeneratorTests.test_rate_and_firmware_boundaries) (rate=1, fraction=0)
+Zero/full anomaly rates and all-v1/all-v2 sources remain valid across empty partitions. ... ERROR
+  test_rate_and_firmware_boundaries (tests.test_chunked.ChunkedGeneratorTests.test_rate_and_firmware_boundaries) (rate=1, fraction=1)
+Zero/full anomaly rates and all-v1/all-v2 sources remain valid across empty partitions. ... ERROR
+test_repeat_is_byte_identical_including_manifests (tests.test_chunked.ChunkedGeneratorTests.test_repeat_is_byte_identical_including_manifests)
+Source metadata must not depend on path, host clock or free disk space. ... ERROR
+test_resealed_conflicting_duplicate_across_parts_is_rejected (tests.test_chunked.ChunkedGeneratorTests.test_resealed_conflicting_duplicate_across_parts_is_rejected)
+An adjacent duplicate may cross file boundaries but cannot alter its measurement. ... ERROR
+test_resealed_missing_failure_truth_is_rejected (tests.test_chunked.ChunkedGeneratorTests.test_resealed_missing_failure_truth_is_rejected)
+A failed motor requires a matching causal failure interval even if all hashes are valid. ... ERROR
+test_resealed_missing_reading_still_fails_grid (tests.test_chunked.ChunkedGeneratorTests.test_resealed_missing_reading_still_fails_grid)
+Valid checksums cannot disguise a hole in the machine/time grid. ... ERROR
+test_resealed_stream_payload_must_match_offline (tests.test_chunked.ChunkedGeneratorTests.test_resealed_stream_payload_must_match_offline)
+A delivery with valid storage checksums still needs the original sensor payload. ... ERROR
+test_storage_chunk_size_does_not_change_logical_history (tests.test_chunked.ChunkedGeneratorTests.test_storage_chunk_size_does_not_change_logical_history)
+Changing file rotation cannot reset simulation, redraw anomalies or reorder stream deliveries. ... ERROR
+test_wear_failure_and_maintenance_continue_across_parts (tests.test_chunked.ChunkedGeneratorTests.test_wear_failure_and_maintenance_continue_across_parts)
+Compare a continuous four-hour history to the pre-existing physical simulator, including stops. ... ERROR
+test_zero_retries_do_not_retain_events_for_an_unused_retry_delay (tests.test_chunked.ChunkedGeneratorTests.test_zero_retries_do_not_retain_events_for_an_unused_retry_delay)
+A disabled retry fault cannot turn a bounded join into a whole-run ID map. ... ERROR
+
+======================================================================
+ERROR: test_changed_part_after_validation_invalidates_receipt (tests.test_chunk_source.ChunkSourceTests.test_changed_part_after_validation_invalidates_receipt)
+The Spark-side adapter rehashes actual bytes rather than trusting an old passed flag.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunk_source.py", line 62, in test_changed_part_after_validation_invalidates_receipt
+    generate_chunked(self.config,root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_incomplete_generation_cannot_be_opened (tests.test_chunk_source.ChunkSourceTests.test_incomplete_generation_cannot_be_opened)
+A directory without a generation marker is not an ingestible source.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunk_source.py", line 111, in test_incomplete_generation_cannot_be_opened
+    generate_chunked(self.config,root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_receipt_binds_exact_manifest_and_table_bytes (tests.test_chunk_source.ChunkSourceTests.test_receipt_binds_exact_manifest_and_table_bytes)
+A valid receipt and verified source expose the expected offline records and part sequence.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunk_source.py", line 27, in test_receipt_binds_exact_manifest_and_table_bytes
+    manifest=generate_chunked(self.config,root,chunk_rows=7)
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_receipt_for_another_seed_is_rejected (tests.test_chunk_source.ChunkSourceTests.test_receipt_for_another_seed_is_rejected)
+Matching counts are insufficient when the source manifest/config differs.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunk_source.py", line 52, in test_receipt_for_another_seed_is_rejected
+    generate_chunked(self.config,left)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_receipt_validator_version_must_match (tests.test_chunk_source.ChunkSourceTests.test_receipt_validator_version_must_match)
+Receipts from an older validator cannot silently certify a changed validation protocol.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunk_source.py", line 85, in test_receipt_validator_version_must_match
+    generate_chunked(self.config,root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_source_and_existing_receipt_are_preserved (tests.test_chunk_source.ChunkSourceTests.test_source_and_existing_receipt_are_preserved)
+Report guards must run before any source or evidence file is overwritten.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunk_source.py", line 96, in test_source_and_existing_receipt_are_preserved
+    generate_chunked(self.config,root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_source_changed_after_open_is_detected (tests.test_chunk_source.ChunkSourceTests.test_source_changed_after_open_is_detected)
+Post-ingest integrity checks catch mutation of a previously opened source.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunk_source.py", line 73, in test_source_changed_after_open_is_detected
+    generate_chunked(self.config,root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_stream_is_excluded_even_when_fixture_was_generated (tests.test_chunk_source.ChunkSourceTests.test_stream_is_excluded_even_when_fixture_was_generated)
+Batch ingest must not accidentally count stream copies as additional offline telemetry.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunk_source.py", line 40, in test_stream_is_excluded_even_when_fixture_was_generated
+    generate_chunked(self.config,root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_arrival_memory_guard_rejects_shape_before_writing (tests.test_chunked.ChunkedGeneratorTests.test_arrival_memory_guard_rejects_shape_before_writing)
+An unsafe lateness buffer is rejected without creating a partial dataset.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 176, in test_arrival_memory_guard_rejects_shape_before_writing
+    generate_chunked(self.config,root,max_buffered_deliveries=1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_checksum_and_unlisted_file_corruption_are_rejected (tests.test_chunked.ChunkedGeneratorTests.test_checksum_and_unlisted_file_corruption_are_rejected)
+Integrity checks include manifest binding and every file in the source directory.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 183, in test_checksum_and_unlisted_file_corruption_are_rejected
+    generate_chunked(self.config,root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_cli_distinguishes_byte_repeat_from_different_chunk_layout (tests.test_chunked.ChunkedGeneratorTests.test_cli_distinguishes_byte_repeat_from_different_chunk_layout)
+Different chunks may preserve logical data while failing a strict byte-repeat check.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 268, in test_cli_distinguishes_byte_repeat_from_different_chunk_layout
+    generate_chunked(self.config,left,chunk_rows=13)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_cli_protects_source_and_returns_failure_for_invalid_inspect (tests.test_chunked.ChunkedGeneratorTests.test_cli_protects_source_and_returns_failure_for_invalid_inspect)
+Public commands report failures without overwriting an immutable source file.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 235, in test_cli_protects_source_and_returns_failure_for_invalid_inspect
+    generate_chunked(self.config,root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_decimal_rate_does_not_lose_an_event_at_an_integer_boundary (tests.test_chunked.ChunkedGeneratorTests.test_decimal_rate_does_not_lose_an_event_at_an_integer_boundary)
+180 readings at 70% means 126 selected events, despite binary float multiplication.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 86, in test_decimal_rate_does_not_lose_an_event_at_an_integer_boundary
+    generate_chunked(config,root,chunk_rows=11)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_exact_global_rates_with_single_row_parts (tests.test_chunked.ChunkedGeneratorTests.test_exact_global_rates_with_single_row_parts)
+N=120 gives two offline extras, six retries and twelve late readings even with chunk_rows=1.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 72, in test_exact_global_rates_with_single_row_parts
+    manifest=generate_chunked(self.config,root,chunk_rows=1)
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_offline_only_and_capacity_plan_do_not_claim_generated_100gb (tests.test_chunked.ChunkedGeneratorTests.test_offline_only_and_capacity_plan_do_not_claim_generated_100gb)
+A plan uses measured bytes but never creates the target dataset or fabricates stream costs.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 144, in test_offline_only_and_capacity_plan_do_not_claim_generated_100gb
+    generate_chunked(self.config,root,include_stream=False)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_overwrite_and_incomplete_run_guards (tests.test_chunked.ChunkedGeneratorTests.test_overwrite_and_incomplete_run_guards)
+An existing run stays intact; hitting a hard byte cap cannot create a completion marker.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 159, in test_overwrite_and_incomplete_run_guards
+    generate_chunked(self.config,root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_rate_and_firmware_boundaries (tests.test_chunked.ChunkedGeneratorTests.test_rate_and_firmware_boundaries) (rate=0, fraction=0)
+Zero/full anomaly rates and all-v1/all-v2 sources remain valid across empty partitions.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 133, in test_rate_and_firmware_boundaries
+    generate_chunked(config,root,chunk_rows=13)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_rate_and_firmware_boundaries (tests.test_chunked.ChunkedGeneratorTests.test_rate_and_firmware_boundaries) (rate=0, fraction=1)
+Zero/full anomaly rates and all-v1/all-v2 sources remain valid across empty partitions.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 133, in test_rate_and_firmware_boundaries
+    generate_chunked(config,root,chunk_rows=13)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_rate_and_firmware_boundaries (tests.test_chunked.ChunkedGeneratorTests.test_rate_and_firmware_boundaries) (rate=1, fraction=0)
+Zero/full anomaly rates and all-v1/all-v2 sources remain valid across empty partitions.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 133, in test_rate_and_firmware_boundaries
+    generate_chunked(config,root,chunk_rows=13)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_rate_and_firmware_boundaries (tests.test_chunked.ChunkedGeneratorTests.test_rate_and_firmware_boundaries) (rate=1, fraction=1)
+Zero/full anomaly rates and all-v1/all-v2 sources remain valid across empty partitions.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 133, in test_rate_and_firmware_boundaries
+    generate_chunked(config,root,chunk_rows=13)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_repeat_is_byte_identical_including_manifests (tests.test_chunked.ChunkedGeneratorTests.test_repeat_is_byte_identical_including_manifests)
+Source metadata must not depend on path, host clock or free disk space.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 106, in test_repeat_is_byte_identical_including_manifests
+    generate_chunked(self.config,root,chunk_rows=17)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_resealed_conflicting_duplicate_across_parts_is_rejected (tests.test_chunked.ChunkedGeneratorTests.test_resealed_conflicting_duplicate_across_parts_is_rejected)
+An adjacent duplicate may cross file boundaries but cannot alter its measurement.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 209, in test_resealed_conflicting_duplicate_across_parts_is_rejected
+    generate_chunked(replace(self.config,offline_duplicate_rate=1),root,chunk_rows=1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_resealed_missing_failure_truth_is_rejected (tests.test_chunked.ChunkedGeneratorTests.test_resealed_missing_failure_truth_is_rejected)
+A failed motor requires a matching causal failure interval even if all hashes are valid.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 255, in test_resealed_missing_failure_truth_is_rejected
+    generate_chunked(replace(self.config,duration_hours=4,wear_per_hour=2),root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_resealed_missing_reading_still_fails_grid (tests.test_chunked.ChunkedGeneratorTests.test_resealed_missing_reading_still_fails_grid)
+Valid checksums cannot disguise a hole in the machine/time grid.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 197, in test_resealed_missing_reading_still_fails_grid
+    generate_chunked(self.config,root,chunk_rows=1000)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_resealed_stream_payload_must_match_offline (tests.test_chunked.ChunkedGeneratorTests.test_resealed_stream_payload_must_match_offline)
+A delivery with valid storage checksums still needs the original sensor payload.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 222, in test_resealed_stream_payload_must_match_offline
+    generate_chunked(self.config,root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_storage_chunk_size_does_not_change_logical_history (tests.test_chunked.ChunkedGeneratorTests.test_storage_chunk_size_does_not_change_logical_history)
+Changing file rotation cannot reset simulation, redraw anomalies or reorder stream deliveries.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 95, in test_storage_chunk_size_does_not_change_logical_history
+    left=generate_chunked(self.config,Path(directory)/'a',chunk_rows=7)
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_wear_failure_and_maintenance_continue_across_parts (tests.test_chunked.ChunkedGeneratorTests.test_wear_failure_and_maintenance_continue_across_parts)
+Compare a continuous four-hour history to the pre-existing physical simulator, including stops.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 116, in test_wear_failure_and_maintenance_continue_across_parts
+    manifest=generate_chunked(config,root,chunk_rows=11)
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+======================================================================
+ERROR: test_zero_retries_do_not_retain_events_for_an_unused_retry_delay (tests.test_chunked.ChunkedGeneratorTests.test_zero_retries_do_not_retain_events_for_an_unused_retry_delay)
+A disabled retry fault cannot turn a bounded join into a whole-run ID map.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/tests/test_chunked.py", line 246, in test_zero_retries_do_not_retain_events_for_an_unused_retry_delay
+    generate_chunked(replace(self.config,stream_duplicate_rate=0,retry_delay_seconds=10**8),root)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 170, in generate_chunked
+    budget.check_disk()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/generator/chunked.py", line 99, in check_disk
+    raise OSError('free disk reached the configured reserve; incomplete run retained')
+OSError: free disk reached the configured reserve; incomplete run retained
+
+----------------------------------------------------------------------
+Ran 34 tests in 0.079s
+
+FAILED (errors=28)
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/scripts/ci-data-pipelines.py", line 205, in <module>
+    run(args)
+    ~~~^^^^^^
+  File "/var/jenkins_home/workspace/iot-dp1-dp3/build-1/scripts/ci-data-pipelines.py", line 72, in run
+    subprocess.run(['python3', '-m', 'unittest', 'tests.test_orchestration_contract',
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        'tests.test_chunk_source', 'tests.test_chunked', '-v'], cwd=ROOT, check=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['python3', '-m', 'unittest', 'tests.test_orchestration_contract', 'tests.test_chunk_source', 'tests.test_chunked', '-v']' returned non-zero exit status 1.
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build verified images)
+Stage "Build verified images" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Auto-deploy Airflow DAGs)
+Stage "Auto-deploy Airflow DAGs" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (DP1 ingest validate publish)
+Stage "DP1 ingest validate publish" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (DP2 warehouse validate publish)
+Stage "DP2 warehouse validate publish" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (DP3 features validate publish)
+Stage "DP3 features validate publish" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] archiveArtifacts
+Archiving artifacts
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-dp1-dp3/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-data-pipelines.py cleanup
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE

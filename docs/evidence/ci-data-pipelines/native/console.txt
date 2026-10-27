@@ -1,0 +1,255 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/iot-dp1-dp3
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 35 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare sealed source)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-dp1-dp3/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-data-pipelines.py test
+test_added_or_missing_part_is_rejected (tests.test_orchestration_contract.ArtifactGateTests.test_added_or_missing_part_is_rejected) ... ok
+test_equal_length_corruption_is_rejected (tests.test_orchestration_contract.ArtifactGateTests.test_equal_length_corruption_is_rejected) ... ok
+test_missing_and_failed_validation_block_consumption (tests.test_orchestration_contract.ArtifactGateTests.test_missing_and_failed_validation_block_consumption) ... ok
+test_partial_directory_is_not_a_completed_stage (tests.test_orchestration_contract.ArtifactGateTests.test_partial_directory_is_not_a_completed_stage) ... ok
+test_successful_retry_preserves_parts (tests.test_orchestration_contract.ArtifactGateTests.test_successful_retry_preserves_parts) ... ok
+test_unsafe_run_ids_cannot_escape_project (tests.test_orchestration_contract.ArtifactGateTests.test_unsafe_run_ids_cannot_escape_project) ... ok
+test_validation_cannot_be_reused_after_manifest_change (tests.test_orchestration_contract.ArtifactGateTests.test_validation_cannot_be_reused_after_manifest_change) ... ok
+test_changed_part_after_validation_invalidates_receipt (tests.test_chunk_source.ChunkSourceTests.test_changed_part_after_validation_invalidates_receipt)
+The Spark-side adapter rehashes actual bytes rather than trusting an old passed flag. ... ok
+test_incomplete_generation_cannot_be_opened (tests.test_chunk_source.ChunkSourceTests.test_incomplete_generation_cannot_be_opened)
+A directory without a generation marker is not an ingestible source. ... ok
+test_receipt_binds_exact_manifest_and_table_bytes (tests.test_chunk_source.ChunkSourceTests.test_receipt_binds_exact_manifest_and_table_bytes)
+A valid receipt and verified source expose the expected offline records and part sequence. ... ok
+test_receipt_for_another_seed_is_rejected (tests.test_chunk_source.ChunkSourceTests.test_receipt_for_another_seed_is_rejected)
+Matching counts are insufficient when the source manifest/config differs. ... ok
+test_receipt_validator_version_must_match (tests.test_chunk_source.ChunkSourceTests.test_receipt_validator_version_must_match)
+Receipts from an older validator cannot silently certify a changed validation protocol. ... ok
+test_source_and_existing_receipt_are_preserved (tests.test_chunk_source.ChunkSourceTests.test_source_and_existing_receipt_are_preserved)
+Report guards must run before any source or evidence file is overwritten. ... ok
+test_source_changed_after_open_is_detected (tests.test_chunk_source.ChunkSourceTests.test_source_changed_after_open_is_detected)
+Post-ingest integrity checks catch mutation of a previously opened source. ... ok
+test_stream_is_excluded_even_when_fixture_was_generated (tests.test_chunk_source.ChunkSourceTests.test_stream_is_excluded_even_when_fixture_was_generated)
+Batch ingest must not accidentally count stream copies as additional offline telemetry. ... ok
+test_arrival_memory_guard_rejects_shape_before_writing (tests.test_chunked.ChunkedGeneratorTests.test_arrival_memory_guard_rejects_shape_before_writing)
+An unsafe lateness buffer is rejected without creating a partial dataset. ... ok
+test_checksum_and_unlisted_file_corruption_are_rejected (tests.test_chunked.ChunkedGeneratorTests.test_checksum_and_unlisted_file_corruption_are_rejected)
+Integrity checks include manifest binding and every file in the source directory. ... ok
+test_cli_distinguishes_byte_repeat_from_different_chunk_layout (tests.test_chunked.ChunkedGeneratorTests.test_cli_distinguishes_byte_repeat_from_different_chunk_layout)
+Different chunks may preserve logical data while failing a strict byte-repeat check. ... ok
+test_cli_protects_source_and_returns_failure_for_invalid_inspect (tests.test_chunked.ChunkedGeneratorTests.test_cli_protects_source_and_returns_failure_for_invalid_inspect)
+Public commands report failures without overwriting an immutable source file. ... ok
+test_decimal_rate_does_not_lose_an_event_at_an_integer_boundary (tests.test_chunked.ChunkedGeneratorTests.test_decimal_rate_does_not_lose_an_event_at_an_integer_boundary)
+180 readings at 70% means 126 selected events, despite binary float multiplication. ... ok
+test_exact_global_rates_with_single_row_parts (tests.test_chunked.ChunkedGeneratorTests.test_exact_global_rates_with_single_row_parts)
+N=120 gives two offline extras, six retries and twelve late readings even with chunk_rows=1. ... ok
+test_legacy_guard_stays_and_chunked_config_accepts_larger_horizon (tests.test_chunked.ChunkedGeneratorTests.test_legacy_guard_stays_and_chunked_config_accepts_larger_horizon)
+The new writer must not silently remove protection from the old materializing command. ... ok
+test_offline_only_and_capacity_plan_do_not_claim_generated_100gb (tests.test_chunked.ChunkedGeneratorTests.test_offline_only_and_capacity_plan_do_not_claim_generated_100gb)
+A plan uses measured bytes but never creates the target dataset or fabricates stream costs. ... ok
+test_overwrite_and_incomplete_run_guards (tests.test_chunked.ChunkedGeneratorTests.test_overwrite_and_incomplete_run_guards)
+An existing run stays intact; hitting a hard byte cap cannot create a completion marker. ... ok
+test_pre_refactor_physical_hashes_remain_unchanged (tests.test_chunked.ChunkedGeneratorTests.test_pre_refactor_physical_hashes_remain_unchanged)
+Two hashes captured before extraction protect RNG ordering, wear, stop events and sensors. ... ok
+test_rate_and_firmware_boundaries (tests.test_chunked.ChunkedGeneratorTests.test_rate_and_firmware_boundaries)
+Zero/full anomaly rates and all-v1/all-v2 sources remain valid across empty partitions. ... ok
+test_repeat_is_byte_identical_including_manifests (tests.test_chunked.ChunkedGeneratorTests.test_repeat_is_byte_identical_including_manifests)
+Source metadata must not depend on path, host clock or free disk space. ... ok
+test_resealed_conflicting_duplicate_across_parts_is_rejected (tests.test_chunked.ChunkedGeneratorTests.test_resealed_conflicting_duplicate_across_parts_is_rejected)
+An adjacent duplicate may cross file boundaries but cannot alter its measurement. ... ok
+test_resealed_missing_failure_truth_is_rejected (tests.test_chunked.ChunkedGeneratorTests.test_resealed_missing_failure_truth_is_rejected)
+A failed motor requires a matching causal failure interval even if all hashes are valid. ... ok
+test_resealed_missing_reading_still_fails_grid (tests.test_chunked.ChunkedGeneratorTests.test_resealed_missing_reading_still_fails_grid)
+Valid checksums cannot disguise a hole in the machine/time grid. ... ok
+test_resealed_stream_payload_must_match_offline (tests.test_chunked.ChunkedGeneratorTests.test_resealed_stream_payload_must_match_offline)
+A delivery with valid storage checksums still needs the original sensor payload. ... ok
+test_storage_chunk_size_does_not_change_logical_history (tests.test_chunked.ChunkedGeneratorTests.test_storage_chunk_size_does_not_change_logical_history)
+Changing file rotation cannot reset simulation, redraw anomalies or reorder stream deliveries. ... ok
+test_wear_failure_and_maintenance_continue_across_parts (tests.test_chunked.ChunkedGeneratorTests.test_wear_failure_and_maintenance_continue_across_parts)
+Compare a continuous four-hour history to the pre-existing physical simulator, including stops. ... ok
+test_zero_retries_do_not_retain_events_for_an_unused_retry_delay (tests.test_chunked.ChunkedGeneratorTests.test_zero_retries_do_not_retain_events_for_an_unused_retry_delay)
+A disabled retry fault cannot turn a bounded join into a whole-run ID map. ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 1.381s
+
+OK
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build verified images)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-dp1-dp3/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-data-pipelines.py build
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from DP.Dockerfile
+#1 transferring dockerfile: 548B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-spark:3.5.9
+#2 DONE 0.0s
+
+#3 [1/4] FROM docker.io/library/iot-coursework-spark:3.5.9@sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417
+#3 resolve docker.io/library/iot-coursework-spark:3.5.9@sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417 0.0s done
+#3 DONE 0.1s
+
+#4 [internal] load build context
+#4 transferring context: 289.69kB 0.0s done
+#4 DONE 0.1s
+
+#5 [2/4] COPY generator /opt/iot-release/generator
+#5 DONE 0.1s
+
+#6 [3/4] COPY pipelines /opt/iot-release/pipelines
+#6 DONE 0.0s
+
+#7 [4/4] WORKDIR /work
+#7 DONE 0.1s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 0.2s done
+#8 exporting manifest sha256:0b41a4c21cac00a6ea1d096343e88f41325d1a803290e43a2ed1504517fd048f 0.0s done
+#8 exporting config sha256:1d2ea33af3604644c5ce9f239504e9ff9305a7ebe8efd88c5335739c243ee9cb 0.0s done
+#8 exporting attestation manifest sha256:3c92d21b3238c36711e05e8c9814662f38c05e9b97a087bfc75bd63cd0060177 0.0s done
+#8 exporting manifest list sha256:09d6a9824d81c747162be2e426199b1469a13f0cf634465a66664454d54012aa 0.0s done
+#8 naming to docker.io/library/iot-ci-spark:jenkins-2-1
+#8 naming to docker.io/library/iot-ci-spark:jenkins-2-1 done
+#8 unpacking to docker.io/library/iot-ci-spark:jenkins-2-1 0.1s done
+#8 DONE 0.4s
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from DP.Dockerfile
+#1 transferring dockerfile: 548B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-metadata:1.6.0
+#2 DONE 0.0s
+
+#3 [internal] load build context
+#3 transferring context: 2.46kB done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/library/iot-coursework-metadata:1.6.0@sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695
+#4 resolve docker.io/library/iot-coursework-metadata:1.6.0@sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695 0.0s done
+#4 DONE 0.1s
+
+#5 [2/4] COPY generator /opt/iot-release/generator
+#5 DONE 0.1s
+
+#6 [3/4] COPY pipelines /opt/iot-release/pipelines
+#6 DONE 0.1s
+
+#7 [4/4] WORKDIR /work
+#7 DONE 0.0s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 0.2s done
+#8 exporting manifest sha256:ec01438090ec143d410cf7ef95517f728b34e8280ac3b4651ba591305ad42b99 0.0s done
+#8 exporting config sha256:34eec2383375a9268b2ee3d78faa33d250b8c7154f2932f4e14edf609cd88f6b 0.0s done
+#8 exporting attestation manifest sha256:9df78c54a1b23c96b2e0d49fa515e70116efab1fdc2eccb79c03ddc7da612eb7 0.0s done
+#8 exporting manifest list sha256:596fa84856ff0bd531fa2fc83e2bc271a1fa46cf7c8c701fdbd7c9b5afffcb8c 0.0s done
+#8 naming to docker.io/library/iot-ci-metadata:jenkins-2-1 done
+#8 unpacking to docker.io/library/iot-ci-metadata:jenkins-2-1 0.1s done
+#8 DONE 0.4s
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Auto-deploy Airflow DAGs)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-dp1-dp3/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-data-pipelines.py deploy
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (DP1 ingest validate publish)
+[Pipeline] withCredentials
+Masking supported pattern matches of $IOT_AIRFLOW_PASSWORD
+[Pipeline] {
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-dp1-dp3/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-data-pipelines.py verify --stage dp1
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (DP2 warehouse validate publish)
+[Pipeline] withCredentials
+Masking supported pattern matches of $IOT_AIRFLOW_PASSWORD
+[Pipeline] {
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-dp1-dp3/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-data-pipelines.py verify --stage dp2
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (DP3 features validate publish)
+[Pipeline] withCredentials
+Masking supported pattern matches of $IOT_AIRFLOW_PASSWORD
+[Pipeline] {
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-dp1-dp3/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-data-pipelines.py verify --stage dp3
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

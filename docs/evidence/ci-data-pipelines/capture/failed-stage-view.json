@@ -1,0 +1,153 @@
+{
+  "_links": {
+    "self": {
+      "href": "/job/iot-dp1-dp3/1/wfapi/describe"
+    }
+  },
+  "id": "1",
+  "name": "#1",
+  "status": "FAILED",
+  "startTimeMillis": 1793122781110,
+  "endTimeMillis": 1793123065414,
+  "durationMillis": 284304,
+  "queueDurationMillis": 14,
+  "pauseDurationMillis": 0,
+  "stages": [
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/1/execution/node/8/wfapi/describe"
+        }
+      },
+      "id": "8",
+      "name": "Prepare sealed source",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793123060279,
+      "durationMillis": 1516,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/1/execution/node/17/wfapi/describe"
+        }
+      },
+      "id": "17",
+      "name": "Test",
+      "execNode": "",
+      "status": "FAILED",
+      "error": {
+        "message": "script returned exit code 1",
+        "type": "hudson.AbortException"
+      },
+      "startTimeMillis": 1793123061911,
+      "durationMillis": 1092,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/1/execution/node/26/wfapi/describe"
+        }
+      },
+      "id": "26",
+      "name": "Build verified images",
+      "execNode": "",
+      "status": "FAILED",
+      "error": {
+        "message": "script returned exit code 1",
+        "type": "hudson.AbortException"
+      },
+      "startTimeMillis": 1793123063094,
+      "durationMillis": 225,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/1/execution/node/31/wfapi/describe"
+        }
+      },
+      "id": "31",
+      "name": "Auto-deploy Airflow DAGs",
+      "execNode": "",
+      "status": "FAILED",
+      "error": {
+        "message": "script returned exit code 1",
+        "type": "hudson.AbortException"
+      },
+      "startTimeMillis": 1793123063396,
+      "durationMillis": 145,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/1/execution/node/36/wfapi/describe"
+        }
+      },
+      "id": "36",
+      "name": "DP1 ingest validate publish",
+      "execNode": "",
+      "status": "FAILED",
+      "error": {
+        "message": "script returned exit code 1",
+        "type": "hudson.AbortException"
+      },
+      "startTimeMillis": 1793123063612,
+      "durationMillis": 125,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/1/execution/node/41/wfapi/describe"
+        }
+      },
+      "id": "41",
+      "name": "DP2 warehouse validate publish",
+      "execNode": "",
+      "status": "FAILED",
+      "error": {
+        "message": "script returned exit code 1",
+        "type": "hudson.AbortException"
+      },
+      "startTimeMillis": 1793123063797,
+      "durationMillis": 118,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/1/execution/node/46/wfapi/describe"
+        }
+      },
+      "id": "46",
+      "name": "DP3 features validate publish",
+      "execNode": "",
+      "status": "FAILED",
+      "error": {
+        "message": "script returned exit code 1",
+        "type": "hudson.AbortException"
+      },
+      "startTimeMillis": 1793123063980,
+      "durationMillis": 135,
+      "pauseDurationMillis": 0
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "/job/iot-dp1-dp3/1/execution/node/51/wfapi/describe"
+        }
+      },
+      "id": "51",
+      "name": "Declarative: Post Actions",
+      "execNode": "",
+      "status": "SUCCESS",
+      "startTimeMillis": 1793123064409,
+      "durationMillis": 697,
+      "pauseDurationMillis": 0
+    }
+  ]
+}

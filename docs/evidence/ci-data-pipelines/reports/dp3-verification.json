@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "commit": "c9c29533a57b88f5ed7b4028faf2bff456fdf1ad",
+  "release": "jenkins-2-1",
+  "dag_id": "iot_ci_dp3_features",
+  "rules_passed": 15,
+  "containers": {
+    "ingest": {
+      "container_id": "12a10cbf59f5e732990f71eae3121e084fa7d17b2540dda7564a1d0bd3b7fb48",
+      "image_id": "sha256:09d6a9824d81c747162be2e426199b1469a13f0cf634465a66664454d54012aa",
+      "exit_code": 0,
+      "oom_killed": false,
+      "started_utc": "2026-10-27T18:03:57.620183575Z",
+      "finished_utc": "2026-10-27T18:05:02.331690855Z",
+      "memory_limit": 5368709120,
+      "nano_cpus": 2000000000,
+      "commit": "c9c29533a57b88f5ed7b4028faf2bff456fdf1ad",
+      "release": "jenkins-2-1",
+      "stage": "dp3",
+      "operation": "ingest"
+    },
+    "validate": {
+      "container_id": "7199b119d6aac0662cdb0930b565b38312a7df54fc6fc2c35fe1a895c26da415",
+      "image_id": "sha256:09d6a9824d81c747162be2e426199b1469a13f0cf634465a66664454d54012aa",
+      "exit_code": 0,
+      "oom_killed": false,
+      "started_utc": "2026-10-27T18:05:04.118382528Z",
+      "finished_utc": "2026-10-27T18:05:31.903631532Z",
+      "memory_limit": 5368709120,
+      "nano_cpus": 2000000000,
+      "commit": "c9c29533a57b88f5ed7b4028faf2bff456fdf1ad",
+      "release": "jenkins-2-1",
+      "stage": "dp3",
+      "operation": "validate"
+    },
+    "publish": {
+      "container_id": "8be8027502af09210f05a92334197e06340760aa7d009c22320954f59f04b967",
+      "image_id": "sha256:596fa84856ff0bd531fa2fc83e2bc271a1fa46cf7c8c701fdbd7c9b5afffcb8c",
+      "exit_code": 0,
+      "oom_killed": false,
+      "started_utc": "2026-10-27T18:05:33.126566323Z",
+      "finished_utc": "2026-10-27T18:05:36.697782209Z",
+      "memory_limit": 2147483648,
+      "nano_cpus": 1000000000,
+      "commit": "c9c29533a57b88f5ed7b4028faf2bff456fdf1ad",
+      "release": "jenkins-2-1",
+      "stage": "dp3",
+      "operation": "publish"
+    }
+  },
+  "completed_utc": "2026-10-27T18:05:39.007596+00:00",
+  "scope": "Real Jenkins test/build/auto-deploy, Airflow ingest/validate/DataHub publish on the continuous 20-machine48h pilot. Not100GB CI or production-model API CI."
+}

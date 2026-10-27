@@ -1,0 +1,41 @@
+{
+  "scope": "Six original browser screenshots of the actual private Jenkins UI/artifacts through IAP. No pixel editing or fabricated console. Artifact HTTP response bytes match the preserved native reports. UI local display and native UTC timestamps may differ.",
+  "files": {
+    "jenkins-build2-all-stages.jpg": {
+      "sha256": "37bda63690522783b3a98c6e5d01087102605da937ab071629901d7151cd2f95",
+      "native_source": "capture/stage-view.json",
+      "source_sha256": "8778bcdd2a9444daa180073085d26053407750484a0d86a3186c20a857f93039",
+      "url": "http://127.0.0.1:18787/job/iot-dp1-dp3/workflow-stage/"
+    },
+    "jenkins-build2-success.jpg": {
+      "sha256": "9ff02c07cb340b59fa618337a350da23f0e24e374f68c861e6bc5228af6e5fcb",
+      "native_source": "native/build.json",
+      "source_sha256": "a3a960c4d960a753143c94ccf0798c83bbbb61889a762fa8922faf1c51176567",
+      "url": "http://127.0.0.1:18787/job/iot-dp1-dp3/2/"
+    },
+    "jenkins-build2-source-commit.jpg": {
+      "sha256": "4a212ab83d3fa89c51c1ab414586b7c7b8646e4a4f6a712a270b31b524d50bd2",
+      "native_source": "native/job-source-binding.json",
+      "source_sha256": "68d067cafc583190db5da19077742822984b07aaf2ac77c50bed30aed7befde0",
+      "url": "http://127.0.0.1:18787/job/iot-dp1-dp3/2/parameters/"
+    },
+    "dp1-native-verification.jpg": {
+      "sha256": "3fdd19ec06297305237e6e8972a633239ed6f87a239188547da97bedb9673929",
+      "native_source": "reports/dp1-verification.json",
+      "source_sha256": "abdecc55a7b08ee023c5210ff1745a94c61fa2e4ae6fc7c13d41b69a49d562b3",
+      "url": "http://127.0.0.1:18787/job/iot-dp1-dp3/2/artifact/build-2/outputs/ci-data-pipelines/dp1-verification.json/*view*/"
+    },
+    "dp2-native-verification.jpg": {
+      "sha256": "828cc1e228e722d2b8b8ced334b2b882351b7f4409b491f60c664265c21051a8",
+      "native_source": "reports/dp2-verification.json",
+      "source_sha256": "fff4cef2d9c0478e7009a28b2d928abe0d4c2ad24910e70469c327d693755e82",
+      "url": "http://127.0.0.1:18787/job/iot-dp1-dp3/2/artifact/build-2/outputs/ci-data-pipelines/dp2-verification.json/*view*/"
+    },
+    "dp3-native-verification.jpg": {
+      "sha256": "7af3ff78433fe4969f9bfccce9f419a45c99106ed6cc4bef6e10ba31b7b21d6f",
+      "native_source": "reports/dp3-verification.json",
+      "source_sha256": "d8c77e238e3d34514da3db1ef275247cdf277fb8826ee2d098ba1f3cc446416f",
+      "url": "http://127.0.0.1:18787/job/iot-dp1-dp3/2/artifact/build-2/outputs/ci-data-pipelines/dp3-verification.json/*view*/"
+    }
+  }
+}
