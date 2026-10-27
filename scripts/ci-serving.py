@@ -9,7 +9,7 @@ from types import SimpleNamespace
 from urllib.request import Request,urlopen
 from urllib.error import HTTPError
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
-from ml.serving_ci import identity,admission,test_gate,deployment_plan,docker_config_digest,check_prediction,check_pods,check_deployment,host_source_path,check_seed_configmap
+from ml.serving_ci import identity,admission,test_gate,deployment_plan,docker_config_digest,check_prediction,check_pods,check_deployment,host_source_path,check_seed_configmap,ab_gate
 from ml.protocol import load_protocol
 from services.predictor.binding import validate_pin
 
@@ -321,6 +321,9 @@ def run(phase):
     elif phase=='switch':c.selected();c.control('switch-host',cluster=True)
     elif phase=='switch-host':
         p,stage=staged_plan(c)
+        evidence=c.out/'ab-verification.json'
+        if not evidence.exists():raise ValueError('Full cutover is blocked until native A/B routing and monitoring are implemented and verified for this release')
+        ab_gate(scoped_receipt(c,'ab-verification.json'),p['pin'],stage['isvc_uid'])
         status=json.loads(subprocess.check_output([c.helm,'status','iot-feature-api','-n','iot-features','-o','json'],text=True))
         values=json.loads(subprocess.check_output([c.helm,'get','values','iot-feature-api','-n','iot-features','--all','-o','json'],text=True))
         save(c.out/'previous.json',{'revision':status['version'],'marker':values.get('revisionMarker'),'observed_utc':datetime.now(timezone.utc).isoformat()})

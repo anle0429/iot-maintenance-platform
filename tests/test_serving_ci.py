@@ -130,6 +130,24 @@ class ServingCITests(unittest.TestCase):
             bad=deepcopy(value);change(bad)
             with self.assertRaises(ValueError):ci.check_seed_configmap(bad,hashes,'seed-uid')
 
+    def test_full_cutover_requires_two_real_cohorts_and_monitoring_readbacks(self):
+        """Use explicit synthetic receipts to test the gate, without claiming a live A/B experiment."""
+        drift={'unique_rows':100,'reference_id':'r','features':{str(i):{'psi':0.0} for i in range(8)}}
+        report={'passed':True,'candidate_pin':pin(),'baseline_pin':LEGACY,'staged_isvc_uid':'new-model-uid','ground_truth_used':False,
+            'observations':[{'variant':'baseline' if i%2==0 else 'candidate','request_id':str(i),'status':200,'latency_ms':1.0,
+                'prediction':{'risk_score':.5,'predicted_failure':0},'model':LEGACY if i%2==0 else pin()} for i in range(200)],
+            'metrics':{'baseline':{'requests':100,'failures':0},'candidate':{'requests':100,'failures':0}},
+            'drift':{'baseline':deepcopy(drift),'candidate':deepcopy(drift)}}
+        self.assertEqual(ci.ab_gate(report,pin(),'new-model-uid'),{'baseline':100,'candidate':100})
+        for change in [lambda r:r.update(passed=False),lambda r:r.update(candidate_pin=LEGACY),lambda r:r.update(baseline_pin=pin()),
+                lambda r:r.update(staged_isvc_uid='old'),lambda r:r.update(ground_truth_used=True),
+                lambda r:r['observations'][0].update(status=503),lambda r:r['observations'][0].update(latency_ms=float('nan')),
+                lambda r:r['observations'][0].update(request_id='1'),lambda r:r['observations'][0].update(variant='unknown'),
+                lambda r:r['observations'].pop(),lambda r:r['metrics']['baseline'].update(requests=99),
+                lambda r:r['drift']['candidate'].update(unique_rows=31),lambda r:r['drift']['candidate']['features']['0'].update(psi=-1)]:
+            bad=deepcopy(report);change(bad)
+            with self.assertRaises(ValueError):ci.ab_gate(bad,pin(),'new-model-uid')
+
     def test_rollout_requires_paired_images_env_seed_and_complete_generation(self):
         value=plan();f=value['feature_values']
         deployment={'metadata':{'generation':3},'status':{'observedGeneration':3,'replicas':1,'updatedReplicas':1,'readyReplicas':1},

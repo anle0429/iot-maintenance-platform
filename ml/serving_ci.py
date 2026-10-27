@@ -123,6 +123,28 @@ def check_seed_configmap(value,hashes,uid=None):
     return value['metadata']['uid']
 
 
+def ab_gate(report,pin,isvc_uid):
+    """Block full cutover until this staged model has actual two-variant routing and monitoring evidence."""
+    candidate=validate_pin(pin);baseline=validate_pin(report['baseline_pin'])
+    if (report.get('passed') is not True or report.get('candidate_pin')!=candidate or baseline['version']==candidate['version']
+            or report.get('staged_isvc_uid')!=isvc_uid or report.get('ground_truth_used') is not False):
+        raise ValueError('A/B evidence does not describe this staged pair without ground truth')
+    counts={'baseline':0,'candidate':0};seen=set()
+    for row in report['observations']:
+        variant=row['variant'];latency=row['latency_ms']
+        if (variant not in counts or row['request_id'] in seen or row['status']!=200 or type(latency) not in [int,float]
+                or not math.isfinite(latency) or latency<0):raise ValueError('A/B routing observations are incomplete or failed')
+        check_prediction(row['prediction'],row['model'],baseline if variant=='baseline' else candidate)
+        counts[variant]+=1;seen.add(row['request_id'])
+    for variant,count in counts.items():
+        metrics=report['metrics'][variant];drift=report['drift'][variant]
+        if (count<100 or metrics['requests']!=count or metrics['failures']!=0 or drift['unique_rows']<32
+                or len(drift['features'])!=8 or not drift.get('reference_id')
+                or any(type(x['psi']) not in [int,float] or not math.isfinite(x['psi']) or x['psi']<0 for x in drift['features'].values())):
+            raise ValueError('A/B needs both100request cohorts, matching counters and label-free drift readbacks')
+    return counts
+
+
 def check_pods(pods,image,config,container):
     """Require actual Ready containers using the imported config digest; ignore only pods already terminating."""
     live=[p for p in pods if not p['metadata'].get('deletionTimestamp')]
