@@ -21,6 +21,8 @@ def package(commit,output):
         'infra/feature-api/Dockerfile','infra/feature-api/Dockerfile.dockerignore','infra/feature-api/helm-values.yaml','infra/feature-api/redis.yaml','infra/kserve/pump-failure.yaml']
     names+=['feature_store/'+n+'.py' for n in ['__init__','common','repository','batch','serving']]
     names+=['models/pump-failure-v1/'+n+'.json' for n in ['portable','lineage','model-pin']]
+    available=set(git('ls-tree','-r','--name-only',resolved).decode().splitlines())
+    if set(names)-available:raise ValueError('Serving source commit lacks required files: '+','.join(sorted(set(names)-available)))
     manifest_path=output.with_suffix('.manifest.json')
     if output.exists() or manifest_path.exists():raise FileExistsError('Preserve previous serving source packets')
     output.parent.mkdir(parents=True,exist_ok=True)
