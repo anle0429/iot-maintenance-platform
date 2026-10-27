@@ -5,6 +5,7 @@ import mlflow
 from mlflow.models import infer_signature
 from mlflow.tracking import MlflowClient
 import numpy as np
+import pandas as pd
 import pyarrow.parquet as pq
 from ml.portable_model import PortablePumpModel
 from ml.protocol import load_protocol,PROTOCOL_SHA256
@@ -58,7 +59,7 @@ def run(args):
             mlflow.log_artifacts(selected['model_path'],'native-spark-model');mlflow.log_artifact(selected['portable_path'],'portable')
             info=mlflow.pyfunc.log_model(name='pump-failure',python_model=PortablePumpModel(),artifacts={'portable':selected['portable_path']},
                 code_paths=[str(Path(__file__).parent)],signature=infer_signature(features,predicted),input_example=features.iloc[:2],
-                pip_requirements=['mlflow==3.17.2','numpy==2.5.4','pandas==2.3.3'])
+                pip_requirements=['mlflow=='+mlflow.__version__,'numpy=='+np.__version__,'pandas=='+pd.__version__])
             version=mlflow.register_model(info.model_uri,'iot-pump-failure-v1')
             client.set_model_version_tag('iot-pump-failure-v1',version.version,'production','false')
             client.set_model_version_tag('iot-pump-failure-v1',version.version,'data_version',link['data_version'])

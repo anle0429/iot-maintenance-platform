@@ -4,6 +4,7 @@ from datetime import datetime,timezone
 from pathlib import Path
 from shutil import disk_usage
 from ml.training_contract import digest,save
+from ml.automatic_versions import context
 
 
 class NotebookRuntime:
@@ -14,18 +15,18 @@ class NotebookRuntime:
         self.deadline=datetime.fromisoformat(deadline_utc.replace('Z','+00:00'))
         if os.name!='posix' or not re.fullmatch('[a-z][a-z0-9-]{2,39}',run):raise ValueError('Use Linux and a safe fresh run name')
         self.guard(5400)
+        self.source_binding=self.root/'data/runtime/ml-versioning/source-snapshot.json'
+        self.binding=context(self.source_binding)
         self.workspace=self.root/'data/ml-workspaces'/run;self.output=self.root/'outputs/notebook'/run
         self.scratch=Path('/srv/iot-fast/ml-scratch')/run
         for p in [self.workspace,self.output,self.scratch]:
             if p.exists():raise ValueError('Preserve previous notebook execution: '+str(p))
         self.images={name:subprocess.check_output(['docker','image','inspect','--format','{{.Id}}',tag],text=True).strip()
-            for name,tag in [('feast','iot-coursework-feast:0.67.0'),('spark','iot-coursework-spark:3.5.9')]}
+            for name,tag in [('feast','iot-coursework-feast-versioned:0.67.0-3.17.2'),('spark','iot-coursework-spark-registry:3.5.9-3.17.2')]}
         for p in [self.workspace,self.output,self.scratch]:p.mkdir(parents=True);p.chmod(0o1777)
         self.base='/ml-data'
         save(self.output/'preflight.json',{'run':run,'checked_utc':datetime.now(timezone.utc).isoformat(),
-            'deadline_utc':deadline_utc,'images':self.images,'code_sha256':{n:digest(self.root/n) for n in
-            ['ml/notebook_load.py','ml/snapshot.py','ml/notebook_runtime.py','ml/training_job.py','ml/training_contract.py','ml/protocols/medium-60d-v1.json',
-             'ml/notebook_validate.py','scripts/run-training-notebook.py','notebooks/01_failure_training.ipynb']},
+            'deadline_utc':deadline_utc,'images':self.images,'source_snapshot_commit':self.binding['commit'],'code_sha256':self.binding['files'],
             'scope':'Executed Jupyter cells, native Feast and bounded local[2] Spark; not distributed training.'})
 
     def guard(self,minimum_seconds=600,phase='initialization'):
@@ -54,7 +55,7 @@ class NotebookRuntime:
         """Execute a fresh unprivileged container with no Docker socket and preserve its real output."""
         self.guard(phase=stage);name=self.run+'-'+stage;console=self.output/(stage+'-console.txt')
         args=['docker','run','--name',name,'--cpus','2','--memory','10g','--memory-swap','10g',
-            '--network','iot-feast_default','--cap-drop','ALL','--security-opt','no-new-privileges',
+            '--network','iot-mlflow_default','--cap-drop','ALL','--security-opt','no-new-privileges',
             '--env','PYTHONPATH=/workspace','--env','FEAST_USAGE=False','--env','IOT_FEAST_REDIS=online:6379',
             '--env','IOT_FEAST_TEMP=/ml-scratch/offline','--env','SPARK_LOCAL_IP=127.0.0.1',
             '--env','OPENBLAS_NUM_THREADS=1','--env','OMP_NUM_THREADS=1',
@@ -62,6 +63,7 @@ class NotebookRuntime:
             '--mount','type=bind,src='+str(self.root/'data/feast')+',dst=/workspace/data/feast',
             '--mount','type=bind,src='+str(self.workspace)+',dst=/ml-data',
             '--mount','type=bind,src='+str(self.scratch)+',dst=/ml-scratch',
+            '--mount','type=bind,src='+str(self.root/'data/data-versions/native-feast-27/cas')+',dst=/data-cas',
             '--entrypoint',command[0],self.images[image],*command[1:]]
         started=time.monotonic()
         with console.open('w') as stream:
@@ -78,7 +80,8 @@ class NotebookRuntime:
 
     def load(self):
         """Export labels and retrieve every eligible snapshot through the actual registered Feast service."""
-        self.container('load','feast',['python','-m','ml.notebook_load','--workspace','/ml-data/input',
+        self.container('load','feast',['python','-m','ml.automatic_versions','--step','load','--workspace','/ml-data',
+            '--source-binding','/workspace/data/runtime/ml-versioning/source-snapshot.json',
             '--output','/ml-data/cohort.json','--protocol','/workspace/ml/protocols/medium-60d-v1.json',
             '--state','/workspace/data/feast/batch-medium-27','--batch-report','/workspace/outputs/feast-batch-27/batch/report.json',
             '--artifacts','/workspace/data/feature-datasets/feature-medium-27-v2/artifacts',
@@ -93,6 +96,11 @@ class NotebookRuntime:
             verification=self.read('validation-reload.json')
             if not verification['passed'] or verification['holdout_rows_opened']!=0 or verification['selection_sha256']!=digest(self.workspace/'selection.json'):
                 raise ValueError('Validate this sealed selection before reproducing the protected holdout')
+            self.container(stage,'spark',['python3','-m','ml.automatic_versions','--step','evaluate',
+                '--workspace','/ml-data','--selection','/ml-data/selection.json','--verification','/ml-data/validation-reload.json',
+                '--output','/ml-data/evaluation.json','--protocol','/workspace/ml/protocols/medium-60d-v1.json',
+                '--source-binding','/workspace/data/runtime/ml-versioning/source-snapshot.json'])
+            return self.read(target)
         self.container(stage,'spark',['/opt/spark/bin/spark-submit','--master','local[2]','--driver-memory','6g',
             '--conf','spark.driver.maxResultSize=128m','--conf','spark.local.dir=/ml-scratch',
             '/workspace/ml/training_job.py','--step',stage,'--workspace','/ml-data',

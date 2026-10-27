@@ -1,0 +1,20 @@
+# Reuse the existing HDD content store; this does not provision a cloud disk.
+apiVersion: v1
+kind: PersistentVolume
+metadata: {name: iot-data-cas}
+spec:
+  capacity: {storage: 5Gi}
+  accessModes: [ReadWriteOnce]
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ''
+  claimRef: {namespace: kubeflow, name: iot-data-cas}
+  hostPath: {path: /srv/iot-data/workspace/iot-maintenance-platform/data/data-versions/native-feast-27/cas, type: Directory}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: {name: iot-data-cas, namespace: kubeflow}
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: {requests: {storage: 5Gi}}
+  storageClassName: ''
+  volumeName: iot-data-cas
