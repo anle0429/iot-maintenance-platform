@@ -1,0 +1,28 @@
+# HELP iot_predictor_requests_total Completed inference requests
+# TYPE iot_predictor_requests_total counter
+iot_predictor_requests_total{outcome="success"} 187.0
+# HELP iot_predictor_requests_created Completed inference requests
+# TYPE iot_predictor_requests_created gauge
+iot_predictor_requests_created{outcome="success"} 1.793140581759222e+09
+# HELP iot_predictor_request_seconds Inference HTTP duration
+# TYPE iot_predictor_request_seconds histogram
+iot_predictor_request_seconds_bucket{le="0.005"} 187.0
+iot_predictor_request_seconds_bucket{le="0.01"} 187.0
+iot_predictor_request_seconds_bucket{le="0.025"} 187.0
+iot_predictor_request_seconds_bucket{le="0.05"} 187.0
+iot_predictor_request_seconds_bucket{le="0.075"} 187.0
+iot_predictor_request_seconds_bucket{le="0.1"} 187.0
+iot_predictor_request_seconds_bucket{le="0.25"} 187.0
+iot_predictor_request_seconds_bucket{le="0.5"} 187.0
+iot_predictor_request_seconds_bucket{le="0.75"} 187.0
+iot_predictor_request_seconds_bucket{le="1.0"} 187.0
+iot_predictor_request_seconds_bucket{le="2.5"} 187.0
+iot_predictor_request_seconds_bucket{le="5.0"} 187.0
+iot_predictor_request_seconds_bucket{le="7.5"} 187.0
+iot_predictor_request_seconds_bucket{le="10.0"} 187.0
+iot_predictor_request_seconds_bucket{le="+Inf"} 187.0
+iot_predictor_request_seconds_count 187.0
+iot_predictor_request_seconds_sum 0.13260319996334147
+# HELP iot_predictor_request_seconds_created Inference HTTP duration
+# TYPE iot_predictor_request_seconds_created gauge
+iot_predictor_request_seconds_created 1.7931405816189947e+09

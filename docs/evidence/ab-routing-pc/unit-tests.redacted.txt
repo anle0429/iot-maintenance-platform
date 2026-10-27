@@ -1,0 +1,14 @@
+....................                                                     [100%]
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.13.14-final-0 _______________
+
+Name                          Stmts   Miss Branch BrPart  Cover   Missing
+-------------------------------------------------------------------------
+services\ab_api\__init__.py       0      0      0      0   100%
+services\ab_api\app.py           64      0     10      0   100%
+services\ab_api\metrics.py       27      0      4      0   100%
+services\ab_api\runtime.py       90      0     40      3    98%   53->exit, 80->exit, 82->exit
+-------------------------------------------------------------------------
+TOTAL                           181      0     54      3    99%
+Coverage JSON written to file outputs/ab-routing-27/coverage-v5.json
+20 passed, 1 warning in 6.07s
