@@ -4,7 +4,7 @@ Description=Private K3s to existing MLflow loopback socket
 After=k3s.service
 
 [Socket]
-ListenStream=10.42.0.1:15002
+ListenStream=10.52.0.1:15002
 NoDelay=true
 
 [Install]
