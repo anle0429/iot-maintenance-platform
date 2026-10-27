@@ -1,0 +1,72 @@
+{
+  "name": "iot-data-versions",
+  "networks": {
+    "default": {
+      "name": "iot-mlflow_default",
+      "ipam": {},
+      "external": true
+    }
+  },
+  "services": {
+    "publisher": {
+      "cap_drop": [
+        "ALL"
+      ],
+      "cpus": 1,
+      "command": null,
+      "entrypoint": null,
+      "environment": {
+        "HOME": "/tmp",
+        "MLFLOW_ENABLE_SYSTEM_METRICS_LOGGING": "false",
+        "MLFLOW_TRACKING_URI": "http://tracking:5000",
+        "PYTHONPATH": "/workspace"
+      },
+      "image": "iot-coursework-mlflow:3.17.2",
+      "mem_limit": "4294967296",
+      "networks": {
+        "default": null
+      },
+      "read_only": true,
+      "security_opt": [
+        "no-new-privileges:true"
+      ],
+      "tmpfs": [
+        "/tmp:rw,nosuid,size=64m,mode=1777"
+      ],
+      "volumes": [
+        {
+          "type": "bind",
+          "source": "/srv/iot-data/workspace/iot-maintenance-platform/ml",
+          "target": "/workspace/ml",
+          "read_only": true,
+          "bind": {}
+        },
+        {
+          "type": "bind",
+          "source": "/srv/iot-data/workspace/iot-maintenance-platform/scripts",
+          "target": "/workspace/scripts",
+          "read_only": true,
+          "bind": {}
+        },
+        {
+          "type": "bind",
+          "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/data-versions/native-feast-27/cas",
+          "target": "/data-cas",
+          "bind": {}
+        },
+        {
+          "type": "bind",
+          "source": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/data-versions-remote-27",
+          "target": "/remote-proof",
+          "bind": {}
+        },
+        {
+          "type": "bind",
+          "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/version-restores/mlflow-native-27",
+          "target": "/remote-restores",
+          "bind": {}
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "receipts": {
+    "initial-59days": {
+      "version": "dbc84c490ff82c81fff167402ba7576463b990ce40bd7ab1768269540f7733f8",
+      "rows_in_version": 3082048,
+      "days_in_version": 59,
+      "new_blob_count": 177,
+      "new_blob_bytes": 728157915,
+      "logical_bytes": 728157915
+    },
+    "append-native-day": {
+      "version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
+      "rows_in_version": 3132184,
+      "days_in_version": 60,
+      "new_blob_count": 3,
+      "new_blob_bytes": 11845783,
+      "logical_bytes": 740003698
+    },
+    "unchanged-replay": {
+      "version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
+      "rows_in_version": 3132184,
+      "days_in_version": 60,
+      "new_blob_count": 0,
+      "new_blob_bytes": 0,
+      "logical_bytes": 740003698
+    }
+  },
+  "scope": "Actual canonical native Feast data: initial59-day window, append60thday, unchanged replay and full exact local restore. This is a controlled incremental-window demonstration, not three new source generations, remote MLflow publication or all100GB."
+}

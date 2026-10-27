@@ -1,0 +1,133 @@
+{
+  "passed": true,
+  "checks": {
+    "two_versions_only_store_changed_blobs": true,
+    "unchanged_replay_no_new_run_or_payload": true,
+    "full_remote_snapshots_restore_exact_known_answers": true,
+    "remote_corrupt_fixture_rejected_before_restore": true,
+    "original_fixture_blob_restored_exact": true
+  },
+  "first": {
+    "passed": true,
+    "version": "eb16a263707a97dfe44355519fdb3457818a1f45236459b4974fe4411f07eeb9",
+    "data_run_id": "cb038f6dcc0b47ac8be665ecaac64074",
+    "data_run_status": "FINISHED",
+    "existing_version_reconciliation": false,
+    "logical_files": 2,
+    "logical_bytes": 28,
+    "new_blob_count": 2,
+    "new_blob_payload_bytes": 28,
+    "new_metadata_payload_bytes": 997,
+    "remote_manifest_path": "dataset-version/manifest.json",
+    "remote_locations_path": "dataset-version/locations.json",
+    "locations_sha256": "6ce98bae51e07c9b8f1b410daab036285201889ac85820e933e1a5f3214931d2",
+    "remote_blob_owner_run_ids": [
+      "cb038f6dcc0b47ac8be665ecaac64074"
+    ],
+    "remote_restore_downloaded_blob_bytes": 28,
+    "remote_restore": {
+      "passed": true,
+      "version": "eb16a263707a97dfe44355519fdb3457818a1f45236459b4974fe4411f07eeb9",
+      "files": 2,
+      "bytes": 28,
+      "all_file_bytes_verified": true
+    },
+    "blob_locations": {
+      "d9dca8970acc4013369e826bfbaabb7885ac2b6eae2f2650bf47bf7920cf3fa9": {
+        "run_id": "cb038f6dcc0b47ac8be665ecaac64074",
+        "artifact_path": "blobs/d9/d9dca8970acc4013369e826bfbaabb7885ac2b6eae2f2650bf47bf7920cf3fa9"
+      },
+      "ff7131fd1842e49630ed8d7277895ca86d3d6900e25dd76a7384f8c472040ef7": {
+        "run_id": "cb038f6dcc0b47ac8be665ecaac64074",
+        "artifact_path": "blobs/ff/ff7131fd1842e49630ed8d7277895ca86d3d6900e25dd76a7384f8c472040ef7"
+      }
+    },
+    "metadata": {
+      "protocol_sha256": "known-answer-json-fixture-not-native-feast",
+      "purpose": "Incremental storage oracle; no model training or IoT quality claim"
+    }
+  },
+  "second": {
+    "passed": true,
+    "version": "080098258c63652b3db54775fb14426465d74f690f89fa3ad18dfe6894dfe94a",
+    "data_run_id": "1822e7da53c047459425d64db37d0067",
+    "data_run_status": "FINISHED",
+    "existing_version_reconciliation": false,
+    "logical_files": 2,
+    "logical_bytes": 28,
+    "new_blob_count": 2,
+    "new_blob_payload_bytes": 28,
+    "new_metadata_payload_bytes": 997,
+    "remote_manifest_path": "dataset-version/manifest.json",
+    "remote_locations_path": "dataset-version/locations.json",
+    "locations_sha256": "deb82a654bbef64c7c1a52bcb89773ec66065220ed1014ab75dc404216e63938",
+    "remote_blob_owner_run_ids": [
+      "1822e7da53c047459425d64db37d0067"
+    ],
+    "remote_restore_downloaded_blob_bytes": 28,
+    "remote_restore": {
+      "passed": true,
+      "version": "080098258c63652b3db54775fb14426465d74f690f89fa3ad18dfe6894dfe94a",
+      "files": 2,
+      "bytes": 28,
+      "all_file_bytes_verified": true
+    },
+    "blob_locations": {
+      "9a49aebddb971cd38e3ce33b380b65784ee817875e4dd58366f679603948bcb6": {
+        "run_id": "1822e7da53c047459425d64db37d0067",
+        "artifact_path": "blobs/9a/9a49aebddb971cd38e3ce33b380b65784ee817875e4dd58366f679603948bcb6"
+      },
+      "59d65c134d56e6823bd391d8285bec8ffa63cbfad7cc33e4f1c1d0b095ecf002": {
+        "run_id": "1822e7da53c047459425d64db37d0067",
+        "artifact_path": "blobs/59/59d65c134d56e6823bd391d8285bec8ffa63cbfad7cc33e4f1c1d0b095ecf002"
+      }
+    },
+    "metadata": {
+      "protocol_sha256": "known-answer-json-fixture-not-native-feast",
+      "purpose": "Incremental storage oracle; no model training or IoT quality claim"
+    }
+  },
+  "replay": {
+    "passed": true,
+    "version": "080098258c63652b3db54775fb14426465d74f690f89fa3ad18dfe6894dfe94a",
+    "data_run_id": "1822e7da53c047459425d64db37d0067",
+    "data_run_status": "FINISHED",
+    "existing_version_reconciliation": true,
+    "logical_files": 2,
+    "logical_bytes": 28,
+    "new_blob_count": 0,
+    "new_blob_payload_bytes": 0,
+    "new_metadata_payload_bytes": 0,
+    "remote_manifest_path": "dataset-version/manifest.json",
+    "remote_locations_path": "dataset-version/locations.json",
+    "locations_sha256": "deb82a654bbef64c7c1a52bcb89773ec66065220ed1014ab75dc404216e63938",
+    "remote_blob_owner_run_ids": [
+      "1822e7da53c047459425d64db37d0067"
+    ],
+    "remote_restore_downloaded_blob_bytes": 28,
+    "remote_restore": {
+      "passed": true,
+      "version": "080098258c63652b3db54775fb14426465d74f690f89fa3ad18dfe6894dfe94a",
+      "files": 2,
+      "bytes": 28,
+      "all_file_bytes_verified": true
+    },
+    "blob_locations": {
+      "9a49aebddb971cd38e3ce33b380b65784ee817875e4dd58366f679603948bcb6": {
+        "artifact_path": "blobs/9a/9a49aebddb971cd38e3ce33b380b65784ee817875e4dd58366f679603948bcb6",
+        "run_id": "1822e7da53c047459425d64db37d0067"
+      },
+      "59d65c134d56e6823bd391d8285bec8ffa63cbfad7cc33e4f1c1d0b095ecf002": {
+        "artifact_path": "blobs/59/59d65c134d56e6823bd391d8285bec8ffa63cbfad7cc33e4f1c1d0b095ecf002",
+        "run_id": "1822e7da53c047459425d64db37d0067"
+      }
+    },
+    "metadata": {
+      "protocol_sha256": "known-answer-json-fixture-not-native-feast",
+      "purpose": "Incremental storage oracle; no model training or IoT quality claim"
+    }
+  },
+  "code_sha256": "a71c2b9a0a6dfedc1125a1e3194f895a9d1cf6d531daf19e23f3786ee81b0d4f",
+  "publisher_code_sha256": "13e7196d7f184c91df402a77fb9f7bc351ead7bb9303a736129d91b489976324",
+  "scope": "Tiny synthetic JSON fixture in separate oracle experiment/store, actual MLflow HTTP/artifacts. Corruption targets only newly created fixture blobs and is repaired; no native data/model modified."
+}

@@ -151,3 +151,6 @@ Get-Content outputs/practice-chunks/chunked-report.json
 - [Repo tham khảo](https://github.com/cvinhnguyen/card-fraud-platform).
 
 - [Notebook ML tiếng Việt đã chạy thật](docs/training-notebook.md): Feast → nhãn snapshot → temporal split → train/validation → lưu và nạp lại model.
+
+- [Huấn luyện phân tán trên Kubeflow](docs/distributed-training.md): hai executor thực thi task LR, nguồn trung gian60ngày.
+- [Phiên bản dữ liệu tăng dần](docs/incremental-data-versioning.md): nativeMLflow, phần đổi mới được upload và fullrestore đã kiểm.

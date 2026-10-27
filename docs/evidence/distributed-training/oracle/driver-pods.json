@@ -1,0 +1,350 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-27T13:44:12Z",
+        "generateName": "distributed-smoke-27-v2-",
+        "generation": 1,
+        "labels": {
+          "batch.kubernetes.io/controller-uid": "a440034c-317b-4f24-bfe3-4cabaccaf1b0",
+          "batch.kubernetes.io/job-name": "distributed-smoke-27-v2",
+          "controller-uid": "a440034c-317b-4f24-bfe3-4cabaccaf1b0",
+          "job-name": "distributed-smoke-27-v2"
+        },
+        "name": "distributed-smoke-27-v2-smrmx",
+        "namespace": "kubeflow",
+        "ownerReferences": [
+          {
+            "apiVersion": "batch/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Job",
+            "name": "distributed-smoke-27-v2",
+            "uid": "a440034c-317b-4f24-bfe3-4cabaccaf1b0"
+          }
+        ],
+        "resourceVersion": "13790",
+        "uid": "c3d9b2d1-9951-4c9a-933b-cf05c0d9b9ed"
+      },
+      "spec": {
+        "containers": [
+          {
+            "args": [
+              "--oracle",
+              "--workspace",
+              "/ml-data/distributed-smoke-27-v2",
+              "--protocol",
+              "/workspace/ml/protocols/medium-60d-v1.json",
+              "--output",
+              "/ml-data/distributed-smoke-27-v2/oracle-verification.json"
+            ],
+            "command": [
+              "python3",
+              "/workspace/ml/distributed_submit.py"
+            ],
+            "env": [
+              {
+                "name": "HOME",
+                "value": "/tmp"
+              },
+              {
+                "name": "PYTHONPATH",
+                "value": "/workspace"
+              },
+              {
+                "name": "OPENBLAS_NUM_THREADS",
+                "value": "1"
+              },
+              {
+                "name": "OMP_NUM_THREADS",
+                "value": "1"
+              },
+              {
+                "name": "IOT_DRIVER_POD",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "IOT_DRIVER_IP",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "status.podIP"
+                  }
+                }
+              }
+            ],
+            "image": "iot-coursework-spark:3.5.9",
+            "imagePullPolicy": "Never",
+            "name": "driver",
+            "resources": {
+              "limits": {
+                "cpu": "2",
+                "memory": "10Gi"
+              },
+              "requests": {
+                "cpu": "500m",
+                "memory": "2Gi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/workspace",
+                "name": "code",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/ml-data",
+                "name": "data"
+              },
+              {
+                "mountPath": "/ml-scratch",
+                "name": "scratch"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-trgcv",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "iot-cw-vm",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "runAsGroup": 10001,
+          "runAsNonRoot": true,
+          "runAsUser": 185,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "pipeline-runner",
+        "serviceAccountName": "pipeline-runner",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "name": "code",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-code"
+            }
+          },
+          {
+            "name": "data",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-workspace"
+            }
+          },
+          {
+            "name": "scratch",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-scratch"
+            }
+          },
+          {
+            "name": "kube-api-access-trgcv",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ],
+                    "name": "kube-root-ca.crt"
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        },
+                        "path": "namespace"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:45:44Z",
+            "observedGeneration": 1,
+            "status": "False",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:44:12Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:45:43Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:45:43Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:44:12Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "500m",
+              "memory": "2Gi"
+            },
+            "containerID": "containerd://7f590250f2e61b592af4ab9b817d542d92e6c66b48006685224dee732ae2c3a6",
+            "image": "docker.io/library/iot-coursework-spark:3.5.9",
+            "imageID": "sha256:1195d4c02f43c5e2fc6b1dece2469e98ab959afe84fc17e4af4b0237e503f167",
+            "lastState": {},
+            "name": "driver",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "2",
+                "memory": "10Gi"
+              },
+              "requests": {
+                "cpu": "500m",
+                "memory": "2Gi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://7f590250f2e61b592af4ab9b817d542d92e6c66b48006685224dee732ae2c3a6",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T13:45:42Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T13:44:12Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 10001,
+                "supplementalGroups": [
+                  10001
+                ],
+                "uid": 185
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/workspace",
+                "name": "code",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/ml-data",
+                "name": "data"
+              },
+              {
+                "mountPath": "/ml-scratch",
+                "name": "scratch"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-trgcv",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "hostIP": "10.42.0.2",
+        "hostIPs": [
+          {
+            "ip": "10.42.0.2"
+          }
+        ],
+        "observedGeneration": 1,
+        "phase": "Succeeded",
+        "podIP": "10.52.0.100",
+        "podIPs": [
+          {
+            "ip": "10.52.0.100"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-27T13:44:12Z"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

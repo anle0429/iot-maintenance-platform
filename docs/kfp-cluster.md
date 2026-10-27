@@ -1,5 +1,7 @@
 # Kubeflow Pipelines trên VM
 
+Cập nhật: [pipeline tương ứng notebook đã train qua hai executor thật](distributed-training.md), với5taskSUCCEEDED. Bốn task bên dưới là bằng chứng lịch sử trước distributedtraining.
+
 Pipeline thực hiện native Feast load → chia theo thời gian → train/chọn ngưỡng bằng validation → đánh giá holdout. Mỗi bước chạy trong pod riêng và truyền artifact có kiểu. [Code cluster](../ml/kfp_cluster.py) dùng nguyên [kernel ML](../ml/training_job.py) và [protocol đã khóa](ml-evaluation-protocol.md).
 
 ## Kết quả đã kiểm chứng

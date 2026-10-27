@@ -1,0 +1,14 @@
+time=2026-10-27T13:26:42.706Z level=INFO msg="capturing logs" argo=true
+time=2026-10-27T13:26:42.707Z level=INFO msg="waiting for signals" argo=true signalPath=/var/run/argo/ctr/main/signal
+I1027 13:26:42.742362      15 main.go:67] Setting log level to: '1'
+I1027 13:26:42.743296      15 cache.go:89] Connecting to cache endpoint ml-pipeline.kubeflow.svc.cluster.local:8887
+I1027 13:26:42.801657      15 registry.go:68] No task-level plugins enabled, returning no-op dispatcher
+E1027 13:26:42.822233      15 launcher_v2.go:449] Component failed to execute successfully: exec: "python": executable file not found in $PATH
+I1027 13:26:42.822263      15 launcher_v2.go:867] Executing uploadOutputArtifacts attempt: 1
+I1027 13:26:42.822269      15 launcher_v2.go:800] outputArtifact in uploadOutputArtifacts call: executor-logs
+I1027 13:26:42.828522      15 object_store.go:231] uploadFile(localFilePath="/minio/mlpipeline/v2/artifacts/iot-notebook-distributed-training-v1/ac613a59-6157-4853-b289-608e9fbc65f6/distributed-train/02f71909-8888-4fd6-95d6-2a5ee1205e26/executor-logs-0", blobFilePath="distributed-train/02f71909-8888-4fd6-95d6-2a5ee1205e26/executor-logs-0")
+I1027 13:26:42.874821      15 launcher_v2.go:206] publish success.
+F1027 13:26:42.907921      15 main.go:59] failed to execute component: exec: "python": executable file not found in $PATH
+time=2026-10-27T13:26:43.709Z level=INFO msg="sub-process exited" argo=true error="exit status 1"
+time=2026-10-27T13:26:43.709Z level=INFO msg="file signal handler exiting due to context cancellation" argo=true
+Error: exit status 1

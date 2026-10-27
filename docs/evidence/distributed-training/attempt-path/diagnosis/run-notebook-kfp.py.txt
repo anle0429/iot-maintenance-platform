@@ -1,0 +1,68 @@
+"""Compile and run notebook-equivalent stages on KFP, checking actual distributed training and source identity."""
+import argparse,json,os,re,subprocess,sys,time
+from datetime import datetime,timezone
+from pathlib import Path
+from shutil import disk_usage
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
+from ml.training_contract import digest,save
+from ml.distributed_evidence import read_logs,summarize
+
+
+def run(args):
+    """Use fresh paths and cancel only this run when actual VM reserves are exhausted."""
+    import kfp
+    from kfp import compiler
+    from ml.kfp_notebook import notebook_pipeline
+    deadline=datetime.fromisoformat(args.deadline_utc.replace('Z','+00:00'))
+    if os.name!='posix' or not re.fullmatch('[a-z][a-z0-9-]{2,39}',args.run):raise ValueError('Use a safe fresh Linux run name')
+    ram=lambda:int(next(l.split()[1] for l in Path('/proc/meminfo').read_text().splitlines() if l.startswith('MemAvailable:')))*1024
+    if deadline.tzinfo is None or (deadline-datetime.now(timezone.utc)).total_seconds()<5400:raise ValueError('Need90minutes before actual VM auto STOP')
+    if ram()<24*1024**3 or min(disk_usage(p).free for p in ['/srv/iot-data','/srv/iot-fast'])<40_000_000_000:raise ValueError('Insufficient distributed ML reserves')
+    out=ROOT/'outputs/kfp-notebook'/args.run;out.mkdir(parents=True,exist_ok=False)
+    workspace=ROOT/'data/ml-workspaces/training-cluster-27'/args.run;workspace.mkdir(exist_ok=False);os.chown(workspace,0,10001);workspace.chmod(0o2775)
+    sources={n:digest(ROOT/n) for n in ['ml/kfp_notebook.py','ml/notebook_load.py','ml/snapshot.py','ml/notebook_validate.py',
+        'ml/notebook_validate_component.py','ml/distributed_submit.py','ml/distributed_job.py','ml/distributed_evidence.py',
+        'ml/kfp_cluster.py','ml/cluster_training_job.py','ml/training_job.py','ml/training_contract.py','ml/protocol.py',
+        'ml/protocols/medium-60d-v1.json','infra/kfp/spark-executor.yaml','scripts/run-notebook-kfp.py']}
+    save(out/'preflight.json',{'checked_utc':datetime.now(timezone.utc).isoformat(),'code_sha256':sources,
+        'deadline_utc':args.deadline_utc,'ram_available_bytes':ram(),'sdk_version':kfp.__version__,
+        'scope':'Native KFP, notebook parity, actual executor proof required; fixed-protocol reproduction, no retuning.'})
+    package=out/'pipeline.yaml';compiler.Compiler().compile(notebook_pipeline,str(package))
+    k=['/usr/local/bin/k3s','kubectl'];service=json.loads(subprocess.check_output(k+['get','service','ml-pipeline','-n','kubeflow','-o','json'],text=True))
+    client=kfp.Client(host='http://'+service['spec']['clusterIP']+':8888',namespace='kubeflow')
+    result=client.create_run_from_pipeline_package(str(package),arguments={'workspace':'/ml-data/'+args.run},
+        run_name=args.run,experiment_name='iot-notebook-distributed',namespace='kubeflow',enable_caching=False)
+    run_id=result.run_id;save(out/'submission.json',{'run_id':run_id});started=time.monotonic()
+    try:
+        while True:
+            details=client.get_run(run_id).to_dict();(out/'run.json').write_text(json.dumps(details,indent=2,default=str)+'\n')
+            state=str(details.get('state','')).upper();(out/'progress.json').write_text(json.dumps({'run_id':run_id,'state':state,'elapsed_seconds':time.monotonic()-started,'checked_utc':datetime.now(timezone.utc).isoformat()},indent=2)+'\n')
+            pods=json.loads(subprocess.check_output(k+['get','pods','-n','kubeflow','-l','iot-coursework-run='+args.run,'-o','json'],text=True))
+            if pods['items']:
+                (out/'executor-pods.json').write_text(json.dumps(pods,indent=2)+'\n')
+                if sum(p.get('status',{}).get('phase')=='Running' for p in pods['items'])>=2 and not (out/'two-executors-running.json').exists():
+                    save(out/'two-executors-running.json',pods)
+            if state in ['SUCCEEDED','FAILED','CANCELED','CANCELLED','SKIPPED']:
+                if state!='SUCCEEDED':raise ValueError('Actual KFP run ended '+state)
+                break
+            if ram()<8*1024**3 or min(disk_usage(p).free for p in ['/srv/iot-data','/srv/iot-fast'])<20_000_000_000 or (deadline-datetime.now(timezone.utc)).total_seconds()<600:
+                client.terminate_run(run_id);raise ValueError('Only this KFP run terminated for reserve guard')
+            time.sleep(10)
+        logs=[p for p in (workspace/'spark-events').iterdir() if p.is_file() and not p.name.startswith('.')]
+        distribution=summarize(read_logs(logs));save(out/'distributed-verification.json',{**distribution,'event_logs':{p.name:digest(p) for p in logs}})
+        load=json.loads((workspace/'input/load-report.json').read_text())
+        if not distribution['passed'] or not (out/'two-executors-running.json').exists() or load['native_rows_this_invocation']!=3_132_184:
+            raise ValueError('Backend succeeded but complete native/distributed proof failed')
+        if any(digest(ROOT/n)!=h for n,h in sources.items()):raise ValueError('Execution source changed during run')
+        pods=json.loads(subprocess.check_output(k+['get','pods','-n','kubeflow','-l','pipeline/runid='+run_id,'-o','json'],text=True));save(out/'pipeline-pods.json',pods)
+        save(out/'verification.json',{'passed':True,'run_id':run_id,'completed_utc':datetime.now(timezone.utc).isoformat(),
+            'native_feast_rows':load['native_rows_this_invocation'],'seconds':time.monotonic()-started,
+            'distributed_proof_sha256':digest(out/'distributed-verification.json'),'source_preflight_sha256':digest(out/'preflight.json'),
+            'scope':'Four executed notebook stages plus fixed-protocol holdout reproduction; train uses two actual Kubernetes executor pods on one physical VM. No multi-host or speedup claim.'})
+    except BaseException as error:
+        save(out/'failure.json',{'passed':False,'run_id':run_id,'type':type(error).__name__,'message':str(error)})
+        raise
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--run',required=True);parser.add_argument('--deadline-utc',required=True);run(parser.parse_args())

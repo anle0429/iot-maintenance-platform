@@ -1,0 +1,865 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-27T13:44:20Z",
+        "generation": 1,
+        "labels": {
+          "iot-coursework-run": "distributed-smoke-27-v2",
+          "iot.coursework/component": "distributed-training-executor",
+          "spark-app-name": "iot-distributed-known-answer-oracle",
+          "spark-app-selector": "spark-e91d87fd679f4bf6ab6b5773e214f159",
+          "spark-exec-id": "1",
+          "spark-exec-resourceprofile-id": "0",
+          "spark-role": "executor",
+          "spark-version": "3.5.9"
+        },
+        "name": "iot-distributed-known-answer-oracle-2219d3a17d9ac8dc-exec-1",
+        "namespace": "kubeflow",
+        "ownerReferences": [
+          {
+            "apiVersion": "v1",
+            "controller": true,
+            "kind": "Pod",
+            "name": "distributed-smoke-27-v2-smrmx",
+            "uid": "c3d9b2d1-9951-4c9a-933b-cf05c0d9b9ed"
+          }
+        ],
+        "resourceVersion": "13783",
+        "uid": "28e0ce85-ee96-420d-b76e-b33af43da356"
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "args": [
+              "executor"
+            ],
+            "command": [
+              "/opt/entrypoint.sh"
+            ],
+            "env": [
+              {
+                "name": "PYTHONPATH",
+                "value": "/workspace"
+              },
+              {
+                "name": "PYSPARK_PYTHON",
+                "value": "python3"
+              },
+              {
+                "name": "OPENBLAS_NUM_THREADS",
+                "value": "1"
+              },
+              {
+                "name": "OMP_NUM_THREADS",
+                "value": "1"
+              },
+              {
+                "name": "SPARK_USER",
+                "value": "spark"
+              },
+              {
+                "name": "SPARK_DRIVER_URL",
+                "value": "spark://CoarseGrainedScheduler@10.52.0.100:39001"
+              },
+              {
+                "name": "SPARK_EXECUTOR_CORES",
+                "value": "1"
+              },
+              {
+                "name": "SPARK_EXECUTOR_MEMORY",
+                "value": "4096m"
+              },
+              {
+                "name": "SPARK_APPLICATION_ID",
+                "value": "spark-e91d87fd679f4bf6ab6b5773e214f159"
+              },
+              {
+                "name": "SPARK_CONF_DIR",
+                "value": "/opt/spark/conf"
+              },
+              {
+                "name": "SPARK_EXECUTOR_ID",
+                "value": "1"
+              },
+              {
+                "name": "SPARK_RESOURCE_PROFILE_ID",
+                "value": "0"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_0",
+                "value": "-Djava.net.preferIPv6Addresses=false"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_6",
+                "value": "--add-opens=java.base/java.net=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_13",
+                "value": "--add-opens=java.base/sun.nio.cs=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_4",
+                "value": "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_18",
+                "value": "-Dspark.driver.port=39001"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_1",
+                "value": "-XX:+IgnoreUnrecognizedVMOptions"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_10",
+                "value": "--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_9",
+                "value": "--add-opens=java.base/java.util.concurrent=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_7",
+                "value": "--add-opens=java.base/java.nio=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_17",
+                "value": "-Djdk.reflect.useDirectMethodHandle=false"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_11",
+                "value": "--add-opens=java.base/jdk.internal.ref=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_2",
+                "value": "--add-opens=java.base/java.lang=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_16",
+                "value": "--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_8",
+                "value": "--add-opens=java.base/java.util=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_12",
+                "value": "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_15",
+                "value": "--add-opens=java.base/sun.util.calendar=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_3",
+                "value": "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_19",
+                "value": "-Dspark.blockManager.port=39002"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_14",
+                "value": "--add-opens=java.base/sun.security.action=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_5",
+                "value": "--add-opens=java.base/java.io=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_EXECUTOR_POD_IP",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "status.podIP"
+                  }
+                }
+              },
+              {
+                "name": "SPARK_EXECUTOR_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "SPARK_LOCAL_DIRS",
+                "value": "/ml-scratch"
+              }
+            ],
+            "image": "iot-coursework-spark:3.5.9",
+            "imagePullPolicy": "Never",
+            "name": "spark-kubernetes-executor",
+            "ports": [
+              {
+                "containerPort": 39002,
+                "name": "blockmanager",
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "5Gi"
+              },
+              "requests": {
+                "cpu": "1",
+                "memory": "5Gi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/opt/spark/conf",
+                "name": "spark-conf-volume-exec"
+              },
+              {
+                "mountPath": "/ml-scratch",
+                "name": "spark-local-dir-scratch"
+              },
+              {
+                "mountPath": "/ml-data",
+                "name": "data"
+              },
+              {
+                "mountPath": "/workspace",
+                "name": "code",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "hostname": "iot-distributed-known-answer-oracle-2219d3a17d9ac8dc-exec-1",
+        "nodeName": "iot-cw-vm",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "runAsGroup": 10001,
+          "runAsNonRoot": true,
+          "runAsUser": 185,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "default",
+        "serviceAccountName": "default",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "configMap": {
+              "defaultMode": 420,
+              "name": "spark-exec-78c4a4a17d9ad025-conf-map"
+            },
+            "name": "spark-conf-volume-exec"
+          },
+          {
+            "name": "spark-local-dir-scratch",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-scratch"
+            }
+          },
+          {
+            "name": "data",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-workspace"
+            }
+          },
+          {
+            "name": "code",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-code",
+              "readOnly": true
+            }
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:45:43Z",
+            "observedGeneration": 1,
+            "status": "False",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:44:20Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:45:42Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:45:42Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:44:20Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "1",
+              "memory": "5Gi"
+            },
+            "containerID": "containerd://e034bcdc4e9f56fb766b218f35874666456c0a787308f7fab85d8574ff4555f0",
+            "image": "docker.io/library/iot-coursework-spark:3.5.9",
+            "imageID": "sha256:1195d4c02f43c5e2fc6b1dece2469e98ab959afe84fc17e4af4b0237e503f167",
+            "lastState": {},
+            "name": "spark-kubernetes-executor",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "5Gi"
+              },
+              "requests": {
+                "cpu": "1",
+                "memory": "5Gi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://e034bcdc4e9f56fb766b218f35874666456c0a787308f7fab85d8574ff4555f0",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T13:45:42Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T13:44:21Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 10001,
+                "supplementalGroups": [
+                  10001
+                ],
+                "uid": 185
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/opt/spark/conf",
+                "name": "spark-conf-volume-exec"
+              },
+              {
+                "mountPath": "/ml-scratch",
+                "name": "spark-local-dir-scratch"
+              },
+              {
+                "mountPath": "/ml-data",
+                "name": "data"
+              },
+              {
+                "mountPath": "/workspace",
+                "name": "code",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "hostIP": "10.42.0.2",
+        "hostIPs": [
+          {
+            "ip": "10.42.0.2"
+          }
+        ],
+        "observedGeneration": 1,
+        "phase": "Succeeded",
+        "podIP": "10.52.0.101",
+        "podIPs": [
+          {
+            "ip": "10.52.0.101"
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "startTime": "2026-10-27T13:44:20Z"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-27T13:44:20Z",
+        "generation": 1,
+        "labels": {
+          "iot-coursework-run": "distributed-smoke-27-v2",
+          "iot.coursework/component": "distributed-training-executor",
+          "spark-app-name": "iot-distributed-known-answer-oracle",
+          "spark-app-selector": "spark-e91d87fd679f4bf6ab6b5773e214f159",
+          "spark-exec-id": "2",
+          "spark-exec-resourceprofile-id": "0",
+          "spark-role": "executor",
+          "spark-version": "3.5.9"
+        },
+        "name": "iot-distributed-known-answer-oracle-2219d3a17d9ac8dc-exec-2",
+        "namespace": "kubeflow",
+        "ownerReferences": [
+          {
+            "apiVersion": "v1",
+            "controller": true,
+            "kind": "Pod",
+            "name": "distributed-smoke-27-v2-smrmx",
+            "uid": "c3d9b2d1-9951-4c9a-933b-cf05c0d9b9ed"
+          }
+        ],
+        "resourceVersion": "13782",
+        "uid": "34650847-e388-4edc-8b84-95bcbf0a5487"
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "args": [
+              "executor"
+            ],
+            "command": [
+              "/opt/entrypoint.sh"
+            ],
+            "env": [
+              {
+                "name": "PYTHONPATH",
+                "value": "/workspace"
+              },
+              {
+                "name": "PYSPARK_PYTHON",
+                "value": "python3"
+              },
+              {
+                "name": "OPENBLAS_NUM_THREADS",
+                "value": "1"
+              },
+              {
+                "name": "OMP_NUM_THREADS",
+                "value": "1"
+              },
+              {
+                "name": "SPARK_USER",
+                "value": "spark"
+              },
+              {
+                "name": "SPARK_DRIVER_URL",
+                "value": "spark://CoarseGrainedScheduler@10.52.0.100:39001"
+              },
+              {
+                "name": "SPARK_EXECUTOR_CORES",
+                "value": "1"
+              },
+              {
+                "name": "SPARK_EXECUTOR_MEMORY",
+                "value": "4096m"
+              },
+              {
+                "name": "SPARK_APPLICATION_ID",
+                "value": "spark-e91d87fd679f4bf6ab6b5773e214f159"
+              },
+              {
+                "name": "SPARK_CONF_DIR",
+                "value": "/opt/spark/conf"
+              },
+              {
+                "name": "SPARK_EXECUTOR_ID",
+                "value": "2"
+              },
+              {
+                "name": "SPARK_RESOURCE_PROFILE_ID",
+                "value": "0"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_0",
+                "value": "-Djava.net.preferIPv6Addresses=false"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_6",
+                "value": "--add-opens=java.base/java.net=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_13",
+                "value": "--add-opens=java.base/sun.nio.cs=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_4",
+                "value": "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_18",
+                "value": "-Dspark.driver.port=39001"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_1",
+                "value": "-XX:+IgnoreUnrecognizedVMOptions"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_10",
+                "value": "--add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_9",
+                "value": "--add-opens=java.base/java.util.concurrent=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_7",
+                "value": "--add-opens=java.base/java.nio=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_17",
+                "value": "-Djdk.reflect.useDirectMethodHandle=false"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_11",
+                "value": "--add-opens=java.base/jdk.internal.ref=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_2",
+                "value": "--add-opens=java.base/java.lang=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_16",
+                "value": "--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_8",
+                "value": "--add-opens=java.base/java.util=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_12",
+                "value": "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_15",
+                "value": "--add-opens=java.base/sun.util.calendar=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_3",
+                "value": "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_19",
+                "value": "-Dspark.blockManager.port=39002"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_14",
+                "value": "--add-opens=java.base/sun.security.action=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_JAVA_OPT_5",
+                "value": "--add-opens=java.base/java.io=ALL-UNNAMED"
+              },
+              {
+                "name": "SPARK_EXECUTOR_POD_IP",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "status.podIP"
+                  }
+                }
+              },
+              {
+                "name": "SPARK_EXECUTOR_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "SPARK_LOCAL_DIRS",
+                "value": "/ml-scratch"
+              }
+            ],
+            "image": "iot-coursework-spark:3.5.9",
+            "imagePullPolicy": "Never",
+            "name": "spark-kubernetes-executor",
+            "ports": [
+              {
+                "containerPort": 39002,
+                "name": "blockmanager",
+                "protocol": "TCP"
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "5Gi"
+              },
+              "requests": {
+                "cpu": "1",
+                "memory": "5Gi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/opt/spark/conf",
+                "name": "spark-conf-volume-exec"
+              },
+              {
+                "mountPath": "/ml-scratch",
+                "name": "spark-local-dir-scratch"
+              },
+              {
+                "mountPath": "/ml-data",
+                "name": "data"
+              },
+              {
+                "mountPath": "/workspace",
+                "name": "code",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "hostname": "iot-distributed-known-answer-oracle-2219d3a17d9ac8dc-exec-2",
+        "nodeName": "iot-cw-vm",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "runAsGroup": 10001,
+          "runAsNonRoot": true,
+          "runAsUser": 185,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "default",
+        "serviceAccountName": "default",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "configMap": {
+              "defaultMode": 420,
+              "name": "spark-exec-78c4a4a17d9ad025-conf-map"
+            },
+            "name": "spark-conf-volume-exec"
+          },
+          {
+            "name": "spark-local-dir-scratch",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-scratch"
+            }
+          },
+          {
+            "name": "data",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-workspace"
+            }
+          },
+          {
+            "name": "code",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-code",
+              "readOnly": true
+            }
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:45:43Z",
+            "observedGeneration": 1,
+            "status": "False",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:44:20Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:45:42Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:45:42Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T13:44:20Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "1",
+              "memory": "5Gi"
+            },
+            "containerID": "containerd://88d99863d5e048714ac191c8f8c19da170c26f15a5a221d237a64bc91acff5cf",
+            "image": "docker.io/library/iot-coursework-spark:3.5.9",
+            "imageID": "sha256:1195d4c02f43c5e2fc6b1dece2469e98ab959afe84fc17e4af4b0237e503f167",
+            "lastState": {},
+            "name": "spark-kubernetes-executor",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "5Gi"
+              },
+              "requests": {
+                "cpu": "1",
+                "memory": "5Gi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://88d99863d5e048714ac191c8f8c19da170c26f15a5a221d237a64bc91acff5cf",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T13:45:42Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T13:44:21Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 10001,
+                "supplementalGroups": [
+                  10001
+                ],
+                "uid": 185
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/opt/spark/conf",
+                "name": "spark-conf-volume-exec"
+              },
+              {
+                "mountPath": "/ml-scratch",
+                "name": "spark-local-dir-scratch"
+              },
+              {
+                "mountPath": "/ml-data",
+                "name": "data"
+              },
+              {
+                "mountPath": "/workspace",
+                "name": "code",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "hostIP": "10.42.0.2",
+        "hostIPs": [
+          {
+            "ip": "10.42.0.2"
+          }
+        ],
+        "observedGeneration": 1,
+        "phase": "Succeeded",
+        "podIP": "10.52.0.102",
+        "podIPs": [
+          {
+            "ip": "10.52.0.102"
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "startTime": "2026-10-27T13:44:20Z"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

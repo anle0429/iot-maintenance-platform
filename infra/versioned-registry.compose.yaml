@@ -1,0 +1,28 @@
+# Model-only publication with explicit incremental dataset references; reuse the existing tracking service.
+name: iot-versioned-registry
+services:
+  register:
+    image: iot-coursework-mlflow:3.17.2
+    mem_limit: 4g
+    cpus: 1
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ['no-new-privileges:true']
+    tmpfs:
+      - /tmp:rw,nosuid,size=256m,mode=1777
+    environment:
+      HOME: /tmp
+      PYTHONPATH: /workspace
+      MLFLOW_TRACKING_URI: http://tracking:5000
+      MLFLOW_ENABLE_SYSTEM_METRICS_LOGGING: 'false'
+    volumes:
+      - ../ml:/workspace/ml:ro
+      - ../scripts:/workspace/scripts:ro
+      - ../infra/kfp:/workspace/infra/kfp:ro
+      - ${IOT_ML_WORKSPACE:?Set cluster workspace parent}:/ml-data:ro
+      - ${IOT_ML_REPORTS_ROOT:?Set native report root}:/reports:ro
+      - ${IOT_INCREMENTAL_REGISTRY_OUTPUT:?Set fresh registry proof directory}:/registry-output
+networks:
+  default:
+    external: true
+    name: iot-mlflow_default

@@ -1,0 +1,2143 @@
+{
+  "experiment_id": "8c89072b-d754-474e-9854-380c55aed984",
+  "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+  "display_name": "notebook-distributed-27-v5",
+  "storage_state": "AVAILABLE",
+  "description": null,
+  "pipeline_version_id": null,
+  "pipeline_spec": {
+    "pipeline_spec": {
+      "components": {
+        "comp-cluster-evaluate": {
+          "executorLabel": "exec-cluster-evaluate",
+          "inputDefinitions": {
+            "artifacts": {
+              "selection": {
+                "artifactType": {
+                  "schemaTitle": "system.Artifact",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            },
+            "parameters": {
+              "workspace": {
+                "parameterType": "STRING"
+              }
+            }
+          },
+          "outputDefinitions": {
+            "artifacts": {
+              "evaluation": {
+                "artifactType": {
+                  "schemaTitle": "system.Artifact",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          }
+        },
+        "comp-cluster-split": {
+          "executorLabel": "exec-cluster-split",
+          "inputDefinitions": {
+            "artifacts": {
+              "cohort": {
+                "artifactType": {
+                  "schemaTitle": "system.Dataset",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            },
+            "parameters": {
+              "workspace": {
+                "parameterType": "STRING"
+              }
+            }
+          },
+          "outputDefinitions": {
+            "artifacts": {
+              "partitions": {
+                "artifactType": {
+                  "schemaTitle": "system.Dataset",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          }
+        },
+        "comp-distributed-train": {
+          "executorLabel": "exec-distributed-train",
+          "inputDefinitions": {
+            "artifacts": {
+              "partitions": {
+                "artifactType": {
+                  "schemaTitle": "system.Dataset",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            },
+            "parameters": {
+              "workspace": {
+                "parameterType": "STRING"
+              }
+            }
+          },
+          "outputDefinitions": {
+            "artifacts": {
+              "selection": {
+                "artifactType": {
+                  "schemaTitle": "system.Artifact",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          }
+        },
+        "comp-notebook-load": {
+          "executorLabel": "exec-notebook-load",
+          "inputDefinitions": {
+            "parameters": {
+              "workspace": {
+                "parameterType": "STRING"
+              }
+            }
+          },
+          "outputDefinitions": {
+            "artifacts": {
+              "cohort": {
+                "artifactType": {
+                  "schemaTitle": "system.Dataset",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          }
+        },
+        "comp-validate-saved-model": {
+          "executorLabel": "exec-validate-saved-model",
+          "inputDefinitions": {
+            "artifacts": {
+              "selection": {
+                "artifactType": {
+                  "schemaTitle": "system.Artifact",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          },
+          "outputDefinitions": {
+            "artifacts": {
+              "verification": {
+                "artifactType": {
+                  "schemaTitle": "system.Artifact",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          }
+        }
+      },
+      "deploymentSpec": {
+        "executors": {
+          "exec-cluster-evaluate": {
+            "container": {
+              "args": [
+                "--step",
+                "evaluate",
+                "--input",
+                "{{$.inputs.artifacts['selection'].path}}",
+                "--output",
+                "{{$.outputs.artifacts['evaluation'].path}}",
+                "--workspace",
+                "{{$.inputs.parameters['workspace']}}",
+                "--protocol",
+                "/workspace/ml/protocols/medium-60d-v1.json",
+                "--executor-input",
+                "{{$}}"
+              ],
+              "command": [
+                "/opt/spark/bin/spark-submit",
+                "--master",
+                "local[2]",
+                "--driver-memory",
+                "6g",
+                "--conf",
+                "spark.driver.maxResultSize=128m",
+                "--conf",
+                "spark.local.dir=/ml-scratch",
+                "/workspace/ml/cluster_training_job.py"
+              ],
+              "env": [
+                {
+                  "name": "HOME",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "PYTHONPATH",
+                  "value": "/workspace"
+                },
+                {
+                  "name": "FEAST_USAGE",
+                  "value": "False"
+                },
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online:6379"
+                },
+                {
+                  "name": "IOT_FEAST_TEMP",
+                  "value": "/ml-scratch/offline"
+                },
+                {
+                  "name": "OPENBLAS_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "OMP_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "SPARK_LOCAL_IP",
+                  "value": "127.0.0.1"
+                }
+              ],
+              "image": "iot-coursework-spark:3.5.9",
+              "resources": {
+                "cpuLimit": 2,
+                "cpuRequest": 0.5,
+                "memoryLimit": 10.73741824,
+                "memoryRequest": 2.147483648,
+                "resourceCpuLimit": "2",
+                "resourceCpuRequest": "500m",
+                "resourceMemoryLimit": "10Gi",
+                "resourceMemoryRequest": "2Gi"
+              }
+            }
+          },
+          "exec-cluster-split": {
+            "container": {
+              "args": [
+                "--step",
+                "split",
+                "--input",
+                "{{$.inputs.artifacts['cohort'].path}}",
+                "--output",
+                "{{$.outputs.artifacts['partitions'].path}}",
+                "--workspace",
+                "{{$.inputs.parameters['workspace']}}",
+                "--protocol",
+                "/workspace/ml/protocols/medium-60d-v1.json",
+                "--executor-input",
+                "{{$}}"
+              ],
+              "command": [
+                "/opt/spark/bin/spark-submit",
+                "--master",
+                "local[2]",
+                "--driver-memory",
+                "6g",
+                "--conf",
+                "spark.driver.maxResultSize=128m",
+                "--conf",
+                "spark.local.dir=/ml-scratch",
+                "/workspace/ml/cluster_training_job.py"
+              ],
+              "env": [
+                {
+                  "name": "HOME",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "PYTHONPATH",
+                  "value": "/workspace"
+                },
+                {
+                  "name": "FEAST_USAGE",
+                  "value": "False"
+                },
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online:6379"
+                },
+                {
+                  "name": "IOT_FEAST_TEMP",
+                  "value": "/ml-scratch/offline"
+                },
+                {
+                  "name": "OPENBLAS_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "OMP_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "SPARK_LOCAL_IP",
+                  "value": "127.0.0.1"
+                }
+              ],
+              "image": "iot-coursework-spark:3.5.9",
+              "resources": {
+                "cpuLimit": 2,
+                "cpuRequest": 0.5,
+                "memoryLimit": 10.73741824,
+                "memoryRequest": 2.147483648,
+                "resourceCpuLimit": "2",
+                "resourceCpuRequest": "500m",
+                "resourceMemoryLimit": "10Gi",
+                "resourceMemoryRequest": "2Gi"
+              }
+            }
+          },
+          "exec-distributed-train": {
+            "container": {
+              "args": [
+                "--step",
+                "train",
+                "--workspace",
+                "{{$.inputs.parameters['workspace']}}",
+                "--input",
+                "{{$.inputs.artifacts['partitions'].path}}",
+                "--output",
+                "{{$.outputs.artifacts['selection'].path}}",
+                "--protocol",
+                "/workspace/ml/protocols/medium-60d-v1.json",
+                "--executor-input",
+                "{{$}}"
+              ],
+              "command": [
+                "python3",
+                "/workspace/ml/distributed_submit.py"
+              ],
+              "env": [
+                {
+                  "name": "HOME",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "PYTHONPATH",
+                  "value": "/workspace"
+                },
+                {
+                  "name": "FEAST_USAGE",
+                  "value": "False"
+                },
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online:6379"
+                },
+                {
+                  "name": "IOT_FEAST_TEMP",
+                  "value": "/ml-scratch/offline"
+                },
+                {
+                  "name": "OPENBLAS_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "OMP_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "SPARK_LOCAL_IP",
+                  "value": "127.0.0.1"
+                }
+              ],
+              "image": "iot-coursework-spark:3.5.9",
+              "resources": {
+                "cpuLimit": 2,
+                "cpuRequest": 0.5,
+                "memoryLimit": 10.73741824,
+                "memoryRequest": 2.147483648,
+                "resourceCpuLimit": "2",
+                "resourceCpuRequest": "500m",
+                "resourceMemoryLimit": "10Gi",
+                "resourceMemoryRequest": "2Gi"
+              }
+            }
+          },
+          "exec-notebook-load": {
+            "container": {
+              "args": [
+                "--workspace",
+                "{{$.inputs.parameters['workspace']}}",
+                "--output",
+                "{{$.outputs.artifacts['cohort'].path}}",
+                "--protocol",
+                "/workspace/ml/protocols/medium-60d-v1.json",
+                "--state",
+                "/workspace/data/feast/batch-medium-27",
+                "--batch-report",
+                "/workspace/outputs/feast-batch-27/batch/report.json",
+                "--artifacts",
+                "/workspace/data/feature-datasets/feature-medium-27-v2/artifacts",
+                "--feature-report",
+                "/workspace/outputs/feature-medium-27-v2/feature-report.json",
+                "--executor-input",
+                "{{$}}"
+              ],
+              "command": [
+                "python",
+                "-m",
+                "ml.notebook_load_component"
+              ],
+              "env": [
+                {
+                  "name": "HOME",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "PYTHONPATH",
+                  "value": "/workspace"
+                },
+                {
+                  "name": "FEAST_USAGE",
+                  "value": "False"
+                },
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online:6379"
+                },
+                {
+                  "name": "IOT_FEAST_TEMP",
+                  "value": "/ml-scratch/offline"
+                },
+                {
+                  "name": "OPENBLAS_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "OMP_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "SPARK_LOCAL_IP",
+                  "value": "127.0.0.1"
+                }
+              ],
+              "image": "iot-coursework-feast:0.67.0",
+              "resources": {
+                "cpuLimit": 2,
+                "cpuRequest": 0.5,
+                "memoryLimit": 10.73741824,
+                "memoryRequest": 2.147483648,
+                "resourceCpuLimit": "2",
+                "resourceCpuRequest": "500m",
+                "resourceMemoryLimit": "10Gi",
+                "resourceMemoryRequest": "2Gi"
+              }
+            }
+          },
+          "exec-validate-saved-model": {
+            "container": {
+              "args": [
+                "--selection",
+                "{{$.inputs.artifacts['selection'].path}}",
+                "--output",
+                "{{$.outputs.artifacts['verification'].path}}",
+                "--protocol",
+                "/workspace/ml/protocols/medium-60d-v1.json",
+                "--executor-input",
+                "{{$}}"
+              ],
+              "command": [
+                "/opt/spark/bin/spark-submit",
+                "--master",
+                "local[2]",
+                "--driver-memory",
+                "6g",
+                "--conf",
+                "spark.local.dir=/ml-scratch",
+                "/workspace/ml/notebook_validate_component.py"
+              ],
+              "env": [
+                {
+                  "name": "HOME",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "PYTHONPATH",
+                  "value": "/workspace"
+                },
+                {
+                  "name": "FEAST_USAGE",
+                  "value": "False"
+                },
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online:6379"
+                },
+                {
+                  "name": "IOT_FEAST_TEMP",
+                  "value": "/ml-scratch/offline"
+                },
+                {
+                  "name": "OPENBLAS_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "OMP_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "SPARK_LOCAL_IP",
+                  "value": "127.0.0.1"
+                }
+              ],
+              "image": "iot-coursework-spark:3.5.9",
+              "resources": {
+                "cpuLimit": 2,
+                "cpuRequest": 0.5,
+                "memoryLimit": 10.73741824,
+                "memoryRequest": 2.147483648,
+                "resourceCpuLimit": "2",
+                "resourceCpuRequest": "500m",
+                "resourceMemoryLimit": "10Gi",
+                "resourceMemoryRequest": "2Gi"
+              }
+            }
+          }
+        }
+      },
+      "pipelineInfo": {
+        "description": "Notebook parity, two-column labels, actual distributed Spark fit and fixed-protocol evaluation.",
+        "name": "iot-notebook-distributed-training-v1"
+      },
+      "root": {
+        "dag": {
+          "tasks": {
+            "cluster-evaluate": {
+              "cachingOptions": {},
+              "componentRef": {
+                "name": "comp-cluster-evaluate"
+              },
+              "dependentTasks": [
+                "distributed-train",
+                "validate-saved-model"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "selection": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "selection",
+                      "producerTask": "distributed-train"
+                    }
+                  }
+                },
+                "parameters": {
+                  "workspace": {
+                    "componentInputParameter": "workspace"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "cluster-evaluate"
+              }
+            },
+            "cluster-split": {
+              "cachingOptions": {},
+              "componentRef": {
+                "name": "comp-cluster-split"
+              },
+              "dependentTasks": [
+                "notebook-load"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "cohort": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "cohort",
+                      "producerTask": "notebook-load"
+                    }
+                  }
+                },
+                "parameters": {
+                  "workspace": {
+                    "componentInputParameter": "workspace"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "cluster-split"
+              }
+            },
+            "distributed-train": {
+              "cachingOptions": {},
+              "componentRef": {
+                "name": "comp-distributed-train"
+              },
+              "dependentTasks": [
+                "cluster-split"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "partitions": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "partitions",
+                      "producerTask": "cluster-split"
+                    }
+                  }
+                },
+                "parameters": {
+                  "workspace": {
+                    "componentInputParameter": "workspace"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "distributed-train"
+              }
+            },
+            "notebook-load": {
+              "cachingOptions": {},
+              "componentRef": {
+                "name": "comp-notebook-load"
+              },
+              "inputs": {
+                "parameters": {
+                  "workspace": {
+                    "componentInputParameter": "workspace"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "notebook-load"
+              }
+            },
+            "validate-saved-model": {
+              "cachingOptions": {},
+              "componentRef": {
+                "name": "comp-validate-saved-model"
+              },
+              "dependentTasks": [
+                "distributed-train"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "selection": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "selection",
+                      "producerTask": "distributed-train"
+                    }
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "validate-saved-model"
+              }
+            }
+          }
+        },
+        "inputDefinitions": {
+          "parameters": {
+            "workspace": {
+              "defaultValue": "/ml-data/notebook-distributed",
+              "isOptional": true,
+              "parameterType": "STRING"
+            }
+          }
+        }
+      },
+      "schemaVersion": "2.1.0",
+      "sdkVersion": "kfp-2.17.3"
+    },
+    "platform_spec": {
+      "platforms": {
+        "kubernetes": {
+          "deploymentSpec": {
+            "executors": {
+              "exec-cluster-evaluate": {
+                "imagePullPolicy": "Never",
+                "pvcMount": [
+                  {
+                    "constant": "iot-ml-code",
+                    "mountPath": "/workspace",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-code"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-workspace",
+                    "mountPath": "/ml-data",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-workspace"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-scratch",
+                    "mountPath": "/ml-scratch",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-scratch"
+                      }
+                    }
+                  }
+                ],
+                "securityContext": {
+                  "runAsGroup": "10001",
+                  "runAsNonRoot": true,
+                  "runAsUser": "185"
+                }
+              },
+              "exec-cluster-split": {
+                "imagePullPolicy": "Never",
+                "pvcMount": [
+                  {
+                    "constant": "iot-ml-code",
+                    "mountPath": "/workspace",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-code"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-workspace",
+                    "mountPath": "/ml-data",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-workspace"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-scratch",
+                    "mountPath": "/ml-scratch",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-scratch"
+                      }
+                    }
+                  }
+                ],
+                "securityContext": {
+                  "runAsGroup": "10001",
+                  "runAsNonRoot": true,
+                  "runAsUser": "185"
+                }
+              },
+              "exec-distributed-train": {
+                "fieldPathAsEnv": [
+                  {
+                    "fieldPath": "metadata.name",
+                    "name": "IOT_DRIVER_POD"
+                  },
+                  {
+                    "fieldPath": "status.podIP",
+                    "name": "IOT_DRIVER_IP"
+                  }
+                ],
+                "imagePullPolicy": "Never",
+                "pvcMount": [
+                  {
+                    "constant": "iot-ml-code",
+                    "mountPath": "/workspace",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-code"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-workspace",
+                    "mountPath": "/ml-data",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-workspace"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-scratch",
+                    "mountPath": "/ml-scratch",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-scratch"
+                      }
+                    }
+                  }
+                ],
+                "securityContext": {
+                  "runAsGroup": "10001",
+                  "runAsNonRoot": true,
+                  "runAsUser": "185"
+                }
+              },
+              "exec-notebook-load": {
+                "imagePullPolicy": "Never",
+                "pvcMount": [
+                  {
+                    "constant": "iot-ml-code",
+                    "mountPath": "/workspace",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-code"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-workspace",
+                    "mountPath": "/ml-data",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-workspace"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-scratch",
+                    "mountPath": "/ml-scratch",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-scratch"
+                      }
+                    }
+                  }
+                ],
+                "securityContext": {
+                  "runAsGroup": "10001",
+                  "runAsNonRoot": true,
+                  "runAsUser": "10001"
+                }
+              },
+              "exec-validate-saved-model": {
+                "imagePullPolicy": "Never",
+                "pvcMount": [
+                  {
+                    "constant": "iot-ml-code",
+                    "mountPath": "/workspace",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-code"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-workspace",
+                    "mountPath": "/ml-data",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-workspace"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-scratch",
+                    "mountPath": "/ml-scratch",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-scratch"
+                      }
+                    }
+                  }
+                ],
+                "securityContext": {
+                  "runAsGroup": "10001",
+                  "runAsNonRoot": true,
+                  "runAsUser": "185"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "pipeline_version_reference": null,
+  "runtime_config": {
+    "parameters": {
+      "workspace": "/ml-data/notebook-distributed-27-v5"
+    },
+    "pipeline_root": null
+  },
+  "service_account": "pipeline-runner",
+  "created_at": "2026-10-27 13:49:46+00:00",
+  "scheduled_at": "2026-10-27 13:49:46+00:00",
+  "finished_at": "2026-10-27 14:05:21+00:00",
+  "state": "SUCCEEDED",
+  "error": null,
+  "run_details": {
+    "pipeline_context_id": null,
+    "pipeline_run_context_id": null,
+    "task_details": [
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "0a63ea4d-f60b-47cc-b349-725caab4824a",
+        "display_name": "cluster-split-driver(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:59:07+00:00",
+        "end_time": "2026-10-27 13:59:11+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:59:08+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 13:59:18+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-741671005"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "104af397-2074-4f12-9048-c807873f88d7",
+        "display_name": "notebook-load(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:50:06+00:00",
+        "end_time": "2026-10-27 13:59:07+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:50:07+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 13:59:08+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-1497388192"
+          },
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-3615772590"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "12ec7d69-5a34-4f00-b84d-a1df5ce79e34",
+        "display_name": "validate-saved-model-driver(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:02:22+00:00",
+        "end_time": "2026-10-27 14:02:27+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:02:23+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:02:33+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-2099319906"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "1a53c509-77dd-41f0-bf69-ae4ed9a1e787",
+        "display_name": "executor",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:03:58+00:00",
+        "end_time": "2026-10-27 14:05:21+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:03:59+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:05:22+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-3555252497"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "2adfa114-ee74-4a65-9d99-91c47cf87f7f",
+        "display_name": "notebook-load",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:50:06+00:00",
+        "end_time": "2026-10-27 13:59:07+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:50:07+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 13:59:08+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-2190898133"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "30dba17b-450e-4444-8a3b-076e7e983641",
+        "display_name": "distributed-train(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:00:34+00:00",
+        "end_time": "2026-10-27 14:02:22+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:00:35+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:02:23+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-1954186698"
+          },
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-416813383"
+          },
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-2335688429"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "393aee53-1cc1-4144-9ce3-3dfe5b2cb7b9",
+        "display_name": "executor",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:59:17+00:00",
+        "end_time": "2026-10-27 14:00:24+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:59:18+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:00:25+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-761884946"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "3b66585f-57e8-4376-b079-ea0839cb4d89",
+        "display_name": "cluster-split",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:59:17+00:00",
+        "end_time": "2026-10-27 14:00:24+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:59:18+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:00:25+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-2026860268"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "3cd441f0-499c-4f66-88fd-d85ff564e142",
+        "display_name": "validate-saved-model",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:02:32+00:00",
+        "end_time": "2026-10-27 14:03:47+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:02:33+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:03:49+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-3907380057"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "43addc51-560e-4723-90d9-440a4c7628a4",
+        "display_name": "notebook-load-driver",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:49:56+00:00",
+        "end_time": "2026-10-27 13:50:06+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:49:57+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 13:50:07+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-2941597342"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "495533be-f10a-4aa3-be42-b1d2b1a56b11",
+        "display_name": "iot-notebook-distributed-training-v1-q6srm(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:49:46+00:00",
+        "end_time": "2026-10-27 14:05:21+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:49:47+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:05:22+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-1844151990"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "50b24885-b205-4725-843e-05c13ed381ef",
+        "display_name": "executor",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:02:32+00:00",
+        "end_time": "2026-10-27 14:03:47+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:02:33+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:03:49+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-1924696967"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "549f7bd7-df1f-4ec4-b25c-8ad045c8cc6a",
+        "display_name": "distributed-train",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:00:34+00:00",
+        "end_time": "2026-10-27 14:02:22+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:00:35+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:02:23+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-347512947"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "60807f33-6066-4bb2-a820-e4da593bdbec",
+        "display_name": "executor",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:50:06+00:00",
+        "end_time": "2026-10-27 13:59:07+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:50:07+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 13:59:08+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-1011565827"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "6ac513ca-4094-44bb-a42c-f533514eb2c5",
+        "display_name": "executor(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:59:17+00:00",
+        "end_time": "2026-10-27 14:00:14+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:59:18+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 13:59:29+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:00:25+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": null
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "6c42bdb0-0d50-477d-bb33-a934eed87d63",
+        "display_name": "cluster-evaluate-driver",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:03:47+00:00",
+        "end_time": "2026-10-27 14:03:58+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:03:49+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:03:59+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-1266180284"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "6e9a114e-6690-4124-9005-94d961009b2d",
+        "display_name": "cluster-split(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:59:17+00:00",
+        "end_time": "2026-10-27 14:00:24+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:59:18+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:00:25+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-2124024079"
+          },
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-1009271629"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "74ccbf4a-8a92-4f23-9b6b-87ac7512852c",
+        "display_name": "distributed-train-driver(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:00:24+00:00",
+        "end_time": "2026-10-27 14:00:27+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:00:25+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:00:35+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-3870092752"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "85fe1022-9c00-4590-a487-8f40c22a0101",
+        "display_name": "notebook-load-driver(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:49:56+00:00",
+        "end_time": "2026-10-27 13:50:00+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:49:57+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 13:50:07+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-4227847510"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "8c4598f8-87ab-48b4-b8e0-41caa8584958",
+        "display_name": "iot-notebook-distributed-training-v1-q6srm",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:49:46+00:00",
+        "end_time": "2026-10-27 14:05:21+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:49:47+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:05:22+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-3156666201"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "8c773278-a4ba-4b0e-a049-a6e1e853082d",
+        "display_name": "executor(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:00:34+00:00",
+        "end_time": "2026-10-27 14:02:13+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:00:35+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:00:45+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:02:23+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": null
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "a6fbca4c-0f5d-44cd-85e3-7a2f2a125302",
+        "display_name": "validate-saved-model(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:02:32+00:00",
+        "end_time": "2026-10-27 14:03:47+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:02:33+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:03:49+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-329011468"
+          },
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-2335688429"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "a87c646e-9124-4d23-aa14-ebe234e0576c",
+        "display_name": "executor",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:00:34+00:00",
+        "end_time": "2026-10-27 14:02:22+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:00:35+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:02:23+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-436564849"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "acd2e63d-30b8-44c9-9bdc-3543bbc2d15d",
+        "display_name": "validate-saved-model-driver",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:02:22+00:00",
+        "end_time": "2026-10-27 14:02:32+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:02:23+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:02:33+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-2915081594"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "b6602e31-2929-41eb-9682-ecdd1bcc432d",
+        "display_name": "cluster-evaluate-driver(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:03:47+00:00",
+        "end_time": "2026-10-27 14:03:52+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:03:49+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:03:59+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-829929968"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "b811736f-0ae7-47d3-aa90-226e553099e4",
+        "display_name": "cluster-evaluate",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:03:58+00:00",
+        "end_time": "2026-10-27 14:05:21+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:03:59+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:05:22+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-1988898963"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "b9961d83-1202-4a85-be69-3bc6c47a9176",
+        "display_name": "distributed-train-driver",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:00:24+00:00",
+        "end_time": "2026-10-27 14:00:34+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:00:25+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:00:35+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-3224538652"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "c28396a8-921c-4c66-8d7b-1458930ffb64",
+        "display_name": "root",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:49:56+00:00",
+        "end_time": "2026-10-27 14:05:21+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:49:57+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:05:22+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-873742516"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "d5b60015-a67c-4e98-a9fa-58ac10c3d4d5",
+        "display_name": "root-driver",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:49:46+00:00",
+        "end_time": "2026-10-27 13:49:56+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:49:47+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 13:49:57+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-3516774709"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "dc0d1ff2-c97e-4741-b47a-1b058d867729",
+        "display_name": "executor(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:02:32+00:00",
+        "end_time": "2026-10-27 14:03:38+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:02:33+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:02:43+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:03:49+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": null
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "e8457ac4-5697-48a3-8a8d-24c9bc70da52",
+        "display_name": "executor(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:03:58+00:00",
+        "end_time": "2026-10-27 14:05:11+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:03:59+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:04:09+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:05:22+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": null
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "ed009c40-58d0-4276-8712-af6baf49a0ec",
+        "display_name": "cluster-split-driver",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:59:07+00:00",
+        "end_time": "2026-10-27 13:59:17+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:59:08+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 13:59:18+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-1447749213"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "ef211add-512c-49ea-8df9-ec0c7660bac8",
+        "display_name": "root(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:49:56+00:00",
+        "end_time": "2026-10-27 14:05:21+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:49:57+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:05:22+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-896923795"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "f392bf79-2f12-426e-a2d7-80ce87ba87d5",
+        "display_name": "cluster-evaluate(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 14:03:58+00:00",
+        "end_time": "2026-10-27 14:05:21+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 14:03:59+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 14:05:22+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-2864066538"
+          }
+        ]
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "f6023c05-f629-49b7-a21d-a71ff0ccc151",
+        "display_name": "executor(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:50:06+00:00",
+        "end_time": "2026-10-27 13:58:58+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:50:07+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 13:50:17+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 13:59:08+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": null
+      },
+      {
+        "run_id": "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43",
+        "task_id": "fec16dad-298c-4ae2-b44f-d1d11e367b86",
+        "display_name": "root-driver(0)",
+        "create_time": "2026-10-27 13:49:46+00:00",
+        "start_time": "2026-10-27 13:49:46+00:00",
+        "end_time": "2026-10-27 13:49:50+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 13:49:47+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 13:49:57+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-notebook-distributed-training-v1-q6srm-649071701"
+          }
+        ]
+      }
+    ]
+  },
+  "recurring_run_id": null,
+  "state_history": [
+    {
+      "update_time": "2026-10-27 13:49:46+00:00",
+      "state": "PENDING",
+      "error": null
+    },
+    {
+      "update_time": "2026-10-27 13:49:47+00:00",
+      "state": "RUNNING",
+      "error": null
+    },
+    {
+      "update_time": "2026-10-27 14:05:22+00:00",
+      "state": "SUCCEEDED",
+      "error": null
+    }
+  ],
+  "plugins_input": null,
+  "plugins_output": {
+    "mlflow": {
+      "entries": {
+        "experiment_name": {
+          "value": "KFP-Default",
+          "render_type": null
+        }
+      },
+      "state": "PLUGIN_FAILED",
+      "state_message": "MLflow terminal sync skipped: missing parent root_run_id in plugins_output.mlflow"
+    }
+  }
+}

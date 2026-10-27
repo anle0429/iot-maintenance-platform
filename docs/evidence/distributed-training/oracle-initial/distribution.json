@@ -1,0 +1,162 @@
+{
+  "passed": true,
+  "application_ended": true,
+  "executors": {
+    "2": {
+      "Host": "10.52.0.99",
+      "Total Cores": 1,
+      "Log Urls": {},
+      "Attributes": {},
+      "Resources": {},
+      "Resource Profile Id": 0,
+      "Registration Time": 1793108141434
+    },
+    "1": {
+      "Host": "10.52.0.98",
+      "Total Cores": 1,
+      "Log Urls": {},
+      "Attributes": {},
+      "Resources": {},
+      "Resource Profile Id": 0,
+      "Registration Time": 1793108141659
+    }
+  },
+  "logistic_regression_stages": [
+    {
+      "stage_id": 37,
+      "name": "treeAggregate at Summarizer.scala:233",
+      "successful_executor_ids": [
+        "1",
+        "2"
+      ],
+      "tasks": 2,
+      "training_group": true
+    },
+    {
+      "stage_id": 38,
+      "name": "treeAggregate at RDDLossFunction.scala:61",
+      "successful_executor_ids": [
+        "1",
+        "2"
+      ],
+      "tasks": 2,
+      "training_group": true
+    },
+    {
+      "stage_id": 39,
+      "name": "treeAggregate at RDDLossFunction.scala:61",
+      "successful_executor_ids": [
+        "1",
+        "2"
+      ],
+      "tasks": 2,
+      "training_group": true
+    },
+    {
+      "stage_id": 40,
+      "name": "treeAggregate at RDDLossFunction.scala:61",
+      "successful_executor_ids": [
+        "1",
+        "2"
+      ],
+      "tasks": 2,
+      "training_group": true
+    },
+    {
+      "stage_id": 41,
+      "name": "treeAggregate at RDDLossFunction.scala:61",
+      "successful_executor_ids": [
+        "1",
+        "2"
+      ],
+      "tasks": 2,
+      "training_group": true
+    },
+    {
+      "stage_id": 42,
+      "name": "treeAggregate at RDDLossFunction.scala:61",
+      "successful_executor_ids": [
+        "1",
+        "2"
+      ],
+      "tasks": 2,
+      "training_group": true
+    },
+    {
+      "stage_id": 43,
+      "name": "treeAggregate at RDDLossFunction.scala:61",
+      "successful_executor_ids": [
+        "1",
+        "2"
+      ],
+      "tasks": 2,
+      "training_group": true
+    },
+    {
+      "stage_id": 44,
+      "name": "treeAggregate at RDDLossFunction.scala:61",
+      "successful_executor_ids": [
+        "1",
+        "2"
+      ],
+      "tasks": 2,
+      "training_group": true
+    },
+    {
+      "stage_id": 91,
+      "name": "parquet at LogisticRegression.scala:1316",
+      "successful_executor_ids": [
+        "2"
+      ],
+      "tasks": 1,
+      "training_group": true
+    },
+    {
+      "stage_id": 93,
+      "name": "parquet at LogisticRegression.scala:1316",
+      "successful_executor_ids": [
+        "2"
+      ],
+      "tasks": 1,
+      "training_group": true
+    },
+    {
+      "stage_id": 102,
+      "name": "first at ReadWrite.scala:587",
+      "successful_executor_ids": [
+        "2"
+      ],
+      "tasks": 1,
+      "training_group": true
+    },
+    {
+      "stage_id": 103,
+      "name": "first at ReadWrite.scala:587",
+      "successful_executor_ids": [
+        "1"
+      ],
+      "tasks": 1,
+      "training_group": true
+    },
+    {
+      "stage_id": 104,
+      "name": "load at LogisticRegression.scala:1330",
+      "successful_executor_ids": [
+        "1"
+      ],
+      "tasks": 1,
+      "training_group": true
+    },
+    {
+      "stage_id": 105,
+      "name": "head at LogisticRegression.scala:1348",
+      "successful_executor_ids": [
+        "2"
+      ],
+      "tasks": 1,
+      "training_group": true
+    }
+  ],
+  "failed_task_attempts": [],
+  "scope": "Successful LR fit task execution on distinct executor IDs; same physical VM, not multiple machines or a speedup benchmark."
+}

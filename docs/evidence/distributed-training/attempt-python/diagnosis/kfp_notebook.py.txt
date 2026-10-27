@@ -1,0 +1,50 @@
+"""Map the executed notebook stages to typed KFP tasks, replacing only local training with two Spark executor pods."""
+from kfp import compiler,dsl,kubernetes
+from kfp.dsl import ContainerSpec,Dataset,Input,Output,Artifact
+from ml.kfp_cluster import configure,cluster_split,cluster_evaluate
+
+
+@dsl.container_component
+def notebook_load(workspace:str,cohort:Output[Dataset]):
+    """Export id/label separately and freshly retrieve the full cohort through label-free Feast queries."""
+    return ContainerSpec(image='iot-coursework-feast:0.67.0',command=['python','-m','ml.notebook_load_component'],args=[
+        '--workspace',workspace,'--output',cohort.path,'--protocol','/workspace/ml/protocols/medium-60d-v1.json',
+        '--state','/workspace/data/feast/batch-medium-27','--batch-report','/workspace/outputs/feast-batch-27/batch/report.json',
+        '--artifacts','/workspace/data/feature-datasets/feature-medium-27-v2/artifacts',
+        '--feature-report','/workspace/outputs/feature-medium-27-v2/feature-report.json',
+        '--executor-input',dsl.PIPELINE_TASK_EXECUTOR_INPUT_PLACEHOLDER])
+
+
+@dsl.container_component
+def distributed_train(workspace:str,partitions:Input[Dataset],selection:Output[Artifact]):
+    """Reuse the frozen training implementation under a real two-executor Kubernetes scheduler."""
+    return ContainerSpec(image='iot-coursework-spark:3.5.9',command=['python','/workspace/ml/distributed_submit.py'],args=[
+        '--step','train','--workspace',workspace,'--input',partitions.path,'--output',selection.path,
+        '--protocol','/workspace/ml/protocols/medium-60d-v1.json','--executor-input',dsl.PIPELINE_TASK_EXECUTOR_INPUT_PLACEHOLDER])
+
+
+@dsl.container_component
+def validate_saved_model(selection:Input[Artifact],verification:Output[Artifact]):
+    """Reload saved weights and check validation behavior exactly as the notebook's final stage."""
+    return ContainerSpec(image='iot-coursework-spark:3.5.9',command=['/opt/spark/bin/spark-submit','--master','local[2]','--driver-memory','6g',
+        '--conf','spark.local.dir=/ml-scratch','/workspace/ml/notebook_validate_component.py'],args=[
+        '--selection',selection.path,'--output',verification.path,'--protocol','/workspace/ml/protocols/medium-60d-v1.json',
+        '--executor-input',dsl.PIPELINE_TASK_EXECUTOR_INPUT_PLACEHOLDER])
+
+
+@dsl.pipeline(name='iot-notebook-distributed-training-v1',description='Notebook parity, two-column labels, actual distributed Spark fit and fixed-protocol evaluation.')
+def notebook_pipeline(workspace:str='/ml-data/notebook-distributed'):
+    """Keep the notebook's four stages and add a sealed, fixed-protocol holdout reproduction last."""
+    load=configure(notebook_load(workspace=workspace),10001)
+    split=configure(cluster_split(workspace=workspace,cohort=load.outputs['cohort']),185)
+    train=configure(distributed_train(workspace=workspace,partitions=split.outputs['partitions']),185)
+    kubernetes.use_field_path_as_env(train,env_name='IOT_DRIVER_POD',field_path='metadata.name')
+    kubernetes.use_field_path_as_env(train,env_name='IOT_DRIVER_IP',field_path='status.podIP')
+    validation=configure(validate_saved_model(selection=train.outputs['selection']),185)
+    evaluation=configure(cluster_evaluate(workspace=workspace,selection=train.outputs['selection']),185).after(validation)
+
+
+if __name__=='__main__':
+    import argparse
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',required=True);args=parser.parse_args()
+    compiler.Compiler().compile(notebook_pipeline,args.output)

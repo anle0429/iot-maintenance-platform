@@ -1,0 +1,54 @@
+26/10/27 13:44:15 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/10/27 13:44:17 INFO SparkContext: Running Spark version 3.5.9
+26/10/27 13:44:17 INFO SparkContext: OS info Linux, 7.0.0-1014-gcp, amd64
+26/10/27 13:44:17 INFO SparkContext: Java version 17.0.19
+26/10/27 13:44:17 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+26/10/27 13:44:17 INFO ResourceUtils: ==============================================================
+26/10/27 13:44:17 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/10/27 13:44:17 INFO ResourceUtils: ==============================================================
+26/10/27 13:44:17 INFO SparkContext: Submitted application: iot-distributed-known-answer-oracle
+26/10/27 13:44:17 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(memoryOverhead -> name: memoryOverhead, amount: 1024, script: , vendor: , cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 4096, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/10/27 13:44:17 INFO ResourceProfile: Limiting resource is cpus at 1 tasks per executor
+26/10/27 13:44:17 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/10/27 13:44:17 INFO SecurityManager: Changing view acls to: spark
+26/10/27 13:44:17 INFO SecurityManager: Changing modify acls to: spark
+26/10/27 13:44:17 INFO SecurityManager: Changing view acls groups to: 
+26/10/27 13:44:17 INFO SecurityManager: Changing modify acls groups to: 
+26/10/27 13:44:17 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark; groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY
+26/10/27 13:44:17 INFO Utils: Successfully started service 'sparkDriver' on port 39001.
+26/10/27 13:44:17 INFO SparkEnv: Registering MapOutputTracker
+26/10/27 13:44:17 INFO SparkEnv: Registering BlockManagerMaster
+26/10/27 13:44:17 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/10/27 13:44:17 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/10/27 13:44:17 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/10/27 13:44:17 INFO DiskBlockManager: Created local directory at /ml-scratch/blockmgr-db972672-678a-47cf-b925-228b634aed4f
+26/10/27 13:44:17 INFO MemoryStore: MemoryStore started with capacity 3.4 GiB
+26/10/27 13:44:17 INFO SparkEnv: Registering OutputCommitCoordinator
+26/10/27 13:44:18 INFO JettyUtils: Start Jetty 10.52.0.100:4040 for SparkUI
+26/10/27 13:44:18 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/10/27 13:44:18 INFO SparkKubernetesClientFactory: Auto-configuring K8S client using current context from users K8S config file
+26/10/27 13:44:20 INFO ExecutorPodsAllocator: Going to request 2 executors from Kubernetes for ResourceProfile Id: 0, target: 2, known: 0, sharedSlotFromPendingPods: 2147483647.
+26/10/27 13:44:20 INFO ExecutorPodsAllocator: Found 0 reusable PVCs from 0 PVCs
+26/10/27 13:44:20 INFO BasicExecutorFeatureStep: Decommissioning not enabled, skipping shutdown script
+26/10/27 13:44:20 INFO BasicExecutorFeatureStep: Decommissioning not enabled, skipping shutdown script
+26/10/27 13:44:20 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 39002.
+26/10/27 13:44:20 INFO NettyBlockTransferService: Server created on 10.52.0.100 0.0.0.0:39002
+26/10/27 13:44:20 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/10/27 13:44:20 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 10.52.0.100, 39002, None)
+26/10/27 13:44:20 INFO BlockManagerMasterEndpoint: Registering block manager 10.52.0.100:39002 with 3.4 GiB RAM, BlockManagerId(driver, 10.52.0.100, 39002, None)
+26/10/27 13:44:21 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 10.52.0.100, 39002, None)
+26/10/27 13:44:21 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 10.52.0.100, 39002, None)
+26/10/27 13:44:21 INFO SingleEventLogFileWriter: Logging events to file:/ml-data/distributed-smoke-27-v2/spark-events/spark-e91d87fd679f4bf6ab6b5773e214f159.inprogress
+26/10/27 13:44:28 INFO KubernetesClusterSchedulerBackend$KubernetesDriverEndpoint: No executor found for 10.52.0.101:51300
+26/10/27 13:44:28 INFO KubernetesClusterSchedulerBackend$KubernetesDriverEndpoint: No executor found for 10.52.0.102:41272
+26/10/27 13:44:29 INFO KubernetesClusterSchedulerBackend$KubernetesDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (10.52.0.101:51304) with ID 1,  ResourceProfileId 0
+26/10/27 13:44:29 INFO KubernetesClusterSchedulerBackend$KubernetesDriverEndpoint: Registered executor NettyRpcEndpointRef(spark-client://Executor) (10.52.0.102:41286) with ID 2,  ResourceProfileId 0
+26/10/27 13:44:29 INFO BlockManagerMasterEndpoint: Registering block manager 10.52.0.101:39002 with 2.2 GiB RAM, BlockManagerId(1, 10.52.0.101, 39002, None)
+26/10/27 13:44:29 INFO KubernetesClusterSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 1.0
+26/10/27 13:44:29 INFO BlockManagerMasterEndpoint: Registering block manager 10.52.0.102:39002 with 2.2 GiB RAM, BlockManagerId(2, 10.52.0.102, 39002, None)
+26/10/27 13:44:29 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir.
+26/10/27 13:44:29 INFO SharedState: Warehouse path is 'file:/workspace/spark-warehouse'.
+26/10/27 13:44:30 WARN SparkSession: Using an existing Spark session; only runtime SQL configurations will take effect.
+26/10/27 13:45:20 WARN InstanceBuilder: Failed to load implementation from:dev.ludovic.netlib.blas.JNIBLAS
+26/10/27 13:45:20 WARN InstanceBuilder: Failed to load implementation from:dev.ludovic.netlib.blas.VectorBLAS
+26/10/27 13:45:41 WARN ExecutorPodsWatchSnapshotSource: Kubernetes client has been closed.

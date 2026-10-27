@@ -1,0 +1,53 @@
+time=2026-10-27T13:04:04.616Z level=INFO msg="capturing logs" argo=true
+time=2026-10-27T13:04:04.623Z level=INFO msg="waiting for signals" argo=true signalPath=/var/run/argo/ctr/main/signal
+I1027 13:04:04.768937      15 main.go:67] Setting log level to: '1'
+I1027 13:04:04.775248      15 cache.go:89] Connecting to cache endpoint ml-pipeline.kubeflow.svc.cluster.local:8887
+I1027 13:04:04.868325      15 registry.go:68] No task-level plugins enabled, returning no-op dispatcher
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/pathlib.py", line 1311, in mkdir
+    os.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '{"Concat": ["/ml-data/notebook-distributed-27", "/input"]}'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/pathlib.py", line 1311, in mkdir
+    os.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '{"Concat": ["/ml-data/notebook-distributed-27", "'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/pathlib.py", line 1311, in mkdir
+    os.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '{"Concat": ["/ml-data'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/ml/notebook_load.py", line 115, in <module>
+    parser.add_argument('--executor-input');args=parser.parse_args();run(args)
+                                                                     ^^^^^^^^^
+  File "/workspace/ml/notebook_load.py", line 34, in run
+    args.workspace.mkdir(parents=True);parts=args.workspace/'feast-cohort';parts.mkdir()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/pathlib.py", line 1315, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+  File "/usr/local/lib/python3.12/pathlib.py", line 1315, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+  File "/usr/local/lib/python3.12/pathlib.py", line 1315, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+  File "/usr/local/lib/python3.12/pathlib.py", line 1311, in mkdir
+    os.mkdir(self, mode)
+PermissionError: [Errno 13] Permission denied: '{"Concat": ["'
+E1027 13:04:11.767816      15 launcher_v2.go:449] Component failed to execute successfully: exit status 1
+I1027 13:04:11.767898      15 launcher_v2.go:867] Executing uploadOutputArtifacts attempt: 1
+I1027 13:04:11.767909      15 launcher_v2.go:800] outputArtifact in uploadOutputArtifacts call: executor-logs
+I1027 13:04:11.781252      15 object_store.go:231] uploadFile(localFilePath="/minio/mlpipeline/v2/artifacts/iot-notebook-distributed-training-v1/a960a40f-9076-4fb4-91e4-bb55818604c7/notebook-load/97cf9b75-392b-499d-9ed2-9eda5caf5b9f/executor-logs-0", blobFilePath="notebook-load/97cf9b75-392b-499d-9ed2-9eda5caf5b9f/executor-logs-0")
+I1027 13:04:11.840573      15 launcher_v2.go:206] publish success.
+F1027 13:04:11.876796      15 main.go:59] failed to execute component: exit status 1
+time=2026-10-27T13:04:12.630Z level=INFO msg="sub-process exited" argo=true error="exit status 1"
+time=2026-10-27T13:04:12.630Z level=INFO msg="file signal handler exiting due to context cancellation" argo=true
+Error: exit status 1

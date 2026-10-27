@@ -1,5 +1,7 @@
 # Notebook: từ feature đến model đã lưu
 
+Cập nhật: [pipeline Kubeflow5task và hai executor thật](distributed-training.md) đã hoàn tất; notebook bên dưới vẫn giữ outputlocal[2] gốc.
+
 [Notebook nguồn](../notebooks/01_failure_training.ipynb) có phần giải thích tiếng Việt và bốn bước ML có thể chạy lần lượt. [Bản đã execute](evidence/notebook/execution/executed.ipynb), [HTML nguyên bản](evidence/notebook/execution/executed.html) và [receipt Jupyter](evidence/notebook/execution/execution.json) ghi lượt thật trên cùng VM 8 CPU/64 GiB: **12:56:39–13:08:04 UTC ngày 27/10/2026**, cả **5 ô code chạy, 0 ô lỗi**. Một ô khởi tạo và bốn ô thực hiện các bước dưới đây.
 
 | Bước | Mục đích và kết quả kiểm chứng |

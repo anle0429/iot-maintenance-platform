@@ -1,0 +1,16 @@
+# Single-user coursework namespace: add only the Kubernetes resources required by Spark client mode.
+# Existing pipeline-runner already creates pods; no Secret, cluster-wide or cloud IAM permissions added.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: {name: iot-spark-driver, namespace: kubeflow}
+rules:
+  - apiGroups: ['']
+    resources: [pods, services, configmaps]
+    verbs: [get, list, watch, create, delete]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: {name: iot-spark-driver, namespace: kubeflow}
+roleRef: {apiGroup: rbac.authorization.k8s.io, kind: Role, name: iot-spark-driver}
+subjects:
+  - {kind: ServiceAccount, name: pipeline-runner, namespace: kubeflow}

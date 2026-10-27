@@ -1,0 +1,9 @@
+{
+  "cancel_requested_utc": "2026-10-27T13:12:22.384548+00:00",
+  "run_id": "eb570e68-ca5a-4eb9-a69c-7b01b885538a",
+  "observed_pod_name": "iot-notebook-distributed-training-v1-hvvbn-system-container-impl-1141215162",
+  "observed_HOSTNAME": "iot-notebook-distributed-training-v1-hvvbn-system-container-imp",
+  "hostname_length": 63,
+  "reason": "Native HOSTNAME is truncated to63characters and cannot identify the full KFP driver pod for Spark ownership. Cancel this run before train, preserve retrieval output, add DownwardAPI metadata.name/status.podIP instead of bypassing source fence.",
+  "scope": "Preventive cancellation for an observed runtime identity mismatch; not a failed LR fit and not a successful full pipeline."
+}

@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "image": "sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417",
+  "memory": 2147483648,
+  "nano_cpus": 1000000000,
+  "ports": {
+    "18080/tcp": [
+      {
+        "HostIp": "127.0.0.1",
+        "HostPort": "14043"
+      }
+    ]
+  },
+  "mounts": [
+    {
+      "Type": "bind",
+      "Source": "/srv/iot-data/workspace/iot-maintenance-platform/data/distributed-history-events-27",
+      "Destination": "/events",
+      "Mode": "",
+      "RW": false,
+      "Propagation": "rprivate"
+    }
+  ],
+  "byte_exact_event_copies": {
+    "spark-e91d87fd679f4bf6ab6b5773e214f159": {
+      "native_source": "/srv/iot-data/workspace/iot-maintenance-platform/data/ml-workspaces/training-cluster-27/distributed-smoke-27-v2/spark-events/spark-e91d87fd679f4bf6ab6b5773e214f159",
+      "sha256": "552f12f73f4740ce9cc33141947fda1ecbd070ad5bb5a1fe9bd352dc31d27f54"
+    }
+  },
+  "applications": [
+    {
+      "id": "spark-e91d87fd679f4bf6ab6b5773e214f159",
+      "name": "iot-distributed-known-answer-oracle",
+      "attempts": [
+        {
+          "startTime": "2026-10-27T13:44:17.010GMT",
+          "endTime": "2026-10-27T13:45:41.648GMT",
+          "lastUpdated": "2026-10-27T13:59:21.990GMT",
+          "duration": 84638,
+          "sparkUser": "spark",
+          "completed": true,
+          "appSparkVersion": "3.5.9",
+          "startTimeEpoch": 1793108657010,
+          "endTimeEpoch": 1793108741648,
+          "lastUpdatedEpoch": 1793109561990
+        }
+      ]
+    }
+  ],
+  "scope": "Actual HistoryServer on native completed event bytes; initial application is the360-row oracle, not full IoT training."
+}

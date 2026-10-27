@@ -1,0 +1,23 @@
+# Two real executor pods share existing single-node coursework volumes; no new cloud disks.
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    iot.coursework/component: distributed-training-executor
+spec:
+  automountServiceAccountToken: false
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 185
+    runAsGroup: 10001
+  containers:
+    - name: spark-kubernetes-executor
+      command: [/opt/entrypoint.sh]
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities: {drop: [ALL]}
+      env:
+        - {name: PYTHONPATH, value: /workspace}
+        - {name: PYSPARK_PYTHON, value: python3}
+        - {name: OPENBLAS_NUM_THREADS, value: '1'}
+        - {name: OMP_NUM_THREADS, value: '1'}
