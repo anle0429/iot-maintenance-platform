@@ -6,6 +6,8 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 Đã [triển khai VM Google Cloud](docs/gcp-runtime.md) 8vCPU/64GiB với Ansible, IAP và đĩa HDD/SSD tách riêng. Cùng workload1,12GB trên một VM: baseline223,942s→optimized100,892s, disk spill967MB→0, cả hai13checks/84tests qua. Một lượt mỗi cấu hình, chưa benchmark100GB hoặc bằng chứng hoàn thành toàn coursework.
 
+[Benchmark skew mới](docs/skew-benchmark.md) trên 17,28 triệu dòng Silver: ba cặp query cho kết quả giống hệt, trung vị15,339→8,577giây khi broadcast bảng chính sách nhà máy; có ảnh Spark UI thật. 111 unittest qua trên PC và VM sau khi thêm planner tài nguyên. [Gate Spark lớn](docs/scale-100gb.md#gate-cho-spark-toàn-nguồn-lớn): đủ đĩa/RAM nhưng chưa đủ thời gian còn lại của phiên; chưa khởi chạy toàn nguồn lớn.
+
 ## Mục lục
 
 - [Phạm vi và dữ liệu](docs/domain-proposal.md)
@@ -21,6 +23,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [VM đã chạy: Ansible, cùng workload nhanh 2,22 lần và cách tự chạy](docs/gcp-runtime.md)
 - [Airflow DP1–DP3, validation chặn lỗi và DataHub lineage/assertions](docs/orchestration.md)
 - [Mốc nguồn 100 GB: ngân sách HDD/SSD/RAM, tập trung gian và cách tự chạy](docs/scale-100gb.md)
+- [Spark skew: cùng query, ba cặp đo, kết quả đúng và ảnh UI](docs/skew-benchmark.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist rubric](docs/rubric-tracker.md)
 - [Cấu trúc hiện tại](#cấu-trúc-hiện-tại)

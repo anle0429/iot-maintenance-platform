@@ -1,0 +1,102 @@
+[
+  {
+    "argv": [
+      "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/scale-venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "exit_code": 0,
+    "seconds": 3.001121682998928
+  },
+  {
+    "argv": [
+      "docker",
+      "compose",
+      "-f",
+      "infra/ingest.compose.yaml",
+      "-f",
+      "infra/ingest.cloud.compose.yaml",
+      "config",
+      "--format",
+      "json"
+    ],
+    "exit_code": 0,
+    "seconds": 1.0009002150000015
+  },
+  {
+    "argv": [
+      "docker",
+      "compose",
+      "-f",
+      "infra/ingest.compose.yaml",
+      "-f",
+      "infra/ingest.cloud.compose.yaml",
+      "run",
+      "--rm",
+      "--service-ports",
+      "--name",
+      "iot-skew-join-27-v2",
+      "ingest",
+      "--master",
+      "local[6]",
+      "--driver-memory",
+      "20g",
+      "--conf",
+      "spark.driver.bindAddress=0.0.0.0",
+      "--conf",
+      "spark.driver.host=127.0.0.1",
+      "--conf",
+      "spark.local.dir=/scratch/skew-join-27-v2",
+      "--conf",
+      "spark.eventLog.enabled=true",
+      "--conf",
+      "spark.eventLog.dir=file:///workspace/data/ingest-events",
+      "pipelines/skew_job.py",
+      "--source",
+      "data/lakehouse/scale-ingest-medium-26/silver/stg_telemetry",
+      "--machines",
+      "data/lakehouse/scale-ingest-medium-26/bronze/raw_machines",
+      "--binding",
+      "outputs/skew-join-27-v2/input-binding.json",
+      "--policy",
+      "pipelines/configs/factory-risk-policies.json",
+      "--output",
+      "data/benchmarks/skew-join-27-v2",
+      "--report",
+      "outputs/skew-join-27-v2/benchmark.json",
+      "--partitions",
+      "32",
+      "--repetitions",
+      "3"
+    ],
+    "exit_code": 0,
+    "seconds": 112.85117540799911
+  },
+  {
+    "argv": [
+      "docker",
+      "compose",
+      "-f",
+      "infra/ingest.compose.yaml",
+      "-f",
+      "infra/ingest.cloud.compose.yaml",
+      "run",
+      "--rm",
+      "--entrypoint",
+      "python3",
+      "ingest",
+      "-m",
+      "pipelines.skew_metrics",
+      "--log",
+      "data/ingest-events/local-1793066417077",
+      "--report",
+      "outputs/skew-join-27-v2/task-metrics.json"
+    ],
+    "exit_code": 0,
+    "seconds": 1.0008928229999583
+  }
+]

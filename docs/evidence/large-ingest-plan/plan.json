@@ -1,0 +1,145 @@
+{
+  "actual_resources": {
+    "checked_utc": "2026-10-27T02:15:26.974600+00:00",
+    "cpu_count": 8,
+    "free_bytes": {
+      "/srv/iot-data": 410628182016,
+      "/srv/iot-fast": 133819969536
+    },
+    "memory_available_bytes": 60643393536
+  },
+  "actual_source_offline_bytes": 102447847856,
+  "blocking_implementation": [
+    "existing optimized launcher still selects SSD scratch",
+    "large runner needs live time/disk/RAM guards and bounded partition review"
+  ],
+  "checked_utc": "2026-10-27T02:15:26.975092+00:00",
+  "checksum_passes_in_current_launcher": 3,
+  "code_bindings": {
+    "pipelines/ingest_budget.py": "9a9b52df51bf2d32acee113c0b07751797a1dd36c44f0c6837e4753fb8fc2e5d",
+    "scripts/plan-large-ingest.py": "f7440ab165d0ce1673a0be804f2c40a73d70aa3fd2a1a8d9bd5e7c1bb7940e7d"
+  },
+  "deadline_utc": "2026-10-27T05:49:09.924000+00:00",
+  "estimated_checksum_io_bytes": 307343543568,
+  "estimated_job_seconds": 13570.344097263327,
+  "estimated_task_io_bytes": 1054646789631,
+  "estimated_total_io_bytes": 1361990333199,
+  "execution_ready": false,
+  "finish_reserve_seconds": 1200,
+  "gates": {
+    "cpu": true,
+    "hdd": true,
+    "ram": true,
+    "session_time": false,
+    "ssd": true
+  },
+  "hdd_growth_and_reserve_bytes": {
+    "free_reserve": 30000000000,
+    "logs": 5000000000,
+    "processed_outputs": 150000000000,
+    "scratch": 120000000000
+  },
+  "intermediate_manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5",
+  "intermediate_to_large_ratio": 18.333596048993805,
+  "io_model_seconds": 10438.726228664098,
+  "kind": "forecast_only_not_execution_evidence",
+  "linear_spark_seconds": 7059.7226831589305,
+  "measured_probe_bytes_per_second": 130474763.23874255,
+  "minimum_available_ram_bytes": 38654705664,
+  "probe": {
+    "actual_read_bytes": 536870912,
+    "bytes_per_second": 130474763.23874255,
+    "checked_utc": "2026-10-27T02:15:26.974375+00:00",
+    "method": "GNU dd iflag=direct,fullblock bs=4M count=16, eight existing parts",
+    "passed": true,
+    "samples": [
+      {
+        "actual_read_bytes": 67108864,
+        "catalog_sha256": "238a37fd1d83a629faeb5a8b8586f5a791ccb846d1e6e378098a6bc7e5adbd8f",
+        "file_bytes": 76636892,
+        "path": "telemetry/schema_v1/part-000000.jsonl",
+        "seconds": 0.3911902670006384
+      },
+      {
+        "actual_read_bytes": 67108864,
+        "catalog_sha256": "918ef8679884b5db1a2b87fc944f9864a463960a4d482676419b1c1b92a4b404",
+        "file_bytes": 76545371,
+        "path": "telemetry/schema_v1/part-000001.jsonl",
+        "seconds": 0.572158044000389
+      },
+      {
+        "actual_read_bytes": 67108864,
+        "catalog_sha256": "fa03ff8595ee476e0cd485efb3a0f03c286c4b23a97045e376b07383ecd2f68a",
+        "file_bytes": 76542156,
+        "path": "telemetry/schema_v1/part-000002.jsonl",
+        "seconds": 0.5682583460002206
+      },
+      {
+        "actual_read_bytes": 67108864,
+        "catalog_sha256": "ed9fe59fc5ae10a4ebc765c1bdeb3d492af51b4ae5bebc21811ad790999fcb51",
+        "file_bytes": 76554532,
+        "path": "telemetry/schema_v1/part-000003.jsonl",
+        "seconds": 0.4658460640002886
+      },
+      {
+        "actual_read_bytes": 67108864,
+        "catalog_sha256": "6fcde68f9c43c3c3ae4be9a0f444c779a3d64a39c1f0c608cb4d2b2c5050ad31",
+        "file_bytes": 76572936,
+        "path": "telemetry/schema_v1/part-000004.jsonl",
+        "seconds": 0.5326364869997633
+      },
+      {
+        "actual_read_bytes": 67108864,
+        "catalog_sha256": "2dedd6beb360aa027d0ca70599f10455e46430e844b20bddbb26563d201905a8",
+        "file_bytes": 76577760,
+        "path": "telemetry/schema_v1/part-000005.jsonl",
+        "seconds": 0.5795294749987079
+      },
+      {
+        "actual_read_bytes": 67108864,
+        "catalog_sha256": "dde08aa5a6d0caf4c2cd9acb4dcca5651e0ec7bca2786bef7bf266383d54556a",
+        "file_bytes": 76570579,
+        "path": "telemetry/schema_v1/part-000006.jsonl",
+        "seconds": 0.4756210049999936
+      },
+      {
+        "actual_read_bytes": 67108864,
+        "catalog_sha256": "7f8153f12565846eee107e2ee4749fed281b5eaebabe658632adfc0ca61066cd",
+        "file_bytes": 76575111,
+        "path": "telemetry/schema_v1/part-000007.jsonl",
+        "seconds": 0.5295093920012732
+      }
+    ],
+    "scope": "Read-only 512MiB sample; file identity/size/mtime unchanged. Catalog hashes are prior sealed values, not new full part hashes. No global cache eviction. Not full-source validation or mixed-IO benchmark.",
+    "seconds": 4.114749080001275,
+    "source_manifest_sha256": "316a45fbe3396a68461c8063e00605a253de1cfc2b214029376315b9bc1432c1"
+  },
+  "remaining_session_seconds": 12822.949004411697,
+  "report_bindings": {
+    "ingest": {
+      "path": "outputs/scale-ingest-medium-26/ingest-report.json",
+      "sha256": "0ea8a4c48a93209040d01843c44c9805404c744417672c084b0f75086a650283"
+    },
+    "intermediate": {
+      "path": "outputs/scale-intermediate-26/verification.json",
+      "sha256": "6392f4c9df1d8445ccf4bc5c2d09767b757ac9893fb7f6c28075e70228324aed"
+    },
+    "metrics": {
+      "path": "outputs/scale-ingest-medium-26/spark-metrics.json",
+      "sha256": "db5d5cb5bf0a5ca67c75db695c92a82ece70e6e11ed12be5eeef8e6a50a2b2fa"
+    },
+    "source": {
+      "path": "outputs/scale-100gb-26/verification.json",
+      "sha256": "9a57bf2e064a3c3e89aa48de23117bce4acb3301144c434e0119c453c36f2a8b"
+    }
+  },
+  "resource_time_gates_pass": false,
+  "safety_factor": 1.3,
+  "scope": "Forecast existing Bronze/Silver/checks/three query pairs only; no Gold, DP3, ML, 100GB Spark success, disk throughput guarantee or VM-session extension. O_DIRECT sample does not emulate mixed concurrent shuffle IO; RAM is a resource budget, not a scale prediction.",
+  "scratch_volume": "/srv/iot-data",
+  "source_manifest_sha256": "316a45fbe3396a68461c8063e00605a253de1cfc2b214029376315b9bc1432c1",
+  "ssd_growth_and_reserve_bytes": {
+    "free_reserve": 20000000000,
+    "platform_growth": 15000000000
+  }
+}

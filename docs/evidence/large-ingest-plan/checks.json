@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "base_commit": "270e880cec9f959ca25294d29cb75754c145b54b",
+  "unit_tests": [
+    {
+      "host": "THIENAN",
+      "python": "3.13.14",
+      "tests": 111,
+      "skipped": 0,
+      "passed": true,
+      "seconds": 7.081
+    },
+    {
+      "host": "iot-cw-vm",
+      "python": "3.12.3",
+      "tests": 111,
+      "skipped": 0,
+      "passed": true,
+      "seconds": 2.691
+    }
+  ],
+  "actual_vm_plan_ran": true,
+  "large_spark_launched": false,
+  "code_sha256": {
+    "pipelines/ingest_budget.py": "9a9b52df51bf2d32acee113c0b07751797a1dd36c44f0c6837e4753fb8fc2e5d",
+    "scripts/plan-large-ingest.py": "f7440ab165d0ce1673a0be804f2c40a73d70aa3fd2a1a8d9bd5e7c1bb7940e7d",
+    "tests/test_ingest_budget.py": "30fcab8146a3143a54c74604abb982917affd2658fe491029ace05700f52b2ec"
+  },
+  "scope": "Observed unittest exits and an actual read-only VM disk probe/forecast. No full100GB Spark execution; original source receipt remains the full readback proof."
+}

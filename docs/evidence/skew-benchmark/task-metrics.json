@@ -1,0 +1,6950 @@
+{
+  "application_ended": true,
+  "event_log_bytes": 6211824,
+  "groups": {
+    "skew-baseline-0": {
+      "job_ids": [
+        33,
+        34,
+        35,
+        36,
+        37
+      ],
+      "stage_ids": [
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77
+      ],
+      "totals": {
+        "disk_spill_bytes": 0,
+        "failed_attempts": 0,
+        "input_bytes": 161764503,
+        "memory_spill_bytes": 0,
+        "shuffle_read_bytes": 302603711,
+        "shuffle_write_bytes": 302603711,
+        "task_attempts": 47
+      }
+    },
+    "skew-baseline-1": {
+      "job_ids": [
+        50,
+        51,
+        52,
+        53,
+        54
+      ],
+      "stage_ids": [
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110
+      ],
+      "totals": {
+        "disk_spill_bytes": 0,
+        "failed_attempts": 0,
+        "input_bytes": 161764503,
+        "memory_spill_bytes": 0,
+        "shuffle_read_bytes": 302603711,
+        "shuffle_write_bytes": 302603711,
+        "task_attempts": 47
+      }
+    },
+    "skew-baseline-2": {
+      "job_ids": [
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "stage_ids": [
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123
+      ],
+      "totals": {
+        "disk_spill_bytes": 0,
+        "failed_attempts": 0,
+        "input_bytes": 161764503,
+        "memory_spill_bytes": 0,
+        "shuffle_read_bytes": 302603711,
+        "shuffle_write_bytes": 302603711,
+        "task_attempts": 47
+      }
+    },
+    "skew-broadcast-0": {
+      "job_ids": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
+      ],
+      "stage_ids": [
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87
+      ],
+      "totals": {
+        "disk_spill_bytes": 0,
+        "failed_attempts": 0,
+        "input_bytes": 161764503,
+        "memory_spill_bytes": 0,
+        "shuffle_read_bytes": 1076691,
+        "shuffle_write_bytes": 1076691,
+        "task_attempts": 47
+      }
+    },
+    "skew-broadcast-1": {
+      "job_ids": [
+        44,
+        45,
+        46,
+        47,
+        48,
+        49
+      ],
+      "stage_ids": [
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97
+      ],
+      "totals": {
+        "disk_spill_bytes": 0,
+        "failed_attempts": 0,
+        "input_bytes": 161764503,
+        "memory_spill_bytes": 0,
+        "shuffle_read_bytes": 1076691,
+        "shuffle_write_bytes": 1076691,
+        "task_attempts": 47
+      }
+    },
+    "skew-broadcast-2": {
+      "job_ids": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65
+      ],
+      "stage_ids": [
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133
+      ],
+      "totals": {
+        "disk_spill_bytes": 0,
+        "failed_attempts": 0,
+        "input_bytes": 161764503,
+        "memory_spill_bytes": 0,
+        "shuffle_read_bytes": 1076691,
+        "shuffle_write_bytes": 1076691,
+        "task_attempts": 47
+      }
+    },
+    "skew-partition-diagnostic": {
+      "job_ids": [
+        31,
+        32
+      ],
+      "stage_ids": [
+        61,
+        62,
+        63,
+        64
+      ],
+      "totals": {
+        "disk_spill_bytes": 0,
+        "failed_attempts": 0,
+        "input_bytes": 19813527,
+        "memory_spill_bytes": 0,
+        "shuffle_read_bytes": 2695184,
+        "shuffle_write_bytes": 2695184,
+        "task_attempts": 73
+      }
+    }
+  },
+  "scope": "Actual task-attempt metrics and durations from the completed event log. Reused stages may be attributed to multiple job groups; do not sum groups as disjoint application work. Nonempty-task median excludes empty read tasks, while all attempts remain visible. Cumulative bytes are not peak simultaneous scratch.",
+  "stages": {
+    "0": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 1137,
+        "median": 1084.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 438,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 1071,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1072,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1072,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1096,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1110,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1137,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "1": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 331,
+        "median": 273.5,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 158,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 261,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 278,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 268,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 296,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 331,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 269,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "100": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 5490,
+        "median": 4777.5,
+        "nonempty_median": 4777.5
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-1"
+      ],
+      "input_bytes": 161749488,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 302603474,
+      "task_attempts": 8,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 4015,
+          "input_bytes": 21893518,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 4521,
+          "input_bytes": 21893878,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5034,
+          "input_bytes": 21893488,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5167,
+          "input_bytes": 21893648,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5374,
+          "input_bytes": 21893434,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5490,
+          "input_bytes": 21894152,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1150,
+          "input_bytes": 12166236,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2258,
+          "input_bytes": 18221134,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "101": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 14,
+        "median": 14,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-1"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "104": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 16,
+        "median": 15.5,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-1"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 4,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "107": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 8536,
+        "median": 20.5,
+        "nonempty_median": 2309
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-1"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 302603711,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 20,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 32,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 35,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 23,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2218,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 45344759
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2309,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 45359280
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 8536,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 211899672
+        }
+      ]
+    },
+    "11": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 190,
+        "median": 128,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 7,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 53,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 102,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 119,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 128,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 141,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 190,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 143,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "110": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 19,
+        "median": 18,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-1"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 7,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "111": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 9,
+        "median": 9,
+        "nonempty_median": 9
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-2"
+      ],
+      "input_bytes": 15015,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 15015,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "112": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 215,
+        "median": 177.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-2"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 237,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 125,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 154,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 172,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 182,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 207,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 215,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "113": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 5743,
+        "median": 5007.0,
+        "nonempty_median": 5007.0
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-2"
+      ],
+      "input_bytes": 161749488,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 302603474,
+      "task_attempts": 8,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 4593,
+          "input_bytes": 21894152,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 4685,
+          "input_bytes": 21893434,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5329,
+          "input_bytes": 21893878,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5406,
+          "input_bytes": 21893488,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5502,
+          "input_bytes": 21893648,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5743,
+          "input_bytes": 21893518,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1315,
+          "input_bytes": 12166236,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2257,
+          "input_bytes": 18221134,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "114": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 13,
+        "median": 13,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-2"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "117": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 15,
+        "median": 14.5,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-2"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 4,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "12": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 317,
+        "median": 255.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 222,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 229,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 243,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 267,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 277,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 317,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "120": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 8011,
+        "median": 21.5,
+        "nonempty_median": 1995
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-2"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 302603711,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 20,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 21,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 21,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 24,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 23,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 23,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 23,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 24,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 26,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1955,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 45359280
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1995,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 45344759
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 8011,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 211899672
+        }
+      ]
+    },
+    "123": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 17,
+        "median": 16,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-2"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 7,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "124": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 180,
+        "median": 172.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-2"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 122,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 156,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 172,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 172,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 177,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 180,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "125": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 12,
+        "median": 12,
+        "nonempty_median": 12
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-2"
+      ],
+      "input_bytes": 15015,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 15015,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "126": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 6083,
+        "median": 5668.5,
+        "nonempty_median": 5668.5
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-2"
+      ],
+      "input_bytes": 161749488,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 1076691,
+      "task_attempts": 8,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 5456,
+          "input_bytes": 21893878,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5645,
+          "input_bytes": 21893648,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5692,
+          "input_bytes": 21893434,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5977,
+          "input_bytes": 21894152,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 6028,
+          "input_bytes": 21893518,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 6083,
+          "input_bytes": 21893488,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1286,
+          "input_bytes": 12166236,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2644,
+          "input_bytes": 18221134,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "127": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 10,
+        "median": 10,
+        "nonempty_median": 10
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-2"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 35886,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 35886
+        }
+      ]
+    },
+    "129": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 10,
+        "median": 9.5,
+        "nonempty_median": 9.5
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-2"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 140563,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 4,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 32910
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 31530
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 40577
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 35546
+        }
+      ]
+    },
+    "13": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 324,
+        "median": 317.5,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 376,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 307,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 310,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 317,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 318,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 324,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 324,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "131": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 21,
+        "median": 15.0,
+        "nonempty_median": 15.0
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-2"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 682950,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 20,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 35512
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 35018
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 33656
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 35785
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 21,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 36839
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 21,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 35505
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 35061
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 39095
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 28046
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 32716
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 31659
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 35812
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 36080
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 34665
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 34722
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 34888
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 33916
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 33291
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 27521
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 33163
+        }
+      ]
+    },
+    "133": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 13,
+        "median": 13,
+        "nonempty_median": 13
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-2"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 217292,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 7,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 30074
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 30302
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 32400
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 32294
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 28687
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 32952
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 30583
+        }
+      ]
+    },
+    "14": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 49,
+        "median": 49,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 49,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "16": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 21,
+        "median": 20.0,
+        "nonempty_median": 19.5
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 186,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 4,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 94
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 21,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 92
+        }
+      ]
+    },
+    "18": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 49,
+        "median": 34.5,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 20,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 26,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 28,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 28,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 30,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 35,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 36,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 35,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 34,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 26,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 44,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 41,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 28,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 31,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 33,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 49,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 43,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 45,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 48,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 39,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "2": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 269,
+        "median": 269,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 269,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "20": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 29,
+        "median": 25,
+        "nonempty_median": 22
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 190,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 7,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 25,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 25,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 26,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 27,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 29,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 190
+        }
+      ]
+    },
+    "21": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 294,
+        "median": 212.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 92,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 209,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 209,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 209,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 215,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 261,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 294,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "22": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 17,
+        "median": 17,
+        "nonempty_median": 17
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 92,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 92
+        }
+      ]
+    },
+    "23": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 215,
+        "median": 196.5,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 152,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 162,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 195,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 198,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 210,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 215,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "24": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 20,
+        "median": 20,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "25": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 303,
+        "median": 277.5,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 142,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 228,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 271,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 272,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 283,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 303,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 303,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "26": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 52,
+        "median": 30.5,
+        "nonempty_median": 44.5
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 142,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 32,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 31,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 30,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 35,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 35,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 35,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 52,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 24,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 33,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 37,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 41,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 44,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 22,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 20,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 21,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 38,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 26,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 24,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 26,
+          "input_bytes": 0,
+          "partition": 23,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 28,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 27,
+          "input_bytes": 0,
+          "partition": 25,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 51,
+          "input_bytes": 0,
+          "partition": 27,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 38,
+          "input_bytes": 0,
+          "partition": 31,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 40,
+          "input_bytes": 0,
+          "partition": 29,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 47,
+          "input_bytes": 0,
+          "partition": 30,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 44,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 71
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 45,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 71
+        }
+      ]
+    },
+    "27": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 20,
+        "median": 20,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "28": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 242,
+        "median": 223.5,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 161,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 197,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 212,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 236,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 235,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 242,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "29": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 312,
+        "median": 252.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 345,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 240,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 245,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 250,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 254,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 258,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 312,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "30": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 23,
+        "median": 23,
+        "nonempty_median": 23
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 345,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 23,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 345
+        }
+      ]
+    },
+    "31": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 326,
+        "median": 238.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 214,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 220,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 229,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 247,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 300,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 326,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "32": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 329,
+        "median": 256.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 339,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 219,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 247,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 254,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 258,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 267,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 329,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "33": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 12,
+        "median": 12,
+        "nonempty_median": 12
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 339,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 339
+        }
+      ]
+    },
+    "34": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 404,
+        "median": 256.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 184,
+      "task_attempts": 12,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 191,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 204,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 236,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 260,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 283,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 404,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 262,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 272,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 305,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 247,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 252,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 177,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "35": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 21,
+        "median": 21,
+        "nonempty_median": 21
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 184,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 21,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 184
+        }
+      ]
+    },
+    "36": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 234,
+        "median": 182.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 12,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 151,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 161,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 205,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 224,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 227,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 234,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 189,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 138,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 128,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 202,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 174,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 175,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "37": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 16,
+        "median": 16,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "38": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 422,
+        "median": 259.5,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 284,
+      "task_attempts": 12,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 259,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 260,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 278,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 295,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 399,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 422,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 253,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 258,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 268,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 258,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 247,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 250,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "39": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 32,
+        "median": 20.0,
+        "nonempty_median": 24.5
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 284,
+      "shuffle_write_bytes": 92,
+      "task_attempts": 32,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 24,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 30,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 28,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 29,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 29,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 22,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 20,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 26,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 21,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 23,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 25,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 24,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 32,
+          "input_bytes": 0,
+          "partition": 26,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 28,
+          "input_bytes": 0,
+          "partition": 27,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 28,
+          "input_bytes": 0,
+          "partition": 28,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 27,
+          "input_bytes": 0,
+          "partition": 29,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 31,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 24,
+          "input_bytes": 0,
+          "partition": 30,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 24,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 142
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 25,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 142
+        }
+      ]
+    },
+    "40": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 15,
+        "median": 15,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "41": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 271,
+        "median": 271,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "parquet at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 271,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "42": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 37,
+        "median": 37,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "parquet at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 37,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "43": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 165,
+        "median": 165,
+        "nonempty_median": 165
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 3318,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 59,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 165,
+          "input_bytes": 3318,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "44": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 16,
+        "median": 16,
+        "nonempty_median": 16
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 59,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 59
+        }
+      ]
+    },
+    "45": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 18,
+        "median": 18,
+        "nonempty_median": 18
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 3318,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 56,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 3318,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "46": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 13,
+        "median": 13,
+        "nonempty_median": 13
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 56,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 56
+        }
+      ]
+    },
+    "47": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 59,
+        "median": 59,
+        "nonempty_median": 59
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 3318,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 59,
+          "input_bytes": 3318,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "48": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 13,
+        "median": 13,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "49": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 317,
+        "median": 317,
+        "nonempty_median": 317
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 8753,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 3359,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 317,
+          "input_bytes": 8753,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "5": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 209,
+        "median": 148.5,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 4,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 142,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 143,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 154,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 209,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "50": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 36,
+        "median": 22.0,
+        "nonempty_median": 22.0
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 3359,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 32,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 24,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 99
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 23,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 130
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 24,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 98
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 29,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 110
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 29,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 116
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 122
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 34,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 87
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 87
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 21,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 71
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 26,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 105
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 127
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 23,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 98
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 29,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 115
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 29,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 104
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 87
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 121
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 115
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 102
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 125
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 20,
+          "shuffle_read_bytes": 98
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 21,
+          "shuffle_read_bytes": 81
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 22,
+          "shuffle_read_bytes": 110
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 25,
+          "shuffle_read_bytes": 93
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 26,
+          "shuffle_read_bytes": 121
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 36,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 110
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 27,
+          "shuffle_read_bytes": 87
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 25,
+          "input_bytes": 0,
+          "partition": 23,
+          "shuffle_read_bytes": 71
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 24,
+          "input_bytes": 0,
+          "partition": 24,
+          "shuffle_read_bytes": 116
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 28,
+          "shuffle_read_bytes": 125
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 26,
+          "input_bytes": 0,
+          "partition": 31,
+          "shuffle_read_bytes": 115
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 26,
+          "input_bytes": 0,
+          "partition": 30,
+          "shuffle_read_bytes": 114
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 27,
+          "input_bytes": 0,
+          "partition": 29,
+          "shuffle_read_bytes": 99
+        }
+      ]
+    },
+    "51": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 12,
+        "median": 12,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "52": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 106,
+        "median": 106,
+        "nonempty_median": 106
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 15015,
+      "memory_spill_bytes": 0,
+      "name": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 106,
+          "input_bytes": 15015,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "53": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 2886,
+        "median": 2724.5,
+        "nonempty_median": 2724.5
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 162707932,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 8,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 2681,
+          "input_bytes": 22013046,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2708,
+          "input_bytes": 22013091,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2741,
+          "input_bytes": 22013373,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2752,
+          "input_bytes": 22013802,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2824,
+          "input_bytes": 22013223,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2886,
+          "input_bytes": 22013268,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 618,
+          "input_bytes": 12274092,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 813,
+          "input_bytes": 18354037,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "54": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 12,
+        "median": 12,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "55": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 14,
+        "median": 14,
+        "nonempty_median": 14
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 15015,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:141",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 15015,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "56": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 1649,
+        "median": 1595.5,
+        "nonempty_median": 1595.5
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 19798512,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:141",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 1752,
+      "task_attempts": 8,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 1531,
+          "input_bytes": 2704118,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1594,
+          "input_bytes": 2703674,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1597,
+          "input_bytes": 2703728,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1602,
+          "input_bytes": 2703758,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1638,
+          "input_bytes": 2704392,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1649,
+          "input_bytes": 2703888,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 300,
+          "input_bytes": 1401948,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 449,
+          "input_bytes": 2173006,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "57": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 21,
+        "median": 11.0,
+        "nonempty_median": 14
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:141",
+      "shuffle_read_bytes": 1752,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 32,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 21,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 8,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 8,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 8,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 8,
+          "input_bytes": 0,
+          "partition": 23,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 24,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 25,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 20,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 27,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 28,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 30,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 26,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 29,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 31,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 22,
+          "shuffle_read_bytes": 584
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 584
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 21,
+          "shuffle_read_bytes": 584
+        }
+      ]
+    },
+    "58": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 20,
+        "median": 20,
+        "nonempty_median": 20
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 15015,
+      "memory_spill_bytes": 0,
+      "name": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 15015,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "59": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 3445,
+        "median": 3039.5,
+        "nonempty_median": 3039.5
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 100276720,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 8,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 2724,
+          "input_bytes": 13619598,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2935,
+          "input_bytes": 13619958,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 3144,
+          "input_bytes": 13619568,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 3333,
+          "input_bytes": 13619514,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 3444,
+          "input_bytes": 13619728,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 3445,
+          "input_bytes": 13620232,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 665,
+          "input_bytes": 7373916,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1049,
+          "input_bytes": 11184206,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "60": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 11,
+        "median": 11,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "count at NativeMethodAccessorImpl.java:0",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "61": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 12,
+        "median": 12,
+        "nonempty_median": 12
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-partition-diagnostic"
+      ],
+      "input_bytes": 15015,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:150",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 15015,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "62": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 2015,
+        "median": 1778.5,
+        "nonempty_median": 1778.5
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-partition-diagnostic"
+      ],
+      "input_bytes": 19798512,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:150",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 2694995,
+      "task_attempts": 8,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 1584,
+          "input_bytes": 2703888,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1678,
+          "input_bytes": 2703728,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1879,
+          "input_bytes": 2703674,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1990,
+          "input_bytes": 2703758,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1999,
+          "input_bytes": 2704392,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2015,
+          "input_bytes": 2704118,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 424,
+          "input_bytes": 1401948,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 691,
+          "input_bytes": 2173006,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "63": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 2223,
+        "median": 14.0,
+        "nonempty_median": 575
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-partition-diagnostic"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:150",
+      "shuffle_read_bytes": 2694995,
+      "shuffle_write_bytes": 189,
+      "task_attempts": 32,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 43,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 44,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 45,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 45,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 46,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 46,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 23,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 20,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 24,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 25,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 26,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 27,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 30,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 31,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 29,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 28,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 548,
+          "input_bytes": 0,
+          "partition": 21,
+          "shuffle_read_bytes": 404563
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 575,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 404455
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2223,
+          "input_bytes": 0,
+          "partition": 22,
+          "shuffle_read_bytes": 1885977
+        }
+      ]
+    },
+    "64": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 27,
+        "median": 12.0,
+        "nonempty_median": 9
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-partition-diagnostic"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:150",
+      "shuffle_read_bytes": 189,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 32,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 21,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 23,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 24,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 26,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 27,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 27,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 8,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 7,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 23,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 20,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 21,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 8,
+          "input_bytes": 0,
+          "partition": 26,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 25,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 27,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 28,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 29,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 24,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 8,
+          "input_bytes": 0,
+          "partition": 30,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 63
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 8,
+          "input_bytes": 0,
+          "partition": 31,
+          "shuffle_read_bytes": 63
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9,
+          "input_bytes": 0,
+          "partition": 22,
+          "shuffle_read_bytes": 63
+        }
+      ]
+    },
+    "65": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 17,
+        "median": 17,
+        "nonempty_median": 17
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-0"
+      ],
+      "input_bytes": 15015,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 15015,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "66": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 6400,
+        "median": 5567.5,
+        "nonempty_median": 5567.5
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-0"
+      ],
+      "input_bytes": 161749488,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 302603474,
+      "task_attempts": 8,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 5220,
+          "input_bytes": 21893434,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5421,
+          "input_bytes": 21894152,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5714,
+          "input_bytes": 21893488,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5860,
+          "input_bytes": 21893878,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 6245,
+          "input_bytes": 21893648,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 6400,
+          "input_bytes": 21893518,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1335,
+          "input_bytes": 12166236,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2552,
+          "input_bytes": 18221134,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "67": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 213,
+        "median": 191.5,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-0"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 237,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 202,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 213,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 186,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 142,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 197,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 173,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "68": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 109,
+        "median": 109,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-0"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 109,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "71": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 19,
+        "median": 19.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-0"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 4,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "74": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 9880,
+        "median": 29.0,
+        "nonempty_median": 2601
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-0"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 302603711,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 20,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 21,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 29,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 33,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 30,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 30,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 32,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 29,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 23,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 28,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 24,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 29,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 28,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 27,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 29,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2559,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 45344759
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2601,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 45359280
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 9880,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 211899672
+        }
+      ]
+    },
+    "77": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 29,
+        "median": 26,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-0"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 7,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 21,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 26,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 27,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 28,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 29,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "78": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 184,
+        "median": 171.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-0"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 113,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 125,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 170,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 172,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 175,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 184,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "79": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 18,
+        "median": 18,
+        "nonempty_median": 18
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-0"
+      ],
+      "input_bytes": 15015,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 15015,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "8": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 149,
+        "median": 76.5,
+        "nonempty_median": 67.5
+      },
+      "failed_attempts": 0,
+      "groups": [],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 596,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 20,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 63,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 70,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 77,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 77,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 89,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 125,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 74,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 89,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 89,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 100,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 65,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 140,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 67,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 76,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 75,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 149,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 67,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 77,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 72,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 190
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 63,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 406
+        }
+      ]
+    },
+    "80": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 7141,
+        "median": 6395.0,
+        "nonempty_median": 6395.0
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-0"
+      ],
+      "input_bytes": 161749488,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 1076691,
+      "task_attempts": 8,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 5849,
+          "input_bytes": 21893434,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 6292,
+          "input_bytes": 21894152,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 6498,
+          "input_bytes": 21893648,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 6923,
+          "input_bytes": 21893488,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 7084,
+          "input_bytes": 21893518,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 7141,
+          "input_bytes": 21893878,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1317,
+          "input_bytes": 12166236,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2715,
+          "input_bytes": 18221134,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "81": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 22,
+        "median": 22,
+        "nonempty_median": 22
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-0"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 35886,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 35886
+        }
+      ]
+    },
+    "83": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 15,
+        "median": 13.0,
+        "nonempty_median": 13.0
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-0"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 140563,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 4,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 35546
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 32910
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 31530
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 40577
+        }
+      ]
+    },
+    "85": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 35,
+        "median": 17.5,
+        "nonempty_median": 17.5
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-0"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 682950,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 20,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 35505
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 33656
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 25,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 36839
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 25,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 35785
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 25,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 35512
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 25,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 35018
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 39095
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 35812
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 31659
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 23,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 28046
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 34665
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 36080
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 35,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 35061
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 31,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 32716
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 17,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 34888
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 33291
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 33916
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 31,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 34722
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 27521
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 33163
+        }
+      ]
+    },
+    "87": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 21,
+        "median": 18,
+        "nonempty_median": 18
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-0"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 217292,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 7,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 32400
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 32294
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 30074
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 28687
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 19,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 32952
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 21,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 30302
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 30583
+        }
+      ]
+    },
+    "88": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 198,
+        "median": 190.0,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-1"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 117,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 181,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 188,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 192,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 197,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 198,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "89": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 13,
+        "median": 13,
+        "nonempty_median": 13
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-1"
+      ],
+      "input_bytes": 15015,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 15015,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "90": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 6243,
+        "median": 5607.0,
+        "nonempty_median": 5607.0
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-1"
+      ],
+      "input_bytes": 161749488,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 1076691,
+      "task_attempts": 8,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 5295,
+          "input_bytes": 21894152,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5359,
+          "input_bytes": 21893518,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5855,
+          "input_bytes": 21893488,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5959,
+          "input_bytes": 21893878,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 5971,
+          "input_bytes": 21893434,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 6243,
+          "input_bytes": 21893648,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 1428,
+          "input_bytes": 12166236,
+          "partition": 7,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 2652,
+          "input_bytes": 18221134,
+          "partition": 6,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "91": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 13,
+        "median": 13,
+        "nonempty_median": 13
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-1"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 35886,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 35886
+        }
+      ]
+    },
+    "93": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 12,
+        "median": 11.5,
+        "nonempty_median": 11.5
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-1"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 140563,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 4,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 31530
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 11,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 32910
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 40577
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 35546
+        }
+      ]
+    },
+    "95": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 22,
+        "median": 15.5,
+        "nonempty_median": 15.5
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-1"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 682950,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 20,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 35505
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 33656
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 36839
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 35512
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 35785
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 20,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 35018
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 9,
+          "shuffle_read_bytes": 31659
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 35061
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 8,
+          "shuffle_read_bytes": 35812
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 12,
+          "input_bytes": 0,
+          "partition": 11,
+          "shuffle_read_bytes": 32716
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 16,
+          "input_bytes": 0,
+          "partition": 7,
+          "shuffle_read_bytes": 39095
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 18,
+          "input_bytes": 0,
+          "partition": 10,
+          "shuffle_read_bytes": 28046
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 14,
+          "shuffle_read_bytes": 34722
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 12,
+          "shuffle_read_bytes": 36080
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 15,
+          "shuffle_read_bytes": 34888
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 13,
+          "shuffle_read_bytes": 34665
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 16,
+          "shuffle_read_bytes": 33291
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 19,
+          "shuffle_read_bytes": 27521
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 14,
+          "input_bytes": 0,
+          "partition": 18,
+          "shuffle_read_bytes": 33916
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 22,
+          "input_bytes": 0,
+          "partition": 17,
+          "shuffle_read_bytes": 33163
+        }
+      ]
+    },
+    "97": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 15,
+        "median": 13,
+        "nonempty_median": 13
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-broadcast-1"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 217292,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 7,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 30074
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 32400
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 30302
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 28687
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 13,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 32952
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 15,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 32294
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 10,
+          "input_bytes": 0,
+          "partition": 6,
+          "shuffle_read_bytes": 30583
+        }
+      ]
+    },
+    "98": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 8,
+        "median": 8,
+        "nonempty_median": 8
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-1"
+      ],
+      "input_bytes": 15015,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 0,
+      "task_attempts": 1,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 8,
+          "input_bytes": 15015,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    },
+    "99": {
+      "disk_spill_bytes": 0,
+      "duration_ms": {
+        "max": 203,
+        "median": 182.5,
+        "nonempty_median": null
+      },
+      "failed_attempts": 0,
+      "groups": [
+        "skew-baseline-1"
+      ],
+      "input_bytes": 0,
+      "memory_spill_bytes": 0,
+      "name": "collect at /workspace/pipelines/skew_job.py:68",
+      "shuffle_read_bytes": 0,
+      "shuffle_write_bytes": 237,
+      "task_attempts": 6,
+      "tasks": [
+        {
+          "attempt": 0,
+          "duration_ms": 130,
+          "input_bytes": 0,
+          "partition": 5,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 151,
+          "input_bytes": 0,
+          "partition": 1,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 177,
+          "input_bytes": 0,
+          "partition": 3,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 188,
+          "input_bytes": 0,
+          "partition": 4,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 190,
+          "input_bytes": 0,
+          "partition": 0,
+          "shuffle_read_bytes": 0
+        },
+        {
+          "attempt": 0,
+          "duration_ms": 203,
+          "input_bytes": 0,
+          "partition": 2,
+          "shuffle_read_bytes": 0
+        }
+      ]
+    }
+  }
+}

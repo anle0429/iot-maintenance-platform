@@ -1,0 +1,213 @@
+{
+  "base_commit": "270e880cec9f959ca25294d29cb75754c145b54b",
+  "checked_utc": "2026-10-27T02:00:09.226864+00:00",
+  "container_bytes": 30064771072,
+  "cpu": 6,
+  "deadline_utc": "2026-10-27T05:49:09.924+00:00",
+  "hdd_minimum_free_bytes": 285000000000,
+  "heap_gib": 20,
+  "image_id": "sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417",
+  "partitions": 32,
+  "repetitions": 3,
+  "resources": {
+    "checked_utc": "2026-10-27T02:00:07.190547+00:00",
+    "free_bytes": {
+      "/srv/iot-data": 410640711680,
+      "/srv/iot-fast": 133821046784
+    },
+    "ram_bytes": 60962795520
+  },
+  "runtime_files": [
+    {
+      "path": "generator/__init__.py",
+      "sha256": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172"
+    },
+    {
+      "path": "generator/__main__.py",
+      "sha256": "045e4f5ac449b48e75856dba9a3a1c25cca6d985e5ba57bcc86792f893c25ba5"
+    },
+    {
+      "path": "generator/capacity.py",
+      "sha256": "da846d8671936ea371226581c504071e05905d03afb2fbf43861a854373c5241"
+    },
+    {
+      "path": "generator/chunk_quality.py",
+      "sha256": "a8ff63b5f518dbd117ea92926e08b8d2d98dc24601fe359eebab1faca042e79e"
+    },
+    {
+      "path": "generator/chunked.py",
+      "sha256": "9b8705e9156966c08c02fd604739c3cb416a48fbc0881f21c5cce735e03f1b2c"
+    },
+    {
+      "path": "generator/config.py",
+      "sha256": "087682ae48dceb64865cdca983b7642ab9d256bb0083da165d296196c21cb3de"
+    },
+    {
+      "path": "generator/quality.py",
+      "sha256": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000"
+    },
+    {
+      "path": "generator/simulation.py",
+      "sha256": "1179f67674b71c3c9b1b09d3a72f32f24df30647004b0ccf82fecebe673a360c"
+    },
+    {
+      "path": "generator/storage.py",
+      "sha256": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d"
+    },
+    {
+      "path": "pipelines/__init__.py",
+      "sha256": "3fa18d7c6802d683dbcc51d2e39ebc899374ed8cba9eeee50bd5eb00ba57f90c"
+    },
+    {
+      "path": "pipelines/airflow_tasks.py",
+      "sha256": "c657b418c10c5e0fe7345b2b3d7550c965a4cf3dfaf8f0095d5f37b0e97fdedc"
+    },
+    {
+      "path": "pipelines/batch_job.py",
+      "sha256": "7d6f623dbdf0c9db0041cc82a604ba16c191e0cf6d40bb4a399c2f67309bae09"
+    },
+    {
+      "path": "pipelines/chunk_ingest.py",
+      "sha256": "bfedefd3aa72bb6eb3cb84d2ce4108d7c1b4970f31600c93353db2dca7e6c213"
+    },
+    {
+      "path": "pipelines/chunk_source.py",
+      "sha256": "0e0e14b524632f3f3be658cdd800af6216c450f556aadebb53440f9cb5dcb63a"
+    },
+    {
+      "path": "pipelines/factory_policy.py",
+      "sha256": "5d996c0f0b6f8f010f89c152f086688e5319b9cbd90d70d682f3a091d5d3365e"
+    },
+    {
+      "path": "pipelines/features.py",
+      "sha256": "701f8b979d10da87724945fc79e625978d0807f3ffe0ece35a045069bbd37af4"
+    },
+    {
+      "path": "pipelines/ingest_metrics.py",
+      "sha256": "8012bef681482ea2f3b137916f9e96d9fb7caccd26a2e26d7a9548855206fa1a"
+    },
+    {
+      "path": "pipelines/metadata_publish.py",
+      "sha256": "348edd61be0956c29cb4d944e6d3910093016b569395cbf36527db65cc05bff3"
+    },
+    {
+      "path": "pipelines/orchestrated_job.py",
+      "sha256": "0b52842cb7130c3352263dbf9b69996e5c77869552728656d37b8ed832452f0c"
+    },
+    {
+      "path": "pipelines/orchestration_contract.py",
+      "sha256": "ba13ec6b1083fa84a65488f3de4192eae48bd7768f8a877363cfc808f12e977a"
+    },
+    {
+      "path": "pipelines/scale_budget.py",
+      "sha256": "aa74ff1b37ad1901b055104e9e760af91fe24afe220d0effc836b844394bb21c"
+    },
+    {
+      "path": "pipelines/skew_job.py",
+      "sha256": "37f42bbf7f72a350b56d92c10c0d8a782d13d3727e4254d5303b76d41bc71c65"
+    },
+    {
+      "path": "pipelines/skew_metrics.py",
+      "sha256": "7a5cf4e004b7e2606016d546c911c154bc4b09c307861f456a559350736c274e"
+    },
+    {
+      "path": "pipelines/source_loader.py",
+      "sha256": "fb2e1688a9c9150c2a17fc2fa660541f76cf1cdff38f211b7780f8082f6b97cb"
+    },
+    {
+      "path": "pipelines/source_runtime.py",
+      "sha256": "9cb46d0777e96a575d94af7b0d1c34c3aa0170ca48766deaa3e52dddef47d6e6"
+    },
+    {
+      "path": "pipelines/spark_checks.py",
+      "sha256": "922658ecfafda7f7645406d82604266b410b574341e1a020683dc4f416625d06"
+    },
+    {
+      "path": "pipelines/stream_contract.py",
+      "sha256": "cd2a85c2bd8dda070ac0e174d12ac787201412425f75899a63c4580d69f9de06"
+    },
+    {
+      "path": "pipelines/stream_job.py",
+      "sha256": "478c4c9c7b38e56a93e53fd5236c432016e7fe2c3ee829202a4dc7979a9c46db"
+    },
+    {
+      "path": "pipelines/stream_verification.py",
+      "sha256": "7f959636c6ef74c4330a5ca8a9f480696762ecf34ecb506eef69afc947c6f3ae"
+    },
+    {
+      "path": "pipelines/temporal.py",
+      "sha256": "e0f7136601e0f75130832d670d62de834a3c3787d6357be2a865d58a50909e97"
+    },
+    {
+      "path": "pipelines/transforms.py",
+      "sha256": "a05a8aa054cedd4f6da194f487a93601e3d9a8dd1f0bfc359305396279fcaf33"
+    },
+    {
+      "path": "tests/test_chunk_source.py",
+      "sha256": "45dd88dfee5b1a0a8ceb0cbd430811b6f57ec726389ff1b0a266d97ea9ad1b18"
+    },
+    {
+      "path": "tests/test_chunked.py",
+      "sha256": "b7ef26d551655e49545adb6245b34c0ba5d6eaf4e6998c2a842f62176ed4265d"
+    },
+    {
+      "path": "tests/test_factory_policy.py",
+      "sha256": "b3eb58d3fa7c8312fde17a7922e3023b57b61c3239a62018295011e6d26f7c79"
+    },
+    {
+      "path": "tests/test_generator.py",
+      "sha256": "aeff14b978e94986f00efaea679ee223a608e1a71f0669757265a66ff15085ef"
+    },
+    {
+      "path": "tests/test_ingest_metrics.py",
+      "sha256": "3a75bba772f28ef66709d87906f513a7497f27031aa427f1dca5034598bd15e8"
+    },
+    {
+      "path": "tests/test_orchestration_contract.py",
+      "sha256": "d012fb257e3693afb5a232ef0383a49b34f7d9e371e8e16f40a9a0e2af69d928"
+    },
+    {
+      "path": "tests/test_scale_budget.py",
+      "sha256": "75cd76355404dad10c3465512dd9e1d17b32b8f2d82d795765f22006d484baca"
+    },
+    {
+      "path": "tests/test_skew_metrics.py",
+      "sha256": "ecd7bb13253bf202782b8186f81ab574419619c59d229bc04768bc60cf745d69"
+    },
+    {
+      "path": "tests/test_source_runtime.py",
+      "sha256": "29c3035f8579dea7d3d60e7e20a73245d1d7f53281b25b9a182d6a65db84a65b"
+    },
+    {
+      "path": "tests/test_streaming.py",
+      "sha256": "c9f878d48d1fbe05d8333f9422829f49bdddfc8815821e02df3e92d82448dc2d"
+    },
+    {
+      "path": "tests/test_temporal.py",
+      "sha256": "d5c32e9427fcdf4c3309ea6b29ff8211b735100a508ed53b300cfc95f8759757"
+    },
+    {
+      "path": "scripts/run-skew-benchmark.py",
+      "sha256": "308ea126edde485d6bcf90a088c32130546f8c270e7cfc393a82169c94610c91"
+    },
+    {
+      "path": "pipelines/configs/factory-risk-policies.json",
+      "sha256": "d304dab39bc50a0daa2e101f40568448aa756d367ff3797bee3f5a3343f65f3d"
+    },
+    {
+      "path": "infra/ingest.compose.yaml",
+      "sha256": "cf1a0601c74e01436e8c783e5d04f8f01f94012b07a6688ecc652f9e0b9743a2"
+    },
+    {
+      "path": "infra/ingest.cloud.compose.yaml",
+      "sha256": "68b785ecd22a6350453f01012678f44e6a28700ae18936406216e29c399dc9ff"
+    },
+    {
+      "path": "infra/spark/Dockerfile",
+      "sha256": "c22f0c3433a6574c4dd16e862165c5edd482839bbf382d53a431603e82b33d62"
+    }
+  ],
+  "scope": "Measured intermediate Silver query only. No source regeneration, full100GB Spark or VM session extension.",
+  "scratch": "/srv/iot-data/spark-scratch/skew-join-27-v2",
+  "scratch_cap_bytes": 20000000000
+}

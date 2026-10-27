@@ -181,3 +181,32 @@ Nguồn 100 GB không tự chứng minh Gold/feature/model hoặc Airflow xử l
 Đặc biệt, [DP3](../pipelines/features.py) hiện ghép snapshots với telemetry/failure/maintenance bằng `machine_id` kèm điều kiện thời gian; [job điều phối](../pipelines/orchestrated_job.py) còn cache readings/snapshots. Chưa đo các phép ghép/cache này trên horizon dài. Mốc tiếp theo phải xem physical plan, kiểm tập trung gian biết đáp án, giảm candidate join/kiểm arrival-time và đo RAM/shuffle trước khi đưa toàn bộ nguồn mới vào DP3; không dùng số đo Bronze/Silver làm bằng chứng cho feature pipeline.
 
 Ngân sách thời gian Spark lớn phải tính cả launcher/adapter rehash nguồn, full readback và query/metrics, ngoài `job_wall_seconds`. Các bước này có thể đọc lại cùng file nhiều lần; tổng byte I/O không phải dung lượng dataset. Cần đo lại và lập gate theo phiên VM hiện tại trước khi chạy, giữ giới hạn STOP 8 giờ đã duyệt.
+
+## Gate cho Spark toàn nguồn lớn
+
+Lúc **02:15:26 UTC 27/10/2026**, đã đo trực tiếp trên VM và lưu [plan đầy đủ](evidence/large-ingest-plan/plan.json). Nguồn lớn vẫn giữ nguyên; script chỉ đọc 64 MiB đầu của tám part v1 có sẵn bằng GNU `dd iflag=direct,fullblock`, tổng **536.870.912 B trong 4,114749 giây**, khoảng **130,47 MB/s**. O_DIRECT tránh đo nhầm tốc độ page cache; không xóa cache toàn máy, không ghi source. Đây là mẫu ngắn có thể hưởng burst của đĩa, không cam kết băng thông shuffle hỗn hợp hoặc tốc độ chạy nhiều giờ. Kiểm inode/size/mtime và manifest trước/sau, không gọi mẫu đọc này là full validation mới.
+
+| Tài nguyên | Khả dụng thực đo | Ngân sách tăng thêm và dự phòng | Gate |
+|---|---:|---:|---|
+| HDD | 410.628.182.016 B | 305 GB: output150 + scratch120 + log5 + trống30 | Qua |
+| SSD | 133.819.969.536 B | 35 GB: platform15 + trống20 | Qua |
+| RAM | 60.643.393.536 B | 36 GiB: container28 + headroom8 | Qua |
+| CPU | 8 vCPU | Ít nhất7, trong đó Spark6 | Qua |
+| Thời gian trước STOP | 12.822,949 giây | Ước tính13.570,344 + dự phòng kết thúc1.200 giây | **Chưa qua** |
+
+Source đã chiếm đĩa nên không cộng lại 115 GB source cap vào ngân sách tăng thêm. Scratch chuyển sang HDD; tăng dự trù từ100 lên120GB để có chỗ cho ngoại suy scratch trung gian khoảng85GB cùng margin. Đây vẫn là ngân sách, chưa phải quan sát scratch100GB hoặc đảm bảo RAM khi scale.
+
+[Planner](../pipelines/ingest_budget.py) dùng source/receipt lớn đã PASS, intermediate/report cùng manifest, task metrics trung gian và probe mới. Workload được dự tính là Bronze/Silver, full checks và ba cặp query JSONL/Parquet hiện có. Task I/O ngoại suy cộng **ba lượt checksum** của launcher hiện tại cho khoảng **1.362 GB I/O**. Đây là byte đọc/ghi lặp, không phải dung lượng dataset. Thời gian lấy giá trị lớn hơn giữa ngoại suy wall-time Spark và I/O/băng thông mẫu, nhân1,3 rồi dành thêm20phút kết thúc. Toàn khoảng4giờ6phút vượt3giờ33phút còn lại lúc đo. Không bỏ gate hoặc thay auto-STOP để chạy.
+
+Plan luôn ghi `execution_ready=false`: launcher optimized cũ còn chọn SSD, chưa có live guards đầy đủ cho lượt lớn và cần kiểm partition lớn. Vì vậy ngay cả khi các resource/time gates cùng qua, không dùng file plan như một lệnh tự cho phép chạy Spark. Chưa mở lại/kéo dài phiên VM hoặc tạo/nâng tài nguyên cloud trong mốc này.
+
+Trên VM, chọn report mới và deadline STOP thực của phiên hiện tại:
+
+```bash
+data/runtime/scale-venv/bin/python scripts/plan-large-ingest.py \
+  --deadline-utc "$VM_STOP_UTC" --output outputs/my-large-ingest-plan.json
+```
+
+Script không sinh lại source hoặc khởi chạy Spark. Bốn test planner kiểm biên từng volume/RAM/CPU, receipt khác nguồn, số đo lỗi/không hữu hạn, và thiếu thời gian dù riêng Spark wall-time có vẻ vừa. Bộ unittest sau thay đổi: **111 tests PASS** trên PC và VM; [bằng chứng kiểm code](evidence/large-ingest-plan/checks.json).
+
+[Benchmark skew](skew-benchmark.md) đã kiểm ba cặp cùng query trên17,28triệu readings, có physical plans và Spark UI thật. Mốc kế cần hoàn thiện runner HDD/live guards, giảm đọc kiểm dư thừa mà vẫn giữ integrity, kiểm partition/feature join bằng tập biết đáp án rồi mới admission lại theo phiên VM thực. Không sinh lại nguồn102,45GB đã đạt.
