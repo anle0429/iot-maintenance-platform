@@ -1,0 +1,22 @@
+# The separately prepared native Feast seed is a private runtime ConfigMap, never committed data.
+image: {repository: iot-coursework-feature-api, tag: v1, pullPolicy: Never}
+resources:
+  requests: {cpu: 100m, memory: 256Mi}
+  limits: {cpu: '1', memory: 1Gi}
+env:
+  - {name: IOT_FEAST_REDIS, value: online.iot-features.svc.cluster.local:6379}
+  - {name: IOT_SERVING_STATE, value: /state}
+  - {name: IOT_KSERVE_URL, value: 'http://iot-pump-failure-v1-predictor.iot-serving.svc.cluster.local'}
+initContainers:
+  - name: copy-state
+    image: iot-coursework-feature-api:v1
+    imagePullPolicy: Never
+    command: [python, -c, "import shutil,pathlib; p=pathlib.Path('/state/registry'); p.mkdir(); [shutil.copyfile('/seed/'+n,'/state/'+n) for n in ['context.json','verification.json','_READY.json']]; shutil.copyfile('/seed/registry.db','/state/registry/registry.db')"]
+    resources: {requests: {cpu: 50m, memory: 64Mi}, limits: {cpu: 500m, memory: 256Mi}}
+    securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+    volumeMounts: [{name: seed, mountPath: /seed, readOnly: true}, {name: state, mountPath: /state}]
+volumes:
+  - {name: seed, configMap: {name: iot-feature-serving-state-helm}}
+  - {name: state, emptyDir: {medium: Memory, sizeLimit: 16Mi}}
+  - {name: tmp, emptyDir: {medium: Memory, sizeLimit: 32Mi}}
+volumeMounts: [{name: state, mountPath: /state}, {name: tmp, mountPath: /tmp}]

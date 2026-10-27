@@ -1,0 +1,123 @@
+ERROR StatusLogger Could not determine local host name
+ java.net.UnknownHostException: 2ef093129540: 2ef093129540: Temporary failure in name resolution
+	at java.base/java.net.InetAddress.getLocalHost(InetAddress.java:1671)
+	at org.apache.logging.log4j.core.util.NetUtils.getLocalHostname(NetUtils.java:56)
+	at org.apache.logging.log4j.core.LoggerContext.lambda$setConfiguration$0(LoggerContext.java:615)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1708)
+	at org.apache.logging.log4j.core.LoggerContext.setConfiguration(LoggerContext.java:615)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:694)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:711)
+	at org.apache.logging.log4j.core.LoggerContext.start(LoggerContext.java:253)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:245)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:47)
+	at org.apache.logging.log4j.LogManager.getContext(LogManager.java:176)
+	at org.apache.logging.log4j.LogManager.getLogger(LogManager.java:666)
+	at org.apache.logging.log4j.LogManager.getRootLogger(LogManager.java:700)
+	at org.apache.spark.internal.Logging.initializeLogging(Logging.scala:129)
+	at org.apache.spark.internal.Logging.initializeLogIfNecessary(Logging.scala:114)
+	at org.apache.spark.internal.Logging.initializeLogIfNecessary$(Logging.scala:108)
+	at org.apache.spark.deploy.SparkSubmit.initializeLogIfNecessary(SparkSubmit.scala:76)
+	at org.apache.spark.deploy.SparkSubmit.doSubmit(SparkSubmit.scala:84)
+	at org.apache.spark.deploy.SparkSubmit$$anon$2.doSubmit(SparkSubmit.scala:1125)
+	at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:1134)
+	at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
+Caused by: java.net.UnknownHostException: 2ef093129540: Temporary failure in name resolution
+	at java.base/java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)
+	at java.base/java.net.InetAddress$PlatformNameService.lookupAllHostAddr(InetAddress.java:934)
+	at java.base/java.net.InetAddress.getAddressesFromNameService(InetAddress.java:1543)
+	at java.base/java.net.InetAddress$NameServiceAddresses.get(InetAddress.java:852)
+	at java.base/java.net.InetAddress.getAllByName0(InetAddress.java:1533)
+	at java.base/java.net.InetAddress.getLocalHost(InetAddress.java:1666)
+	... 20 more
+ERROR StatusConsoleListener Could not determine local host name
+ java.net.UnknownHostException: 2ef093129540: 2ef093129540: Temporary failure in name resolution
+	at java.base/java.net.InetAddress.getLocalHost(InetAddress.java:1671)
+	at org.apache.logging.log4j.core.util.NetUtils.getLocalHostname(NetUtils.java:56)
+	at org.apache.logging.log4j.core.LoggerContext.lambda$setConfiguration$0(LoggerContext.java:615)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1708)
+	at org.apache.logging.log4j.core.LoggerContext.setConfiguration(LoggerContext.java:615)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:694)
+	at org.apache.logging.log4j.core.LoggerContext.setConfigLocation(LoggerContext.java:679)
+	at org.apache.spark.internal.Logging.initializeLogging(Logging.scala:139)
+	at org.apache.spark.internal.Logging.initializeLogIfNecessary(Logging.scala:114)
+	at org.apache.spark.internal.Logging.initializeLogIfNecessary$(Logging.scala:108)
+	at org.apache.spark.deploy.SparkSubmit.initializeLogIfNecessary(SparkSubmit.scala:76)
+	at org.apache.spark.deploy.SparkSubmit.doSubmit(SparkSubmit.scala:84)
+	at org.apache.spark.deploy.SparkSubmit$$anon$2.doSubmit(SparkSubmit.scala:1125)
+	at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:1134)
+	at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
+Caused by: java.net.UnknownHostException: 2ef093129540: Temporary failure in name resolution
+	at java.base/java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)
+	at java.base/java.net.InetAddress$PlatformNameService.lookupAllHostAddr(InetAddress.java:934)
+	at java.base/java.net.InetAddress.getAddressesFromNameService(InetAddress.java:1543)
+	at java.base/java.net.InetAddress$NameServiceAddresses.get(InetAddress.java:852)
+	at java.base/java.net.InetAddress.getAllByName0(InetAddress.java:1533)
+	at java.base/java.net.InetAddress.getLocalHost(InetAddress.java:1666)
+	... 14 more
+ERROR StatusConsoleListener Could not determine local host name
+ java.net.UnknownHostException: 2ef093129540: 2ef093129540: Temporary failure in name resolution
+	at java.base/java.net.InetAddress.getLocalHost(InetAddress.java:1671)
+	at org.apache.logging.log4j.core.util.NetUtils.getLocalHostname(NetUtils.java:56)
+	at org.apache.logging.log4j.core.LoggerContext.lambda$setConfiguration$0(LoggerContext.java:615)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1708)
+	at org.apache.logging.log4j.core.LoggerContext.setConfiguration(LoggerContext.java:615)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:694)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:711)
+	at org.apache.spark.internal.Logging$.uninitialize(Logging.scala:220)
+	at org.apache.spark.deploy.SparkSubmit.org$apache$spark$deploy$SparkSubmit$$runMain(SparkSubmit.scala:972)
+	at org.apache.spark.deploy.SparkSubmit.doRunMain$1(SparkSubmit.scala:199)
+	at org.apache.spark.deploy.SparkSubmit.submit(SparkSubmit.scala:222)
+	at org.apache.spark.deploy.SparkSubmit.doSubmit(SparkSubmit.scala:91)
+	at org.apache.spark.deploy.SparkSubmit$$anon$2.doSubmit(SparkSubmit.scala:1125)
+	at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:1134)
+	at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
+Caused by: java.net.UnknownHostException: 2ef093129540: Temporary failure in name resolution
+	at java.base/java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)
+	at java.base/java.net.InetAddress$PlatformNameService.lookupAllHostAddr(InetAddress.java:934)
+	at java.base/java.net.InetAddress.getAddressesFromNameService(InetAddress.java:1543)
+	at java.base/java.net.InetAddress$NameServiceAddresses.get(InetAddress.java:852)
+	at java.base/java.net.InetAddress.getAllByName0(InetAddress.java:1533)
+	at java.base/java.net.InetAddress.getLocalHost(InetAddress.java:1666)
+	... 14 more
+26/10/27 15:33:11 INFO SparkContext: Running Spark version 3.5.9
+26/10/27 15:33:11 INFO SparkContext: OS info Linux, 7.0.0-1014-gcp, amd64
+26/10/27 15:33:11 INFO SparkContext: Java version 17.0.19
+26/10/27 15:33:11 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/10/27 15:33:11 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+26/10/27 15:33:11 INFO ResourceUtils: ==============================================================
+26/10/27 15:33:11 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/10/27 15:33:11 INFO ResourceUtils: ==============================================================
+26/10/27 15:33:11 INFO SparkContext: Submitted application: iot-sensor-drift-small
+26/10/27 15:33:11 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/10/27 15:33:11 INFO ResourceProfile: Limiting resource is cpu
+26/10/27 15:33:11 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/10/27 15:33:11 INFO SecurityManager: Changing view acls to: spark
+26/10/27 15:33:11 INFO SecurityManager: Changing modify acls to: spark
+26/10/27 15:33:11 INFO SecurityManager: Changing view acls groups to: 
+26/10/27 15:33:11 INFO SecurityManager: Changing modify acls groups to: 
+26/10/27 15:33:11 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark; groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY
+26/10/27 15:33:11 WARN MacAddressUtil: Failed to find a usable hardware address from the network interfaces; using random bytes: f9:62:f1:f4:30:0a:8b:b5
+26/10/27 15:33:11 INFO Utils: Successfully started service 'sparkDriver' on port 37685.
+26/10/27 15:33:11 INFO SparkEnv: Registering MapOutputTracker
+26/10/27 15:33:12 INFO SparkEnv: Registering BlockManagerMaster
+26/10/27 15:33:12 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/10/27 15:33:12 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/10/27 15:33:12 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/10/27 15:33:12 INFO DiskBlockManager: Created local directory at /scratch/blockmgr-84f5d893-e246-41c2-a74e-0de98f105d35
+26/10/27 15:33:12 INFO MemoryStore: MemoryStore started with capacity 1048.8 MiB
+26/10/27 15:33:12 INFO SparkEnv: Registering OutputCommitCoordinator
+26/10/27 15:33:12 INFO JettyUtils: Start Jetty 127.0.0.1:4040 for SparkUI
+26/10/27 15:33:12 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/10/27 15:33:12 INFO Executor: Starting executor ID driver on host localhost
+26/10/27 15:33:12 INFO Executor: OS info Linux, 7.0.0-1014-gcp, amd64
+26/10/27 15:33:12 INFO Executor: Java version 17.0.19
+26/10/27 15:33:12 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/10/27 15:33:12 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@19081ad3 for default.
+26/10/27 15:33:12 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 41265.
+26/10/27 15:33:12 INFO NettyBlockTransferService: Server created on localhost:41265
+26/10/27 15:33:12 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/10/27 15:33:12 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, localhost, 41265, None)
+26/10/27 15:33:12 INFO BlockManagerMasterEndpoint: Registering block manager localhost:41265 with 1048.8 MiB RAM, BlockManagerId(driver, localhost, 41265, None)
+26/10/27 15:33:12 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, localhost, 41265, None)
+26/10/27 15:33:12 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, localhost, 41265, None)
+{"passed": true, "joined_rows": 10373, "sensor_effect_check": {"rows": 4828, "max_temperature_shift_error": 4.263256414560601e-14, "max_vibration_scale_error": 0.0004000000000026205}}

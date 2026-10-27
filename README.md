@@ -154,3 +154,7 @@ Get-Content outputs/practice-chunks/chunked-report.json
 
 - [Huấn luyện phân tán trên Kubeflow](docs/distributed-training.md): hai executor thực thi task LR, nguồn trung gian60ngày.
 - [Phiên bản dữ liệu tăng dần](docs/incremental-data-versioning.md): nativeMLflow, phần đổi mới được upload và fullrestore đã kiểm.
+- [Generator và API drift](docs/drift-detection.md): cấu hình lệch cảm biến, bảng nhãn/feature thật, HTTP và kiểm thử.
+- [Deploy API bằng Helm](docs/api-deployment.md): rolling update và tự rollback đã thử trên hai API.
+- [Đối chiếu nội dung lớp cho novel ideas](docs/novel-ideas.md): hai lịch K9 người dùng cung cấp, không thay rubric K11 final.
+- [Năm lớp chính của vòng đời ML](docs/ml-class-design.md): trách nhiệm, giao diện, adapter/factory và dependency injection trong mã đã kiểm.

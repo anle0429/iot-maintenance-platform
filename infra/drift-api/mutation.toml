@@ -1,0 +1,6 @@
+# Copy this file as pyproject.toml into an isolated source/test copy before invoking mutmut.
+[tool.mutmut]
+source_paths = ["services/drift_api/"]
+pytest_add_cli_args_test_selection = ["tests/api/test_drift_api.py"]
+also_copy = ["services/predictor/", "services/__init__.py"]
+process_isolation = "forkserver"

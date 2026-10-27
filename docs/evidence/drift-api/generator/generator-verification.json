@@ -1,0 +1,123 @@
+{
+  "all_persisted_values_readback_equal": true,
+  "application_id": "local-1793115192445",
+  "config": {
+    "sensor_drift": {
+      "ramp_seconds": 3600,
+      "start_ts": "2026-10-02T00:00:00Z",
+      "temperature_offset_c": 20.0,
+      "vibration_multiplier": 1.8
+    },
+    "simulation": {
+      "duration_hours": 48,
+      "machine_count": 20,
+      "sample_seconds": 60,
+      "seed": 42,
+      "start_ts": "2026-10-01T00:00:00Z"
+    }
+  },
+  "joined_rows_per_scenario": 10373,
+  "labels_unchanged": true,
+  "passed": true,
+  "physical_failures_unchanged": true,
+  "scope": "Paired57,600-row small sensor calibration experiment; both persisted id,label tables joined exactly. Labels used only to verify preservation, never supplied to drift detector. Historical100GB source/code unchanged.",
+  "sensor_effect_check": {
+    "max_temperature_shift_error": 4.263256414560601e-14,
+    "max_vibration_scale_error": 0.0004000000000026205,
+    "rows": 4828
+  },
+  "source_quality": {
+    "baseline-source": {
+      "checks": {
+        "complete_time_grid": true,
+        "delay_ranges": true,
+        "event_intervals_valid": true,
+        "event_primary_and_foreign_keys": true,
+        "factory_skew": true,
+        "file_integrity:failure_events.jsonl": true,
+        "file_integrity:machines.jsonl": true,
+        "file_integrity:maintenance_events.jsonl": true,
+        "file_integrity:stream/telemetry_deliveries.jsonl": true,
+        "file_integrity:telemetry/schema_v1/part-00000.jsonl": true,
+        "file_integrity:telemetry/schema_v2/part-00000.jsonl": true,
+        "late_count": true,
+        "machine_primary_and_foreign_keys": true,
+        "machines_snapshot_scd2_bounds": true,
+        "no_label_or_latent_wear_in_telemetry": true,
+        "offline_duplicate_count": true,
+        "offline_duplicates_have_new_export_time": true,
+        "offline_duplicates_keep_measurement": true,
+        "one_reading_per_machine_time": true,
+        "operating_status_matches_events": true,
+        "schema_keys_and_types": true,
+        "schema_transition_event_time": true,
+        "schema_v1_file_partition": true,
+        "schema_v2_file_partition": true,
+        "stop_intervals_do_not_overlap": true,
+        "stopped_motor_zero": true,
+        "stream_arrival_order": true,
+        "stream_delivery_ids_unique": true,
+        "stream_duplicate_count": true,
+        "stream_payload_matches_offline": true,
+        "stream_retry_attempts": true,
+        "stream_retry_time": true,
+        "stream_unique_matches_offline": true,
+        "timestamp_order": true,
+        "unique_rows_match_config": true
+      },
+      "passed": true,
+      "payload_bytes": 43582369
+    },
+    "drift-source": {
+      "checks": {
+        "complete_time_grid": true,
+        "delay_ranges": true,
+        "event_intervals_valid": true,
+        "event_primary_and_foreign_keys": true,
+        "factory_skew": true,
+        "file_integrity:failure_events.jsonl": true,
+        "file_integrity:machines.jsonl": true,
+        "file_integrity:maintenance_events.jsonl": true,
+        "file_integrity:stream/telemetry_deliveries.jsonl": true,
+        "file_integrity:telemetry/schema_v1/part-00000.jsonl": true,
+        "file_integrity:telemetry/schema_v2/part-00000.jsonl": true,
+        "late_count": true,
+        "machine_primary_and_foreign_keys": true,
+        "machines_snapshot_scd2_bounds": true,
+        "no_label_or_latent_wear_in_telemetry": true,
+        "offline_duplicate_count": true,
+        "offline_duplicates_have_new_export_time": true,
+        "offline_duplicates_keep_measurement": true,
+        "one_reading_per_machine_time": true,
+        "operating_status_matches_events": true,
+        "schema_keys_and_types": true,
+        "schema_transition_event_time": true,
+        "schema_v1_file_partition": true,
+        "schema_v2_file_partition": true,
+        "stop_intervals_do_not_overlap": true,
+        "stopped_motor_zero": true,
+        "stream_arrival_order": true,
+        "stream_delivery_ids_unique": true,
+        "stream_duplicate_count": true,
+        "stream_payload_matches_offline": true,
+        "stream_retry_attempts": true,
+        "stream_retry_time": true,
+        "stream_unique_matches_offline": true,
+        "timestamp_order": true,
+        "unique_rows_match_config": true
+      },
+      "passed": true,
+      "payload_bytes": 46236815
+    }
+  },
+  "source_sha256": {
+    "generator/configs/sensor-drift-small.json": "77f6fb375d9acfc1c66a02d4af3bccac4900524e395711ac1429e25f6245b712",
+    "generator/drift.py": "a8398b3d513356b15e1cd6deaca9dcabb627df1126aaf7e8e4077841671cc18e",
+    "pipelines/bounded_features.py": "84031099243e0edb2b820b9a6c6ba19815e451180727a436749be596b7b34033",
+    "pipelines/features.py": "701f8b979d10da87724945fc79e625978d0807f3ffe0ece35a045069bbd37af4",
+    "scripts/verify-sensor-drift.py": "2f89ca440ef0e313860e1f08daeee8c36f0b06a2b4b1b9545989bcd7e7d55638"
+  },
+  "spark": "3.5.9",
+  "spark_master": "local[2]",
+  "unique_telemetry_rows_per_scenario": 57600
+}

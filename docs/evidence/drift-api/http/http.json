@@ -1,0 +1,649 @@
+{
+  "passed": true,
+  "run": "native-27",
+  "reference_id": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93",
+  "lineage": {
+    "data_version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
+    "model_name": "iot-pump-failure-v1",
+    "model_run_id": "0f2fe09b6f974eadb858424a70edc7e6",
+    "model_version": "3",
+    "native_report_sha256": "03b601a4637805be25ef7f762245635f2b6e62d03a89eccd477a7f4fce08ccce",
+    "partition": "train",
+    "partitions_sha256": "6e9861ac04dcc8fa48e76a9d1f50b29c5774334e43a28da0b742f6382e623d6e",
+    "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "selection": "lowest1024 SHA256(machine_id|event_timestamp); no label selected"
+  },
+  "normal": {
+    "reference_id": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93",
+    "window_id": "native-27-normal",
+    "start": "2026-10-01T00:00:00+00:00",
+    "end": "2026-10-01T01:00:00+00:00",
+    "unique_rows": 1024,
+    "reference_rows": 1024,
+    "lineage": {
+      "data_version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
+      "model_name": "iot-pump-failure-v1",
+      "model_run_id": "0f2fe09b6f974eadb858424a70edc7e6",
+      "model_version": "3",
+      "native_report_sha256": "03b601a4637805be25ef7f762245635f2b6e62d03a89eccd477a7f4fce08ccce",
+      "partition": "train",
+      "partitions_sha256": "6e9861ac04dcc8fa48e76a9d1f50b29c5774334e43a28da0b742f6382e623d6e",
+      "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+      "selection": "lowest1024 SHA256(machine_id|event_timestamp); no label selected"
+    },
+    "policy": {
+      "bins": 10,
+      "drifted_feature_fraction": 0.25,
+      "pseudocount": 0.5,
+      "psi_threshold": 0.2
+    },
+    "features": {
+      "temperature_mean_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          52.374,
+          55.681222222222225,
+          58.26950000000001,
+          60.324749999999995,
+          61.976222222222226,
+          63.66111111111112,
+          65.35822222222222,
+          67.87688888888889,
+          70.9354
+        ],
+        "reference_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ],
+        "current_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ]
+      },
+      "vibration_max_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          3.263,
+          3.81,
+          4.414,
+          4.883,
+          5.357,
+          5.845,
+          6.354,
+          6.839,
+          7.539
+        ],
+        "reference_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ],
+        "current_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ]
+      },
+      "current_mean_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          12.227099999999998,
+          12.995444444444445,
+          13.906375,
+          14.928999999999998,
+          16.194000000000003,
+          17.3903,
+          18.46411111111111,
+          19.24111111111111,
+          20.0977
+        ],
+        "reference_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ],
+        "current_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ]
+      },
+      "current_std_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          1.0421534447811118,
+          1.2119554447255885,
+          1.3399267927763812,
+          1.4362925352843607,
+          1.5413757621034523,
+          1.6270560408295722,
+          1.7462928763526464,
+          1.8842297571627984,
+          2.0957767586797553
+        ],
+        "reference_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ],
+        "current_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ]
+      },
+      "rpm_mean_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          2752.0777777777776,
+          2770.8888888888887,
+          2795.1666666666665,
+          2826.7333333333336,
+          2858.79,
+          2897.8333333333335,
+          2926.911111111111,
+          2948.7125,
+          2970.6125
+        ],
+        "reference_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ],
+        "current_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ]
+      },
+      "reading_count_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          8,
+          9,
+          10
+        ],
+        "reference_counts": [
+          34,
+          188,
+          610,
+          192
+        ],
+        "current_counts": [
+          34,
+          188,
+          610,
+          192
+        ]
+      },
+      "machine_age_days": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          346.2013888888889,
+          485.46875,
+          615.1493055555555,
+          737.1840277777778,
+          886.1423611111111,
+          1016.9027777777778,
+          1166.0208333333333,
+          1326.048611111111,
+          1462.173611111111
+        ],
+        "reference_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ],
+        "current_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ]
+      },
+      "prior_failures_24h": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          0,
+          1,
+          2
+        ],
+        "reference_counts": [
+          0,
+          249,
+          648,
+          127
+        ],
+        "current_counts": [
+          0,
+          249,
+          648,
+          127
+        ]
+      }
+    },
+    "drifted_feature_fraction": 0.0,
+    "drift_detected": false,
+    "scope": "Label-free marginal covariate drift; no ground truth, accuracy or concept-drift claim."
+  },
+  "controlled_shift": {
+    "reference_id": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93",
+    "window_id": "native-27-shift",
+    "start": "2026-10-01T00:00:00+00:00",
+    "end": "2026-10-01T01:00:00+00:00",
+    "unique_rows": 1024,
+    "reference_rows": 1024,
+    "lineage": {
+      "data_version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
+      "model_name": "iot-pump-failure-v1",
+      "model_run_id": "0f2fe09b6f974eadb858424a70edc7e6",
+      "model_version": "3",
+      "native_report_sha256": "03b601a4637805be25ef7f762245635f2b6e62d03a89eccd477a7f4fce08ccce",
+      "partition": "train",
+      "partitions_sha256": "6e9861ac04dcc8fa48e76a9d1f50b29c5774334e43a28da0b742f6382e623d6e",
+      "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+      "selection": "lowest1024 SHA256(machine_id|event_timestamp); no label selected"
+    },
+    "policy": {
+      "bins": 10,
+      "drifted_feature_fraction": 0.25,
+      "pseudocount": 0.5,
+      "psi_threshold": 0.2
+    },
+    "features": {
+      "temperature_mean_10m": {
+        "psi": 5.12506925659961,
+        "drifted": true,
+        "cuts": [
+          52.374,
+          55.681222222222225,
+          58.26950000000001,
+          60.324749999999995,
+          61.976222222222226,
+          63.66111111111112,
+          65.35822222222222,
+          67.87688888888889,
+          70.9354
+        ],
+        "reference_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ],
+        "current_counts": [
+          0,
+          4,
+          2,
+          0,
+          0,
+          2,
+          1,
+          9,
+          50,
+          956
+        ]
+      },
+      "vibration_max_10m": {
+        "psi": 2.396859567255049,
+        "drifted": true,
+        "cuts": [
+          3.263,
+          3.81,
+          4.414,
+          4.883,
+          5.357,
+          5.845,
+          6.354,
+          6.839,
+          7.539
+        ],
+        "reference_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ],
+        "current_counts": [
+          4,
+          5,
+          11,
+          21,
+          28,
+          29,
+          49,
+          56,
+          71,
+          750
+        ]
+      },
+      "current_mean_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          12.227099999999998,
+          12.995444444444445,
+          13.906375,
+          14.928999999999998,
+          16.194000000000003,
+          17.3903,
+          18.46411111111111,
+          19.24111111111111,
+          20.0977
+        ],
+        "reference_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ],
+        "current_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ]
+      },
+      "current_std_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          1.0421534447811118,
+          1.2119554447255885,
+          1.3399267927763812,
+          1.4362925352843607,
+          1.5413757621034523,
+          1.6270560408295722,
+          1.7462928763526464,
+          1.8842297571627984,
+          2.0957767586797553
+        ],
+        "reference_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ],
+        "current_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ]
+      },
+      "rpm_mean_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          2752.0777777777776,
+          2770.8888888888887,
+          2795.1666666666665,
+          2826.7333333333336,
+          2858.79,
+          2897.8333333333335,
+          2926.911111111111,
+          2948.7125,
+          2970.6125
+        ],
+        "reference_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ],
+        "current_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ]
+      },
+      "reading_count_10m": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          8,
+          9,
+          10
+        ],
+        "reference_counts": [
+          34,
+          188,
+          610,
+          192
+        ],
+        "current_counts": [
+          34,
+          188,
+          610,
+          192
+        ]
+      },
+      "machine_age_days": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          346.2013888888889,
+          485.46875,
+          615.1493055555555,
+          737.1840277777778,
+          886.1423611111111,
+          1016.9027777777778,
+          1166.0208333333333,
+          1326.048611111111,
+          1462.173611111111
+        ],
+        "reference_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ],
+        "current_counts": [
+          102,
+          102,
+          103,
+          102,
+          103,
+          102,
+          102,
+          103,
+          102,
+          103
+        ]
+      },
+      "prior_failures_24h": {
+        "psi": 0.0,
+        "drifted": false,
+        "cuts": [
+          0,
+          1,
+          2
+        ],
+        "reference_counts": [
+          0,
+          249,
+          648,
+          127
+        ],
+        "current_counts": [
+          0,
+          249,
+          648,
+          127
+        ]
+      }
+    },
+    "drifted_feature_fraction": 0.25,
+    "drift_detected": true,
+    "scope": "Label-free marginal covariate drift; no ground truth, accuracy or concept-drift claim."
+  },
+  "replay_identical": true,
+  "statuses": {
+    "conflicting_window": 409,
+    "wrong_reference": 409,
+    "31_rows": 422,
+    "32_rows": 200,
+    "label_forbidden": 422,
+    "unavailable_at_window_end": 422
+  },
+  "initial_ready": {
+    "ready": true,
+    "reference_id": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93",
+    "stored_windows": 0
+  },
+  "final_ready": {
+    "ready": true,
+    "reference_id": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93",
+    "stored_windows": 3
+  },
+  "code_sha256": "bd1b5e7d6909cd2b31ad0b82dbe3fb47b335970a0eb4fdd34d4c03c4a8801f76",
+  "scope": "Real HTTP contract probes using training-reference vectors and controlled sensor offsets. Probe timestamps are explicit simulation fixtures, not actual recent machine readings. No ground-truth labels used."
+}

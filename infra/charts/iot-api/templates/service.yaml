@@ -1,0 +1,10 @@
+# ClusterIP only; access remains private through the existing IAP connection.
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  labels: {app.kubernetes.io/name: iot-api, app.kubernetes.io/instance: {{ .Release.Name }}}
+spec:
+  type: ClusterIP
+  selector: {app.kubernetes.io/instance: {{ .Release.Name }}}
+  ports: [{name: http, port: 80, targetPort: http}]

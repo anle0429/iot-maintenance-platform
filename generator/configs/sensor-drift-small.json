@@ -1,0 +1,15 @@
+{
+  "simulation": {
+    "seed": 42,
+    "start_ts": "2026-10-01T00:00:00Z",
+    "duration_hours": 48,
+    "machine_count": 20,
+    "sample_seconds": 60
+  },
+  "sensor_drift": {
+    "start_ts": "2026-10-02T00:00:00Z",
+    "ramp_seconds": 3600,
+    "temperature_offset_c": 20.0,
+    "vibration_multiplier": 1.8
+  }
+}

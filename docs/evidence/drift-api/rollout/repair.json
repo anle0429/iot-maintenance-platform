@@ -1,0 +1,6 @@
+{
+  "reason": "First rolling update had1/7 functional probes time out after the old pod became terminating. New template holds process5seconds before SIGTERM so service routing can drain.",
+  "initial_observations_sha256": "8b03f374f66220f1a06665d625bbe86c9caf6e5821d17d41eef190e4968c0157",
+  "new_deployment_template_sha256": "0cc60c7ae64c453e35c4968dcd0c9daef687c7615ef0a899d1e2224b9cd51408",
+  "bootstrap_scope": "First install of the hook is preparation; no zero-failure claim for that unmonitored transition. The subsequent observed good/bad updates start from pods that actually have the hook."
+}

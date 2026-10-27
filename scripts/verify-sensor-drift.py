@@ -1,0 +1,94 @@
+"""Run paired small sensor simulations through the existing Spark feature/label kernels and verify persisted joins."""
+import argparse
+import json
+from pathlib import Path
+import sys
+from hashlib import sha256
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from generator.config import Config, parse_ts
+from generator.drift import SensorDrift, generate_drift
+from generator.simulation import generate
+from generator.storage import write_dataset, write_json
+from generator.quality import inspect_source
+from pipelines.bounded_features import compute_features, label_snapshots
+from pipelines.chunk_ingest import exact_rows_equal
+from pyspark.sql import SparkSession, functions as F, Window
+
+
+def materialize(spark, source, destination, end):
+    """Reuse the arrival-aware rolling/label kernels; export exact id,label and merged feature tables."""
+    telemetry = spark.read.json(str(source/'telemetry/*/*.jsonl'))
+    for name in ['event_ts', 'received_ts', 'created_ts']:
+        telemetry = telemetry.withColumn(name, F.col(name).cast('timestamp'))
+    telemetry = (telemetry.withColumn('_rank', F.row_number().over(Window.partitionBy('event_id').orderBy(F.col('created_ts').desc())))
+                 .filter('_rank=1').drop('_rank').cache())
+    machines = spark.read.json(str(source/'machines.jsonl'))
+    machines = machines.withColumn('installed_at', F.col('installed_at').cast('timestamp')).withColumn('valid_from_ts', F.col('valid_from_ts').cast('timestamp'))
+    failures = spark.read.json(str(source/'failure_events.jsonl'))
+    failures = failures.withColumn('failure_start_ts', F.col('failure_start_ts').cast('timestamp')).withColumn('recorded_ts', F.col('recorded_ts').cast('timestamp'))
+    maintenance = spark.read.json(str(source/'maintenance_events.jsonl')).withColumn('start_ts', F.col('start_ts').cast('timestamp'))
+    snapshots = (telemetry.filter(F.pmod(F.unix_timestamp('event_ts'), F.lit(300)) == 0)
+                 .select('machine_id', F.col('event_ts').alias('event_timestamp'), 'operating_status'))
+    features = compute_features(snapshots, telemetry, machines, failures)
+    labels = label_snapshots(snapshots, failures, maintenance, end)
+    merged = (features.join(labels.select('machine_id', 'event_timestamp', 'failure_in_next_1h', 'label_status'), ['machine_id','event_timestamp'])
+              .filter("label_status='eligible' AND reading_count_10m>0")
+              .withColumn('id', F.sha2(F.concat_ws('|', F.col('machine_id'), F.date_format('event_timestamp', "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'")), 256))
+              .withColumnRenamed('failure_in_next_1h','label').drop('created').cache())
+    count = merged.count()
+    assert count > 100 and merged.select('id').distinct().count() == count
+    destination.mkdir(parents=True, exist_ok=False)
+    merged.select('id','label').write.mode('error').parquet(str(destination/'labels'))
+    merged.drop('label','label_status').write.mode('error').parquet(str(destination/'features'))
+    labels_back=spark.read.parquet(str(destination/'labels'));features_back=spark.read.parquet(str(destination/'features'))
+    assert labels_back.columns == ['id','label']
+    assert labels_back.count()==features_back.count()==count
+    back=features_back.join(labels_back,'id')
+    assert back.count()==count
+    exact_rows_equal(back, merged, back.columns)
+    telemetry.unpersist()
+    return merged, count
+
+
+def run(args):
+    """Prove sensor changes do not manufacture new physical failures or alter generated training labels."""
+    settings=json.loads(args.config.read_text());config=Config(**settings['simulation']);profile=SensorDrift(**settings['sensor_drift'])
+    args.output.mkdir(parents=True,exist_ok=False)
+    base=generate(config);shifted=generate_drift(config,profile)
+    assert base.failures==shifted.failures and base.maintenance==shifted.maintenance
+    write_dataset(base,config,args.output/'baseline-source')
+    manifest=write_dataset(shifted,config,args.output/'drift-source');manifest['sensor_drift']=settings['sensor_drift'];write_json(args.output/'drift-source/manifest.json',manifest)
+    quality={name:inspect_source(args.output/name) for name in ['baseline-source','drift-source']}
+    assert all(r['passed'] for r in quality.values())
+    spark=SparkSession.builder.appName('iot-sensor-drift-small').getOrCreate();spark.sparkContext.setLogLevel('WARN');spark.conf.set('spark.sql.session.timeZone','UTC')
+    try:
+        left,left_count=materialize(spark,args.output/'baseline-source',args.output/'baseline-features',config.end.isoformat())
+        right,right_count=materialize(spark,args.output/'drift-source',args.output/'drift-features',config.end.isoformat())
+        assert left_count==right_count
+        exact_rows_equal(left, right, ['id','label'])
+        fields=['temperature_mean_10m','vibration_max_10m','current_mean_10m','current_std_10m','rpm_mean_10m','reading_count_10m','machine_age_days','prior_failures_24h']
+        # The first10min after the ramp still contain partially shifted readings; compare only a fully shifted window.
+        fully_shifted_epoch = int(parse_ts(profile.start_ts).timestamp()) + profile.ramp_seconds + 600
+        after=(F.unix_timestamp('event_timestamp') >= F.lit(fully_shifted_epoch))
+        paired=left.alias('a').join(right.alias('b'),'id').filter(F.unix_timestamp('a.event_timestamp') >= F.lit(fully_shifted_epoch))
+        difference=paired.agg(F.count('*').alias('rows'),F.max(F.abs(F.col('b.temperature_mean_10m')-F.col('a.temperature_mean_10m')-profile.temperature_offset_c)).alias('max_temperature_shift_error'),F.max(F.abs(F.col('b.vibration_max_10m')-F.col('a.vibration_max_10m')*profile.vibration_multiplier)).alias('max_vibration_scale_error')).first().asDict()
+        assert difference['rows']>100 and difference['max_temperature_shift_error']<1e-9 and difference['max_vibration_scale_error']<=.000501
+        samples={}
+        for name,frame in [('baseline',left),('drift',right)]:
+            selected=frame.filter(after).orderBy(F.sha2('id',256)).limit(1024).select('id','machine_id','event_timestamp','label',*fields)
+            samples[name]=[{**row.asDict(), 'event_timestamp': row.event_timestamp.isoformat()+'Z'} for row in selected.collect()]
+            assert len(samples[name])==1024
+        report={'passed':True,'config':settings,'unique_telemetry_rows_per_scenario':config.unique_rows,'joined_rows_per_scenario':left_count,
+                'labels_unchanged':True,'physical_failures_unchanged':True,'all_persisted_values_readback_equal':True,
+                'sensor_effect_check':difference,'source_quality':{n:{'passed':v['passed'],'checks':v['checks'],'payload_bytes':v['payload_bytes']} for n,v in quality.items()},
+                'samples':samples,'spark':spark.version,'spark_master':spark.sparkContext.master,'application_id':spark.sparkContext.applicationId,
+                'source_sha256':{n:sha256((ROOT/n).read_bytes()).hexdigest() for n in ['scripts/verify-sensor-drift.py','generator/drift.py','generator/configs/sensor-drift-small.json','pipelines/bounded_features.py','pipelines/features.py']},
+                'scope':'Paired57,600-row small sensor calibration experiment; both persisted id,label tables joined exactly. Labels used only to verify preservation, never supplied to drift detector. Historical100GB source/code unchanged.'}
+        write_json(args.output/'verification.json',report)
+        print(json.dumps({'passed':True,'joined_rows':left_count,'sensor_effect_check':difference}))
+    finally:spark.stop()
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--config',type=Path,required=True);parser.add_argument('--output',type=Path,required=True);run(parser.parse_args())

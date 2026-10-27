@@ -1,0 +1,49 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"PersistentVolumeClaim\",\"metadata\":{\"annotations\":{},\"name\":\"iot-drift-assessments-v1\",\"namespace\":\"iot-features\"},\"spec\":{\"accessModes\":[\"ReadWriteOnce\"],\"resources\":{\"requests\":{\"storage\":\"2Gi\"}},\"storageClassName\":\"\",\"volumeName\":\"iot-drift-assessments-v1\"}}\n",
+          "pv.kubernetes.io/bind-completed": "yes"
+        },
+        "creationTimestamp": "2026-10-27T15:26:20Z",
+        "finalizers": [
+          "kubernetes.io/pvc-protection"
+        ],
+        "name": "iot-drift-assessments-v1",
+        "namespace": "iot-features",
+        "resourceVersion": "22192",
+        "uid": "5059b849-7264-4d1f-965c-ed712208536f"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "2Gi"
+          }
+        },
+        "storageClassName": "",
+        "volumeMode": "Filesystem",
+        "volumeName": "iot-drift-assessments-v1"
+      },
+      "status": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "2Gi"
+        },
+        "phase": "Bound"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

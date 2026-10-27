@@ -1,0 +1,38 @@
+{
+  "iot-drift-api-native-27": {
+    "id": "5fddc0b0cec9611e37226cc147d8caf066a89420cb4ec3d6a09705ad6f463f32",
+    "image": "sha256:949444a6b2396fbed138a94ff26845a2f3ae40320dd6e9638cc4daffbf680a98",
+    "state": "running",
+    "exit_code": 0,
+    "user": "10001:10001",
+    "memory": 536870912,
+    "nano_cpus": 500000000,
+    "read_only_root": true,
+    "network_mode": "iot-mlflow_default",
+    "port_bindings": {}
+  },
+  "iot-sensor-drift-small-27-v3": {
+    "id": "2ef093129540fd28145b6fb884defd9ed6d7cf4e3aa9fa9dafdf5d903f499c52",
+    "image": "sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417",
+    "state": "exited",
+    "exit_code": 0,
+    "user": "185:10001",
+    "memory": 6442450944,
+    "nano_cpus": 2000000000,
+    "read_only_root": true,
+    "network_mode": "none",
+    "port_bindings": {}
+  },
+  "iot-drift-reference-27": {
+    "id": "39a7553bba8838f01deae33c8825e29b0e9fca922d28b2ed7ea6a87ebee4a1e5",
+    "image": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "state": "exited",
+    "exit_code": 0,
+    "user": "10001:10001",
+    "memory": 4294967296,
+    "nano_cpus": 1000000000,
+    "read_only_root": true,
+    "network_mode": "none",
+    "port_bindings": {}
+  }
+}

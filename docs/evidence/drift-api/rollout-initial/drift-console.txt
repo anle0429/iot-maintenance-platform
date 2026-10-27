@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/verify-api-rollout.py", line 101, in <module>
+    parser.add_argument('--output',type=Path,required=True);run(parser.parse_args())
+                                                            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/verify-api-rollout.py", line 75, in run
+    assert observations and all(row['functional_http_passed'] for row in observations)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

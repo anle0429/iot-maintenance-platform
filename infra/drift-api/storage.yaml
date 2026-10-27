@@ -1,0 +1,25 @@
+# Static local storage on the existing HDD; no cloud disk or dynamically provisioned volume.
+apiVersion: v1
+kind: PersistentVolume
+metadata: {name: iot-drift-assessments-v1}
+spec:
+  capacity: {storage: 2Gi}
+  volumeMode: Filesystem
+  accessModes: [ReadWriteOnce]
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ''
+  local: {path: /srv/iot-data/workspace/iot-maintenance-platform/data/drift/cluster-state-v1}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - {key: kubernetes.io/hostname, operator: In, values: [iot-cw-vm]}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: {name: iot-drift-assessments-v1, namespace: iot-features}
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: ''
+  volumeName: iot-drift-assessments-v1
+  resources: {requests: {storage: 2Gi}}

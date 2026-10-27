@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "tests_passed": 168,
+  "coverage": {
+    "covered_lines": 383,
+    "num_statements": 383,
+    "percent_covered": 100.0,
+    "percent_covered_display": "100",
+    "missing_lines": 0,
+    "excluded_lines": 0,
+    "percent_statements_covered": 100.0,
+    "percent_statements_covered_display": "100",
+    "num_branches": 96,
+    "num_partial_branches": 0,
+    "covered_branches": 96,
+    "missing_branches": 0,
+    "percent_branches_covered": 100.0,
+    "percent_branches_covered_display": "100"
+  },
+  "source_sha256": {
+    "services/predictor/runtime.py": "807f279ca9875320824eb44675af88a02f4ffc09cdc89028e191867d912d1bcb",
+    "services/predictor/app.py": "ec707e19d83f0b7331d167cca6b3c33ff00ca3a074827f3c2edfdef46bdf4c6a",
+    "services/predictor/__init__.py": "03485db3bf9d8822fecf87ac4bba41199d5855c556014f5343e65fc261217853",
+    "services/predictor/contracts.py": "5cab032dae3ede91c9cfd5446da195b99b03349f3ed04a915be92f0ed3da12ce",
+    "services/feature_api/runtime.py": "9029588048d076f4588db067588264391913eac932ebc135bc30ee814e21138e",
+    "services/feature_api/app.py": "1f009d0dff1fdefabcac8be6564f06c367ed64f3154c886586dc22c2780c0b36",
+    "services/feature_api/__init__.py": "02b53283e60cd8fed8d2d88244a9365400868126711540e846da40b71c55cb10",
+    "services/drift_api/runtime.py": "e284324dba040201b0a30ef7c33834dd8c5d395dede34766cebff49de607a8e7",
+    "services/drift_api/detector.py": "dd2c23ff16343fd72146552d46bdb7490439026557d43e59b07e885f11c555b8",
+    "services/drift_api/app.py": "f38b37d366749a03b29d28c205d61c94c5c34e90178ba707af2b624e110431fb",
+    "services/drift_api/__init__.py": "2c1abe8a62002bb3ad1222f57ff05ad295cb5f4454357ad5cdc8ada2a1028316",
+    "services/drift_api/contracts.py": "11ac649335a364bdfcece7e1954ff88578f2ff6a057226fa741e9205c33ad2de",
+    "tests/api/test_predictor.py": "3fea466055b1a1568fea43a10d8c412c15cb85177ee9b0c4ac861487c9233dc9",
+    "tests/api/test_feature_api.py": "2ca8b62d4e99e8ab49cac3e86e2f429d9c6912e23e04c65ee8d60fc482668a30",
+    "tests/api/test_drift_api.py": "e1d76d42609b5b5355ad456b15f3202c65e7e9441221f4eff511f15c08cdac93"
+  },
+  "completed_utc": "2026-10-27T16:06:06.179750+00:00",
+  "scope": "Native Linux combined API contracts/mocks/fixtures/property/async/SQLite tests. Actual Feast/HTTP/container integrations remain separately bound; not a load or mutation rerun."
+}

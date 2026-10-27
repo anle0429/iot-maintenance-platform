@@ -1,0 +1,19 @@
+# Deploy each API as a separate Helm release; immutable runtime inputs are mounted by name.
+replicas: 1
+revisionMarker: initial
+image:
+  repository: iot-coursework-drift-api
+  tag: v1
+  pullPolicy: Never
+resources:
+  requests: {cpu: 100m, memory: 128Mi}
+  limits: {cpu: '1', memory: 512Mi}
+env: []
+initContainers: []
+volumes: []
+volumeMounts: []
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 60

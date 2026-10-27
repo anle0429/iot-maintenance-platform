@@ -1,0 +1,13 @@
+# Model3 training reference is generated and verified on the VM; only its ConfigMap name is portable.
+image: {repository: iot-coursework-drift-api, tag: v1, pullPolicy: Never}
+env:
+  - {name: IOT_DRIFT_REFERENCE, value: /reference/reference.json}
+  - {name: IOT_DRIFT_DATABASE, value: /state/windows.db}
+volumes:
+  - {name: reference, configMap: {name: iot-drift-reference-v1}}
+  - {name: state, persistentVolumeClaim: {claimName: iot-drift-assessments-v1}}
+  - {name: tmp, emptyDir: {medium: Memory, sizeLimit: 32Mi}}
+volumeMounts:
+  - {name: reference, mountPath: /reference, readOnly: true}
+  - {name: state, mountPath: /state}
+  - {name: tmp, mountPath: /tmp}
