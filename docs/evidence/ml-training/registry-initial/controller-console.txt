@@ -1,0 +1,93 @@
+ Container iot-model-register-27 Creating 
+ Container iot-model-register-27 Created 
+/usr/local/lib/python3.12/site-packages/mlflow/pyfunc/utils/data_validation.py:187: UserWarning: [33mAdd type hints to the `predict` method to enable data validation and automatic signature inference during model logging. Check https://mlflow.org/docs/latest/model/python_model.html#type-hint-usage-in-pythonmodel for more details.[0m
+  color_warning(
+2026/10/27 09:22:15 INFO mlflow.tracking.fluent: Experiment with name 'iot-medium-60d-v1' does not exist. Creating a new experiment.
+2026/10/27 09:22:16 WARNING mlflow.tracking.context.registry: Encountered unexpected error during resolving tags: 'getpwuid(): uid not found: 10001'
+2026/10/27 09:22:16 WARNING mlflow.utils.git_utils: Failed to import Git (the Git executable is probably not on your PATH), so Git SHA is not available. Error: Failed to initialize: Bad git executable.
+The git executable must be specified in one of the following ways:
+    - be included in your $PATH
+    - be set via $GIT_PYTHON_GIT_EXECUTABLE
+    - explicitly set via git.refresh(<full-path-to-git-executable>)
+
+All git commands will error until this is rectified.
+
+This initial message can be silenced or aggravated in the future by setting the
+$GIT_PYTHON_REFRESH environment variable. Use one of the following values:
+    - quiet|q|silence|s|silent|none|n|0: for no message or exception
+    - warn|w|warning|log|l|1: for a warning message (logging level CRITICAL, displayed by default)
+    - error|e|exception|raise|r|2: for a raised exception
+
+Example:
+    export GIT_PYTHON_REFRESH=quiet
+
+2026/10/27 09:22:16 WARNING mlflow.utils.git_utils: Failed to import Git (the Git executable is probably not on your PATH), so Git branch is not available. Error: Failed to initialize: Bad git executable.
+The git executable must be specified in one of the following ways:
+    - be included in your $PATH
+    - be set via $GIT_PYTHON_GIT_EXECUTABLE
+    - explicitly set via git.refresh(<full-path-to-git-executable>)
+
+All git commands will error until this is rectified.
+
+This initial message can be silenced or aggravated in the future by setting the
+$GIT_PYTHON_REFRESH environment variable. Use one of the following values:
+    - quiet|q|silence|s|silent|none|n|0: for no message or exception
+    - warn|w|warning|log|l|1: for a warning message (logging level CRITICAL, displayed by default)
+    - error|e|exception|raise|r|2: for a raised exception
+
+Example:
+    export GIT_PYTHON_REFRESH=quiet
+
+2026/10/27 09:22:16 WARNING mlflow.utils.git_utils: Failed to import Git (the Git executable is probably not on your PATH), so Git repository URL is not available. Error: Failed to initialize: Bad git executable.
+The git executable must be specified in one of the following ways:
+    - be included in your $PATH
+    - be set via $GIT_PYTHON_GIT_EXECUTABLE
+    - explicitly set via git.refresh(<full-path-to-git-executable>)
+
+All git commands will error until this is rectified.
+
+This initial message can be silenced or aggravated in the future by setting the
+$GIT_PYTHON_REFRESH environment variable. Use one of the following values:
+    - quiet|q|silence|s|silent|none|n|0: for no message or exception
+    - warn|w|warning|log|l|1: for a warning message (logging level CRITICAL, displayed by default)
+    - error|e|exception|raise|r|2: for a raised exception
+
+Example:
+    export GIT_PYTHON_REFRESH=quiet
+
+/usr/local/lib/python3.12/site-packages/mlflow/types/utils.py:440: UserWarning: Hint: Inferred schema contains integer column(s). Integer columns in Python cannot represent missing values. If your input data contains missing values at inference time, it will be encoded as floats and will cause a schema enforcement error. The best way to avoid this problem is to infer the model schema based on a realistic data sample (training dataset) that includes missing values. Alternatively, you can declare integer columns as doubles (float64) whenever these columns may have missing values. See `Handling Integers With Missing Values <https://www.mlflow.org/docs/latest/models.html#handling-integers-with-missing-values>`_ for more details.
+  warnings.warn(
+2026/10/27 09:22:26 WARNING mlflow.tracking.context.registry: Encountered unexpected error during resolving tags: 'getpwuid(): uid not found: 10001'
+2026/10/27 09:22:30 WARNING mlflow.pyfunc: Passing a Python object as `python_model` causes it to be serialized using CloudPickle, it requires exercising caution as Python object serialization mechanisms may execute arbitrary code during deserialization.Consider using a file path (str or Path) instead. See https://mlflow.org/docs/latest/ml/model/models-from-code/ for details.
+2026/10/27 09:22:30 INFO mlflow.pyfunc: Validating input example against model signature
+Successfully registered model 'iot-pump-failure-v1'.
+2026/10/27 09:22:37 INFO mlflow.store.model_registry.abstract_store: Waiting up to 300 seconds for model version to finish creation. Model name: iot-pump-failure-v1, version 1
+Created version '1' of model 'iot-pump-failure-v1'.
+🏃 View run medium-60d-native-kfp-27 at: http://tracking:5000/#/experiments/1/runs/c629f87591294157a6b30040c8c12715
+🧪 View experiment at: http://tracking:5000/#/experiments/1
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/ml/register_model.py", line 89, in <module>
+    run(parser.parse_args())
+  File "/workspace/ml/register_model.py", line 71, in run
+    client.set_registered_model_alias('iot-pump-failure-v1','latest',version.version)
+  File "/usr/local/lib/python3.12/site-packages/mlflow/tracking/client.py", line 5636, in set_registered_model_alias
+    self._get_registry_client().set_registered_model_alias(name, alias, version)
+  File "/usr/local/lib/python3.12/site-packages/mlflow/tracking/_model_registry/client.py", line 450, in set_registered_model_alias
+    self.store.set_registered_model_alias(name, alias, version)
+  File "/usr/local/lib/python3.12/site-packages/mlflow/store/model_registry/rest_store.py", line 488, in set_registered_model_alias
+    self._call_endpoint(SetRegisteredModelAlias, req_body)
+  File "/usr/local/lib/python3.12/site-packages/mlflow/store/model_registry/rest_store.py", line 68, in _call_endpoint
+    return super()._call_endpoint(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/mlflow/store/model_registry/base_rest_store.py", line 42, in _call_endpoint
+    return call_endpoint(
+           ^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/mlflow/utils/rest_utils.py", line 676, in call_endpoint
+    response = verify_rest_response(
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/mlflow/utils/rest_utils.py", line 383, in verify_rest_response
+    raise RestException(json.loads(response.text))
+mlflow.exceptions.RestException: INVALID_PARAMETER_VALUE: 'latest' alias name (case insensitive) is reserved.
+

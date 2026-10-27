@@ -1,0 +1,45 @@
+{
+  "checked_utc": "2026-10-27T09:57:07.156371+00:00",
+  "units": {
+    "iot-model-registry-27": {
+      "MainPID": "0",
+      "Result": "exit-code",
+      "ActiveState": "failed"
+    },
+    "iot-model-registry-recovery-27": {
+      "MainPID": "0",
+      "Result": "success",
+      "ActiveState": "inactive"
+    }
+  },
+  "full_ingest_code_unchanged": true,
+  "executed_registration_sha256": "2f02926cfab47e53cb0bb3a3683cb08c67d6c40a183f587b6f3fb77772196b40",
+  "original_failed_sha256": "3a660e8641b1bf0a7a226de120212e8914e80f03c80a9eb14d4da04c64ea21db",
+  "server_image_id": "sha256:0608a7e04d3eb739549fa721289e00f256aaa59c926c054557649b5f45660cbf",
+  "server_state": "healthy",
+  "server_limits": {
+    "memory_bytes": 3221225472,
+    "nano_cpus": 500000000
+  },
+  "requested_port_bindings": {
+    "5000/tcp": [
+      {
+        "HostIp": "127.0.0.1",
+        "HostPort": "15000"
+      }
+    ]
+  },
+  "runtime_ports": {
+    "5000/tcp": null
+  },
+  "private_ips": {
+    "iot-mlflow_default": "172.22.0.2"
+  },
+  "health": {
+    "127.0.0.1:15000": {
+      "error": "<urlopen error [Errno 111] Connection refused>"
+    },
+    "172.22.0.2:5000": 200
+  },
+  "scope": "Real registry reconciliation, exact stored data readback and200loadedmodel/nativeSpark probes. Private Docker address works; internal network did not publish requested host port15000. No retraining/new version/KServe/production claim."
+}

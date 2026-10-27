@@ -1,0 +1,13 @@
+ Container iot-model-finalize-27 Creating 
+ Container iot-model-finalize-27 Created 
+/usr/local/lib/python3.12/site-packages/mlflow/pyfunc/utils/data_validation.py:187: UserWarning: [33mAdd type hints to the `predict` method to enable data validation and automatic signature inference during model logging. Check https://mlflow.org/docs/latest/model/python_model.html#type-hint-usage-in-pythonmodel for more details.[0m
+  color_warning(
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/ml/register_model.py", line 105, in <module>
+    run(parser.parse_args())
+  File "/workspace/ml/register_model.py", line 42, in run
+    raise ValueError('An existing version may be finalized only for this exact completed run/data/model lineage')
+ValueError: An existing version may be finalized only for this exact completed run/data/model lineage
+

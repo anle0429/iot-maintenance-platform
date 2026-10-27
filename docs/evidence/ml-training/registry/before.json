@@ -1,0 +1,83 @@
+{
+  "aliases": {},
+  "versions": [
+    {
+      "version": "1",
+      "run_id": "c629f87591294157a6b30040c8c12715",
+      "tags": {
+        "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+        "production": "false"
+      },
+      "status": "READY",
+      "source": "models:/m-498369bf079f41b6977f65789d8bbe5f"
+    }
+  ],
+  "runs": [
+    {
+      "run_id": "c629f87591294157a6b30040c8c12715",
+      "status": "FINISHED",
+      "params": {
+        "algorithm": "Spark MLlib logistic regression",
+        "max_iter": "40",
+        "reg_param": "0.1",
+        "scaler_fit_partition": "train",
+        "threshold_selection_partition": "validation",
+        "fixed_threshold": "0.7",
+        "features": "temperature_mean_10m,vibration_max_10m,current_mean_10m,current_std_10m,rpm_mean_10m,reading_count_10m,machine_age_days,prior_failures_24h",
+        "class_weights": "{\"negative\": 0.5222645351119019, \"positive\": 11.72861980919415}"
+      },
+      "metrics": {
+        "validation.tp": 12748.0,
+        "validation.fp": 15222.0,
+        "validation.fn": 7080.0,
+        "validation.tn": 433082.0,
+        "validation.threshold": 0.7,
+        "validation.precision": 0.4557740436181623,
+        "validation.recall": 0.6429291910429695,
+        "validation.f1": 0.533411439809197,
+        "validation.area_under_pr": 0.5957776550421778,
+        "test.tp": 13115.0,
+        "test.fp": 14536.0,
+        "test.fn": 6842.0,
+        "test.tn": 433891.0,
+        "test.threshold": 0.7,
+        "test.precision": 0.47430472677299196,
+        "test.recall": 0.6571629002355064,
+        "test.f1": 0.5509578222147539,
+        "test.area_under_pr": 0.6151480584811881,
+        "constant_training_prevalence_comparator.tp": 0.0,
+        "constant_training_prevalence_comparator.fp": 0.0,
+        "constant_training_prevalence_comparator.fn": 19957.0,
+        "constant_training_prevalence_comparator.tn": 448427.0,
+        "constant_training_prevalence_comparator.threshold": 0.7,
+        "constant_training_prevalence_comparator.precision": 0.0,
+        "constant_training_prevalence_comparator.recall": 0.0,
+        "constant_training_prevalence_comparator.f1": 0.0,
+        "constant_training_prevalence_comparator.area_under_pr": 0.04260820181731229,
+        "test.rows": 468384.0,
+        "test.positive_rows": 19957.0,
+        "test.failure_episodes": 1687.0,
+        "test.negative_rows": 448427.0,
+        "validation.rows": 468132.0,
+        "validation.positive_rows": 19828.0,
+        "validation.failure_episodes": 1677.0,
+        "validation.negative_rows": 448304.0,
+        "train.rows": 2195668.0,
+        "train.positive_rows": 93603.0,
+        "train.failure_episodes": 7870.0,
+        "train.negative_rows": 2102065.0
+      },
+      "tags": {
+        "mlflow.runName": "medium-60d-native-kfp-27",
+        "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+        "source_manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5",
+        "selection_sha256": "f9bef0d71e71c824f478c9f5df341920bb6bb322b97bc23247f530a7b910744f",
+        "evaluation_sha256": "a982c34027ca57969930553fa22c1261d18ad9686fcac93123c155da40232526",
+        "training_data_version": "29f0c3c7b3af396a876b40ca0fea9d5648efc22edcee2f8273b5f30715af1466",
+        "code_git_commit": "cbcb1edae4df9c9af4198b6685ee9d184d9d1e6e",
+        "synthetic_data": "true",
+        "deployment_status": "evaluation_passed_not_production"
+      }
+    }
+  ]
+}

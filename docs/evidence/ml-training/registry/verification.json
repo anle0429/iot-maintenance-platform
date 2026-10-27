@@ -1,0 +1,100 @@
+{
+  "passed": true,
+  "registration_sha256": "0b156dbc28a98e6b497dffd9a5515f6999cdf2174260c15bdadaaeb4b967bc9a",
+  "before_sha256": "d0e73a7223ee586f209eef3cdc7989e1f8564791947b951d307a321d28307012",
+  "after_sha256": "5fcfe7a3df131ac0f7f4be22856670bfb8d4fcd1bcd757f4a8c7c5214827badf",
+  "commands": [
+    {
+      "arguments": [
+        "-c",
+        "import json\nfrom pathlib import Path\nfrom mlflow.tracking import MlflowClient\nc=MlflowClient();m=c.get_registered_model('iot-pump-failure-v1');versions=c.search_model_versions(\"name='iot-pump-failure-v1'\");e=c.get_experiment_by_name('iot-medium-60d-v1');runs=c.search_runs([e.experiment_id])\nvalue={'aliases':m.aliases,'versions':[{'version':v.version,'run_id':v.run_id,'tags':v.tags,'status':v.status,'source':v.source} for v in versions],'runs':[{'run_id':r.info.run_id,'status':r.info.status,'params':r.data.params,'metrics':r.data.metrics,'tags':r.data.tags} for r in runs]}\nPath('/registry-output/before.json').write_text(json.dumps(value,indent=2))\n"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "seconds": 5.3036347559973365,
+      "actual_limits": {
+        "image_id": "sha256:0608a7e04d3eb739549fa721289e00f256aaa59c926c054557649b5f45660cbf",
+        "memory_bytes": 4294967296,
+        "nano_cpus": 1000000000,
+        "user": "10001:10001"
+      }
+    },
+    {
+      "arguments": [
+        "-m",
+        "ml.register_model",
+        "--tracking-uri",
+        "http://tracking:5000",
+        "--evaluation",
+        "/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/evaluate-model/evaluation",
+        "--protocol",
+        "/workspace/ml/protocols/medium-60d-v1.json",
+        "--run",
+        "medium-60d-native-kfp-27",
+        "--existing-version",
+        "1",
+        "--output",
+        "/registry-output/rejected.json",
+        "--code-commit",
+        "0000000000000000000000000000000000000000"
+      ],
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "seconds": 12.437220845000411,
+      "actual_limits": {
+        "image_id": "sha256:0608a7e04d3eb739549fa721289e00f256aaa59c926c054557649b5f45660cbf",
+        "memory_bytes": 4294967296,
+        "nano_cpus": 1000000000,
+        "user": "10001:10001"
+      }
+    },
+    {
+      "arguments": [
+        "-m",
+        "ml.register_model",
+        "--tracking-uri",
+        "http://tracking:5000",
+        "--evaluation",
+        "/srv/iot-data/workspace/iot-maintenance-platform/outputs/kfp-local/training-medium-27-v4/artifacts/iot-failure-training-v1-2026-10-27-08-44-57-876452/evaluate-model/evaluation",
+        "--protocol",
+        "/workspace/ml/protocols/medium-60d-v1.json",
+        "--run",
+        "medium-60d-native-kfp-27",
+        "--existing-version",
+        "1",
+        "--output",
+        "/registry-output/registration.json",
+        "--code-commit",
+        "cbcb1edae4df9c9af4198b6685ee9d184d9d1e6e"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "seconds": 12.428475685999729,
+      "actual_limits": {
+        "image_id": "sha256:0608a7e04d3eb739549fa721289e00f256aaa59c926c054557649b5f45660cbf",
+        "memory_bytes": 4294967296,
+        "nano_cpus": 1000000000,
+        "user": "10001:10001"
+      }
+    },
+    {
+      "arguments": [
+        "-c",
+        "import json\nfrom pathlib import Path\nfrom mlflow.tracking import MlflowClient\nc=MlflowClient();m=c.get_registered_model('iot-pump-failure-v1');versions=c.search_model_versions(\"name='iot-pump-failure-v1'\");e=c.get_experiment_by_name('iot-medium-60d-v1');runs=c.search_runs([e.experiment_id])\nvalue={'aliases':m.aliases,'versions':[{'version':v.version,'run_id':v.run_id,'tags':v.tags,'status':v.status,'source':v.source} for v in versions],'runs':[{'run_id':r.info.run_id,'status':r.info.status,'params':r.data.params,'metrics':r.data.metrics,'tags':r.data.tags} for r in runs]}\nPath('/registry-output/after.json').write_text(json.dumps(value,indent=2))\n"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "seconds": 4.1590350049991685,
+      "actual_limits": {
+        "image_id": "sha256:0608a7e04d3eb739549fa721289e00f256aaa59c926c054557649b5f45660cbf",
+        "memory_bytes": 4294967296,
+        "nano_cpus": 1000000000,
+        "user": "10001:10001"
+      }
+    }
+  ],
+  "wrong_lineage_rejected": true,
+  "one_original_run_and_version_retained": true,
+  "full_ingest_code_unchanged": true,
+  "scope": "Real existing-version reconciliation,200Spark/loaded-model predictions and exact stored split data readback; candidate alias/latest version tag. No new training/test evaluation or production/KServe claim."
+}
