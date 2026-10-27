@@ -2,6 +2,10 @@
 from copy import deepcopy
 from datetime import datetime,timezone
 import unittest
+from hashlib import sha256
+import importlib.util,io,json,tarfile
+from pathlib import Path
+from unittest.mock import Mock,patch
 from ml.ci_training_contract import identity,admission,verify_result
 
 
@@ -51,6 +55,40 @@ class TrainingCITests(unittest.TestCase):
         self.assertEqual(identity('2'),'train-jenkins-2')
         for value in ['0','01','../1','1;echo token','-1','1/2',None,1,'1'*11]:
             with self.assertRaises(ValueError):identity(value)
+
+
+class DockerConfigIdentityTests(unittest.TestCase):
+    """Use actual Docker-save layouts to distinguish a config blob from a manifest identifier."""
+    @classmethod
+    def setUpClass(cls):
+        path=Path(__file__).resolve().parents[1]/'scripts/ci-training.py'
+        spec=importlib.util.spec_from_file_location('training_ci_export_test',path)
+        cls.module=importlib.util.module_from_spec(spec);spec.loader.exec_module(cls.module)
+
+    def exported(self,path,config,manifest=None):
+        """Supply a tiny tar stream in place of a real Docker daemon, retaining real tar parsing."""
+        stream=io.BytesIO()
+        with tarfile.open(fileobj=stream,mode='w') as archive:
+            for name,raw in [(path,config),('manifest.json',json.dumps(manifest or [{'Config':path,'RepoTags':['test:one'],'Layers':[]}]).encode())]:
+                member=tarfile.TarInfo(name);member.size=len(raw);archive.addfile(member,io.BytesIO(raw))
+        stream.seek(0);process=Mock(stdout=stream);process.wait.return_value=0;process.poll.return_value=0
+        with patch.object(self.module.subprocess,'Popen',return_value=process):
+            return self.module.exported_config_digest('test:one')
+
+    def test_legacy_and_oci_layouts_bind_same_actual_config(self):
+        raw=b'{"architecture":"amd64","config":{"Labels":{"source":"A"}}}'
+        expected=sha256(raw).hexdigest()
+        self.assertEqual(self.exported(expected+'.json',raw),'sha256:'+expected)
+        self.assertEqual(self.exported('blobs/sha256/'+expected,raw),'sha256:'+expected)
+
+    def test_changed_blob_changes_identity_even_when_path_is_reused(self):
+        first=self.exported('config.json',b'{"source":"A"}')
+        second=self.exported('config.json',b'{"source":"B"}')
+        self.assertNotEqual(first,second)
+
+    def test_missing_or_ambiguous_config_is_rejected(self):
+        for manifest in [[{'Config':'absent.json'}],[{'Config':'config.json'},{'Config':'config.json'}]]:
+            with self.assertRaises(ValueError):self.exported('config.json',b'{}',manifest)
 
 
 if __name__=='__main__':unittest.main()

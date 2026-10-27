@@ -8,6 +8,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tarfile
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from ml.ci_training_contract import identity,admission,verify_result
 from ml.versioned_contract import SOURCE_FILES
@@ -22,6 +23,25 @@ def save(path,value):
     """Replace live CI snapshots atomically without writing credentials."""
     path.parent.mkdir(parents=True,exist_ok=True);pending=path.with_suffix('.pending')
     pending.write_text(json.dumps(value,indent=2,allow_nan=False)+'\n');pending.replace(path)
+
+
+def exported_config_digest(tag):
+    """Hash the actual Docker-save config blob; Docker29 image ID can name a manifest instead of this blob."""
+    exporter=subprocess.Popen(['docker','save',tag],stdout=subprocess.PIPE)
+    small={};manifest=None
+    try:
+        with tarfile.open(fileobj=exporter.stdout,mode='r|') as archive:
+            for item in archive:
+                if not item.isfile() or item.size>1_000_000:continue
+                raw=archive.extractfile(item).read();small[item.name]=sha256(raw).hexdigest()
+                if item.name=='manifest.json':manifest=json.loads(raw)
+        if exporter.wait()!=0:raise RuntimeError('Cannot read the verified image export')
+    finally:
+        exporter.stdout.close()
+        if exporter.poll() is None:exporter.terminate();exporter.wait()
+    if not manifest or len(manifest)!=1 or manifest[0]['Config'] not in small:
+        raise ValueError('Docker export lacks a unique bounded config blob')
+    return 'sha256:'+small[manifest[0]['Config']]
 
 
 def controller(image,deploy,source,extra,command,network='none',writable=False):
@@ -100,11 +120,15 @@ def run(phase):
             cri=json.loads(subprocess.check_output(['docker','run','--rm','--network','none','--cpus','1','--memory','1g',
                 '--mount','type=bind,src=/usr/local/bin/k3s,dst=/usr/local/bin/k3s,readonly',
                 '--mount','type=bind,src=/run/k3s/containerd/containerd.sock,dst=/run/k3s/containerd/containerd.sock',
-                '--entrypoint','/usr/local/bin/k3s',control_id,'crictl','inspecti',tag],text=True))
-            if cri['status']['id']!=image['Id']:
-                raise ValueError('Kubernetes runtime image differs from verified Docker image')
+                '--entrypoint','/usr/local/bin/k3s',control_id,'crictl','--config=/dev/null',
+                '--runtime-endpoint=unix:///run/k3s/containerd/containerd.sock',
+                '--image-endpoint=unix:///run/k3s/containerd/containerd.sock','inspecti',tag],text=True))
+            config_digest=exported_config_digest(tag)
+            if cri['status']['id']!=config_digest or subprocess.check_output([
+                    'docker','image','inspect',tag,'--format','{{.Id}}'],text=True).strip()!=image['Id']:
+                raise ValueError('Kubernetes runtime config differs from the actual verified Docker export')
             images[kind]={'id':image['Id'],'tag':tag,'runtime_base_id':base,'packaged_source_verified':True,
-                'containerd_imported':True,'cri_image_id':cri['status']['id']}
+                'containerd_imported':True,'docker_export_config_digest':config_digest,'cri_image_id':cri['status']['id']}
         manifest={'commit':commit,'release':release,'controller_image_id':control_id,'images':images,
             'runtime_source_sha256':sources,'source_sha256':{n:seal['files'][n] for n in SOURCE_FILES}}
         save(directory/'build.json',manifest);save(out/'build.json',manifest)
@@ -208,7 +232,7 @@ def run(phase):
         proof=verify_result(read('preflight.json'),read('submission.json'),read('verification.json'),data,model,commit,started)
         if not read('distributed-verification.json')['passed'] or not (native/'two-executors-running.json').exists():
             raise ValueError('CI training lacks two working native executors')
-        runtime_by_tag={v['tag']:v['id'] for v in build['images'].values()};mains=[]
+        runtime_by_tag={v['tag']:v['cri_image_id'] for v in build['images'].values()};mains=[]
         for pod in read('pipeline-pods.json')['items']:
             statuses={x['name']:x for x in pod.get('status',{}).get('containerStatuses',[])}
             for container in pod['spec']['containers']:
