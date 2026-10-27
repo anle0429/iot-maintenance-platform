@@ -1,0 +1,192 @@
+"""Bind lightweight ingest admission to sealed metadata and enforce per-volume, RAM and session limits."""
+
+from datetime import datetime
+import json
+import math
+import os
+from pathlib import Path
+import re
+import shutil
+
+from generator.chunked import ChunkConfig, FORMAT_VERSION, TABLES, digest_file
+from generator.chunk_quality import records, require, walk_files
+from pipelines.chunk_source import outside_source, validator_hashes
+
+GIB = 1024**3
+OUTPUT_CAP_BYTES = 80_000_000_000
+SCRATCH_CAP_BYTES = 240_000_000_000
+LOG_CAP_BYTES = 5_000_000_000
+HDD_FREE_RESERVE_BYTES = 30_000_000_000
+HDD_ADMISSION_BYTES = OUTPUT_CAP_BYTES + SCRATCH_CAP_BYTES + LOG_CAP_BYTES + HDD_FREE_RESERVE_BYTES
+
+
+def partition_count(value: int) -> int:
+    """Bound shuffle/output partition configuration, including the reviewed intermediate and large profiles."""
+    if type(value) is not int or not 1 <= value <= 4096:
+        raise ValueError('partition count must be an integer in 1..4096')
+    return value
+
+
+def suggested_partitions(source_bytes: int) -> int:
+    """Keep raw input per partition near the measured 128-partition intermediate, targeting at most 64MiB."""
+    if type(source_bytes) is not int or not 0 < source_bytes <= 115_000_000_000:
+        raise ValueError('source must be within the reviewed positive 115GB envelope')
+    count = 32
+    while count * 64 * 1024**2 < source_bytes:
+        count *= 2
+    return partition_count(count)
+
+
+def select_partitions(configured: int | None, source_bytes: int) -> int:
+    """Distinguish an omitted argument from invalid zero and enforce the large source's reviewed minimum."""
+    recommended = suggested_partitions(source_bytes)
+    chosen = recommended if configured is None else partition_count(configured)
+    if source_bytes >= 100_000_000_000 and chosen < recommended:
+        raise ValueError('large source needs at least its reviewed partition recommendation')
+    return chosen
+
+
+def small_json(path: Path) -> dict:
+    """Keep report/config admission bounded and reject source symlinks before reading metadata."""
+    require(not path.is_symlink() and path.is_file() and path.stat().st_size <= 4 * 1024**2,
+            'unsafe or oversized metadata file')
+    return json.loads(path.read_text(encoding='utf-8'))
+
+
+def receipt_metadata(source: Path, receipt_path: Path) -> dict:
+    """Check sealed receipt/catalog/stat bindings without reading payload bytes; Spark must still rehash all parts."""
+    require(not source.is_symlink(), 'unsafe source root')
+    source = source.resolve()
+    outside_source(source, receipt_path)
+    manifest = small_json(source / 'manifest.json')
+    fingerprint = digest_file(source / 'manifest.json')
+    require(small_json(source / '_GENERATION_SUCCESS.json') == {'manifest_sha256': fingerprint},
+            'generation marker differs')
+    receipt = small_json(receipt_path)
+    require(receipt.get('receipt_version') == 1 and receipt.get('passed') is True, 'invalid semantic receipt')
+    require(receipt['source_manifest_sha256'] == fingerprint, 'receipt manifest differs')
+    require(receipt['validator_sha256'] == validator_hashes(), 'receipt validator differs')
+    quality = receipt['quality']
+    require(quality['passed'] is True and bool(quality['checks']) and all(quality['checks'].values()),
+            'semantic receipt contains failed or missing checks')
+    require(manifest['format_version'] == FORMAT_VERSION and manifest['format'] == 'JSONL' and
+            manifest['compression'] == 'none' and set(manifest['tables']) == set(TABLES), 'unsupported catalog')
+    require(quality['config'] == manifest['config'] and quality['tables'] == manifest['tables'], 'receipt table/config differs')
+    config = ChunkConfig(**manifest['config'])
+    require(type(manifest['chunk_rows']) is int and 1 <= manifest['chunk_rows'] <= 1_000_000, 'invalid chunk rows')
+    catalog = source / 'files.jsonl'
+    require(not catalog.is_symlink() and catalog.stat().st_size <= 4 * 1024**2, 'unsafe or oversized catalog')
+    require(manifest['catalog'] == {'path': 'files.jsonl', 'bytes': catalog.stat().st_size,
+                                  'sha256': digest_file(catalog)}, 'catalog integrity differs')
+    totals = {name: {'parts': 0, 'rows': 0, 'bytes': 0} for name in TABLES}
+    number = 0
+    for item in records(catalog):
+        number += 1
+        require(number <= 20_000 and item['table'] in TABLES, 'catalog exceeds the reviewed file bound')
+        name, stats = item['table'], totals[item['table']]
+        expected = f"{TABLES[name]}/part-{stats['parts']:06d}.jsonl"
+        require(item['part'] == stats['parts'] and item['path'] == expected, 'catalog path/sequence differs')
+        require(type(item['rows']) is int and 0 < item['rows'] <= manifest['chunk_rows'] and
+                type(item['bytes']) is int and item['bytes'] > 0 and
+                isinstance(item['sha256'], str) and re.fullmatch('[0-9a-f]{64}', item['sha256']), 'invalid catalog counters')
+        path = source / expected
+        require(not path.is_symlink() and path.resolve().is_relative_to(source) and path.is_file(), 'unsafe source part')
+        require(path.stat().st_size == item['bytes'], 'source part size differs')
+        for key, increment in (('parts', 1), ('rows', item['rows']), ('bytes', item['bytes'])):
+            stats[key] += increment
+    for name, stats in totals.items():
+        require(all(stats[k] == manifest['tables'][name][k] for k in stats), 'catalog table counters differ')
+    # Inventory checking includes unlisted files/symlink directories, without opening payloads.
+    count = total = 0
+    for path in walk_files(source):
+        count += 1
+        require(count <= 20_003, 'source inventory exceeds reviewed bound')
+        relative = path.relative_to(source).as_posix()
+        if relative not in ('manifest.json', 'files.jsonl', '_GENERATION_SUCCESS.json'):
+            matches = [name for name, prefix in TABLES.items() if relative.startswith(prefix + '/part-')]
+            require(len(matches) == 1, 'unlisted source file')
+            name = matches[0]
+            suffix = relative[len(TABLES[name]) + 6:]
+            require(re.fullmatch(r'[0-9]{6}\.jsonl', suffix) is not None and
+                    int(suffix[:6]) < totals[name]['parts'], 'unlisted source part')
+        total += path.stat().st_size
+    require(count == number + 3, 'source file inventory differs')
+    offline = sum(v['bytes'] for k, v in totals.items() if k != 'stream')
+    require(offline == quality['offline_payload_bytes'] == manifest['offline_payload_bytes'] and
+            sum(v['bytes'] for v in totals.values()) == manifest['payload_bytes'], 'source byte counters differ')
+    require(total == quality['source_total_bytes'] and config.unique_rows == quality['unique_telemetry_rows'],
+            'source total/unique counters differ')
+    suggested_partitions(offline)
+    return {'metadata_bound': True, 'payload_checksums_rechecked': False, 'source_manifest_sha256': fingerprint,
+            'receipt_sha256': digest_file(receipt_path), 'source_offline_bytes': offline,
+            'source_total_bytes': total, 'unique_rows': config.unique_rows, 'payload_parts': number,
+            'suggested_partitions': suggested_partitions(offline),
+            'scope': 'Metadata/catalog hashes, successful semantic receipt and current inventory/stat only. '
+                     'Not new full validation. ChunkSource in Spark must independently rehash all bytes before and after ingest.'}
+
+
+def tree_bytes(path: Path) -> int:
+    """Sample logical file bytes without following directory symlinks; live free-space gates cover real allocation."""
+    total = 0
+    for directory, _, names in os.walk(path, followlinks=False):
+        for name in names:
+            item = Path(directory) / name
+            try:
+                if not item.is_symlink():
+                    total += item.stat().st_size
+            except FileNotFoundError:
+                pass
+    return total
+
+
+def resources(scratch: Path, lakehouse: Path, logs: Path) -> dict:
+    """Measure the Linux VM now, without reporting account identifiers or unrelated application settings."""
+    mem = dict(line.split(':', 1) for line in Path('/proc/meminfo').read_text().splitlines())
+    return {'memory_available_bytes': int(mem['MemAvailable'].split()[0]) * 1024, 'cpu_count': os.cpu_count(),
+            'free_bytes': {p: shutil.disk_usage(p).free for p in ('/srv/iot-data', '/srv/iot-fast')},
+            'scratch_file_bytes': tree_bytes(scratch), 'output_file_bytes': tree_bytes(lakehouse),
+            'log_file_bytes': tree_bytes(logs)}
+
+
+def admission(current: dict, remaining_seconds: float, estimated_seconds: float) -> dict:
+    """Reserve current-source outputs/scratch separately from SSD platform growth, including a finish window."""
+    if any(isinstance(n, bool) or not isinstance(n, (int, float)) or not math.isfinite(n) or n <= 0
+           for n in (remaining_seconds, estimated_seconds)):
+        raise ValueError('admission needs positive finite session/timing measurements')
+    gates = {'hdd': current['free_bytes']['/srv/iot-data'] >= HDD_ADMISSION_BYTES,
+             'ssd': current['free_bytes']['/srv/iot-fast'] >= 35_000_000_000,
+             'ram': current['memory_available_bytes'] >= 36 * GIB, 'cpu': current['cpu_count'] >= 7,
+             'session_time': remaining_seconds >= estimated_seconds + 1200}
+    return {'admitted': all(gates.values()), 'gates': gates, 'estimated_seconds': estimated_seconds,
+            'remaining_seconds': remaining_seconds, 'finish_reserve_seconds': 1200,
+            'hdd_growth_and_reserve_bytes': HDD_ADMISSION_BYTES, 'ssd_growth_and_reserve_bytes': 35_000_000_000,
+            'output_cap_bytes': OUTPUT_CAP_BYTES, 'scratch_cap_bytes': SCRATCH_CAP_BYTES,
+            'scope': 'Admission forecast only. No claim of completed processing, VM restart or session extension.'}
+
+
+def guard_reasons(current: dict, remaining_seconds: float, elapsed_seconds: float, maximum_seconds: float,
+                  pilot: bool) -> list[str]:
+    """Stop this run on actual resource loss, bounded output/scratch or impending shutdown; never stop other services."""
+    limits = {'scratch_file_bytes': 20_000_000_000 if pilot else SCRATCH_CAP_BYTES,
+              'output_file_bytes': 20_000_000_000 if pilot else OUTPUT_CAP_BYTES,
+              'log_file_bytes': LOG_CAP_BYTES}
+    result = [key for key, limit in limits.items() if current[key] > limit]
+    if current['free_bytes']['/srv/iot-data'] < (HDD_ADMISSION_BYTES if pilot else HDD_FREE_RESERVE_BYTES):
+        result.append('hdd_free_reserve')
+    if current['free_bytes']['/srv/iot-fast'] < 35_000_000_000:
+        result.append('ssd_free_reserve')
+    if current['memory_available_bytes'] < 4 * GIB:
+        result.append('ram_free_reserve')
+    if remaining_seconds <= 600:
+        result.append('session_finish_window')
+    if elapsed_seconds >= maximum_seconds:
+        result.append('run_timeout')
+    return result
+
+
+def deadline_timestamp(value: str) -> float:
+    """Require an explicit timezone so a machine's local timezone cannot silently extend the reviewed deadline."""
+    parsed = datetime.fromisoformat(value.replace('Z', '+00:00'))
+    if parsed.tzinfo is None:
+        raise ValueError('deadline requires an explicit UTC offset')
+    return parsed.timestamp()

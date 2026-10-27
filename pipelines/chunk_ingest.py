@@ -2,6 +2,7 @@
 
 import argparse
 from datetime import datetime, timedelta, timezone
+from hashlib import sha256
 import json
 import math
 from pathlib import Path
@@ -15,6 +16,7 @@ from pyspark.sql import SparkSession, Window, functions as F
 from generator.chunked import TABLES
 from generator.config import iso_ts
 from pipelines.chunk_source import ChunkSource, outside_source
+from pipelines.ingest_control import partition_count
 from pipelines.transforms import TELEMETRY_FIELDS, FAILURE_FIELDS, MAINTENANCE_FIELDS, require, struct_schema
 
 
@@ -152,16 +154,26 @@ def measure_query(json_frame, parquet_frame, config, repetitions: int) -> dict:
             'scope':'Same query/data, no Spark cache; alternating execution order. OS/file cache and other apps uncontrolled; not a general performance guarantee.'}
 
 
-def run_ingest(spark: SparkSession, source: ChunkSource, output: Path, partitions: int, repeats: int, ui_pause: int) -> dict:
+def run_ingest(spark: SparkSession, source: ChunkSource, output: Path, partitions: int, repeats: int, ui_pause: int,
+               progress=lambda phase: None) -> dict:
     """Persist Bronze/Silver and verify the actual payloads, grain, firmware and latest-export semantics."""
     started=time.perf_counter()
     output.mkdir(parents=True,exist_ok=False)
-    checks=known_answer_checks(spark,output)
+    progress('known_answers')
+    configured_partitions=spark.conf.get('spark.sql.shuffle.partitions')
+    try:
+        # Tiny independent fixtures need no thousands of empty tasks when a large profile is selected.
+        spark.conf.set('spark.sql.shuffle.partitions','8')
+        checks=known_answer_checks(spark,output)
+    finally:
+        spark.conf.set('spark.sql.shuffle.partitions',configured_partitions)
     print(f'PASS: {len(checks)} Spark known-answer checks',flush=True)
     telemetry=read_table(spark,source,'v1').unionByName(read_table(spark,source,'v2'))
     telemetry_path=output/'bronze'/'raw_telemetry'
+    progress('bronze_write')
     write_parquet(telemetry.withColumn('ingested_at',F.current_timestamp()),telemetry_path,partitions)
     bronze=spark.read.parquet(str(telemetry_path))
+    progress('bronze_full_readback')
     exact_rows_equal(telemetry,bronze,PAYLOAD+['source_path','source_manifest_sha256'])
     checks.append('all_telemetry_rows_exact_after_parquet')
     stored=source.manifest['tables']['v1']['rows']+source.manifest['tables']['v2']['rows']
@@ -173,6 +185,7 @@ def run_ingest(spark: SparkSession, source: ChunkSource, output: Path, partition
     checks.extend(['bronze_counts_match_catalog','v1_pressure_null_v2_pressure_present'])
     inventories={'bronze/raw_telemetry':codec_inventory(spark,telemetry_path)}
     metadata={}
+    progress('metadata_write_and_readback')
     for name in ('machines','failures','maintenance'):
         original=read_table(spark,source,name)
         target=output/'bronze'/f'raw_{name}'
@@ -185,8 +198,10 @@ def run_ingest(spark: SparkSession, source: ChunkSource, output: Path, partition
         inventories[f'bronze/raw_{name}']=codec_inventory(spark,target)
     checks.append('all_metadata_rows_exact_after_parquet')
     silver_path=output/'silver'/'stg_telemetry'
+    progress('silver_write_and_dedup')
     write_parquet(latest_readings(bronze),silver_path,partitions)
     silver=spark.read.parquet(str(silver_path))
+    progress('silver_readback_and_keys')
     require(silver.count()==source.config.unique_rows,'Silver unique count differs')
     require(silver.groupBy('event_id').count().filter('count!=1').limit(1).count()==0,'Silver event IDs are not unique')
     maxima=bronze.groupBy('event_id').agg(F.max('created_ts').alias('expected_created'))
@@ -203,7 +218,9 @@ def run_ingest(spark: SparkSession, source: ChunkSource, output: Path, partition
         print(f'UI ready: http://127.0.0.1:14040; waiting {ui_pause}s',flush=True)
         time.sleep(ui_pause)
     spark.catalog.clearCache()
+    progress('query_comparison')
     query=measure_query(telemetry,bronze,source.config,repeats)
+    progress('source_post_ingest_full_checksums')
     source.unchanged()
     cgroup={}
     for name in ('memory.current','memory.peak'):
@@ -217,8 +234,12 @@ def run_ingest(spark: SparkSession, source: ChunkSource, output: Path, partition
             'duplicates_removed':stored-source.config.unique_rows,'schema_rows':schema_rows,'metadata_rows':metadata,
             'storage':inventories,'query_comparison':query,'sample_trace':{'silver':sample,'bronze_copies':copies},
             'spark_version':spark.version,'python':platform.python_version(),'application_id':spark.sparkContext.applicationId,
+            'execution':{'master':spark.sparkContext.master,'shuffle_partitions':int(spark.conf.get('spark.sql.shuffle.partitions')),
+                         'output_partitions':partitions,'scratch':spark.conf.get('spark.local.dir'),
+                         'aqe_coalesce_partitions':spark.conf.get('spark.sql.adaptive.coalescePartitions.enabled')},
             'job_wall_seconds':time.perf_counter()-started,'cgroup_memory_before_shutdown':cgroup,
-            'scope':'Local[2] typed JSONL to plain Snappy Parquet folders; no PostgreSQL bulk staging, feature/model retraining, Airflow deployment or >=100GB claim.'}
+            'scope':'Immutable typed JSONL to plain Snappy Parquet with full pre/post source checksums and exact row readback; '
+                    'actual input bytes and runtime settings are recorded. No Gold/features/model or Airflow deployment claim.'}
 
 
 def main():
@@ -231,19 +252,36 @@ def main():
     parser.add_argument('--partitions',type=int,default=8)
     parser.add_argument('--query-repetitions',type=int,default=3)
     parser.add_argument('--ui-pause-seconds',type=int,default=0)
+    parser.add_argument('--binding',type=Path)
+    parser.add_argument('--progress',type=Path)
     args=parser.parse_args()
-    require(1<=args.partitions<=64 and 1<=args.query_repetitions<=5 and 0<=args.ui_pause_seconds<=60,'invalid bounded job configuration')
+    partition_count(args.partitions)
+    require(1<=args.query_repetitions<=5 and 0<=args.ui_pause_seconds<=60,'invalid bounded job configuration')
     outside_source(args.source,args.output)
     outside_source(args.source,args.report)
     require(not args.output.exists() and not args.report.exists(),'output/report exists; choose a new run')
+    if args.progress:
+        outside_source(args.source,args.progress)
+        require(not args.progress.exists(),'progress output exists; choose a new run')
+    def progress(phase):
+        """Expose real phase transitions so an observer never infers completion from elapsed time alone."""
+        if args.progress:
+            save_json(args.progress,{'phase':phase,'checked_utc':datetime.now(timezone.utc).isoformat()})
+    progress('source_pre_ingest_full_checksums')
     source=ChunkSource(args.source,args.receipt)
+    if args.binding:
+        binding=json.loads(args.binding.read_text())
+        require(binding['source_manifest_sha256']==source.manifest_sha256 and
+                binding['receipt_sha256']==source.receipt_sha256,'admission binding differs from current Spark input')
     spark=(SparkSession.builder.appName('iot-chunk-parquet-ingest').config('spark.sql.session.timeZone','UTC')
            .config('spark.sql.shuffle.partitions',str(args.partitions)).getOrCreate())
     spark.sparkContext.setLogLevel('WARN')
     try:
-        report=run_ingest(spark,source,args.output,args.partitions,args.query_repetitions,args.ui_pause_seconds)
+        report=run_ingest(spark,source,args.output,args.partitions,args.query_repetitions,args.ui_pause_seconds,progress)
         save_json(args.report,report)
-        save_json(args.output/'_RUN_SUCCESS.json',{'passed':True,'source_manifest_sha256':source.manifest_sha256,'report':str(args.report)})
+        save_json(args.output/'_RUN_SUCCESS.json',{'passed':True,'source_manifest_sha256':source.manifest_sha256,'report':str(args.report),
+                                                 'report_sha256':sha256(args.report.read_bytes()).hexdigest()})
+        progress('completed')
         print(f"PASS: chunked ingest; Bronze={report['bronze_telemetry_rows']}, Silver={report['silver_unique_rows']}, checks={len(report['checks'])}",flush=True)
     finally:
         spark.stop()

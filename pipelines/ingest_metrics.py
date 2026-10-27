@@ -9,7 +9,7 @@ from generator.storage import write_json
 
 def summarize_events(path: Path) -> dict:
     """Stream one Spark event log and total metrics from completed task attempts."""
-    result={'task_attempts':0,'failed_attempts':0,'input_bytes_read':0,'output_bytes_written':0,
+    result={'application_ended':False,'task_attempts':0,'failed_attempts':0,'input_bytes_read':0,'output_bytes_written':0,
             'shuffle_bytes_written':0,'shuffle_bytes_read':0,'disk_bytes_spilled':0,'memory_bytes_spilled':0,
             'max_task_peak_execution_memory':0,'stages_completed':0}
     with path.open(encoding='utf-8') as source:
@@ -17,6 +17,8 @@ def summarize_events(path: Path) -> dict:
             if len(line)>8*1024*1024:
                 raise ValueError('event log record exceeds bounded reader limit')
             event=json.loads(line)
+            if event['Event']=='SparkListenerApplicationEnd':
+                result['application_ended']=True
             if event['Event']=='SparkListenerStageCompleted':
                 result['stages_completed']+=1
             if event['Event']!='SparkListenerTaskEnd':

@@ -2,7 +2,7 @@
 
 Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cảm biến mô phỏng, dự đoán sự cố trong một giờ tới và trợ lý tra cứu tình trạng máy/tài liệu.
 
-**Trạng thái:** đã sinh và đọc kiểm đầy đủ **102.447.847.856 byte offline**, 316.800.000 unique readings trên VM. [Mốc100 GB](docs/scale-100gb.md) có14 kiểm tra nguồn; Spark trung gian5,59 GB qua13 checks và99 unittest. [Airflow DP1–DP3/DataHub](docs/orchestration.md) đã kiểm pilot riêng:64 rules/14 bảng, chặn batch lỗi và phục hồi. Chưa Spark/Gold/feature toàn100 GB hoặc API; tập test ML trước vẫn thiếu ca hỏng.
+**Trạng thái:** đã sinh và đọc kiểm đầy đủ **102.447.847.856 byte offline**, 316.800.000 unique readings trên VM. [Mốc100 GB](docs/scale-100gb.md) có14 kiểm tra nguồn; [runner HDD mới](docs/large-ingest-runner.md) kiểm lại5,59GB/128partitions/13Sparkchecks/130unittestVM. [Airflow DP1–DP3/DataHub](docs/orchestration.md) đã kiểm pilot riêng:64 rules/14 bảng, chặn batch lỗi và phục hồi. Chưa Spark/Gold/feature toàn100 GB hoặc API; [protocol ML mới](docs/ml-evaluation-protocol.md) đã chốt trước huấn luyện, kết quả test cũ0positive giữ nguyên.
 
 Đã [triển khai VM Google Cloud](docs/gcp-runtime.md) 8vCPU/64GiB với Ansible, IAP và đĩa HDD/SSD tách riêng. Cùng workload1,12GB trên một VM: baseline223,942s→optimized100,892s, disk spill967MB→0, cả hai13checks/84tests qua. Một lượt mỗi cấu hình, chưa benchmark100GB hoặc bằng chứng hoàn thành toàn coursework.
 
@@ -24,6 +24,8 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Airflow DP1–DP3, validation chặn lỗi và DataHub lineage/assertions](docs/orchestration.md)
 - [Mốc nguồn 100 GB: ngân sách HDD/SSD/RAM, tập trung gian và cách tự chạy](docs/scale-100gb.md)
 - [Spark skew: cùng query, ba cặp đo, kết quả đúng và ảnh UI](docs/skew-benchmark.md)
+- [Runner nguồn lớn: HDD scratch, hai lượt checksum và live guards](docs/large-ingest-runner.md)
+- [Protocol ML60ngày: chia theo thời gian, purge và holdout trước metric](docs/ml-evaluation-protocol.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist rubric](docs/rubric-tracker.md)
 - [Cấu trúc hiện tại](#cấu-trúc-hiện-tại)

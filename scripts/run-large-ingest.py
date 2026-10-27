@@ -1,0 +1,303 @@
+"""Run sealed chunk ingest on the existing VM using HDD scratch, full Spark-side integrity and live admission guards."""
+
+import argparse
+import json
+import math
+import os
+from pathlib import Path
+import platform
+import re
+import signal
+import subprocess
+import sys
+import time
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from generator.chunked import digest_file
+from pipelines.ingest_control import (GIB, OUTPUT_CAP_BYTES, SCRATCH_CAP_BYTES, admission, deadline_timestamp, guard_reasons,
+                                      receipt_metadata, resources, select_partitions, small_json)
+from pipelines.orchestration_contract import save, utc_now
+
+
+def run_name(value: str) -> str:
+    """Keep container/output names project-owned and prevent path traversal or accidental reuse."""
+    if not re.fullmatch(r'[a-z][a-z0-9-]{0,39}', value):
+        raise ValueError('run name must contain 1..40 lowercase letters/digits/hyphens, starting with a letter')
+    return value
+
+
+def execution_hashes() -> dict:
+    """Bind every module used by this job, plus launcher/Compose/image definitions, without including local secrets."""
+    names = [*sorted((ROOT / 'generator').glob('*.py')),
+             *(ROOT / 'pipelines' / n for n in ('chunk_ingest.py', 'chunk_source.py', 'ingest_control.py',
+                                               'ingest_metrics.py', 'transforms.py', 'orchestration_contract.py')),
+             Path(__file__), ROOT / 'infra/ingest.compose.yaml', ROOT / 'infra/ingest.cloud.compose.yaml',
+             ROOT / 'infra/spark/Dockerfile']
+    return {p.relative_to(ROOT).as_posix(): digest_file(p) for p in names}
+
+
+def forecast(binding: dict, pilot_run: str | None, image: str, hashes: dict, probe_path: Path,
+             target_partitions: int | None = None) -> dict:
+    """Require a successful same-code HDD pilot before scaling; estimates never substitute for completed evidence."""
+    if binding['source_offline_bytes'] <= 10_000_000_000:
+        return {'kind': 'bounded_intermediate_first', 'estimated_seconds': 5400,
+                'scope': 'A 90-minute hard pilot cap, not a measured large-run performance claim.'}
+    if not pilot_run or binding['source_offline_bytes'] < 100_000_000_000:
+        raise ValueError('large mode requires a successful new-runner pilot and a 100-115GB sealed source')
+    p = ROOT / 'outputs' / run_name(pilot_run)
+    verification = small_json(p / 'verification.json')
+    if (small_json(p / '_RUN_SUCCESS.json')['verification_sha256'] != digest_file(p / 'verification.json') or
+            verification['passed'] is not True or verification['execution_sha256'] != hashes or
+            verification['image_id'] != image or verification['partitions'] < 128):
+        raise ValueError('pilot marker/runtime/image/partition proof differs from the current reviewed runner')
+    for name, key in (('ingest-report.json', 'ingest_report_sha256'), ('spark-metrics.json', 'metrics_sha256'),
+                      ('resource-samples.json', 'resource_samples_sha256')):
+        if digest_file(p / name) != verification[key]:
+            raise ValueError('pilot report binding differs')
+    report, metrics = small_json(p / 'ingest-report.json'), small_json(p / 'spark-metrics.json')
+    sampled = small_json(p / 'resource-samples.json')
+    if sampled.get('finished') is not True or any(type(sampled[k]) is not int or sampled[k] < 0 for k in
+                                               ('peak_scratch_file_bytes', 'peak_output_file_bytes')):
+        raise ValueError('pilot resource measurements are not complete and finite')
+    if (not report['passed'] or not metrics['application_ended'] or metrics['failed_attempts'] or
+            metrics['task_attempts'] < 1 or report['source_manifest_sha256'] != verification['source_manifest_sha256'] or
+            report['source_offline_bytes'] != verification['source_offline_bytes'] or
+            report['query_comparison']['repetitions'] != 3 or report['execution']['master'] != 'local[6]' or
+            report['execution']['aqe_coalesce_partitions'] != 'false' or
+            report['execution']['output_partitions'] != verification['partitions'] or
+            not 1_000_000_000 <= report['source_offline_bytes'] <= 10_000_000_000):
+        raise ValueError('pilot must have full successful correctness/task evidence on at least 1GB')
+    if (isinstance(verification['spark_command_seconds'], bool) or
+            not math.isfinite(verification['spark_command_seconds']) or verification['spark_command_seconds'] <= 0):
+        raise ValueError('pilot timing must be positive and finite')
+    probe = small_json(probe_path)['probe']
+    if probe['passed'] is not True or probe['source_manifest_sha256'] != binding['source_manifest_sha256']:
+        raise ValueError('large-source disk probe binding differs')
+    ratio = binding['source_offline_bytes'] / report['source_offline_bytes']
+    # Prior same-workload pilots observed up to 8.291GB scratch / 5.588GB source.
+    # Round that envelope up to 1.5x source, rather than choosing a later favorable sample.
+    projected_scratch = math.ceil(max(sampled['peak_scratch_file_bytes'] * ratio,
+                                     metrics['shuffle_bytes_written'] * ratio,
+                                     binding['source_offline_bytes'] * 1.5) * 1.3)
+    projected_output = math.ceil(sampled['peak_output_file_bytes'] * ratio * 1.3)
+    if projected_scratch > SCRATCH_CAP_BYTES or projected_output > OUTPUT_CAP_BYTES:
+        raise ValueError('projected scratch/output exceeds the reviewed live caps; revise and verify the resource plan')
+    target_partitions = select_partitions(target_partitions, binding['source_offline_bytes'])
+    task_ratio = max(1, ratio * verification['partitions'] / target_partitions)
+    if type(metrics['max_task_peak_execution_memory']) is not int or metrics['max_task_peak_execution_memory'] <= 0:
+        raise ValueError('invalid pilot task-memory measurement')
+    projected_task_memory = math.ceil(metrics['max_task_peak_execution_memory'] * task_ratio * 1.3)
+    # A 10GiB screening budget leaves heap room for other operators/driver state; the cgroup remains 28GiB.
+    if projected_task_memory * 6 > 10 * GIB:
+        raise ValueError('projected concurrent task memory exceeds the reviewed execution budget')
+    if any(type(metrics[k]) is not int or metrics[k] < 0 for k in
+           ('input_bytes_read', 'output_bytes_written', 'shuffle_bytes_read', 'shuffle_bytes_written', 'disk_bytes_spilled')):
+        raise ValueError('invalid pilot task IO counter')
+    task_io = sum(metrics[k] for k in ('input_bytes_read', 'output_bytes_written', 'shuffle_bytes_read', 'shuffle_bytes_written'))
+    io_bytes = math.ceil(ratio * (task_io + 2 * metrics['disk_bytes_spilled'])) + 2 * binding['source_offline_bytes']
+    # Short O_DIRECT reads can enjoy disk bursts; halve that sample and cap the mixed-IO forecast at 64MB/s.
+    rate = min(float(probe['bytes_per_second']) / 2, 64_000_000)
+    if not math.isfinite(rate) or rate <= 0:
+        raise ValueError('invalid finite disk probe')
+    linear = verification['spark_command_seconds'] * ratio
+    estimate = max(linear, io_bytes / rate) * 1.3
+    return {'kind': 'measured_pilot_scaled_forecast', 'estimated_seconds': estimate, 'source_ratio': ratio,
+            'estimated_io_bytes': io_bytes, 'checksum_passes': 2, 'forecast_disk_bytes_per_second': rate,
+            'projected_peak_scratch_bytes': projected_scratch, 'projected_peak_output_bytes': projected_output,
+            'conservative_scratch_floor_ratio': 1.5, 'scratch_cap_bytes': SCRATCH_CAP_BYTES,
+            'output_cap_bytes': OUTPUT_CAP_BYTES,
+            'target_partitions': target_partitions, 'per_task_input_ratio': task_ratio,
+            'projected_concurrent_task_memory_bytes': projected_task_memory * 6,
+            'task_execution_screening_budget_bytes': 10 * GIB,
+            'linear_command_seconds': linear, 'safety_factor': 1.3,
+            'pilot_verification_sha256': digest_file(p / 'verification.json'), 'disk_probe_sha256': digest_file(probe_path),
+            'scope': 'Full same-code Bronze/Silver/checks/query workload estimate, not 100GB execution evidence. '
+                     'Mixed-IO rate is a conservative assumption from a short sample, not a throughput guarantee.'}
+
+
+def execute(args) -> None:
+    """Preserve failed outputs, pin real container limits and stop only this run if its reviewed guards fire."""
+    if platform.system() != 'Linux':
+        raise ValueError('run this launcher on the existing Linux coursework VM')
+    import fcntl
+    os.chdir(ROOT)
+    name = run_name(args.run_name)
+    for mount in ('/srv/iot-data', '/srv/iot-fast'):
+        if not Path(mount).is_mount():
+            raise ValueError('required coursework volume is not mounted')
+    deadline = deadline_timestamp(args.deadline_utc)
+    source, receipt = args.source.resolve(), args.receipt.resolve()
+    if not source.is_relative_to(ROOT / 'data/source') or not receipt.is_relative_to(ROOT / 'outputs'):
+        raise ValueError('source/receipt must stay inside project source/outputs')
+    binding = receipt_metadata(source, receipt)
+    if small_json(source / 'manifest.json')['stream_generated']:
+        raise ValueError('reviewed large-ingest runner requires an offline-only source')
+    partitions = select_partitions(args.partitions, binding['source_offline_bytes'])
+    output, lakehouse = ROOT / 'outputs' / name, ROOT / 'data/lakehouse' / name
+    scratch = Path('/srv/iot-data/spark-scratch') / name
+    if any(p.exists() for p in (output, lakehouse, scratch)):
+        raise ValueError('run output exists; retain it and choose a fresh name')
+    if not scratch.parent.resolve().is_relative_to(Path('/srv/iot-data')):
+        raise ValueError('scratch parent escaped the approved HDD mount')
+    image = subprocess.check_output(['docker', 'image', 'inspect', 'iot-coursework-spark:3.5.9', '--format', '{{.Id}}'], text=True).strip()
+    hashes = execution_hashes()
+    predicted = forecast(binding, args.pilot_run, image, hashes, args.disk_probe, partitions)
+    before = resources(scratch, lakehouse, output)
+    decision = admission(before, deadline - time.time(), predicted['estimated_seconds'])
+    output.mkdir(parents=True)
+    output.chmod(0o777)
+    save(output / 'preflight.json', {'checked_utc': utc_now(), 'binding': binding, 'forecast': predicted,
+         'admission': decision, 'resources': before, 'execution_sha256': hashes, 'image_id': image,
+         'base_commit': args.base_commit, 'deadline_utc': args.deadline_utc, 'partitions': partitions,
+         'cpu': 6, 'container_memory_bytes': 28 * GIB, 'heap_gib': 20, 'scratch': str(scratch),
+         'source': source.relative_to(ROOT).as_posix(), 'scope': 'Host metadata admission only; full pre/post checksums remain in Spark.'})
+    if not decision['admitted']:
+        save(output / 'rejected.json', {'admitted': False, 'checked_utc': utc_now(), 'gates': decision['gates'],
+                                        'spark_launched': False, 'source_regenerated': False})
+        raise ValueError('resource/time admission rejected; inspect the preserved preflight')
+    runtime = ROOT / 'data/runtime'
+    runtime.mkdir(exist_ok=True)
+    lock = (runtime / 'large-ingest.lock').open('a')
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    # The advisory lock serializes this launcher; other launchers still require operational coordination.
+    for p in (scratch, lakehouse.parent, ROOT / 'data/ingest-events'):
+        p.mkdir(parents=True, exist_ok=(p != scratch))
+        p.chmod(0o1777)
+    if scratch.stat().st_dev != Path('/srv/iot-data').stat().st_dev:
+        raise ValueError('scratch is on a different device from the reviewed HDD')
+    (output / 'receipt.json').write_bytes(receipt.read_bytes())
+    save(output / 'input-binding.json', binding)
+    env = os.environ.copy()
+    env.update(IOT_INGEST_CPUS='6', IOT_INGEST_MEMORY=str(28 * GIB), IOT_INGEST_SCRATCH=str(scratch))
+    compose = ['docker', 'compose', '-f', 'infra/ingest.compose.yaml', '-f', 'infra/ingest.cloud.compose.yaml']
+    container = 'iot-large-' + name
+    pilot = binding['source_offline_bytes'] <= 10_000_000_000
+    overall = time.perf_counter()
+    commands, observed = [], {'samples': 0, 'peak_scratch_file_bytes': 0, 'peak_output_file_bytes': 0,
+                              'minimum_available_ram_bytes': before['memory_available_bytes'],
+                              'minimum_hdd_free_bytes': before['free_bytes']['/srv/iot-data']}
+
+    def command(argv, log, guarded=False):
+        """Monitor a real process/container and preserve its exit, guard causes and logs even on failure."""
+        start = time.perf_counter()
+        checked_container = False
+        reasons = []
+        with (output / log).open('w') as stream:
+            process = subprocess.Popen(argv, cwd=ROOT, env=env, stdout=stream, stderr=subprocess.STDOUT, start_new_session=True)
+            try:
+                while process.poll() is None:
+                    current = resources(scratch, lakehouse, output)
+                    reasons = guard_reasons(current, deadline - time.time(), time.perf_counter() - overall,
+                                            predicted['estimated_seconds'], pilot)
+                    observed['samples'] += 1
+                    for target, field in (('peak_scratch_file_bytes', 'scratch_file_bytes'), ('peak_output_file_bytes', 'output_file_bytes')):
+                        observed[target] = max(observed[target], current[field])
+                    observed['minimum_available_ram_bytes'] = min(observed['minimum_available_ram_bytes'], current['memory_available_bytes'])
+                    observed['minimum_hdd_free_bytes'] = min(observed['minimum_hdd_free_bytes'], current['free_bytes']['/srv/iot-data'])
+                    save(output / 'resource-samples.json', {**observed, 'checked_utc': utc_now(), 'finished': False})
+                    save(output / 'wrapper-progress.json', {'checked_utc': utc_now(), 'command': log,
+                         'elapsed_seconds': time.perf_counter() - overall, 'remaining_seconds': deadline - time.time()})
+                    if reasons:
+                        raise RuntimeError('live guard reached: ' + ','.join(reasons))
+                    if guarded and not checked_container:
+                        inspected = subprocess.run(['docker', 'inspect', container], capture_output=True, text=True)
+                        if inspected.returncode == 0:
+                            item = json.loads(inspected.stdout)[0]
+                            mounts = {m['Destination']: m for m in item['Mounts']}
+                            source_mount = mounts['/workspace/' + source.relative_to(ROOT).as_posix()]
+                            if (item['Image'] != image or item['HostConfig']['Memory'] != 28 * GIB or
+                                    item['HostConfig']['NanoCpus'] != 6_000_000_000 or
+                                    mounts['/scratch']['Source'] != str(scratch) or source_mount['RW']):
+                                raise ValueError('actual container image/limits/scratch/read-only source differ')
+                            save(output / 'container-limits.json', {'image_id': item['Image'], 'memory_bytes': 28 * GIB,
+                                 'cpu': 6, 'scratch_source': mounts['/scratch']['Source'], 'source_read_only': True})
+                            checked_container = True
+                    time.sleep(2)
+            finally:
+                if process.poll() is None:
+                    subprocess.run(['docker', 'stop', '--time', '20', container], capture_output=True)
+                    try:
+                        os.killpg(process.pid, signal.SIGTERM)
+                    except ProcessLookupError:
+                        pass
+                    try:
+                        process.wait(timeout=30)
+                    except subprocess.TimeoutExpired:
+                        os.killpg(process.pid, signal.SIGKILL)
+                        process.wait(timeout=10)
+                commands.append({'argv': argv, 'exit_code': process.returncode, 'seconds': time.perf_counter() - start,
+                                 'log': log, 'guard_reasons': reasons})
+                save(output / 'commands.json', commands)
+            if process.returncode or (guarded and not checked_container):
+                raise RuntimeError(f'command failed or container was not verified; inspect {log}')
+
+    def interrupted(signum, frame):
+        """Route an external stop through the same own-container cleanup instead of orphaning a sibling job."""
+        raise InterruptedError('runner received signal ' + str(signum))
+
+    old_signal = signal.signal(signal.SIGTERM, interrupted)
+    try:
+        command([sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-v'], 'unit-tests.txt')
+        command(compose + ['config', '--format', 'json'], 'resolved-compose.json')
+        resolved = small_json(output / 'resolved-compose.json')['services']['ingest']
+        if int(resolved['mem_limit']) != 28 * GIB or float(resolved['cpus']) != 6:
+            raise ValueError('resolved container limits differ')
+        read_only = f'{source}:/workspace/{source.relative_to(ROOT).as_posix()}:ro'
+        command(compose + ['run', '--rm', '--service-ports', '--name', container, '--volume', read_only, 'ingest',
+                '--master', 'local[6]', '--driver-memory', '20g', '--conf', 'spark.driver.bindAddress=0.0.0.0',
+                '--conf', 'spark.driver.host=127.0.0.1', '--conf', f'spark.local.dir=/scratch/{name}',
+                '--conf', 'spark.sql.adaptive.coalescePartitions.enabled=false',
+                '--conf', 'spark.eventLog.enabled=true', '--conf', 'spark.eventLog.dir=file:///workspace/data/ingest-events',
+                'pipelines/chunk_ingest.py', '--source', source.relative_to(ROOT).as_posix(),
+                '--receipt', f'outputs/{name}/receipt.json', '--output', f'data/lakehouse/{name}',
+                '--report', f'outputs/{name}/ingest-report.json', '--partitions', str(partitions), '--query-repetitions', '3',
+                '--binding', f'outputs/{name}/input-binding.json', '--progress', f'outputs/{name}/ingest-progress.json'],
+                'spark-console.txt', guarded=True)
+        report = small_json(output / 'ingest-report.json')
+        marker = small_json(lakehouse / '_RUN_SUCCESS.json')
+        if (report['passed'] is not True or marker['report_sha256'] != digest_file(output / 'ingest-report.json') or
+                report['source_manifest_sha256'] != binding['source_manifest_sha256'] or
+                report['source_offline_bytes'] != binding['source_offline_bytes'] or report['silver_unique_rows'] != binding['unique_rows']):
+            raise ValueError('Spark report/marker/input binding differs')
+        command(compose + ['run', '--rm', '--entrypoint', 'python3', 'ingest', '-m', 'pipelines.ingest_metrics',
+                '--log', f"data/ingest-events/{report['application_id']}", '--report', f'outputs/{name}/spark-metrics.json'], 'metrics-console.txt')
+        metrics = small_json(output / 'spark-metrics.json')
+        if (not metrics['application_ended'] or metrics['failed_attempts'] or metrics['task_attempts'] < 1 or
+                receipt_metadata(source, receipt) != binding or execution_hashes() != hashes):
+            raise ValueError('failed task attempt or source metadata/code changed during execution')
+        measured = next(c['seconds'] for c in commands if c['log'] == 'spark-console.txt')
+        save(output / 'resource-samples.json', {**observed, 'finished': True, 'scope': 'Two-second samples; transient spikes may be missed.'})
+        result = {'passed': True, 'completed_utc': utc_now(), 'execution_sha256': hashes, 'image_id': image,
+                  'partitions': partitions, 'source_manifest_sha256': binding['source_manifest_sha256'],
+                  'source_offline_bytes': binding['source_offline_bytes'], 'source_metadata_unchanged': True,
+                  'spark_command_seconds': measured, 'wrapper_seconds': time.perf_counter() - overall,
+                  'ingest_report_sha256': digest_file(output / 'ingest-report.json'),
+                  'metrics_sha256': digest_file(output / 'spark-metrics.json'), 'after': resources(scratch, lakehouse, output),
+                  'resource_samples_sha256': digest_file(output / 'resource-samples.json'),
+                  'scope': 'Actual immutable-source ingest on this input. Host performs metadata-only admission; '
+                           'Spark rechecks all source payload checksums before and after full row readback. '
+                           'No Gold/feature/ML or session-extension claim.'}
+        save(output / 'verification.json', result)
+        save(output / '_RUN_SUCCESS.json', {'verification_sha256': digest_file(output / 'verification.json')})
+        print(json.dumps({k: result[k] for k in ('passed', 'source_offline_bytes', 'partitions', 'spark_command_seconds', 'wrapper_seconds')}, indent=2))
+    except BaseException as error:
+        save(output / 'failure.json', {'checked_utc': utc_now(), 'passed': False, 'type': type(error).__name__,
+                                       'message': str(error), 'scope': 'Partial work retained; no automatic resume or success.'})
+        raise
+    finally:
+        signal.signal(signal.SIGTERM, old_signal)
+        lock.close()
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--run-name', required=True)
+    parser.add_argument('--source', required=True, type=Path)
+    parser.add_argument('--receipt', required=True, type=Path)
+    parser.add_argument('--deadline-utc', required=True)
+    parser.add_argument('--base-commit', required=True)
+    parser.add_argument('--partitions', type=int)
+    parser.add_argument('--pilot-run')
+    parser.add_argument('--disk-probe', type=Path, default=Path('outputs/large-ingest-plan-27.json'))
+    execute(parser.parse_args())

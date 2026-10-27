@@ -1,0 +1,78 @@
+{
+  "admission": {
+    "admitted": true,
+    "estimated_seconds": 5400,
+    "finish_reserve_seconds": 1200,
+    "gates": {
+      "cpu": true,
+      "hdd": true,
+      "ram": true,
+      "session_time": true,
+      "ssd": true
+    },
+    "hdd_growth_and_reserve_bytes": 305000000000,
+    "remaining_seconds": 10934.50054883957,
+    "scope": "Admission forecast only. No claim of completed processing, VM restart or session extension.",
+    "ssd_growth_and_reserve_bytes": 35000000000
+  },
+  "base_commit": "f01513cde86d508875bc0347739f3b163f6625fe",
+  "binding": {
+    "metadata_bound": true,
+    "payload_checksums_rechecked": false,
+    "payload_parts": 181,
+    "receipt_sha256": "57b1ae02d200054befcf2be14ae83d7f2783e787315ff767c35f624cf6e68209",
+    "scope": "Metadata/catalog hashes, successful semantic receipt and current inventory/stat only. Not new full validation. ChunkSource in Spark must independently rehash all bytes before and after ingest.",
+    "source_manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5",
+    "source_offline_bytes": 5587984353,
+    "source_total_bytes": 5588019099,
+    "suggested_partitions": 32,
+    "unique_rows": 17280000
+  },
+  "checked_utc": "2026-10-27T02:46:55.423569+00:00",
+  "container_memory_bytes": 30064771072,
+  "cpu": 6,
+  "deadline_utc": "2026-10-27T05:49:09.924Z",
+  "execution_sha256": {
+    "generator/__init__.py": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172",
+    "generator/__main__.py": "045e4f5ac449b48e75856dba9a3a1c25cca6d985e5ba57bcc86792f893c25ba5",
+    "generator/capacity.py": "da846d8671936ea371226581c504071e05905d03afb2fbf43861a854373c5241",
+    "generator/chunk_quality.py": "a8ff63b5f518dbd117ea92926e08b8d2d98dc24601fe359eebab1faca042e79e",
+    "generator/chunked.py": "9b8705e9156966c08c02fd604739c3cb416a48fbc0881f21c5cce735e03f1b2c",
+    "generator/config.py": "087682ae48dceb64865cdca983b7642ab9d256bb0083da165d296196c21cb3de",
+    "generator/quality.py": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000",
+    "generator/simulation.py": "1179f67674b71c3c9b1b09d3a72f32f24df30647004b0ccf82fecebe673a360c",
+    "generator/storage.py": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d",
+    "infra/ingest.cloud.compose.yaml": "68b785ecd22a6350453f01012678f44e6a28700ae18936406216e29c399dc9ff",
+    "infra/ingest.compose.yaml": "cf1a0601c74e01436e8c783e5d04f8f01f94012b07a6688ecc652f9e0b9743a2",
+    "infra/spark/Dockerfile": "c22f0c3433a6574c4dd16e862165c5edd482839bbf382d53a431603e82b33d62",
+    "pipelines/chunk_ingest.py": "c3b970f3014ed84ee3cd7cdbf2f01cc703d4ceb075e5b73772492afaa0fa32fc",
+    "pipelines/chunk_source.py": "0e0e14b524632f3f3be658cdd800af6216c450f556aadebb53440f9cb5dcb63a",
+    "pipelines/ingest_control.py": "9160a7854ac418b8df565f0fbbcc3c0ede23edef92cd2d8afb996f35f0876339",
+    "pipelines/ingest_metrics.py": "cf1cc2ab9fb36d6ff2468413dbdb967e97c40670477d3b9a1842b822a3d93cb9",
+    "pipelines/orchestration_contract.py": "ba13ec6b1083fa84a65488f3de4192eae48bd7768f8a877363cfc808f12e977a",
+    "pipelines/transforms.py": "a05a8aa054cedd4f6da194f487a93601e3d9a8dd1f0bfc359305396279fcaf33",
+    "scripts/run-large-ingest.py": "2c69a01b33a88cfa50577a6081c054bce366fccc4311127b5604895e3d750b7d"
+  },
+  "forecast": {
+    "estimated_seconds": 5400,
+    "kind": "bounded_intermediate_first",
+    "scope": "A 90-minute hard pilot cap, not a measured large-run performance claim."
+  },
+  "heap_gib": 20,
+  "image_id": "sha256:0346da0caecfa6d615f2a50a52129c3b6367387077d5be2acec3bbf13973f417",
+  "partitions": 128,
+  "resources": {
+    "cpu_count": 8,
+    "free_bytes": {
+      "/srv/iot-data": 409125056512,
+      "/srv/iot-fast": 133818384384
+    },
+    "log_file_bytes": 0,
+    "memory_available_bytes": 60168507392,
+    "output_file_bytes": 0,
+    "scratch_file_bytes": 0
+  },
+  "scope": "Host metadata admission only; full pre/post checksums remain in Spark.",
+  "scratch": "/srv/iot-data/spark-scratch/large-ingest-medium-27-v3",
+  "source": "data/source/scale-intermediate-26"
+}

@@ -184,6 +184,8 @@ Ngân sách thời gian Spark lớn phải tính cả launcher/adapter rehash ng
 
 ## Gate cho Spark toàn nguồn lớn
 
+**Cập nhật sau pilot mới:** [Runner HDD V4](large-ingest-runner.md) đã kiểm128partitions/13Sparkchecks/130unitVM, nguồnread-only và pre/postfullchecksums. Budget cho job này chốt **355GBHDD=output80+scratch240+log5+free30**,SSD35GB,RAM36GiB; nguồn lớn gợi ý2048partitions, có screeningper-taskmemory. [Admission mới](evidence/large-ingest-runner/admission/plan.json) dự tính7giờ35phút, chặn phiên hiện tại; một phiên8giờ mới chỉ là đề xuất chưa được cấp quyền. Plan02:15 bên dưới giữ làm lịch sử, không phải cấu hình launcher mới.
+
 Lúc **02:15:26 UTC 27/10/2026**, đã đo trực tiếp trên VM và lưu [plan đầy đủ](evidence/large-ingest-plan/plan.json). Nguồn lớn vẫn giữ nguyên; script chỉ đọc 64 MiB đầu của tám part v1 có sẵn bằng GNU `dd iflag=direct,fullblock`, tổng **536.870.912 B trong 4,114749 giây**, khoảng **130,47 MB/s**. O_DIRECT tránh đo nhầm tốc độ page cache; không xóa cache toàn máy, không ghi source. Đây là mẫu ngắn có thể hưởng burst của đĩa, không cam kết băng thông shuffle hỗn hợp hoặc tốc độ chạy nhiều giờ. Kiểm inode/size/mtime và manifest trước/sau, không gọi mẫu đọc này là full validation mới.
 
 | Tài nguyên | Khả dụng thực đo | Ngân sách tăng thêm và dự phòng | Gate |

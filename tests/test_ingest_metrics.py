@@ -45,6 +45,14 @@ class IngestMetricTests(unittest.TestCase):
         self.assertEqual(result['task_attempts'],0)
         self.assertEqual(result['disk_bytes_spilled'],0)
         self.assertIn('not peak',result['scope'])
+        self.assertFalse(result['application_ended'])
+
+    def test_explicit_application_end_is_required_for_complete_metrics(self):
+        """Even a valid start-only log is partial evidence until Spark emits its actual end event."""
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'events'
+            path.write_text('{"Event":"SparkListenerApplicationStart"}\n{"Event":"SparkListenerApplicationEnd"}\n',encoding='utf-8')
+            self.assertTrue(summarize_events(path)['application_ended'])
 
 
 if __name__=='__main__':
