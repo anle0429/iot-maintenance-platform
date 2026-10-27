@@ -1,0 +1,100 @@
+#0 building with "iot-stream-builder-27" instance using docker-container driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.38kB 0.0s done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim-bookworm@sha256:fc169880a4d941f3142c0e2e623f05f246150add19dc36fc9224df20fb19e5fd
+#2 DONE 0.4s
+
+#3 [1/8] FROM docker.io/library/python:3.12-slim-bookworm@sha256:fc169880a4d941f3142c0e2e623f05f246150add19dc36fc9224df20fb19e5fd
+#3 resolve docker.io/library/python:3.12-slim-bookworm@sha256:fc169880a4d941f3142c0e2e623f05f246150add19dc36fc9224df20fb19e5fd 0.0s done
+#3 CACHED
+
+#4 [internal] load build context
+#4 transferring context:
+#4 transferring context: 16.75kB 0.5s done
+#4 DONE 0.5s
+
+#5 [2/8] COPY infra/predictor/requirements.lock /tmp/requirements.lock
+#5 DONE 0.0s
+
+#6 [3/8] RUN pip install --no-cache-dir --disable-pip-version-check -r /tmp/requirements.lock && pip check
+#6 3.414 Collecting annotated-doc==0.0.5 (from -r /tmp/requirements.lock (line 1))
+#6 3.511   Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+#6 3.537 Collecting annotated-types==0.8.0 (from -r /tmp/requirements.lock (line 2))
+#6 3.555   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#6 3.599 Collecting anyio==4.15.1 (from -r /tmp/requirements.lock (line 3))
+#6 3.614   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+#6 3.651 Collecting click==8.5.0 (from -r /tmp/requirements.lock (line 4))
+#6 3.667   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#6 3.763 Collecting fastapi==0.162.0 (from -r /tmp/requirements.lock (line 5))
+#6 3.779   Downloading fastapi-0.162.0-py3-none-any.whl.metadata (26 kB)
+#6 3.816 Collecting h11==0.16.0 (from -r /tmp/requirements.lock (line 6))
+#6 3.832   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#6 3.858 Collecting idna==3.20 (from -r /tmp/requirements.lock (line 7))
+#6 3.874   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#6 3.908 Collecting opentelemetry-api==1.45.1 (from -r /tmp/requirements.lock (line 8))
+#6 3.924   Downloading opentelemetry_api-1.45.1-py3-none-any.whl.metadata (1.4 kB)
+#6 3.953 Collecting prometheus_client==0.26.0 (from -r /tmp/requirements.lock (line 9))
+#6 3.968   Downloading prometheus_client-0.26.0-py3-none-any.whl.metadata (2.1 kB)
+#6 4.159 Collecting pydantic==2.14.1 (from -r /tmp/requirements.lock (line 10))
+#6 4.175   Downloading pydantic-2.14.1-py3-none-any.whl.metadata (133 kB)
+#6 5.086 Collecting pydantic_core==2.50.1 (from -r /tmp/requirements.lock (line 11))
+#6 5.101   Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+#6 5.147 Collecting starlette==1.10.0 (from -r /tmp/requirements.lock (line 12))
+#6 5.162   Downloading starlette-1.10.0-py3-none-any.whl.metadata (6.6 kB)
+#6 5.185 Collecting typing-inspection==0.4.4 (from -r /tmp/requirements.lock (line 13))
+#6 5.200   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+#6 5.229 Collecting typing_extensions==4.16.0 (from -r /tmp/requirements.lock (line 14))
+#6 5.244   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#6 5.294 Collecting uvicorn==0.54.0 (from -r /tmp/requirements.lock (line 15))
+#6 5.310   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+#6 5.422 Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+#6 5.437 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#6 5.452 Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+#6 5.470 Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#6 5.486 Downloading fastapi-0.162.0-py3-none-any.whl (148 kB)
+#6 5.502 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#6 5.518 Downloading idna-3.20-py3-none-any.whl (69 kB)
+#6 5.534 Downloading opentelemetry_api-1.45.1-py3-none-any.whl (60 kB)
+#6 5.550 Downloading prometheus_client-0.26.0-py3-none-any.whl (64 kB)
+#6 5.566 Downloading pydantic-2.14.1-py3-none-any.whl (488 kB)
+#6 5.595 Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.2 MB)
+#6 5.615    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 136.2 MB/s eta 0:00:00
+#6 5.630 Downloading starlette-1.10.0-py3-none-any.whl (80 kB)
+#6 5.646 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#6 5.662 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#6 5.678 Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+#6 5.749 Installing collected packages: typing_extensions, prometheus_client, idna, h11, click, annotated-types, annotated-doc, uvicorn, typing-inspection, pydantic_core, opentelemetry-api, anyio, starlette, pydantic, fastapi
+#6 7.247 Successfully installed annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 click-8.5.0 fastapi-0.162.0 h11-0.16.0 idna-3.20 opentelemetry-api-1.45.1 prometheus_client-0.26.0 pydantic-2.14.1 pydantic_core-2.50.1 starlette-1.10.0 typing-inspection-0.4.4 typing_extensions-4.16.0 uvicorn-0.54.0
+#6 7.248 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#6 8.652 No broken requirements found.
+#6 DONE 8.8s
+
+#7 [4/8] WORKDIR /app
+#7 DONE 0.1s
+
+#8 [5/8] COPY services/__init__.py /app/services/__init__.py
+#8 DONE 0.1s
+
+#9 [6/8] COPY services/predictor /app/services/predictor
+#9 DONE 0.0s
+
+#10 [7/8] COPY ml/__init__.py ml/protocol.py ml/training_contract.py /app/ml/
+#10 DONE 0.1s
+
+#11 [8/8] COPY models/pump-failure-v1 /app/models/pump-failure-v1
+#11 DONE 0.1s
+
+#12 exporting to oci image format
+#12 exporting layers
+#12 exporting layers 1.2s done
+#12 exporting manifest sha256:8e9ca40287e7444e828de63dd3cc5d7c47aa2d46d72fd955889b2c395f9ef45e 0.0s done
+#12 exporting config sha256:57457f83f0b99318b82ae5e7bcea9893c7314710bab6238838cc1fef92f2d675 0.0s done
+#12 sending tarball
+#12 sending tarball 1.8s done
+#12 DONE 3.0s
+
+#13 importing to docker
+#13 DONE 0.0s

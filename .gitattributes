@@ -16,6 +16,7 @@
 *.jsonl text eol=lf
 *.sql text eol=lf
 **/Dockerfile text eol=lf
+*.dockerignore text eol=lf
 *.xlsx binary
 *.png binary
 *.jpg binary
@@ -30,3 +31,9 @@ docs/evidence/stream-push/** -text -whitespace
 # Preserve captured ML SDK/oracle/registry evidence without newline conversion.
 docs/evidence/ml-training/** -text -whitespace
 infra/ml/requirements-*.lock -text -whitespace
+# Preserve native serving receipts, probe rows, coverage output and Linux dependency bytes.
+docs/evidence/predictor/** -text -whitespace
+infra/predictor/requirements.lock -text -whitespace
+tests/fixtures/predictor-native-spark.json -text
+models/pump-failure-v1/portable.json -text
+models/pump-failure-v1/lineage.json -text -whitespace

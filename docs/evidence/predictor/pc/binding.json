@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "tests": 65,
+  "hypothesis_examples": 100,
+  "line_and_branch_coverage_percent": 100,
+  "coverage_sha256": "cfb8e4a1472b78c5763c6d06ef3eb0e4169b81ffa6660a64001623cad49ca3fd",
+  "console_sha256": "2f28b34e68a79f9be3f239a55b065df621d1646876a9068be9d072e5c5c7187b",
+  "junit_sha256": "674f58935d9abc5f19b6681ea397288fda0438831b5daf6ee793893808b9a4f5",
+  "legacy_tests": 145,
+  "legacy_console_sha256": "0b5a86ce55f6502563cbf0032d28c4ee60167c58d2cd782962e9bbf9f34bdd88",
+  "python": "3.13.14",
+  "machine": "ThienAn",
+  "source_sha256": {
+    "services/predictor/app.py": "ec707e19d83f0b7331d167cca6b3c33ff00ca3a074827f3c2edfdef46bdf4c6a",
+    "services/predictor/contracts.py": "5cab032dae3ede91c9cfd5446da195b99b03349f3ed04a915be92f0ed3da12ce",
+    "services/predictor/runtime.py": "807f279ca9875320824eb44675af88a02f4ffc09cdc89028e191867d912d1bcb",
+    "services/predictor/__init__.py": "03485db3bf9d8822fecf87ac4bba41199d5855c556014f5343e65fc261217853",
+    "tests/api/test_predictor.py": "7d2d291521efb5e0096d6b46e91da2d3ec70f64a298402db010c1ec167a8db98",
+    "tests/fixtures/predictor-native-spark.json": "a572f260bed42403d931df53f3ca3bf1925e41f3150c4dcfcccdc89d650455a0",
+    "models/pump-failure-v1/lineage.json": "4c2b206e2945aff07ac44c54985aa0ce8a1c1f1e013c1a678dea7038216cb4a5",
+    "models/pump-failure-v1/portable.json": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9"
+  },
+  "scope": "Predictor API only, PC TestClient; not feature retrieval/MCP API or KServe deployment/load/mutation proof."
+}

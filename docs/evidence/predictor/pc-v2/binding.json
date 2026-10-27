@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "tests": 71,
+  "hypothesis_examples": 100,
+  "line_and_branch_coverage_percent": 100,
+  "coverage_sha256": "c42093486e19a8192544e7bee3f7c131749f019e0e76d1ad2f705cf4a45cdba2",
+  "console_sha256": "6eedc773de5bcaec5f3057c3de475f84e2fa89144da7679af0bb309fb9dea00e",
+  "junit_sha256": "27e3bc62a32f2ac34eeb963c2e56d140541a9ad0345de066f3836e7282ee6a08",
+  "python": "3.13.14",
+  "machine": "ThienAn",
+  "source_sha256": {
+    "services/predictor/app.py": "ec707e19d83f0b7331d167cca6b3c33ff00ca3a074827f3c2edfdef46bdf4c6a",
+    "services/predictor/contracts.py": "5cab032dae3ede91c9cfd5446da195b99b03349f3ed04a915be92f0ed3da12ce",
+    "services/predictor/runtime.py": "807f279ca9875320824eb44675af88a02f4ffc09cdc89028e191867d912d1bcb",
+    "services/predictor/__init__.py": "03485db3bf9d8822fecf87ac4bba41199d5855c556014f5343e65fc261217853",
+    "tests/api/test_predictor.py": "3fea466055b1a1568fea43a10d8c412c15cb85177ee9b0c4ac861487c9233dc9",
+    "tests/fixtures/predictor-native-spark.json": "a572f260bed42403d931df53f3ca3bf1925e41f3150c4dcfcccdc89d650455a0",
+    "models/pump-failure-v1/lineage.json": "4c2b206e2945aff07ac44c54985aa0ce8a1c1f1e013c1a678dea7038216cb4a5",
+    "models/pump-failure-v1/portable.json": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9"
+  },
+  "scope": "PC predictor71test follow-up after initial mutation191/246. No production code/model change, no claim for feature API/KServe."
+}

@@ -1,0 +1,17 @@
+# Restrict this Dockerfile's context to serving code/model assets; never upload lakehouse or credentials.
+**
+!infra/
+!infra/predictor/
+!infra/predictor/Dockerfile
+!infra/predictor/requirements.lock
+!services/
+!services/__init__.py
+!services/predictor/
+!services/predictor/*.py
+!ml/
+!ml/__init__.py
+!ml/protocol.py
+!ml/training_contract.py
+!models/
+!models/pump-failure-v1/
+!models/pump-failure-v1/*.json

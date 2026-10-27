@@ -34,6 +34,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Airflow Feast: incremental/checkpoint, chặn lùi thời gian và DataHub](docs/feast-materialization.md)
 - [Flink → Feast: live push, retry, readiness và giới hạn checkpoint](docs/stream-feast-push.md)
 - [ML bốn bước: KFP, protocol cố định, artifact và MLflow](docs/ml-training.md)
+- [Predictor model-inside-image: API, lineage và kiểm thử](docs/model-serving.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist rubric](docs/rubric-tracker.md)
 - [Cấu trúc hiện tại](#cấu-trúc-hiện-tại)
