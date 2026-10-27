@@ -55,7 +55,7 @@ class NotebookRuntime:
         """Execute a fresh unprivileged container with no Docker socket and preserve its real output."""
         self.guard(phase=stage);name=self.run+'-'+stage;console=self.output/(stage+'-console.txt')
         args=['docker','run','--name',name,'--cpus','2','--memory','10g','--memory-swap','10g',
-            '--network','iot-mlflow_default','--cap-drop','ALL','--security-opt','no-new-privileges',
+            '--network','iot-mlflow_default','--group-add','10001','--cap-drop','ALL','--security-opt','no-new-privileges',
             '--env','PYTHONPATH=/workspace','--env','FEAST_USAGE=False','--env','IOT_FEAST_REDIS=online:6379',
             '--env','IOT_FEAST_TEMP=/ml-scratch/offline','--env','SPARK_LOCAL_IP=127.0.0.1',
             '--env','OPENBLAS_NUM_THREADS=1','--env','OMP_NUM_THREADS=1',

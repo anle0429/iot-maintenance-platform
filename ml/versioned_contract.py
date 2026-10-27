@@ -1,5 +1,6 @@
 """Declare the source closure for automatic data/model persistence without including credentials or runtime state."""
 SOURCE_FILES=[
+    'feature_store/batch.py','feature_store/common.py','feature_store/repository.py',
     'ml/automatic_versions.py','ml/versioned_contract.py','ml/kfp_versioned.py','ml/kfp_notebook.py',
     'ml/notebook_load.py','ml/notebook_load_component.py','ml/snapshot.py','ml/notebook_runtime.py',
     'ml/notebook_validate.py','ml/notebook_validate_component.py','ml/distributed_submit.py',
