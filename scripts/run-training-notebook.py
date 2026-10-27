@@ -26,7 +26,7 @@ def run(args):
             'executed_notebook_sha256':digest(executed),'code_cells':sum(c.cell_type=='code' for c in document.cells),
             'executed_cells':sum(c.cell_type=='code' and c.execution_count is not None for c in document.cells),
             'error_cells':sum(c.cell_type=='code' and any(o.output_type=='error' for o in c.outputs) for c in document.cells),
-            'scope':'Native Jupyter execution; fresh Feast load, two-column label merge, frozen chronological split, training and validation, saved Spark and portable model. Holdout not reopened.'})
+            'scope':'Native Jupyter execution of five shared ML stages plus initialization: fresh Feast and two-column labels, frozen split, train/validation selection, saved-model validation and protected fixed-protocol holdout reproduction. No holdout retuning.'})
     from nbconvert import HTMLExporter
     html,_=HTMLExporter().from_notebook_node(document);(target/'executed.html').write_text(html)
     print((target/'execution.json').read_text())

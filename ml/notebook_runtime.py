@@ -24,19 +24,35 @@ class NotebookRuntime:
         self.base='/ml-data'
         save(self.output/'preflight.json',{'run':run,'checked_utc':datetime.now(timezone.utc).isoformat(),
             'deadline_utc':deadline_utc,'images':self.images,'code_sha256':{n:digest(self.root/n) for n in
-            ['ml/notebook_load.py','ml/snapshot.py','ml/notebook_runtime.py','ml/training_job.py','ml/training_contract.py','ml/protocols/medium-60d-v1.json']},
+            ['ml/notebook_load.py','ml/snapshot.py','ml/notebook_runtime.py','ml/training_job.py','ml/training_contract.py','ml/protocols/medium-60d-v1.json',
+             'ml/notebook_validate.py','scripts/run-training-notebook.py','notebooks/01_failure_training.ipynb']},
             'scope':'Executed Jupyter cells, native Feast and bounded local[2] Spark; not distributed training.'})
 
-    def guard(self,minimum_seconds=600):
-        """Require reserves before each stage rather than trusting the previous boot's measurements."""
-        available=int(next(x.split()[1] for x in Path('/proc/meminfo').read_text().splitlines() if x.startswith('MemAvailable:')))*1024
-        if (self.deadline.tzinfo is None or (self.deadline-datetime.now(timezone.utc)).total_seconds()<minimum_seconds
-            or available<16*1024**3 or min(disk_usage(p).free for p in ['/srv/iot-data','/srv/iot-fast'])<30_000_000_000):
-            raise ValueError('Notebook time/memory/disk reserve is insufficient')
+    def guard(self,minimum_seconds=600,phase='initialization'):
+        """Keep the same reserves, record actual kernel measurements, and wait at most60seconds for transient pressure."""
+        until=time.monotonic()+60;stable=0
+        while True:
+            now=datetime.now(timezone.utc)
+            remaining=(self.deadline-now).total_seconds() if self.deadline.tzinfo is not None else None
+            measure={'checked_utc':now.isoformat(),'phase':phase,'seconds_before_stop':remaining,
+                'required_seconds':minimum_seconds,
+                'available_memory_bytes':int(next(x.split()[1] for x in Path('/proc/meminfo').read_text().splitlines() if x.startswith('MemAvailable:')))*1024,
+                'free_disk_bytes':{p:disk_usage(p).free for p in ['/srv/iot-data','/srv/iot-fast']},
+                'required_memory_bytes':16*1024**3,'required_free_disk_bytes':30_000_000_000}
+            if hasattr(self,'output') and self.output.is_dir():
+                with (self.output/'resource-samples.jsonl').open('a') as stream:stream.write(json.dumps(measure)+'\n')
+            if remaining is None or remaining<minimum_seconds:
+                raise ValueError('Notebook time reserve insufficient: '+json.dumps(measure))
+            enough=measure['available_memory_bytes']>=16*1024**3 and min(measure['free_disk_bytes'].values())>=30_000_000_000
+            stable=stable+1 if enough else 0
+            if stable>=2:return
+            if time.monotonic()>=until:
+                raise ValueError('Notebook resource reserve insufficient after bounded wait: '+json.dumps(measure))
+            time.sleep(2)
 
     def container(self,stage,image,command):
         """Execute a fresh unprivileged container with no Docker socket and preserve its real output."""
-        self.guard();name=self.run+'-'+stage;console=self.output/(stage+'-console.txt')
+        self.guard(phase=stage);name=self.run+'-'+stage;console=self.output/(stage+'-console.txt')
         args=['docker','run','--name',name,'--cpus','2','--memory','10g','--memory-swap','10g',
             '--network','iot-feast_default','--cap-drop','ALL','--security-opt','no-new-privileges',
             '--env','PYTHONPATH=/workspace','--env','FEAST_USAGE=False','--env','IOT_FEAST_REDIS=online:6379',
@@ -70,8 +86,13 @@ class NotebookRuntime:
         return self.read('input/load-report.json')
 
     def spark(self,stage):
-        """Use exactly the frozen split and train/validation kernels also used in KFP components."""
-        source,target={'split':('cohort.json','partitions.json'),'train':('partitions.json','selection.json')}[stage]
+        """Reuse the frozen KFP kernels; require the saved-model validation before the final holdout reproduction."""
+        source,target={'split':('cohort.json','partitions.json'),'train':('partitions.json','selection.json'),
+                       'evaluate':('selection.json','evaluation.json')}[stage]
+        if stage=='evaluate':
+            verification=self.read('validation-reload.json')
+            if not verification['passed'] or verification['holdout_rows_opened']!=0 or verification['selection_sha256']!=digest(self.workspace/'selection.json'):
+                raise ValueError('Validate this sealed selection before reproducing the protected holdout')
         self.container(stage,'spark',['/opt/spark/bin/spark-submit','--master','local[2]','--driver-memory','6g',
             '--conf','spark.driver.maxResultSize=128m','--conf','spark.local.dir=/ml-scratch',
             '/workspace/ml/training_job.py','--step',stage,'--workspace','/ml-data',
