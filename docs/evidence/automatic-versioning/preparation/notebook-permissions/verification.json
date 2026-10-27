@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-27T19:28:06.156511+00:00",
+  "path": "data/ml-workspaces/versioned-notebook-27/lineage",
+  "image": "iot-coursework-spark-registry:3.5.9-3.17.2",
+  "native_identity": {
+    "uid": 185,
+    "gid": 185,
+    "groups": [
+      185
+    ]
+  },
+  "before": {
+    "uid": 10001,
+    "gid": 10001,
+    "mode": "0o2775",
+    "mtime_ns": 1793129247072908252
+  },
+  "after": {
+    "uid": 10001,
+    "gid": 185,
+    "mode": "0o2775",
+    "mtime_ns": 1793129247072908252
+  },
+  "scope": "Only the live notebook lineage directory group/mode changed. Feast remains its owner; Spark primary group can write lineage. No source or file-content write, no model/protocol change. KFP already uses explicit10001group."
+}

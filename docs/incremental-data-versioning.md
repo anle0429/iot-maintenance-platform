@@ -1,5 +1,7 @@
 # Phiên bản dữ liệu tăng dần trên MLflow
 
+Cập nhật27/10: [đã tích hợp tự động vào cả Notebook và KFP5task](automatic-ml-versioning.md): hai native fresh pulls3.132Mrows/0newblobbytes, model4–5 đăng ký đúng dataRun và đọc lại200probes. Thử nghiệm59→60ngày và model3 dưới đây giữ lịch sử.
+
 Mỗi dataset có một manifest đầy đủ, trỏ tới các tệp Parquet bằng SHA256. [Kho content-addressed](../ml/data_versions.py) chỉ ghi blob chưa có. [Publisher MLflow](../ml/mlflow_data_versions.py) upload blob mới vào data run mới, còn phần giữ nguyên tham chiếu data run cũ. Model có thể trỏ tới đúng manifest, không cần upload lại toàn bộ data vào mỗi model run.
 
 ## Kết quả đã đo thật
@@ -59,6 +61,6 @@ Tool thực tế1CPU/4GiB, UID10001, root readonly, chỉ vào Docker network ML
 
 ![MLflow version3 với data version và candidate](evidence/data-versions/registry/screenshots/model-version-3.jpg)
 
-[Kiểm container thực](evidence/data-versions/registry/verification.json):1CPU/4GiB, UID10001, root readonly, imageMLflow3.17.2. Serving vẫn dùng version1; version3 chưa được promote. Còn tích hợp versioning/registration thành bước tự động sau mỗi pull trong pipeline/CI. Các phiên bản1/2 trước đó vẫn giữ lịch sử cơ chế full-copy; không gán chứng cứ incremental của version3 cho chúng.
+[Kiểm container thực](evidence/data-versions/registry/verification.json):1CPU/4GiB, UID10001, root readonly, imageMLflow3.17.2. Serving vẫn dùng version1; version3 chưa được promote. [Bước tự động sau mỗi pull đã hoàn tất trong Notebook/KFP](automatic-ml-versioning.md); CI/CD trigger/build/deploy training là mốc riêng còn thiếu. Các phiên bản1/2 trước đó vẫn giữ lịch sử cơ chế full-copy; không gán chứng cứ incremental của version3 cho chúng.
 
 API MLflow dùng theo [tài liệu chính thức](https://mlflow.org/docs/latest/api_reference/python_api/mlflow.client.html). [Manifest37tệp native](evidence/data-versions/capture/manifest.json) và [mapping](evidence/data-versions/capture/evidence-map.json) giữ các receipt, canonical hashes và metadata tải từ server; bulk blobs, runtime index và secrets được giữ ngoài Git.

@@ -1,0 +1,31 @@
+{
+  "name": "versioned-notebook-27-validate",
+  "id": "580ccca94612b2760941ae972b5882378d1a5091346876e4d2e9b197d0ddb24d",
+  "image": "sha256:7c94ff639de99da322a50befcb1080cbb9441dfe400fe17ab6a499e189990f9a",
+  "user": "spark",
+  "memory": 10737418240,
+  "nano_cpus": 2000000000,
+  "exit_code": 0,
+  "oom_killed": false,
+  "seconds": 77.01608358099838,
+  "started_utc": "2026-10-27T19:31:47.597119806Z",
+  "finished_utc": "2026-10-27T19:33:04.019291495Z",
+  "command": [
+    "/opt/spark/bin/spark-submit",
+    "--master",
+    "local[2]",
+    "--driver-memory",
+    "6g",
+    "--conf",
+    "spark.driver.maxResultSize=128m",
+    "--conf",
+    "spark.local.dir=/ml-scratch",
+    "/workspace/ml/notebook_validate.py",
+    "--selection",
+    "/ml-data/selection.json",
+    "--protocol",
+    "/workspace/ml/protocols/medium-60d-v1.json",
+    "--output",
+    "/ml-data/validation-reload.json"
+  ]
+}

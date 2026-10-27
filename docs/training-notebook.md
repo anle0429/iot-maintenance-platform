@@ -1,5 +1,7 @@
 # Notebook: từ feature đến model đã lưu
 
+Cập nhật27/10: [Notebook và KFP đã tự động version dữ liệu/đăng ký model4–5](automatic-ml-versioning.md), hai full run đã kiểm chứng. Các lượt lịch sử bên dưới giữ nguyên nguồn/bằng chứng riêng.
+
 Cập nhật 27/10: [Notebook nguồn](../notebooks/01_failure_training.ipynb) và [pipeline Kubeflow](distributed-training.md) đều có **năm bước ML**. Lượt Notebook mới **18:35:03–18:47:57 UTC** chạy **6 ô code, 0 lỗi**: một ô khởi tạo và năm ô ML. [Receipt Jupyter](evidence/notebook-parity/execution/execution.json), [notebook đã execute](evidence/notebook-parity/execution/executed.ipynb) và [HTML nguyên bản](evidence/notebook-parity/execution/executed.html) lưu output thật trên VM 8 CPU/64 GiB.
 
 | Bước ML | Notebook mới | Pipeline KFP đã kiểm |

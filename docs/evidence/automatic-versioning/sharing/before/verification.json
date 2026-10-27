@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "expected_rejection": true,
+  "facts": {
+    "spark": {
+      "image": "sha256:7c94ff639de99da322a50befcb1080cbb9441dfe400fe17ab6a499e189990f9a",
+      "configured_user": "spark",
+      "group_add": null,
+      "exit_code": 1,
+      "expected_rejection": true,
+      "rejected": true
+    }
+  },
+  "script_sha256": "3edaeee6871eb970c04545c3a65d2a16a1cce7b36d39055b74db45de557acaef",
+  "runtime_sha256": "b5c7c33032448439861911d400976de8a5815b9436afefa48c0ed997227d6980",
+  "scope": "Tiny native filesystem oracle only. Script and runtime hashes are separate; no Feast pull, model training, holdout access or production deployment."
+}

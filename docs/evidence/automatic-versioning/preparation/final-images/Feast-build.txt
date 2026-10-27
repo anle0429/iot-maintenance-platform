@@ -1,0 +1,177 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Feast.Dockerfile
+#1 transferring dockerfile: 331B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-feast:0.67.0
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context:
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/iot-coursework-feast:0.67.0@sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff
+#4 resolve docker.io/library/iot-coursework-feast:0.67.0@sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff 0.0s done
+#4 CACHED
+
+#5 [internal] load build context
+#5 transferring context: 1.70kB done
+#5 DONE 0.0s
+
+#6 [2/3] COPY requirements-feast.lock /tmp/versioned-feast.lock
+#6 DONE 0.0s
+
+#7 [3/3] RUN pip install --no-cache-dir --disable-pip-version-check -r /tmp/versioned-feast.lock && pip check
+#7 2.115 Requirement already satisfied: annotated-doc==0.0.5 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 1)) (0.0.5)
+#7 2.116 Requirement already satisfied: annotated-types==0.8.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 2)) (0.8.0)
+#7 2.117 Requirement already satisfied: anyio==4.15.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 3)) (4.15.1)
+#7 2.118 Requirement already satisfied: ast_serialize==0.13.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 4)) (0.13.1)
+#7 2.119 Requirement already satisfied: atpublic==9.0.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 5)) (9.0.0)
+#7 2.119 Requirement already satisfied: attrs==26.1.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 6)) (26.1.0)
+#7 2.120 Requirement already satisfied: bigtree==1.5.3 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 7)) (1.5.3)
+#7 2.242 Collecting cachetools==7.2.6 (from -r /tmp/versioned-feast.lock (line 8))
+#7 2.329   Downloading cachetools-7.2.6-py3-none-any.whl.metadata (5.5 kB)
+#7 2.335 Requirement already satisfied: certifi==2026.10.23 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 9)) (2026.10.23)
+#7 2.473 Collecting cffi==2.1.1 (from -r /tmp/versioned-feast.lock (line 10))
+#7 2.488   Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+#7 2.492 Requirement already satisfied: charset-normalizer==3.5.2 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 11)) (3.5.2)
+#7 2.493 Requirement already satisfied: click==8.5.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 12)) (8.5.0)
+#7 2.493 Requirement already satisfied: cloudpickle==3.1.2 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 13)) (3.1.2)
+#7 2.494 Requirement already satisfied: colorama==0.4.6 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 14)) (0.4.6)
+#7 2.754 Collecting cryptography==50.0.2 (from -r /tmp/versioned-feast.lock (line 15))
+#7 2.769   Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.4 kB)
+#7 2.773 Requirement already satisfied: dask==2026.8.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 16)) (2026.8.0)
+#7 2.816 Collecting databricks-sdk==0.157.0 (from -r /tmp/versioned-feast.lock (line 17))
+#7 2.831   Downloading databricks_sdk-0.157.0-py3-none-any.whl.metadata (44 kB)
+#7 2.852 Requirement already satisfied: dill==0.4.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 18)) (0.4.1)
+#7 2.853 Requirement already satisfied: duckdb==2.0.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 19)) (2.0.0)
+#7 2.853 Requirement already satisfied: fastapi==0.162.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 20)) (0.162.0)
+#7 2.854 Requirement already satisfied: feast==0.67.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 21)) (0.67.0)
+#7 2.854 Requirement already satisfied: fsspec==2026.9.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 22)) (2026.9.0)
+#7 2.876 Collecting gitdb==4.0.12 (from -r /tmp/versioned-feast.lock (line 23))
+#7 2.891   Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+#7 2.928 Collecting GitPython==3.2.1 (from -r /tmp/versioned-feast.lock (line 24))
+#7 2.944   Downloading gitpython-3.2.1-py3-none-any.whl.metadata (13 kB)
+#7 2.998 Collecting google-auth==2.62.0 (from -r /tmp/versioned-feast.lock (line 25))
+#7 3.012   Downloading google_auth-2.62.0-py3-none-any.whl.metadata (6.0 kB)
+#7 3.029 Requirement already satisfied: gunicorn==26.2.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 26)) (26.2.0)
+#7 3.029 Requirement already satisfied: h11==0.16.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 27)) (0.16.0)
+#7 3.030 Requirement already satisfied: hiredis==3.5.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 28)) (3.5.0)
+#7 3.031 Requirement already satisfied: httptools==0.9.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 29)) (0.9.0)
+#7 3.032 Requirement already satisfied: ibis-framework==12.0.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 30)) (12.0.0)
+#7 3.033 Requirement already satisfied: idna==3.20 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 31)) (3.20)
+#7 3.071 Collecting importlib_metadata==9.1.0 (from -r /tmp/versioned-feast.lock (line 32))
+#7 3.087   Downloading importlib_metadata-9.1.0-py3-none-any.whl.metadata (4.5 kB)
+#7 3.093 Requirement already satisfied: Jinja2==3.1.6 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 33)) (3.1.6)
+#7 3.095 Requirement already satisfied: librt==0.16.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 34)) (0.16.0)
+#7 3.096 Requirement already satisfied: locket==1.0.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 35)) (1.0.0)
+#7 3.097 Requirement already satisfied: markdown-it-py==4.2.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 36)) (4.2.0)
+#7 3.097 Requirement already satisfied: MarkupSafe==3.0.4 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 37)) (3.0.4)
+#7 3.098 Requirement already satisfied: mdurl==0.1.2 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 38)) (0.1.2)
+#7 3.137 Collecting mlflow-skinny==3.17.2 (from -r /tmp/versioned-feast.lock (line 39))
+#7 3.152   Downloading mlflow_skinny-3.17.2-py3-none-any.whl.metadata (51 kB)
+#7 3.174 Requirement already satisfied: mmh3==5.3.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 40)) (5.3.1)
+#7 3.174 Requirement already satisfied: mypy==2.4.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 41)) (2.4.0)
+#7 3.175 Requirement already satisfied: mypy_extensions==1.1.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 42)) (1.1.0)
+#7 3.176 Requirement already satisfied: numpy==2.5.4 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 43)) (2.5.4)
+#7 3.176 Requirement already satisfied: opentelemetry-api==1.45.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 44)) (1.45.1)
+#7 3.204 Collecting opentelemetry-proto==1.45.1 (from -r /tmp/versioned-feast.lock (line 45))
+#7 3.221   Downloading opentelemetry_proto-1.45.1-py3-none-any.whl.metadata (2.3 kB)
+#7 3.252 Collecting opentelemetry-sdk==1.45.1 (from -r /tmp/versioned-feast.lock (line 46))
+#7 3.268   Downloading opentelemetry_sdk-1.45.1-py3-none-any.whl.metadata (1.6 kB)
+#7 3.299 Collecting opentelemetry-semantic-conventions==0.66b1 (from -r /tmp/versioned-feast.lock (line 47))
+#7 3.314   Downloading opentelemetry_semantic_conventions-0.66b1-py3-none-any.whl.metadata (2.4 kB)
+#7 3.317 Requirement already satisfied: packaging==26.3 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 48)) (26.3)
+#7 3.318 Requirement already satisfied: pandas==2.3.3 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 49)) (2.3.3)
+#7 3.318 Requirement already satisfied: parsy==2.2 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 50)) (2.2)
+#7 3.319 Requirement already satisfied: partd==1.4.2 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 51)) (1.4.2)
+#7 3.319 Requirement already satisfied: pathspec==1.1.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 52)) (1.1.1)
+#7 3.320 Requirement already satisfied: prometheus_client==0.24.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 53)) (0.24.1)
+#7 3.321 Requirement already satisfied: protobuf==7.36.2 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 54)) (7.36.2)
+#7 3.321 Requirement already satisfied: psutil==7.2.2 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 55)) (7.2.2)
+#7 3.322 Requirement already satisfied: pyarrow==26.0.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 56)) (26.0.0)
+#7 3.322 Requirement already satisfied: pyarrow-hotfix==0.7 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 57)) (0.7)
+#7 3.353 Collecting pyasn1==0.6.5 (from -r /tmp/versioned-feast.lock (line 58))
+#7 3.368   Downloading pyasn1-0.6.5-py3-none-any.whl.metadata (8.4 kB)
+#7 3.396 Collecting pyasn1_modules==0.4.2 (from -r /tmp/versioned-feast.lock (line 59))
+#7 3.411   Downloading pyasn1_modules-0.4.2-py3-none-any.whl.metadata (3.5 kB)
+#7 3.434 Collecting pycparser==3.12 (from -r /tmp/versioned-feast.lock (line 60))
+#7 3.450   Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+#7 3.455 Requirement already satisfied: pydantic==2.14.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 61)) (2.14.1)
+#7 3.456 Requirement already satisfied: pydantic_core==2.50.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 62)) (2.50.1)
+#7 3.457 Requirement already satisfied: Pygments==2.21.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 63)) (2.21.0)
+#7 3.458 Requirement already satisfied: PyJWT==2.15.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 64)) (2.15.1)
+#7 3.459 Requirement already satisfied: python-dateutil==3.0.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 65)) (3.0.0)
+#7 3.460 Requirement already satisfied: python-dotenv==1.2.4 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 66)) (1.2.4)
+#7 3.461 Requirement already satisfied: pytz==2026.5 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 67)) (2026.5)
+#7 3.462 Requirement already satisfied: PyYAML==6.0.3 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 68)) (6.0.3)
+#7 3.462 Requirement already satisfied: redis==7.4.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 69)) (7.4.1)
+#7 3.463 Requirement already satisfied: requests==2.34.2 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 70)) (2.34.2)
+#7 3.463 Requirement already satisfied: rich==15.0.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 71)) (15.0.0)
+#7 3.464 Requirement already satisfied: six==1.17.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 72)) (1.17.0)
+#7 3.486 Collecting smmap==5.0.3 (from -r /tmp/versioned-feast.lock (line 73))
+#7 3.502   Downloading smmap-5.0.3-py3-none-any.whl.metadata (4.6 kB)
+#7 3.506 Requirement already satisfied: SQLAlchemy==2.1.6 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 74)) (2.1.6)
+#7 3.507 Requirement already satisfied: sqlglot==30.25.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 75)) (30.25.0)
+#7 3.531 Collecting sqlparse==0.6.0 (from -r /tmp/versioned-feast.lock (line 76))
+#7 3.546   Downloading sqlparse-0.6.0-py3-none-any.whl.metadata (6.0 kB)
+#7 3.550 Requirement already satisfied: starlette==1.10.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 77)) (1.10.0)
+#7 3.551 Requirement already satisfied: tabulate==0.10.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 78)) (0.10.0)
+#7 3.552 Requirement already satisfied: tenacity==8.5.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 79)) (8.5.0)
+#7 3.552 Requirement already satisfied: toml==0.10.2 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 80)) (0.10.2)
+#7 3.553 Requirement already satisfied: toolz==1.2.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 81)) (1.2.0)
+#7 3.554 Requirement already satisfied: tqdm==4.70.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 82)) (4.70.1)
+#7 3.554 Requirement already satisfied: typeguard==4.6.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 83)) (4.6.0)
+#7 3.555 Requirement already satisfied: types-greenlet==3.5.0.20260518 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 84)) (3.5.0.20260518)
+#7 3.555 Requirement already satisfied: typing-inspection==0.4.4 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 85)) (0.4.4)
+#7 3.556 Requirement already satisfied: typing_extensions==4.16.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 86)) (4.16.0)
+#7 3.557 Requirement already satisfied: tzdata==2026.5 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 87)) (2026.5)
+#7 3.557 Requirement already satisfied: urllib3==2.8.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 88)) (2.8.0)
+#7 3.558 Requirement already satisfied: uvicorn==0.54.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 89)) (0.54.0)
+#7 3.558 Requirement already satisfied: uvicorn-worker==0.4.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 90)) (0.4.0)
+#7 3.559 Requirement already satisfied: uvloop==0.23.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 91)) (0.23.0)
+#7 3.560 Requirement already satisfied: watchfiles==1.3.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 92)) (1.3.0)
+#7 3.560 Requirement already satisfied: websockets==17.3 in /usr/local/lib/python3.12/site-packages (from -r /tmp/versioned-feast.lock (line 93)) (17.3)
+#7 3.588 Collecting zipp==4.1.2 (from -r /tmp/versioned-feast.lock (line 94))
+#7 3.603   Downloading zipp-4.1.2-py3-none-any.whl.metadata (3.6 kB)
+#7 4.168 Downloading cachetools-7.2.6-py3-none-any.whl (19 kB)
+#7 4.183 Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+#7 4.224 Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl (4.8 MB)
+#7 4.523    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.8/4.8 MB 16.9 MB/s eta 0:00:00
+#7 4.539 Downloading databricks_sdk-0.157.0-py3-none-any.whl (1.1 MB)
+#7 4.579    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 27.3 MB/s eta 0:00:00
+#7 4.594 Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+#7 4.610 Downloading gitpython-3.2.1-py3-none-any.whl (231 kB)
+#7 4.629 Downloading google_auth-2.62.0-py3-none-any.whl (267 kB)
+#7 4.649 Downloading importlib_metadata-9.1.0-py3-none-any.whl (28 kB)
+#7 4.664 Downloading mlflow_skinny-3.17.2-py3-none-any.whl (4.1 MB)
+#7 4.765    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.1/4.1 MB 40.7 MB/s eta 0:00:00
+#7 4.781 Downloading opentelemetry_proto-1.45.1-py3-none-any.whl (72 kB)
+#7 4.796 Downloading opentelemetry_sdk-1.45.1-py3-none-any.whl (140 kB)
+#7 4.812 Downloading opentelemetry_semantic_conventions-0.66b1-py3-none-any.whl (206 kB)
+#7 4.828 Downloading pyasn1-0.6.5-py3-none-any.whl (84 kB)
+#7 4.843 Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+#7 4.860 Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+#7 4.875 Downloading smmap-5.0.3-py3-none-any.whl (24 kB)
+#7 4.891 Downloading sqlparse-0.6.0-py3-none-any.whl (50 kB)
+#7 4.906 Downloading zipp-4.1.2-py3-none-any.whl (10 kB)
+#7 5.130 Installing collected packages: zipp, sqlparse, smmap, pycparser, pyasn1, opentelemetry-proto, cachetools, pyasn1_modules, opentelemetry-semantic-conventions, importlib_metadata, gitdb, cffi, opentelemetry-sdk, GitPython, cryptography, google-auth, databricks-sdk, mlflow-skinny
+#7 11.68 Successfully installed GitPython-3.2.1 cachetools-7.2.6 cffi-2.1.1 cryptography-50.0.2 databricks-sdk-0.157.0 gitdb-4.0.12 google-auth-2.62.0 importlib_metadata-9.1.0 mlflow-skinny-3.17.2 opentelemetry-proto-1.45.1 opentelemetry-sdk-1.45.1 opentelemetry-semantic-conventions-0.66b1 pyasn1-0.6.5 pyasn1_modules-0.4.2 pycparser-3.12 smmap-5.0.3 sqlparse-0.6.0 zipp-4.1.2
+#7 11.68 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#7 13.32 No broken requirements found.
+#7 DONE 13.6s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 3.5s done
+#8 exporting manifest sha256:23cf7c020aefa15130e5566d86a4b119f7da8c4c105e05ecb8207f3ad97e4b81 0.0s done
+#8 exporting config sha256:6ba07ec4a6a7be3fa314e1eeda6a15a2232c5c53d555bc923b32a8259177e193 0.0s done
+#8 exporting attestation manifest sha256:c066951a60f26edd46b8bcf84c4e3b204f5517bc047848f9643044cb28579c5b 0.0s done
+#8 exporting manifest list sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e 0.0s done
+#8 naming to docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2
+#8 naming to docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2 done
+#8 unpacking to docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2
+#8 unpacking to docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2 1.3s done
+#8 DONE 4.9s

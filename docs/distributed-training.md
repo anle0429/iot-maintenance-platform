@@ -1,5 +1,7 @@
 # Notebook và huấn luyện phân tán thật
 
+Cập nhật27/10: [pipeline5task có tự động incrementaldata/model registration](automatic-ml-versioning.md) đã SUCCEEDED, model5/candidate; phần dưới giữ run phân tán đầu tiên để đối chiếu.
+
 [Pipeline](../ml/kfp_notebook.py) đã chạy thành công trên backend Kubeflow 2.17.2, run **`bfb3e4d0-1473-42f7-a732-94ce8d7fdc43`**. [Receipt](evidence/distributed-training/controller/verification.json) hoàn tất lúc **14:05:29 UTC ngày 27/10/2026**; controller đo 942,862 giây, UI đo riêng workflow 15 phút 35 giây. Có năm task: lấy Feast/merge nhãn → split → train phân tán → nạp lại model/validation → đánh giá holdout theo protocol cũ.
 
 ![Năm task thành công](evidence/distributed-training/screenshots/five-tasks-succeeded.jpg)

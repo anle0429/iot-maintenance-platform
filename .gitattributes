@@ -61,3 +61,6 @@ docs/evidence/notebook-parity/** -text -whitespace
 infra/ml-versioning/*.lock -text -whitespace
 *.service text eol=lf
 *.socket text eol=lf
+
+# Preserve native automatic-versioning runs, oracle failures and original UI captures.
+docs/evidence/automatic-versioning/** -text -whitespace

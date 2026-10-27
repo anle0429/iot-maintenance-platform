@@ -1,0 +1,81 @@
+{
+  "raw_path": "outputs/versioned-training/versioned-distributed-27/two-executors-running.json",
+  "raw_sha256": "c7842d1a30486b64e82bcc82d609aad9dce938764bc81e9a2bcdb4f077e9c2ba",
+  "scope": "Filtered native observation of two running executor pods; env values omitted, original retained on VM.",
+  "pods": [
+    {
+      "name": "iot-distributed-training-d91dc6a17eda51cd-exec-1",
+      "uid": "42978c48-e873-4644-b3a4-b67205372f82",
+      "phase": "Running",
+      "security_context": {
+        "runAsGroup": 10001,
+        "runAsNonRoot": true,
+        "runAsUser": 185,
+        "seccompProfile": {
+          "type": "RuntimeDefault"
+        }
+      },
+      "containers": [
+        {
+          "name": "spark-kubernetes-executor",
+          "image": "iot-coursework-spark:3.5.9",
+          "resources": {
+            "limits": {
+              "cpu": "1",
+              "memory": "5Gi"
+            },
+            "requests": {
+              "cpu": "1",
+              "memory": "5Gi"
+            }
+          },
+          "security_context": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "iot-distributed-training-d91dc6a17eda51cd-exec-2",
+      "uid": "46938ffa-eafa-4bbd-8ce1-bd3f600f4ebc",
+      "phase": "Running",
+      "security_context": {
+        "runAsGroup": 10001,
+        "runAsNonRoot": true,
+        "runAsUser": 185,
+        "seccompProfile": {
+          "type": "RuntimeDefault"
+        }
+      },
+      "containers": [
+        {
+          "name": "spark-kubernetes-executor",
+          "image": "iot-coursework-spark:3.5.9",
+          "resources": {
+            "limits": {
+              "cpu": "1",
+              "memory": "5Gi"
+            },
+            "requests": {
+              "cpu": "1",
+              "memory": "5Gi"
+            }
+          },
+          "security_context": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

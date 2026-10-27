@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "expected_rejection": false,
+  "facts": {
+    "feast": {
+      "image": "sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e",
+      "configured_user": "10001:10001",
+      "group_add": [
+        "10001"
+      ],
+      "exit_code": 0,
+      "expected_rejection": false,
+      "rejected": false,
+      "native_identity": {
+        "uid": 10001,
+        "gid": 10001,
+        "groups": [
+          10001,
+          10001
+        ]
+      }
+    },
+    "spark": {
+      "image": "sha256:7c94ff639de99da322a50befcb1080cbb9441dfe400fe17ab6a499e189990f9a",
+      "configured_user": "spark",
+      "group_add": [
+        "10001"
+      ],
+      "exit_code": 0,
+      "expected_rejection": false,
+      "rejected": false,
+      "native_identity": {
+        "uid": 185,
+        "gid": 185,
+        "groups": [
+          185,
+          10001
+        ]
+      }
+    }
+  },
+  "script_sha256": "3edaeee6871eb970c04545c3a65d2a16a1cce7b36d39055b74db45de557acaef",
+  "runtime_sha256": "040aaeab4365256f81195e9d2377aae48b19daed0f5063a105c44743db93ee06",
+  "scope": "Tiny native filesystem oracle only. Script and runtime hashes are separate; no Feast pull, model training, holdout access or production deployment."
+}
