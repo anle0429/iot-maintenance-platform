@@ -30,15 +30,17 @@ def relative_name(name):
 
 class ContentAddressedDatasetStore:
     """Store each distinct byte sequence once; a manifest always describes a complete logical snapshot."""
-    def __init__(self,root):
+    def __init__(self,root,lock_timeout=30):
         """Keep blobs and manifests in a dedicated store with a cross-process SQLite publication lock."""
+        if not isinstance(lock_timeout,(int,float)) or not 0<lock_timeout<=600:raise ValueError('Use a bounded publication lock timeout')
+        self.lock_timeout=lock_timeout
         self.root=Path(root).resolve();self.root.mkdir(parents=True,exist_ok=True)
         for name in ['blobs','manifests']:(self.root/name).mkdir(exist_ok=True)
 
     @contextmanager
     def locked(self):
         """Serialize publish/read operations without stale lock files after a process is killed."""
-        connection=sqlite3.connect(self.root/'publication.sqlite',timeout=30)
+        connection=sqlite3.connect(self.root/'publication.sqlite',timeout=self.lock_timeout)
         try:
             connection.execute('BEGIN IMMEDIATE');yield
             connection.commit()

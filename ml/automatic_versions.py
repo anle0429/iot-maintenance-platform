@@ -30,7 +30,7 @@ def load_and_version(args):
     versioner(SimpleNamespace(canonical_root=canonical.destination,canonical_report=canonical.output,store=Path('/data-cas'),
         output=lineage/'local-version.json',parent_version=binding.get('parent_data_version'),through_day=None,restore_to=None))
     local=json.loads((lineage/'local-version.json').read_text())
-    remote=MlflowDatasetPublisher('/data-cas',binding['tracking_uri']).publish(local['version'],lineage/'remote-restore')
+    remote=MlflowDatasetPublisher('/data-cas',binding['tracking_uri'],lock_timeout=300).publish(local['version'],lineage/'remote-restore')
     save(lineage/'remote-version.json',remote)
     save(lineage/'automatic-data.json',{'passed':True,'data_version':local['version'],'data_run_id':remote['data_run_id'],
         'source_snapshot_commit':binding['commit'],'native_descriptor_sha256':digest(cohort),

@@ -16,9 +16,9 @@ def atomic_index(path,value):
 
 class MlflowDatasetPublisher:
     """Deduplicate data across MLflow runs while keeping each dataset version independently restorable."""
-    def __init__(self,store,tracking_uri,experiment_name='iot-feast-data-versions'):
+    def __init__(self,store,tracking_uri,experiment_name='iot-feast-data-versions',lock_timeout=30):
         """Use the existing tracking server; require an explicitly separate content-addressed local store."""
-        self.store=ContentAddressedDatasetStore(store);self.experiment_name=experiment_name
+        self.store=ContentAddressedDatasetStore(store,lock_timeout=lock_timeout);self.experiment_name=experiment_name
         mlflow.set_tracking_uri(tracking_uri);self.client=MlflowClient()
 
     def publish(self,version,restore_to):

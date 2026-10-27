@@ -59,3 +59,5 @@ docs/evidence/ci-data-pipelines/** -text -whitespace
 # Preserve the native Jupyter retry, failed predecessor and resource trace exactly.
 docs/evidence/notebook-parity/** -text -whitespace
 infra/ml-versioning/*.lock -text -whitespace
+*.service text eol=lf
+*.socket text eol=lf

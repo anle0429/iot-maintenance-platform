@@ -10,5 +10,6 @@ SOURCE_FILES=[
     'scripts/version-feast-dataset.py','scripts/run-training-notebook.py','scripts/run-versioned-training.py',
     'scripts/create-versioned-source-binding.py','notebooks/01_failure_training.ipynb',
     'infra/kfp/spark-executor.yaml','infra/kfp/versioning-volumes.yaml',
+    'infra/kfp/iot-mlflow-bridge.socket','infra/kfp/iot-mlflow-bridge.service',
     'infra/ml-versioning/Feast.Dockerfile','infra/ml-versioning/Spark.Dockerfile',
     'infra/ml-versioning/requirements-feast.lock','infra/ml-versioning/requirements-spark.lock']
