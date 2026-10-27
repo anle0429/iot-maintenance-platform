@@ -4,11 +4,12 @@ USER root
 RUN apt-get update && apt-get install -y --no-install-recommends python3 \
     && rm -rf /var/lib/apt/lists/*
 USER jenkins
-RUN jenkins-plugin-cli --plugins \
+RUN JAVA_OPTS=-Xmx768m jenkins-plugin-cli --plugins \
     workflow-aggregator:608.v67378e9d3db_1 \
     pipeline-model-definition:2.2293.v6e7193cec599 \
     credentials-binding:728.v902a_273b_8947 \
     credentials:1514.vb_01eb_014e7d4 \
-    plain-credentials:199.v9f8e1f741799
+    plain-credentials:199.v9f8e1f741799 \
+    pipeline-stage-view:2.41
 COPY infra/ci/Jenkinsfile /opt/iot-ci/Jenkinsfile
 COPY infra/ci/jenkins-bootstrap.groovy /usr/share/jenkins/ref/init.groovy.d/coursework.groovy
