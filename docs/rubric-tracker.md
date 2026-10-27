@@ -1,5 +1,7 @@
 # Checklist rubric và bằng chứng
 
+Cập nhật27/10: [Serving release exporter](serving-release.md) đã kiểm12fixtures vàreplay5nativeversionsproductionfalse;finalF33/F34Đang làm,chưaSDKproductiondownload/image/CIdeploy. VMđãTERMINATEDtheoCloudAPI,khôngmởphiênmới.Tiêuchínguồn93giữnguyên.
+
 Cập nhật27/10: [CI training chuẩn bị](ci-training.md) có21nativeunits/SDKisolated/pipcheck/compile5task/privatecontroloracle; chưa cóJenkinsbuild/KFPsubmissionsuccess. FinalF29Đang làm,giữnguyênguard90minvàtiêuchí93dònglịchsử.
 
 Cập nhật27/10: [CI materialization](ci-materialization.md) Jenkins build1SUCCESS,8task native Airflow/200máy initial–incremental–replay và6DataHubassertions đã indexed. FinalF28có bằng chứng; F29trainingCIvàproductionAPICI còn riêng. Tiêu chí nguồn93dòng lịch sử giữ nguyên.

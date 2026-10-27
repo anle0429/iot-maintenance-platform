@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "source_commit": "1eb4ceb049492f48868b81232a6ad56124c22005",
+  "source_sha256": {
+    "ml/serving_release.py": "06e6ed3d44defe44642e7952b2e868e05c29f527334ec6c160e7eed1a0786658",
+    "scripts/export-production-model.py": "a12c09fb438b74010759c94baf4bc03f47be759d3438c6c19fd20902af4f8035",
+    "tests/test_serving_release.py": "8cd9675d25b738a625b430987f94c51c66535586ab5f7202509fb9b4c3075752"
+  },
+  "machine": "PC Windows",
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "checked_utc": "2026-10-27T20:54:50.806154+00:00",
+  "registry_snapshot_sha256": "27aea2c886be9862ece7cbea96d0aa00146f4c4cdb370e033641435d7a5a3324",
+  "results": [
+    {
+      "version": "5",
+      "rejected": true,
+      "reason": "Model version is not explicitly marked production"
+    },
+    {
+      "version": "4",
+      "rejected": true,
+      "reason": "Model version is not explicitly marked production"
+    },
+    {
+      "version": "3",
+      "rejected": true,
+      "reason": "Model version is not explicitly marked production"
+    },
+    {
+      "version": "2",
+      "rejected": true,
+      "reason": "Model version is not explicitly marked production"
+    },
+    {
+      "version": "1",
+      "rejected": true,
+      "reason": "Model version is not explicitly marked production"
+    }
+  ],
+  "source_run_reads": 0,
+  "artifact_requests_or_downloads": 0,
+  "scope": "PC replay of the real20:48UTC GET-only registry metadata through the new production selection gate. Not live SDK export, promotion, image build or CI deployment."
+}
