@@ -1,0 +1,35 @@
+{
+  "format": "iot-joint-drift-policy-v1",
+  "estimator": "biased-mmd-squared-including-diagonals",
+  "kernel": "gaussian-rbf",
+  "sigma": 1.0,
+  "feature_scales": {
+    "temperature_mean_10m": 20.0,
+    "vibration_max_10m": 2.0,
+    "current_mean_10m": 10.0,
+    "current_std_10m": 2.0,
+    "rpm_mean_10m": 1000.0,
+    "reading_count_10m": 10.0,
+    "machine_age_days": 365.0,
+    "prior_failures_24h": 1.0
+  },
+  "scaling_source": "Engineering unit scales fixed before the experiment; no scaler or bandwidth fit to the compared groups",
+  "min_unique_rows": 32,
+  "max_unique_rows_per_group": 128,
+  "permutations": 199,
+  "seed": 1127,
+  "tail_formula": "(1 + count(permuted_mmd_squared >= observed_mmd_squared - tie_tolerance)) / (permutations + 1)",
+  "tie_tolerance": 1e-12,
+  "diagnostic_tail_threshold": 0.05,
+  "inference_scope": "Exchangeability is not established for overlapping IoT windows or reused reference samples. Tail fraction and alert are diagnostics, not calibrated p-values or false-alarm guarantees. No automatic retraining or model-quality claim.",
+  "sampling": "No implicit subsampling. Oversized unique groups are rejected before Gram matrix allocation. Caller must define a bounded cohort before inspecting its comparison.",
+  "known_answer_plan": [
+    "Scalar two-point Gaussian kernel oracle independent of production estimator",
+    "Same multiset and order/duplicate-ID replay preserve score and diagnostic",
+    "Reverse temperature-vibration association while preserving every marginal multiset: PSI must be zero and MMD diagnostic must alert",
+    "Constant identical vectors have zero MMD and tie-corrected tail fraction one",
+    "Marginal sensor offset is detected by both PSI and joint diagnostic",
+    "Reject future/unavailable snapshots, conflicting IDs, labels and groups outside declared bounds"
+  ],
+  "method_reference": "https://www.jmlr.org/papers/volume13/gretton12a/gretton12a.pdf"
+}
