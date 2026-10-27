@@ -22,3 +22,6 @@
 *.parquet binary
 # Preserve captured console spacing; source code still uses normal whitespace checks.
 docs/evidence/**/*.txt -whitespace
+# Keep captured Feast evidence and its installed dependency lock byte-identical.
+docs/evidence/feast/** -text -whitespace
+infra/feast/requirements.lock -text -whitespace

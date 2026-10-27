@@ -212,3 +212,11 @@ data/runtime/scale-venv/bin/python scripts/plan-large-ingest.py \
 Script không sinh lại source hoặc khởi chạy Spark. Bốn test planner kiểm biên từng volume/RAM/CPU, receipt khác nguồn, số đo lỗi/không hữu hạn, và thiếu thời gian dù riêng Spark wall-time có vẻ vừa. Bộ unittest sau thay đổi: **111 tests PASS** trên PC và VM; [bằng chứng kiểm code](evidence/large-ingest-plan/checks.json).
 
 [Benchmark skew](skew-benchmark.md) đã kiểm ba cặp cùng query trên17,28triệu readings, có physical plans và Spark UI thật. Mốc kế cần hoàn thiện runner HDD/live guards, giảm đọc kiểm dư thừa mà vẫn giữ integrity, kiểm partition/feature join bằng tập biết đáp án rồi mới admission lại theo phiên VM thực. Không sinh lại nguồn102,45GB đã đạt.
+
+## Phiên Spark lớn đã được duyệt — 27/10/2026
+
+Sau các gate chặn ở trên, người dùng đã duyệt STOP/START cùngVM. Phiên thực bắt đầu04:42:37UTC27/10; vẫn8CPU/64GiB/cùngcácđĩa và autoSTOPsau28800s, deadline12:42:37UTC. CPUplatform sau restart làAMDRome, vì vậy pilotBroadwell chỉ dùng forecast với margin, không coi là benchmark cùng phần cứng.
+
+O_DIRECT mới512MiB đo129.513.611B/s; forecast dùng mẫu chậm hơn và mixedI/Ocap64MB/s. Cả5gate actualrunner qua: HDD355GB,SSD35GB,RAM36GiB,CPU≥7,forecast26.127,706s+1200finishreserve trong28.548,514s còn lại. Nguồn đã nằm trênHDD nên không cộng lại byte nguồn vào growthbudget.
+
+Run `scale-ingest-100gb-27` thực chạy từ04:46UTC, Docker6CPU/28GiB,heap20GiB/local6/2048partitions/HDDscratch/sourceRO, boundcommit2f3519a. Pre-ingestfullchecksum hoàn tất, phase05:06:07UTC là`bronze_write`, vẫnactive ở05:48UTC. **Chưa có report/marker thành công full100GB Spark**. Không sửa codebound, sinh lại nguồn hoặc syncarchive vào runtime khijobcònactive. Kết quả cuối phải thu từ native/wrapper markers và13checks, không suy từ byteI/O/progressphase. Feast trung gian độc lập không làm bằng chứng xử lý feature100GB.

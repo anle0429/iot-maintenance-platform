@@ -1,0 +1,67 @@
+{
+  "passed": true,
+  "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+  "native_checks_report_sha256": "ab29049143016329362b8960c4767f9c76ccf15a4d593e23750d39ad5e254eb7",
+  "batch_report_sha256": "04866c95764dbcd3a61d0f6fdc66ca5b35b3aae78a8be11ea069b7bfacc6adea",
+  "preflight_sha256": "2578d77b15ac32cbf956fc856caac2eefed0cb9c81e21af72b526e78699080d7",
+  "full_ingest_code_unchanged_after": true,
+  "commands": [
+    {
+      "argv": [
+        "docker",
+        "compose",
+        "-f",
+        "/srv/iot-data/workspace/iot-maintenance-platform/infra/feast.compose.yaml",
+        "run",
+        "--rm",
+        "--name",
+        "iot-feast-batch-check-27",
+        "tools",
+        "-m",
+        "feature_store.checks",
+        "--output",
+        "/workspace/outputs/feast-batch-27/native-checks"
+      ],
+      "log": "native-checks-console.txt",
+      "seconds": 16.883915973000057,
+      "limits": {
+        "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+        "memory_bytes": 8589934592,
+        "nano_cpus": 1000000000
+      }
+    },
+    {
+      "argv": [
+        "docker",
+        "compose",
+        "-f",
+        "/srv/iot-data/workspace/iot-maintenance-platform/infra/feast.compose.yaml",
+        "run",
+        "--rm",
+        "--name",
+        "iot-feast-batch-check-27",
+        "tools",
+        "-m",
+        "feature_store.batch",
+        "--artifacts",
+        "/workspace/data/feature-datasets/feature-medium-27-v2/artifacts",
+        "--feature-report",
+        "/workspace/outputs/feature-medium-27-v2/feature-report.json",
+        "--state",
+        "/workspace/data/feast/batch-medium-27",
+        "--reports",
+        "/workspace/outputs/feast-batch-27/batch",
+        "--protocol",
+        "/workspace/ml/protocols/medium-60d-v1.json"
+      ],
+      "log": "batch-console.txt",
+      "seconds": 85.96885048100012,
+      "limits": {
+        "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+        "memory_bytes": 8589934592,
+        "nano_cpus": 1000000000
+      }
+    }
+  ],
+  "scope": "Feast real compacted medium source plus small native historical probes and initial/incremental200-machine online checks; not full-cohort historical retrieval, Airflow, streaming or ML quality."
+}

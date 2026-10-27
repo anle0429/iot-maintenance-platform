@@ -58,3 +58,5 @@ data/runtime/scale-venv/bin/python scripts/run-feature-dataset.py \
 Dữ liệu ở `data/feature-datasets/<run>/artifacts`; reports/log/snapshot ở `outputs/<run>`, scratch trên `/srv/iot-data/spark-scratch/<run>`. Không đưa chúng lênGit. Metadata nhỏ dưới `docs/evidence` đủ để đối chiếu, không thay thế dữ liệu gốc.
 
 Tiếp theo cần đăng ký feature trong Feast, kiểm PIT/online/materialize/push rồi để KFP lấy feature qua store, chia tập theo protocol và huấn luyện/đánh giá. Mốc này chưa chứng minh Feast, KFP, MLflow, KServe, AirflowDP3 trên60ngày hoặc full100GB. Không có PR-AUC/F1 mới từ việc chỉ đếm class support.
+
+**Feast27/10:** [Mốc feature store](feast-feature-store.md) đã compact lossless3.456.000snapshots và dùng native SDK lấy toàn3.132.184eligible rows theo protocol cố định. Exact8feature/nhãn/split hai chiều, sealed retry và corruption-copy rejection đã qua. Không huấn luyện mới hoặc KFP từ mốc này.

@@ -1,0 +1,133 @@
+{
+  "code_sha256": {
+    "feature_store/batch.py": "9f074e6ae63b7c8adf2caae6c630e4833a46b7a2e6b00a9e6907447fc4b2361d",
+    "feature_store/common.py": "1763fa6da99f357256dd6bb5c6521224796240aa61ee59be422c9ff32be18441",
+    "feature_store/repository.py": "aa34bdb2470d02c41d43bf4a20a3be28e8075d5b0885301e7ee3d35204f5b382"
+  },
+  "compact_sha256": "d43019682b7138c764db78684948071b5dfc442ae924f3fd35c0cf850a2c4ea1",
+  "compaction_sha256": "a973e05a006052ebb695a70be4461dedb14f1dfc2125adf1229ce96e4675559e",
+  "completed_utc": "2026-10-27T05:21:12.089431+00:00",
+  "feature_columns": [
+    "temperature_mean_10m",
+    "vibration_max_10m",
+    "current_mean_10m",
+    "current_std_10m",
+    "rpm_mean_10m",
+    "reading_count_10m",
+    "machine_age_days",
+    "prior_failures_24h"
+  ],
+  "incremental_materialization": {
+    "as_of_simulated_utc": "2026-11-30T00:00:00+00:00",
+    "machines": 200,
+    "passed": true,
+    "sample": [
+      {
+        "current_mean_10m": 15.108888888888888,
+        "current_std_10m": 2.515463219742348,
+        "machine_age_days": 239.99652777777777,
+        "machine_id": "P-001",
+        "prior_failures_24h": 2,
+        "reading_count_10m": 9,
+        "rpm_mean_10m": 2836.311111111111,
+        "temperature_mean_10m": 57.30855555555556,
+        "vibration_max_10m": 4.275
+      },
+      {
+        "current_mean_10m": 17.91633333333333,
+        "current_std_10m": 1.6130045119451932,
+        "machine_age_days": 246.99652777777777,
+        "machine_id": "P-002",
+        "prior_failures_24h": 2,
+        "reading_count_10m": 9,
+        "rpm_mean_10m": 2926.277777777778,
+        "temperature_mean_10m": 62.09177777777778,
+        "vibration_max_10m": 3.842
+      },
+      {
+        "current_mean_10m": 14.205,
+        "current_std_10m": 1.4648573309370436,
+        "machine_age_days": 253.99652777777777,
+        "machine_id": "P-003",
+        "prior_failures_24h": 0,
+        "reading_count_10m": 8,
+        "rpm_mean_10m": 2786.7625,
+        "temperature_mean_10m": 64.33775,
+        "vibration_max_10m": 7.774
+      }
+    ]
+  },
+  "initial_materialization": {
+    "as_of_simulated_utc": "2026-11-29T23:00:00+00:00",
+    "machines": 200,
+    "passed": true,
+    "sample": [
+      {
+        "current_mean_10m": 12.028555555555556,
+        "current_std_10m": 1.929802990008802,
+        "machine_age_days": 239.95833333333334,
+        "machine_id": "P-001",
+        "prior_failures_24h": 2,
+        "reading_count_10m": 9,
+        "rpm_mean_10m": 2739.855555555556,
+        "temperature_mean_10m": 50.21355555555555,
+        "vibration_max_10m": 3.792
+      },
+      {
+        "current_mean_10m": 13.607111111111113,
+        "current_std_10m": 1.9468356344731108,
+        "machine_age_days": 246.95833333333334,
+        "machine_id": "P-002",
+        "prior_failures_24h": 2,
+        "reading_count_10m": 9,
+        "rpm_mean_10m": 2801.2888888888892,
+        "temperature_mean_10m": 52.64411111111111,
+        "vibration_max_10m": 3.121
+      },
+      {
+        "current_mean_10m": 16.63222222222222,
+        "current_std_10m": 1.4207408691538188,
+        "machine_age_days": 253.95833333333334,
+        "machine_id": "P-003",
+        "prior_failures_24h": 0,
+        "reading_count_10m": 9,
+        "rpm_mean_10m": 2841.1555555555556,
+        "temperature_mean_10m": 67.56144444444445,
+        "vibration_max_10m": 7.572
+      }
+    ]
+  },
+  "native_probes": [
+    {
+      "first_event": "2026-10-01T04:05:00+00:00",
+      "last_event": "2026-11-29T15:20:00+00:00",
+      "passed": true,
+      "rows": 1000,
+      "scope": "Native Feast registered-service lookup, exact grid keys and all eight values versus a direct immutable-row join; one cold/warm observation, not a throughput guarantee.",
+      "seconds": 1.9018112210001163
+    },
+    {
+      "first_event": "2026-10-01T01:00:00+00:00",
+      "last_event": "2026-11-29T22:35:00+00:00",
+      "passed": true,
+      "rows": 4000,
+      "scope": "Native Feast registered-service lookup, exact grid keys and all eight values versus a direct immutable-row join; one cold/warm observation, not a throughput guarantee.",
+      "seconds": 2.0662611959996866
+    }
+  ],
+  "passed": true,
+  "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+  "registration_sha256": "669eb3a0238b3988702a42fde3e9451e04e79cdd1f725b06a37d10b5678dbc7c",
+  "scope": "All3.456Mfeatures compacted and registered, 1000/4000 native historical probes and200-machine initial/incremental online checks. Not full3.132Mhistorical retrieval, streaming/Airflow/KFP or ML quality proof.",
+  "seconds": 77.27741455799969,
+  "source_feature_rows": 3456000,
+  "versions": {
+    "duckdb": "2.0.0",
+    "feast": "0.67.0",
+    "ibis-framework": "12.0.0",
+    "numpy": "2.5.4",
+    "pandas": "2.3.3",
+    "pyarrow": "26.0.0",
+    "redis": "7.4.1"
+  }
+}

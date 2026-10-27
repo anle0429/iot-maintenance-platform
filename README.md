@@ -6,9 +6,9 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 Đã [triển khai VM Google Cloud](docs/gcp-runtime.md) 8vCPU/64GiB với Ansible, IAP và đĩa HDD/SSD tách riêng. Cùng workload1,12GB trên một VM: baseline223,942s→optimized100,892s, disk spill967MB→0, cả hai13checks/84tests qua. Một lượt mỗi cấu hình, chưa benchmark100GB hoặc bằng chứng hoàn thành toàn coursework.
 
-[Benchmark skew mới](docs/skew-benchmark.md) trên 17,28 triệu dòng Silver: ba cặp query cho kết quả giống hệt, trung vị15,339→8,577giây khi broadcast bảng chính sách nhà máy; có ảnh Spark UI thật. 111 unittest qua trên PC và VM sau khi thêm planner tài nguyên. [Gate Spark lớn](docs/scale-100gb.md#gate-cho-spark-toàn-nguồn-lớn): đủ đĩa/RAM nhưng chưa đủ thời gian còn lại của phiên; chưa khởi chạy toàn nguồn lớn.
+[Benchmark skew mới](docs/skew-benchmark.md) trên 17,28 triệu dòng Silver: ba cặp query cho kết quả giống hệt, trung vị15,339→8,577giây khi broadcast bảng chính sách nhà máy; có ảnh Spark UI thật. 111 unittest qua trên PC và VM sau khi thêm planner tài nguyên. [Gate Spark lớn](docs/scale-100gb.md#gate-cho-spark-toàn-nguồn-lớn): lịch sử time gate đã chặn lượt cũ. Phiên VM mới được duyệt và lượt Spark toàn nguồn đang chạy từ04:46UTC27/10, chưa có kết quả cuối.
 
-[Feature60ngày](docs/medium-feature-dataset.md) đã chạy trênVM:3.456.000snapshots,3.132.184dòng đủ điều kiện theo protocol cố định; validation/test đều có đủ classes và sự cố độc lập.136unit test và ba kiểm tra cohortSpark qua, input/output/marker được đối chiếu. Chưa huấn luyện mô hình mới hoặc triển khai Feast/KFP.
+[Feature60ngày](docs/medium-feature-dataset.md) đã chạy trênVM:3.456.000snapshots,3.132.184dòng đủ điều kiện theo protocol cố định; validation/test đều có đủ classes và sự cố độc lập.136unit test và ba kiểm tra cohortSpark qua, input/output/marker được đối chiếu. [Feast](docs/feast-feature-store.md) đã compact/register3,456triệu snapshots, materialize initial/incremental200máy và native load toàn3.132.184eligible rows; exact toàn bộ feature/nhãn, replay và corruption check qua. Chưa huấn luyện mới/KFP hoặc Airflow/streaming Feast.
 
 ## Mục lục
 
@@ -30,6 +30,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Protocol ML60ngày: chia theo thời gian, purge và holdout trước metric](docs/ml-evaluation-protocol.md)
 - [Feature theo bucket thời gian: kiểm đúng ranh giới và dữ liệu đến muộn](docs/bounded-features.md)
 - [Feature60ngày: nhãn, purge, loại dòng và class/episode support](docs/medium-feature-dataset.md)
+- [Feast offline/online: PIT, compaction, full-cohort load và retry](docs/feast-feature-store.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist rubric](docs/rubric-tracker.md)
 - [Cấu trúc hiện tại](#cấu-trúc-hiện-tại)

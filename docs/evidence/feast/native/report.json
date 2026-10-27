@@ -1,0 +1,77 @@
+{
+  "checks": {
+    "default_pit_does_not_prove_arrival_availability": true,
+    "native_pit_grain": true,
+    "native_pit_known_answers": true,
+    "native_redis_key_ttl_expires": true,
+    "older_online_write_cannot_regress": true,
+    "online_latest_and_missing": true,
+    "same_event_replay_idempotent": true,
+    "submicrosecond_input_rejected": true
+  },
+  "code_sha256": {
+    "feature_store/checks.py": "e57c9f53d24e1dd7bf933bcdb361f174549474d23653d9b2afe4d3df592ef3d6",
+    "feature_store/common.py": "1763fa6da99f357256dd6bb5c6521224796240aa61ee59be422c9ff32be18441"
+  },
+  "completed_utc": "2026-10-27T05:19:46.189439+00:00",
+  "elapsed_seconds": 7.317203169000095,
+  "fixture_source_sha256": "8a94f6f6992847cb868bd308888bd37404632ea8336e5f2f25146c2ff46c35d6",
+  "known_answers": {
+    "at_first": 1.0,
+    "before_first": null,
+    "correction_available": 30.0,
+    "correction_unavailable": 3.0,
+    "late_unavailable": 1.0,
+    "ttl_expired": null,
+    "ttl_inclusive": 30.0,
+    "unknown_machine": null
+  },
+  "native_pit": {
+    "at_first": 1.0,
+    "before_first": null,
+    "correction_available": 30.0,
+    "correction_unavailable": 3.0,
+    "late_unavailable": 1.0,
+    "ttl_expired": null,
+    "ttl_inclusive": 30.0,
+    "unknown_machine": null
+  },
+  "online_after_expiry": [
+    null,
+    null
+  ],
+  "online_after_old": [
+    30.0,
+    null
+  ],
+  "online_after_replay": [
+    30.0,
+    null
+  ],
+  "online_before": [
+    30.0,
+    null
+  ],
+  "ordinary_pit": {
+    "at_first": 1.0,
+    "before_first": null,
+    "correction_available": 30.0,
+    "correction_unavailable": 30.0,
+    "late_unavailable": 2.0,
+    "ttl_expired": null,
+    "ttl_inclusive": 30.0,
+    "unknown_machine": null
+  },
+  "passed": true,
+  "registry_sha256": "a296f72780a19fa7c9a8653c6062aead3715782858d3c273ba0990d0abb79f73",
+  "scope": "Native Feast providers on a tiny independent fixture; not medium retrieval, streaming deployment, production latency or full100GB proof.",
+  "versions": {
+    "duckdb": "2.0.0",
+    "feast": "0.67.0",
+    "ibis-framework": "12.0.0",
+    "numpy": "2.5.4",
+    "pandas": "2.3.3",
+    "pyarrow": "26.0.0",
+    "redis": "7.4.1"
+  }
+}

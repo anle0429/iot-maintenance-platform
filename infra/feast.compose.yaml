@@ -1,0 +1,42 @@
+# Internal online feature storage and bounded on-demand SDK; no Internet-facing ports.
+name: iot-feast
+services:
+  online:
+    image: redis:7.2-alpine@sha256:49aaa47789a458bb5d2786dfc3f95b930eb7e24bd484514307932c5bad5853e5
+    command: [redis-server, --appendonly, "yes", --maxmemory, 128mb, --maxmemory-policy, noeviction]
+    mem_limit: 256m
+    cpus: 0.5
+    restart: unless-stopped
+    volumes:
+      - ../data/feast/redis:/data
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  tools:
+    profiles: [tools]
+    image: iot-coursework-feast:0.67.0
+    build:
+      context: ./feast
+    mem_limit: 8g
+    cpus: 1
+    environment:
+      FEAST_USAGE: "False"
+      HOME: /tmp
+      PYTHONPATH: /workspace
+      IOT_FEAST_REDIS: online:6379
+      IOT_FEAST_TEMP: /workspace/feast-temp
+    depends_on:
+      online:
+        condition: service_healthy
+    volumes:
+      - ../feature_store:/workspace/feature_store:ro
+      - ../ml:/workspace/ml:ro
+      - ../data/feast:/workspace/data/feast
+      - ../data/feature-datasets:/workspace/data/feature-datasets:ro
+      - ../outputs:/workspace/outputs
+      - ${IOT_FEAST_SCRATCH:-../data/feast/scratch}:/workspace/feast-temp
+networks:
+  default:
+    internal: true

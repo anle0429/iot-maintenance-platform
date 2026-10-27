@@ -1,0 +1,165 @@
+{
+  "compact_sha256": "d43019682b7138c764db78684948071b5dfc442ae924f3fd35c0cf850a2c4ea1",
+  "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+  "service": {
+    "meta": {
+      "createdTimestamp": "2026-10-27T05:20:53.730760Z",
+      "lastUpdatedTimestamp": "2026-10-27T05:20:53.730760Z"
+    },
+    "spec": {
+      "features": [
+        {
+          "batchSource": {
+            "createdTimestampColumn": "created",
+            "description": "Immutable arrival-aware snapshots reconstructed on the simulated event clock; created is build audit time.",
+            "fileOptions": {
+              "fileFormat": {
+                "parquetFormat": {}
+              },
+              "uri": "/workspace/data/feast/batch-medium-27/machine_rolling.parquet"
+            },
+            "meta": {
+              "createdTimestamp": "2026-10-27T05:20:52.603697Z",
+              "lastUpdatedTimestamp": "2026-10-27T05:20:52.954697Z"
+            },
+            "name": "machine_rolling_batch",
+            "timestampField": "event_timestamp",
+            "type": "BATCH_FILE"
+          },
+          "createdTimestampColumn": "created",
+          "featureColumns": [
+            {
+              "name": "temperature_mean_10m",
+              "valueType": "DOUBLE"
+            },
+            {
+              "name": "vibration_max_10m",
+              "valueType": "DOUBLE"
+            },
+            {
+              "name": "current_mean_10m",
+              "valueType": "DOUBLE"
+            },
+            {
+              "name": "current_std_10m",
+              "valueType": "DOUBLE"
+            },
+            {
+              "name": "rpm_mean_10m",
+              "valueType": "DOUBLE"
+            },
+            {
+              "name": "reading_count_10m",
+              "valueType": "INT64"
+            },
+            {
+              "name": "machine_age_days",
+              "valueType": "DOUBLE"
+            },
+            {
+              "name": "prior_failures_24h",
+              "valueType": "INT64"
+            }
+          ],
+          "featureViewName": "machine_rolling_10m",
+          "timestampField": "created",
+          "viewType": "featureView"
+        }
+      ],
+      "name": "iot_failure_prediction_v1",
+      "tags": {
+        "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96"
+      }
+    }
+  },
+  "view": {
+    "meta": {
+      "createdTimestamp": "2026-10-27T05:20:53.728868Z",
+      "lastUpdatedTimestamp": "2026-10-27T05:21:11.182443Z",
+      "materializationIntervals": [
+        {
+          "endTime": "2026-11-29T23:00:00Z",
+          "startTime": "2026-11-29T22:00:00Z"
+        },
+        {
+          "endTime": "2026-11-30T00:00:00Z",
+          "startTime": "2026-11-29T23:00:00Z"
+        }
+      ],
+      "state": "AVAILABLE_ONLINE"
+    },
+    "spec": {
+      "batchSource": {
+        "createdTimestampColumn": "created",
+        "dataSourceClassType": "feast.infra.offline_stores.file_source.FileSource",
+        "description": "Immutable arrival-aware snapshots reconstructed on the simulated event clock; created is build audit time.",
+        "fileOptions": {
+          "fileFormat": {
+            "parquetFormat": {}
+          },
+          "uri": "/workspace/data/feast/batch-medium-27/machine_rolling.parquet"
+        },
+        "meta": {
+          "createdTimestamp": "2026-10-27T05:20:52.603697Z",
+          "lastUpdatedTimestamp": "2026-10-27T05:20:52.954697Z"
+        },
+        "name": "machine_rolling_batch",
+        "timestampField": "event_timestamp",
+        "type": "BATCH_FILE"
+      },
+      "entities": [
+        "machine"
+      ],
+      "entityColumns": [
+        {
+          "name": "machine_id",
+          "valueType": "STRING"
+        }
+      ],
+      "features": [
+        {
+          "name": "temperature_mean_10m",
+          "valueType": "DOUBLE"
+        },
+        {
+          "name": "vibration_max_10m",
+          "valueType": "DOUBLE"
+        },
+        {
+          "name": "current_mean_10m",
+          "valueType": "DOUBLE"
+        },
+        {
+          "name": "current_std_10m",
+          "valueType": "DOUBLE"
+        },
+        {
+          "name": "rpm_mean_10m",
+          "valueType": "DOUBLE"
+        },
+        {
+          "name": "reading_count_10m",
+          "valueType": "INT64"
+        },
+        {
+          "name": "machine_age_days",
+          "valueType": "DOUBLE"
+        },
+        {
+          "name": "prior_failures_24h",
+          "valueType": "INT64"
+        }
+      ],
+      "name": "machine_rolling_10m",
+      "online": true,
+      "tags": {
+        "compact_sha256": "d43019682b7138c764db78684948071b5dfc442ae924f3fd35c0cf850a2c4ea1",
+        "feature_report_sha256": "1c7ba65c5c74b6962034831b195741b3c628cd1a956b331629a979e1622ca2ae",
+        "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+        "source_manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5"
+      },
+      "ttl": "600s",
+      "version": "latest"
+    }
+  }
+}
