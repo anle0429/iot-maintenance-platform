@@ -140,7 +140,7 @@ Chuẩn bị nguồn lớn bằng generator theo chunk (không cần Docker):
 Get-Content outputs/practice-chunks/chunked-report.json
 ```
 
-[Hướng dẫn chunked](docs/chunked-generator.md) giải thích state liên tục qua file, kiểm byte/logical repeat và ngân sách đĩa. Lệnh này chỉ chạy pilot và lịch sử dài gấp bốn; kế hoạch 100 GB là ước tính. Loader/batch/Flink cũ vẫn dùng nguồn ngày 1, chưa tự chuyển sang layout chunked.
+[Hướng dẫn chunked](docs/chunked-generator.md) giải thích state liên tục qua file, kiểm byte/logical repeat và ngân sách đĩa. Lệnh này chạy pilot và lịch sử dài gấp bốn. Mốc nguồn offline102,45GB và Spark Bronze/Silver đã có [kiểm chứng riêng](docs/full-scale-ingest.md); Gold/features/ML chưa chạy đủ100GB. Các profile loader/batch/Flink nhỏ vẫn dùng nguồn đã chọn, không tự chuyển sang layout chunked.
 
 [Source runner trên VM](docs/scale-100gb.md) bổ sung cache/codec đã kiểm byte tương đương, đo tài nguyên và giới hạn thời gian phiên. Dependency tùy chọn cài bằng `python -m pip install -r requirements-scale.txt` trong venv trước khi chạy các test codec; bộ test cơ bản vẫn chạy bằng standard library và báo skip nếu thiếu codec. Dữ liệu lớn ở đĩa VM, không tải qua Git khi clone trên laptop.
 
