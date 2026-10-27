@@ -1,0 +1,24 @@
+# The source packet already contains only allowlisted technical files; keep runtime export assets out of tests.
+**
+!services/
+!services/**
+!ml/
+!ml/**
+!tests/
+!tests/**
+!scripts/
+!scripts/**
+!models/
+!models/pump-failure-v1/
+!models/pump-failure-v1/*.json
+!infra/
+!infra/ci/
+!infra/ci/requirements-serving-tests.lock
+!infra/ci/ServingTests.Dockerfile
+!infra/feature-api/
+!infra/feature-api/helm-values.yaml
+!infra/kserve/
+!infra/kserve/pump-failure.yaml
+!pyproject.toml
+**/__pycache__/
+**/*.pyc

@@ -90,5 +90,14 @@ class DockerConfigIdentityTests(unittest.TestCase):
         for manifest in [[{'Config':'absent.json'}],[{'Config':'config.json'},{'Config':'config.json'}]]:
             with self.assertRaises(ValueError):self.exported('config.json',b'{}',manifest)
 
+    def test_jenkins_workspace_mount_uses_actual_daemon_host_path(self):
+        """Jenkins sees its home at a different path from the host Docker daemon."""
+        from pathlib import PurePosixPath
+        deploy=PurePosixPath('/srv/iot-data/workspace/iot-maintenance-platform')
+        command=self.module.controller('image',deploy,PurePosixPath('/var/jenkins_home/workspace/iot-training/build-1'),
+            {'name':'probe'},['check'])
+        self.assertIn('type=bind,src='+str(deploy)+'/data/runtime/jenkins-home-27/workspace/iot-training/build-1,dst=/src,readonly',command)
+        self.assertNotIn('type=bind,src=/var/jenkins_home/workspace/iot-training/build-1,dst=/src,readonly',command)
+
 
 if __name__=='__main__':unittest.main()

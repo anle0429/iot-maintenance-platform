@@ -4,7 +4,7 @@ from datetime import datetime,timezone
 from hashlib import sha256
 import json
 import os
-from pathlib import Path
+from pathlib import Path,PurePosixPath
 import shutil
 import subprocess
 import sys
@@ -46,6 +46,9 @@ def exported_config_digest(tag):
 
 def controller(image,deploy,source,extra,command,network='none',writable=False):
     """Use a short-lived bounded SDK container; kubeconfig is mounted only when requested, never copied."""
+    source=PurePosixPath(str(source))
+    if source.is_relative_to('/var/jenkins_home'):
+        source=PurePosixPath(str(deploy))/'data/runtime/jenkins-home-27'/source.relative_to('/var/jenkins_home')
     values=['docker','run','--rm','--name',extra['name'],'--memory','2g','--memory-swap','2g','--cpus','1',
         '--network',network,'--entrypoint','python','--env','PYTHONPATH=/src',
         '--mount',f'type=bind,src={source},dst=/src,readonly',
@@ -113,7 +116,8 @@ def run(phase):
                 subprocess.run(['docker','run','--rm','-i','--network','none','--cpus','1','--memory','1g',
                     '--mount','type=bind,src=/usr/local/bin/k3s,dst=/usr/local/bin/k3s,readonly',
                     '--mount','type=bind,src=/run/k3s/containerd/containerd.sock,dst=/run/k3s/containerd/containerd.sock',
-                    '--entrypoint','/usr/local/bin/k3s',control_id,'ctr','images','import','-'],stdin=exporter.stdout,check=True)
+                    '--entrypoint','/usr/local/bin/k3s',control_id,'ctr','--address','/run/k3s/containerd/containerd.sock',
+                    '--namespace','k8s.io','images','import','-'],stdin=exporter.stdout,check=True)
             finally:
                 exporter.stdout.close()
                 if exporter.wait()!=0:raise RuntimeError('Docker image export failed')
