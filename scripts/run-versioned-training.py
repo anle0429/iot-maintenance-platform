@@ -24,7 +24,9 @@ def run(args):
     ram=lambda:int(next(l.split()[1] for l in Path('/proc/meminfo').read_text().splitlines() if l.startswith('MemAvailable:')))*1024
     if deadline.tzinfo is None or (deadline-datetime.now(timezone.utc)).total_seconds()<5400:raise ValueError('Need90minutes before actual VM auto STOP')
     if ram()<24*1024**3 or min(disk_usage(p).free for p in ['/srv/iot-data','/srv/iot-fast'])<40_000_000_000:raise ValueError('Insufficient distributed ML reserves')
-    binding=context(args.source_binding);oracle=json.loads((ROOT/args.oracle).read_text())
+    binding=context(args.source_binding)
+    pod_binding='/workspace/'+args.source_binding.resolve().relative_to(ROOT).as_posix()
+    oracle=json.loads((ROOT/args.oracle).read_text())
     if not oracle['passed'] or any(digest(ROOT/n)!=h for n,h in oracle['code_sha256'].items()):raise ValueError('Require the actual distributed oracle for these unchanged kernels')
     out=ROOT/'outputs/versioned-training'/args.run;out.mkdir(parents=True,exist_ok=False)
     workspace=ROOT/'data/ml-workspaces/training-cluster-27'/args.run;workspace.mkdir(exist_ok=False);os.chown(workspace,0,10001);workspace.chmod(0o2775)
@@ -35,7 +37,7 @@ def run(args):
     package=out/'pipeline.yaml';compiler.Compiler().compile(versioned_pipeline,str(package))
     k=['/usr/local/bin/k3s','kubectl'];service=json.loads(subprocess.check_output(k+['get','service','ml-pipeline','-n','kubeflow','-o','json'],text=True))
     client=kfp.Client(host='http://'+service['spec']['clusterIP']+':8888',namespace='kubeflow')
-    result=client.create_run_from_pipeline_package(str(package),arguments={'workspace':'/ml-data/'+args.run,'source_binding':str(args.source_binding)},
+    result=client.create_run_from_pipeline_package(str(package),arguments={'workspace':'/ml-data/'+args.run,'source_binding':pod_binding},
         run_name=args.run,experiment_name='iot-versioned-distributed',namespace='kubeflow',enable_caching=False)
     run_id=result.run_id;save(out/'submission.json',{'run_id':run_id});started=time.monotonic()
     try:
