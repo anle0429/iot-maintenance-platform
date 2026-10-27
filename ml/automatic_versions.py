@@ -28,7 +28,7 @@ def load_and_version(args):
     canonicalize(canonical)
     versioner=runpy.run_path(str(ROOT/'scripts/version-feast-dataset.py'))['run']
     versioner(SimpleNamespace(canonical_root=canonical.destination,canonical_report=canonical.output,store=Path('/data-cas'),
-        output=lineage/'local-version.json',parent_version=binding.get('parent_data_version'),through_day=None,restore_to=None))
+        output=lineage/'local-version.json',parent_version=binding.get('parent_data_version'),through_day=None,restore_to=None,lock_timeout=300))
     local=json.loads((lineage/'local-version.json').read_text())
     remote=MlflowDatasetPublisher('/data-cas',binding['tracking_uri'],lock_timeout=300).publish(local['version'],lineage/'remote-restore')
     save(lineage/'remote-version.json',remote)

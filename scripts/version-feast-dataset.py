@@ -25,7 +25,7 @@ def run(args):
         files[name]=path;days.add(event_day)
         if parts[0]=='cohort':rows+=item['rows']
     if not days or (through and max(days)!=through) or len(files)!=3*len(days):raise ValueError('Incomplete requested daily snapshot')
-    store=ContentAddressedDatasetStore(args.store);result=store.publish(files,report['metadata'],args.parent_version)
+    store=ContentAddressedDatasetStore(args.store,lock_timeout=getattr(args,'lock_timeout',30));result=store.publish(files,report['metadata'],args.parent_version)
     if args.restore_to:result['restore']=store.restore(result['version'],args.restore_to)
     save(args.output,{**result,'rows_in_version':rows,'days_in_version':len(days),'last_event_day':max(days),
         'canonical_report_sha256':digest(args.canonical_report),'source_native_report_sha256':report['native_report_sha256'],
@@ -38,4 +38,5 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     for name in ['canonical-root','canonical-report','store','output']:parser.add_argument('--'+name,type=Path,required=True)
     parser.add_argument('--parent-version');parser.add_argument('--through-day');parser.add_argument('--restore-to',type=Path)
+    parser.add_argument('--lock-timeout',type=float,default=30)
     run(parser.parse_args())

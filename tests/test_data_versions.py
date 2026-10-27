@@ -1,12 +1,24 @@
 """Verify small known-answer version histories, tombstones, idempotency and corruption refusal."""
 from pathlib import Path
 from tempfile import TemporaryDirectory
-import unittest
+import sqlite3,unittest
 from ml.data_versions import ContentAddressedDatasetStore,relative_name
 
 
 class DataVersionsTest(unittest.TestCase):
     """Check storage and restoration behavior rather than private implementation details."""
+    def test_contended_publication_is_bounded_and_can_retry_after_release(self):
+        """Independent publishers cannot enter together; a timed-out waiter does not poison later publication."""
+        with TemporaryDirectory() as temp:
+            owner=ContentAddressedDatasetStore(temp)
+            for timeout in [0,-1,601,float('nan'),float('inf')]:
+                with self.assertRaises(ValueError):ContentAddressedDatasetStore(temp,lock_timeout=timeout)
+            waiter=ContentAddressedDatasetStore(temp,lock_timeout=0.02)
+            with owner.locked():
+                with self.assertRaises(sqlite3.OperationalError):
+                    with waiter.locked():self.fail('Concurrent publication must stay serialized')
+            with waiter.locked():pass
+
     def test_incremental_replay_change_add_delete_and_restore(self):
         with TemporaryDirectory() as temp:
             base=Path(temp);source=base/'input';source.mkdir()
