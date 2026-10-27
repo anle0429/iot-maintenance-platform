@@ -1,0 +1,277 @@
+"""Verify actual model arithmetic, persistent concurrent replay, drift oracles and the two-model HTTP boundary."""
+from concurrent.futures import ThreadPoolExecutor
+from copy import deepcopy
+from datetime import datetime,timedelta,timezone
+from pathlib import Path
+from tempfile import TemporaryDirectory
+import asyncio,json,math,threading
+from unittest.mock import patch
+import httpx,pytest
+from fastapi.testclient import TestClient
+from hypothesis import given,settings,strategies as st
+from prometheus_client.parser import text_string_to_metric_families
+from ml.serving_release import export
+from services.ab_api import app as api
+from services.ab_api.runtime import ABRuntime,TrialConflict,TrialCapacity,UnknownMachine,cohort
+from services.ab_api.metrics import exposition
+from services.feature_api.runtime import FeatureRuntime,Unavailable
+from services.predictor.runtime import PumpPredictor
+from services.predictor.contracts import FeatureVector
+from tests.test_serving_release import RegistryFixture
+
+ROOT=Path(__file__).resolve().parents[2]
+GOLDEN=json.loads((ROOT/'tests/fixtures/predictor-native-spark.json').read_text(encoding='utf-8'))
+NOW=datetime(2026,10,27,22,tzinfo=timezone.utc);ASOF=datetime(2026,11,29,23,50,tzinfo=timezone.utc)
+
+
+class Backend:
+    """Keep genuine portable inference while controlling only native Feast reads and observed context."""
+    def __init__(self,model,context):
+        self.model=model;self.context=context;self.calls=0;self.offset=0.;self.broken=False
+    def fetch(self,machine):
+        values=deepcopy(GOLDEN['samples'][0]['features']);values['temperature_mean_10m']+=self.offset
+        return {'values':values,'timestamps':{n:ASOF.isoformat() for n in values}}
+    def predict(self,features):
+        self.calls+=1
+        if self.broken:raise RuntimeError('private SDK detail must never reach clients')
+        return {'model':self.model.metadata(),'predictions':self.model.predict([FeatureVector.model_validate(features)])}
+
+
+def fixture_runtime(path,max_requests=2048,experiment='serve-jenkins-7'):
+    """Use all200 fixture machines and an exporter-verified second identity; registry and Feast remain fixtures."""
+    legacy=PumpPredictor(ROOT/'models/pump-failure-v1');registry=RegistryFixture(incremental=True);registry.version.version='2'
+    bundle=path/'candidate'
+    if not bundle.exists():export(registry,'2',bundle,ROOT/'ml/protocols/medium-60d-v1.json')
+    candidate=PumpPredictor(bundle)
+    context={'clock_mode':'simulation','as_of':ASOF.isoformat(),'prepared_wall_utc':NOW.isoformat(),
+        'protocol_sha256':legacy.pin['protocol_sha256'],'source_manifest_sha256':'f'*64,
+        'machines':{f'P-{i:03}':{'status':'operating','event_ts':ASOF.isoformat(),'received_ts':ASOF.isoformat(),'event_id':f'event-{i}'} for i in range(1,201)}}
+    runtimes={name:FeatureRuntime(context,Backend(model,context),clock=lambda:NOW,model_pin=model.pin) for name,model in [('baseline',legacy),('candidate',candidate)]}
+    reference={'format':'iot-drift-reference-v1','lineage':{'protocol_sha256':legacy.pin['protocol_sha256'],'fixture':True},
+        'policy':{'bins':10,'psi_threshold':.2,'drifted_feature_fraction':.25,'pseudocount':.5},
+        'samples':[deepcopy(GOLDEN['samples'][0]['features']) for _ in range(64)]}
+    return ABRuntime(experiment,runtimes,reference,path/'trials.sqlite',max_requests)
+
+
+@pytest.fixture
+def runtime(tmp_path):return fixture_runtime(tmp_path)
+
+
+def populate(runtime,cycles=2):
+    """Send distinct request IDs while deliberately replaying the same feature snapshots in each cycle."""
+    return [runtime.predict(machine,f'trial-{cycle}-{machine}') for cycle in range(cycles) for machine in runtime.context['machines']]
+
+
+def test_machine_assignment_is_stable_and_independent_of_request_order(runtime):
+    machines=list(runtime.context['machines']);groups={cohort(runtime.experiment,m) for m in machines};assert groups=={'baseline','candidate'}
+    first=[runtime.predict(m,'initial-'+m) for m in machines[:8]]
+    second=[runtime.predict(m,'second-'+m) for m in reversed(machines[:8])]
+    assert {r['machine_id']:r['variant'] for r in first}=={r['machine_id']:r['variant'] for r in second}
+    assert sum(runtime.snapshot()['metrics'][v]['requests'] for v in groups)==16
+
+
+@given(st.lists(st.tuples(st.integers(min_value=1,max_value=4),st.integers(min_value=1,max_value=6)),min_size=1,max_size=24))
+@settings(max_examples=15,deadline=None)
+def test_arbitrary_request_replays_and_conflicts_obey_set_counting(actions):
+    with TemporaryDirectory() as directory:
+        runtime=fixture_runtime(Path(directory));seen={}
+        for number,identity in actions:
+            machine=f'P-{number:03}';request_id=f'request-{identity}'
+            if request_id in seen and seen[request_id]['machine_id']!=machine:
+                with pytest.raises(TrialConflict):runtime.predict(machine,request_id)
+            else:
+                result=runtime.predict(machine,request_id)
+                if request_id in seen:assert result==seen[request_id]
+                seen[request_id]=result
+        snapshot=runtime.snapshot()
+        assert {row['request_id'] for row in snapshot['observations']}==set(seen)
+        assert sum(value['requests'] for value in snapshot['metrics'].values())==len(seen)
+
+
+def test_real_portable_prediction_pin_and_trace(runtime):
+    row=runtime.predict('P-001','known')
+    assert row['status']==200 and row['prediction']['risk_score']==pytest.approx(GOLDEN['samples'][0]['expected_risk_score'],abs=1e-12)
+    assert all(row['model'][name]==value for name,value in runtime.pins[row['variant']].items()) and row['feature_trace']['machine_id']=='P-001'
+    assert row['latency_ms']>=0 and row['experiment']==runtime.experiment
+
+
+def test_invalid_initial_config_preserves_existing_database(runtime,tmp_path):
+    reference={'format':'iot-drift-reference-v1','lineage':{'protocol_sha256':runtime.context['protocol_sha256']},
+        'policy':runtime.detector.policy,'samples':[GOLDEN['samples'][0]['features']]*64}
+    for bad in ['',None,'a'*65,'../escape','line\nbreak']:
+        with pytest.raises(ValueError):ABRuntime(bad,runtime.runtimes,reference,tmp_path/'bad')
+    for bad in [True,0,2049,1.5]:
+        with pytest.raises(ValueError):ABRuntime('x',runtime.runtimes,reference,tmp_path/'bad',bad)
+    with pytest.raises(ValueError):ABRuntime('x',runtime.runtimes,reference,':memory:')
+    with pytest.raises(ValueError):ABRuntime('x',{'baseline':runtime.runtimes['baseline']},reference,tmp_path/'bad')
+    for mode in ['same-version','not-production','context','protocol','reference']:
+        variants=deepcopy(runtime.runtimes);ref=deepcopy(reference)
+        if mode=='same-version':variants['candidate'].model_pin['version']='1'
+        elif mode=='not-production':variants['candidate'].model_pin['production']=False
+        elif mode=='context':variants['candidate'].context=deepcopy(runtime.context);variants['candidate'].context['as_of']='2026-11-28T00:00:00Z'
+        elif mode=='protocol':variants['candidate'].model_pin['protocol_sha256']='a'*64
+        else:ref['lineage']['protocol_sha256']='b'*64
+        with pytest.raises(ValueError):ABRuntime('bad',variants,ref,tmp_path/'bad')
+    assert not (tmp_path/'bad').exists()
+
+
+def test_database_identity_and_retention_cannot_be_reinterpreted(runtime,tmp_path):
+    first=runtime.predict('P-001','once');restarted=fixture_runtime(tmp_path)
+    assert restarted.predict('P-001','once')==first
+    with pytest.raises(TrialConflict):fixture_runtime(tmp_path,experiment='different')
+    with pytest.raises(TrialConflict):fixture_runtime(tmp_path,max_requests=1)
+    assert runtime.snapshot()['observations']==[first]
+
+
+def test_concurrent_replay_across_connections_calls_model_once(runtime,tmp_path):
+    other=fixture_runtime(tmp_path)
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        results=list(pool.map(lambda i:[runtime,other][i%2].predict('P-001','same-request'),range(24)))
+    assert all(row==results[0] for row in results)
+    assert sum(r.backend.calls for instance in [runtime,other] for r in instance.runtimes.values())==1
+    with pytest.raises(TrialConflict):other.predict('P-002','same-request')
+    assert len(other.snapshot()['observations'])==1
+
+
+def test_request_boundaries_unknown_machine_and_capacity(tmp_path):
+    runtime=fixture_runtime(tmp_path,max_requests=1)
+    for bad in ['',None,'a'*101,'../x','a b']:
+        with pytest.raises(ValueError):runtime.predict('P-001',bad)
+    with pytest.raises(UnknownMachine):runtime.predict('P-999','unknown')
+    assert runtime.predict('P-001','a'*100)['status']==200
+    assert runtime.predict('P-001','a'*100)['status']==200
+    with pytest.raises(TrialCapacity):runtime.predict('P-002','next')
+
+
+def test_failed_and_stopped_trials_are_persistent_outcomes(runtime):
+    machine='P-001';variant=cohort(runtime.experiment,machine);runtime.runtimes[variant].backend.broken=True
+    a=runtime.predict(machine,'failed');assert a['status']==503 and 'private SDK' not in json.dumps(a)
+    runtime.runtimes[variant].backend.broken=False;assert runtime.predict(machine,'failed')==a
+    for r in runtime.runtimes.values():r.context['machines']['P-002']['status']='maintenance'
+    stopped=runtime.predict('P-002','stopped');assert stopped['status']==409
+    snapshot=runtime.snapshot();assert sum(m['failures'] for m in snapshot['metrics'].values())==2
+    assert sum(d['unique_rows'] for d in snapshot['drift'].values())==0
+
+
+def test_pins_do_not_change_when_backend_or_runtime_is_reconfigured(runtime):
+    machine='P-001';variant=cohort(runtime.experiment,machine);runtime.runtimes[variant].model_pin['threshold']=.1
+    assert runtime.predict(machine,'mismatched')['status']==503
+    runtime.runtimes[variant].backend.model.pin['threshold']=.1
+    assert runtime.predict(machine,'mismatched-again')['status']==503
+
+
+def test_readiness_rechecks_the_original_pair_even_if_adapter_pin_changes(runtime):
+    runtime.runtimes['baseline'].model_pin['threshold']=.1
+    runtime.runtimes['baseline'].backend.model.pin['threshold']=.1
+    with pytest.raises(ValueError,match='Readiness model identity'):runtime.ready()
+    assert runtime.snapshot()['observations']==[]
+
+
+def test_cached_trials_cannot_outlive_real_lease(runtime):
+    runtime.predict('P-001','old')
+    for offset in [-1,3600,3601]:
+        for r in runtime.runtimes.values():r.clock=lambda:NOW+timedelta(seconds=offset)
+        with pytest.raises(Unavailable):runtime.predict('P-001','old')
+    for r in runtime.runtimes.values():r.clock=lambda:NOW+timedelta(seconds=3599)
+    assert runtime.predict('P-001','old')['status']==200
+
+
+def test_drift_uses_unique_snapshots_and_independent_psi_arithmetic(runtime):
+    populate(runtime);snapshot=runtime.snapshot()
+    assert sum(m['requests'] for m in snapshot['metrics'].values())==400
+    assert sum(d['unique_rows'] for d in snapshot['drift'].values())==200
+    for variant in ['baseline','candidate']:
+        drift=snapshot['drift'][variant];n=drift['unique_rows'];assert drift['ready'] and len(drift['features'])==8
+        assert n*2==snapshot['metrics'][variant]['requests']
+        # Constant feature has two bins [0,n]; independently calculate the declared half-count correction.
+        p=[.5/65,64.5/65];q=[.5/(n+1),(n+.5)/(n+1)]
+        expected=sum((b-a)*math.log(b/a) for a,b in zip(p,q))
+        assert all(value['psi']==pytest.approx(expected) and value['current_counts']==[0,n] for value in drift['features'].values())
+    assert snapshot['ground_truth_used'] is False
+
+
+def test_conflicting_snapshot_is_rejected_even_before_drift_minimum(runtime):
+    runtime.predict('P-001','original');variant=cohort(runtime.experiment,'P-001');runtime.runtimes[variant].backend.offset=-20
+    runtime.predict('P-001','changed')
+    with pytest.raises(ValueError,match='Conflicting'):runtime.snapshot()
+
+
+def test_shift_monitor_and_metrics_are_real_ledger_readbacks(runtime):
+    for r in runtime.runtimes.values():r.backend.offset=-20
+    populate(runtime);data=runtime.snapshot();raw=exposition(data).decode()
+    samples={s.name+str(s.labels):s for family in text_string_to_metric_families(raw) for s in family.samples}
+    requests=[s for s in samples.values() if s.name=='iot_ab_requests_total'];assert sum(s.value for s in requests)==400
+    assert len(requests)==2 and {s.labels['variant'] for s in requests}=={'baseline','candidate'}
+    assert sum(s.value for s in samples.values() if s.name=='iot_ab_request_seconds_count')==400
+    assert 'P-001' not in raw and 'trial-' not in raw
+    for drift in data['drift'].values():assert drift['features']['temperature_mean_10m']['psi']>.2
+    assert len([s for s in samples.values() if s.name=='iot_ab_feature_psi'])==16
+    assert sum(s.value for s in samples.values() if s.name=='iot_ab_failures_total')==0
+
+
+def test_empty_metrics_has_no_fake_drift_or_mean(runtime):
+    raw=exposition(runtime.snapshot()).decode();samples=[s for f in text_string_to_metric_families(raw) for s in f.samples]
+    assert all(s.value==0 for s in samples if s.name.endswith(('_total','_count','_sum','_snapshots')))
+    assert not any(s.name in ['iot_ab_feature_psi','iot_ab_mean_risk_score'] for s in samples)
+
+
+def test_http_success_boundary_validation_and_replay(runtime):
+    app=api.create_app(runtime)
+    with TestClient(app) as client:
+        assert client.get('/health/live').json()=={'live':True}
+        assert client.get('/health/ready').json()['ready'] and runtime.snapshot()['observations']==[]
+        headers={'X-Request-ID':'http-1'};a=client.post('/v1/machines/P-001:predict',json={},headers=headers)
+        assert a.status_code==200 and client.post('/v1/machines/P-001:predict',json={},headers=headers).content==a.content
+        assert client.post('/v1/machines/P-002:predict',json={},headers=headers).status_code==409
+        for target,body,h in [('/v1/machines/P-01:predict',{},headers),('/v1/machines/P-001:predict',{},{}),
+                ('/v1/machines/P-001:predict',{'failure_in_next_1h':1},headers),('/v1/machines/P-001:predict',{'variant':'candidate'},headers),
+                ('/v1/machines/P-001:predict',[],headers),('/v1/machines/P-001:predict',{}, {'X-Request-ID':'a'*101})]:
+            assert client.post(target,json=body,headers=h).status_code==422
+        assert client.post('/v1/machines/P-999:predict',json={},headers={'X-Request-ID':'unknown'}).status_code==404
+        assert client.post('/v1/machines/P-001:predict',content='x'*257,headers=headers).status_code==413
+        assert client.post('/v1/machines/P-001:predict',content=iter([b'{}']),headers=headers).status_code==411
+        assert client.get('/v1/experiment').json()['metrics']==runtime.snapshot()['metrics']
+        assert 'iot_ab_requests_total' in client.get('/metrics').text
+    assert app.state.runtime is None
+    assert TestClient(app).get('/health/ready').status_code==503
+
+
+def test_http_capacity_failures_and_unavailable_monitoring(tmp_path):
+    runtime=fixture_runtime(tmp_path,max_requests=1)
+    with TestClient(api.create_app(runtime)) as client:
+        runtime.runtimes[cohort(runtime.experiment,'P-001')].backend.broken=True
+        assert client.post('/v1/machines/P-001:predict',json={},headers={'X-Request-ID':'failure'}).status_code==503
+        assert client.post('/v1/machines/P-002:predict',json={},headers={'X-Request-ID':'full'}).status_code==507
+        assert client.get('/health/ready').status_code==503
+        with patch.object(runtime,'snapshot',side_effect=KeyError('internal-corrupt-field')):
+            assert client.get('/metrics').status_code==503
+
+
+def test_native_startup_uses_existing_sdk_state_and_two_fixed_urls(runtime,tmp_path,monkeypatch):
+    config={'experiment':'native-fixture',**{name:{'url':'http://'+name+'.svc.cluster.local','pin':runtime.pins[name]} for name in runtime.runtimes}}
+    source=tmp_path/'config.json';source.write_text(json.dumps(config));reference=tmp_path/'reference.json'
+    reference.write_text(json.dumps({'format':'iot-drift-reference-v1','lineage':runtime.detector.lineage,
+        'policy':runtime.detector.policy,'samples':[GOLDEN['samples'][0]['features']]*64}))
+    for key,value in {'IOT_AB_CONFIG':str(source),'IOT_SERVING_STATE':'/fixture-state','IOT_DRIFT_REFERENCE':str(reference),'IOT_AB_DATABASE':str(tmp_path/'native.sqlite')}.items():monkeypatch.setenv(key,value)
+    def backend(state,url):
+        assert state=='/fixture-state';return runtime.runtimes[url.split('//')[1].split('.')[0]].backend
+    with patch.object(api,'FeastKServeBackend',side_effect=backend) as called:
+        with TestClient(api.create_app()) as client:assert client.get('/v1/experiment').json()['experiment']=='native-fixture'
+    assert called.call_count==2
+
+
+def test_health_remains_async_while_model_read_blocks(runtime):
+    entered=threading.Event();release=threading.Event()
+    def slow():entered.set();assert release.wait(5);return {'ready':True}
+    async def scenario():
+        app=api.create_app(runtime)
+        async with app.router.lifespan_context(app):
+            async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='http://test') as client:
+                with patch.object(runtime,'ready',side_effect=slow):
+                    task=asyncio.create_task(client.get('/health/ready'))
+                    try:
+                        assert await asyncio.to_thread(entered.wait,3)
+                        assert (await client.get('/health/live')).status_code==200
+                    finally:release.set()
+                    assert (await task).status_code==200
+    asyncio.run(scenario())

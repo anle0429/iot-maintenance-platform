@@ -1,0 +1,25 @@
+# Only the API adapter and fixed contracts enter this image; no weights, database, credentials or assistant configuration.
+**
+!infra/
+!infra/ab-api/
+!infra/ab-api/Dockerfile
+!services/
+!services/__init__.py
+!services/ab_api/
+!services/ab_api/*.py
+!services/feature_api/
+!services/feature_api/__init__.py
+!services/feature_api/runtime.py
+!services/predictor/
+!services/predictor/__init__.py
+!services/predictor/contracts.py
+!services/predictor/binding.py
+!services/drift_api/
+!services/drift_api/__init__.py
+!services/drift_api/contracts.py
+!services/drift_api/detector.py
+!ml/
+!ml/__init__.py
+!ml/protocol.py
+**/__pycache__/
+**/*.pyc

@@ -1,7 +1,7 @@
-# Version-pin change only: four changed API modules. Native execution is still required.
+# Pending native gate: four version-pin modules plus the three new A/B API modules; no unchanged drift kernel mutation.
 [tool.mutmut]
-source_paths = ["services/feature_api/", "services/predictor/"]
-only_mutate = ["services/feature_api/app.py", "services/feature_api/runtime.py", "services/predictor/runtime.py", "services/predictor/binding.py"]
-pytest_add_cli_args_test_selection = ["tests/api/test_feature_api.py", "tests/api/test_predictor.py", "tests/api/test_model_binding.py"]
-also_copy = ["models/", "ml/", "tests/fixtures/", "tests/test_serving_release.py", "scripts/write-model-pin.py", "services/__init__.py"]
+source_paths = ["services/feature_api/", "services/predictor/", "services/ab_api/"]
+only_mutate = ["services/feature_api/app.py", "services/feature_api/runtime.py", "services/predictor/runtime.py", "services/predictor/binding.py", "services/ab_api/app.py", "services/ab_api/runtime.py", "services/ab_api/metrics.py"]
+pytest_add_cli_args_test_selection = ["tests/api/test_feature_api.py", "tests/api/test_predictor.py", "tests/api/test_model_binding.py", "tests/api/test_ab_api.py"]
+also_copy = ["models/", "ml/", "tests/fixtures/", "tests/test_serving_release.py", "scripts/write-model-pin.py", "services/__init__.py", "services/drift_api/"]
 process_isolation = "forkserver"

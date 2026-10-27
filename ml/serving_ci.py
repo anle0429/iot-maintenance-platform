@@ -7,7 +7,8 @@ import base64,json,math,re,tarfile
 from services.predictor.binding import FIELDS,validate_pin
 
 MUTATION_FILES={'services/feature_api/app.py','services/feature_api/runtime.py',
-    'services/predictor/runtime.py','services/predictor/binding.py'}
+    'services/predictor/runtime.py','services/predictor/binding.py',
+    'services/ab_api/app.py','services/ab_api/runtime.py','services/ab_api/metrics.py'}
 
 
 def host_source_path(source,deploy):
@@ -39,7 +40,7 @@ def admission(stop,now,ram,disks,required_seconds=3600):
 
 
 def test_gate(coverage,stats,all_results):
-    """Require strict coverage>90/mutation>80, all mutants accounted for, and only the four changed API modules."""
+    """Require strict coverage>90/mutation>80, all mutants accounted for, and only the seven pending changed API modules."""
     c=coverage['totals']
     if (c['num_statements']<=0 or c['num_branches']<=0 or c['excluded_lines']!=0
             or c['covered_lines']/c['num_statements']<=.9 or c['covered_branches']/c['num_branches']<=.9):

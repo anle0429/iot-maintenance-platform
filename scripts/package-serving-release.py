@@ -22,6 +22,11 @@ def package(commit,output):
     names+=['feature_store/'+n+'.py' for n in ['__init__','common','repository','batch','serving']]
     names+=['models/pump-failure-v1/'+n+'.json' for n in ['portable','lineage','model-pin']]
     available=set(git('ls-tree','-r','--name-only',resolved).decode().splitlines())
+    if 'services/ab_api/runtime.py' in available:
+        names+=['services/ab_api/'+name+'.py' for name in ['__init__','app','runtime','metrics']]
+        names+=['services/drift_api/'+name+'.py' for name in ['__init__','contracts','detector']]
+        names+=['tests/api/test_ab_api.py','tests/integration/test_ab_routing_http.py',
+            'infra/ab-api/Dockerfile','infra/ab-api/Dockerfile.dockerignore','infra/ab-api/helm-values.yaml','infra/ab-api/grafana-dashboard.json']
     if set(names)-available:raise ValueError('Serving source commit lacks required files: '+','.join(sorted(set(names)-available)))
     manifest_path=output.with_suffix('.manifest.json')
     if output.exists() or manifest_path.exists():raise FileExistsError('Preserve previous serving source packets')

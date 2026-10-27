@@ -28,12 +28,12 @@ def plan():
 
 
 def gate(killed=81):
-    """Make transparent gate counts and a complete all-mutant inventory across the four allowed modules."""
+    """Make transparent gate counts and a complete all-mutant inventory across every allowed module."""
     coverage={'totals':{'num_statements':100,'covered_lines':91,'num_branches':100,'covered_branches':91,'excluded_lines':0}}
     stats=dict(killed=killed,survived=100-killed,total=100,no_tests=0,skipped=0,suspicious=0,timeout=0,check_was_interrupted_by_user=0,segfault=0)
     entries=[]
     for i in range(100):
-        module=sorted(ci.MUTATION_FILES)[i%4].removesuffix('.py').replace('/','.')
+        module=sorted(ci.MUTATION_FILES)[i%len(ci.MUTATION_FILES)].removesuffix('.py').replace('/','.')
         entries.append('    '+module+'.x_probe__mutmut_'+str(i)+': '+('killed' if i<killed else 'survived'))
     return coverage,stats,'\n'.join(entries)
 
