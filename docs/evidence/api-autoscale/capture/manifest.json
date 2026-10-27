@@ -1,0 +1,292 @@
+{
+  "format": "iot-native-hpa-capsule-v1",
+  "captured_utc": "2026-10-27T17:15:20.033771+00:00",
+  "files": {
+    "cache-refresh/cache-rebuild-start.txt": {
+      "bytes": 33,
+      "sha256": "dcd1b47df2167d188de5418160c0cd469195d2fc059b57205056c46ad3a5b2c3",
+      "native_path": "outputs/feature-cache-refresh-27/cache-rebuild-start.txt"
+    },
+    "cache-refresh/cache-rebuilt.txt": {
+      "bytes": 230,
+      "sha256": "ce47bda9e2851bd096af947e582068878b3548788804f0ceea8d33dc9774af04",
+      "native_path": "outputs/feature-cache-refresh-27/cache-rebuilt.txt"
+    },
+    "cache-refresh/deploy-api-before-seed-option.py.txt": {
+      "bytes": 2857,
+      "sha256": "a41d3889ddd7871a2a126426a9cff70e6b4eb2f486413e9ee7a0b766f867e9e1",
+      "native_path": "outputs/feature-cache-refresh-27/deploy-api-before-seed-option.py.txt"
+    },
+    "cache-refresh/deployment.json": {
+      "bytes": 7516,
+      "sha256": "b4dff4482df71d1b6ed25012dad9e18618e1fd20051637ef439b519c57c726d7",
+      "native_path": "outputs/feature-cache-refresh-27/deployment.json"
+    },
+    "cache-refresh/helm-controller.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "native_path": "outputs/feature-cache-refresh-27/helm-controller.txt"
+    },
+    "cache-refresh/helm/helm-console.txt": {
+      "bytes": 192,
+      "sha256": "77168d43dd2060a8447469eaa13679074d990bd5f5b823e7bc3d1149deb09cf5",
+      "native_path": "outputs/feature-cache-refresh-27/helm/helm-console.txt"
+    },
+    "cache-refresh/helm/lint.txt": {
+      "bytes": 159,
+      "sha256": "1754af4b96ad1e61765af3d7a1541e2ad7c1f37bf60624942f4fd100a4c045f9",
+      "native_path": "outputs/feature-cache-refresh-27/helm/lint.txt"
+    },
+    "cache-refresh/helm/receipt.json": {
+      "bytes": 1103,
+      "sha256": "55dadd3f98f342b4cfe592d12d097fb25c588937b7cc99585bca942c1b863c91",
+      "native_path": "outputs/feature-cache-refresh-27/helm/receipt.json"
+    },
+    "cache-refresh/http.json": {
+      "bytes": 2217,
+      "sha256": "fc5ed54fee6f6e2f07e64663827597c4cbb3d749a1c88061b31ab9dbb20c7761",
+      "native_path": "outputs/feature-cache-refresh-27/http.json"
+    },
+    "cache-refresh/native-feast-verification.json": {
+      "bytes": 2026,
+      "sha256": "2fb6200c5f0d4d3b44fb3b0de7bb2818b56699165916c027969e0b01185f9438",
+      "native_path": "outputs/feature-cache-refresh-27/native-feast-verification.json"
+    },
+    "cache-refresh/native-prepare.txt": {
+      "bytes": 405,
+      "sha256": "34d01e45f5c3ed97df92e4eea7d9142b4eaba9e0e13ba57d2425f2996a49f853",
+      "native_path": "outputs/feature-cache-refresh-27/native-prepare.txt"
+    },
+    "cache-refresh/preflight.json": {
+      "bytes": 555,
+      "sha256": "459503e81f15556ea9a7e2918c74cb174a1d49460ddea3381dff16f659143283",
+      "native_path": "outputs/feature-cache-refresh-27/preflight.json"
+    },
+    "cache-refresh/seed-create.txt": {
+      "bytes": 52,
+      "sha256": "c42641b94ebd40700e9a01b04d4856632740b59500698e50411f5d5c29fd4124",
+      "native_path": "outputs/feature-cache-refresh-27/seed-create.txt"
+    },
+    "cache-refresh/verification.json": {
+      "bytes": 761,
+      "sha256": "2fb9fca0043d9bfa241bd071cc04c81c65579bb0ffb8a2f9df9ef1dc28eeb295",
+      "native_path": "outputs/feature-cache-refresh-27/verification.json"
+    },
+    "capture/cache-refresh-journal.txt": {
+      "bytes": 1617,
+      "sha256": "a4df0c93eb659b06e0ae7d20f736da11457ebd2a1aa6df09fdf268f9c521f14e",
+      "native_path": "outputs/api-autoscale-capture-27/cache-refresh-journal.txt"
+    },
+    "capture/drift-deployment.json": {
+      "bytes": 8316,
+      "sha256": "15e837bd0cd6e52b4c14f44bd20c03b328255affffff51313750e8d9e8626fad",
+      "native_path": "outputs/api-autoscale-capture-27/drift-deployment.json"
+    },
+    "capture/drift-hpa.json": {
+      "bytes": 3416,
+      "sha256": "d7a09775d8b3c1940f0118df241eaa243a09161df8fe9d1550acacd8dd15ac3f",
+      "native_path": "outputs/api-autoscale-capture-27/drift-hpa.json"
+    },
+    "capture/feature-deployment.json": {
+      "bytes": 10396,
+      "sha256": "738a5b61ac583639f26834abe06b995e89ef1b9b88dbbaa996e182eb667e3e85",
+      "native_path": "outputs/api-autoscale-capture-27/feature-deployment.json"
+    },
+    "capture/feature-hpa.json": {
+      "bytes": 3422,
+      "sha256": "e65c9fc056b3f0f32c52dd81dde0ba6955f8b671206b14f384c0f51b0a97e289",
+      "native_path": "outputs/api-autoscale-capture-27/feature-hpa.json"
+    },
+    "capture/initial-journal.txt": {
+      "bytes": 1801,
+      "sha256": "c586b286dc6cfc59cbb440f9437b3489f6daa20d4f77f01cf2961524d32caab7",
+      "native_path": "outputs/api-autoscale-capture-27/initial-journal.txt"
+    },
+    "capture/journal.txt": {
+      "bytes": 413,
+      "sha256": "7fd054023122b0fe79eb8be832d5c75801fef7cab9d0f270b5d46560394c3b72",
+      "native_path": "outputs/api-autoscale-capture-27/journal.txt"
+    },
+    "initial/feature-console.txt": {
+      "bytes": 819,
+      "sha256": "ebe377f41941aceeb63d590581a2c7875ab05d5634f7cc2fba3eff94da09bf54",
+      "native_path": "outputs/api-autoscale-27/feature-console.txt"
+    },
+    "initial/feature/helm-controller.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "native_path": "outputs/api-autoscale-27/feature/helm-controller.txt"
+    },
+    "initial/feature/helm/helm-console.txt": {
+      "bytes": 192,
+      "sha256": "5c8d3698369f4abe12889a10d64b24aa0f2f8ea1f98909054a85f614749b06d9",
+      "native_path": "outputs/api-autoscale-27/feature/helm/helm-console.txt"
+    },
+    "initial/feature/helm/lint.txt": {
+      "bytes": 159,
+      "sha256": "1754af4b96ad1e61765af3d7a1541e2ad7c1f37bf60624942f4fd100a4c045f9",
+      "native_path": "outputs/api-autoscale-27/feature/helm/lint.txt"
+    },
+    "initial/feature/helm/receipt.json": {
+      "bytes": 1096,
+      "sha256": "8410d91f43afb55629fea0d7978c2489827b9eb0a8eb75c5c1f17bf06fdc2870",
+      "native_path": "outputs/api-autoscale-27/feature/helm/receipt.json"
+    },
+    "initial/feature/metrics-preflight.json": {
+      "bytes": 695,
+      "sha256": "3f1780e3c4b6741a1af392aaef85f6e5d79f510fa5bc4a0f022a02692c6ef1f5",
+      "native_path": "outputs/api-autoscale-27/feature/metrics-preflight.json"
+    },
+    "initial/preflight.json": {
+      "bytes": 596,
+      "sha256": "21ddc05a0d1fe245568994897f1a652f9dfae088205700fec5f955580eeef829",
+      "native_path": "outputs/api-autoscale-27/preflight.json"
+    },
+    "native/drift-console.txt": {
+      "bytes": 89,
+      "sha256": "2eac1fe64884c3316266e32c7cca505c1d015b2a379d63e174bf47151b200e2f",
+      "native_path": "outputs/api-autoscale-27-v2/drift-console.txt"
+    },
+    "native/drift/helm-controller.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "native_path": "outputs/api-autoscale-27-v2/drift/helm-controller.txt"
+    },
+    "native/drift/helm/helm-console.txt": {
+      "bytes": 188,
+      "sha256": "a813803b578f4678cbf83c4957236ab07febc542f3d4f3cd5af5dc42e8c62452",
+      "native_path": "outputs/api-autoscale-27-v2/drift/helm/helm-console.txt"
+    },
+    "native/drift/helm/lint.txt": {
+      "bytes": 159,
+      "sha256": "1754af4b96ad1e61765af3d7a1541e2ad7c1f37bf60624942f4fd100a4c045f9",
+      "native_path": "outputs/api-autoscale-27-v2/drift/helm/lint.txt"
+    },
+    "native/drift/helm/receipt.json": {
+      "bytes": 974,
+      "sha256": "8fc6e3ea63fb36ca9fca3224b5ba2db2d063d8ef2953f01889dc78d00ad6d489",
+      "native_path": "outputs/api-autoscale-27-v2/drift/helm/receipt.json"
+    },
+    "native/drift/hpa-after-load.json": {
+      "bytes": 2676,
+      "sha256": "bf83bce8d873ab3bd17ab8bf0858990f4723b4965ae35eed433b2ecf8c429053",
+      "native_path": "outputs/api-autoscale-27-v2/drift/hpa-after-load.json"
+    },
+    "native/drift/hpa-at-two.json": {
+      "bytes": 2692,
+      "sha256": "51219158cbb88901f6e205f3a45d5e6ebc41ccf2f1ec1235de160d39cc253845",
+      "native_path": "outputs/api-autoscale-27-v2/drift/hpa-at-two.json"
+    },
+    "native/drift/hpa-before-load.json": {
+      "bytes": 2631,
+      "sha256": "ad779b9e89c4971933023e0ca66ab395a4d15735dbdd3ffa69ea47442dd50824",
+      "native_path": "outputs/api-autoscale-27-v2/drift/hpa-before-load.json"
+    },
+    "native/drift/load.json": {
+      "bytes": 477,
+      "sha256": "9702a50c864ae8e36941b9e9518d8e7d614d59b06abf6b13645f8fcdadcd4da7",
+      "native_path": "outputs/api-autoscale-27-v2/drift/load.json"
+    },
+    "native/drift/metrics-preflight.json": {
+      "bytes": 695,
+      "sha256": "1e34c1fcd7c1e8f0e5f2cf6be8182d6cefa66821c35837b9ebab334d590edf6c",
+      "native_path": "outputs/api-autoscale-27-v2/drift/metrics-preflight.json"
+    },
+    "native/drift/timeline.json": {
+      "bytes": 50201,
+      "sha256": "4f7d1bea4050f5ecc37c548880ad13a506728d7931cce3e79e6e32b5ea539713",
+      "native_path": "outputs/api-autoscale-27-v2/drift/timeline.json"
+    },
+    "native/drift/verification.json": {
+      "bytes": 1556,
+      "sha256": "c1c5ac6bab515864791cb5c41eacfa0a61bac511be5b257f68075040bc7e2b00",
+      "native_path": "outputs/api-autoscale-27-v2/drift/verification.json"
+    },
+    "native/feature-console.txt": {
+      "bytes": 91,
+      "sha256": "0ba6263afd5c8ca48ce3bec4ca7553162a74f7b63c283e6699f85be3cb7a70cf",
+      "native_path": "outputs/api-autoscale-27-v2/feature-console.txt"
+    },
+    "native/feature/helm-controller.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "native_path": "outputs/api-autoscale-27-v2/feature/helm-controller.txt"
+    },
+    "native/feature/helm/helm-console.txt": {
+      "bytes": 192,
+      "sha256": "6c6f6e63211c2a4b7361a2e2dc597b362460bc0c5358f6126ceadeb912077ffb",
+      "native_path": "outputs/api-autoscale-27-v2/feature/helm/helm-console.txt"
+    },
+    "native/feature/helm/lint.txt": {
+      "bytes": 159,
+      "sha256": "1754af4b96ad1e61765af3d7a1541e2ad7c1f37bf60624942f4fd100a4c045f9",
+      "native_path": "outputs/api-autoscale-27-v2/feature/helm/lint.txt"
+    },
+    "native/feature/helm/receipt.json": {
+      "bytes": 1102,
+      "sha256": "8c69a98a97050a975840c14924db1914dd673d1d62297c4394685761dcb3b038",
+      "native_path": "outputs/api-autoscale-27-v2/feature/helm/receipt.json"
+    },
+    "native/feature/hpa-after-load.json": {
+      "bytes": 2682,
+      "sha256": "5b96844fe96761c525b6cde7fc4f27bc1f8b5e78f586777d7629106ab44dc045",
+      "native_path": "outputs/api-autoscale-27-v2/feature/hpa-after-load.json"
+    },
+    "native/feature/hpa-at-two.json": {
+      "bytes": 2698,
+      "sha256": "0b0eb5e21c71ce09f0a8639de7552e7fab4a72fef64f3b658386bea734965acc",
+      "native_path": "outputs/api-autoscale-27-v2/feature/hpa-at-two.json"
+    },
+    "native/feature/hpa-before-load.json": {
+      "bytes": 2637,
+      "sha256": "74050ed9b50f5e1b32b5e03294e970d9e166583bfd2327873cd0a3c162592d9d",
+      "native_path": "outputs/api-autoscale-27-v2/feature/hpa-before-load.json"
+    },
+    "native/feature/load.json": {
+      "bytes": 489,
+      "sha256": "1d00d2a15ed5a48edd6808f41dbd9c489df6a0a49a455f195a59803cfe7709d5",
+      "native_path": "outputs/api-autoscale-27-v2/feature/load.json"
+    },
+    "native/feature/metrics-preflight.json": {
+      "bytes": 695,
+      "sha256": "6177c0017d7e1cbc16e9ab69043731062ce5ffe73f4b567e28dd4154c62a12dc",
+      "native_path": "outputs/api-autoscale-27-v2/feature/metrics-preflight.json"
+    },
+    "native/feature/timeline.json": {
+      "bytes": 53541,
+      "sha256": "c7732606b9c0cb0210f14e186c3ff574ad0736dd7021b19e5f72388798f82401",
+      "native_path": "outputs/api-autoscale-27-v2/feature/timeline.json"
+    },
+    "native/feature/verification.json": {
+      "bytes": 1494,
+      "sha256": "c480ea6d877dbc0d3dfbc3cfdc96fee4f24fa9607f7bc5eb6971f3c2e7083c7a",
+      "native_path": "outputs/api-autoscale-27-v2/feature/verification.json"
+    },
+    "native/preflight.json": {
+      "bytes": 596,
+      "sha256": "99ab2bcb72fa637c319d5159d13cc27d430deaf88f88c97595db4d2757fe61f7",
+      "native_path": "outputs/api-autoscale-27-v2/preflight.json"
+    },
+    "native/verification.json": {
+      "bytes": 3638,
+      "sha256": "3e058ab688dc16a41d7b17e3a4ba63410e3acfa533fafc38586dc26da73d062e",
+      "native_path": "outputs/api-autoscale-27-v2/verification.json"
+    },
+    "native/verify-api-autoscale-before-null-metrics.py.txt": {
+      "bytes": 9876,
+      "sha256": "980e8533ec02d46ca114be8386a3416ac695650607f2a4b1144493de720e6d04",
+      "native_path": "outputs/api-autoscale-27-v2/verify-api-autoscale-before-null-metrics.py.txt"
+    }
+  },
+  "source_sha256": {
+    "scripts/verify-api-autoscale.py": "29714803a9994766f8fd2c67a6de478bd46dffb2932a787d1434cbd235414e78",
+    "scripts/deploy-api.py": "a2ac6ed862df7a2a314348aa6b0b5e2bd52a9a22c18700466b59bb45dc800f68",
+    "infra/charts/iot-api/templates/hpa.yaml": "e9eccd732a84da51a727f9c674a595674647756594fcf7e418d0dea4f936deb5",
+    "infra/charts/iot-api/templates/deployment.yaml": "0cc60c7ae64c453e35c4968dcd0c9daef687c7615ef0a899d1e2224b9cd51408",
+    "infra/charts/iot-api/values.yaml": "28237742d8b0473648b3c79a7b2c782cd21c40f9c9321b377a8ccf809ff4836e",
+    "infra/feature-api/helm-values.yaml": "fbc5d0a2afdb1b3eaa5346ff2270ea9573438930c9de440172e6183f8baf8472",
+    "infra/drift-api/helm-values.yaml": "7f75839625e7f243082594cfa64d638fe88a09473223e47375725f04cf6bd69b",
+    "feature_store/serving.py": "66c45d9309c4ccb1830e26324d936394dd558d00e435c57a02d8ab93b938b856"
+  },
+  "scope": "Original failed-null-metrics observer, repaired native CPU HPA1to2to1 for both APIs, original truthful cache refresh. No synthetic metrics or changed native receipts."
+}

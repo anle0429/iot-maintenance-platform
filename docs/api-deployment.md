@@ -52,4 +52,4 @@ python scripts/verify-api-rollout.py --api drift --helm "$HELM" \
   --run rollback-new-drift --output outputs/rollback-new-drift
 ```
 
-HPA có trong chart nhưng hiện tắt ở hai release của lượt này. Chưa dùng YAML HPA làm bằng chứng autoscale. CI/CD, gateway và telemetry vẫn là các phần triển khai tiếp theo.
+Lượt rollout lịch sử bên trên chưa bật HPA. Mốc tiếp theo đã kiểm chứng [hai API tự scale1→2→1 bằng CPU thật](api-autoscaling.md), giữ proof riêng và source hash mới. CI/CD, gateway và telemetry tiếp tục triển khai.

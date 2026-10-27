@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "api": "feature",
+  "run": "hpa-27-v2-feature",
+  "replicas_observed": [
+    1,
+    2,
+    1
+  ],
+  "load": {
+    "workers": 16,
+    "pacing_seconds": 0.05,
+    "elapsed_seconds": 184.84084514700044,
+    "success": 48265,
+    "errors": {},
+    "requests": 48265,
+    "requests_per_second": 261.11652952904296,
+    "p50_ms": 7.028129999525845,
+    "p95_ms": 25.448809999943478,
+    "path": "/v1/machines/P-001/features",
+    "scope": "Single bounded workload used to induce autoscaling. Drift calls replay a cached32row window; feature path uses native Feast retrieval. Not maximum capacity or prediction throughput."
+  },
+  "initial_ready": {
+    "ready": true,
+    "clock_mode": "simulation",
+    "as_of": "2026-11-29T23:50:00+00:00"
+  },
+  "final_ready": {
+    "ready": true,
+    "clock_mode": "simulation",
+    "as_of": "2026-11-29T23:50:00+00:00"
+  },
+  "max_cpu_utilization_percent": 958,
+  "completed_utc": "2026-10-27T17:07:28.080201+00:00",
+  "source_sha256": {
+    "scripts/verify-api-autoscale.py": "29714803a9994766f8fd2c67a6de478bd46dffb2932a787d1434cbd235414e78",
+    "scripts/deploy-api.py": "a2ac6ed862df7a2a314348aa6b0b5e2bd52a9a22c18700466b59bb45dc800f68",
+    "infra/charts/iot-api/templates/hpa.yaml": "e9eccd732a84da51a727f9c674a595674647756594fcf7e418d0dea4f936deb5"
+  },
+  "scope": "Native CPU HPA on the existing single physical VM, bounded1\u21922\u21921 actual Ready replicas. No manual replica change, fake metrics, new node or cloud scaling."
+}

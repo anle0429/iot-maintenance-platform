@@ -1,0 +1,132 @@
+"""Measure real Kubernetes CPU autoscaling under bounded functional HTTP load, including the return to one replica."""
+import argparse
+from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
+from hashlib import sha256
+import json
+import math
+from pathlib import Path
+import subprocess
+import sys
+import threading
+import time
+from urllib.request import Request, urlopen
+ROOT=Path(__file__).resolve().parents[1]
+
+
+def run(args):
+    """Require an observed low-load baseline, CPU-driven two Ready pods, and automatic scale-down after load."""
+    if args.output.exists():raise ValueError('Preserve existing autoscale evidence')
+    if not 120<=args.duration_seconds<=300:raise ValueError('Load duration must be120..300seconds')
+    if args.api=='feature' and not args.feature_seed:raise ValueError('Feature scaling requires an explicit fresh seed ConfigMap')
+    args.output.mkdir(parents=True)
+    k=[args.k3s,'kubectl'];namespace='iot-features';release='iot-'+args.api+'-api';timeline=[]
+    def get(*values):
+        """Read native metrics and Kubernetes state rather than inferring replicas from request rate."""
+        return json.loads(subprocess.check_output(k+list(values)+['-o','json'],text=True))
+    def save(name,value):
+        """Retain chronological measurements and partial results when a gate fails."""
+        (args.output/name).write_text(json.dumps(value,indent=2)+'\n')
+    # A working metrics API is a prerequisite; no synthetic metric or manual replica change is used.
+    metrics=json.loads(subprocess.check_output(k+['get','--raw','/apis/metrics.k8s.io/v1beta1/nodes'],text=True))
+    assert metrics['items'];save('metrics-preflight.json',metrics)
+    service=get('get','service',release,'-n',namespace);base='http://'+service['spec']['clusterIP'];payload=None
+    if args.api=='drift':
+        bundle=json.loads(args.reference.read_text());reference=sha256(json.dumps(bundle,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+        body={'reference_id':reference,'window_id':args.run,'start':'2026-10-01T00:00:00Z','end':'2026-10-01T01:00:00Z',
+              'observations':[{'id':f'scale-{i}','event_timestamp':'2026-10-01T00:30:00Z','available_at':'2026-10-01T00:31:00Z','features':row} for i,row in enumerate(bundle['samples'][:32])]}
+        payload=json.dumps(body).encode();path='/v1/drift:compare'
+    else:path='/v1/machines/'+args.machine+'/features'
+    def request(path=path,data=payload):
+        """Exercise the actual application path and read its complete response."""
+        with urlopen(Request(base+path,data=data,headers={'Content-Type':'application/json'}),timeout=5) as response:
+            value=json.load(response);assert response.status==200
+        return value
+    initial_ready=request('/health/ready',None);initial=request()
+    if args.api=='feature':
+        prepared=datetime.fromisoformat(initial['prepared_wall_utc']);remaining=3600-(datetime.now(timezone.utc)-prepared).total_seconds()
+        if remaining<1200:raise ValueError('Prepare a fresh real lease before this bounded scale experiment')
+    expected=sha256(json.dumps(initial,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+    command=[sys.executable,str(ROOT/'scripts/deploy-api.py'),'--api',args.api,'--helm',args.helm,'--revision',args.run,'--autoscaling','--output',str(args.output/'helm')]
+    if args.feature_seed:command+=['--feature-seed',args.feature_seed]
+    with (args.output/'helm-controller.txt').open('w') as log:subprocess.run(command,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=480)
+    def sample(phase):
+        """Capture native HPA utilization, desired/current replicas and actual Ready pod identities."""
+        hpa=get('get','hpa',release,'-n',namespace);deployment=get('get','deployment',release,'-n',namespace)
+        pods=get('get','pods','-n',namespace,'-l','app.kubernetes.io/instance='+release)['items']
+        status=hpa.get('status',{});utilization=None
+        for metric in status.get('currentMetrics') or []:
+            if metric.get('resource',{}).get('name')=='cpu':utilization=metric['resource']['current'].get('averageUtilization')
+        row={'utc':datetime.now(timezone.utc).isoformat(),'phase':phase,'cpu_utilization_percent':utilization,
+             'hpa_current':status.get('currentReplicas'),'hpa_desired':status.get('desiredReplicas'),
+             'deployment_spec_replicas':deployment['spec']['replicas'],'ready_replicas':deployment['status'].get('readyReplicas',0),
+             'pods':[{'name':pod['metadata']['name'],'uid':pod['metadata']['uid'],'deleting':bool(pod['metadata'].get('deletionTimestamp')),
+                      'ready':any(condition['type']=='Ready' and condition['status']=='True' for condition in pod['status'].get('conditions',[]))} for pod in pods],
+             'hpa_conditions':status.get('conditions',[])}
+        timeline.append(row);save('timeline.json',timeline)
+        return row,hpa
+    stable=0;deadline=time.monotonic()+360
+    while time.monotonic()<deadline:
+        row,hpa=sample('baseline')
+        assert hpa['spec']['minReplicas']==1 and hpa['spec']['maxReplicas']==2
+        if row['hpa_current']==row['hpa_desired']==row['ready_replicas']==1 and row['cpu_utilization_percent'] is not None and row['cpu_utilization_percent']<=60:stable+=1
+        else:stable=0
+        if stable>=2:break
+        time.sleep(10)
+    else:raise RuntimeError('No stable one-replica low-CPU baseline; retain startup behavior for diagnosis')
+    save('hpa-before-load.json',hpa)
+    stop=threading.Event()
+    def worker(_):
+        """Generate bounded real requests; preserve every error count without fabricating load metrics."""
+        latencies=[];errors=Counter();count=0
+        while not stop.is_set():
+            started=time.monotonic()
+            try:
+                value=request();actual=sha256(json.dumps(value,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+                if actual!=expected:raise ValueError('Functional response changed')
+                count+=1
+            except Exception as error:errors[type(error).__name__+': '+str(error)]+=1
+            latencies.append(time.monotonic()-started);stop.wait(.05)
+        return {'success':count,'errors':dict(errors),'latencies':latencies}
+    scaled=False;start=time.monotonic()
+    with ThreadPoolExecutor(max_workers=16) as pool:
+        futures=[pool.submit(worker,i) for i in range(16)]
+        try:
+            while time.monotonic()-start<args.duration_seconds:
+                row,hpa=sample('load')
+                if row['hpa_desired']==row['hpa_current']==row['ready_replicas']==2:
+                    scaled=True;save('hpa-at-two.json',hpa)
+                time.sleep(10)
+        finally:stop.set()
+        results=[future.result() for future in futures]
+    elapsed=time.monotonic()-start;errors=Counter();latencies=[]
+    for value in results:errors.update(value['errors']);latencies+=value['latencies']
+    latencies.sort();success=sum(v['success'] for v in results);total=success+sum(errors.values())
+    load={'workers':16,'pacing_seconds':.05,'elapsed_seconds':elapsed,'success':success,'errors':dict(errors),'requests':total,
+          'requests_per_second':total/elapsed,'p50_ms':latencies[math.ceil(.5*len(latencies))-1]*1000,'p95_ms':latencies[math.ceil(.95*len(latencies))-1]*1000,
+          'path':path,'scope':'Single bounded workload used to induce autoscaling. Drift calls replay a cached32row window; feature path uses native Feast retrieval. Not maximum capacity or prediction throughput.'}
+    save('load.json',load)
+    if not scaled:raise RuntimeError('Two Ready replicas were not observed under load')
+    if errors:raise RuntimeError('Functional request failures occurred; inspect actual load errors')
+    deadline=time.monotonic()+360
+    while time.monotonic()<deadline:
+        row,hpa=sample('cooldown')
+        if row['hpa_current']==row['hpa_desired']==row['ready_replicas']==row['deployment_spec_replicas']==1:break
+        time.sleep(10)
+    else:raise RuntimeError('Automatic scale-down to one Ready replica was not observed')
+    save('hpa-after-load.json',hpa);final_ready=request('/health/ready',None)
+    assert sha256(json.dumps(request(),sort_keys=True,separators=(',',':')).encode()).hexdigest()==expected
+    if args.api=='drift':assert final_ready['stored_windows']==initial_ready['stored_windows']+1
+    report={'passed':True,'api':args.api,'run':args.run,'replicas_observed':[1,2,1],'load':load,'initial_ready':initial_ready,'final_ready':final_ready,
+            'max_cpu_utilization_percent':max(row['cpu_utilization_percent'] or 0 for row in timeline),'completed_utc':datetime.now(timezone.utc).isoformat(),
+            'source_sha256':{name:sha256((ROOT/name).read_bytes()).hexdigest() for name in ['scripts/verify-api-autoscale.py','scripts/deploy-api.py','infra/charts/iot-api/templates/hpa.yaml']},
+            'scope':'Native CPU HPA on the existing single physical VM, bounded1→2→1 actual Ready replicas. No manual replica change, fake metrics, new node or cloud scaling.'}
+    save('verification.json',report);print(json.dumps({'passed':True,'api':args.api,'replicas':[1,2,1],'requests':total,'errors':dict(errors)}))
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--api',choices=['feature','drift'],required=True)
+    parser.add_argument('--helm',default='helm');parser.add_argument('--k3s',default='/usr/local/bin/k3s');parser.add_argument('--reference',type=Path)
+    parser.add_argument('--feature-seed');parser.add_argument('--machine',default='P-001');parser.add_argument('--run',required=True)
+    parser.add_argument('--duration-seconds',type=int,default=180);parser.add_argument('--output',type=Path,required=True);run(parser.parse_args())

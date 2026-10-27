@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "exit_code": 0,
+  "api": "drift",
+  "image_tag": "v1",
+  "revision": "hpa-27-v2-drift",
+  "helm_version": "v3.20.0+gb2e4314",
+  "feature_seed_configmap": null,
+  "command": [
+    "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kubernetes-assets-27/helm/helm",
+    "upgrade",
+    "--install",
+    "iot-drift-api",
+    "/srv/iot-data/workspace/iot-maintenance-platform/infra/charts/iot-api",
+    "-n",
+    "iot-features",
+    "-f",
+    "/srv/iot-data/workspace/iot-maintenance-platform/infra/drift-api/helm-values.yaml",
+    "--atomic",
+    "--wait",
+    "--timeout",
+    "180s",
+    "--set-string",
+    "image.tag=v1",
+    "--set-string",
+    "revisionMarker=hpa-27-v2-drift",
+    "--set",
+    "autoscaling.enabled=true"
+  ],
+  "completed_utc": "2026-10-27T17:07:33.857065+00:00",
+  "scope": "Native Helm3 readiness-gated deployment. A failed command is not evidence of a successful fallback until release/pod/HTTP state is read back."
+}

@@ -1,0 +1,1651 @@
+[
+  {
+    "utc": "2026-10-27T17:07:34.565464+00:00",
+    "phase": "baseline",
+    "cpu_utilization_percent": null,
+    "hpa_current": null,
+    "hpa_desired": 0,
+    "deployment_spec_replicas": 1,
+    "ready_replicas": 1,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-64bbc68fcf-shcrz",
+        "uid": "647df4f8-9f03-45f9-b77e-051f355749b9",
+        "deleting": true,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": []
+  },
+  {
+    "utc": "2026-10-27T17:07:45.303039+00:00",
+    "phase": "baseline",
+    "cpu_utilization_percent": null,
+    "hpa_current": null,
+    "hpa_desired": 0,
+    "deployment_spec_replicas": 1,
+    "ready_replicas": 1,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": []
+  },
+  {
+    "utc": "2026-10-27T17:07:55.951563+00:00",
+    "phase": "baseline",
+    "cpu_utilization_percent": null,
+    "hpa_current": 1,
+    "hpa_desired": 0,
+    "deployment_spec_replicas": 1,
+    "ready_replicas": 1,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "the HPA controller was able to get the target's current scale",
+        "reason": "SucceededGetScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "the HPA was unable to compute the replica count: failed to get cpu utilization: unable to get metrics for resource cpu: no metrics returned from resource metrics API",
+        "reason": "FailedGetResourceMetric",
+        "status": "False",
+        "type": "ScalingActive"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:08:06.604322+00:00",
+    "phase": "baseline",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 1,
+    "hpa_desired": 1,
+    "deployment_spec_replicas": 1,
+    "ready_replicas": 1,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:08:17.294080+00:00",
+    "phase": "baseline",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 1,
+    "hpa_desired": 1,
+    "deployment_spec_replicas": 1,
+    "ready_replicas": 1,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:08:18.274127+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 1,
+    "hpa_desired": 1,
+    "deployment_spec_replicas": 1,
+    "ready_replicas": 1,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:08:29.164318+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 1,
+    "hpa_desired": 1,
+    "deployment_spec_replicas": 1,
+    "ready_replicas": 1,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:08:40.087364+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 781,
+    "hpa_current": 1,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "the HPA controller was able to update the target scale to 2",
+        "reason": "SucceededRescale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:08:51.139992+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 781,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:09:02.134729+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 846,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:09:13.159581+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 846,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:09:24.168160+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 812,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:09:35.145882+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 795,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:09:46.136316+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 798,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:09:57.168163+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 798,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:10:08.454617+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 794,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:10:19.469108+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 794,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:10:30.543351+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 794,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:10:41.683914+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 808,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:10:52.591291+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 814,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:11:03.579390+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 814,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:11:14.484989+00:00",
+    "phase": "load",
+    "cpu_utilization_percent": 814,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:11:25.257716+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 802,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:11:35.901050+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 621,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:11:46.564723+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 289,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:11:57.185782+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 289,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:08:29Z",
+        "message": "the desired replica count is more than the maximum replica count",
+        "reason": "TooManyReplicas",
+        "status": "True",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:12:07.883502+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recent recommendations were higher than current one, applying the highest recent recommendation",
+        "reason": "ScaleDownStabilized",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:12:00Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:12:18.550394+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recent recommendations were higher than current one, applying the highest recent recommendation",
+        "reason": "ScaleDownStabilized",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:12:00Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:12:29.179183+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recent recommendations were higher than current one, applying the highest recent recommendation",
+        "reason": "ScaleDownStabilized",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:12:00Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:12:39.779361+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recent recommendations were higher than current one, applying the highest recent recommendation",
+        "reason": "ScaleDownStabilized",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:12:00Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:12:50.460049+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recent recommendations were higher than current one, applying the highest recent recommendation",
+        "reason": "ScaleDownStabilized",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:12:00Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:13:01.146141+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recent recommendations were higher than current one, applying the highest recent recommendation",
+        "reason": "ScaleDownStabilized",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:12:00Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:13:11.793405+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recent recommendations were higher than current one, applying the highest recent recommendation",
+        "reason": "ScaleDownStabilized",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:12:00Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:13:22.397214+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recent recommendations were higher than current one, applying the highest recent recommendation",
+        "reason": "ScaleDownStabilized",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:12:00Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:13:33.061271+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recent recommendations were higher than current one, applying the highest recent recommendation",
+        "reason": "ScaleDownStabilized",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:12:00Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:13:43.670539+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 2,
+    "hpa_desired": 2,
+    "deployment_spec_replicas": 2,
+    "ready_replicas": 2,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gg7j6",
+        "uid": "587967c1-0df5-45cc-b18d-bb7934b3e856",
+        "deleting": false,
+        "ready": true
+      },
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recent recommendations were higher than current one, applying the highest recent recommendation",
+        "reason": "ScaleDownStabilized",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:12:00Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:13:54.215951+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 2,
+    "hpa_desired": 1,
+    "deployment_spec_replicas": 1,
+    "ready_replicas": 1,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "the HPA controller was able to update the target scale to 1",
+        "reason": "SucceededRescale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:12:00Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  },
+  {
+    "utc": "2026-10-27T17:14:04.795737+00:00",
+    "phase": "cooldown",
+    "cpu_utilization_percent": 5,
+    "hpa_current": 1,
+    "hpa_desired": 1,
+    "deployment_spec_replicas": 1,
+    "ready_replicas": 1,
+    "pods": [
+      {
+        "name": "iot-drift-api-58758b44c9-gz5rr",
+        "uid": "6993fde3-c495-4dfd-9b57-aa1b385e9f60",
+        "deleting": false,
+        "ready": true
+      }
+    ],
+    "hpa_conditions": [
+      {
+        "lastTransitionTime": "2026-10-27T17:07:44Z",
+        "message": "recommended size matches current size",
+        "reason": "ReadyForNewScale",
+        "status": "True",
+        "type": "AbleToScale"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:07:59Z",
+        "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+        "reason": "ValidMetricFound",
+        "status": "True",
+        "type": "ScalingActive"
+      },
+      {
+        "lastTransitionTime": "2026-10-27T17:12:00Z",
+        "message": "the desired count is within the acceptable range",
+        "reason": "DesiredWithinRange",
+        "status": "False",
+        "type": "ScalingLimited"
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/verify-api-autoscale.py", line 132, in <module>
+    parser.add_argument('--duration-seconds',type=int,default=180);parser.add_argument('--output',type=Path,required=True);run(parser.parse_args())
+                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/verify-api-autoscale.py", line 71, in run
+    row,hpa=sample('baseline')
+            ^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/verify-api-autoscale.py", line 59, in sample
+    for metric in status.get('currentMetrics',[]):
+TypeError: 'NoneType' object is not iterable
