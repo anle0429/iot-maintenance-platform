@@ -15,7 +15,7 @@ def run(output):
     def call(command,name,timeout):
         with (output/name).open('w') as stream:
             subprocess.run(command,cwd=ROOT,stdout=stream,stderr=subprocess.STDOUT,check=True,timeout=timeout)
-    call([sys.executable,'-m','pytest','tests/test_serving_ci.py','tests/test_serving_release.py','-q'],'contracts.txt',120)
+    call([sys.executable,'-m','pytest','tests/test_serving_ci.py','tests/test_serving_release.py','tests/test_ab_ci.py','-q'],'contracts.txt',120)
     call([sys.executable,'-m','pytest','tests/api/test_predictor.py','tests/api/test_feature_api.py','tests/api/test_model_binding.py','tests/api/test_ab_api.py',
         '-q','--cov=services.predictor','--cov=services.feature_api','--cov=services.ab_api','--cov-branch','--cov-report=json:'+str(output/'coverage.json'),
         '--cov-report=html:'+str(output/'coverage-html'),

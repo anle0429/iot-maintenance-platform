@@ -28,8 +28,8 @@ def identity(build,commit,version):
     return 'serve-jenkins-'+build
 
 
-def admission(stop,now,ram,disks,required_seconds=3600):
-    """Reserve a full hour initially for this bounded CI; never alter the separate full-training guards."""
+def admission(stop,now,ram,disks,required_seconds=5400):
+    """Reserve90minutes initially for mutation/build/A-B/rollout; never alter full-training guards."""
     deadline=datetime.fromisoformat(stop.replace('Z','+00:00'))
     if deadline.tzinfo is None or now.tzinfo is None:raise ValueError('Use aware audit clocks')
     seconds=(deadline-now).total_seconds()

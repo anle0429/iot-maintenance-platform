@@ -25,12 +25,27 @@ def save(path,value):
     pending.write_text(json.dumps(value,indent=2,allow_nan=False)+'\n');pending.replace(path)
 
 
-def http(base,path,body=None):
+def http(base,path,body=None,headers=None):
     """Call only a previously discovered private ClusterIP; retain expected HTTP errors without echoing headers."""
-    request=Request(base+path,data=json.dumps(body).encode() if body is not None else None,headers={'content-type':'application/json'})
+    request=Request(base+path,data=json.dumps(body).encode() if body is not None else None,headers={'content-type':'application/json',**(headers or {})})
     try:
-        with urlopen(request,timeout=10) as response:return response.status,json.load(response)
-    except HTTPError as error:return error.code,json.load(error)
+        with urlopen(request,timeout=10) as response:return response.status,json_response(response)
+    except HTTPError as error:return error.code,json_response(error)
+
+
+def json_response(response):
+    """Bound the native ledger/HTTP readback before decoding JSON into memory."""
+    raw=response.read(4_194_305)
+    if len(raw)>4_194_304:raise ValueError('Private JSON response exceeds4MiB')
+    return json.loads(raw)
+
+
+def http_text(base,path):
+    """Read bounded Prometheus text at a previously observed private service endpoint."""
+    with urlopen(base+path,timeout=10) as response:
+        raw=response.read(4_194_305)
+        if len(raw)>4_194_304:raise ValueError('Private metric response exceeds4MiB')
+        return raw.decode('utf-8')
 
 
 class Context:
@@ -248,7 +263,7 @@ def run(phase):
     """Execute one native phase; failure preserves source, old endpoints and the release's original receipts."""
     c=Context()
     if phase=='admission':
-        proof=real_admission(c,3600);c.directory.mkdir(parents=True,exist_ok=False);c.out.mkdir();c.out.chmod(0o1777);save(c.out/'admission.json',proof);return
+        proof=real_admission(c,5400);c.directory.mkdir(parents=True,exist_ok=False);c.out.mkdir();c.out.chmod(0o1777);save(c.out/'admission.json',proof);return
     if phase not in ['cleanup','archive']:
         with (c.out/(phase+'.attempt')).open('x') as stream:stream.write(datetime.now(timezone.utc).isoformat())
         if not phase.endswith('-host'):save(c.out/(phase+'-admission.json'),real_admission(c))
@@ -282,17 +297,18 @@ def run(phase):
         selected=c.selected();tests=c.out/'tests'
         test_gate(json.loads((tests/'coverage.json').read_text()),json.loads((tests/'mutmut-cicd-stats.json').read_text()),(tests/'mutmut-all-results.txt').read_text())
         images={};controller=json.loads((c.out/'controller.json').read_text())['id']
-        for kind in ['predictor','feature']:
-            tag='iot-coursework-'+('predictor' if kind=='predictor' else 'feature-api')+':'+c.release
-            directory='predictor' if kind=='predictor' else 'feature-api';argument='MODEL_BUNDLE=models/release' if kind=='predictor' else 'MODEL_PIN=models/release/model-pin.json'
-            c.log(kind+'-build',['docker','build','--build-arg',argument,'--label','org.opencontainers.image.revision='+c.commit,'-f',str(ROOT/'infra'/directory/'Dockerfile'),'-t',tag,str(ROOT)])
+        for kind in ['predictor','feature','ab']:
+            directory={'predictor':'predictor','feature':'feature-api','ab':'ab-api'}[kind];tag='iot-coursework-'+directory+':'+c.release
+            argument=['--build-arg','MODEL_BUNDLE=models/release' if kind=='predictor' else 'MODEL_PIN=models/release/model-pin.json'] if kind!='ab' else []
+            c.log(kind+'-build',['docker','build',*argument,'--label','org.opencontainers.image.revision='+c.commit,'-f',str(ROOT/'infra'/directory/'Dockerfile'),'-t',tag,str(ROOT)])
             image=json.loads(subprocess.check_output(['docker','image','inspect',tag],text=True))[0]
             names=['services/__init__.py',*('services/'+directory.replace('-','_')+'/'+p.name for p in (ROOT/'services'/directory.replace('-','_')).glob('*.py')),'ml/__init__.py','ml/protocol.py']
             if kind=='predictor':names+=['ml/training_contract.py']
             else:names+=['services/predictor/'+n+'.py' for n in ['__init__','contracts','binding']]
+            if kind=='ab':names+=['services/feature_api/'+n+'.py' for n in ['__init__','runtime']]+['services/drift_api/'+n+'.py' for n in ['__init__','contracts','detector']]
             paths={n:'/app/'+n for n in names}
             if kind=='predictor':paths.update({'models/release/portable.json':'/app/model/portable.json','models/release/lineage.json':'/app/model/lineage.json'})
-            else:paths['models/release/model-pin.json']='/app/model-pin.json'
+            elif kind=='feature':paths['models/release/model-pin.json']='/app/model-pin.json'
             expected={n:digest(ROOT/n) for n in paths}
             code='import json,pathlib,hashlib; p='+repr(paths)+"; print(json.dumps({n:hashlib.sha256(pathlib.Path(v).read_bytes()).hexdigest() for n,v in p.items()}))"
             actual=json.loads(subprocess.check_output(['docker','run','--rm','--network','none','--memory','256m','--cpus','.5','--entrypoint','python',image['Id'],'-c',code],text=True))
@@ -318,12 +334,21 @@ def run(phase):
         save(c.out/'build.json',{'commit':c.commit,'release':c.release,'pin':selected['pin'],'images':images})
     elif phase=='stage':c.selected();c.control('stage-host',cluster=True,memory='8g')
     elif phase=='stage-host':stage_host(c)
+    elif phase=='ab':c.selected();c.control('ab-host',cluster=True,memory='4g')
+    elif phase=='ab-host':
+        from ml import ab_native
+        p,stage=staged_plan(c);build=scoped_receipt(c,'build.json')
+        report=ab_native.run(c,ROOT,p,stage,build,http,http_text)
+        staged_plan(c);ab_native.recheck(c,p,stage,build,report)
+        save(c.out/'ab-verification.json',report)
     elif phase=='switch':c.selected();c.control('switch-host',cluster=True)
     elif phase=='switch-host':
         p,stage=staged_plan(c)
         evidence=c.out/'ab-verification.json'
         if not evidence.exists():raise ValueError('Full cutover is blocked until native A/B routing and monitoring are implemented and verified for this release')
         ab_gate(scoped_receipt(c,'ab-verification.json'),p['pin'],stage['isvc_uid'])
+        from ml.ab_native import recheck
+        recheck(c,p,stage,scoped_receipt(c,'build.json'),scoped_receipt(c,'ab-verification.json'))
         status=json.loads(subprocess.check_output([c.helm,'status','iot-feature-api','-n','iot-features','-o','json'],text=True))
         values=json.loads(subprocess.check_output([c.helm,'get','values','iot-feature-api','-n','iot-features','--all','-o','json'],text=True))
         save(c.out/'previous.json',{'revision':status['version'],'marker':values.get('revisionMarker'),'observed_utc':datetime.now(timezone.utc).isoformat()})
@@ -334,7 +359,7 @@ def run(phase):
     elif phase=='verify':c.selected();c.control('verify-host',cluster=True,memory='4g')
     elif phase=='verify-host':verify_host(c)
     elif phase=='cleanup':
-        for suffix in ['tests','select','stage','switch','verify']:
+        for suffix in ['tests','select','stage','ab','switch','verify']:
             ids=subprocess.check_output(['docker','ps','-q','--filter','name=^/'+c.release+'-'+suffix+'$'],text=True).split()
             if ids:subprocess.run(['docker','stop','--time','20',*ids],check=True,stdout=subprocess.DEVNULL)
         if (c.out/'previous.json').exists() and (c.out/'controller.json').exists():c.control('rollback-host',cluster=True)
@@ -353,5 +378,5 @@ def run(phase):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('phase',choices=['admission','select','select-host','test','build','stage','stage-host','switch','switch-host','verify','verify-host','cleanup','rollback-host','archive'])
+    parser.add_argument('phase',choices=['admission','select','select-host','test','build','stage','stage-host','ab','ab-host','switch','switch-host','verify','verify-host','cleanup','rollback-host','archive'])
     run(parser.parse_args().phase)

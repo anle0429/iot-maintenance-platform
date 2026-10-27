@@ -27,6 +27,8 @@ def package(commit,output):
         names+=['services/drift_api/'+name+'.py' for name in ['__init__','contracts','detector']]
         names+=['tests/api/test_ab_api.py','tests/integration/test_ab_routing_http.py',
             'infra/ab-api/Dockerfile','infra/ab-api/Dockerfile.dockerignore','infra/ab-api/helm-values.yaml','infra/ab-api/grafana-dashboard.json']
+    if 'ml/ab_ci.py' in available:
+        names+=['ml/ab_ci.py','ml/ab_native.py','tests/test_ab_ci.py','tests/integration/test_ab_ci_http.py']
     if set(names)-available:raise ValueError('Serving source commit lacks required files: '+','.join(sorted(set(names)-available)))
     manifest_path=output.with_suffix('.manifest.json')
     if output.exists() or manifest_path.exists():raise FileExistsError('Preserve previous serving source packets')

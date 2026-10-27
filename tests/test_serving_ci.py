@@ -52,12 +52,12 @@ class ServingCITests(unittest.TestCase):
 
     def test_real_session_resource_boundaries(self):
         now=datetime(2026,10,27,10,tzinfo=timezone.utc)
-        self.assertTrue(ci.admission('2026-10-27T11:00:00Z',now,12*1024**3,[20_000_000_000]*2)['passed'])
-        for stop,ram,disks in [('2026-10-27T10:59:59Z',12*1024**3,[20_000_000_000]*2),
-                ('2026-10-27T11:00:00Z',12*1024**3-1,[20_000_000_000]*2),
-                ('2026-10-27T11:00:00Z',12*1024**3,[19_999_999_999,20_000_000_000]),
-                ('2026-10-27T11:00:00',12*1024**3,[20_000_000_000]*2),
-                ('2026-10-27T11:00:00Z',12*1024**3,[20_000_000_000])]:
+        self.assertTrue(ci.admission('2026-10-27T11:30:00Z',now,12*1024**3,[20_000_000_000]*2)['passed'])
+        for stop,ram,disks in [('2026-10-27T11:29:59Z',12*1024**3,[20_000_000_000]*2),
+                ('2026-10-27T11:30:00Z',12*1024**3-1,[20_000_000_000]*2),
+                ('2026-10-27T11:30:00Z',12*1024**3,[19_999_999_999,20_000_000_000]),
+                ('2026-10-27T11:30:00',12*1024**3,[20_000_000_000]*2),
+                ('2026-10-27T11:30:00Z',12*1024**3,[20_000_000_000])]:
             with self.subTest(stop=stop,ram=ram),self.assertRaises(ValueError):ci.admission(stop,now,ram,disks)
 
     def test_strict_thresholds_and_every_mutant_are_required(self):

@@ -1,7 +1,7 @@
 // Test/build/auto-deploy one production model with an isolated KServe endpoint and a paired feature API switch.
 pipeline {
   agent any
-  options { timeout(time: 55, unit: 'MINUTES'); disableConcurrentBuilds() }
+  options { timeout(time: 85, unit: 'MINUTES'); disableConcurrentBuilds() }
   environment { IOT_CI_PROVIDER = 'jenkins' }
   stages {
     stage('Prepare sealed source') {
@@ -23,6 +23,7 @@ pipeline {
     stage('API coverage and mutation gates') { steps { dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-serving.py test' } } }
     stage('Build inspect import images') { steps { dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-serving.py build' } } }
     stage('Stage private model and fresh features') { steps { dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-serving.py stage' } } }
+    stage('Two-model traffic and monitoring') { steps { dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-serving.py ab' } } }
     stage('Atomic feature API switch') { steps { dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-serving.py switch' } } }
     stage('Native pods and all-machine HTTP') { steps { dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-serving.py verify' } } }
   }
