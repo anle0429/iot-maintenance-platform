@@ -20,7 +20,7 @@ Cả hai nhóm dùng một reference cố định có cùng protocol. Mỗi nhó
 
 `GET /metrics` dùng [collector](../services/ab_api/metrics.py) đọc một snapshot ledger nhất quán: số trial, số outcome không200, histogram thời gian xử lý, mean risk score, số snapshot và PSI. Labels chỉ có experiment/variant/version/feature, không chứa machine/request ID. Counters của trial được đọc từ database nên restart worker không làm mất số đếm. Các request bị chặn trước khi thành trial, như label422 hoặc ID conflict409, không được cộng vào counters này; đây không phải counter của mọi HTTP request.
 
-[Grafana JSON6panel](../infra/ab-api/grafana-dashboard.json) có counts, failures, unique snapshots, P95 của toàn thí nghiệm, mean score và PSI theo variant/feature. Đã kiểm metric names/selector so với scrape thật trên PC. **Chưa import dashboard, chạy PromQL hoặc có ảnh Grafana thật.** Mean score không phải accuracy; không dùng dashboard này để tự promote model.
+[Grafana JSON6panel](../infra/ab-api/grafana-dashboard.json) có counts, failures, unique snapshots, P95 của toàn thí nghiệm, mean score và PSI theo variant/feature. Đã kiểm metric names/selector so với scrape thật trên PC. [Prometheus và Grafana đã chạy thật trênPC](ab-monitoring.md):6panel được provision,26series đối chiếu qua mỗi query engine, có ảnh gốc. Chưa dashboard trênVM hoặc A/B CI native. Mean score không phải accuracy; không dùng dashboard này để tự promote model.
 
 ## Kết quả đã kiểm
 

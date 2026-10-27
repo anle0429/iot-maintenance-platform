@@ -1,0 +1,1968 @@
+[
+  {
+    "panel": 1,
+    "title": "Unique completed trials",
+    "expr": "iot_ab_requests_total{experiment=\"serve-jenkins-7\"}",
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "iot_ab_requests_total",
+              "experiment": "serve-jenkins-7",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.957,
+              "372"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_requests_total",
+              "experiment": "serve-jenkins-7",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.957,
+              "428"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: iot_ab_requests_total{experiment=\"serve-jenkins-7\"}\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_requests_total",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_requests_total",
+                      "experiment": "serve-jenkins-7",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_requests_total{experiment=\"serve-jenkins-7\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394958
+                  ],
+                  [
+                    372
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_requests_total",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_requests_total",
+                      "experiment": "serve-jenkins-7",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_requests_total{experiment=\"serve-jenkins-7\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394958
+                  ],
+                  [
+                    428
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "series_count": 2,
+    "matches_ledger": true
+  },
+  {
+    "panel": 2,
+    "title": "Non200 unique trial outcomes",
+    "expr": "iot_ab_failures_total{experiment=\"serve-jenkins-7\"}",
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "iot_ab_failures_total",
+              "experiment": "serve-jenkins-7",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.966,
+              "0"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_failures_total",
+              "experiment": "serve-jenkins-7",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.966,
+              "0"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: iot_ab_failures_total{experiment=\"serve-jenkins-7\"}\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_failures_total",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_failures_total",
+                      "experiment": "serve-jenkins-7",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_failures_total{experiment=\"serve-jenkins-7\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394967
+                  ],
+                  [
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_failures_total",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_failures_total",
+                      "experiment": "serve-jenkins-7",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_failures_total{experiment=\"serve-jenkins-7\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394967
+                  ],
+                  [
+                    0
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "series_count": 2,
+    "matches_ledger": true
+  },
+  {
+    "panel": 3,
+    "title": "Unique feature snapshots (replays deduplicated)",
+    "expr": "iot_ab_unique_snapshots{experiment=\"serve-jenkins-7\"}",
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "iot_ab_unique_snapshots",
+              "experiment": "serve-jenkins-7",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.973,
+              "93"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_unique_snapshots",
+              "experiment": "serve-jenkins-7",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.973,
+              "107"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: iot_ab_unique_snapshots{experiment=\"serve-jenkins-7\"}\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_unique_snapshots",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_unique_snapshots",
+                      "experiment": "serve-jenkins-7",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_unique_snapshots{experiment=\"serve-jenkins-7\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394974
+                  ],
+                  [
+                    93
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_unique_snapshots",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_unique_snapshots",
+                      "experiment": "serve-jenkins-7",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_unique_snapshots{experiment=\"serve-jenkins-7\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394974
+                  ],
+                  [
+                    107
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "series_count": 2,
+    "matches_ledger": true
+  },
+  {
+    "panel": 4,
+    "title": "P95 server model path (entire bounded experiment)",
+    "expr": "histogram_quantile(0.95, sum by (le, variant, version) (iot_ab_request_seconds_bucket{experiment=\"serve-jenkins-7\"}))",
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.978,
+              "0.004908333333333333"
+            ]
+          },
+          {
+            "metric": {
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.978,
+              "0.004982843137254902"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: histogram_quantile(0.95, sum by (le, variant, version) (iot_ab_request_seconds_bucket{experiment=\"serve-jenkins-7\"}))\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394980
+                  ],
+                  [
+                    0.004908333333333333
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394980
+                  ],
+                  [
+                    0.004982843137254902
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "series_count": 2,
+    "matches_ledger": true
+  },
+  {
+    "panel": 5,
+    "title": "Mean risk score \u2014 NOT accuracy",
+    "expr": "iot_ab_mean_risk_score{experiment=\"serve-jenkins-7\"}",
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "iot_ab_mean_risk_score",
+              "experiment": "serve-jenkins-7",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.986,
+              "0.7234001576723641"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_mean_risk_score",
+              "experiment": "serve-jenkins-7",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.986,
+              "0.7234001576723641"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: iot_ab_mean_risk_score{experiment=\"serve-jenkins-7\"}\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_mean_risk_score",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_mean_risk_score",
+                      "experiment": "serve-jenkins-7",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_mean_risk_score{experiment=\"serve-jenkins-7\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394986
+                  ],
+                  [
+                    0.7234001576723641
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_mean_risk_score",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_mean_risk_score",
+                      "experiment": "serve-jenkins-7",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_mean_risk_score{experiment=\"serve-jenkins-7\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394986
+                  ],
+                  [
+                    0.7234001576723641
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "series_count": 2,
+    "matches_ledger": true
+  },
+  {
+    "panel": 6,
+    "title": "Shared-reference PSI / variant / feature",
+    "expr": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\"}",
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "temperature_mean_10m",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.992,
+              "0.0008811448577982424"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "vibration_max_10m",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.992,
+              "0.0008811448577982424"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "current_mean_10m",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.992,
+              "0.0008811448577982424"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "current_std_10m",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.992,
+              "0.0008811448577982424"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "rpm_mean_10m",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.992,
+              "0.0008811448577982424"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "reading_count_10m",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.992,
+              "0.0008811448577982424"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "machine_age_days",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.992,
+              "0.0008811448577982424"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "prior_failures_24h",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "baseline",
+              "version": "1"
+            },
+            "value": [
+              1793144394.992,
+              "0.0008811448577982424"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "temperature_mean_10m",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.992,
+              "0.001564494431761938"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "vibration_max_10m",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.992,
+              "0.001564494431761938"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "current_mean_10m",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.992,
+              "0.001564494431761938"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "current_std_10m",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.992,
+              "0.001564494431761938"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "rpm_mean_10m",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.992,
+              "0.001564494431761938"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "reading_count_10m",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.992,
+              "0.001564494431761938"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "machine_age_days",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.992,
+              "0.001564494431761938"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "iot_ab_feature_psi",
+              "experiment": "serve-jenkins-7",
+              "feature": "prior_failures_24h",
+              "instance": "127.0.0.1:59788",
+              "job": "iot-ab",
+              "variant": "candidate",
+              "version": "2"
+            },
+            "value": [
+              1793144394.992,
+              "0.001564494431761938"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: iot_ab_feature_psi{experiment=\"serve-jenkins-7\"}\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "temperature_mean_10m",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"temperature_mean_10m\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.0008811448577982424
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "vibration_max_10m",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"vibration_max_10m\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.0008811448577982424
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "current_mean_10m",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"current_mean_10m\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.0008811448577982424
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "current_std_10m",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"current_std_10m\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.0008811448577982424
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "rpm_mean_10m",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"rpm_mean_10m\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.0008811448577982424
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "reading_count_10m",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"reading_count_10m\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.0008811448577982424
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "machine_age_days",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"machine_age_days\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.0008811448577982424
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "prior_failures_24h",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "baseline",
+                      "version": "1"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"prior_failures_24h\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"baseline\", version=\"1\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.0008811448577982424
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "temperature_mean_10m",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"temperature_mean_10m\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.001564494431761938
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "vibration_max_10m",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"vibration_max_10m\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.001564494431761938
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "current_mean_10m",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"current_mean_10m\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.001564494431761938
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "current_std_10m",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"current_std_10m\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.001564494431761938
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "rpm_mean_10m",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"rpm_mean_10m\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.001564494431761938
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "reading_count_10m",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"reading_count_10m\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.001564494431761938
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "machine_age_days",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"machine_age_days\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.001564494431761938
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "iot_ab_feature_psi",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "iot_ab_feature_psi",
+                      "experiment": "serve-jenkins-7",
+                      "feature": "prior_failures_24h",
+                      "instance": "127.0.0.1:59788",
+                      "job": "iot-ab",
+                      "variant": "candidate",
+                      "version": "2"
+                    },
+                    "config": {
+                      "displayNameFromDS": "iot_ab_feature_psi{experiment=\"serve-jenkins-7\", feature=\"prior_failures_24h\", instance=\"127.0.0.1:59788\", job=\"iot-ab\", variant=\"candidate\", version=\"2\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793144394993
+                  ],
+                  [
+                    0.001564494431761938
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "series_count": 16,
+    "matches_ledger": true
+  }
+]

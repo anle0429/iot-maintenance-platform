@@ -1,0 +1,87 @@
+{
+  "source_commit": "9fa1326d68615c4120aa99dee65387766a9a9ea9",
+  "files": {
+    "ab-metrics.txt": {
+      "sha256": "4f8b7f4a42e1cc41d8d76c0e9124fcc975f035415ed2a2c2e58277e29eac6940",
+      "bytes": 6017
+    },
+    "grafana-dashboard-readback.json": {
+      "sha256": "376715aca9eebb4402156224cea0e5291421db97698f942b3a3df39f788ee47f",
+      "bytes": 7961
+    },
+    "grafana-health.json": {
+      "sha256": "44b1116d68a9a7862375b33d3919a5611aee066b288dae26d8fb6ec564b487f3",
+      "bytes": 107
+    },
+    "integration-console.txt": {
+      "sha256": "090c5fcfc50500954c5d3ed8674df11b6eb89cae1db92a06c2e8f1d27781786f",
+      "bytes": 591
+    },
+    "integration-junit.xml": {
+      "sha256": "d39c280a426f4d35ef43d6eaab8a67ce54e6f5cc9b728f7751f5478b7bd7b989",
+      "bytes": 371
+    },
+    "ledger-expected-values.json": {
+      "sha256": "a3fd040a04c91ce774134ecabb71211e62f69bb46cce14d47ce54c70da1cd19b",
+      "bytes": 3569
+    },
+    "ledger-observations.json": {
+      "sha256": "55bb1145e70ef49e8466295448c370fc314edd964f467eebd1475529ad3e3549",
+      "bytes": 158190
+    },
+    "official-downloads.json": {
+      "sha256": "5620b2196d88948a3789bf5ab73126c5371d8a76f2a18da013e1102ef5654255",
+      "bytes": 611
+    },
+    "owned-processes-stopped.json": {
+      "sha256": "3bf7742dc5cf735fe67c3fb748f943d45a23f5d823105fa8ab183f3743d2924a",
+      "bytes": 83
+    },
+    "panel-queries.json": {
+      "sha256": "61d9f7147198371d81e096464015834f28a01971c374a68bc75b54f5ec51fa6a",
+      "bytes": 63681
+    },
+    "pc-process-observation.json": {
+      "sha256": "e524a97ad9f0a576173c25022e5149159c103d4bbe4ebbe7b151b1b2ee09efa5",
+      "bytes": 715
+    },
+    "prometheus-build.json": {
+      "sha256": "8ce0c3b2bccf0c190bf49332f066e9d01e6863df3f55218b1635c7faef1601e4",
+      "bytes": 266
+    },
+    "prometheus-targets.json": {
+      "sha256": "d415b8f70456277f8be8e4f9e8487ab9be771d804d4f6dd80f61e3a24dc9c25a",
+      "bytes": 1287
+    },
+    "promtool.txt": {
+      "sha256": "8aca444206c061eaadc9d04374125b160d3f94a2ae88676fb8ab11d652d0cf9b",
+      "bytes": 274
+    },
+    "scrape-down.json": {
+      "sha256": "28383d0ed6c50f87d176b08cd12ae5de8eded74cf0906ff53cdfdc5dff370f83",
+      "bytes": 1441
+    },
+    "unit-console.txt": {
+      "sha256": "87a01a3ea204542159febc7bd5647dff93cede7260ac9813ca88c72563e4c852",
+      "bytes": 101
+    },
+    "unit-junit.xml": {
+      "sha256": "85b768beeeff0985352786281c0874a353f1cab6223356e2369914dae157aa8f",
+      "bytes": 3378
+    },
+    "verification.json": {
+      "sha256": "0d20b79e045632267ac53ee56728b577ff21311baf1dd70e6239472c5fb96fa3",
+      "bytes": 19469
+    },
+    "grafana-overview.jpg": {
+      "sha256": "2228d9dbe4d4a1887d300168554ffb614e69d322d65def4526d9e0f90a782ad8",
+      "bytes": 78313
+    },
+    "grafana-psi.jpg": {
+      "sha256": "695d9bf1ea245b8e8022b24dbf0194f75966f134836de7085d82c056b8d71116",
+      "bytes": 78693
+    }
+  },
+  "payload_bytes": 425118,
+  "scope": "Real Prometheus scrape/query and Grafana file provisioning/datasource query on Windows PC, against three real loopback HTTP APIs. Controlled feature/registry fixtures, not VM deployment, model quality, production monitoring or final service authentication."
+}
