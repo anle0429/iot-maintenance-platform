@@ -8,6 +8,8 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [Benchmark skew mới](docs/skew-benchmark.md) trên 17,28 triệu dòng Silver: ba cặp query cho kết quả giống hệt, trung vị15,339→8,577giây khi broadcast bảng chính sách nhà máy; có ảnh Spark UI thật. 111 unittest qua trên PC và VM sau khi thêm planner tài nguyên. [Gate Spark lớn](docs/scale-100gb.md#gate-cho-spark-toàn-nguồn-lớn): đủ đĩa/RAM nhưng chưa đủ thời gian còn lại của phiên; chưa khởi chạy toàn nguồn lớn.
 
+[Feature60ngày](docs/medium-feature-dataset.md) đã chạy trênVM:3.456.000snapshots,3.132.184dòng đủ điều kiện theo protocol cố định; validation/test đều có đủ classes và sự cố độc lập.136unit test và ba kiểm tra cohortSpark qua, input/output/marker được đối chiếu. Chưa huấn luyện mô hình mới hoặc triển khai Feast/KFP.
+
 ## Mục lục
 
 - [Phạm vi và dữ liệu](docs/domain-proposal.md)
@@ -27,6 +29,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Runner nguồn lớn: HDD scratch, hai lượt checksum và live guards](docs/large-ingest-runner.md)
 - [Protocol ML60ngày: chia theo thời gian, purge và holdout trước metric](docs/ml-evaluation-protocol.md)
 - [Feature theo bucket thời gian: kiểm đúng ranh giới và dữ liệu đến muộn](docs/bounded-features.md)
+- [Feature60ngày: nhãn, purge, loại dòng và class/episode support](docs/medium-feature-dataset.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist rubric](docs/rubric-tracker.md)
 - [Cấu trúc hiện tại](#cấu-trúc-hiện-tại)
