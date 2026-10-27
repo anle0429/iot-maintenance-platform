@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import sys
 import time
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
@@ -72,7 +73,14 @@ def run(args):
             'tests.test_chunk_source', 'tests.test_chunked', '-v'], cwd=ROOT, check=True)
         for name in ['scripts/ci-data-pipelines.py', 'infra/ci/iot_ci_data_pipelines.py']:
             compile((ROOT/name).read_text(), name, 'exec')
+        # A validator module was added after the historical pilot receipt. Requalify the
+        # immutable pilot with this exact release; never rewrite the old evidence.
+        sys.path.insert(0, str(ROOT))
+        from pipelines.chunk_source import validation_receipt
+        source_receipt = out/'source-receipt.json'
+        validation_receipt(deploy/'data/source/orchestration-pilot', source_receipt)
         save(out/'test.json', {'passed': True, 'commit': commit, 'release': release, 'source_seal_sha256': digest(seal_path),
+            'source_receipt_sha256': digest(source_receipt),
             'seconds': time.monotonic()-started,
             'scope': 'Existing known-answer generator, source receipt, corruption, replay and artifact-boundary tests. Native Spark checks also run after deployment.'})
     elif args.phase == 'build':
@@ -93,7 +101,7 @@ def run(args):
             shutil.copyfile(ROOT/name, target)
         for name in ['data/source/orchestration-pilot', 'data/orchestrated', 'outputs/orchestration']:
             (work/name).mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(deploy/'outputs/orchestration/source-receipt.json', work/'outputs/orchestration/source-receipt.json')
+        shutil.copyfile(out/'source-receipt.json', work/'outputs/orchestration/source-receipt.json')
         for path in [work/'data/orchestrated', work/'outputs']:
             path.chmod(0o1777)
         # Spark and metadata containers write distinct operation receipts under this directory.

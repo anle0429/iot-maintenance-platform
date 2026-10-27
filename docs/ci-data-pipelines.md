@@ -4,7 +4,7 @@
 
 ## Luồng kiểm chứng
 
-1. Chạy34tests hiện có về generator theo chunk, source receipt, replay, corruption và artifact boundaries. Sau deploy còn chạy các rule Spark trên dữ liệu đã lưu.
+1. Chạy34tests hiện có về generator theo chunk, source receipt, replay, corruption và artifact boundaries. Tạo receipt mới bằng full readback pilot với đúng validator của commit này; receipt lịch sử giữ nguyên. Sau deploy còn chạy các rule Spark trên dữ liệu đã lưu.
 2. Đóng gói `generator/` và `pipelines/` từ đúng source commit vào hai image Spark và DataHub. Container độc lập đọc hash toàn bộ source trong image để so với snapshot đã test; label commit riêng chưa đủ chứng minh điều này.
 3. Mỗi Jenkins build có release/workspace/output mới. Tự deploy [ba DAG CI](../infra/ci/iot_ci_data_pipelines.py) vào thư mục runtime riêng, giữ các DAG gốc.
 4. Gọi Airflow thật DP1 → DP2 → DP3. Mỗi DAG phải hoàn tất ingest, validation và publish DataHub. Observer đọc task state, validation, metadata readback và đúng image ID đã build; bước sau chỉ bắt đầu khi bước trước đạt.
