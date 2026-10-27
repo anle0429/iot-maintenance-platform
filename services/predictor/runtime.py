@@ -7,6 +7,7 @@ from pathlib import Path
 from ml.protocol import PROTOCOL_SHA256
 from ml.training_contract import score_portable
 from services.predictor.contracts import FeatureVector
+from services.predictor.binding import from_lineage
 
 
 class PumpPredictor:
@@ -26,12 +27,13 @@ class PumpPredictor:
         if self.model['features']!=list(FeatureVector.model_fields):
             raise ValueError('Serving schema differs from the eight training inputs')
         arrays=[self.model[n] for n in ['mean','std','coefficients']]
-        if any(len(a)!=8 or any(type(v) not in [int,float] or not math.isfinite(v) for v in a) for a in arrays):
+        if any(not isinstance(a,list) or len(a)!=8 or any(type(v) not in [int,float] or not math.isfinite(v) for v in a) for a in arrays):
             raise ValueError('Model scaler/coefficients are invalid')
-        if any(v<0 for v in self.model['std']) or not math.isfinite(self.model['intercept']) or not 0<self.model['threshold']<1:
+        if (any(v<0 for v in self.model['std']) or type(self.model['intercept']) not in [int,float]
+                or not math.isfinite(self.model['intercept']) or type(self.model['threshold']) not in [int,float]
+                or not 0<self.model['threshold']<1):
             raise ValueError('Model numeric metadata is invalid')
-        if self.lineage['model_name']!='iot-pump-failure-v1' or self.lineage['version']!='1':
-            raise ValueError('This image is bound to evaluated model version1')
+        self.pin=from_lineage(self.lineage,self.model['threshold'])
 
     def predict(self,instances:list[FeatureVector])->list[dict]:
         """Score in recorded feature order with the validation-selected threshold unchanged."""
@@ -43,9 +45,5 @@ class PumpPredictor:
 
     def metadata(self)->dict:
         """Return machine-readable provenance without suggesting calibrated real-world probability."""
-        return {'name':self.lineage['model_name'],'version':self.lineage['version'],
-            'run_id':self.lineage['run_id'],'protocol_sha256':PROTOCOL_SHA256,
-            'portable_sha256':self.lineage['portable_sha256'],'training_code_commit':self.lineage['training_code_commit'],
-            'data_version':self.lineage['data_version'],'features':self.model['features'],
-            'threshold':self.model['threshold'],'score_kind':'uncalibrated_class_weighted_logistic',
-            'data_scope':'synthetic-medium-60d','production':False}
+        return {**self.pin,'features':self.model['features'],'score_kind':'uncalibrated_class_weighted_logistic',
+            'data_scope':'synthetic-medium-60d'}

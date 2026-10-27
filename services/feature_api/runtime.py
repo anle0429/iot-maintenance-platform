@@ -4,9 +4,9 @@ from pathlib import Path
 from hashlib import sha256
 import json,os,urllib.request
 from services.predictor.contracts import FeatureVector
+from services.predictor.binding import LEGACY,validate_pin
 
 MODEL='iot-pump-failure-v1'
-PORTABLE_SHA='699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9'
 FEATURE_SERVICE='iot_failure_prediction_v1'
 
 
@@ -27,14 +27,17 @@ def aware(value):
 
 class FeatureRuntime:
     """Keep eligibility independent of the numeric model and future failure labels."""
-    def __init__(self,context,backend,clock=None):
+    def __init__(self,context,backend,clock=None,model_pin=None):
         self.context=context;self.backend=backend;self.clock=clock or (lambda:datetime.now(timezone.utc))
         if context['clock_mode']!='simulation' or not context['machines']:raise Unavailable('Explicit simulation context required')
         self.as_of=aware(context['as_of']);self.prepared=aware(context['prepared_wall_utc'])
+        self.model_pin=validate_pin(LEGACY if model_pin is None else model_pin)
+        if self.model_pin['protocol_sha256']!=context['protocol_sha256']:raise Unavailable('Feature context protocol differs from the pinned model')
 
     def features(self,machine):
         """Refuse expired demo lease, unknown context, stale/future features and arrival violations."""
         if not 0<=(self.clock()-self.prepared).total_seconds()<3600:raise Unavailable('Demo lease expired; prepare a fresh separately bound namespace')
+        if self.context['protocol_sha256']!=self.model_pin['protocol_sha256']:raise Unavailable('Feature context protocol differs from the pinned model')
         if machine not in self.context['machines']:raise KeyError(machine)
         status=self.context['machines'][machine]
         event=aware(status['event_ts']);received=aware(status['received_ts'])
@@ -56,11 +59,11 @@ class FeatureRuntime:
         if features['operating_context']['status']!='operating':raise NotOperating('Prediction is defined only while the machine is operating')
         result=self.backend.predict(features['features'])
         metadata=result['model'];predictions=result['predictions']
-        if metadata['name']!=MODEL or metadata['version']!='1' or metadata['portable_sha256']!=PORTABLE_SHA or metadata['protocol_sha256']!=self.context['protocol_sha256'] or metadata['threshold']!=0.7:
+        if type(metadata.get('production')) is not bool or any(metadata.get(n)!=value for n,value in self.model_pin.items()):
             raise Unavailable('KServe model provenance differs')
         if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
         score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
-        if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
+        if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=self.model_pin['threshold']):raise Unavailable('Invalid model prediction')
         return {'prediction':predictions[0],'model':metadata,'feature_trace':features}
 
 

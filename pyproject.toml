@@ -1,6 +1,7 @@
-# Mutation scope for this change: feature retrieval API; the unchanged predictor retains its sealed separate gate.
+# Version-pin change only: four changed API modules. Native execution is still required.
 [tool.mutmut]
-source_paths = ["services/feature_api/"]
-pytest_add_cli_args_test_selection = ["tests/api/test_feature_api.py"]
-also_copy = ["services/predictor/", "models/", "ml/", "tests/fixtures/", "services/__init__.py"]
+source_paths = ["services/feature_api/", "services/predictor/"]
+only_mutate = ["services/feature_api/app.py", "services/feature_api/runtime.py", "services/predictor/runtime.py", "services/predictor/binding.py"]
+pytest_add_cli_args_test_selection = ["tests/api/test_feature_api.py", "tests/api/test_predictor.py", "tests/api/test_model_binding.py"]
+also_copy = ["models/", "ml/", "tests/fixtures/", "tests/test_serving_release.py", "scripts/write-model-pin.py", "services/__init__.py"]
 process_isolation = "forkserver"

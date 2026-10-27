@@ -1,9 +1,11 @@
 """Expose bounded async machine feature/prediction reads with fail-closed freshness and operating-state checks."""
 from contextlib import asynccontextmanager
 from typing import Annotated
-import asyncio,os
+import asyncio,json,os
+from pathlib import Path as FilePath
 from fastapi import FastAPI,HTTPException,Path
 from services.feature_api.runtime import FeatureRuntime,FeastKServeBackend,NotOperating
+from services.predictor.binding import validate_pin
 
 
 def create_app(runtime=None):
@@ -11,8 +13,10 @@ def create_app(runtime=None):
     @asynccontextmanager
     async def lifespan(app):
         if runtime is None:
+            pin=os.environ.get('IOT_MODEL_PIN')
+            value=validate_pin(json.loads(FilePath(pin).read_text())) if pin is not None else None
             backend=FeastKServeBackend(os.environ['IOT_SERVING_STATE'],os.environ['IOT_KSERVE_URL'])
-            app.state.runtime=FeatureRuntime(backend.context,backend)
+            app.state.runtime=FeatureRuntime(backend.context,backend,model_pin=value) if pin is not None else FeatureRuntime(backend.context,backend)
         else:app.state.runtime=runtime
         app.state.slots=asyncio.Semaphore(16)
         yield
