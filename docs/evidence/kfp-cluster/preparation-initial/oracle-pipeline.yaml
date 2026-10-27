@@ -1,0 +1,188 @@
+# PIPELINE DEFINITION
+# Name: iot-cluster-artifact-oracle-v1
+# Description: Exercise actual object-store transport and UIDs10001/185; this is not the training milestone.
+components:
+  comp-transport-read:
+    executorLabel: exec-transport-read
+    inputDefinitions:
+      artifacts:
+        source:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+  comp-transport-write:
+    executorLabel: exec-transport-write
+    outputDefinitions:
+      artifacts:
+        output:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
+deploymentSpec:
+  executors:
+    exec-transport-read:
+      container:
+        args:
+        - --input
+        - '{{$.inputs.artifacts[''source''].path}}'
+        - --output
+        - '{{$.outputs.artifacts[''output''].path}}'
+        - --executor-input
+        - '{{$}}'
+        - --name
+        - output
+        command:
+        - python3
+        - -m
+        - ml.kfp_artifacts
+        env:
+        - name: HOME
+          value: /tmp
+        - name: PYTHONPATH
+          value: /workspace
+        - name: FEAST_USAGE
+          value: 'False'
+        - name: IOT_FEAST_REDIS
+          value: online:6379
+        - name: IOT_FEAST_TEMP
+          value: /ml-scratch/offline
+        - name: OPENBLAS_NUM_THREADS
+          value: '1'
+        - name: OMP_NUM_THREADS
+          value: '1'
+        - name: SPARK_LOCAL_IP
+          value: 127.0.0.1
+        image: iot-coursework-spark:3.5.9
+        resources:
+          cpuLimit: 2.0
+          cpuRequest: 0.5
+          memoryLimit: 10.73741824
+          memoryRequest: 2.147483648
+          resourceCpuLimit: '2'
+          resourceCpuRequest: 500m
+          resourceMemoryLimit: 10Gi
+          resourceMemoryRequest: 2Gi
+    exec-transport-write:
+      container:
+        args:
+        - --output
+        - '{{$.outputs.artifacts[''output''].path}}'
+        - --executor-input
+        - '{{$}}'
+        - --name
+        - output
+        command:
+        - python
+        - -m
+        - ml.kfp_artifacts
+        env:
+        - name: HOME
+          value: /tmp
+        - name: PYTHONPATH
+          value: /workspace
+        - name: FEAST_USAGE
+          value: 'False'
+        - name: IOT_FEAST_REDIS
+          value: online:6379
+        - name: IOT_FEAST_TEMP
+          value: /ml-scratch/offline
+        - name: OPENBLAS_NUM_THREADS
+          value: '1'
+        - name: OMP_NUM_THREADS
+          value: '1'
+        - name: SPARK_LOCAL_IP
+          value: 127.0.0.1
+        image: iot-coursework-feast:0.67.0
+        resources:
+          cpuLimit: 2.0
+          cpuRequest: 0.5
+          memoryLimit: 10.73741824
+          memoryRequest: 2.147483648
+          resourceCpuLimit: '2'
+          resourceCpuRequest: 500m
+          resourceMemoryLimit: 10Gi
+          resourceMemoryRequest: 2Gi
+pipelineInfo:
+  description: Exercise actual object-store transport and UIDs10001/185; this is not
+    the training milestone.
+  name: iot-cluster-artifact-oracle-v1
+root:
+  dag:
+    tasks:
+      transport-read:
+        cachingOptions: {}
+        componentRef:
+          name: comp-transport-read
+        dependentTasks:
+        - transport-write
+        inputs:
+          artifacts:
+            source:
+              taskOutputArtifact:
+                outputArtifactKey: output
+                producerTask: transport-write
+        taskInfo:
+          name: transport-read
+      transport-write:
+        cachingOptions: {}
+        componentRef:
+          name: comp-transport-write
+        taskInfo:
+          name: transport-write
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.17.3
+---
+platforms:
+  kubernetes:
+    deploymentSpec:
+      executors:
+        exec-transport-read:
+          imagePullPolicy: Never
+          pvcMount:
+          - constant: iot-ml-code
+            mountPath: /workspace
+            pvcNameParameter:
+              runtimeValue:
+                constant: iot-ml-code
+          - constant: iot-ml-workspace
+            mountPath: /ml-data
+            pvcNameParameter:
+              runtimeValue:
+                constant: iot-ml-workspace
+          - constant: iot-ml-scratch
+            mountPath: /ml-scratch
+            pvcNameParameter:
+              runtimeValue:
+                constant: iot-ml-scratch
+          securityContext:
+            runAsGroup: '10001'
+            runAsNonRoot: true
+            runAsUser: '185'
+        exec-transport-write:
+          imagePullPolicy: Never
+          pvcMount:
+          - constant: iot-ml-code
+            mountPath: /workspace
+            pvcNameParameter:
+              runtimeValue:
+                constant: iot-ml-code
+          - constant: iot-ml-workspace
+            mountPath: /ml-data
+            pvcNameParameter:
+              runtimeValue:
+                constant: iot-ml-workspace
+          - constant: iot-ml-scratch
+            mountPath: /ml-scratch
+            pvcNameParameter:
+              runtimeValue:
+                constant: iot-ml-scratch
+          securityContext:
+            runAsGroup: '10001'
+            runAsNonRoot: true
+            runAsUser: '10001'

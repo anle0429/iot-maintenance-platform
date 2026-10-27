@@ -1,0 +1,1777 @@
+{
+  "experiment_id": "67aceb8e-a4a7-4448-a5f4-6e382c5dda16",
+  "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+  "display_name": "training-cluster-27-training",
+  "storage_state": "AVAILABLE",
+  "description": null,
+  "pipeline_version_id": null,
+  "pipeline_spec": {
+    "pipeline_spec": {
+      "components": {
+        "comp-evaluate-model": {
+          "executorLabel": "exec-evaluate-model",
+          "inputDefinitions": {
+            "artifacts": {
+              "selection": {
+                "artifactType": {
+                  "schemaTitle": "system.Artifact",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            },
+            "parameters": {
+              "workspace": {
+                "parameterType": "STRING"
+              }
+            }
+          },
+          "outputDefinitions": {
+            "artifacts": {
+              "evaluation": {
+                "artifactType": {
+                  "schemaTitle": "system.Artifact",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          }
+        },
+        "comp-load-feast": {
+          "executorLabel": "exec-load-feast",
+          "inputDefinitions": {
+            "parameters": {
+              "workspace": {
+                "parameterType": "STRING"
+              }
+            }
+          },
+          "outputDefinitions": {
+            "artifacts": {
+              "cohort": {
+                "artifactType": {
+                  "schemaTitle": "system.Dataset",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          }
+        },
+        "comp-split-time": {
+          "executorLabel": "exec-split-time",
+          "inputDefinitions": {
+            "artifacts": {
+              "cohort": {
+                "artifactType": {
+                  "schemaTitle": "system.Dataset",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            },
+            "parameters": {
+              "workspace": {
+                "parameterType": "STRING"
+              }
+            }
+          },
+          "outputDefinitions": {
+            "artifacts": {
+              "partitions": {
+                "artifactType": {
+                  "schemaTitle": "system.Dataset",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          }
+        },
+        "comp-train-model": {
+          "executorLabel": "exec-train-model",
+          "inputDefinitions": {
+            "artifacts": {
+              "partitions": {
+                "artifactType": {
+                  "schemaTitle": "system.Dataset",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            },
+            "parameters": {
+              "workspace": {
+                "parameterType": "STRING"
+              }
+            }
+          },
+          "outputDefinitions": {
+            "artifacts": {
+              "selection": {
+                "artifactType": {
+                  "schemaTitle": "system.Artifact",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          }
+        }
+      },
+      "deploymentSpec": {
+        "executors": {
+          "exec-evaluate-model": {
+            "container": {
+              "args": [
+                "--step",
+                "evaluate",
+                "--input",
+                "{{$.inputs.artifacts['selection'].path}}",
+                "--output",
+                "{{$.outputs.artifacts['evaluation'].path}}",
+                "--workspace",
+                "{{$.inputs.parameters['workspace']}}",
+                "--protocol",
+                "/workspace/ml/protocols/medium-60d-v1.json",
+                "--executor-input",
+                "{{$}}"
+              ],
+              "command": [
+                "/opt/spark/bin/spark-submit",
+                "--master",
+                "local[2]",
+                "--driver-memory",
+                "6g",
+                "--conf",
+                "spark.driver.maxResultSize=128m",
+                "--conf",
+                "spark.local.dir=/ml-scratch",
+                "/workspace/ml/training_job.py"
+              ],
+              "env": [
+                {
+                  "name": "HOME",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "PYTHONPATH",
+                  "value": "/workspace"
+                },
+                {
+                  "name": "FEAST_USAGE",
+                  "value": "False"
+                },
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online:6379"
+                },
+                {
+                  "name": "IOT_FEAST_TEMP",
+                  "value": "/ml-scratch/offline"
+                },
+                {
+                  "name": "OPENBLAS_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "OMP_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "SPARK_LOCAL_IP",
+                  "value": "127.0.0.1"
+                }
+              ],
+              "image": "iot-coursework-spark:3.5.9",
+              "resources": {
+                "cpuLimit": 2,
+                "cpuRequest": 0.5,
+                "memoryLimit": 10.73741824,
+                "memoryRequest": 2.147483648,
+                "resourceCpuLimit": "2",
+                "resourceCpuRequest": "500m",
+                "resourceMemoryLimit": "10Gi",
+                "resourceMemoryRequest": "2Gi"
+              }
+            }
+          },
+          "exec-load-feast": {
+            "container": {
+              "args": [
+                "--workspace",
+                "{{$.inputs.parameters['workspace']}}",
+                "--protocol",
+                "/workspace/ml/protocols/medium-60d-v1.json",
+                "--state",
+                "/workspace/data/feast/batch-medium-27",
+                "--batch-report",
+                "/workspace/outputs/feast-batch-27/batch/report.json",
+                "--artifacts",
+                "/workspace/data/feature-datasets/feature-medium-27-v2/artifacts",
+                "--feature-report",
+                "/workspace/outputs/feature-medium-27-v2/feature-report.json",
+                "--output",
+                "{{$.outputs.artifacts['cohort'].path}}",
+                "--executor-input",
+                "{{$}}"
+              ],
+              "command": [
+                "python",
+                "-m",
+                "ml.training_load"
+              ],
+              "env": [
+                {
+                  "name": "HOME",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "PYTHONPATH",
+                  "value": "/workspace"
+                },
+                {
+                  "name": "FEAST_USAGE",
+                  "value": "False"
+                },
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online:6379"
+                },
+                {
+                  "name": "IOT_FEAST_TEMP",
+                  "value": "/ml-scratch/offline"
+                },
+                {
+                  "name": "OPENBLAS_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "OMP_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "SPARK_LOCAL_IP",
+                  "value": "127.0.0.1"
+                }
+              ],
+              "image": "iot-coursework-feast:0.67.0",
+              "resources": {
+                "cpuLimit": 2,
+                "cpuRequest": 0.5,
+                "memoryLimit": 10.73741824,
+                "memoryRequest": 2.147483648,
+                "resourceCpuLimit": "2",
+                "resourceCpuRequest": "500m",
+                "resourceMemoryLimit": "10Gi",
+                "resourceMemoryRequest": "2Gi"
+              }
+            }
+          },
+          "exec-split-time": {
+            "container": {
+              "args": [
+                "--step",
+                "split",
+                "--input",
+                "{{$.inputs.artifacts['cohort'].path}}",
+                "--output",
+                "{{$.outputs.artifacts['partitions'].path}}",
+                "--workspace",
+                "{{$.inputs.parameters['workspace']}}",
+                "--protocol",
+                "/workspace/ml/protocols/medium-60d-v1.json",
+                "--executor-input",
+                "{{$}}"
+              ],
+              "command": [
+                "/opt/spark/bin/spark-submit",
+                "--master",
+                "local[2]",
+                "--driver-memory",
+                "6g",
+                "--conf",
+                "spark.driver.maxResultSize=128m",
+                "--conf",
+                "spark.local.dir=/ml-scratch",
+                "/workspace/ml/training_job.py"
+              ],
+              "env": [
+                {
+                  "name": "HOME",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "PYTHONPATH",
+                  "value": "/workspace"
+                },
+                {
+                  "name": "FEAST_USAGE",
+                  "value": "False"
+                },
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online:6379"
+                },
+                {
+                  "name": "IOT_FEAST_TEMP",
+                  "value": "/ml-scratch/offline"
+                },
+                {
+                  "name": "OPENBLAS_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "OMP_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "SPARK_LOCAL_IP",
+                  "value": "127.0.0.1"
+                }
+              ],
+              "image": "iot-coursework-spark:3.5.9",
+              "resources": {
+                "cpuLimit": 2,
+                "cpuRequest": 0.5,
+                "memoryLimit": 10.73741824,
+                "memoryRequest": 2.147483648,
+                "resourceCpuLimit": "2",
+                "resourceCpuRequest": "500m",
+                "resourceMemoryLimit": "10Gi",
+                "resourceMemoryRequest": "2Gi"
+              }
+            }
+          },
+          "exec-train-model": {
+            "container": {
+              "args": [
+                "--step",
+                "train",
+                "--input",
+                "{{$.inputs.artifacts['partitions'].path}}",
+                "--output",
+                "{{$.outputs.artifacts['selection'].path}}",
+                "--workspace",
+                "{{$.inputs.parameters['workspace']}}",
+                "--protocol",
+                "/workspace/ml/protocols/medium-60d-v1.json",
+                "--executor-input",
+                "{{$}}"
+              ],
+              "command": [
+                "/opt/spark/bin/spark-submit",
+                "--master",
+                "local[2]",
+                "--driver-memory",
+                "6g",
+                "--conf",
+                "spark.driver.maxResultSize=128m",
+                "--conf",
+                "spark.local.dir=/ml-scratch",
+                "/workspace/ml/training_job.py"
+              ],
+              "env": [
+                {
+                  "name": "HOME",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "PYTHONPATH",
+                  "value": "/workspace"
+                },
+                {
+                  "name": "FEAST_USAGE",
+                  "value": "False"
+                },
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online:6379"
+                },
+                {
+                  "name": "IOT_FEAST_TEMP",
+                  "value": "/ml-scratch/offline"
+                },
+                {
+                  "name": "OPENBLAS_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "OMP_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "SPARK_LOCAL_IP",
+                  "value": "127.0.0.1"
+                }
+              ],
+              "image": "iot-coursework-spark:3.5.9",
+              "resources": {
+                "cpuLimit": 2,
+                "cpuRequest": 0.5,
+                "memoryLimit": 10.73741824,
+                "memoryRequest": 2.147483648,
+                "resourceCpuLimit": "2",
+                "resourceCpuRequest": "500m",
+                "resourceMemoryLimit": "10Gi",
+                "resourceMemoryRequest": "2Gi"
+              }
+            }
+          }
+        }
+      },
+      "pipelineInfo": {
+        "description": "Same sealed protocol and native Feast/train/evaluate components on the real private KFP cluster.",
+        "name": "iot-failure-training-cluster-v1"
+      },
+      "root": {
+        "dag": {
+          "tasks": {
+            "evaluate-model": {
+              "cachingOptions": {},
+              "componentRef": {
+                "name": "comp-evaluate-model"
+              },
+              "dependentTasks": [
+                "train-model"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "selection": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "selection",
+                      "producerTask": "train-model"
+                    }
+                  }
+                },
+                "parameters": {
+                  "workspace": {
+                    "componentInputParameter": "workspace"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "evaluate-model"
+              }
+            },
+            "load-feast": {
+              "cachingOptions": {},
+              "componentRef": {
+                "name": "comp-load-feast"
+              },
+              "inputs": {
+                "parameters": {
+                  "workspace": {
+                    "componentInputParameter": "workspace"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "load-feast"
+              }
+            },
+            "split-time": {
+              "cachingOptions": {},
+              "componentRef": {
+                "name": "comp-split-time"
+              },
+              "dependentTasks": [
+                "load-feast"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "cohort": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "cohort",
+                      "producerTask": "load-feast"
+                    }
+                  }
+                },
+                "parameters": {
+                  "workspace": {
+                    "componentInputParameter": "workspace"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "split-time"
+              }
+            },
+            "train-model": {
+              "cachingOptions": {},
+              "componentRef": {
+                "name": "comp-train-model"
+              },
+              "dependentTasks": [
+                "split-time"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "partitions": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "partitions",
+                      "producerTask": "split-time"
+                    }
+                  }
+                },
+                "parameters": {
+                  "workspace": {
+                    "componentInputParameter": "workspace"
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "train-model"
+              }
+            }
+          }
+        },
+        "inputDefinitions": {
+          "parameters": {
+            "workspace": {
+              "defaultValue": "/ml-data/training",
+              "isOptional": true,
+              "parameterType": "STRING"
+            }
+          }
+        }
+      },
+      "schemaVersion": "2.1.0",
+      "sdkVersion": "kfp-2.17.3"
+    },
+    "platform_spec": {
+      "platforms": {
+        "kubernetes": {
+          "deploymentSpec": {
+            "executors": {
+              "exec-evaluate-model": {
+                "imagePullPolicy": "Never",
+                "pvcMount": [
+                  {
+                    "constant": "iot-ml-code",
+                    "mountPath": "/workspace",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-code"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-workspace",
+                    "mountPath": "/ml-data",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-workspace"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-scratch",
+                    "mountPath": "/ml-scratch",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-scratch"
+                      }
+                    }
+                  }
+                ],
+                "securityContext": {
+                  "runAsGroup": "10001",
+                  "runAsNonRoot": true,
+                  "runAsUser": "185"
+                }
+              },
+              "exec-load-feast": {
+                "imagePullPolicy": "Never",
+                "pvcMount": [
+                  {
+                    "constant": "iot-ml-code",
+                    "mountPath": "/workspace",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-code"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-workspace",
+                    "mountPath": "/ml-data",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-workspace"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-scratch",
+                    "mountPath": "/ml-scratch",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-scratch"
+                      }
+                    }
+                  }
+                ],
+                "securityContext": {
+                  "runAsGroup": "10001",
+                  "runAsNonRoot": true,
+                  "runAsUser": "10001"
+                }
+              },
+              "exec-split-time": {
+                "imagePullPolicy": "Never",
+                "pvcMount": [
+                  {
+                    "constant": "iot-ml-code",
+                    "mountPath": "/workspace",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-code"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-workspace",
+                    "mountPath": "/ml-data",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-workspace"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-scratch",
+                    "mountPath": "/ml-scratch",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-scratch"
+                      }
+                    }
+                  }
+                ],
+                "securityContext": {
+                  "runAsGroup": "10001",
+                  "runAsNonRoot": true,
+                  "runAsUser": "185"
+                }
+              },
+              "exec-train-model": {
+                "imagePullPolicy": "Never",
+                "pvcMount": [
+                  {
+                    "constant": "iot-ml-code",
+                    "mountPath": "/workspace",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-code"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-workspace",
+                    "mountPath": "/ml-data",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-workspace"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-scratch",
+                    "mountPath": "/ml-scratch",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-scratch"
+                      }
+                    }
+                  }
+                ],
+                "securityContext": {
+                  "runAsGroup": "10001",
+                  "runAsNonRoot": true,
+                  "runAsUser": "185"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "pipeline_version_reference": null,
+  "runtime_config": {
+    "parameters": {
+      "workspace": "/ml-data/training-cluster-27"
+    },
+    "pipeline_root": null
+  },
+  "service_account": "pipeline-runner",
+  "created_at": "2026-10-27 11:30:50+00:00",
+  "scheduled_at": "2026-10-27 11:30:50+00:00",
+  "finished_at": "2026-10-27 11:43:03+00:00",
+  "state": "FAILED",
+  "error": null,
+  "run_details": {
+    "pipeline_context_id": null,
+    "pipeline_run_context_id": null,
+    "task_details": [
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "003cd510-13cf-46b4-ba5f-89ecedb59aaf",
+        "display_name": "executor(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:31:10+00:00",
+        "end_time": "2026-10-27 11:39:32+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:31:11+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:31:21+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:39:43+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": null
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "03b8ffb9-328d-4ee2-a7f7-badb2cee4f12",
+        "display_name": "evaluate-model",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:42:43+00:00",
+        "end_time": "2026-10-27 11:43:03+00:00",
+        "executor_detail": null,
+        "state": "FAILED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:42:44+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:43:04+00:00",
+            "state": "FAILED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-1474118126"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "48d6e269-8fe0-45fa-b328-3ce019948989",
+        "display_name": "load-feast(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:31:10+00:00",
+        "end_time": "2026-10-27 11:39:42+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:31:11+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:39:43+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-3986322392"
+          },
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-155274871"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "4e077bf8-18ba-4af7-9184-35afe27b28e9",
+        "display_name": "executor(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:42:43+00:00",
+        "end_time": "2026-10-27 11:42:53+00:00",
+        "executor_detail": null,
+        "state": "FAILED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:42:44+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:42:54+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:43:04+00:00",
+            "state": "FAILED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": null
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "4e8de6bd-3912-4f3d-89a2-d2f1c60f8423",
+        "display_name": "split-time-driver",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:39:42+00:00",
+        "end_time": "2026-10-27 11:39:52+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:39:43+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:39:53+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-314545130"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "5076bcc7-b4bc-4977-a7f3-6413942cde60",
+        "display_name": "evaluate-model(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:42:43+00:00",
+        "end_time": "2026-10-27 11:43:03+00:00",
+        "executor_detail": null,
+        "state": "FAILED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:42:44+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:43:04+00:00",
+            "state": "FAILED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-3937406381"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "53d52cba-db5a-4f0b-acc3-8aabd219b349",
+        "display_name": "split-time(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:39:52+00:00",
+        "end_time": "2026-10-27 11:41:01+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:39:53+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:41:02+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-1479113500"
+          },
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-1594280403"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "560e0f36-c74c-4a45-b8e8-bf47fd797ec5",
+        "display_name": "root-driver(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:30:50+00:00",
+        "end_time": "2026-10-27 11:30:53+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:51+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:31:01+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-2049412759"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "57f53d0b-c2c9-4968-be7a-d7569d71be12",
+        "display_name": "train-model-driver(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:41:01+00:00",
+        "end_time": "2026-10-27 11:41:04+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:41:02+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:41:12+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-946920982"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "7458c01c-0092-4304-bb26-a93960ecb40e",
+        "display_name": "evaluate-model-driver",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:42:33+00:00",
+        "end_time": "2026-10-27 11:42:43+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:42:34+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:42:44+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-2497188447"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "745ff2fe-0f21-413a-aeca-4b287da5abf1",
+        "display_name": "load-feast-driver",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:31:00+00:00",
+        "end_time": "2026-10-27 11:31:10+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:31:01+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:31:11+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-426676198"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "768f913d-0b8f-48aa-a2fb-9808f7304c0e",
+        "display_name": "executor",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:42:43+00:00",
+        "end_time": "2026-10-27 11:43:03+00:00",
+        "executor_detail": null,
+        "state": "FAILED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:42:44+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:43:04+00:00",
+            "state": "FAILED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-1840077564"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "85cd0332-5e3f-4b92-b347-b6a828bd406b",
+        "display_name": "train-model(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:41:11+00:00",
+        "end_time": "2026-10-27 11:42:33+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:41:12+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:42:34+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-3599285600"
+          },
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-1005193012"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "8afa6442-932f-4a02-a2ae-54785d1be8ed",
+        "display_name": "executor(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:41:11+00:00",
+        "end_time": "2026-10-27 11:42:23+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:41:12+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:41:22+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:42:34+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": null
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "8b897cba-91f5-4c5d-896a-fbf4369d47e9",
+        "display_name": "root-driver",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:30:50+00:00",
+        "end_time": "2026-10-27 11:31:00+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:51+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:31:01+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-721722323"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "9087ba68-50d3-47c4-ac4a-1e8713aa6dcb",
+        "display_name": "executor(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:39:52+00:00",
+        "end_time": "2026-10-27 11:40:51+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:39:53+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:40:03+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:41:02+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": null
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "97bf2c2d-2eb4-47ea-9228-50a61db23545",
+        "display_name": "load-feast-driver(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:31:00+00:00",
+        "end_time": "2026-10-27 11:31:03+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:31:01+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:31:11+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-2625202942"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "9805e7ec-4137-431a-8056-b63a01480d8f",
+        "display_name": "split-time-driver(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:39:42+00:00",
+        "end_time": "2026-10-27 11:39:46+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:39:43+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:39:53+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-1414663250"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "a4161c8a-3582-402c-be78-b8b824eb341f",
+        "display_name": "iot-failure-training-cluster-v1-595p4(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:30:50+00:00",
+        "end_time": "2026-10-27 11:43:03+00:00",
+        "executor_detail": null,
+        "state": "FAILED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:51+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:43:04+00:00",
+            "state": "FAILED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-602059696"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "a450faec-32ff-4605-b1b4-6df3b9643c7a",
+        "display_name": "evaluate-model-driver(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:42:33+00:00",
+        "end_time": "2026-10-27 11:42:36+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:42:34+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:42:44+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-4264336291"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "a4d2707b-3976-48fd-a466-4caf93bd5baf",
+        "display_name": "executor",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:39:52+00:00",
+        "end_time": "2026-10-27 11:41:01+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:39:53+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:41:02+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-2804702039"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "b6f593b3-14f8-4fa1-8cc2-4a96160248f0",
+        "display_name": "load-feast",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:31:10+00:00",
+        "end_time": "2026-10-27 11:39:42+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:31:11+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:39:43+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-1449298093"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "c2e67267-9299-445c-aadb-31e14924b9c8",
+        "display_name": "executor",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:41:11+00:00",
+        "end_time": "2026-10-27 11:42:33+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:41:12+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:42:34+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-775959875"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "c43c78f5-6163-46bc-a79d-8c1661147ee8",
+        "display_name": "executor",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:31:10+00:00",
+        "end_time": "2026-10-27 11:39:42+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:31:11+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:39:43+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-773343659"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "cfdb6b1d-f727-4486-b943-30cad1741689",
+        "display_name": "root(0)",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:31:00+00:00",
+        "end_time": "2026-10-27 11:43:03+00:00",
+        "executor_detail": null,
+        "state": "FAILED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:31:01+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:43:04+00:00",
+            "state": "FAILED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-1691375339"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "d60ce46a-ed36-43a8-bdd7-d63dc80cd05a",
+        "display_name": "train-model-driver",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:41:01+00:00",
+        "end_time": "2026-10-27 11:41:11+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:41:02+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:41:12+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-2660385886"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "d71aea0f-a33c-4d31-b489-052c3892a3cc",
+        "display_name": "train-model",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:41:11+00:00",
+        "end_time": "2026-10-27 11:42:33+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:41:12+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:42:34+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-2639414293"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "e7c0d06a-f4a9-4187-aa33-301cf1ab2db4",
+        "display_name": "split-time",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:39:52+00:00",
+        "end_time": "2026-10-27 11:41:01+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:39:53+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:41:02+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-232132809"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "e9d9840c-2b6c-4fcc-9835-f50d6ac8a3c8",
+        "display_name": "root",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:31:00+00:00",
+        "end_time": "2026-10-27 11:43:03+00:00",
+        "executor_detail": null,
+        "state": "FAILED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:31:01+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:43:04+00:00",
+            "state": "FAILED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-2061013258"
+          }
+        ]
+      },
+      {
+        "run_id": "c49e6012-d174-427e-a705-08e4442bf73b",
+        "task_id": "ffd416b8-efa1-4103-be31-a70c175b3e4c",
+        "display_name": "iot-failure-training-cluster-v1-595p4",
+        "create_time": "2026-10-27 11:30:50+00:00",
+        "start_time": "2026-10-27 11:30:50+00:00",
+        "end_time": "2026-10-27 11:43:03+00:00",
+        "executor_detail": null,
+        "state": "FAILED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:51+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:43:04+00:00",
+            "state": "FAILED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-failure-training-cluster-v1-595p4-514820375"
+          }
+        ]
+      }
+    ]
+  },
+  "recurring_run_id": null,
+  "state_history": [
+    {
+      "update_time": "2026-10-27 11:30:50+00:00",
+      "state": "PENDING",
+      "error": null
+    },
+    {
+      "update_time": "2026-10-27 11:30:51+00:00",
+      "state": "RUNNING",
+      "error": null
+    },
+    {
+      "update_time": "2026-10-27 11:43:04+00:00",
+      "state": "FAILED",
+      "error": null
+    }
+  ],
+  "plugins_input": null,
+  "plugins_output": {
+    "mlflow": {
+      "entries": {
+        "experiment_name": {
+          "value": "KFP-Default",
+          "render_type": null
+        }
+      },
+      "state": "PLUGIN_FAILED",
+      "state_message": "MLflow terminal sync skipped: missing parent root_run_id in plugins_output.mlflow"
+    }
+  }
+}

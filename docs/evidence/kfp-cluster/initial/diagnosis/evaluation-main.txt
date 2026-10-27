@@ -1,0 +1,45 @@
+26/10/27 11:42:49 INFO SecurityManager: Changing view acls groups to: 
+26/10/27 11:42:49 INFO SecurityManager: Changing modify acls groups to: 
+26/10/27 11:42:49 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark; groups with view permissions: EMPTY; users with modify permissions: spark; groups with modify permissions: EMPTY
+26/10/27 11:42:50 INFO Utils: Successfully started service 'sparkDriver' on port 45861.
+26/10/27 11:42:50 INFO SparkEnv: Registering MapOutputTracker
+26/10/27 11:42:50 INFO SparkEnv: Registering BlockManagerMaster
+26/10/27 11:42:50 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/10/27 11:42:50 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/10/27 11:42:50 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/10/27 11:42:50 INFO DiskBlockManager: Created local directory at /ml-scratch/blockmgr-12bcbf74-9076-4969-b8fc-ad4d2fac733c
+26/10/27 11:42:50 INFO MemoryStore: MemoryStore started with capacity 3.4 GiB
+26/10/27 11:42:50 INFO SparkEnv: Registering OutputCommitCoordinator
+26/10/27 11:42:50 INFO JettyUtils: Start Jetty 127.0.0.1:4040 for SparkUI
+26/10/27 11:42:50 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/10/27 11:42:51 INFO Executor: Starting executor ID driver on host localhost
+26/10/27 11:42:51 INFO Executor: OS info Linux, 7.0.0-1014-gcp, amd64
+26/10/27 11:42:51 INFO Executor: Java version 17.0.19
+26/10/27 11:42:51 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/10/27 11:42:51 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@5fdc6b9b for default.
+26/10/27 11:42:51 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 33839.
+26/10/27 11:42:51 INFO NettyBlockTransferService: Server created on localhost:33839
+26/10/27 11:42:51 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/10/27 11:42:51 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, localhost, 33839, None)
+26/10/27 11:42:51 INFO BlockManagerMasterEndpoint: Registering block manager localhost:33839 with 3.4 GiB RAM, BlockManagerId(driver, localhost, 33839, None)
+26/10/27 11:42:51 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, localhost, 33839, None)
+26/10/27 11:42:51 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, localhost, 33839, None)
+Traceback (most recent call last):
+  File "/workspace/ml/training_job.py", line 160, in <module>
+    try:globals()[args.step](spark,args,protocol)
+  File "/workspace/ml/training_job.py", line 120, in evaluate
+    if digest(split_path)!=selected['split_descriptor_sha256']:raise ValueError('Data split changed after selection')
+  File "/workspace/ml/training_contract.py", line 14, in digest
+    with Path(path).open('rb') as stream:
+  File "/usr/lib/python3.10/pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: '/minio/mlpipeline/v2/artifacts/iot-failure-training-cluster-v1/c49e6012-d174-427e-a705-08e4442bf73b/split-time/664c4237-8b00-47f4-8e08-9dcb93b49f14/partitions'
+E1027 11:42:52.097712      15 launcher_v2.go:449] Component failed to execute successfully: exit status 1
+I1027 11:42:52.097761      15 launcher_v2.go:867] Executing uploadOutputArtifacts attempt: 1
+I1027 11:42:52.097770      15 launcher_v2.go:800] outputArtifact in uploadOutputArtifacts call: executor-logs
+I1027 11:42:52.107345      15 object_store.go:231] uploadFile(localFilePath="/minio/mlpipeline/v2/artifacts/iot-failure-training-cluster-v1/c49e6012-d174-427e-a705-08e4442bf73b/evaluate-model/aeecfc44-39bf-4972-9dae-08c5593203fb/executor-logs-0", blobFilePath="evaluate-model/aeecfc44-39bf-4972-9dae-08c5593203fb/executor-logs-0")
+I1027 11:42:52.172469      15 launcher_v2.go:206] publish success.
+F1027 11:42:52.211425      15 main.go:59] failed to execute component: exit status 1
+time=2026-10-27T11:42:52.804Z level=INFO msg="sub-process exited" argo=true error="exit status 1"
+time=2026-10-27T11:42:52.804Z level=INFO msg="file signal handler exiting due to context cancellation" argo=true
+Error: exit status 1

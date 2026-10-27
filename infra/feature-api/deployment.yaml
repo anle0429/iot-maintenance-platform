@@ -1,0 +1,66 @@
+# Private read API with copied, checksum-bound simulation state and no credentials or write tools.
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: feature-api, namespace: iot-features}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: iot-feature-api}}
+  template:
+    metadata: {labels: {app: iot-feature-api}}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile: {type: RuntimeDefault}
+      initContainers:
+        - name: copy-state
+          image: iot-coursework-feature-api:v1
+          imagePullPolicy: Never
+          command: [python, -c, "import shutil,pathlib; p=pathlib.Path('/state/registry'); p.mkdir(); [shutil.copyfile('/seed/'+n,'/state/'+n) for n in ['context.json','verification.json','_READY.json']]; shutil.copyfile('/seed/registry.db','/state/registry/registry.db')"]
+          resources:
+            requests: {cpu: 50m, memory: 64Mi}
+            limits: {cpu: 500m, memory: 256Mi}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          volumeMounts: [{name: seed, mountPath: /seed, readOnly: true}, {name: state, mountPath: /state}]
+      containers:
+        - name: api
+          image: iot-coursework-feature-api:v1
+          imagePullPolicy: Never
+          ports: [{containerPort: 8080}]
+          env:
+            - {name: IOT_FEAST_REDIS, value: 'online.iot-features.svc.cluster.local:6379'}
+            - {name: IOT_SERVING_STATE, value: /state}
+            - {name: IOT_KSERVE_URL, value: 'http://iot-pump-failure-v1-predictor.iot-serving.svc.cluster.local'}
+          resources:
+            requests: {cpu: 100m, memory: 256Mi}
+            limits: {cpu: '1', memory: 1Gi}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          startupProbe:
+            httpGet: {path: /health/ready, port: 8080}
+            periodSeconds: 2
+            failureThreshold: 45
+          readinessProbe:
+            httpGet: {path: /health/ready, port: 8080}
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet: {path: /health/live, port: 8080}
+            timeoutSeconds: 2
+          volumeMounts: [{name: state, mountPath: /state}, {name: tmp, mountPath: /tmp}]
+      volumes:
+        - name: seed
+          configMap: {name: iot-feature-serving-state}
+        - name: state
+          emptyDir: {medium: Memory, sizeLimit: 16Mi}
+        - name: tmp
+          emptyDir: {medium: Memory, sizeLimit: 32Mi}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: feature-api, namespace: iot-features}
+spec:
+  selector: {app: iot-feature-api}
+  ports: [{port: 80, targetPort: 8080}]

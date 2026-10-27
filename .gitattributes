@@ -40,3 +40,7 @@ models/pump-failure-v1/lineage.json -text -whitespace
 # Keep full-scale native receipts, History API responses and screenshots byte-identical.
 docs/evidence/full-ingest/** -text -whitespace
 docs/evidence/kserve/** -text -whitespace
+docs/evidence/kfp-cluster/** -text -whitespace
+docs/evidence/feature-api/** -text -whitespace
+tests/fixtures/feature-api-native-online.json -text
+infra/feature-api/Dockerfile.dockerignore text eol=lf

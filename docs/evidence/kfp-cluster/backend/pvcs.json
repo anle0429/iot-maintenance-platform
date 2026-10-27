@@ -1,0 +1,101 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "annotations": {
+          "pv.kubernetes.io/bind-completed": "yes",
+          "pv.kubernetes.io/bound-by-controller": "yes",
+          "volume.beta.kubernetes.io/storage-provisioner": "rancher.io/local-path",
+          "volume.kubernetes.io/selected-node": "iot-cw-vm",
+          "volume.kubernetes.io/storage-provisioner": "rancher.io/local-path"
+        },
+        "creationTimestamp": "2026-10-27T11:23:22Z",
+        "finalizers": [
+          "kubernetes.io/pvc-protection"
+        ],
+        "labels": {
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "name": "mysql-pv-claim",
+        "namespace": "kubeflow",
+        "resourceVersion": "1621",
+        "uid": "ab6b98a6-a5a8-48b7-b51f-77916e9faa34"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "20Gi"
+          }
+        },
+        "storageClassName": "local-path",
+        "volumeMode": "Filesystem",
+        "volumeName": "pvc-ab6b98a6-a5a8-48b7-b51f-77916e9faa34"
+      },
+      "status": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "20Gi"
+        },
+        "phase": "Bound"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "annotations": {
+          "pv.kubernetes.io/bind-completed": "yes",
+          "pv.kubernetes.io/bound-by-controller": "yes",
+          "volume.beta.kubernetes.io/storage-provisioner": "rancher.io/local-path",
+          "volume.kubernetes.io/selected-node": "iot-cw-vm",
+          "volume.kubernetes.io/storage-provisioner": "rancher.io/local-path"
+        },
+        "creationTimestamp": "2026-10-27T11:23:22Z",
+        "finalizers": [
+          "kubernetes.io/pvc-protection"
+        ],
+        "labels": {
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "name": "seaweedfs-pvc",
+        "namespace": "kubeflow",
+        "resourceVersion": "1618",
+        "uid": "70da6dd8-0f99-4a68-abb2-c73cc0575cb3"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "20Gi"
+          }
+        },
+        "storageClassName": "local-path",
+        "volumeMode": "Filesystem",
+        "volumeName": "pvc-70da6dd8-0f99-4a68-abb2-c73cc0575cb3"
+      },
+      "status": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "capacity": {
+          "storage": "20Gi"
+        },
+        "phase": "Bound"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

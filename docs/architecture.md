@@ -1,5 +1,37 @@
 # Kiến trúc và trạng thái triển khai
 
+## Luồng đã chạy trên VM ngày27/10/2026
+
+Mỗi hộp dưới đây là service/container/job có thể triển khai độc lập. Feast SDK nằm trong materialization/training/API, không được vẽ thành một service riêng. Các file Parquet/workspace ở volume HDD/SSD của cùng VM; Git chỉ chuyển code/config/bằng chứng nhỏ.
+
+```mermaid
+flowchart LR
+    User[Người dùng] -->|U1 machine_id| API[Feature API Deployment]
+    API -->|U2 lookup theo machine_id| Redis[Redis Deployment iot-features]
+    Redis -->|U3 tám features và timestamps| API
+    API -->|U4 feature vector hợp lệ| Predictor[KServe predictor Deployment]
+    Predictor -->|U5 score và model lineage| API
+    API -->|U6 prediction và feature trace| User
+    Airflow[Airflow scheduler container] -->|D1 submit DP1-DP3 và validation| Spark[Spark batch job containers]
+    Spark -->|D2 lineage và assertions| DataHub[DataHub GMS service]
+    Spark -->|D3 Parquet features qua shared volumes| Materializer[Feast materialization job container]
+    Materializer -->|D4 online feature vectors| BatchRedis[Redis batch-stream container]
+    Spark -->|T1 feature-label Parquet qua volumes| Training[KFP training task pods]
+    KFP[KFP API server Deployment] -->|T2 submit bốn task nối tiếp| Training
+    Training -->|T3 model và dataset artifacts| Registry[MLflow tracking container]
+    Registry -->|T4 model bundle cho build job| Builder[Model image build job]
+    Builder -->|T5 image chứa model| Predictor
+    Kafka[Kafka broker container] -->|S1 telemetry theo arrival time| Flink[Flink stream job containers]
+    Flink -->|S2 finalized window output| Push[Feast push job container]
+    Push -->|S3 native online features| BatchRedis
+```
+
+U là luồng người dùng; D/T/S là các luồng dữ liệu/training/stream. [KFP](kfp-cluster.md), [KServe](kubernetes-serving.md), [feature API](feature-api.md), [Airflow/DataHub](orchestration.md) và [stream push](stream-feast-push.md) có phạm vi kiểm chứng riêng. Redis API demo tách khỏi batch/stream Redis. Modelversion2 đã vào registry; predictor hiện pin version1. Bốn training task nối tiếp vẫn dùng Spark local[2], chưa distributed training.
+
+[Final tracker](final-rubric-tracker.md) là chuẩn chính. Drift API, notebook, distributed training, incremental data versioning và các phần CI/gateway/observability/security chưa đủ bằng chứng; không diễn giải sơ đồ này thành hoàn tất toàn final.
+
+## Thiết kế lịch sử ngày22/10
+
 Ngày 22/10/2026: generator, [PostgreSQL/Spark → feature → baseline dự đoán](day2-batch.md) và [Kafka/Flink → cửa sổ/late output/snapshot SQLite](day3-streaming.md) đã chạy ở quy mô nhỏ. Chưa có Feast, model serving hoặc agent. Sơ đồ sau là **đích triển khai theo đề**, không phải bằng chứng toàn platform đã deploy. Mỗi hộp là một service/job có thể chạy độc lập; số trên mũi tên chỉ luồng dữ liệu/call.
 
 ```mermaid

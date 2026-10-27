@@ -1,0 +1,18 @@
+{
+  "checked_utc": "2026-10-27T12:31:37.577373+00:00",
+  "machine": "ThienAn",
+  "source_sha256": {
+    "services/feature_api/__init__.py": "02b53283e60cd8fed8d2d88244a9365400868126711540e846da40b71c55cb10",
+    "services/feature_api/app.py": "1f009d0dff1fdefabcac8be6564f06c367ed64f3154c886586dc22c2780c0b36",
+    "services/feature_api/runtime.py": "9029588048d076f4588db067588264391913eac932ebc135bc30ee814e21138e",
+    "services/predictor/app.py": "ec707e19d83f0b7331d167cca6b3c33ff00ca3a074827f3c2edfdef46bdf4c6a",
+    "services/predictor/runtime.py": "807f279ca9875320824eb44675af88a02f4ffc09cdc89028e191867d912d1bcb",
+    "services/predictor/contracts.py": "5cab032dae3ede91c9cfd5446da195b99b03349f3ed04a915be92f0ed3da12ce",
+    "tests/api/test_feature_api.py": "2ca8b62d4e99e8ab49cac3e86e2f429d9c6912e23e04c65ee8d60fc482668a30",
+    "tests/fixtures/feature-api-native-online.json": "4673f42d3f9a1f69cbe802a320a2f5766f58b832751959d1961e92906abe42b5",
+    "tests/fixtures/predictor-native-spark.json": "a572f260bed42403d931df53f3ca3bf1925e41f3150c4dcfcccdc89d650455a0",
+    "pyproject.toml": "8a73b74bb2b6c0f11fe1bd02c08532b0ae19a8a98f2ee6b76ad5b5335923fe9f"
+  },
+  "pytest": "127passed/1POSIX-onlyskip on PC;57featureAPI native Linux baseline passes",
+  "scope": "Two current APIs,211statements/56branches100%; native SDK boundary mocked with real captured fixture in unit tests and separately exercised by real HTTPintegration."
+}

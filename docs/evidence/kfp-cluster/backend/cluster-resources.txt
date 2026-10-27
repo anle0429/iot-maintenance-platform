@@ -1,0 +1,16 @@
+namespace/kubeflow serverside-applied
+customresourcedefinition.apiextensions.k8s.io/applications.app.k8s.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/clusterworkflowtemplates.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/cronworkflows.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/scheduledworkflows.kubeflow.org serverside-applied
+customresourcedefinition.apiextensions.k8s.io/viewers.kubeflow.org serverside-applied
+customresourcedefinition.apiextensions.k8s.io/workflowartifactgctasks.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/workfloweventbindings.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/workflows.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/workflowtaskresults.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/workflowtasksets.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/workflowtemplates.argoproj.io serverside-applied
+serviceaccount/kubeflow-pipelines-cache-deployer-sa serverside-applied
+clusterrole.rbac.authorization.k8s.io/kubeflow-pipelines-cache-deployer-clusterrole serverside-applied
+clusterrolebinding.rbac.authorization.k8s.io/kubeflow-pipelines-cache-deployer-clusterrolebinding serverside-applied
+configmap/kfp-cluster-scoped-params serverside-applied

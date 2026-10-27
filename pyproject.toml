@@ -1,6 +1,6 @@
-# Mutation scope for this change: the new predictor API, excluding unchanged batch/stream/training code.
+# Mutation scope for this change: feature retrieval API; the unchanged predictor retains its sealed separate gate.
 [tool.mutmut]
-source_paths = ["services/predictor/"]
-pytest_add_cli_args_test_selection = ["tests/api/"]
-also_copy = ["models/", "ml/", "tests/fixtures/", "services/__init__.py"]
+source_paths = ["services/feature_api/"]
+pytest_add_cli_args_test_selection = ["tests/api/test_feature_api.py"]
+also_copy = ["services/predictor/", "models/", "ml/", "tests/fixtures/", "services/__init__.py"]
 process_isolation = "forkserver"

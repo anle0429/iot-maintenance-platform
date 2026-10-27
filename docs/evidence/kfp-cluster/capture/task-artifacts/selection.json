@@ -1,0 +1,181 @@
+{
+  "passed": true,
+  "kind": "validation-selected-model",
+  "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+  "split_descriptor_sha256": "ee1f1ceae0658b1fe89a35372512d16b9ae71b678a5e3dfe2b077a20a893af68",
+  "split_descriptor": "/ml-data/training-cluster-27-v2/descriptors/train-input.json",
+  "counts": {
+    "validation": {
+      "rows": 468132,
+      "positive_rows": 19828,
+      "failure_episodes": 1677,
+      "first": "2026-11-12T00:00:00",
+      "last": "2026-11-20T22:55:00",
+      "negative_rows": 448304
+    },
+    "test": {
+      "rows": 468384,
+      "positive_rows": 19957,
+      "failure_episodes": 1687,
+      "first": "2026-11-21T00:00:00",
+      "last": "2026-11-29T22:55:00",
+      "negative_rows": 448427
+    },
+    "train": {
+      "rows": 2195668,
+      "positive_rows": 93603,
+      "failure_episodes": 7870,
+      "first": "2026-10-01T00:00:00",
+      "last": "2026-11-11T22:55:00",
+      "negative_rows": 2102065
+    }
+  },
+  "model_path": "/ml-data/training-cluster-27-v2/trained/spark-model",
+  "portable_path": "/ml-data/training-cluster-27-v2/trained/portable.json",
+  "validation": {
+    "tp": 12748,
+    "fp": 15222,
+    "fn": 7080,
+    "tn": 433082,
+    "threshold": 0.7,
+    "precision": 0.4557740436181623,
+    "recall": 0.6429291910429695,
+    "f1": 0.533411439809197,
+    "area_under_pr": 0.5957776550421778
+  },
+  "validation_candidates": [
+    {
+      "tp": 19828,
+      "fp": 315921,
+      "fn": 0,
+      "tn": 132383,
+      "threshold": 0.1,
+      "precision": 0.05905602101569923,
+      "recall": 1.0,
+      "f1": 0.11152577360177965
+    },
+    {
+      "tp": 19828,
+      "fp": 228884,
+      "fn": 0,
+      "tn": 219420,
+      "threshold": 0.2,
+      "precision": 0.0797227315127537,
+      "recall": 1.0,
+      "f1": 0.14767259998510462
+    },
+    {
+      "tp": 19828,
+      "fp": 170259,
+      "fn": 0,
+      "tn": 278045,
+      "threshold": 0.3,
+      "precision": 0.10431013167654811,
+      "recall": 1.0,
+      "f1": 0.18891456065550344
+    },
+    {
+      "tp": 19828,
+      "fp": 122648,
+      "fn": 0,
+      "tn": 325656,
+      "threshold": 0.4,
+      "precision": 0.13916729835200314,
+      "recall": 1.0,
+      "f1": 0.24433162460567823
+    },
+    {
+      "tp": 19820,
+      "fp": 81026,
+      "fn": 8,
+      "tn": 367278,
+      "threshold": 0.5,
+      "precision": 0.19653729448862622,
+      "recall": 0.9995965301593706,
+      "f1": 0.32848832391401633
+    },
+    {
+      "tp": 18740,
+      "fp": 43795,
+      "fn": 1088,
+      "tn": 404509,
+      "threshold": 0.6,
+      "precision": 0.29967218357719677,
+      "recall": 0.9451281016743999,
+      "f1": 0.4550587035440671
+    },
+    {
+      "tp": 12748,
+      "fp": 15222,
+      "fn": 7080,
+      "tn": 433082,
+      "threshold": 0.7,
+      "precision": 0.4557740436181623,
+      "recall": 0.6429291910429695,
+      "f1": 0.533411439809197
+    },
+    {
+      "tp": 4272,
+      "fp": 914,
+      "fn": 15556,
+      "tn": 447390,
+      "threshold": 0.8,
+      "precision": 0.8237562668723486,
+      "recall": 0.21545289489610653,
+      "f1": 0.3415687215159511
+    },
+    {
+      "tp": 1,
+      "fp": 0,
+      "fn": 19827,
+      "tn": 448304,
+      "threshold": 0.9,
+      "precision": 1.0,
+      "recall": 5.043373007867662e-05,
+      "f1": 0.00010086237329164357
+    }
+  ],
+  "threshold_selection_partition": "validation",
+  "holdout_rows_opened": 0,
+  "training_prevalence": 0.04263076202777469,
+  "train_class_weights": {
+    "positive": 11.72861980919415,
+    "negative": 0.5222645351119019
+  },
+  "scaler_fit_partition": "train",
+  "spark_model_iterations": 10,
+  "artifacts": [
+    {
+      "path": "/ml-data/training-cluster-27-v2/trained",
+      "files": {
+        "portable.json": "5d6281fc7f1eeea8d2e0f00eb4b930ddee7b7d75a0c54553de44ae556c174ed6",
+        "spark-model/metadata/._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        "spark-model/metadata/.part-00000.crc": "9d9b8e7c50896553a0dc441b149e0ea2ec947587ad3d3ffdd0bee12c89447378",
+        "spark-model/metadata/_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "spark-model/metadata/part-00000": "242b00f037914d454617b94f0ea938312bc2c1c8a3df6519668e2baebfb912c7",
+        "spark-model/stages/0_VectorAssembler_fd47baf8f34a/metadata/._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        "spark-model/stages/0_VectorAssembler_fd47baf8f34a/metadata/.part-00000.crc": "c5ca1f8733bc9c94e6b8cb4fae675cff10a33cb2df35c853722ae95225591402",
+        "spark-model/stages/0_VectorAssembler_fd47baf8f34a/metadata/_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "spark-model/stages/0_VectorAssembler_fd47baf8f34a/metadata/part-00000": "7040d444ce9f3db8af071b4dfae9c2bf29dd8b22ebcdf7450e4b13b6985c62e9",
+        "spark-model/stages/1_StandardScaler_98a4dbc29b6c/data/._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        "spark-model/stages/1_StandardScaler_98a4dbc29b6c/data/.part-00000-fd317f57-9ecb-4b8e-910e-672b935c510d-c000.snappy.parquet.crc": "8442e672c4966a8750de6fd7bdf325a5c46e96f0d1ef2d41b026d9c2e667d384",
+        "spark-model/stages/1_StandardScaler_98a4dbc29b6c/data/_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "spark-model/stages/1_StandardScaler_98a4dbc29b6c/data/part-00000-fd317f57-9ecb-4b8e-910e-672b935c510d-c000.snappy.parquet": "5818dec28aab01ecd62d85381b06f9ee569e5d388c5036a2ab2eff11a522f842",
+        "spark-model/stages/1_StandardScaler_98a4dbc29b6c/metadata/._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        "spark-model/stages/1_StandardScaler_98a4dbc29b6c/metadata/.part-00000.crc": "59a1639770314003dc9d40f2a74855fa0afd7ea22e126c6f342d224bb293acf1",
+        "spark-model/stages/1_StandardScaler_98a4dbc29b6c/metadata/_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "spark-model/stages/1_StandardScaler_98a4dbc29b6c/metadata/part-00000": "075f75c85846f7bc2c5882127bcfcc971b66e33f93a05909f3ed9c69de168994",
+        "spark-model/stages/2_LogisticRegression_d8b384b7669c/data/._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        "spark-model/stages/2_LogisticRegression_d8b384b7669c/data/.part-00000-45ef0cf1-ae8f-4b67-a8c3-5fa0e250dc3c-c000.snappy.parquet.crc": "3c7803eda9671d658af86ebd179570145951adeead397d7e5d5f053aa7aa0480",
+        "spark-model/stages/2_LogisticRegression_d8b384b7669c/data/_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "spark-model/stages/2_LogisticRegression_d8b384b7669c/data/part-00000-45ef0cf1-ae8f-4b67-a8c3-5fa0e250dc3c-c000.snappy.parquet": "4a075e0e59b744efa44186ca88e4cd2e84f02e6f8a2676fcac01e3743b868cad",
+        "spark-model/stages/2_LogisticRegression_d8b384b7669c/metadata/._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        "spark-model/stages/2_LogisticRegression_d8b384b7669c/metadata/.part-00000.crc": "90ac4176648d47924c884d3b8ad39b0497c9369a36b2458ff3ccd20c7954cf3d",
+        "spark-model/stages/2_LogisticRegression_d8b384b7669c/metadata/_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "spark-model/stages/2_LogisticRegression_d8b384b7669c/metadata/part-00000": "d5a1c616eaa130b10e9ebd2ddb4a249837c134d49cd99e2ca185f527dfe6493b"
+      }
+    }
+  ],
+  "code_sha256": "4169038faf6c32a8d838131b2167e513fa556a832f889057c86696629a145a90",
+  "sealed_utc": "2026-10-27T12:01:22.162283+00:00"
+}

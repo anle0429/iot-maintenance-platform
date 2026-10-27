@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "completed_utc": "2026-10-27T11:48:49.387157+00:00",
+  "new_code_sha256": {
+    "ml/cluster_training_job.py": "fb0e661d2c68c91074bb52ac9775f62687ff9ce44f9fa5903aeb9b9a7dd01c8c",
+    "ml/kfp_cluster.py": "c055c84e566564515155a0bf2a53169fde5801923b78260b9dbf8a84508300c6",
+    "scripts/run-kfp-cluster.py": "e3aa9a850c76b2cc54561f369013fb9a2323ec751d91a44e905e677477f8fdb8",
+    "tests/test_cluster_artifacts.py": "e4eb957ad9e29aecf83adc673917b73c9e4bde40c236aac3de418e46ab464058"
+  },
+  "compiled_sha256": {
+    "oracle-pipeline.yaml": "36062a2376176ce399896d3db5439d5661ca272fb44c49fdb161f432a00284e9",
+    "training-pipeline.yaml": "37dd55845df93534b9166fad3c68c8590fdba19e12290a660668a9ccfacee12e"
+  },
+  "unchanged_core_ml_sha256": {
+    "ml/training_job.py": "4169038faf6c32a8d838131b2167e513fa556a832f889057c86696629a145a90",
+    "ml/training_contract.py": "bab648fe1a06425393d5093847e59b978186d3ababf419dcd52f8dae3cab6186",
+    "ml/kfp_training.py": "0d5f1c2b2dbc11132df9bc0a967140084db9210b8bd7066921e749fb6918fa54",
+    "ml/training_load.py": "3939218809ac01f3f885e3afba46c4e8fa412b507bc7f89011a3cc30d18c745c"
+  },
+  "scope": "Only cluster descriptor path transport repaired; same frozen protocol, core training/evaluation unchanged. Failed first run preserved. No new run success claimed."
+}

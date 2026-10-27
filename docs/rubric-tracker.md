@@ -1,5 +1,7 @@
 # Checklist rubric và bằng chứng
 
+**Cập nhật27/10:** người dùng đã chọn [rubric final-coursework](final-rubric-tracker.md) làm chuẩn chính. Bảng93dòng bên dưới giữ lịch sử hai sheet50%; không cộng điểm với final. Hai ý tưởng availability/replay đang được hiểu là đã học, chưa dùng để nhận novel idea.
+
 Nguồn: `references/coursework/rubic/EDAI K11.xlsx`. Trích nguyên nội dung tiêu chí có điểm ở hai sheet 50%; các cột ngày, trạng thái và evidence là phần lập kế hoạch của dự án.
 
 Mỗi sheet có 100 điểm thô. Lịch sử22/10/2026: generator/batch/stream có bằng chứng ở **quy mô nhỏ**: 55 unittest, 19 kiểm tra Spark và 10 kiểm tra tích hợp Kafka/Flink qua. Stream replay 116.928 messages giữ 57.600 readings/5.760 cửa sổ; nguồn trung gian đo được 119.233.630 byte offline qua bốn mô phỏng độc lập. Không suy thành platform/100 GB đã xong. Cột ngày là dự kiến. Khi hoàn thành, ghi đường dẫn code, lệnh/test và bằng chứng; không chỉ sửa trạng thái.
@@ -8,7 +10,7 @@ Cập nhật26–27/10/2026 UTC: đã sinh và full readback **102.447.847.856 b
 
 Cập nhật27/10 UTC: [skew query trung gian](skew-benchmark.md) có ba cặp đo, exact results và6ảnh Spark UI. Planner mới/111testsPC+VM; đủ HDD/SSD/RAM nhưng time gate chặn full100GB Spark trong phiên hiện tại.
 
-Workbook còn sheet `rubic final-coursework (final -` với bộ yêu cầu khác. Vai trò sheet này chưa được xác nhận; vẫn giữ nguyên trong workbook tham chiếu và chưa gộp vào tracker.
+Workbook có sheet `rubic final-coursework (final -`; người dùng đã xác nhận áp dụng ngày27/10. Nội dung gốc được giữ trong workbook và trích riêng ở tracker final.
 
 Trạng thái đề xuất: Chưa làm; Đang làm; Có code/chưa kiểm chứng; Đã kiểm chứng; Cần thông tin; Chưa đạt. Chỉ đổi sang Đã kiểm chứng khi bằng chứng thật đã tồn tại và đã xem lại.
 

@@ -1,0 +1,1007 @@
+
+services.feature_api.runtime.x_aware__mutmut_7
+# services.feature_api.runtime.x_aware__mutmut_7: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,5 +1,5 @@
+ def aware(value):
+     """Reject timestamp ambiguity rather than assuming the server's local timezone."""
+-    result=datetime.fromisoformat(value.replace('Z','+00:00'))
++    result=datetime.fromisoformat(value.replace('XXZXX','+00:00'))
+     if result.tzinfo is None:raise Unavailable('Timestamp lacks timezone')
+     return result.astimezone(timezone.utc)
+
+services.feature_api.runtime.x_aware__mutmut_8
+# services.feature_api.runtime.x_aware__mutmut_8: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,5 +1,5 @@
+ def aware(value):
+     """Reject timestamp ambiguity rather than assuming the server's local timezone."""
+-    result=datetime.fromisoformat(value.replace('Z','+00:00'))
++    result=datetime.fromisoformat(value.replace('z','+00:00'))
+     if result.tzinfo is None:raise Unavailable('Timestamp lacks timezone')
+     return result.astimezone(timezone.utc)
+
+services.feature_api.runtime.x_aware__mutmut_11
+# services.feature_api.runtime.x_aware__mutmut_11: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,5 +1,5 @@
+ def aware(value):
+     """Reject timestamp ambiguity rather than assuming the server's local timezone."""
+     result=datetime.fromisoformat(value.replace('Z','+00:00'))
+-    if result.tzinfo is None:raise Unavailable('Timestamp lacks timezone')
++    if result.tzinfo is None:raise Unavailable(None)
+     return result.astimezone(timezone.utc)
+
+services.feature_api.runtime.x_aware__mutmut_12
+# services.feature_api.runtime.x_aware__mutmut_12: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,5 +1,5 @@
+ def aware(value):
+     """Reject timestamp ambiguity rather than assuming the server's local timezone."""
+     result=datetime.fromisoformat(value.replace('Z','+00:00'))
+-    if result.tzinfo is None:raise Unavailable('Timestamp lacks timezone')
++    if result.tzinfo is None:raise Unavailable('XXTimestamp lacks timezoneXX')
+     return result.astimezone(timezone.utc)
+
+services.feature_api.runtime.x_aware__mutmut_13
+# services.feature_api.runtime.x_aware__mutmut_13: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,5 +1,5 @@
+ def aware(value):
+     """Reject timestamp ambiguity rather than assuming the server's local timezone."""
+     result=datetime.fromisoformat(value.replace('Z','+00:00'))
+-    if result.tzinfo is None:raise Unavailable('Timestamp lacks timezone')
++    if result.tzinfo is None:raise Unavailable('timestamp lacks timezone')
+     return result.astimezone(timezone.utc)
+
+services.feature_api.runtime.x_aware__mutmut_14
+# services.feature_api.runtime.x_aware__mutmut_14: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,5 +1,5 @@
+ def aware(value):
+     """Reject timestamp ambiguity rather than assuming the server's local timezone."""
+     result=datetime.fromisoformat(value.replace('Z','+00:00'))
+-    if result.tzinfo is None:raise Unavailable('Timestamp lacks timezone')
++    if result.tzinfo is None:raise Unavailable('TIMESTAMP LACKS TIMEZONE')
+     return result.astimezone(timezone.utc)
+
+services.feature_api.runtime.xǁFeatureRuntimeǁ__init____mutmut_16
+# services.feature_api.runtime.xǁFeatureRuntimeǁ__init____mutmut_16: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,4 +1,4 @@
+ def __init__(self,context,backend,clock=None):
+     self.context=context;self.backend=backend;self.clock=clock or (lambda:datetime.now(timezone.utc))
+-    if context['clock_mode']!='simulation' or not context['machines']:raise Unavailable('Explicit simulation context required')
++    if context['clock_mode']!='simulation' or not context['machines']:raise Unavailable(None)
+     self.as_of=aware(context['as_of']);self.prepared=aware(context['prepared_wall_utc'])
+
+services.feature_api.runtime.xǁFeatureRuntimeǁ__init____mutmut_17
+# services.feature_api.runtime.xǁFeatureRuntimeǁ__init____mutmut_17: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,4 +1,4 @@
+ def __init__(self,context,backend,clock=None):
+     self.context=context;self.backend=backend;self.clock=clock or (lambda:datetime.now(timezone.utc))
+-    if context['clock_mode']!='simulation' or not context['machines']:raise Unavailable('Explicit simulation context required')
++    if context['clock_mode']!='simulation' or not context['machines']:raise Unavailable('XXExplicit simulation context requiredXX')
+     self.as_of=aware(context['as_of']);self.prepared=aware(context['prepared_wall_utc'])
+
+services.feature_api.runtime.xǁFeatureRuntimeǁ__init____mutmut_18
+# services.feature_api.runtime.xǁFeatureRuntimeǁ__init____mutmut_18: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,4 +1,4 @@
+ def __init__(self,context,backend,clock=None):
+     self.context=context;self.backend=backend;self.clock=clock or (lambda:datetime.now(timezone.utc))
+-    if context['clock_mode']!='simulation' or not context['machines']:raise Unavailable('Explicit simulation context required')
++    if context['clock_mode']!='simulation' or not context['machines']:raise Unavailable('explicit simulation context required')
+     self.as_of=aware(context['as_of']);self.prepared=aware(context['prepared_wall_utc'])
+
+services.feature_api.runtime.xǁFeatureRuntimeǁ__init____mutmut_19
+# services.feature_api.runtime.xǁFeatureRuntimeǁ__init____mutmut_19: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,4 +1,4 @@
+ def __init__(self,context,backend,clock=None):
+     self.context=context;self.backend=backend;self.clock=clock or (lambda:datetime.now(timezone.utc))
+-    if context['clock_mode']!='simulation' or not context['machines']:raise Unavailable('Explicit simulation context required')
++    if context['clock_mode']!='simulation' or not context['machines']:raise Unavailable('EXPLICIT SIMULATION CONTEXT REQUIRED')
+     self.as_of=aware(context['as_of']);self.prepared=aware(context['prepared_wall_utc'])
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_7
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_7: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,6 +1,6 @@
+ def features(self,machine):
+     """Refuse expired demo lease, unknown context, stale/future features and arrival violations."""
+-    if not 0<=(self.clock()-self.prepared).total_seconds()<3600:raise Unavailable('Demo lease expired; prepare a fresh separately bound namespace')
++    if not 0<=(self.clock()-self.prepared).total_seconds()<3600:raise Unavailable(None)
+     if machine not in self.context['machines']:raise KeyError(machine)
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_8
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_8: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,6 +1,6 @@
+ def features(self,machine):
+     """Refuse expired demo lease, unknown context, stale/future features and arrival violations."""
+-    if not 0<=(self.clock()-self.prepared).total_seconds()<3600:raise Unavailable('Demo lease expired; prepare a fresh separately bound namespace')
++    if not 0<=(self.clock()-self.prepared).total_seconds()<3600:raise Unavailable('XXDemo lease expired; prepare a fresh separately bound namespaceXX')
+     if machine not in self.context['machines']:raise KeyError(machine)
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_9
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_9: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,6 +1,6 @@
+ def features(self,machine):
+     """Refuse expired demo lease, unknown context, stale/future features and arrival violations."""
+-    if not 0<=(self.clock()-self.prepared).total_seconds()<3600:raise Unavailable('Demo lease expired; prepare a fresh separately bound namespace')
++    if not 0<=(self.clock()-self.prepared).total_seconds()<3600:raise Unavailable('demo lease expired; prepare a fresh separately bound namespace')
+     if machine not in self.context['machines']:raise KeyError(machine)
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_10
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_10: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,6 +1,6 @@
+ def features(self,machine):
+     """Refuse expired demo lease, unknown context, stale/future features and arrival violations."""
+-    if not 0<=(self.clock()-self.prepared).total_seconds()<3600:raise Unavailable('Demo lease expired; prepare a fresh separately bound namespace')
++    if not 0<=(self.clock()-self.prepared).total_seconds()<3600:raise Unavailable('DEMO LEASE EXPIRED; PREPARE A FRESH SEPARATELY BOUND NAMESPACE')
+     if machine not in self.context['machines']:raise KeyError(machine)
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_14
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_14: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,7 +1,7 @@
+ def features(self,machine):
+     """Refuse expired demo lease, unknown context, stale/future features and arrival violations."""
+     if not 0<=(self.clock()-self.prepared).total_seconds()<3600:raise Unavailable('Demo lease expired; prepare a fresh separately bound namespace')
+-    if machine not in self.context['machines']:raise KeyError(machine)
++    if machine not in self.context['machines']:raise KeyError(None)
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+     if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_38
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_38: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -4,7 +4,7 @@
+     if machine not in self.context['machines']:raise KeyError(machine)
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+-    if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
++    if status['status'] not in ['operating','failed','maintenance'] or not 1<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
+     raw=self.backend.fetch(machine)
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_39
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_39: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -4,7 +4,7 @@
+     if machine not in self.context['machines']:raise KeyError(machine)
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+-    if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
++    if status['status'] not in ['operating','failed','maintenance'] or not 0 < (self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
+     raw=self.backend.fetch(machine)
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_41
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_41: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -4,7 +4,7 @@
+     if machine not in self.context['machines']:raise KeyError(machine)
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+-    if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
++    if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds() < 600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
+     raw=self.backend.fetch(machine)
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_44
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_44: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -4,7 +4,7 @@
+     if machine not in self.context['machines']:raise KeyError(machine)
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+-    if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
++    if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable(None)
+     raw=self.backend.fetch(machine)
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_45
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_45: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -4,7 +4,7 @@
+     if machine not in self.context['machines']:raise KeyError(machine)
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+-    if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
++    if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('XXOperating context is stale or unavailableXX')
+     raw=self.backend.fetch(machine)
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_46
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_46: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -4,7 +4,7 @@
+     if machine not in self.context['machines']:raise KeyError(machine)
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+-    if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
++    if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('operating context is stale or unavailable')
+     raw=self.backend.fetch(machine)
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_47
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_47: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -4,7 +4,7 @@
+     if machine not in self.context['machines']:raise KeyError(machine)
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+-    if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
++    if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('OPERATING CONTEXT IS STALE OR UNAVAILABLE')
+     raw=self.backend.fetch(machine)
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_49
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_49: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -5,7 +5,7 @@
+     status=self.context['machines'][machine]
+     event=aware(status['event_ts']);received=aware(status['received_ts'])
+     if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
+-    raw=self.backend.fetch(machine)
++    raw=self.backend.fetch(None)
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+     timestamps=[aware(raw['timestamps'][n]) for n in fields]
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_63
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_63: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -7,7 +7,7 @@
+     if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
+     raw=self.backend.fetch(machine)
+     fields=list(FeatureVector.model_fields)
+-    if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
++    if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable(None)
+     timestamps=[aware(raw['timestamps'][n]) for n in fields]
+     if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('Features are stale, inconsistent or from the future')
+     vector=FeatureVector.model_validate(raw['values']).model_dump()
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_64
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_64: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -7,7 +7,7 @@
+     if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
+     raw=self.backend.fetch(machine)
+     fields=list(FeatureVector.model_fields)
+-    if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
++    if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('XXIncomplete native feature schemaXX')
+     timestamps=[aware(raw['timestamps'][n]) for n in fields]
+     if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('Features are stale, inconsistent or from the future')
+     vector=FeatureVector.model_validate(raw['values']).model_dump()
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_65
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_65: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -7,7 +7,7 @@
+     if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
+     raw=self.backend.fetch(machine)
+     fields=list(FeatureVector.model_fields)
+-    if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
++    if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('incomplete native feature schema')
+     timestamps=[aware(raw['timestamps'][n]) for n in fields]
+     if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('Features are stale, inconsistent or from the future')
+     vector=FeatureVector.model_validate(raw['values']).model_dump()
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_66
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_66: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -7,7 +7,7 @@
+     if status['status'] not in ['operating','failed','maintenance'] or not 0<=(self.as_of-event).total_seconds()<=600 or received>self.as_of:raise Unavailable('Operating context is stale or unavailable')
+     raw=self.backend.fetch(machine)
+     fields=list(FeatureVector.model_fields)
+-    if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
++    if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('INCOMPLETE NATIVE FEATURE SCHEMA')
+     timestamps=[aware(raw['timestamps'][n]) for n in fields]
+     if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('Features are stale, inconsistent or from the future')
+     vector=FeatureVector.model_validate(raw['values']).model_dump()
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_78
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_78: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -9,7 +9,7 @@
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+     timestamps=[aware(raw['timestamps'][n]) for n in fields]
+-    if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('Features are stale, inconsistent or from the future')
++    if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[1]).total_seconds()<=600:raise Unavailable('Features are stale, inconsistent or from the future')
+     vector=FeatureVector.model_validate(raw['values']).model_dump()
+     return {'machine_id':machine,'features':vector,'feature_event_ts':timestamps[0].isoformat(),
+         'feature_age_seconds':(self.as_of-timestamps[0]).total_seconds(),'operating_context':status,
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_81
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_81: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -9,7 +9,7 @@
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+     timestamps=[aware(raw['timestamps'][n]) for n in fields]
+-    if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('Features are stale, inconsistent or from the future')
++    if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable(None)
+     vector=FeatureVector.model_validate(raw['values']).model_dump()
+     return {'machine_id':machine,'features':vector,'feature_event_ts':timestamps[0].isoformat(),
+         'feature_age_seconds':(self.as_of-timestamps[0]).total_seconds(),'operating_context':status,
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_82
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_82: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -9,7 +9,7 @@
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+     timestamps=[aware(raw['timestamps'][n]) for n in fields]
+-    if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('Features are stale, inconsistent or from the future')
++    if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('XXFeatures are stale, inconsistent or from the futureXX')
+     vector=FeatureVector.model_validate(raw['values']).model_dump()
+     return {'machine_id':machine,'features':vector,'feature_event_ts':timestamps[0].isoformat(),
+         'feature_age_seconds':(self.as_of-timestamps[0]).total_seconds(),'operating_context':status,
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_83
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_83: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -9,7 +9,7 @@
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+     timestamps=[aware(raw['timestamps'][n]) for n in fields]
+-    if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('Features are stale, inconsistent or from the future')
++    if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('features are stale, inconsistent or from the future')
+     vector=FeatureVector.model_validate(raw['values']).model_dump()
+     return {'machine_id':machine,'features':vector,'feature_event_ts':timestamps[0].isoformat(),
+         'feature_age_seconds':(self.as_of-timestamps[0]).total_seconds(),'operating_context':status,
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_84
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_84: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -9,7 +9,7 @@
+     fields=list(FeatureVector.model_fields)
+     if set(raw['values'])!=set(fields) or set(raw['timestamps'])!=set(fields):raise Unavailable('Incomplete native feature schema')
+     timestamps=[aware(raw['timestamps'][n]) for n in fields]
+-    if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('Features are stale, inconsistent or from the future')
++    if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('FEATURES ARE STALE, INCONSISTENT OR FROM THE FUTURE')
+     vector=FeatureVector.model_validate(raw['values']).model_dump()
+     return {'machine_id':machine,'features':vector,'feature_event_ts':timestamps[0].isoformat(),
+         'feature_age_seconds':(self.as_of-timestamps[0]).total_seconds(),'operating_context':status,
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_95
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_95: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -11,7 +11,7 @@
+     timestamps=[aware(raw['timestamps'][n]) for n in fields]
+     if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('Features are stale, inconsistent or from the future')
+     vector=FeatureVector.model_validate(raw['values']).model_dump()
+-    return {'machine_id':machine,'features':vector,'feature_event_ts':timestamps[0].isoformat(),
++    return {'machine_id':machine,'features':vector,'feature_event_ts':timestamps[1].isoformat(),
+         'feature_age_seconds':(self.as_of-timestamps[0]).total_seconds(),'operating_context':status,
+         'as_of':self.as_of.isoformat(),'clock_mode':'simulation','prepared_wall_utc':self.prepared.isoformat(),
+         'protocol_sha256':self.context['protocol_sha256'],'source_manifest_sha256':self.context['source_manifest_sha256']}
+
+services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_99
+# services.feature_api.runtime.xǁFeatureRuntimeǁfeatures__mutmut_99: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -12,6 +12,6 @@
+     if len(set(timestamps))!=1 or not 0<=(self.as_of-timestamps[0]).total_seconds()<=600:raise Unavailable('Features are stale, inconsistent or from the future')
+     vector=FeatureVector.model_validate(raw['values']).model_dump()
+     return {'machine_id':machine,'features':vector,'feature_event_ts':timestamps[0].isoformat(),
+-        'feature_age_seconds':(self.as_of-timestamps[0]).total_seconds(),'operating_context':status,
++        'feature_age_seconds':(self.as_of-timestamps[1]).total_seconds(),'operating_context':status,
+         'as_of':self.as_of.isoformat(),'clock_mode':'simulation','prepared_wall_utc':self.prepared.isoformat(),
+         'protocol_sha256':self.context['protocol_sha256'],'source_manifest_sha256':self.context['source_manifest_sha256']}
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_47
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_47: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -5,7 +5,7 @@
+     result=self.backend.predict(features['features'])
+     metadata=result['model'];predictions=result['predictions']
+     if metadata['name']!=MODEL or metadata['version']!='1' or metadata['portable_sha256']!=PORTABLE_SHA or metadata['protocol_sha256']!=self.context['protocol_sha256'] or metadata['threshold']!=0.7:
+-        raise Unavailable('KServe model provenance differs')
++        raise Unavailable(None)
+     if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+     if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_48
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_48: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -5,7 +5,7 @@
+     result=self.backend.predict(features['features'])
+     metadata=result['model'];predictions=result['predictions']
+     if metadata['name']!=MODEL or metadata['version']!='1' or metadata['portable_sha256']!=PORTABLE_SHA or metadata['protocol_sha256']!=self.context['protocol_sha256'] or metadata['threshold']!=0.7:
+-        raise Unavailable('KServe model provenance differs')
++        raise Unavailable('XXKServe model provenance differsXX')
+     if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+     if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_49
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_49: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -5,7 +5,7 @@
+     result=self.backend.predict(features['features'])
+     metadata=result['model'];predictions=result['predictions']
+     if metadata['name']!=MODEL or metadata['version']!='1' or metadata['portable_sha256']!=PORTABLE_SHA or metadata['protocol_sha256']!=self.context['protocol_sha256'] or metadata['threshold']!=0.7:
+-        raise Unavailable('KServe model provenance differs')
++        raise Unavailable('kserve model provenance differs')
+     if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+     if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_50
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_50: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -5,7 +5,7 @@
+     result=self.backend.predict(features['features'])
+     metadata=result['model'];predictions=result['predictions']
+     if metadata['name']!=MODEL or metadata['version']!='1' or metadata['portable_sha256']!=PORTABLE_SHA or metadata['protocol_sha256']!=self.context['protocol_sha256'] or metadata['threshold']!=0.7:
+-        raise Unavailable('KServe model provenance differs')
++        raise Unavailable('KSERVE MODEL PROVENANCE DIFFERS')
+     if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+     if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_53
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_53: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -6,7 +6,7 @@
+     metadata=result['model'];predictions=result['predictions']
+     if metadata['name']!=MODEL or metadata['version']!='1' or metadata['portable_sha256']!=PORTABLE_SHA or metadata['protocol_sha256']!=self.context['protocol_sha256'] or metadata['threshold']!=0.7:
+         raise Unavailable('KServe model provenance differs')
+-    if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
++    if len(predictions)!=1:raise Unavailable(None)
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+     if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
+     return {'prediction':predictions[0],'model':metadata,'feature_trace':features}
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_54
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_54: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -6,7 +6,7 @@
+     metadata=result['model'];predictions=result['predictions']
+     if metadata['name']!=MODEL or metadata['version']!='1' or metadata['portable_sha256']!=PORTABLE_SHA or metadata['protocol_sha256']!=self.context['protocol_sha256'] or metadata['threshold']!=0.7:
+         raise Unavailable('KServe model provenance differs')
+-    if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
++    if len(predictions)!=1:raise Unavailable('XXExpected exactly one model predictionXX')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+     if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
+     return {'prediction':predictions[0],'model':metadata,'feature_trace':features}
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_55
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_55: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -6,7 +6,7 @@
+     metadata=result['model'];predictions=result['predictions']
+     if metadata['name']!=MODEL or metadata['version']!='1' or metadata['portable_sha256']!=PORTABLE_SHA or metadata['protocol_sha256']!=self.context['protocol_sha256'] or metadata['threshold']!=0.7:
+         raise Unavailable('KServe model provenance differs')
+-    if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
++    if len(predictions)!=1:raise Unavailable('expected exactly one model prediction')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+     if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
+     return {'prediction':predictions[0],'model':metadata,'feature_trace':features}
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_56
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_56: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -6,7 +6,7 @@
+     metadata=result['model'];predictions=result['predictions']
+     if metadata['name']!=MODEL or metadata['version']!='1' or metadata['portable_sha256']!=PORTABLE_SHA or metadata['protocol_sha256']!=self.context['protocol_sha256'] or metadata['threshold']!=0.7:
+         raise Unavailable('KServe model provenance differs')
+-    if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
++    if len(predictions)!=1:raise Unavailable('EXPECTED EXACTLY ONE MODEL PREDICTION')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+     if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
+     return {'prediction':predictions[0],'model':metadata,'feature_trace':features}
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_72
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_72: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -8,5 +8,5 @@
+         raise Unavailable('KServe model provenance differs')
+     if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+-    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
++    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0 < score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
+     return {'prediction':predictions[0],'model':metadata,'feature_trace':features}
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_73
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_73: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -8,5 +8,5 @@
+         raise Unavailable('KServe model provenance differs')
+     if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+-    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
++    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score < 1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
+     return {'prediction':predictions[0],'model':metadata,'feature_trace':features}
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_79
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_79: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -8,5 +8,5 @@
+         raise Unavailable('KServe model provenance differs')
+     if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+-    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
++    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score > 0.7):raise Unavailable('Invalid model prediction')
+     return {'prediction':predictions[0],'model':metadata,'feature_trace':features}
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_81
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_81: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -8,5 +8,5 @@
+         raise Unavailable('KServe model provenance differs')
+     if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+-    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
++    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable(None)
+     return {'prediction':predictions[0],'model':metadata,'feature_trace':features}
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_82
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_82: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -8,5 +8,5 @@
+         raise Unavailable('KServe model provenance differs')
+     if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+-    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
++    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('XXInvalid model predictionXX')
+     return {'prediction':predictions[0],'model':metadata,'feature_trace':features}
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_83
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_83: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -8,5 +8,5 @@
+         raise Unavailable('KServe model provenance differs')
+     if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+-    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
++    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('invalid model prediction')
+     return {'prediction':predictions[0],'model':metadata,'feature_trace':features}
+
+services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_84
+# services.feature_api.runtime.xǁFeatureRuntimeǁpredict__mutmut_84: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -8,5 +8,5 @@
+         raise Unavailable('KServe model provenance differs')
+     if len(predictions)!=1:raise Unavailable('Expected exactly one model prediction')
+     score=predictions[0]['risk_score'];decision=predictions[0]['predicted_failure']
+-    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('Invalid model prediction')
++    if isinstance(score,bool) or not isinstance(score,(float,int)) or not 0<=score<=1 or type(decision) is not int or decision!=int(score>=0.7):raise Unavailable('INVALID MODEL PREDICTION')
+     return {'prediction':predictions[0],'model':metadata,'feature_trace':features}
+
+services.feature_api.runtime.xǁFeastKServeBackendǁ__init____mutmut_36
+# services.feature_api.runtime.xǁFeastKServeBackendǁ__init____mutmut_36: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -3,7 +3,7 @@
+     from feast.repo_config import RepoConfig
+     state=Path(state);seal=json.loads((state/'_READY.json').read_text());verification=json.loads((state/'verification.json').read_text())
+     digest=lambda p:sha256(p.read_bytes()).hexdigest()
+-    if not verification['passed'] or digest(state/'verification.json')!=seal['verification_sha256'] or digest(state/'context.json')!=seal['context_sha256']:raise Unavailable('Serving state integrity differs')
++    if not verification['passed'] or digest(state/'verification.json')!=seal['verification_sha256'] or digest(state/'context.json')!=seal['context_sha256']:raise Unavailable(None)
+     self.context=json.loads((state/'context.json').read_text())
+     self.store=FeatureStore(config=RepoConfig(project='iot_serving_demo',provider='local',registry=str(state/'registry/registry.db'),
+         offline_store={'type':'duckdb'},online_store={'type':'redis','connection_string':os.environ['IOT_FEAST_REDIS']+',socket_timeout=2,socket_connect_timeout=2','key_ttl_seconds':3600}))
+
+services.feature_api.runtime.xǁFeastKServeBackendǁ__init____mutmut_37
+# services.feature_api.runtime.xǁFeastKServeBackendǁ__init____mutmut_37: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -3,7 +3,7 @@
+     from feast.repo_config import RepoConfig
+     state=Path(state);seal=json.loads((state/'_READY.json').read_text());verification=json.loads((state/'verification.json').read_text())
+     digest=lambda p:sha256(p.read_bytes()).hexdigest()
+-    if not verification['passed'] or digest(state/'verification.json')!=seal['verification_sha256'] or digest(state/'context.json')!=seal['context_sha256']:raise Unavailable('Serving state integrity differs')
++    if not verification['passed'] or digest(state/'verification.json')!=seal['verification_sha256'] or digest(state/'context.json')!=seal['context_sha256']:raise Unavailable('XXServing state integrity differsXX')
+     self.context=json.loads((state/'context.json').read_text())
+     self.store=FeatureStore(config=RepoConfig(project='iot_serving_demo',provider='local',registry=str(state/'registry/registry.db'),
+         offline_store={'type':'duckdb'},online_store={'type':'redis','connection_string':os.environ['IOT_FEAST_REDIS']+',socket_timeout=2,socket_connect_timeout=2','key_ttl_seconds':3600}))
+
+services.feature_api.runtime.xǁFeastKServeBackendǁ__init____mutmut_38
+# services.feature_api.runtime.xǁFeastKServeBackendǁ__init____mutmut_38: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -3,7 +3,7 @@
+     from feast.repo_config import RepoConfig
+     state=Path(state);seal=json.loads((state/'_READY.json').read_text());verification=json.loads((state/'verification.json').read_text())
+     digest=lambda p:sha256(p.read_bytes()).hexdigest()
+-    if not verification['passed'] or digest(state/'verification.json')!=seal['verification_sha256'] or digest(state/'context.json')!=seal['context_sha256']:raise Unavailable('Serving state integrity differs')
++    if not verification['passed'] or digest(state/'verification.json')!=seal['verification_sha256'] or digest(state/'context.json')!=seal['context_sha256']:raise Unavailable('serving state integrity differs')
+     self.context=json.loads((state/'context.json').read_text())
+     self.store=FeatureStore(config=RepoConfig(project='iot_serving_demo',provider='local',registry=str(state/'registry/registry.db'),
+         offline_store={'type':'duckdb'},online_store={'type':'redis','connection_string':os.environ['IOT_FEAST_REDIS']+',socket_timeout=2,socket_connect_timeout=2','key_ttl_seconds':3600}))
+
+services.feature_api.runtime.xǁFeastKServeBackendǁ__init____mutmut_39
+# services.feature_api.runtime.xǁFeastKServeBackendǁ__init____mutmut_39: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -3,7 +3,7 @@
+     from feast.repo_config import RepoConfig
+     state=Path(state);seal=json.loads((state/'_READY.json').read_text());verification=json.loads((state/'verification.json').read_text())
+     digest=lambda p:sha256(p.read_bytes()).hexdigest()
+-    if not verification['passed'] or digest(state/'verification.json')!=seal['verification_sha256'] or digest(state/'context.json')!=seal['context_sha256']:raise Unavailable('Serving state integrity differs')
++    if not verification['passed'] or digest(state/'verification.json')!=seal['verification_sha256'] or digest(state/'context.json')!=seal['context_sha256']:raise Unavailable('SERVING STATE INTEGRITY DIFFERS')
+     self.context=json.loads((state/'context.json').read_text())
+     self.store=FeatureStore(config=RepoConfig(project='iot_serving_demo',provider='local',registry=str(state/'registry/registry.db'),
+         offline_store={'type':'duckdb'},online_store={'type':'redis','connection_string':os.environ['IOT_FEAST_REDIS']+',socket_timeout=2,socket_connect_timeout=2','key_ttl_seconds':3600}))
+
+services.feature_api.runtime.xǁFeastKServeBackendǁ__init____mutmut_88
+# services.feature_api.runtime.xǁFeastKServeBackendǁ__init____mutmut_88: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -7,4 +7,4 @@
+     self.context=json.loads((state/'context.json').read_text())
+     self.store=FeatureStore(config=RepoConfig(project='iot_serving_demo',provider='local',registry=str(state/'registry/registry.db'),
+         offline_store={'type':'duckdb'},online_store={'type':'redis','connection_string':os.environ['IOT_FEAST_REDIS']+',socket_timeout=2,socket_connect_timeout=2','key_ttl_seconds':3600}))
+-    self.service=self.store.get_feature_service(FEATURE_SERVICE);self.endpoint=predictor.rstrip('/')
++    self.service=self.store.get_feature_service(FEATURE_SERVICE);self.endpoint=predictor.rstrip('XX/XX')
+
+services.feature_api.runtime.xǁFeastKServeBackendǁfetch__mutmut_46
+# services.feature_api.runtime.xǁFeastKServeBackendǁfetch__mutmut_46: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -6,5 +6,5 @@
+     native=MessageToDict(response.proto,preserving_proto_field_name=True)
+     vectors=dict(zip(native['metadata']['feature_names']['val'],native['results'],strict=True))
+     fields=list(FeatureVector.model_fields)
+-    if raw['machine_id']!=[machine] or any(vectors[n]['statuses']!=['PRESENT'] for n in fields):raise Unavailable('Native feature status is not present')
++    if raw['machine_id']!=[machine] or any(vectors[n]['statuses']!=['PRESENT'] for n in fields):raise Unavailable(None)
+     return {'values':{n:raw[n][0] for n in fields},'timestamps':{n:datetime.fromtimestamp(raw[n+'__ts'][0],timezone.utc).isoformat() for n in fields}}
+
+services.feature_api.runtime.xǁFeastKServeBackendǁfetch__mutmut_47
+# services.feature_api.runtime.xǁFeastKServeBackendǁfetch__mutmut_47: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -6,5 +6,5 @@
+     native=MessageToDict(response.proto,preserving_proto_field_name=True)
+     vectors=dict(zip(native['metadata']['feature_names']['val'],native['results'],strict=True))
+     fields=list(FeatureVector.model_fields)
+-    if raw['machine_id']!=[machine] or any(vectors[n]['statuses']!=['PRESENT'] for n in fields):raise Unavailable('Native feature status is not present')
++    if raw['machine_id']!=[machine] or any(vectors[n]['statuses']!=['PRESENT'] for n in fields):raise Unavailable('XXNative feature status is not presentXX')
+     return {'values':{n:raw[n][0] for n in fields},'timestamps':{n:datetime.fromtimestamp(raw[n+'__ts'][0],timezone.utc).isoformat() for n in fields}}
+
+services.feature_api.runtime.xǁFeastKServeBackendǁfetch__mutmut_48
+# services.feature_api.runtime.xǁFeastKServeBackendǁfetch__mutmut_48: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -6,5 +6,5 @@
+     native=MessageToDict(response.proto,preserving_proto_field_name=True)
+     vectors=dict(zip(native['metadata']['feature_names']['val'],native['results'],strict=True))
+     fields=list(FeatureVector.model_fields)
+-    if raw['machine_id']!=[machine] or any(vectors[n]['statuses']!=['PRESENT'] for n in fields):raise Unavailable('Native feature status is not present')
++    if raw['machine_id']!=[machine] or any(vectors[n]['statuses']!=['PRESENT'] for n in fields):raise Unavailable('native feature status is not present')
+     return {'values':{n:raw[n][0] for n in fields},'timestamps':{n:datetime.fromtimestamp(raw[n+'__ts'][0],timezone.utc).isoformat() for n in fields}}
+
+services.feature_api.runtime.xǁFeastKServeBackendǁfetch__mutmut_49
+# services.feature_api.runtime.xǁFeastKServeBackendǁfetch__mutmut_49: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -6,5 +6,5 @@
+     native=MessageToDict(response.proto,preserving_proto_field_name=True)
+     vectors=dict(zip(native['metadata']['feature_names']['val'],native['results'],strict=True))
+     fields=list(FeatureVector.model_fields)
+-    if raw['machine_id']!=[machine] or any(vectors[n]['statuses']!=['PRESENT'] for n in fields):raise Unavailable('Native feature status is not present')
++    if raw['machine_id']!=[machine] or any(vectors[n]['statuses']!=['PRESENT'] for n in fields):raise Unavailable('NATIVE FEATURE STATUS IS NOT PRESENT')
+     return {'values':{n:raw[n][0] for n in fields},'timestamps':{n:datetime.fromtimestamp(raw[n+'__ts'][0],timezone.utc).isoformat() for n in fields}}
+
+services.feature_api.runtime.xǁFeastKServeBackendǁpredict__mutmut_19
+# services.feature_api.runtime.xǁFeastKServeBackendǁpredict__mutmut_19: survived
+--- services/feature_api/runtime.py
++++ services/feature_api/runtime.py
+@@ -1,4 +1,4 @@
+ def predict(self,features):
+     """Bound the downstream wait and avoid caller-controlled URLs, model names or headers."""
+-    request=urllib.request.Request(self.endpoint+'/v1/models/'+MODEL+':predict',data=json.dumps({'instances':[features]}).encode(),headers={'content-type':'application/json'})
++    request=urllib.request.Request(self.endpoint+'/v1/models/'+MODEL+':predict',data=json.dumps({'instances':[features]}).encode(),headers={'CONTENT-TYPE':'application/json'})
+     with urllib.request.urlopen(request,timeout=3) as response:return json.load(response)
+
+services.feature_api.app.x_create_app__mutmut_5
+# services.feature_api.app.x_create_app__mutmut_5: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -9,7 +9,7 @@
+         app.state.slots=asyncio.Semaphore(16)
+         yield
+         app.state.runtime=None
+-    app=FastAPI(title='IoT machine feature API',version='1.0.0',lifespan=lifespan)
++    app=FastAPI(version='1.0.0',lifespan=lifespan)
+     app.state.runtime=None
+ 
+     async def invoke(method,machine):
+
+services.feature_api.app.x_create_app__mutmut_6
+# services.feature_api.app.x_create_app__mutmut_6: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -9,7 +9,7 @@
+         app.state.slots=asyncio.Semaphore(16)
+         yield
+         app.state.runtime=None
+-    app=FastAPI(title='IoT machine feature API',version='1.0.0',lifespan=lifespan)
++    app=FastAPI(title='IoT machine feature API',lifespan=lifespan)
+     app.state.runtime=None
+ 
+     async def invoke(method,machine):
+
+services.feature_api.app.x_create_app__mutmut_8
+# services.feature_api.app.x_create_app__mutmut_8: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -9,7 +9,7 @@
+         app.state.slots=asyncio.Semaphore(16)
+         yield
+         app.state.runtime=None
+-    app=FastAPI(title='IoT machine feature API',version='1.0.0',lifespan=lifespan)
++    app=FastAPI(title='XXIoT machine feature APIXX',version='1.0.0',lifespan=lifespan)
+     app.state.runtime=None
+ 
+     async def invoke(method,machine):
+
+services.feature_api.app.x_create_app__mutmut_9
+# services.feature_api.app.x_create_app__mutmut_9: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -9,7 +9,7 @@
+         app.state.slots=asyncio.Semaphore(16)
+         yield
+         app.state.runtime=None
+-    app=FastAPI(title='IoT machine feature API',version='1.0.0',lifespan=lifespan)
++    app=FastAPI(title='iot machine feature api',version='1.0.0',lifespan=lifespan)
+     app.state.runtime=None
+ 
+     async def invoke(method,machine):
+
+services.feature_api.app.x_create_app__mutmut_10
+# services.feature_api.app.x_create_app__mutmut_10: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -9,7 +9,7 @@
+         app.state.slots=asyncio.Semaphore(16)
+         yield
+         app.state.runtime=None
+-    app=FastAPI(title='IoT machine feature API',version='1.0.0',lifespan=lifespan)
++    app=FastAPI(title='IOT MACHINE FEATURE API',version='1.0.0',lifespan=lifespan)
+     app.state.runtime=None
+ 
+     async def invoke(method,machine):
+
+services.feature_api.app.x_create_app__mutmut_11
+# services.feature_api.app.x_create_app__mutmut_11: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -9,7 +9,7 @@
+         app.state.slots=asyncio.Semaphore(16)
+         yield
+         app.state.runtime=None
+-    app=FastAPI(title='IoT machine feature API',version='1.0.0',lifespan=lifespan)
++    app=FastAPI(title='IoT machine feature API',version='XX1.0.0XX',lifespan=lifespan)
+     app.state.runtime=None
+ 
+     async def invoke(method,machine):
+
+services.feature_api.app.x_create_app__mutmut_12
+# services.feature_api.app.x_create_app__mutmut_12: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -10,7 +10,7 @@
+         yield
+         app.state.runtime=None
+     app=FastAPI(title='IoT machine feature API',version='1.0.0',lifespan=lifespan)
+-    app.state.runtime=None
++    app.state.runtime=""
+ 
+     async def invoke(method,machine):
+         """Keep sync SDK/network work off the event loop and bound in-flight backend operations."""
+
+services.feature_api.app.x_create_app__mutmut_15
+# services.feature_api.app.x_create_app__mutmut_15: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -14,7 +14,7 @@
+ 
+     async def invoke(method,machine):
+         """Keep sync SDK/network work off the event loop and bound in-flight backend operations."""
+-        if app.state.runtime is None:raise HTTPException(503,'Feature service is not ready')
++        if app.state.runtime is None:raise HTTPException(503,None)
+         try:
+             async with app.state.slots:return await asyncio.to_thread(getattr(app.state.runtime,method),machine)
+         except KeyError as error:
+
+services.feature_api.app.x_create_app__mutmut_17
+# services.feature_api.app.x_create_app__mutmut_17: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -14,7 +14,7 @@
+ 
+     async def invoke(method,machine):
+         """Keep sync SDK/network work off the event loop and bound in-flight backend operations."""
+-        if app.state.runtime is None:raise HTTPException(503,'Feature service is not ready')
++        if app.state.runtime is None:raise HTTPException(503,)
+         try:
+             async with app.state.slots:return await asyncio.to_thread(getattr(app.state.runtime,method),machine)
+         except KeyError as error:
+
+services.feature_api.app.x_create_app__mutmut_19
+# services.feature_api.app.x_create_app__mutmut_19: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -14,7 +14,7 @@
+ 
+     async def invoke(method,machine):
+         """Keep sync SDK/network work off the event loop and bound in-flight backend operations."""
+-        if app.state.runtime is None:raise HTTPException(503,'Feature service is not ready')
++        if app.state.runtime is None:raise HTTPException(503,'XXFeature service is not readyXX')
+         try:
+             async with app.state.slots:return await asyncio.to_thread(getattr(app.state.runtime,method),machine)
+         except KeyError as error:
+
+services.feature_api.app.x_create_app__mutmut_20
+# services.feature_api.app.x_create_app__mutmut_20: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -14,7 +14,7 @@
+ 
+     async def invoke(method,machine):
+         """Keep sync SDK/network work off the event loop and bound in-flight backend operations."""
+-        if app.state.runtime is None:raise HTTPException(503,'Feature service is not ready')
++        if app.state.runtime is None:raise HTTPException(503,'feature service is not ready')
+         try:
+             async with app.state.slots:return await asyncio.to_thread(getattr(app.state.runtime,method),machine)
+         except KeyError as error:
+
+services.feature_api.app.x_create_app__mutmut_21
+# services.feature_api.app.x_create_app__mutmut_21: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -14,7 +14,7 @@
+ 
+     async def invoke(method,machine):
+         """Keep sync SDK/network work off the event loop and bound in-flight backend operations."""
+-        if app.state.runtime is None:raise HTTPException(503,'Feature service is not ready')
++        if app.state.runtime is None:raise HTTPException(503,'FEATURE SERVICE IS NOT READY')
+         try:
+             async with app.state.slots:return await asyncio.to_thread(getattr(app.state.runtime,method),machine)
+         except KeyError as error:
+
+services.feature_api.app.x_create_app__mutmut_42
+# services.feature_api.app.x_create_app__mutmut_42: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -19,7 +19,7 @@
+             async with app.state.slots:return await asyncio.to_thread(getattr(app.state.runtime,method),machine)
+         except KeyError as error:
+             if machine not in app.state.runtime.context['machines']:raise HTTPException(404,'Unknown machine') from error
+-            raise HTTPException(503,'Incomplete upstream response') from error
++            raise HTTPException(503,None) from error
+         except NotOperating as error:raise HTTPException(409,str(error)) from error
+         except Exception as error:raise HTTPException(503,'Feature/model data is unavailable or failed validation') from error
+ 
+
+services.feature_api.app.x_create_app__mutmut_44
+# services.feature_api.app.x_create_app__mutmut_44: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -19,7 +19,7 @@
+             async with app.state.slots:return await asyncio.to_thread(getattr(app.state.runtime,method),machine)
+         except KeyError as error:
+             if machine not in app.state.runtime.context['machines']:raise HTTPException(404,'Unknown machine') from error
+-            raise HTTPException(503,'Incomplete upstream response') from error
++            raise HTTPException(503,) from error
+         except NotOperating as error:raise HTTPException(409,str(error)) from error
+         except Exception as error:raise HTTPException(503,'Feature/model data is unavailable or failed validation') from error
+ 
+
+services.feature_api.app.x_create_app__mutmut_46
+# services.feature_api.app.x_create_app__mutmut_46: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -19,7 +19,7 @@
+             async with app.state.slots:return await asyncio.to_thread(getattr(app.state.runtime,method),machine)
+         except KeyError as error:
+             if machine not in app.state.runtime.context['machines']:raise HTTPException(404,'Unknown machine') from error
+-            raise HTTPException(503,'Incomplete upstream response') from error
++            raise HTTPException(503,'XXIncomplete upstream responseXX') from error
+         except NotOperating as error:raise HTTPException(409,str(error)) from error
+         except Exception as error:raise HTTPException(503,'Feature/model data is unavailable or failed validation') from error
+ 
+
+services.feature_api.app.x_create_app__mutmut_47
+# services.feature_api.app.x_create_app__mutmut_47: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -19,7 +19,7 @@
+             async with app.state.slots:return await asyncio.to_thread(getattr(app.state.runtime,method),machine)
+         except KeyError as error:
+             if machine not in app.state.runtime.context['machines']:raise HTTPException(404,'Unknown machine') from error
+-            raise HTTPException(503,'Incomplete upstream response') from error
++            raise HTTPException(503,'incomplete upstream response') from error
+         except NotOperating as error:raise HTTPException(409,str(error)) from error
+         except Exception as error:raise HTTPException(503,'Feature/model data is unavailable or failed validation') from error
+ 
+
+services.feature_api.app.x_create_app__mutmut_48
+# services.feature_api.app.x_create_app__mutmut_48: survived
+--- services/feature_api/app.py
++++ services/feature_api/app.py
+@@ -19,7 +19,7 @@
+             async with app.state.slots:return await asyncio.to_thread(getattr(app.state.runtime,method),machine)
+         except KeyError as error:
+             if machine not in app.state.runtime.context['machines']:raise HTTPException(404,'Unknown machine') from error
+-            raise HTTPException(503,'Incomplete upstream response') from error
++            raise HTTPException(503,'INCOMPLETE UPSTREAM RESPONSE') from error
+         except NotOperating as error:raise HTTPException(409,str(error)) from error
+         except Exception as error:raise HTTPException(503,'Feature/model data is unavailable or failed validation') from error
+ 

@@ -1,0 +1,91 @@
+{
+  "passed": true,
+  "kind": "holdout-evaluation",
+  "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+  "selection_descriptor": "/ml-data/training-cluster-27-v2/descriptors/evaluate-input.json",
+  "selection_sha256": "94ef383d7a518b22f1d4132a72db8588145857df57d36c456852607513a5bc9c",
+  "fixed_threshold": 0.7,
+  "validation": {
+    "tp": 12748,
+    "fp": 15222,
+    "fn": 7080,
+    "tn": 433082,
+    "threshold": 0.7,
+    "precision": 0.4557740436181623,
+    "recall": 0.6429291910429695,
+    "f1": 0.533411439809197,
+    "area_under_pr": 0.5957776550421778
+  },
+  "test": {
+    "tp": 13115,
+    "fp": 14536,
+    "fn": 6842,
+    "tn": 433891,
+    "threshold": 0.7,
+    "precision": 0.47430472677299196,
+    "recall": 0.6571629002355064,
+    "f1": 0.5509578222147539,
+    "area_under_pr": 0.6151480584811881
+  },
+  "constant_training_prevalence_comparator": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 19957,
+    "tn": 448427,
+    "threshold": 0.7,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "area_under_pr": 0.04260820181731229
+  },
+  "pr_auc_implementation": "Spark3.5.9 BinaryClassificationEvaluator areaUnderPR, numBins=0, trapezoidal PR integral; not average precision",
+  "split_counts": {
+    "validation": {
+      "rows": 468132,
+      "positive_rows": 19828,
+      "failure_episodes": 1677,
+      "first": "2026-11-12T00:00:00",
+      "last": "2026-11-20T22:55:00",
+      "negative_rows": 448304
+    },
+    "test": {
+      "rows": 468384,
+      "positive_rows": 19957,
+      "failure_episodes": 1687,
+      "first": "2026-11-21T00:00:00",
+      "last": "2026-11-29T22:55:00",
+      "negative_rows": 448427
+    },
+    "train": {
+      "rows": 2195668,
+      "positive_rows": 93603,
+      "failure_episodes": 7870,
+      "first": "2026-10-01T00:00:00",
+      "last": "2026-11-11T22:55:00",
+      "negative_rows": 2102065
+    }
+  },
+  "portable_spark_max_abs_probability_difference": 4.440892098500626e-16,
+  "artifacts": [
+    {
+      "path": "/ml-data/training-cluster-27-v2/evaluation",
+      "files": {
+        "holdout-opened.json": "22f6b5cebba471b1da22b3bb66367c83900eace45217ac4759bd4c629f8d24f3",
+        "predictions/._SUCCESS.crc": "1d44f510ec2ed7595badbec80583316defc14e8dd89130d719724149adfaa07d",
+        "predictions/.part-00000-817d0f6d-0b8d-4c7b-8299-e2a7e922c023-c000.snappy.parquet.crc": "feedc4ba4f896f05a7eae4562cabe2c01da6d0effe72650d935cc91e708fb9ed",
+        "predictions/.part-00001-817d0f6d-0b8d-4c7b-8299-e2a7e922c023-c000.snappy.parquet.crc": "d27f98c2044b05e1ad5aee68dc24c647b0cc52b7b94672106b31bf59a5c1796a",
+        "predictions/_SUCCESS": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "predictions/part-00000-817d0f6d-0b8d-4c7b-8299-e2a7e922c023-c000.snappy.parquet": "1a7d2febe58caf7b2e0c2cb19bf94085725f28a3d5a76e3b70ef53b7b7a6fb19",
+        "predictions/part-00001-817d0f6d-0b8d-4c7b-8299-e2a7e922c023-c000.snappy.parquet": "4c40724872bb18618a9114e875f399eb54f61cf00874a4d9eccf35db322ccc78"
+      }
+    }
+  ],
+  "code_sha256": "4169038faf6c32a8d838131b2167e513fa556a832f889057c86696629a145a90",
+  "limitations": [
+    "Synthetic pump data; no real equipment performance claim",
+    "Same machines across time; not an unseen-machine generalization test",
+    "Nearby snapshots share failures; positive rows are not independent events",
+    "No new training or evaluation has run when this version was declared"
+  ],
+  "completed_utc": "2026-10-27T12:02:42.384106+00:00"
+}

@@ -1,0 +1,4533 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/default-container": "main",
+          "kubernetes.io/limit-ranger": "LimitRanger plugin set: cpu, memory request for container wait; cpu, memory limit for container wait; cpu, memory request for init container init; cpu, memory limit for init container init",
+          "pipelines.kubeflow.org/runtime-role": "driver",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "sidecar.istio.io/inject": "false",
+          "workflows.argoproj.io/node-id": "iot-cluster-artifact-oracle-v1-tx4p7-2168805900",
+          "workflows.argoproj.io/node-name": "iot-cluster-artifact-oracle-v1-tx4p7(0).root(0).transport-read-driver(0)"
+        },
+        "creationTimestamp": "2026-10-27T11:49:20Z",
+        "generation": 1,
+        "labels": {
+          "pipeline/runid": "38c602cf-0b80-4a47-a775-15f9aca6b291",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "workflows.argoproj.io/completed": "true",
+          "workflows.argoproj.io/workflow": "iot-cluster-artifact-oracle-v1-tx4p7"
+        },
+        "name": "iot-cluster-artifact-oracle-v1-tx4p7-system-container-driver-2168805900",
+        "namespace": "kubeflow",
+        "ownerReferences": [
+          {
+            "apiVersion": "argoproj.io/v1alpha1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Workflow",
+            "name": "iot-cluster-artifact-oracle-v1-tx4p7",
+            "uid": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+          }
+        ],
+        "resourceVersion": "4234",
+        "uid": "496d61f3-3566-434b-8531-047f51c6473b"
+      },
+      "spec": {
+        "containers": [
+          {
+            "command": [
+              "argoexec",
+              "wait",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0"
+            ],
+            "env": [
+              {
+                "name": "ARGO_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_WORKFLOW_NAME",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7"
+              },
+              {
+                "name": "ARGO_WORKFLOW_UID",
+                "value": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+              },
+              {
+                "name": "ARGO_ARTIFACT_PLUGIN_NAMES"
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "wait"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-2168805900"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "wait",
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "runAsUser": 65532,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp-dir-argo",
+                "subPath": "0"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hgmc8",
+                "readOnly": true
+              }
+            ]
+          },
+          {
+            "args": [
+              "--type",
+              "CONTAINER",
+              "--pipeline_name",
+              "iot-cluster-artifact-oracle-v1",
+              "--run_id",
+              "38c602cf-0b80-4a47-a775-15f9aca6b291",
+              "--run_name",
+              "iot-cluster-artifact-oracle-v1-tx4p7",
+              "--run_display_name",
+              "training-cluster-27-v2-oracle",
+              "--pipeline_job_create_time_utc",
+              "2026-10-27T11:48:50Z",
+              "--dag_execution_id",
+              "9",
+              "--component",
+              "{\"executorLabel\":\"exec-transport-read\",\"inputDefinitions\":{\"artifacts\":{\"source\":{\"artifactType\":{\"schemaTitle\":\"system.Dataset\",\"schemaVersion\":\"0.0.1\"}}}},\"outputDefinitions\":{\"artifacts\":{\"output\":{\"artifactType\":{\"schemaTitle\":\"system.Dataset\",\"schemaVersion\":\"0.0.1\"}}}}}",
+              "--task",
+              "{\"cachingOptions\":{},\"componentRef\":{\"name\":\"comp-transport-read\"},\"dependentTasks\":[\"transport-write\"],\"inputs\":{\"artifacts\":{\"source\":{\"taskOutputArtifact\":{\"outputArtifactKey\":\"output\",\"producerTask\":\"transport-write\"}}}},\"taskInfo\":{\"name\":\"transport-read\"}}",
+              "--task_name",
+              "transport-read",
+              "--container",
+              "{\"args\":[\"--input\",\"{{$.inputs.artifacts['source'].path}}\",\"--output\",\"{{$.outputs.artifacts['output'].path}}\",\"--executor-input\",\"{{$}}\",\"--name\",\"output\"],\"command\":[\"python3\",\"-m\",\"ml.kfp_artifacts\"],\"env\":[{\"name\":\"HOME\",\"value\":\"/tmp\"},{\"name\":\"PYTHONPATH\",\"value\":\"/workspace\"},{\"name\":\"FEAST_USAGE\",\"value\":\"False\"},{\"name\":\"IOT_FEAST_REDIS\",\"value\":\"online:6379\"},{\"name\":\"IOT_FEAST_TEMP\",\"value\":\"/ml-scratch/offline\"},{\"name\":\"OPENBLAS_NUM_THREADS\",\"value\":\"1\"},{\"name\":\"OMP_NUM_THREADS\",\"value\":\"1\"},{\"name\":\"SPARK_LOCAL_IP\",\"value\":\"127.0.0.1\"}],\"image\":\"iot-coursework-spark:3.5.9\",\"resources\":{\"cpuLimit\":2,\"cpuRequest\":0.5,\"memoryLimit\":10.73741824,\"memoryRequest\":2.147483648,\"resourceCpuLimit\":\"2\",\"resourceCpuRequest\":\"500m\",\"resourceMemoryLimit\":\"10Gi\",\"resourceMemoryRequest\":\"2Gi\"}}",
+              "--iteration_index",
+              "-1",
+              "--cached_decision_path",
+              "/tmp/outputs/cached-decision",
+              "--pod_spec_patch_path",
+              "/tmp/outputs/pod-spec-patch",
+              "--condition_path",
+              "/tmp/outputs/condition",
+              "--kubernetes_config",
+              "{\"imagePullPolicy\":\"Never\",\"pvcMount\":[{\"constant\":\"iot-ml-code\",\"mountPath\":\"/workspace\",\"pvcNameParameter\":{\"runtimeValue\":{\"constant\":\"iot-ml-code\"}}},{\"constant\":\"iot-ml-workspace\",\"mountPath\":\"/ml-data\",\"pvcNameParameter\":{\"runtimeValue\":{\"constant\":\"iot-ml-workspace\"}}},{\"constant\":\"iot-ml-scratch\",\"mountPath\":\"/ml-scratch\",\"pvcNameParameter\":{\"runtimeValue\":{\"constant\":\"iot-ml-scratch\"}}}],\"securityContext\":{\"runAsGroup\":\"10001\",\"runAsNonRoot\":true,\"runAsUser\":\"185\"}}",
+              "--http_proxy",
+              "",
+              "--https_proxy",
+              "",
+              "--no_proxy",
+              "",
+              "--ml_pipeline_server_address",
+              "ml-pipeline.kubeflow.svc.cluster.local",
+              "--ml_pipeline_server_port",
+              "8887",
+              "--mlmd_server_address",
+              "metadata-grpc-service.kubeflow.svc.cluster.local",
+              "--mlmd_server_port",
+              "8080",
+              "--log_level",
+              "1",
+              "--publish_logs",
+              "true"
+            ],
+            "command": [
+              "/var/run/argo/argoexec",
+              "emissary",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0",
+              "--",
+              "driver"
+            ],
+            "env": [
+              {
+                "name": "KFP_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "KFP_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "main"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-2168805900"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "ghcr.io/kubeflow/kfp-driver:2.17.2",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "main",
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "64Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hgmc8",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "initContainers": [
+          {
+            "command": [
+              "argoexec",
+              "init",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0"
+            ],
+            "env": [
+              {
+                "name": "ARGO_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_WORKFLOW_NAME",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7"
+              },
+              {
+                "name": "ARGO_WORKFLOW_UID",
+                "value": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "init"
+              },
+              {
+                "name": "ARGO_TEMPLATE",
+                "value": "{\"name\":\"system-container-driver\",\"inputs\":{},\"outputs\":{\"parameters\":[{\"name\":\"pod-spec-patch\",\"valueFrom\":{\"path\":\"/tmp/outputs/pod-spec-patch\",\"default\":\"\"}},{\"name\":\"cached-decision\",\"default\":\"false\",\"valueFrom\":{\"path\":\"/tmp/outputs/cached-decision\",\"default\":\"false\"}},{\"name\":\"condition\",\"valueFrom\":{\"path\":\"/tmp/outputs/condition\",\"default\":\"true\"}}]},\"metadata\":{\"annotations\":{\"pipelines.kubeflow.org/runtime-role\":\"driver\",\"pipelines.kubeflow.org/v2_component\":\"true\",\"sidecar.istio.io/inject\":\"false\"},\"labels\":{\"pipeline/runid\":\"38c602cf-0b80-4a47-a775-15f9aca6b291\",\"pipelines.kubeflow.org/v2_component\":\"true\"}},\"container\":{\"name\":\"\",\"image\":\"ghcr.io/kubeflow/kfp-driver:2.17.2\",\"command\":[\"driver\"],\"args\":[\"--type\",\"CONTAINER\",\"--pipeline_name\",\"iot-cluster-artifact-oracle-v1\",\"--run_id\",\"38c602cf-0b80-4a47-a775-15f9aca6b291\",\"--run_name\",\"iot-cluster-artifact-oracle-v1-tx4p7\",\"--run_display_name\",\"training-cluster-27-v2-oracle\",\"--pipeline_job_create_time_utc\",\"2026-10-27T11:48:50Z\",\"--dag_execution_id\",\"9\",\"--component\",\"{\\\"executorLabel\\\":\\\"exec-transport-read\\\",\\\"inputDefinitions\\\":{\\\"artifacts\\\":{\\\"source\\\":{\\\"artifactType\\\":{\\\"schemaTitle\\\":\\\"system.Dataset\\\",\\\"schemaVersion\\\":\\\"0.0.1\\\"}}}},\\\"outputDefinitions\\\":{\\\"artifacts\\\":{\\\"output\\\":{\\\"artifactType\\\":{\\\"schemaTitle\\\":\\\"system.Dataset\\\",\\\"schemaVersion\\\":\\\"0.0.1\\\"}}}}}\",\"--task\",\"{\\\"cachingOptions\\\":{},\\\"componentRef\\\":{\\\"name\\\":\\\"comp-transport-read\\\"},\\\"dependentTasks\\\":[\\\"transport-write\\\"],\\\"inputs\\\":{\\\"artifacts\\\":{\\\"source\\\":{\\\"taskOutputArtifact\\\":{\\\"outputArtifactKey\\\":\\\"output\\\",\\\"producerTask\\\":\\\"transport-write\\\"}}}},\\\"taskInfo\\\":{\\\"name\\\":\\\"transport-read\\\"}}\",\"--task_name\",\"transport-read\",\"--container\",\"{\\\"args\\\":[\\\"--input\\\",\\\"{{$.inputs.artifacts['source'].path}}\\\",\\\"--output\\\",\\\"{{$.outputs.artifacts['output'].path}}\\\",\\\"--executor-input\\\",\\\"{{$}}\\\",\\\"--name\\\",\\\"output\\\"],\\\"command\\\":[\\\"python3\\\",\\\"-m\\\",\\\"ml.kfp_artifacts\\\"],\\\"env\\\":[{\\\"name\\\":\\\"HOME\\\",\\\"value\\\":\\\"/tmp\\\"},{\\\"name\\\":\\\"PYTHONPATH\\\",\\\"value\\\":\\\"/workspace\\\"},{\\\"name\\\":\\\"FEAST_USAGE\\\",\\\"value\\\":\\\"False\\\"},{\\\"name\\\":\\\"IOT_FEAST_REDIS\\\",\\\"value\\\":\\\"online:6379\\\"},{\\\"name\\\":\\\"IOT_FEAST_TEMP\\\",\\\"value\\\":\\\"/ml-scratch/offline\\\"},{\\\"name\\\":\\\"OPENBLAS_NUM_THREADS\\\",\\\"value\\\":\\\"1\\\"},{\\\"name\\\":\\\"OMP_NUM_THREADS\\\",\\\"value\\\":\\\"1\\\"},{\\\"name\\\":\\\"SPARK_LOCAL_IP\\\",\\\"value\\\":\\\"127.0.0.1\\\"}],\\\"image\\\":\\\"iot-coursework-spark:3.5.9\\\",\\\"resources\\\":{\\\"cpuLimit\\\":2,\\\"cpuRequest\\\":0.5,\\\"memoryLimit\\\":10.73741824,\\\"memoryRequest\\\":2.147483648,\\\"resourceCpuLimit\\\":\\\"2\\\",\\\"resourceCpuRequest\\\":\\\"500m\\\",\\\"resourceMemoryLimit\\\":\\\"10Gi\\\",\\\"resourceMemoryRequest\\\":\\\"2Gi\\\"}}\",\"--iteration_index\",\"-1\",\"--cached_decision_path\",\"/tmp/outputs/cached-decision\",\"--pod_spec_patch_path\",\"/tmp/outputs/pod-spec-patch\",\"--condition_path\",\"/tmp/outputs/condition\",\"--kubernetes_config\",\"{\\\"imagePullPolicy\\\":\\\"Never\\\",\\\"pvcMount\\\":[{\\\"constant\\\":\\\"iot-ml-code\\\",\\\"mountPath\\\":\\\"/workspace\\\",\\\"pvcNameParameter\\\":{\\\"runtimeValue\\\":{\\\"constant\\\":\\\"iot-ml-code\\\"}}},{\\\"constant\\\":\\\"iot-ml-workspace\\\",\\\"mountPath\\\":\\\"/ml-data\\\",\\\"pvcNameParameter\\\":{\\\"runtimeValue\\\":{\\\"constant\\\":\\\"iot-ml-workspace\\\"}}},{\\\"constant\\\":\\\"iot-ml-scratch\\\",\\\"mountPath\\\":\\\"/ml-scratch\\\",\\\"pvcNameParameter\\\":{\\\"runtimeValue\\\":{\\\"constant\\\":\\\"iot-ml-scratch\\\"}}}],\\\"securityContext\\\":{\\\"runAsGroup\\\":\\\"10001\\\",\\\"runAsNonRoot\\\":true,\\\"runAsUser\\\":\\\"185\\\"}}\",\"--http_proxy\",\"\",\"--https_proxy\",\"\",\"--no_proxy\",\"\",\"--ml_pipeline_server_address\",\"ml-pipeline.kubeflow.svc.cluster.local\",\"--ml_pipeline_server_port\",\"8887\",\"--mlmd_server_address\",\"metadata-grpc-service.kubeflow.svc.cluster.local\",\"--mlmd_server_port\",\"8080\",\"--log_level\",\"1\",\"--publish_logs\",\"true\"],\"env\":[{\"name\":\"KFP_POD_NAME\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.name\"}}},{\"name\":\"KFP_POD_UID\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.uid\"}}}],\"resources\":{\"limits\":{\"cpu\":\"500m\",\"memory\":\"512Mi\"},\"requests\":{\"cpu\":\"100m\",\"memory\":\"64Mi\"}},\"securityContext\":{\"capabilities\":{\"drop\":[\"ALL\"]},\"runAsNonRoot\":true,\"allowPrivilegeEscalation\":false,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}},\"archiveLocation\":{\"archiveLogs\":true,\"s3\":{\"endpoint\":\"seaweedfs.kubeflow.svc:9000\",\"bucket\":\"mlpipeline\",\"insecure\":true,\"accessKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"accesskey\"},\"secretKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"secretkey\"},\"key\":\"private-artifacts/kubeflow/iot-cluster-artifact-oracle-v1-tx4p7/2026/10/27/iot-cluster-artifact-oracle-v1-tx4p7-system-container-driver-2168805900\"}},\"retryStrategy\":{\"limit\":\"2\",\"retryPolicy\":\"OnError\"},\"securityContext\":{\"runAsNonRoot\":true,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}}"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-2168805900"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "init",
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "runAsUser": 65532,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hgmc8",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "nodeName": "iot-cw-vm",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "runAsNonRoot": true,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "pipeline-runner",
+        "serviceAccountName": "pipeline-runner",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "emptyDir": {},
+            "name": "var-run-argo"
+          },
+          {
+            "emptyDir": {},
+            "name": "tmp-dir-argo"
+          },
+          {
+            "name": "mlpipeline-minio-artifact",
+            "secret": {
+              "defaultMode": 420,
+              "items": [
+                {
+                  "key": "accesskey",
+                  "path": "accesskey"
+                },
+                {
+                  "key": "secretkey",
+                  "path": "secretkey"
+                }
+              ],
+              "secretName": "mlpipeline-minio-artifact"
+            }
+          },
+          {
+            "name": "kube-api-access-hgmc8",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ],
+                    "name": "kube-root-ca.crt"
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        },
+                        "path": "namespace"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:26Z",
+            "observedGeneration": 1,
+            "status": "False",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:22Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:24Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:24Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:20Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "100m",
+              "memory": "64Mi"
+            },
+            "containerID": "containerd://1854984adcd2d98289e5fa9f4d16032d7668152e48d6723b6728fd6f8415e1af",
+            "image": "ghcr.io/kubeflow/kfp-driver:2.17.2",
+            "imageID": "ghcr.io/kubeflow/kfp-driver@sha256:4081fa56cb1914a6b357b6f77fc0f14d846ed142bc2697aa58380376d81308ab",
+            "lastState": {},
+            "name": "main",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "64Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://1854984adcd2d98289e5fa9f4d16032d7668152e48d6723b6728fd6f8415e1af",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:23Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:22Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65533,
+                "supplementalGroups": [
+                  65533
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hgmc8",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          },
+          {
+            "allocatedResources": {
+              "cpu": "50m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://4e5917177ead5b6ef132db51e90376510e3ff93e4ccbddce97395f863e6a7bff",
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imageID": "quay.io/argoproj/argoexec@sha256:0cb732e24c7d13385066c920e2943fdddfa1d15e6bf5ad99f02e48c50625d022",
+            "lastState": {},
+            "name": "wait",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://4e5917177ead5b6ef132db51e90376510e3ff93e4ccbddce97395f863e6a7bff",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:24Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:22Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65532,
+                "supplementalGroups": [
+                  65532
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp-dir-argo"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hgmc8",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "hostIP": "10.42.0.2",
+        "hostIPs": [
+          {
+            "ip": "10.42.0.2"
+          }
+        ],
+        "initContainerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "50m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://2dc601df1574563c1012ae8c2ed31f81b679871a23b01a4550a240ac05ee2dad",
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imageID": "quay.io/argoproj/argoexec@sha256:0cb732e24c7d13385066c920e2943fdddfa1d15e6bf5ad99f02e48c50625d022",
+            "lastState": {},
+            "name": "init",
+            "ready": true,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://2dc601df1574563c1012ae8c2ed31f81b679871a23b01a4550a240ac05ee2dad",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:21Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:21Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65532,
+                "supplementalGroups": [
+                  65532
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hgmc8",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "observedGeneration": 1,
+        "phase": "Succeeded",
+        "podIP": "10.52.0.45",
+        "podIPs": [
+          {
+            "ip": "10.52.0.45"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-27T11:49:20Z"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/default-container": "main",
+          "kubernetes.io/limit-ranger": "LimitRanger plugin set: cpu, memory request for container wait; cpu, memory limit for container wait; cpu, memory request for init container init; cpu, memory limit for init container init",
+          "pipelines.kubeflow.org/runtime-role": "driver",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "sidecar.istio.io/inject": "false",
+          "workflows.argoproj.io/node-id": "iot-cluster-artifact-oracle-v1-tx4p7-636605591",
+          "workflows.argoproj.io/node-name": "iot-cluster-artifact-oracle-v1-tx4p7(0).root(0).transport-write-driver(0)"
+        },
+        "creationTimestamp": "2026-10-27T11:49:00Z",
+        "generation": 1,
+        "labels": {
+          "pipeline/runid": "38c602cf-0b80-4a47-a775-15f9aca6b291",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "workflows.argoproj.io/completed": "true",
+          "workflows.argoproj.io/workflow": "iot-cluster-artifact-oracle-v1-tx4p7"
+        },
+        "name": "iot-cluster-artifact-oracle-v1-tx4p7-system-container-driver-636605591",
+        "namespace": "kubeflow",
+        "ownerReferences": [
+          {
+            "apiVersion": "argoproj.io/v1alpha1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Workflow",
+            "name": "iot-cluster-artifact-oracle-v1-tx4p7",
+            "uid": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+          }
+        ],
+        "resourceVersion": "4150",
+        "uid": "b7b250ba-ee3f-4c04-ac22-25fbb29ab88b"
+      },
+      "spec": {
+        "containers": [
+          {
+            "command": [
+              "argoexec",
+              "wait",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0"
+            ],
+            "env": [
+              {
+                "name": "ARGO_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_WORKFLOW_NAME",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7"
+              },
+              {
+                "name": "ARGO_WORKFLOW_UID",
+                "value": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+              },
+              {
+                "name": "ARGO_ARTIFACT_PLUGIN_NAMES"
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "wait"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-636605591"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "wait",
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "runAsUser": 65532,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp-dir-argo",
+                "subPath": "0"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-sfzb6",
+                "readOnly": true
+              }
+            ]
+          },
+          {
+            "args": [
+              "--type",
+              "CONTAINER",
+              "--pipeline_name",
+              "iot-cluster-artifact-oracle-v1",
+              "--run_id",
+              "38c602cf-0b80-4a47-a775-15f9aca6b291",
+              "--run_name",
+              "iot-cluster-artifact-oracle-v1-tx4p7",
+              "--run_display_name",
+              "training-cluster-27-v2-oracle",
+              "--pipeline_job_create_time_utc",
+              "2026-10-27T11:48:50Z",
+              "--dag_execution_id",
+              "9",
+              "--component",
+              "{\"executorLabel\":\"exec-transport-write\",\"outputDefinitions\":{\"artifacts\":{\"output\":{\"artifactType\":{\"schemaTitle\":\"system.Dataset\",\"schemaVersion\":\"0.0.1\"}}}}}",
+              "--task",
+              "{\"cachingOptions\":{},\"componentRef\":{\"name\":\"comp-transport-write\"},\"taskInfo\":{\"name\":\"transport-write\"}}",
+              "--task_name",
+              "transport-write",
+              "--container",
+              "{\"args\":[\"--output\",\"{{$.outputs.artifacts['output'].path}}\",\"--executor-input\",\"{{$}}\",\"--name\",\"output\"],\"command\":[\"python\",\"-m\",\"ml.kfp_artifacts\"],\"env\":[{\"name\":\"HOME\",\"value\":\"/tmp\"},{\"name\":\"PYTHONPATH\",\"value\":\"/workspace\"},{\"name\":\"FEAST_USAGE\",\"value\":\"False\"},{\"name\":\"IOT_FEAST_REDIS\",\"value\":\"online:6379\"},{\"name\":\"IOT_FEAST_TEMP\",\"value\":\"/ml-scratch/offline\"},{\"name\":\"OPENBLAS_NUM_THREADS\",\"value\":\"1\"},{\"name\":\"OMP_NUM_THREADS\",\"value\":\"1\"},{\"name\":\"SPARK_LOCAL_IP\",\"value\":\"127.0.0.1\"}],\"image\":\"iot-coursework-feast:0.67.0\",\"resources\":{\"cpuLimit\":2,\"cpuRequest\":0.5,\"memoryLimit\":10.73741824,\"memoryRequest\":2.147483648,\"resourceCpuLimit\":\"2\",\"resourceCpuRequest\":\"500m\",\"resourceMemoryLimit\":\"10Gi\",\"resourceMemoryRequest\":\"2Gi\"}}",
+              "--iteration_index",
+              "-1",
+              "--cached_decision_path",
+              "/tmp/outputs/cached-decision",
+              "--pod_spec_patch_path",
+              "/tmp/outputs/pod-spec-patch",
+              "--condition_path",
+              "/tmp/outputs/condition",
+              "--kubernetes_config",
+              "{\"imagePullPolicy\":\"Never\",\"pvcMount\":[{\"constant\":\"iot-ml-code\",\"mountPath\":\"/workspace\",\"pvcNameParameter\":{\"runtimeValue\":{\"constant\":\"iot-ml-code\"}}},{\"constant\":\"iot-ml-workspace\",\"mountPath\":\"/ml-data\",\"pvcNameParameter\":{\"runtimeValue\":{\"constant\":\"iot-ml-workspace\"}}},{\"constant\":\"iot-ml-scratch\",\"mountPath\":\"/ml-scratch\",\"pvcNameParameter\":{\"runtimeValue\":{\"constant\":\"iot-ml-scratch\"}}}],\"securityContext\":{\"runAsGroup\":\"10001\",\"runAsNonRoot\":true,\"runAsUser\":\"10001\"}}",
+              "--http_proxy",
+              "",
+              "--https_proxy",
+              "",
+              "--no_proxy",
+              "",
+              "--ml_pipeline_server_address",
+              "ml-pipeline.kubeflow.svc.cluster.local",
+              "--ml_pipeline_server_port",
+              "8887",
+              "--mlmd_server_address",
+              "metadata-grpc-service.kubeflow.svc.cluster.local",
+              "--mlmd_server_port",
+              "8080",
+              "--log_level",
+              "1",
+              "--publish_logs",
+              "true"
+            ],
+            "command": [
+              "/var/run/argo/argoexec",
+              "emissary",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0",
+              "--",
+              "driver"
+            ],
+            "env": [
+              {
+                "name": "KFP_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "KFP_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "main"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-636605591"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "ghcr.io/kubeflow/kfp-driver:2.17.2",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "main",
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "64Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-sfzb6",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "initContainers": [
+          {
+            "command": [
+              "argoexec",
+              "init",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0"
+            ],
+            "env": [
+              {
+                "name": "ARGO_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_WORKFLOW_NAME",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7"
+              },
+              {
+                "name": "ARGO_WORKFLOW_UID",
+                "value": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "init"
+              },
+              {
+                "name": "ARGO_TEMPLATE",
+                "value": "{\"name\":\"system-container-driver\",\"inputs\":{},\"outputs\":{\"parameters\":[{\"name\":\"pod-spec-patch\",\"valueFrom\":{\"path\":\"/tmp/outputs/pod-spec-patch\",\"default\":\"\"}},{\"name\":\"cached-decision\",\"default\":\"false\",\"valueFrom\":{\"path\":\"/tmp/outputs/cached-decision\",\"default\":\"false\"}},{\"name\":\"condition\",\"valueFrom\":{\"path\":\"/tmp/outputs/condition\",\"default\":\"true\"}}]},\"metadata\":{\"annotations\":{\"pipelines.kubeflow.org/runtime-role\":\"driver\",\"pipelines.kubeflow.org/v2_component\":\"true\",\"sidecar.istio.io/inject\":\"false\"},\"labels\":{\"pipeline/runid\":\"38c602cf-0b80-4a47-a775-15f9aca6b291\",\"pipelines.kubeflow.org/v2_component\":\"true\"}},\"container\":{\"name\":\"\",\"image\":\"ghcr.io/kubeflow/kfp-driver:2.17.2\",\"command\":[\"driver\"],\"args\":[\"--type\",\"CONTAINER\",\"--pipeline_name\",\"iot-cluster-artifact-oracle-v1\",\"--run_id\",\"38c602cf-0b80-4a47-a775-15f9aca6b291\",\"--run_name\",\"iot-cluster-artifact-oracle-v1-tx4p7\",\"--run_display_name\",\"training-cluster-27-v2-oracle\",\"--pipeline_job_create_time_utc\",\"2026-10-27T11:48:50Z\",\"--dag_execution_id\",\"9\",\"--component\",\"{\\\"executorLabel\\\":\\\"exec-transport-write\\\",\\\"outputDefinitions\\\":{\\\"artifacts\\\":{\\\"output\\\":{\\\"artifactType\\\":{\\\"schemaTitle\\\":\\\"system.Dataset\\\",\\\"schemaVersion\\\":\\\"0.0.1\\\"}}}}}\",\"--task\",\"{\\\"cachingOptions\\\":{},\\\"componentRef\\\":{\\\"name\\\":\\\"comp-transport-write\\\"},\\\"taskInfo\\\":{\\\"name\\\":\\\"transport-write\\\"}}\",\"--task_name\",\"transport-write\",\"--container\",\"{\\\"args\\\":[\\\"--output\\\",\\\"{{$.outputs.artifacts['output'].path}}\\\",\\\"--executor-input\\\",\\\"{{$}}\\\",\\\"--name\\\",\\\"output\\\"],\\\"command\\\":[\\\"python\\\",\\\"-m\\\",\\\"ml.kfp_artifacts\\\"],\\\"env\\\":[{\\\"name\\\":\\\"HOME\\\",\\\"value\\\":\\\"/tmp\\\"},{\\\"name\\\":\\\"PYTHONPATH\\\",\\\"value\\\":\\\"/workspace\\\"},{\\\"name\\\":\\\"FEAST_USAGE\\\",\\\"value\\\":\\\"False\\\"},{\\\"name\\\":\\\"IOT_FEAST_REDIS\\\",\\\"value\\\":\\\"online:6379\\\"},{\\\"name\\\":\\\"IOT_FEAST_TEMP\\\",\\\"value\\\":\\\"/ml-scratch/offline\\\"},{\\\"name\\\":\\\"OPENBLAS_NUM_THREADS\\\",\\\"value\\\":\\\"1\\\"},{\\\"name\\\":\\\"OMP_NUM_THREADS\\\",\\\"value\\\":\\\"1\\\"},{\\\"name\\\":\\\"SPARK_LOCAL_IP\\\",\\\"value\\\":\\\"127.0.0.1\\\"}],\\\"image\\\":\\\"iot-coursework-feast:0.67.0\\\",\\\"resources\\\":{\\\"cpuLimit\\\":2,\\\"cpuRequest\\\":0.5,\\\"memoryLimit\\\":10.73741824,\\\"memoryRequest\\\":2.147483648,\\\"resourceCpuLimit\\\":\\\"2\\\",\\\"resourceCpuRequest\\\":\\\"500m\\\",\\\"resourceMemoryLimit\\\":\\\"10Gi\\\",\\\"resourceMemoryRequest\\\":\\\"2Gi\\\"}}\",\"--iteration_index\",\"-1\",\"--cached_decision_path\",\"/tmp/outputs/cached-decision\",\"--pod_spec_patch_path\",\"/tmp/outputs/pod-spec-patch\",\"--condition_path\",\"/tmp/outputs/condition\",\"--kubernetes_config\",\"{\\\"imagePullPolicy\\\":\\\"Never\\\",\\\"pvcMount\\\":[{\\\"constant\\\":\\\"iot-ml-code\\\",\\\"mountPath\\\":\\\"/workspace\\\",\\\"pvcNameParameter\\\":{\\\"runtimeValue\\\":{\\\"constant\\\":\\\"iot-ml-code\\\"}}},{\\\"constant\\\":\\\"iot-ml-workspace\\\",\\\"mountPath\\\":\\\"/ml-data\\\",\\\"pvcNameParameter\\\":{\\\"runtimeValue\\\":{\\\"constant\\\":\\\"iot-ml-workspace\\\"}}},{\\\"constant\\\":\\\"iot-ml-scratch\\\",\\\"mountPath\\\":\\\"/ml-scratch\\\",\\\"pvcNameParameter\\\":{\\\"runtimeValue\\\":{\\\"constant\\\":\\\"iot-ml-scratch\\\"}}}],\\\"securityContext\\\":{\\\"runAsGroup\\\":\\\"10001\\\",\\\"runAsNonRoot\\\":true,\\\"runAsUser\\\":\\\"10001\\\"}}\",\"--http_proxy\",\"\",\"--https_proxy\",\"\",\"--no_proxy\",\"\",\"--ml_pipeline_server_address\",\"ml-pipeline.kubeflow.svc.cluster.local\",\"--ml_pipeline_server_port\",\"8887\",\"--mlmd_server_address\",\"metadata-grpc-service.kubeflow.svc.cluster.local\",\"--mlmd_server_port\",\"8080\",\"--log_level\",\"1\",\"--publish_logs\",\"true\"],\"env\":[{\"name\":\"KFP_POD_NAME\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.name\"}}},{\"name\":\"KFP_POD_UID\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.uid\"}}}],\"resources\":{\"limits\":{\"cpu\":\"500m\",\"memory\":\"512Mi\"},\"requests\":{\"cpu\":\"100m\",\"memory\":\"64Mi\"}},\"securityContext\":{\"capabilities\":{\"drop\":[\"ALL\"]},\"runAsNonRoot\":true,\"allowPrivilegeEscalation\":false,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}},\"archiveLocation\":{\"archiveLogs\":true,\"s3\":{\"endpoint\":\"seaweedfs.kubeflow.svc:9000\",\"bucket\":\"mlpipeline\",\"insecure\":true,\"accessKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"accesskey\"},\"secretKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"secretkey\"},\"key\":\"private-artifacts/kubeflow/iot-cluster-artifact-oracle-v1-tx4p7/2026/10/27/iot-cluster-artifact-oracle-v1-tx4p7-system-container-driver-636605591\"}},\"retryStrategy\":{\"limit\":\"2\",\"retryPolicy\":\"OnError\"},\"securityContext\":{\"runAsNonRoot\":true,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}}"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-636605591"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "init",
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "runAsUser": 65532,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-sfzb6",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "nodeName": "iot-cw-vm",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "runAsNonRoot": true,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "pipeline-runner",
+        "serviceAccountName": "pipeline-runner",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "emptyDir": {},
+            "name": "var-run-argo"
+          },
+          {
+            "emptyDir": {},
+            "name": "tmp-dir-argo"
+          },
+          {
+            "name": "mlpipeline-minio-artifact",
+            "secret": {
+              "defaultMode": 420,
+              "items": [
+                {
+                  "key": "accesskey",
+                  "path": "accesskey"
+                },
+                {
+                  "key": "secretkey",
+                  "path": "secretkey"
+                }
+              ],
+              "secretName": "mlpipeline-minio-artifact"
+            }
+          },
+          {
+            "name": "kube-api-access-sfzb6",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ],
+                    "name": "kube-root-ca.crt"
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        },
+                        "path": "namespace"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:06Z",
+            "observedGeneration": 1,
+            "status": "False",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:01Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:03Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:03Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:00Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "100m",
+              "memory": "64Mi"
+            },
+            "containerID": "containerd://6c6f42873eeae44618aad8cb24b43ec6af201796f69316ca910e9ad322192752",
+            "image": "ghcr.io/kubeflow/kfp-driver:2.17.2",
+            "imageID": "ghcr.io/kubeflow/kfp-driver@sha256:4081fa56cb1914a6b357b6f77fc0f14d846ed142bc2697aa58380376d81308ab",
+            "lastState": {},
+            "name": "main",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "64Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://6c6f42873eeae44618aad8cb24b43ec6af201796f69316ca910e9ad322192752",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:03Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:02Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65533,
+                "supplementalGroups": [
+                  65533
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-sfzb6",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          },
+          {
+            "allocatedResources": {
+              "cpu": "50m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://57fa95822de47548374b81e51cac80b1a23cc413f4caa66899d855c954475e06",
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imageID": "quay.io/argoproj/argoexec@sha256:0cb732e24c7d13385066c920e2943fdddfa1d15e6bf5ad99f02e48c50625d022",
+            "lastState": {},
+            "name": "wait",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://57fa95822de47548374b81e51cac80b1a23cc413f4caa66899d855c954475e06",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:04Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:02Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65532,
+                "supplementalGroups": [
+                  65532
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp-dir-argo"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-sfzb6",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "hostIP": "10.42.0.2",
+        "hostIPs": [
+          {
+            "ip": "10.42.0.2"
+          }
+        ],
+        "initContainerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "50m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://dfe83b15ec882efee68f54c01a4ba1e9bf676cc8a4d44dec9f0832d68c4719e0",
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imageID": "quay.io/argoproj/argoexec@sha256:0cb732e24c7d13385066c920e2943fdddfa1d15e6bf5ad99f02e48c50625d022",
+            "lastState": {},
+            "name": "init",
+            "ready": true,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://dfe83b15ec882efee68f54c01a4ba1e9bf676cc8a4d44dec9f0832d68c4719e0",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:01Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:01Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65532,
+                "supplementalGroups": [
+                  65532
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-sfzb6",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "observedGeneration": 1,
+        "phase": "Succeeded",
+        "podIP": "10.52.0.43",
+        "podIPs": [
+          {
+            "ip": "10.52.0.43"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-27T11:49:00Z"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/default-container": "main",
+          "kubernetes.io/limit-ranger": "LimitRanger plugin set: cpu, memory request for container wait; cpu, memory limit for container wait; cpu, memory request for init container init; cpu, memory limit for init container init",
+          "pipelines.kubeflow.org/runtime-role": "launcher",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "sidecar.istio.io/inject": "false",
+          "workflows.argoproj.io/node-id": "iot-cluster-artifact-oracle-v1-tx4p7-1558543809",
+          "workflows.argoproj.io/node-name": "iot-cluster-artifact-oracle-v1-tx4p7(0).root(0).transport-read(0).executor(0)"
+        },
+        "creationTimestamp": "2026-10-27T11:49:30Z",
+        "generation": 1,
+        "labels": {
+          "pipeline/runid": "38c602cf-0b80-4a47-a775-15f9aca6b291",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "workflows.argoproj.io/completed": "true",
+          "workflows.argoproj.io/workflow": "iot-cluster-artifact-oracle-v1-tx4p7"
+        },
+        "name": "iot-cluster-artifact-oracle-v1-tx4p7-system-container-impl-1558543809",
+        "namespace": "kubeflow",
+        "ownerReferences": [
+          {
+            "apiVersion": "argoproj.io/v1alpha1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Workflow",
+            "name": "iot-cluster-artifact-oracle-v1-tx4p7",
+            "uid": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+          }
+        ],
+        "resourceVersion": "4282",
+        "uid": "56b5421d-f80f-46eb-bff2-b49f097ca384"
+      },
+      "spec": {
+        "containers": [
+          {
+            "command": [
+              "argoexec",
+              "wait",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0"
+            ],
+            "env": [
+              {
+                "name": "ARGO_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_WORKFLOW_NAME",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7"
+              },
+              {
+                "name": "ARGO_WORKFLOW_UID",
+                "value": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+              },
+              {
+                "name": "ARGO_ARTIFACT_PLUGIN_NAMES"
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "wait"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-1558543809"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "wait",
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "runAsUser": 65532,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/mainctrfs/kfp-launcher",
+                "name": "kfp-launcher"
+              },
+              {
+                "mountPath": "/mainctrfs/gcs",
+                "name": "gcs-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/s3",
+                "name": "s3-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/minio",
+                "name": "minio-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/.local",
+                "name": "dot-local-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/.cache",
+                "name": "dot-cache-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/.config",
+                "name": "dot-config-scratch"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp-dir-argo",
+                "subPath": "0"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hcgwk",
+                "readOnly": true
+              }
+            ]
+          },
+          {
+            "args": [
+              "python3",
+              "-m",
+              "ml.kfp_artifacts",
+              "--input",
+              "{{$.inputs.artifacts['source'].path}}",
+              "--output",
+              "{{$.outputs.artifacts['output'].path}}",
+              "--executor-input",
+              "{{$}}",
+              "--name",
+              "output"
+            ],
+            "command": [
+              "/var/run/argo/argoexec",
+              "emissary",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0",
+              "--",
+              "/kfp-launcher/launch",
+              "--pipeline_name",
+              "iot-cluster-artifact-oracle-v1",
+              "--run_id",
+              "38c602cf-0b80-4a47-a775-15f9aca6b291",
+              "--execution_id",
+              "11",
+              "--executor_input",
+              "{\"inputs\":{\"artifacts\":{\"source\":{\"artifacts\":[{\"name\":\"12\",\"type\":{\"instanceSchema\":\"\"},\"uri\":\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-write/c6b506d7-1971-451e-b7db-9d136d2dbd0e/output\",\"metadata\":{\"display_name\":\"output\",\"store_session_info\":\"{\\\"Provider\\\":\\\"minio\\\",\\\"Params\\\":{\\\"accessKeyKey\\\":\\\"accesskey\\\",\\\"disableSSL\\\":\\\"true\\\",\\\"endpoint\\\":\\\"seaweedfs.kubeflow:9000\\\",\\\"fromEnv\\\":\\\"false\\\",\\\"maxRetries\\\":\\\"5\\\",\\\"region\\\":\\\"minio\\\",\\\"secretKeyKey\\\":\\\"secretkey\\\",\\\"secretName\\\":\\\"mlpipeline-minio-artifact\\\"}}\"}}]}}},\"outputs\":{\"artifacts\":{\"executor-logs\":{\"artifacts\":[{\"name\":\"executor-logs\",\"type\":{\"schemaTitle\":\"system.Artifact\"},\"uri\":\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-read/772f4d59-b5c7-46f2-89b1-a4067e244a2a/executor-logs\"}]},\"output\":{\"artifacts\":[{\"name\":\"output\",\"type\":{\"schemaTitle\":\"system.Dataset\",\"schemaVersion\":\"0.0.1\"},\"uri\":\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-read/772f4d59-b5c7-46f2-89b1-a4067e244a2a/output\"}]}},\"outputFile\":\"/minio/mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-read/772f4d59-b5c7-46f2-89b1-a4067e244a2a/output_metadata.json\"}}",
+              "--component_spec",
+              "{\"inputDefinitions\":{\"artifacts\":{\"source\":{\"artifactType\":{\"schemaTitle\":\"system.Dataset\",\"schemaVersion\":\"0.0.1\"}}}},\"outputDefinitions\":{\"artifacts\":{\"executor-logs\":{\"artifactType\":{\"schemaTitle\":\"system.Artifact\"}},\"output\":{\"artifactType\":{\"schemaTitle\":\"system.Dataset\",\"schemaVersion\":\"0.0.1\"}}}},\"executorLabel\":\"exec-transport-read\"}",
+              "--pod_name",
+              "$(KFP_POD_NAME)",
+              "--pod_uid",
+              "$(KFP_POD_UID)",
+              "--ml_pipeline_server_address",
+              "ml-pipeline.kubeflow.svc.cluster.local",
+              "--ml_pipeline_server_port",
+              "8887",
+              "--mlmd_server_address",
+              "metadata-grpc-service.kubeflow.svc.cluster.local",
+              "--mlmd_server_port",
+              "8080",
+              "--publish_logs",
+              "true",
+              "--publish_logs",
+              "true",
+              "--"
+            ],
+            "env": [
+              {
+                "name": "HOME",
+                "value": "/tmp"
+              },
+              {
+                "name": "PYTHONPATH",
+                "value": "/workspace"
+              },
+              {
+                "name": "FEAST_USAGE",
+                "value": "False"
+              },
+              {
+                "name": "IOT_FEAST_REDIS",
+                "value": "online:6379"
+              },
+              {
+                "name": "IOT_FEAST_TEMP",
+                "value": "/ml-scratch/offline"
+              },
+              {
+                "name": "OPENBLAS_NUM_THREADS",
+                "value": "1"
+              },
+              {
+                "name": "OMP_NUM_THREADS",
+                "value": "1"
+              },
+              {
+                "name": "SPARK_LOCAL_IP",
+                "value": "127.0.0.1"
+              },
+              {
+                "name": "KFP_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "KFP_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "main"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-1558543809"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "envFrom": [
+              {
+                "configMapRef": {
+                  "name": "metadata-grpc-configmap",
+                  "optional": true
+                }
+              }
+            ],
+            "image": "iot-coursework-spark:3.5.9",
+            "imagePullPolicy": "Never",
+            "name": "main",
+            "resources": {
+              "limits": {
+                "cpu": "2",
+                "memory": "10Gi"
+              },
+              "requests": {
+                "cpu": "500m",
+                "memory": "2Gi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsGroup": 10001,
+              "runAsNonRoot": true,
+              "runAsUser": 185,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/workspace",
+                "name": "iot-ml-code"
+              },
+              {
+                "mountPath": "/ml-data",
+                "name": "iot-ml-workspace"
+              },
+              {
+                "mountPath": "/ml-scratch",
+                "name": "iot-ml-scratch"
+              },
+              {
+                "mountPath": "/kfp-launcher",
+                "name": "kfp-launcher"
+              },
+              {
+                "mountPath": "/gcs",
+                "name": "gcs-scratch"
+              },
+              {
+                "mountPath": "/s3",
+                "name": "s3-scratch"
+              },
+              {
+                "mountPath": "/minio",
+                "name": "minio-scratch"
+              },
+              {
+                "mountPath": "/.local",
+                "name": "dot-local-scratch"
+              },
+              {
+                "mountPath": "/.cache",
+                "name": "dot-cache-scratch"
+              },
+              {
+                "mountPath": "/.config",
+                "name": "dot-config-scratch"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hcgwk",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "initContainers": [
+          {
+            "command": [
+              "argoexec",
+              "init",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0"
+            ],
+            "env": [
+              {
+                "name": "ARGO_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_WORKFLOW_NAME",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7"
+              },
+              {
+                "name": "ARGO_WORKFLOW_UID",
+                "value": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "init"
+              },
+              {
+                "name": "ARGO_TEMPLATE",
+                "value": "{\"name\":\"system-container-impl\",\"inputs\":{},\"outputs\":{},\"metadata\":{\"annotations\":{\"pipelines.kubeflow.org/runtime-role\":\"launcher\",\"pipelines.kubeflow.org/v2_component\":\"true\",\"sidecar.istio.io/inject\":\"false\"},\"labels\":{\"pipeline/runid\":\"38c602cf-0b80-4a47-a775-15f9aca6b291\",\"pipelines.kubeflow.org/v2_component\":\"true\"}},\"container\":{\"name\":\"\",\"image\":\"gcr.io/ml-pipeline/should-be-overridden-during-runtime\",\"command\":[\"should-be-overridden-during-runtime\"],\"envFrom\":[{\"configMapRef\":{\"name\":\"metadata-grpc-configmap\",\"optional\":true}}],\"env\":[{\"name\":\"KFP_POD_NAME\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.name\"}}},{\"name\":\"KFP_POD_UID\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.uid\"}}}],\"resources\":{},\"volumeMounts\":[{\"name\":\"kfp-launcher\",\"mountPath\":\"/kfp-launcher\"},{\"name\":\"gcs-scratch\",\"mountPath\":\"/gcs\"},{\"name\":\"s3-scratch\",\"mountPath\":\"/s3\"},{\"name\":\"minio-scratch\",\"mountPath\":\"/minio\"},{\"name\":\"dot-local-scratch\",\"mountPath\":\"/.local\"},{\"name\":\"dot-cache-scratch\",\"mountPath\":\"/.cache\"},{\"name\":\"dot-config-scratch\",\"mountPath\":\"/.config\"}],\"securityContext\":{\"capabilities\":{\"drop\":[\"ALL\"]},\"allowPrivilegeEscalation\":false,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}},\"volumes\":[{\"name\":\"kfp-launcher\",\"emptyDir\":{}},{\"name\":\"gcs-scratch\",\"emptyDir\":{}},{\"name\":\"s3-scratch\",\"emptyDir\":{}},{\"name\":\"minio-scratch\",\"emptyDir\":{}},{\"name\":\"dot-local-scratch\",\"emptyDir\":{}},{\"name\":\"dot-cache-scratch\",\"emptyDir\":{}},{\"name\":\"dot-config-scratch\",\"emptyDir\":{}}],\"initContainers\":[{\"name\":\"kfp-launcher\",\"image\":\"ghcr.io/kubeflow/kfp-launcher:2.17.2\",\"command\":[\"launcher-v2\"],\"args\":[\"--copy\",\"/kfp-launcher/launch\",\"--log_level\",\"1\",\"--publish_logs\",\"true\"],\"resources\":{\"limits\":{\"cpu\":\"500m\",\"memory\":\"256Mi\"},\"requests\":{\"cpu\":\"100m\"}},\"volumeMounts\":[{\"name\":\"kfp-launcher\",\"mountPath\":\"/kfp-launcher\"}],\"securityContext\":{\"capabilities\":{\"drop\":[\"ALL\"]},\"runAsNonRoot\":true,\"allowPrivilegeEscalation\":false,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}}],\"archiveLocation\":{\"archiveLogs\":true,\"s3\":{\"endpoint\":\"seaweedfs.kubeflow.svc:9000\",\"bucket\":\"mlpipeline\",\"insecure\":true,\"accessKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"accesskey\"},\"secretKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"secretkey\"},\"key\":\"private-artifacts/kubeflow/iot-cluster-artifact-oracle-v1-tx4p7/2026/10/27/iot-cluster-artifact-oracle-v1-tx4p7-system-container-impl-1558543809\"}},\"retryStrategy\":{\"limit\":\"2\",\"retryPolicy\":\"OnError\"},\"securityContext\":{\"seccompProfile\":{\"type\":\"RuntimeDefault\"}},\"podSpecPatch\":\"{\\\"volumes\\\":[{\\\"name\\\":\\\"iot-ml-code\\\",\\\"persistentVolumeClaim\\\":{\\\"claimName\\\":\\\"iot-ml-code\\\"}},{\\\"name\\\":\\\"iot-ml-workspace\\\",\\\"persistentVolumeClaim\\\":{\\\"claimName\\\":\\\"iot-ml-workspace\\\"}},{\\\"name\\\":\\\"iot-ml-scratch\\\",\\\"persistentVolumeClaim\\\":{\\\"claimName\\\":\\\"iot-ml-scratch\\\"}}],\\\"containers\\\":[{\\\"name\\\":\\\"main\\\",\\\"image\\\":\\\"iot-coursework-spark:3.5.9\\\",\\\"command\\\":[\\\"/kfp-launcher/launch\\\",\\\"--pipeline_name\\\",\\\"iot-cluster-artifact-oracle-v1\\\",\\\"--run_id\\\",\\\"38c602cf-0b80-4a47-a775-15f9aca6b291\\\",\\\"--execution_id\\\",\\\"11\\\",\\\"--executor_input\\\",\\\"{\\\\\\\"inputs\\\\\\\":{\\\\\\\"artifacts\\\\\\\":{\\\\\\\"source\\\\\\\":{\\\\\\\"artifacts\\\\\\\":[{\\\\\\\"name\\\\\\\":\\\\\\\"12\\\\\\\",\\\\\\\"type\\\\\\\":{\\\\\\\"instanceSchema\\\\\\\":\\\\\\\"\\\\\\\"},\\\\\\\"uri\\\\\\\":\\\\\\\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-write/c6b506d7-1971-451e-b7db-9d136d2dbd0e/output\\\\\\\",\\\\\\\"metadata\\\\\\\":{\\\\\\\"display_name\\\\\\\":\\\\\\\"output\\\\\\\",\\\\\\\"store_session_info\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"Provider\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"minio\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"Params\\\\\\\\\\\\\\\":{\\\\\\\\\\\\\\\"accessKeyKey\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"accesskey\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"disableSSL\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"true\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"endpoint\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"seaweedfs.kubeflow:9000\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"fromEnv\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"false\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"maxRetries\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"5\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"region\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"minio\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"secretKeyKey\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"secretkey\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"secretName\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"mlpipeline-minio-artifact\\\\\\\\\\\\\\\"}}\\\\\\\"}}]}}},\\\\\\\"outputs\\\\\\\":{\\\\\\\"artifacts\\\\\\\":{\\\\\\\"executor-logs\\\\\\\":{\\\\\\\"artifacts\\\\\\\":[{\\\\\\\"name\\\\\\\":\\\\\\\"executor-logs\\\\\\\",\\\\\\\"type\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Artifact\\\\\\\"},\\\\\\\"uri\\\\\\\":\\\\\\\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-read/772f4d59-b5c7-46f2-89b1-a4067e244a2a/executor-logs\\\\\\\"}]},\\\\\\\"output\\\\\\\":{\\\\\\\"artifacts\\\\\\\":[{\\\\\\\"name\\\\\\\":\\\\\\\"output\\\\\\\",\\\\\\\"type\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Dataset\\\\\\\",\\\\\\\"schemaVersion\\\\\\\":\\\\\\\"0.0.1\\\\\\\"},\\\\\\\"uri\\\\\\\":\\\\\\\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-read/772f4d59-b5c7-46f2-89b1-a4067e244a2a/output\\\\\\\"}]}},\\\\\\\"outputFile\\\\\\\":\\\\\\\"/minio/mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-read/772f4d59-b5c7-46f2-89b1-a4067e244a2a/output_metadata.json\\\\\\\"}}\\\",\\\"--component_spec\\\",\\\"{\\\\\\\"inputDefinitions\\\\\\\":{\\\\\\\"artifacts\\\\\\\":{\\\\\\\"source\\\\\\\":{\\\\\\\"artifactType\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Dataset\\\\\\\",\\\\\\\"schemaVersion\\\\\\\":\\\\\\\"0.0.1\\\\\\\"}}}},\\\\\\\"outputDefinitions\\\\\\\":{\\\\\\\"artifacts\\\\\\\":{\\\\\\\"executor-logs\\\\\\\":{\\\\\\\"artifactType\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Artifact\\\\\\\"}},\\\\\\\"output\\\\\\\":{\\\\\\\"artifactType\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Dataset\\\\\\\",\\\\\\\"schemaVersion\\\\\\\":\\\\\\\"0.0.1\\\\\\\"}}}},\\\\\\\"executorLabel\\\\\\\":\\\\\\\"exec-transport-read\\\\\\\"}\\\",\\\"--pod_name\\\",\\\"$(KFP_POD_NAME)\\\",\\\"--pod_uid\\\",\\\"$(KFP_POD_UID)\\\",\\\"--ml_pipeline_server_address\\\",\\\"ml-pipeline.kubeflow.svc.cluster.local\\\",\\\"--ml_pipeline_server_port\\\",\\\"8887\\\",\\\"--mlmd_server_address\\\",\\\"metadata-grpc-service.kubeflow.svc.cluster.local\\\",\\\"--mlmd_server_port\\\",\\\"8080\\\",\\\"--publish_logs\\\",\\\"true\\\",\\\"--publish_logs\\\",\\\"true\\\",\\\"--\\\"],\\\"args\\\":[\\\"python3\\\",\\\"-m\\\",\\\"ml.kfp_artifacts\\\",\\\"--input\\\",\\\"{{$.inputs.artifacts['source'].path}}\\\",\\\"--output\\\",\\\"{{$.outputs.artifacts['output'].path}}\\\",\\\"--executor-input\\\",\\\"{{$}}\\\",\\\"--name\\\",\\\"output\\\"],\\\"env\\\":[{\\\"name\\\":\\\"HOME\\\",\\\"value\\\":\\\"/tmp\\\"},{\\\"name\\\":\\\"PYTHONPATH\\\",\\\"value\\\":\\\"/workspace\\\"},{\\\"name\\\":\\\"FEAST_USAGE\\\",\\\"value\\\":\\\"False\\\"},{\\\"name\\\":\\\"IOT_FEAST_REDIS\\\",\\\"value\\\":\\\"online:6379\\\"},{\\\"name\\\":\\\"IOT_FEAST_TEMP\\\",\\\"value\\\":\\\"/ml-scratch/offline\\\"},{\\\"name\\\":\\\"OPENBLAS_NUM_THREADS\\\",\\\"value\\\":\\\"1\\\"},{\\\"name\\\":\\\"OMP_NUM_THREADS\\\",\\\"value\\\":\\\"1\\\"},{\\\"name\\\":\\\"SPARK_LOCAL_IP\\\",\\\"value\\\":\\\"127.0.0.1\\\"}],\\\"resources\\\":{\\\"limits\\\":{\\\"cpu\\\":\\\"2\\\",\\\"memory\\\":\\\"10Gi\\\"},\\\"requests\\\":{\\\"cpu\\\":\\\"500m\\\",\\\"memory\\\":\\\"2Gi\\\"}},\\\"volumeMounts\\\":[{\\\"name\\\":\\\"iot-ml-code\\\",\\\"mountPath\\\":\\\"/workspace\\\"},{\\\"name\\\":\\\"iot-ml-workspace\\\",\\\"mountPath\\\":\\\"/ml-data\\\"},{\\\"name\\\":\\\"iot-ml-scratch\\\",\\\"mountPath\\\":\\\"/ml-scratch\\\"}],\\\"imagePullPolicy\\\":\\\"Never\\\",\\\"securityContext\\\":{\\\"capabilities\\\":{\\\"drop\\\":[\\\"ALL\\\"]},\\\"runAsUser\\\":185,\\\"runAsGroup\\\":10001,\\\"runAsNonRoot\\\":true}}]}\"}"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-1558543809"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "init",
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "runAsUser": 65532,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hcgwk",
+                "readOnly": true
+              }
+            ]
+          },
+          {
+            "args": [
+              "--copy",
+              "/kfp-launcher/launch",
+              "--log_level",
+              "1",
+              "--publish_logs",
+              "true"
+            ],
+            "command": [
+              "launcher-v2"
+            ],
+            "env": [
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "kfp-launcher"
+              },
+              {
+                "name": "ARGO_TEMPLATE",
+                "value": "{\"name\":\"system-container-impl\",\"inputs\":{},\"outputs\":{},\"metadata\":{\"annotations\":{\"pipelines.kubeflow.org/runtime-role\":\"launcher\",\"pipelines.kubeflow.org/v2_component\":\"true\",\"sidecar.istio.io/inject\":\"false\"},\"labels\":{\"pipeline/runid\":\"38c602cf-0b80-4a47-a775-15f9aca6b291\",\"pipelines.kubeflow.org/v2_component\":\"true\"}},\"container\":{\"name\":\"\",\"image\":\"gcr.io/ml-pipeline/should-be-overridden-during-runtime\",\"command\":[\"should-be-overridden-during-runtime\"],\"envFrom\":[{\"configMapRef\":{\"name\":\"metadata-grpc-configmap\",\"optional\":true}}],\"env\":[{\"name\":\"KFP_POD_NAME\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.name\"}}},{\"name\":\"KFP_POD_UID\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.uid\"}}}],\"resources\":{},\"volumeMounts\":[{\"name\":\"kfp-launcher\",\"mountPath\":\"/kfp-launcher\"},{\"name\":\"gcs-scratch\",\"mountPath\":\"/gcs\"},{\"name\":\"s3-scratch\",\"mountPath\":\"/s3\"},{\"name\":\"minio-scratch\",\"mountPath\":\"/minio\"},{\"name\":\"dot-local-scratch\",\"mountPath\":\"/.local\"},{\"name\":\"dot-cache-scratch\",\"mountPath\":\"/.cache\"},{\"name\":\"dot-config-scratch\",\"mountPath\":\"/.config\"}],\"securityContext\":{\"capabilities\":{\"drop\":[\"ALL\"]},\"allowPrivilegeEscalation\":false,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}},\"volumes\":[{\"name\":\"kfp-launcher\",\"emptyDir\":{}},{\"name\":\"gcs-scratch\",\"emptyDir\":{}},{\"name\":\"s3-scratch\",\"emptyDir\":{}},{\"name\":\"minio-scratch\",\"emptyDir\":{}},{\"name\":\"dot-local-scratch\",\"emptyDir\":{}},{\"name\":\"dot-cache-scratch\",\"emptyDir\":{}},{\"name\":\"dot-config-scratch\",\"emptyDir\":{}}],\"initContainers\":[{\"name\":\"kfp-launcher\",\"image\":\"ghcr.io/kubeflow/kfp-launcher:2.17.2\",\"command\":[\"launcher-v2\"],\"args\":[\"--copy\",\"/kfp-launcher/launch\",\"--log_level\",\"1\",\"--publish_logs\",\"true\"],\"resources\":{\"limits\":{\"cpu\":\"500m\",\"memory\":\"256Mi\"},\"requests\":{\"cpu\":\"100m\"}},\"volumeMounts\":[{\"name\":\"kfp-launcher\",\"mountPath\":\"/kfp-launcher\"}],\"securityContext\":{\"capabilities\":{\"drop\":[\"ALL\"]},\"runAsNonRoot\":true,\"allowPrivilegeEscalation\":false,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}}],\"archiveLocation\":{\"archiveLogs\":true,\"s3\":{\"endpoint\":\"seaweedfs.kubeflow.svc:9000\",\"bucket\":\"mlpipeline\",\"insecure\":true,\"accessKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"accesskey\"},\"secretKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"secretkey\"},\"key\":\"private-artifacts/kubeflow/iot-cluster-artifact-oracle-v1-tx4p7/2026/10/27/iot-cluster-artifact-oracle-v1-tx4p7-system-container-impl-1558543809\"}},\"retryStrategy\":{\"limit\":\"2\",\"retryPolicy\":\"OnError\"},\"securityContext\":{\"seccompProfile\":{\"type\":\"RuntimeDefault\"}},\"podSpecPatch\":\"{\\\"volumes\\\":[{\\\"name\\\":\\\"iot-ml-code\\\",\\\"persistentVolumeClaim\\\":{\\\"claimName\\\":\\\"iot-ml-code\\\"}},{\\\"name\\\":\\\"iot-ml-workspace\\\",\\\"persistentVolumeClaim\\\":{\\\"claimName\\\":\\\"iot-ml-workspace\\\"}},{\\\"name\\\":\\\"iot-ml-scratch\\\",\\\"persistentVolumeClaim\\\":{\\\"claimName\\\":\\\"iot-ml-scratch\\\"}}],\\\"containers\\\":[{\\\"name\\\":\\\"main\\\",\\\"image\\\":\\\"iot-coursework-spark:3.5.9\\\",\\\"command\\\":[\\\"/kfp-launcher/launch\\\",\\\"--pipeline_name\\\",\\\"iot-cluster-artifact-oracle-v1\\\",\\\"--run_id\\\",\\\"38c602cf-0b80-4a47-a775-15f9aca6b291\\\",\\\"--execution_id\\\",\\\"11\\\",\\\"--executor_input\\\",\\\"{\\\\\\\"inputs\\\\\\\":{\\\\\\\"artifacts\\\\\\\":{\\\\\\\"source\\\\\\\":{\\\\\\\"artifacts\\\\\\\":[{\\\\\\\"name\\\\\\\":\\\\\\\"12\\\\\\\",\\\\\\\"type\\\\\\\":{\\\\\\\"instanceSchema\\\\\\\":\\\\\\\"\\\\\\\"},\\\\\\\"uri\\\\\\\":\\\\\\\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-write/c6b506d7-1971-451e-b7db-9d136d2dbd0e/output\\\\\\\",\\\\\\\"metadata\\\\\\\":{\\\\\\\"display_name\\\\\\\":\\\\\\\"output\\\\\\\",\\\\\\\"store_session_info\\\\\\\":\\\\\\\"{\\\\\\\\\\\\\\\"Provider\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"minio\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"Params\\\\\\\\\\\\\\\":{\\\\\\\\\\\\\\\"accessKeyKey\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"accesskey\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"disableSSL\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"true\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"endpoint\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"seaweedfs.kubeflow:9000\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"fromEnv\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"false\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"maxRetries\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"5\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"region\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"minio\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"secretKeyKey\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"secretkey\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"secretName\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\"mlpipeline-minio-artifact\\\\\\\\\\\\\\\"}}\\\\\\\"}}]}}},\\\\\\\"outputs\\\\\\\":{\\\\\\\"artifacts\\\\\\\":{\\\\\\\"executor-logs\\\\\\\":{\\\\\\\"artifacts\\\\\\\":[{\\\\\\\"name\\\\\\\":\\\\\\\"executor-logs\\\\\\\",\\\\\\\"type\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Artifact\\\\\\\"},\\\\\\\"uri\\\\\\\":\\\\\\\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-read/772f4d59-b5c7-46f2-89b1-a4067e244a2a/executor-logs\\\\\\\"}]},\\\\\\\"output\\\\\\\":{\\\\\\\"artifacts\\\\\\\":[{\\\\\\\"name\\\\\\\":\\\\\\\"output\\\\\\\",\\\\\\\"type\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Dataset\\\\\\\",\\\\\\\"schemaVersion\\\\\\\":\\\\\\\"0.0.1\\\\\\\"},\\\\\\\"uri\\\\\\\":\\\\\\\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-read/772f4d59-b5c7-46f2-89b1-a4067e244a2a/output\\\\\\\"}]}},\\\\\\\"outputFile\\\\\\\":\\\\\\\"/minio/mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-read/772f4d59-b5c7-46f2-89b1-a4067e244a2a/output_metadata.json\\\\\\\"}}\\\",\\\"--component_spec\\\",\\\"{\\\\\\\"inputDefinitions\\\\\\\":{\\\\\\\"artifacts\\\\\\\":{\\\\\\\"source\\\\\\\":{\\\\\\\"artifactType\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Dataset\\\\\\\",\\\\\\\"schemaVersion\\\\\\\":\\\\\\\"0.0.1\\\\\\\"}}}},\\\\\\\"outputDefinitions\\\\\\\":{\\\\\\\"artifacts\\\\\\\":{\\\\\\\"executor-logs\\\\\\\":{\\\\\\\"artifactType\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Artifact\\\\\\\"}},\\\\\\\"output\\\\\\\":{\\\\\\\"artifactType\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Dataset\\\\\\\",\\\\\\\"schemaVersion\\\\\\\":\\\\\\\"0.0.1\\\\\\\"}}}},\\\\\\\"executorLabel\\\\\\\":\\\\\\\"exec-transport-read\\\\\\\"}\\\",\\\"--pod_name\\\",\\\"$(KFP_POD_NAME)\\\",\\\"--pod_uid\\\",\\\"$(KFP_POD_UID)\\\",\\\"--ml_pipeline_server_address\\\",\\\"ml-pipeline.kubeflow.svc.cluster.local\\\",\\\"--ml_pipeline_server_port\\\",\\\"8887\\\",\\\"--mlmd_server_address\\\",\\\"metadata-grpc-service.kubeflow.svc.cluster.local\\\",\\\"--mlmd_server_port\\\",\\\"8080\\\",\\\"--publish_logs\\\",\\\"true\\\",\\\"--publish_logs\\\",\\\"true\\\",\\\"--\\\"],\\\"args\\\":[\\\"python3\\\",\\\"-m\\\",\\\"ml.kfp_artifacts\\\",\\\"--input\\\",\\\"{{$.inputs.artifacts['source'].path}}\\\",\\\"--output\\\",\\\"{{$.outputs.artifacts['output'].path}}\\\",\\\"--executor-input\\\",\\\"{{$}}\\\",\\\"--name\\\",\\\"output\\\"],\\\"env\\\":[{\\\"name\\\":\\\"HOME\\\",\\\"value\\\":\\\"/tmp\\\"},{\\\"name\\\":\\\"PYTHONPATH\\\",\\\"value\\\":\\\"/workspace\\\"},{\\\"name\\\":\\\"FEAST_USAGE\\\",\\\"value\\\":\\\"False\\\"},{\\\"name\\\":\\\"IOT_FEAST_REDIS\\\",\\\"value\\\":\\\"online:6379\\\"},{\\\"name\\\":\\\"IOT_FEAST_TEMP\\\",\\\"value\\\":\\\"/ml-scratch/offline\\\"},{\\\"name\\\":\\\"OPENBLAS_NUM_THREADS\\\",\\\"value\\\":\\\"1\\\"},{\\\"name\\\":\\\"OMP_NUM_THREADS\\\",\\\"value\\\":\\\"1\\\"},{\\\"name\\\":\\\"SPARK_LOCAL_IP\\\",\\\"value\\\":\\\"127.0.0.1\\\"}],\\\"resources\\\":{\\\"limits\\\":{\\\"cpu\\\":\\\"2\\\",\\\"memory\\\":\\\"10Gi\\\"},\\\"requests\\\":{\\\"cpu\\\":\\\"500m\\\",\\\"memory\\\":\\\"2Gi\\\"}},\\\"volumeMounts\\\":[{\\\"name\\\":\\\"iot-ml-code\\\",\\\"mountPath\\\":\\\"/workspace\\\"},{\\\"name\\\":\\\"iot-ml-workspace\\\",\\\"mountPath\\\":\\\"/ml-data\\\"},{\\\"name\\\":\\\"iot-ml-scratch\\\",\\\"mountPath\\\":\\\"/ml-scratch\\\"}],\\\"imagePullPolicy\\\":\\\"Never\\\",\\\"securityContext\\\":{\\\"capabilities\\\":{\\\"drop\\\":[\\\"ALL\\\"]},\\\"runAsUser\\\":185,\\\"runAsGroup\\\":10001,\\\"runAsNonRoot\\\":true}}]}\"}"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-1558543809"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "ghcr.io/kubeflow/kfp-launcher:2.17.2",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "kfp-launcher",
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "256Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "256Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/kfp-launcher",
+                "name": "kfp-launcher"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hcgwk",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "nodeName": "iot-cw-vm",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "pipeline-runner",
+        "serviceAccountName": "pipeline-runner",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "name": "iot-ml-code",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-code"
+            }
+          },
+          {
+            "name": "iot-ml-workspace",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-workspace"
+            }
+          },
+          {
+            "name": "iot-ml-scratch",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-scratch"
+            }
+          },
+          {
+            "emptyDir": {},
+            "name": "var-run-argo"
+          },
+          {
+            "emptyDir": {},
+            "name": "tmp-dir-argo"
+          },
+          {
+            "emptyDir": {},
+            "name": "kfp-launcher"
+          },
+          {
+            "emptyDir": {},
+            "name": "gcs-scratch"
+          },
+          {
+            "emptyDir": {},
+            "name": "s3-scratch"
+          },
+          {
+            "emptyDir": {},
+            "name": "minio-scratch"
+          },
+          {
+            "emptyDir": {},
+            "name": "dot-local-scratch"
+          },
+          {
+            "emptyDir": {},
+            "name": "dot-cache-scratch"
+          },
+          {
+            "emptyDir": {},
+            "name": "dot-config-scratch"
+          },
+          {
+            "name": "mlpipeline-minio-artifact",
+            "secret": {
+              "defaultMode": 420,
+              "items": [
+                {
+                  "key": "accesskey",
+                  "path": "accesskey"
+                },
+                {
+                  "key": "secretkey",
+                  "path": "secretkey"
+                }
+              ],
+              "secretName": "mlpipeline-minio-artifact"
+            }
+          },
+          {
+            "name": "kube-api-access-hcgwk",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ],
+                    "name": "kube-root-ca.crt"
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        },
+                        "path": "namespace"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:37Z",
+            "observedGeneration": 1,
+            "status": "False",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:33Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:35Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:35Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:30Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "500m",
+              "memory": "2Gi"
+            },
+            "containerID": "containerd://ce15b05937f7dd77eb372252aba75028aa808817d0243d9f405d24d3f08bfdfe",
+            "image": "docker.io/library/iot-coursework-spark:3.5.9",
+            "imageID": "sha256:1195d4c02f43c5e2fc6b1dece2469e98ab959afe84fc17e4af4b0237e503f167",
+            "lastState": {},
+            "name": "main",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "2",
+                "memory": "10Gi"
+              },
+              "requests": {
+                "cpu": "500m",
+                "memory": "2Gi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://ce15b05937f7dd77eb372252aba75028aa808817d0243d9f405d24d3f08bfdfe",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:34Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:33Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 10001,
+                "supplementalGroups": [
+                  10001
+                ],
+                "uid": 185
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/workspace",
+                "name": "iot-ml-code"
+              },
+              {
+                "mountPath": "/ml-data",
+                "name": "iot-ml-workspace"
+              },
+              {
+                "mountPath": "/ml-scratch",
+                "name": "iot-ml-scratch"
+              },
+              {
+                "mountPath": "/kfp-launcher",
+                "name": "kfp-launcher"
+              },
+              {
+                "mountPath": "/gcs",
+                "name": "gcs-scratch"
+              },
+              {
+                "mountPath": "/s3",
+                "name": "s3-scratch"
+              },
+              {
+                "mountPath": "/minio",
+                "name": "minio-scratch"
+              },
+              {
+                "mountPath": "/.local",
+                "name": "dot-local-scratch"
+              },
+              {
+                "mountPath": "/.cache",
+                "name": "dot-cache-scratch"
+              },
+              {
+                "mountPath": "/.config",
+                "name": "dot-config-scratch"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hcgwk",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          },
+          {
+            "allocatedResources": {
+              "cpu": "50m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://c096ce8efe932636d7bdf5fe7f3c7a89ae13843f1bf7b7f9d6151dfc546e6441",
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imageID": "quay.io/argoproj/argoexec@sha256:0cb732e24c7d13385066c920e2943fdddfa1d15e6bf5ad99f02e48c50625d022",
+            "lastState": {},
+            "name": "wait",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://c096ce8efe932636d7bdf5fe7f3c7a89ae13843f1bf7b7f9d6151dfc546e6441",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:35Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:33Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65532,
+                "supplementalGroups": [
+                  65532
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/mainctrfs/kfp-launcher",
+                "name": "kfp-launcher"
+              },
+              {
+                "mountPath": "/mainctrfs/gcs",
+                "name": "gcs-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/s3",
+                "name": "s3-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/minio",
+                "name": "minio-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/.local",
+                "name": "dot-local-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/.cache",
+                "name": "dot-cache-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/.config",
+                "name": "dot-config-scratch"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp-dir-argo"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hcgwk",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "hostIP": "10.42.0.2",
+        "hostIPs": [
+          {
+            "ip": "10.42.0.2"
+          }
+        ],
+        "initContainerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "50m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://0083fe72820dba793065df29ea6bd03af13f21eaa767f179bf5eb22bf8933d60",
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imageID": "quay.io/argoproj/argoexec@sha256:0cb732e24c7d13385066c920e2943fdddfa1d15e6bf5ad99f02e48c50625d022",
+            "lastState": {},
+            "name": "init",
+            "ready": true,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://0083fe72820dba793065df29ea6bd03af13f21eaa767f179bf5eb22bf8933d60",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:31Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:31Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65532,
+                "supplementalGroups": [
+                  65532
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hcgwk",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          },
+          {
+            "allocatedResources": {
+              "cpu": "100m",
+              "memory": "256Mi"
+            },
+            "containerID": "containerd://eea0a0d0f82ac7dfe1b7f829bcb812bd33c8c40a74ccc6cd2989c78d634a0aa0",
+            "image": "ghcr.io/kubeflow/kfp-launcher:2.17.2",
+            "imageID": "ghcr.io/kubeflow/kfp-launcher@sha256:78f779cf6cc7b34092232eb37157cc8de6e1327e3029abe6b33e73d4d76c03f3",
+            "lastState": {},
+            "name": "kfp-launcher",
+            "ready": true,
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "256Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "256Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://eea0a0d0f82ac7dfe1b7f829bcb812bd33c8c40a74ccc6cd2989c78d634a0aa0",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:32Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:32Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65533,
+                "supplementalGroups": [
+                  65533
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/kfp-launcher",
+                "name": "kfp-launcher"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-hcgwk",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "observedGeneration": 1,
+        "phase": "Succeeded",
+        "podIP": "10.52.0.46",
+        "podIPs": [
+          {
+            "ip": "10.52.0.46"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-27T11:49:30Z"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/default-container": "main",
+          "kubernetes.io/limit-ranger": "LimitRanger plugin set: cpu, memory request for container wait; cpu, memory limit for container wait; cpu, memory request for init container init; cpu, memory limit for init container init",
+          "pipelines.kubeflow.org/runtime-role": "launcher",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "sidecar.istio.io/inject": "false",
+          "workflows.argoproj.io/node-id": "iot-cluster-artifact-oracle-v1-tx4p7-24271988",
+          "workflows.argoproj.io/node-name": "iot-cluster-artifact-oracle-v1-tx4p7(0).root(0).transport-write(0).executor(0)"
+        },
+        "creationTimestamp": "2026-10-27T11:49:10Z",
+        "generation": 1,
+        "labels": {
+          "pipeline/runid": "38c602cf-0b80-4a47-a775-15f9aca6b291",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "workflows.argoproj.io/completed": "true",
+          "workflows.argoproj.io/workflow": "iot-cluster-artifact-oracle-v1-tx4p7"
+        },
+        "name": "iot-cluster-artifact-oracle-v1-tx4p7-system-container-impl-24271988",
+        "namespace": "kubeflow",
+        "ownerReferences": [
+          {
+            "apiVersion": "argoproj.io/v1alpha1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Workflow",
+            "name": "iot-cluster-artifact-oracle-v1-tx4p7",
+            "uid": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+          }
+        ],
+        "resourceVersion": "4195",
+        "uid": "4d3abe28-2a12-4c01-8cca-61ddbe0a2f58"
+      },
+      "spec": {
+        "containers": [
+          {
+            "command": [
+              "argoexec",
+              "wait",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0"
+            ],
+            "env": [
+              {
+                "name": "ARGO_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_WORKFLOW_NAME",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7"
+              },
+              {
+                "name": "ARGO_WORKFLOW_UID",
+                "value": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+              },
+              {
+                "name": "ARGO_ARTIFACT_PLUGIN_NAMES"
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "wait"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-24271988"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "wait",
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "runAsUser": 65532,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/mainctrfs/kfp-launcher",
+                "name": "kfp-launcher"
+              },
+              {
+                "mountPath": "/mainctrfs/gcs",
+                "name": "gcs-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/s3",
+                "name": "s3-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/minio",
+                "name": "minio-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/.local",
+                "name": "dot-local-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/.cache",
+                "name": "dot-cache-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/.config",
+                "name": "dot-config-scratch"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp-dir-argo",
+                "subPath": "0"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-7m676",
+                "readOnly": true
+              }
+            ]
+          },
+          {
+            "args": [
+              "python",
+              "-m",
+              "ml.kfp_artifacts",
+              "--output",
+              "{{$.outputs.artifacts['output'].path}}",
+              "--executor-input",
+              "{{$}}",
+              "--name",
+              "output"
+            ],
+            "command": [
+              "/var/run/argo/argoexec",
+              "emissary",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0",
+              "--",
+              "/kfp-launcher/launch",
+              "--pipeline_name",
+              "iot-cluster-artifact-oracle-v1",
+              "--run_id",
+              "38c602cf-0b80-4a47-a775-15f9aca6b291",
+              "--execution_id",
+              "10",
+              "--executor_input",
+              "{\"inputs\":{},\"outputs\":{\"artifacts\":{\"executor-logs\":{\"artifacts\":[{\"name\":\"executor-logs\",\"type\":{\"schemaTitle\":\"system.Artifact\"},\"uri\":\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-write/c6b506d7-1971-451e-b7db-9d136d2dbd0e/executor-logs\"}]},\"output\":{\"artifacts\":[{\"name\":\"output\",\"type\":{\"schemaTitle\":\"system.Dataset\",\"schemaVersion\":\"0.0.1\"},\"uri\":\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-write/c6b506d7-1971-451e-b7db-9d136d2dbd0e/output\"}]}},\"outputFile\":\"/minio/mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-write/c6b506d7-1971-451e-b7db-9d136d2dbd0e/output_metadata.json\"}}",
+              "--component_spec",
+              "{\"outputDefinitions\":{\"artifacts\":{\"executor-logs\":{\"artifactType\":{\"schemaTitle\":\"system.Artifact\"}},\"output\":{\"artifactType\":{\"schemaTitle\":\"system.Dataset\",\"schemaVersion\":\"0.0.1\"}}}},\"executorLabel\":\"exec-transport-write\"}",
+              "--pod_name",
+              "$(KFP_POD_NAME)",
+              "--pod_uid",
+              "$(KFP_POD_UID)",
+              "--ml_pipeline_server_address",
+              "ml-pipeline.kubeflow.svc.cluster.local",
+              "--ml_pipeline_server_port",
+              "8887",
+              "--mlmd_server_address",
+              "metadata-grpc-service.kubeflow.svc.cluster.local",
+              "--mlmd_server_port",
+              "8080",
+              "--publish_logs",
+              "true",
+              "--publish_logs",
+              "true",
+              "--"
+            ],
+            "env": [
+              {
+                "name": "HOME",
+                "value": "/tmp"
+              },
+              {
+                "name": "PYTHONPATH",
+                "value": "/workspace"
+              },
+              {
+                "name": "FEAST_USAGE",
+                "value": "False"
+              },
+              {
+                "name": "IOT_FEAST_REDIS",
+                "value": "online:6379"
+              },
+              {
+                "name": "IOT_FEAST_TEMP",
+                "value": "/ml-scratch/offline"
+              },
+              {
+                "name": "OPENBLAS_NUM_THREADS",
+                "value": "1"
+              },
+              {
+                "name": "OMP_NUM_THREADS",
+                "value": "1"
+              },
+              {
+                "name": "SPARK_LOCAL_IP",
+                "value": "127.0.0.1"
+              },
+              {
+                "name": "KFP_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "KFP_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "main"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-24271988"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "envFrom": [
+              {
+                "configMapRef": {
+                  "name": "metadata-grpc-configmap",
+                  "optional": true
+                }
+              }
+            ],
+            "image": "iot-coursework-feast:0.67.0",
+            "imagePullPolicy": "Never",
+            "name": "main",
+            "resources": {
+              "limits": {
+                "cpu": "2",
+                "memory": "10Gi"
+              },
+              "requests": {
+                "cpu": "500m",
+                "memory": "2Gi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsGroup": 10001,
+              "runAsNonRoot": true,
+              "runAsUser": 10001,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/workspace",
+                "name": "iot-ml-code"
+              },
+              {
+                "mountPath": "/ml-data",
+                "name": "iot-ml-workspace"
+              },
+              {
+                "mountPath": "/ml-scratch",
+                "name": "iot-ml-scratch"
+              },
+              {
+                "mountPath": "/kfp-launcher",
+                "name": "kfp-launcher"
+              },
+              {
+                "mountPath": "/gcs",
+                "name": "gcs-scratch"
+              },
+              {
+                "mountPath": "/s3",
+                "name": "s3-scratch"
+              },
+              {
+                "mountPath": "/minio",
+                "name": "minio-scratch"
+              },
+              {
+                "mountPath": "/.local",
+                "name": "dot-local-scratch"
+              },
+              {
+                "mountPath": "/.cache",
+                "name": "dot-cache-scratch"
+              },
+              {
+                "mountPath": "/.config",
+                "name": "dot-config-scratch"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-7m676",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "initContainers": [
+          {
+            "command": [
+              "argoexec",
+              "init",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0"
+            ],
+            "env": [
+              {
+                "name": "ARGO_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_WORKFLOW_NAME",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7"
+              },
+              {
+                "name": "ARGO_WORKFLOW_UID",
+                "value": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "init"
+              },
+              {
+                "name": "ARGO_TEMPLATE",
+                "value": "{\"name\":\"system-container-impl\",\"inputs\":{},\"outputs\":{},\"metadata\":{\"annotations\":{\"pipelines.kubeflow.org/runtime-role\":\"launcher\",\"pipelines.kubeflow.org/v2_component\":\"true\",\"sidecar.istio.io/inject\":\"false\"},\"labels\":{\"pipeline/runid\":\"38c602cf-0b80-4a47-a775-15f9aca6b291\",\"pipelines.kubeflow.org/v2_component\":\"true\"}},\"container\":{\"name\":\"\",\"image\":\"gcr.io/ml-pipeline/should-be-overridden-during-runtime\",\"command\":[\"should-be-overridden-during-runtime\"],\"envFrom\":[{\"configMapRef\":{\"name\":\"metadata-grpc-configmap\",\"optional\":true}}],\"env\":[{\"name\":\"KFP_POD_NAME\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.name\"}}},{\"name\":\"KFP_POD_UID\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.uid\"}}}],\"resources\":{},\"volumeMounts\":[{\"name\":\"kfp-launcher\",\"mountPath\":\"/kfp-launcher\"},{\"name\":\"gcs-scratch\",\"mountPath\":\"/gcs\"},{\"name\":\"s3-scratch\",\"mountPath\":\"/s3\"},{\"name\":\"minio-scratch\",\"mountPath\":\"/minio\"},{\"name\":\"dot-local-scratch\",\"mountPath\":\"/.local\"},{\"name\":\"dot-cache-scratch\",\"mountPath\":\"/.cache\"},{\"name\":\"dot-config-scratch\",\"mountPath\":\"/.config\"}],\"securityContext\":{\"capabilities\":{\"drop\":[\"ALL\"]},\"allowPrivilegeEscalation\":false,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}},\"volumes\":[{\"name\":\"kfp-launcher\",\"emptyDir\":{}},{\"name\":\"gcs-scratch\",\"emptyDir\":{}},{\"name\":\"s3-scratch\",\"emptyDir\":{}},{\"name\":\"minio-scratch\",\"emptyDir\":{}},{\"name\":\"dot-local-scratch\",\"emptyDir\":{}},{\"name\":\"dot-cache-scratch\",\"emptyDir\":{}},{\"name\":\"dot-config-scratch\",\"emptyDir\":{}}],\"initContainers\":[{\"name\":\"kfp-launcher\",\"image\":\"ghcr.io/kubeflow/kfp-launcher:2.17.2\",\"command\":[\"launcher-v2\"],\"args\":[\"--copy\",\"/kfp-launcher/launch\",\"--log_level\",\"1\",\"--publish_logs\",\"true\"],\"resources\":{\"limits\":{\"cpu\":\"500m\",\"memory\":\"256Mi\"},\"requests\":{\"cpu\":\"100m\"}},\"volumeMounts\":[{\"name\":\"kfp-launcher\",\"mountPath\":\"/kfp-launcher\"}],\"securityContext\":{\"capabilities\":{\"drop\":[\"ALL\"]},\"runAsNonRoot\":true,\"allowPrivilegeEscalation\":false,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}}],\"archiveLocation\":{\"archiveLogs\":true,\"s3\":{\"endpoint\":\"seaweedfs.kubeflow.svc:9000\",\"bucket\":\"mlpipeline\",\"insecure\":true,\"accessKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"accesskey\"},\"secretKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"secretkey\"},\"key\":\"private-artifacts/kubeflow/iot-cluster-artifact-oracle-v1-tx4p7/2026/10/27/iot-cluster-artifact-oracle-v1-tx4p7-system-container-impl-24271988\"}},\"retryStrategy\":{\"limit\":\"2\",\"retryPolicy\":\"OnError\"},\"securityContext\":{\"seccompProfile\":{\"type\":\"RuntimeDefault\"}},\"podSpecPatch\":\"{\\\"volumes\\\":[{\\\"name\\\":\\\"iot-ml-code\\\",\\\"persistentVolumeClaim\\\":{\\\"claimName\\\":\\\"iot-ml-code\\\"}},{\\\"name\\\":\\\"iot-ml-workspace\\\",\\\"persistentVolumeClaim\\\":{\\\"claimName\\\":\\\"iot-ml-workspace\\\"}},{\\\"name\\\":\\\"iot-ml-scratch\\\",\\\"persistentVolumeClaim\\\":{\\\"claimName\\\":\\\"iot-ml-scratch\\\"}}],\\\"containers\\\":[{\\\"name\\\":\\\"main\\\",\\\"image\\\":\\\"iot-coursework-feast:0.67.0\\\",\\\"command\\\":[\\\"/kfp-launcher/launch\\\",\\\"--pipeline_name\\\",\\\"iot-cluster-artifact-oracle-v1\\\",\\\"--run_id\\\",\\\"38c602cf-0b80-4a47-a775-15f9aca6b291\\\",\\\"--execution_id\\\",\\\"10\\\",\\\"--executor_input\\\",\\\"{\\\\\\\"inputs\\\\\\\":{},\\\\\\\"outputs\\\\\\\":{\\\\\\\"artifacts\\\\\\\":{\\\\\\\"executor-logs\\\\\\\":{\\\\\\\"artifacts\\\\\\\":[{\\\\\\\"name\\\\\\\":\\\\\\\"executor-logs\\\\\\\",\\\\\\\"type\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Artifact\\\\\\\"},\\\\\\\"uri\\\\\\\":\\\\\\\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-write/c6b506d7-1971-451e-b7db-9d136d2dbd0e/executor-logs\\\\\\\"}]},\\\\\\\"output\\\\\\\":{\\\\\\\"artifacts\\\\\\\":[{\\\\\\\"name\\\\\\\":\\\\\\\"output\\\\\\\",\\\\\\\"type\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Dataset\\\\\\\",\\\\\\\"schemaVersion\\\\\\\":\\\\\\\"0.0.1\\\\\\\"},\\\\\\\"uri\\\\\\\":\\\\\\\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-write/c6b506d7-1971-451e-b7db-9d136d2dbd0e/output\\\\\\\"}]}},\\\\\\\"outputFile\\\\\\\":\\\\\\\"/minio/mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-write/c6b506d7-1971-451e-b7db-9d136d2dbd0e/output_metadata.json\\\\\\\"}}\\\",\\\"--component_spec\\\",\\\"{\\\\\\\"outputDefinitions\\\\\\\":{\\\\\\\"artifacts\\\\\\\":{\\\\\\\"executor-logs\\\\\\\":{\\\\\\\"artifactType\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Artifact\\\\\\\"}},\\\\\\\"output\\\\\\\":{\\\\\\\"artifactType\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Dataset\\\\\\\",\\\\\\\"schemaVersion\\\\\\\":\\\\\\\"0.0.1\\\\\\\"}}}},\\\\\\\"executorLabel\\\\\\\":\\\\\\\"exec-transport-write\\\\\\\"}\\\",\\\"--pod_name\\\",\\\"$(KFP_POD_NAME)\\\",\\\"--pod_uid\\\",\\\"$(KFP_POD_UID)\\\",\\\"--ml_pipeline_server_address\\\",\\\"ml-pipeline.kubeflow.svc.cluster.local\\\",\\\"--ml_pipeline_server_port\\\",\\\"8887\\\",\\\"--mlmd_server_address\\\",\\\"metadata-grpc-service.kubeflow.svc.cluster.local\\\",\\\"--mlmd_server_port\\\",\\\"8080\\\",\\\"--publish_logs\\\",\\\"true\\\",\\\"--publish_logs\\\",\\\"true\\\",\\\"--\\\"],\\\"args\\\":[\\\"python\\\",\\\"-m\\\",\\\"ml.kfp_artifacts\\\",\\\"--output\\\",\\\"{{$.outputs.artifacts['output'].path}}\\\",\\\"--executor-input\\\",\\\"{{$}}\\\",\\\"--name\\\",\\\"output\\\"],\\\"env\\\":[{\\\"name\\\":\\\"HOME\\\",\\\"value\\\":\\\"/tmp\\\"},{\\\"name\\\":\\\"PYTHONPATH\\\",\\\"value\\\":\\\"/workspace\\\"},{\\\"name\\\":\\\"FEAST_USAGE\\\",\\\"value\\\":\\\"False\\\"},{\\\"name\\\":\\\"IOT_FEAST_REDIS\\\",\\\"value\\\":\\\"online:6379\\\"},{\\\"name\\\":\\\"IOT_FEAST_TEMP\\\",\\\"value\\\":\\\"/ml-scratch/offline\\\"},{\\\"name\\\":\\\"OPENBLAS_NUM_THREADS\\\",\\\"value\\\":\\\"1\\\"},{\\\"name\\\":\\\"OMP_NUM_THREADS\\\",\\\"value\\\":\\\"1\\\"},{\\\"name\\\":\\\"SPARK_LOCAL_IP\\\",\\\"value\\\":\\\"127.0.0.1\\\"}],\\\"resources\\\":{\\\"limits\\\":{\\\"cpu\\\":\\\"2\\\",\\\"memory\\\":\\\"10Gi\\\"},\\\"requests\\\":{\\\"cpu\\\":\\\"500m\\\",\\\"memory\\\":\\\"2Gi\\\"}},\\\"volumeMounts\\\":[{\\\"name\\\":\\\"iot-ml-code\\\",\\\"mountPath\\\":\\\"/workspace\\\"},{\\\"name\\\":\\\"iot-ml-workspace\\\",\\\"mountPath\\\":\\\"/ml-data\\\"},{\\\"name\\\":\\\"iot-ml-scratch\\\",\\\"mountPath\\\":\\\"/ml-scratch\\\"}],\\\"imagePullPolicy\\\":\\\"Never\\\",\\\"securityContext\\\":{\\\"capabilities\\\":{\\\"drop\\\":[\\\"ALL\\\"]},\\\"runAsUser\\\":10001,\\\"runAsGroup\\\":10001,\\\"runAsNonRoot\\\":true}}]}\"}"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-24271988"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "init",
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "runAsUser": 65532,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-7m676",
+                "readOnly": true
+              }
+            ]
+          },
+          {
+            "args": [
+              "--copy",
+              "/kfp-launcher/launch",
+              "--log_level",
+              "1",
+              "--publish_logs",
+              "true"
+            ],
+            "command": [
+              "launcher-v2"
+            ],
+            "env": [
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "kfp-launcher"
+              },
+              {
+                "name": "ARGO_TEMPLATE",
+                "value": "{\"name\":\"system-container-impl\",\"inputs\":{},\"outputs\":{},\"metadata\":{\"annotations\":{\"pipelines.kubeflow.org/runtime-role\":\"launcher\",\"pipelines.kubeflow.org/v2_component\":\"true\",\"sidecar.istio.io/inject\":\"false\"},\"labels\":{\"pipeline/runid\":\"38c602cf-0b80-4a47-a775-15f9aca6b291\",\"pipelines.kubeflow.org/v2_component\":\"true\"}},\"container\":{\"name\":\"\",\"image\":\"gcr.io/ml-pipeline/should-be-overridden-during-runtime\",\"command\":[\"should-be-overridden-during-runtime\"],\"envFrom\":[{\"configMapRef\":{\"name\":\"metadata-grpc-configmap\",\"optional\":true}}],\"env\":[{\"name\":\"KFP_POD_NAME\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.name\"}}},{\"name\":\"KFP_POD_UID\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.uid\"}}}],\"resources\":{},\"volumeMounts\":[{\"name\":\"kfp-launcher\",\"mountPath\":\"/kfp-launcher\"},{\"name\":\"gcs-scratch\",\"mountPath\":\"/gcs\"},{\"name\":\"s3-scratch\",\"mountPath\":\"/s3\"},{\"name\":\"minio-scratch\",\"mountPath\":\"/minio\"},{\"name\":\"dot-local-scratch\",\"mountPath\":\"/.local\"},{\"name\":\"dot-cache-scratch\",\"mountPath\":\"/.cache\"},{\"name\":\"dot-config-scratch\",\"mountPath\":\"/.config\"}],\"securityContext\":{\"capabilities\":{\"drop\":[\"ALL\"]},\"allowPrivilegeEscalation\":false,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}},\"volumes\":[{\"name\":\"kfp-launcher\",\"emptyDir\":{}},{\"name\":\"gcs-scratch\",\"emptyDir\":{}},{\"name\":\"s3-scratch\",\"emptyDir\":{}},{\"name\":\"minio-scratch\",\"emptyDir\":{}},{\"name\":\"dot-local-scratch\",\"emptyDir\":{}},{\"name\":\"dot-cache-scratch\",\"emptyDir\":{}},{\"name\":\"dot-config-scratch\",\"emptyDir\":{}}],\"initContainers\":[{\"name\":\"kfp-launcher\",\"image\":\"ghcr.io/kubeflow/kfp-launcher:2.17.2\",\"command\":[\"launcher-v2\"],\"args\":[\"--copy\",\"/kfp-launcher/launch\",\"--log_level\",\"1\",\"--publish_logs\",\"true\"],\"resources\":{\"limits\":{\"cpu\":\"500m\",\"memory\":\"256Mi\"},\"requests\":{\"cpu\":\"100m\"}},\"volumeMounts\":[{\"name\":\"kfp-launcher\",\"mountPath\":\"/kfp-launcher\"}],\"securityContext\":{\"capabilities\":{\"drop\":[\"ALL\"]},\"runAsNonRoot\":true,\"allowPrivilegeEscalation\":false,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}}],\"archiveLocation\":{\"archiveLogs\":true,\"s3\":{\"endpoint\":\"seaweedfs.kubeflow.svc:9000\",\"bucket\":\"mlpipeline\",\"insecure\":true,\"accessKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"accesskey\"},\"secretKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"secretkey\"},\"key\":\"private-artifacts/kubeflow/iot-cluster-artifact-oracle-v1-tx4p7/2026/10/27/iot-cluster-artifact-oracle-v1-tx4p7-system-container-impl-24271988\"}},\"retryStrategy\":{\"limit\":\"2\",\"retryPolicy\":\"OnError\"},\"securityContext\":{\"seccompProfile\":{\"type\":\"RuntimeDefault\"}},\"podSpecPatch\":\"{\\\"volumes\\\":[{\\\"name\\\":\\\"iot-ml-code\\\",\\\"persistentVolumeClaim\\\":{\\\"claimName\\\":\\\"iot-ml-code\\\"}},{\\\"name\\\":\\\"iot-ml-workspace\\\",\\\"persistentVolumeClaim\\\":{\\\"claimName\\\":\\\"iot-ml-workspace\\\"}},{\\\"name\\\":\\\"iot-ml-scratch\\\",\\\"persistentVolumeClaim\\\":{\\\"claimName\\\":\\\"iot-ml-scratch\\\"}}],\\\"containers\\\":[{\\\"name\\\":\\\"main\\\",\\\"image\\\":\\\"iot-coursework-feast:0.67.0\\\",\\\"command\\\":[\\\"/kfp-launcher/launch\\\",\\\"--pipeline_name\\\",\\\"iot-cluster-artifact-oracle-v1\\\",\\\"--run_id\\\",\\\"38c602cf-0b80-4a47-a775-15f9aca6b291\\\",\\\"--execution_id\\\",\\\"10\\\",\\\"--executor_input\\\",\\\"{\\\\\\\"inputs\\\\\\\":{},\\\\\\\"outputs\\\\\\\":{\\\\\\\"artifacts\\\\\\\":{\\\\\\\"executor-logs\\\\\\\":{\\\\\\\"artifacts\\\\\\\":[{\\\\\\\"name\\\\\\\":\\\\\\\"executor-logs\\\\\\\",\\\\\\\"type\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Artifact\\\\\\\"},\\\\\\\"uri\\\\\\\":\\\\\\\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-write/c6b506d7-1971-451e-b7db-9d136d2dbd0e/executor-logs\\\\\\\"}]},\\\\\\\"output\\\\\\\":{\\\\\\\"artifacts\\\\\\\":[{\\\\\\\"name\\\\\\\":\\\\\\\"output\\\\\\\",\\\\\\\"type\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Dataset\\\\\\\",\\\\\\\"schemaVersion\\\\\\\":\\\\\\\"0.0.1\\\\\\\"},\\\\\\\"uri\\\\\\\":\\\\\\\"minio://mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-write/c6b506d7-1971-451e-b7db-9d136d2dbd0e/output\\\\\\\"}]}},\\\\\\\"outputFile\\\\\\\":\\\\\\\"/minio/mlpipeline/v2/artifacts/iot-cluster-artifact-oracle-v1/38c602cf-0b80-4a47-a775-15f9aca6b291/transport-write/c6b506d7-1971-451e-b7db-9d136d2dbd0e/output_metadata.json\\\\\\\"}}\\\",\\\"--component_spec\\\",\\\"{\\\\\\\"outputDefinitions\\\\\\\":{\\\\\\\"artifacts\\\\\\\":{\\\\\\\"executor-logs\\\\\\\":{\\\\\\\"artifactType\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Artifact\\\\\\\"}},\\\\\\\"output\\\\\\\":{\\\\\\\"artifactType\\\\\\\":{\\\\\\\"schemaTitle\\\\\\\":\\\\\\\"system.Dataset\\\\\\\",\\\\\\\"schemaVersion\\\\\\\":\\\\\\\"0.0.1\\\\\\\"}}}},\\\\\\\"executorLabel\\\\\\\":\\\\\\\"exec-transport-write\\\\\\\"}\\\",\\\"--pod_name\\\",\\\"$(KFP_POD_NAME)\\\",\\\"--pod_uid\\\",\\\"$(KFP_POD_UID)\\\",\\\"--ml_pipeline_server_address\\\",\\\"ml-pipeline.kubeflow.svc.cluster.local\\\",\\\"--ml_pipeline_server_port\\\",\\\"8887\\\",\\\"--mlmd_server_address\\\",\\\"metadata-grpc-service.kubeflow.svc.cluster.local\\\",\\\"--mlmd_server_port\\\",\\\"8080\\\",\\\"--publish_logs\\\",\\\"true\\\",\\\"--publish_logs\\\",\\\"true\\\",\\\"--\\\"],\\\"args\\\":[\\\"python\\\",\\\"-m\\\",\\\"ml.kfp_artifacts\\\",\\\"--output\\\",\\\"{{$.outputs.artifacts['output'].path}}\\\",\\\"--executor-input\\\",\\\"{{$}}\\\",\\\"--name\\\",\\\"output\\\"],\\\"env\\\":[{\\\"name\\\":\\\"HOME\\\",\\\"value\\\":\\\"/tmp\\\"},{\\\"name\\\":\\\"PYTHONPATH\\\",\\\"value\\\":\\\"/workspace\\\"},{\\\"name\\\":\\\"FEAST_USAGE\\\",\\\"value\\\":\\\"False\\\"},{\\\"name\\\":\\\"IOT_FEAST_REDIS\\\",\\\"value\\\":\\\"online:6379\\\"},{\\\"name\\\":\\\"IOT_FEAST_TEMP\\\",\\\"value\\\":\\\"/ml-scratch/offline\\\"},{\\\"name\\\":\\\"OPENBLAS_NUM_THREADS\\\",\\\"value\\\":\\\"1\\\"},{\\\"name\\\":\\\"OMP_NUM_THREADS\\\",\\\"value\\\":\\\"1\\\"},{\\\"name\\\":\\\"SPARK_LOCAL_IP\\\",\\\"value\\\":\\\"127.0.0.1\\\"}],\\\"resources\\\":{\\\"limits\\\":{\\\"cpu\\\":\\\"2\\\",\\\"memory\\\":\\\"10Gi\\\"},\\\"requests\\\":{\\\"cpu\\\":\\\"500m\\\",\\\"memory\\\":\\\"2Gi\\\"}},\\\"volumeMounts\\\":[{\\\"name\\\":\\\"iot-ml-code\\\",\\\"mountPath\\\":\\\"/workspace\\\"},{\\\"name\\\":\\\"iot-ml-workspace\\\",\\\"mountPath\\\":\\\"/ml-data\\\"},{\\\"name\\\":\\\"iot-ml-scratch\\\",\\\"mountPath\\\":\\\"/ml-scratch\\\"}],\\\"imagePullPolicy\\\":\\\"Never\\\",\\\"securityContext\\\":{\\\"capabilities\\\":{\\\"drop\\\":[\\\"ALL\\\"]},\\\"runAsUser\\\":10001,\\\"runAsGroup\\\":10001,\\\"runAsNonRoot\\\":true}}]}\"}"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-24271988"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "ghcr.io/kubeflow/kfp-launcher:2.17.2",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "kfp-launcher",
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "256Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "256Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/kfp-launcher",
+                "name": "kfp-launcher"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-7m676",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "nodeName": "iot-cw-vm",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "pipeline-runner",
+        "serviceAccountName": "pipeline-runner",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "name": "iot-ml-code",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-code"
+            }
+          },
+          {
+            "name": "iot-ml-workspace",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-workspace"
+            }
+          },
+          {
+            "name": "iot-ml-scratch",
+            "persistentVolumeClaim": {
+              "claimName": "iot-ml-scratch"
+            }
+          },
+          {
+            "emptyDir": {},
+            "name": "var-run-argo"
+          },
+          {
+            "emptyDir": {},
+            "name": "tmp-dir-argo"
+          },
+          {
+            "emptyDir": {},
+            "name": "kfp-launcher"
+          },
+          {
+            "emptyDir": {},
+            "name": "gcs-scratch"
+          },
+          {
+            "emptyDir": {},
+            "name": "s3-scratch"
+          },
+          {
+            "emptyDir": {},
+            "name": "minio-scratch"
+          },
+          {
+            "emptyDir": {},
+            "name": "dot-local-scratch"
+          },
+          {
+            "emptyDir": {},
+            "name": "dot-cache-scratch"
+          },
+          {
+            "emptyDir": {},
+            "name": "dot-config-scratch"
+          },
+          {
+            "name": "mlpipeline-minio-artifact",
+            "secret": {
+              "defaultMode": 420,
+              "items": [
+                {
+                  "key": "accesskey",
+                  "path": "accesskey"
+                },
+                {
+                  "key": "secretkey",
+                  "path": "secretkey"
+                }
+              ],
+              "secretName": "mlpipeline-minio-artifact"
+            }
+          },
+          {
+            "name": "kube-api-access-7m676",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ],
+                    "name": "kube-root-ca.crt"
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        },
+                        "path": "namespace"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:17Z",
+            "observedGeneration": 1,
+            "status": "False",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:13Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:15Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:15Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:49:10Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "500m",
+              "memory": "2Gi"
+            },
+            "containerID": "containerd://7e019d39f545eb3d95eae892989fbeaaa1e2c5a636d18017304798241107bb06",
+            "image": "docker.io/library/iot-coursework-feast:0.67.0",
+            "imageID": "sha256:4039fd8d767b027f5d1f63dad64cdb188dc3f4a5eee97bbbcdec5b588b0276bd",
+            "lastState": {},
+            "name": "main",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "2",
+                "memory": "10Gi"
+              },
+              "requests": {
+                "cpu": "500m",
+                "memory": "2Gi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://7e019d39f545eb3d95eae892989fbeaaa1e2c5a636d18017304798241107bb06",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:14Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:13Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 10001,
+                "supplementalGroups": [
+                  10001
+                ],
+                "uid": 10001
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/workspace",
+                "name": "iot-ml-code"
+              },
+              {
+                "mountPath": "/ml-data",
+                "name": "iot-ml-workspace"
+              },
+              {
+                "mountPath": "/ml-scratch",
+                "name": "iot-ml-scratch"
+              },
+              {
+                "mountPath": "/kfp-launcher",
+                "name": "kfp-launcher"
+              },
+              {
+                "mountPath": "/gcs",
+                "name": "gcs-scratch"
+              },
+              {
+                "mountPath": "/s3",
+                "name": "s3-scratch"
+              },
+              {
+                "mountPath": "/minio",
+                "name": "minio-scratch"
+              },
+              {
+                "mountPath": "/.local",
+                "name": "dot-local-scratch"
+              },
+              {
+                "mountPath": "/.cache",
+                "name": "dot-cache-scratch"
+              },
+              {
+                "mountPath": "/.config",
+                "name": "dot-config-scratch"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-7m676",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          },
+          {
+            "allocatedResources": {
+              "cpu": "50m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://371d8edfc6856fe007916cb757cd010b0f2caeda6c753acee064c536ee2c249a",
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imageID": "quay.io/argoproj/argoexec@sha256:0cb732e24c7d13385066c920e2943fdddfa1d15e6bf5ad99f02e48c50625d022",
+            "lastState": {},
+            "name": "wait",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://371d8edfc6856fe007916cb757cd010b0f2caeda6c753acee064c536ee2c249a",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:15Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:13Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65532,
+                "supplementalGroups": [
+                  65532
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/mainctrfs/kfp-launcher",
+                "name": "kfp-launcher"
+              },
+              {
+                "mountPath": "/mainctrfs/gcs",
+                "name": "gcs-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/s3",
+                "name": "s3-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/minio",
+                "name": "minio-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/.local",
+                "name": "dot-local-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/.cache",
+                "name": "dot-cache-scratch"
+              },
+              {
+                "mountPath": "/mainctrfs/.config",
+                "name": "dot-config-scratch"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp-dir-argo"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-7m676",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "hostIP": "10.42.0.2",
+        "hostIPs": [
+          {
+            "ip": "10.42.0.2"
+          }
+        ],
+        "initContainerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "50m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://df60aa6dafdc2a738ed485aee1b0db8f9315f6f9f1cb473418a49b9126db6a14",
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imageID": "quay.io/argoproj/argoexec@sha256:0cb732e24c7d13385066c920e2943fdddfa1d15e6bf5ad99f02e48c50625d022",
+            "lastState": {},
+            "name": "init",
+            "ready": true,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://df60aa6dafdc2a738ed485aee1b0db8f9315f6f9f1cb473418a49b9126db6a14",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:11Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:11Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65532,
+                "supplementalGroups": [
+                  65532
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-7m676",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          },
+          {
+            "allocatedResources": {
+              "cpu": "100m",
+              "memory": "256Mi"
+            },
+            "containerID": "containerd://8c6fdd2be2b565b5521092bbba0f65ff5d0475d39f5059eb45d4a8cbd1506bea",
+            "image": "ghcr.io/kubeflow/kfp-launcher:2.17.2",
+            "imageID": "ghcr.io/kubeflow/kfp-launcher@sha256:78f779cf6cc7b34092232eb37157cc8de6e1327e3029abe6b33e73d4d76c03f3",
+            "lastState": {},
+            "name": "kfp-launcher",
+            "ready": true,
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "256Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "256Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://8c6fdd2be2b565b5521092bbba0f65ff5d0475d39f5059eb45d4a8cbd1506bea",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:49:12Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:49:12Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65533,
+                "supplementalGroups": [
+                  65533
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/kfp-launcher",
+                "name": "kfp-launcher"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-7m676",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "observedGeneration": 1,
+        "phase": "Succeeded",
+        "podIP": "10.52.0.44",
+        "podIPs": [
+          {
+            "ip": "10.52.0.44"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-27T11:49:10Z"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "annotations": {
+          "kubectl.kubernetes.io/default-container": "main",
+          "kubernetes.io/limit-ranger": "LimitRanger plugin set: cpu, memory request for container wait; cpu, memory limit for container wait; cpu, memory request for init container init; cpu, memory limit for init container init",
+          "pipelines.kubeflow.org/runtime-role": "driver",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "sidecar.istio.io/inject": "false",
+          "workflows.argoproj.io/node-id": "iot-cluster-artifact-oracle-v1-tx4p7-1323930931",
+          "workflows.argoproj.io/node-name": "iot-cluster-artifact-oracle-v1-tx4p7(0).root-driver(0)"
+        },
+        "creationTimestamp": "2026-10-27T11:48:50Z",
+        "generation": 1,
+        "labels": {
+          "pipeline/runid": "38c602cf-0b80-4a47-a775-15f9aca6b291",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "workflows.argoproj.io/completed": "true",
+          "workflows.argoproj.io/workflow": "iot-cluster-artifact-oracle-v1-tx4p7"
+        },
+        "name": "iot-cluster-artifact-oracle-v1-tx4p7-system-dag-driver-1323930931",
+        "namespace": "kubeflow",
+        "ownerReferences": [
+          {
+            "apiVersion": "argoproj.io/v1alpha1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "Workflow",
+            "name": "iot-cluster-artifact-oracle-v1-tx4p7",
+            "uid": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+          }
+        ],
+        "resourceVersion": "4109",
+        "uid": "e8d29bb4-79f5-4aa0-95db-0ba14d94f618"
+      },
+      "spec": {
+        "containers": [
+          {
+            "command": [
+              "argoexec",
+              "wait",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0"
+            ],
+            "env": [
+              {
+                "name": "ARGO_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_WORKFLOW_NAME",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7"
+              },
+              {
+                "name": "ARGO_WORKFLOW_UID",
+                "value": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+              },
+              {
+                "name": "ARGO_ARTIFACT_PLUGIN_NAMES"
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "wait"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-1323930931"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "wait",
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "runAsUser": 65532,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp-dir-argo",
+                "subPath": "0"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-kfzcl",
+                "readOnly": true
+              }
+            ]
+          },
+          {
+            "args": [
+              "--type",
+              "ROOT_DAG",
+              "--pipeline_name",
+              "iot-cluster-artifact-oracle-v1",
+              "--run_id",
+              "38c602cf-0b80-4a47-a775-15f9aca6b291",
+              "--run_name",
+              "iot-cluster-artifact-oracle-v1-tx4p7",
+              "--run_display_name",
+              "training-cluster-27-v2-oracle",
+              "--pipeline_job_create_time_utc",
+              "2026-10-27T11:48:50Z",
+              "--dag_execution_id",
+              "0",
+              "--component",
+              "{\"dag\":{\"tasks\":{\"transport-read\":{\"cachingOptions\":{},\"componentRef\":{\"name\":\"comp-transport-read\"},\"dependentTasks\":[\"transport-write\"],\"inputs\":{\"artifacts\":{\"source\":{\"taskOutputArtifact\":{\"outputArtifactKey\":\"output\",\"producerTask\":\"transport-write\"}}}},\"taskInfo\":{\"name\":\"transport-read\"}},\"transport-write\":{\"cachingOptions\":{},\"componentRef\":{\"name\":\"comp-transport-write\"},\"taskInfo\":{\"name\":\"transport-write\"}}}}}",
+              "--task",
+              "",
+              "--task_name",
+              "",
+              "--runtime_config",
+              "{}",
+              "--iteration_index",
+              "-1",
+              "--execution_id_path",
+              "/tmp/outputs/execution-id",
+              "--iteration_count_path",
+              "/tmp/outputs/iteration-count",
+              "--condition_path",
+              "/tmp/outputs/condition",
+              "--http_proxy",
+              "",
+              "--https_proxy",
+              "",
+              "--no_proxy",
+              "",
+              "--ml_pipeline_server_address",
+              "ml-pipeline.kubeflow.svc.cluster.local",
+              "--ml_pipeline_server_port",
+              "8887",
+              "--mlmd_server_address",
+              "metadata-grpc-service.kubeflow.svc.cluster.local",
+              "--mlmd_server_port",
+              "8080",
+              "--log_level",
+              "1",
+              "--publish_logs",
+              "true"
+            ],
+            "command": [
+              "/var/run/argo/argoexec",
+              "emissary",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0",
+              "--",
+              "driver"
+            ],
+            "env": [
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "main"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-1323930931"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "ghcr.io/kubeflow/kfp-driver:2.17.2",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "main",
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "64Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-kfzcl",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "initContainers": [
+          {
+            "command": [
+              "argoexec",
+              "init",
+              "--loglevel",
+              "info",
+              "--log-format",
+              "text",
+              "--gloglevel",
+              "0"
+            ],
+            "env": [
+              {
+                "name": "ARGO_POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_POD_UID",
+                "valueFrom": {
+                  "fieldRef": {
+                    "apiVersion": "v1",
+                    "fieldPath": "metadata.uid"
+                  }
+                }
+              },
+              {
+                "name": "ARGO_WORKFLOW_NAME",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7"
+              },
+              {
+                "name": "ARGO_WORKFLOW_UID",
+                "value": "2f7d2183-de8d-401b-b47a-081fef2ddfd2"
+              },
+              {
+                "name": "ARGO_CONTAINER_NAME",
+                "value": "init"
+              },
+              {
+                "name": "ARGO_TEMPLATE",
+                "value": "{\"name\":\"system-dag-driver\",\"inputs\":{},\"outputs\":{\"parameters\":[{\"name\":\"execution-id\",\"valueFrom\":{\"path\":\"/tmp/outputs/execution-id\"}},{\"name\":\"iteration-count\",\"valueFrom\":{\"path\":\"/tmp/outputs/iteration-count\",\"default\":\"0\"}},{\"name\":\"condition\",\"valueFrom\":{\"path\":\"/tmp/outputs/condition\",\"default\":\"true\"}}]},\"metadata\":{\"annotations\":{\"pipelines.kubeflow.org/runtime-role\":\"driver\",\"pipelines.kubeflow.org/v2_component\":\"true\",\"sidecar.istio.io/inject\":\"false\"},\"labels\":{\"pipeline/runid\":\"38c602cf-0b80-4a47-a775-15f9aca6b291\",\"pipelines.kubeflow.org/v2_component\":\"true\"}},\"container\":{\"name\":\"\",\"image\":\"ghcr.io/kubeflow/kfp-driver:2.17.2\",\"command\":[\"driver\"],\"args\":[\"--type\",\"ROOT_DAG\",\"--pipeline_name\",\"iot-cluster-artifact-oracle-v1\",\"--run_id\",\"38c602cf-0b80-4a47-a775-15f9aca6b291\",\"--run_name\",\"iot-cluster-artifact-oracle-v1-tx4p7\",\"--run_display_name\",\"training-cluster-27-v2-oracle\",\"--pipeline_job_create_time_utc\",\"2026-10-27T11:48:50Z\",\"--dag_execution_id\",\"0\",\"--component\",\"{\\\"dag\\\":{\\\"tasks\\\":{\\\"transport-read\\\":{\\\"cachingOptions\\\":{},\\\"componentRef\\\":{\\\"name\\\":\\\"comp-transport-read\\\"},\\\"dependentTasks\\\":[\\\"transport-write\\\"],\\\"inputs\\\":{\\\"artifacts\\\":{\\\"source\\\":{\\\"taskOutputArtifact\\\":{\\\"outputArtifactKey\\\":\\\"output\\\",\\\"producerTask\\\":\\\"transport-write\\\"}}}},\\\"taskInfo\\\":{\\\"name\\\":\\\"transport-read\\\"}},\\\"transport-write\\\":{\\\"cachingOptions\\\":{},\\\"componentRef\\\":{\\\"name\\\":\\\"comp-transport-write\\\"},\\\"taskInfo\\\":{\\\"name\\\":\\\"transport-write\\\"}}}}}\",\"--task\",\"\",\"--task_name\",\"\",\"--runtime_config\",\"{}\",\"--iteration_index\",\"-1\",\"--execution_id_path\",\"/tmp/outputs/execution-id\",\"--iteration_count_path\",\"/tmp/outputs/iteration-count\",\"--condition_path\",\"/tmp/outputs/condition\",\"--http_proxy\",\"\",\"--https_proxy\",\"\",\"--no_proxy\",\"\",\"--ml_pipeline_server_address\",\"ml-pipeline.kubeflow.svc.cluster.local\",\"--ml_pipeline_server_port\",\"8887\",\"--mlmd_server_address\",\"metadata-grpc-service.kubeflow.svc.cluster.local\",\"--mlmd_server_port\",\"8080\",\"--log_level\",\"1\",\"--publish_logs\",\"true\"],\"resources\":{\"limits\":{\"cpu\":\"500m\",\"memory\":\"512Mi\"},\"requests\":{\"cpu\":\"100m\",\"memory\":\"64Mi\"}},\"securityContext\":{\"capabilities\":{\"drop\":[\"ALL\"]},\"runAsNonRoot\":true,\"allowPrivilegeEscalation\":false,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}},\"archiveLocation\":{\"archiveLogs\":true,\"s3\":{\"endpoint\":\"seaweedfs.kubeflow.svc:9000\",\"bucket\":\"mlpipeline\",\"insecure\":true,\"accessKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"accesskey\"},\"secretKeySecret\":{\"name\":\"mlpipeline-minio-artifact\",\"key\":\"secretkey\"},\"key\":\"private-artifacts/kubeflow/iot-cluster-artifact-oracle-v1-tx4p7/2026/10/27/iot-cluster-artifact-oracle-v1-tx4p7-system-dag-driver-1323930931\"}},\"retryStrategy\":{\"limit\":\"2\",\"retryPolicy\":\"OnError\"},\"securityContext\":{\"runAsNonRoot\":true,\"seccompProfile\":{\"type\":\"RuntimeDefault\"}}}"
+              },
+              {
+                "name": "ARGO_NODE_ID",
+                "value": "iot-cluster-artifact-oracle-v1-tx4p7-1323930931"
+              },
+              {
+                "name": "ARGO_INCLUDE_SCRIPT_OUTPUT",
+                "value": "false"
+              },
+              {
+                "name": "ARGO_DEADLINE",
+                "value": "0001-01-01T00:00:00Z"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE",
+                "value": "/var/run/argo/progress"
+              },
+              {
+                "name": "ARGO_PROGRESS_PATCH_TICK_DURATION",
+                "value": "1m0s"
+              },
+              {
+                "name": "ARGO_PROGRESS_FILE_TICK_DURATION",
+                "value": "3s"
+              }
+            ],
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "init",
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "runAsNonRoot": true,
+              "runAsUser": 65532,
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-kfzcl",
+                "readOnly": true
+              }
+            ]
+          }
+        ],
+        "nodeName": "iot-cw-vm",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Never",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "runAsNonRoot": true,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "pipeline-runner",
+        "serviceAccountName": "pipeline-runner",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "emptyDir": {},
+            "name": "var-run-argo"
+          },
+          {
+            "emptyDir": {},
+            "name": "tmp-dir-argo"
+          },
+          {
+            "name": "mlpipeline-minio-artifact",
+            "secret": {
+              "defaultMode": 420,
+              "items": [
+                {
+                  "key": "accesskey",
+                  "path": "accesskey"
+                },
+                {
+                  "key": "secretkey",
+                  "path": "secretkey"
+                }
+              ],
+              "secretName": "mlpipeline-minio-artifact"
+            }
+          },
+          {
+            "name": "kube-api-access-kfzcl",
+            "projected": {
+              "defaultMode": 420,
+              "sources": [
+                {
+                  "serviceAccountToken": {
+                    "expirationSeconds": 3607,
+                    "path": "token"
+                  }
+                },
+                {
+                  "configMap": {
+                    "items": [
+                      {
+                        "key": "ca.crt",
+                        "path": "ca.crt"
+                      }
+                    ],
+                    "name": "kube-root-ca.crt"
+                  }
+                },
+                {
+                  "downwardAPI": {
+                    "items": [
+                      {
+                        "fieldRef": {
+                          "apiVersion": "v1",
+                          "fieldPath": "metadata.namespace"
+                        },
+                        "path": "namespace"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:48:55Z",
+            "observedGeneration": 1,
+            "status": "False",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:48:51Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:48:53Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:48:53Z",
+            "observedGeneration": 1,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-27T11:48:50Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "100m",
+              "memory": "64Mi"
+            },
+            "containerID": "containerd://8dc910a836fb53a39e212bfaacf7b059463ccba29445647aea331b7a166b7735",
+            "image": "ghcr.io/kubeflow/kfp-driver:2.17.2",
+            "imageID": "ghcr.io/kubeflow/kfp-driver@sha256:4081fa56cb1914a6b357b6f77fc0f14d846ed142bc2697aa58380376d81308ab",
+            "lastState": {},
+            "name": "main",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "64Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://8dc910a836fb53a39e212bfaacf7b059463ccba29445647aea331b7a166b7735",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:48:53Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:48:52Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65533,
+                "supplementalGroups": [
+                  65533
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-kfzcl",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          },
+          {
+            "allocatedResources": {
+              "cpu": "50m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://33386bada8a21175af7ad30103b0320471648e6033d9185b85c1f27e90375059",
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imageID": "quay.io/argoproj/argoexec@sha256:0cb732e24c7d13385066c920e2943fdddfa1d15e6bf5ad99f02e48c50625d022",
+            "lastState": {},
+            "name": "wait",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://33386bada8a21175af7ad30103b0320471648e6033d9185b85c1f27e90375059",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:48:54Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:48:51Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65532,
+                "supplementalGroups": [
+                  65532
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp-dir-argo"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-kfzcl",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "hostIP": "10.42.0.2",
+        "hostIPs": [
+          {
+            "ip": "10.42.0.2"
+          }
+        ],
+        "initContainerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "50m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://8688b7846d31e00539d3396760b0e15574570e7d6ec7cc2c399d953c6a6e124a",
+            "image": "quay.io/argoproj/argoexec:v4.0.5",
+            "imageID": "quay.io/argoproj/argoexec@sha256:0cb732e24c7d13385066c920e2943fdddfa1d15e6bf5ad99f02e48c50625d022",
+            "lastState": {},
+            "name": "init",
+            "ready": true,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "2Gi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://8688b7846d31e00539d3396760b0e15574570e7d6ec7cc2c399d953c6a6e124a",
+                "exitCode": 0,
+                "finishedAt": "2026-10-27T11:48:51Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-27T11:48:51Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 65532,
+                "supplementalGroups": [
+                  65532
+                ],
+                "uid": 65532
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/argo/secret/mlpipeline-minio-artifact",
+                "name": "mlpipeline-minio-artifact",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/var/run/argo",
+                "name": "var-run-argo"
+              },
+              {
+                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                "name": "kube-api-access-kfzcl",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              }
+            ]
+          }
+        ],
+        "observedGeneration": 1,
+        "phase": "Succeeded",
+        "podIP": "10.52.0.42",
+        "podIPs": [
+          {
+            "ip": "10.52.0.42"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-27T11:48:50Z"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

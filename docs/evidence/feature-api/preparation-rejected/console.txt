@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/feature_store/serving.py", line 55, in <module>
+    parser.add_argument('--cutoff',required=True);run(parser.parse_args())
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/feature_store/serving.py", line 20, in run
+    if cutoff.tzinfo is None or not start+timedelta(hours=1)<=cutoff<end:raise ValueError('Choose an aware cutoff inside the sealed source horizon')
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Choose an aware cutoff inside the sealed source horizon

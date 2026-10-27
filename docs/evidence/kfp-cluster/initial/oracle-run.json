@@ -1,0 +1,968 @@
+{
+  "experiment_id": "67aceb8e-a4a7-4448-a5f4-6e382c5dda16",
+  "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+  "display_name": "training-cluster-27-oracle",
+  "storage_state": "AVAILABLE",
+  "description": null,
+  "pipeline_version_id": null,
+  "pipeline_spec": {
+    "pipeline_spec": {
+      "components": {
+        "comp-transport-read": {
+          "executorLabel": "exec-transport-read",
+          "inputDefinitions": {
+            "artifacts": {
+              "source": {
+                "artifactType": {
+                  "schemaTitle": "system.Dataset",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          },
+          "outputDefinitions": {
+            "artifacts": {
+              "output": {
+                "artifactType": {
+                  "schemaTitle": "system.Dataset",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          }
+        },
+        "comp-transport-write": {
+          "executorLabel": "exec-transport-write",
+          "outputDefinitions": {
+            "artifacts": {
+              "output": {
+                "artifactType": {
+                  "schemaTitle": "system.Dataset",
+                  "schemaVersion": "0.0.1"
+                }
+              }
+            }
+          }
+        }
+      },
+      "deploymentSpec": {
+        "executors": {
+          "exec-transport-read": {
+            "container": {
+              "args": [
+                "--input",
+                "{{$.inputs.artifacts['source'].path}}",
+                "--output",
+                "{{$.outputs.artifacts['output'].path}}",
+                "--executor-input",
+                "{{$}}",
+                "--name",
+                "output"
+              ],
+              "command": [
+                "python3",
+                "-m",
+                "ml.kfp_artifacts"
+              ],
+              "env": [
+                {
+                  "name": "HOME",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "PYTHONPATH",
+                  "value": "/workspace"
+                },
+                {
+                  "name": "FEAST_USAGE",
+                  "value": "False"
+                },
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online:6379"
+                },
+                {
+                  "name": "IOT_FEAST_TEMP",
+                  "value": "/ml-scratch/offline"
+                },
+                {
+                  "name": "OPENBLAS_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "OMP_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "SPARK_LOCAL_IP",
+                  "value": "127.0.0.1"
+                }
+              ],
+              "image": "iot-coursework-spark:3.5.9",
+              "resources": {
+                "cpuLimit": 2,
+                "cpuRequest": 0.5,
+                "memoryLimit": 10.73741824,
+                "memoryRequest": 2.147483648,
+                "resourceCpuLimit": "2",
+                "resourceCpuRequest": "500m",
+                "resourceMemoryLimit": "10Gi",
+                "resourceMemoryRequest": "2Gi"
+              }
+            }
+          },
+          "exec-transport-write": {
+            "container": {
+              "args": [
+                "--output",
+                "{{$.outputs.artifacts['output'].path}}",
+                "--executor-input",
+                "{{$}}",
+                "--name",
+                "output"
+              ],
+              "command": [
+                "python",
+                "-m",
+                "ml.kfp_artifacts"
+              ],
+              "env": [
+                {
+                  "name": "HOME",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "PYTHONPATH",
+                  "value": "/workspace"
+                },
+                {
+                  "name": "FEAST_USAGE",
+                  "value": "False"
+                },
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online:6379"
+                },
+                {
+                  "name": "IOT_FEAST_TEMP",
+                  "value": "/ml-scratch/offline"
+                },
+                {
+                  "name": "OPENBLAS_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "OMP_NUM_THREADS",
+                  "value": "1"
+                },
+                {
+                  "name": "SPARK_LOCAL_IP",
+                  "value": "127.0.0.1"
+                }
+              ],
+              "image": "iot-coursework-feast:0.67.0",
+              "resources": {
+                "cpuLimit": 2,
+                "cpuRequest": 0.5,
+                "memoryLimit": 10.73741824,
+                "memoryRequest": 2.147483648,
+                "resourceCpuLimit": "2",
+                "resourceCpuRequest": "500m",
+                "resourceMemoryLimit": "10Gi",
+                "resourceMemoryRequest": "2Gi"
+              }
+            }
+          }
+        }
+      },
+      "pipelineInfo": {
+        "description": "Exercise actual object-store transport and UIDs10001/185; this is not the training milestone.",
+        "name": "iot-cluster-artifact-oracle-v1"
+      },
+      "root": {
+        "dag": {
+          "tasks": {
+            "transport-read": {
+              "cachingOptions": {},
+              "componentRef": {
+                "name": "comp-transport-read"
+              },
+              "dependentTasks": [
+                "transport-write"
+              ],
+              "inputs": {
+                "artifacts": {
+                  "source": {
+                    "taskOutputArtifact": {
+                      "outputArtifactKey": "output",
+                      "producerTask": "transport-write"
+                    }
+                  }
+                }
+              },
+              "taskInfo": {
+                "name": "transport-read"
+              }
+            },
+            "transport-write": {
+              "cachingOptions": {},
+              "componentRef": {
+                "name": "comp-transport-write"
+              },
+              "taskInfo": {
+                "name": "transport-write"
+              }
+            }
+          }
+        }
+      },
+      "schemaVersion": "2.1.0",
+      "sdkVersion": "kfp-2.17.3"
+    },
+    "platform_spec": {
+      "platforms": {
+        "kubernetes": {
+          "deploymentSpec": {
+            "executors": {
+              "exec-transport-read": {
+                "imagePullPolicy": "Never",
+                "pvcMount": [
+                  {
+                    "constant": "iot-ml-code",
+                    "mountPath": "/workspace",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-code"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-workspace",
+                    "mountPath": "/ml-data",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-workspace"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-scratch",
+                    "mountPath": "/ml-scratch",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-scratch"
+                      }
+                    }
+                  }
+                ],
+                "securityContext": {
+                  "runAsGroup": "10001",
+                  "runAsNonRoot": true,
+                  "runAsUser": "185"
+                }
+              },
+              "exec-transport-write": {
+                "imagePullPolicy": "Never",
+                "pvcMount": [
+                  {
+                    "constant": "iot-ml-code",
+                    "mountPath": "/workspace",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-code"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-workspace",
+                    "mountPath": "/ml-data",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-workspace"
+                      }
+                    }
+                  },
+                  {
+                    "constant": "iot-ml-scratch",
+                    "mountPath": "/ml-scratch",
+                    "pvcNameParameter": {
+                      "runtimeValue": {
+                        "constant": "iot-ml-scratch"
+                      }
+                    }
+                  }
+                ],
+                "securityContext": {
+                  "runAsGroup": "10001",
+                  "runAsNonRoot": true,
+                  "runAsUser": "10001"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "pipeline_version_reference": null,
+  "runtime_config": null,
+  "service_account": "pipeline-runner",
+  "created_at": "2026-10-27 11:29:29+00:00",
+  "scheduled_at": "2026-10-27 11:29:29+00:00",
+  "finished_at": "2026-10-27 11:30:40+00:00",
+  "state": "SUCCEEDED",
+  "error": null,
+  "run_details": {
+    "pipeline_context_id": null,
+    "pipeline_run_context_id": null,
+    "task_details": [
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "1349c82b-4348-48fc-aca7-91d573ed3980",
+        "display_name": "executor(0)",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:29:59+00:00",
+        "end_time": "2026-10-27 11:30:09+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:01+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:11+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:21+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": null
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "16957fc9-4b69-4467-be42-efa6e9807032",
+        "display_name": "executor(0)",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:30:30+00:00",
+        "end_time": "2026-10-27 11:30:36+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:31+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:41+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": null
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "18ca6802-2fbb-4be7-afa1-abbe02df42a2",
+        "display_name": "transport-read",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:30:30+00:00",
+        "end_time": "2026-10-27 11:30:40+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:31+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:41+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-1495669257"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "23777b24-a3d6-4adf-abda-8a152f6ffe8f",
+        "display_name": "root-driver(0)",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:29:29+00:00",
+        "end_time": "2026-10-27 11:29:39+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:29:30+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:29:40+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:29:50+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-1645865949"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "36645cee-632b-4b21-bd2c-f6123efb4e6e",
+        "display_name": "iot-cluster-artifact-oracle-v1-djmrp",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:29:29+00:00",
+        "end_time": "2026-10-27 11:30:40+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:29:30+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:41+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-4074759137"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "42165a55-d45c-4cb4-a231-92bd86f94b6d",
+        "display_name": "transport-read-driver(0)",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:30:20+00:00",
+        "end_time": "2026-10-27 11:30:23+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:21+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:31+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-962797586"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "5c2009fd-d6b2-487e-81af-1dbe9c8e23b9",
+        "display_name": "iot-cluster-artifact-oracle-v1-djmrp(0)",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:29:29+00:00",
+        "end_time": "2026-10-27 11:30:40+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:29:30+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:41+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-622409262"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "7876b12f-4590-426b-aba1-c96cf3fd9bbb",
+        "display_name": "transport-write(0)",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:29:59+00:00",
+        "end_time": "2026-10-27 11:30:20+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:01+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:21+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-772520567"
+          },
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-103708855"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "7a4476d6-31e9-4c11-97d0-011fa46f60ac",
+        "display_name": "executor",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:29:59+00:00",
+        "end_time": "2026-10-27 11:30:20+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:01+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:21+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-1804679146"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "8ad5f198-0d95-41e1-b953-e2ad1168faef",
+        "display_name": "executor",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:30:30+00:00",
+        "end_time": "2026-10-27 11:30:40+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:31+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:41+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-3098697111"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "941101c3-1c62-43c8-bfaf-c03d6248bf7a",
+        "display_name": "transport-write-driver(0)",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:29:49+00:00",
+        "end_time": "2026-10-27 11:29:53+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:29:50+00:00",
+            "state": "PENDING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:01+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-861093653"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "9b3264a2-6dbb-42d1-8869-27ea643b5b46",
+        "display_name": "transport-write-driver",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:29:49+00:00",
+        "end_time": "2026-10-27 11:29:59+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:29:50+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:01+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-968857845"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "9bd0dea1-b9ca-42f7-847e-3558ee5868f4",
+        "display_name": "transport-write",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:29:59+00:00",
+        "end_time": "2026-10-27 11:30:20+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:01+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:21+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-484466420"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "9ce8baac-e02c-4ae2-a82b-e6cdeb7d2e2f",
+        "display_name": "root-driver",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:29:29+00:00",
+        "end_time": "2026-10-27 11:29:49+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:29:30+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:29:50+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-1159065053"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "cc891cb0-1d6a-4883-995c-e955586121b2",
+        "display_name": "root",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:29:49+00:00",
+        "end_time": "2026-10-27 11:30:40+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:29:50+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:41+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-3901418860"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "e2958cb6-96f7-4b95-aafd-eac32387b9d2",
+        "display_name": "transport-read(0)",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:30:30+00:00",
+        "end_time": "2026-10-27 11:30:40+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:31+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:41+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-2414336476"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "e3941066-ac5d-4ba9-a617-6b52516bdb8b",
+        "display_name": "root(0)",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:29:49+00:00",
+        "end_time": "2026-10-27 11:30:40+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:29:50+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:41+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-3319107062"
+          }
+        ]
+      },
+      {
+        "run_id": "a3a7105b-99b4-421d-b6a1-c0975aac78f2",
+        "task_id": "f35e1005-cd19-4404-9cc6-78e85d74976e",
+        "display_name": "transport-read-driver",
+        "create_time": "2026-10-27 11:29:29+00:00",
+        "start_time": "2026-10-27 11:30:20+00:00",
+        "end_time": "2026-10-27 11:30:30+00:00",
+        "executor_detail": null,
+        "state": "SUCCEEDED",
+        "execution_id": null,
+        "error": null,
+        "inputs": null,
+        "outputs": null,
+        "parent_task_id": null,
+        "state_history": [
+          {
+            "update_time": "2026-10-27 11:30:21+00:00",
+            "state": "RUNNING",
+            "error": null
+          },
+          {
+            "update_time": "2026-10-27 11:30:31+00:00",
+            "state": "SUCCEEDED",
+            "error": null
+          }
+        ],
+        "pod_name": null,
+        "child_tasks": [
+          {
+            "task_id": null,
+            "pod_name": "iot-cluster-artifact-oracle-v1-djmrp-1984279722"
+          }
+        ]
+      }
+    ]
+  },
+  "recurring_run_id": null,
+  "state_history": [
+    {
+      "update_time": "2026-10-27 11:29:29+00:00",
+      "state": "PENDING",
+      "error": null
+    },
+    {
+      "update_time": "2026-10-27 11:29:30+00:00",
+      "state": "RUNNING",
+      "error": null
+    },
+    {
+      "update_time": "2026-10-27 11:30:41+00:00",
+      "state": "SUCCEEDED",
+      "error": null
+    }
+  ],
+  "plugins_input": null,
+  "plugins_output": {
+    "mlflow": {
+      "entries": {
+        "experiment_name": {
+          "value": "KFP-Default",
+          "render_type": null
+        }
+      },
+      "state": "PLUGIN_FAILED",
+      "state_message": "MLflow terminal sync skipped: missing parent root_run_id in plugins_output.mlflow"
+    }
+  }
+}

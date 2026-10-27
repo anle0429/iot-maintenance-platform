@@ -1,0 +1,123 @@
+{
+  "scope": "Two selected actual responses; all200original responses retained on VM and bound by SHA256.",
+  "samples": [
+    {
+      "machine_id": "P-001",
+      "features": {
+        "machine_id": "P-001",
+        "features": {
+          "temperature_mean_10m": 56.83822222222222,
+          "vibration_max_10m": 4.352,
+          "current_mean_10m": 13.84911111111111,
+          "current_std_10m": 2.39427587960417,
+          "rpm_mean_10m": 2804.1777777777775,
+          "reading_count_10m": 9,
+          "machine_age_days": 239.99305555555554,
+          "prior_failures_24h": 2
+        },
+        "feature_event_ts": "2026-11-29T23:50:00+00:00",
+        "feature_age_seconds": 0.0,
+        "operating_context": {
+          "event_id": "E-fbc26e77a7895ed9-P-001-086389",
+          "event_ts": "2026-11-29T23:49:00+00:00",
+          "received_ts": "2026-11-29T23:49:02+00:00",
+          "status": "operating"
+        },
+        "as_of": "2026-11-29T23:50:00+00:00",
+        "clock_mode": "simulation",
+        "prepared_wall_utc": "2026-10-27T11:47:14.117207+00:00",
+        "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+        "source_manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5"
+      },
+      "prediction_http_status": 200,
+      "response": {
+        "prediction": {
+          "risk_score": 0.1031809237793006,
+          "predicted_failure": 0
+        },
+        "model": {
+          "name": "iot-pump-failure-v1",
+          "version": "1",
+          "run_id": "c629f87591294157a6b30040c8c12715",
+          "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+          "portable_sha256": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9",
+          "training_code_commit": "cbcb1edae4df9c9af4198b6685ee9d184d9d1e6e",
+          "data_version": "29f0c3c7b3af396a876b40ca0fea9d5648efc22edcee2f8273b5f30715af1466",
+          "features": [
+            "temperature_mean_10m",
+            "vibration_max_10m",
+            "current_mean_10m",
+            "current_std_10m",
+            "rpm_mean_10m",
+            "reading_count_10m",
+            "machine_age_days",
+            "prior_failures_24h"
+          ],
+          "threshold": 0.7,
+          "score_kind": "uncalibrated_class_weighted_logistic",
+          "data_scope": "synthetic-medium-60d",
+          "production": false
+        },
+        "feature_trace": {
+          "machine_id": "P-001",
+          "features": {
+            "temperature_mean_10m": 56.83822222222222,
+            "vibration_max_10m": 4.352,
+            "current_mean_10m": 13.84911111111111,
+            "current_std_10m": 2.39427587960417,
+            "rpm_mean_10m": 2804.1777777777775,
+            "reading_count_10m": 9,
+            "machine_age_days": 239.99305555555554,
+            "prior_failures_24h": 2
+          },
+          "feature_event_ts": "2026-11-29T23:50:00+00:00",
+          "feature_age_seconds": 0.0,
+          "operating_context": {
+            "event_id": "E-fbc26e77a7895ed9-P-001-086389",
+            "event_ts": "2026-11-29T23:49:00+00:00",
+            "received_ts": "2026-11-29T23:49:02+00:00",
+            "status": "operating"
+          },
+          "as_of": "2026-11-29T23:50:00+00:00",
+          "clock_mode": "simulation",
+          "prepared_wall_utc": "2026-10-27T11:47:14.117207+00:00",
+          "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+          "source_manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5"
+        }
+      }
+    },
+    {
+      "machine_id": "P-006",
+      "features": {
+        "machine_id": "P-006",
+        "features": {
+          "temperature_mean_10m": 33.5187,
+          "vibration_max_10m": 1.048,
+          "current_mean_10m": 0.0,
+          "current_std_10m": 0.0,
+          "rpm_mean_10m": 0.0,
+          "reading_count_10m": 10,
+          "machine_age_days": 274.99305555555554,
+          "prior_failures_24h": 2
+        },
+        "feature_event_ts": "2026-11-29T23:50:00+00:00",
+        "feature_age_seconds": 0.0,
+        "operating_context": {
+          "event_id": "E-fbc26e77a7895ed9-P-006-086390",
+          "event_ts": "2026-11-29T23:50:00+00:00",
+          "received_ts": "2026-11-29T23:50:00+00:00",
+          "status": "failed"
+        },
+        "as_of": "2026-11-29T23:50:00+00:00",
+        "clock_mode": "simulation",
+        "prepared_wall_utc": "2026-10-27T11:47:14.117207+00:00",
+        "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+        "source_manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5"
+      },
+      "prediction_http_status": 409,
+      "response": {
+        "detail": "Prediction is defined only while the machine is operating"
+      }
+    }
+  ]
+}

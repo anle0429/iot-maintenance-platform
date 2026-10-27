@@ -1,0 +1,21 @@
+# Restrict this image context to the native SDK API adapter; exclude data, credentials and assistant files.
+**
+!infra/
+!infra/feature-api/
+!infra/feature-api/Dockerfile
+!services/
+!services/__init__.py
+!services/feature_api/
+!services/feature_api/*.py
+!services/predictor/
+!services/predictor/__init__.py
+!services/predictor/contracts.py
+!feature_store/
+!feature_store/__init__.py
+!feature_store/common.py
+!feature_store/repository.py
+!ml/
+!ml/__init__.py
+!ml/protocol.py
+!ml/protocols/
+!ml/protocols/medium-60d-v1.json

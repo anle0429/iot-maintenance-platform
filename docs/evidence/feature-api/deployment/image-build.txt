@@ -1,0 +1,40 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.22kB 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-feast:0.67.0
+#2 DONE 0.0s
+
+#3 [internal] load build context
+#3 transferring context: 11.57kB 0.0s done
+#3 DONE 0.1s
+
+#4 [1/5] FROM docker.io/library/iot-coursework-feast:0.67.0@sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff
+#4 resolve docker.io/library/iot-coursework-feast:0.67.0@sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff 0.0s done
+#4 DONE 0.1s
+
+#5 [2/5] WORKDIR /app
+#5 DONE 0.0s
+
+#6 [3/5] COPY services/__init__.py /app/services/__init__.py
+#6 DONE 0.1s
+
+#7 [4/5] COPY services/feature_api /app/services/feature_api
+#7 DONE 0.1s
+
+#8 [5/5] COPY services/predictor/__init__.py services/predictor/contracts.py /app/services/predictor/
+#8 DONE 0.1s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 0.2s done
+#9 exporting manifest sha256:13d566d917e1e41879dce5e8d2761a20f5da48b80807a83a318c791b201bc529 0.0s done
+#9 exporting config sha256:fa8f601629cbc16ec67cd54d9b2107a58fd8f68500d9b29d591d72ae6482829d 0.0s done
+#9 exporting attestation manifest sha256:4a294dbf2213374323c36a89c35fcb6a980f8c77152c67b3f6fd567435023d97 0.0s done
+#9 exporting manifest list sha256:3eee3fb0764df3b440835af9c42e1e64df0789413b255a9365a218200180ee90 0.0s done
+#9 naming to docker.io/library/iot-coursework-feature-api:v1
+#9 naming to docker.io/library/iot-coursework-feature-api:v1 done
+#9 unpacking to docker.io/library/iot-coursework-feature-api:v1 0.1s done
+#9 DONE 0.5s

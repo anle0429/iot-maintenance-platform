@@ -1,6 +1,6 @@
 # IoT Maintenance Platform
 
-Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cảm biến mô phỏng, dự đoán sự cố trong một giờ tới và trợ lý tra cứu tình trạng máy/tài liệu.
+Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cảm biến mô phỏng và dự đoán sự cố trong một giờ tới. Người dùng đã chọn [rubric final-coursework](docs/final-rubric-tracker.md) làm chuẩn bàn giao; tracker93dòng cũ giữ làm lịch sử.
 
 **Mốc100GB đã kiểm chứng:** [Spark toàn nguồn102.447.847.856byte](docs/full-scale-ingest.md) →323,136triệu Bronze/316,8triệu Silver unique;13checks,45.852tasks/0failed, checksum trước/sau và Spark UI thật. Nguồn đã qua14quy tắc semantic readback. Query JSONL/Parquet cùng workload/ba cặp có median1.740,35/124,69giây; giới hạn cache và máy dùng chung được ghi rõ. Chưa Gold/feature/ML toàn100GB hoặc fullrunner trong Airflow.
 
@@ -8,7 +8,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [Feature60ngày](docs/medium-feature-dataset.md)/[Feast](docs/feast-feature-store.md) có3.456.000snapshots/3.132.184training rows theo protocol cố định; native full retrieval/nhãn và replay/corruption đã kiểm. [Airflow materialization](docs/feast-materialization.md) đã chạy initial/incremental/replay200máy, chặn lùi checkpoint và publish DataHub. [Flink→Feast](docs/stream-feast-push.md) có live push ba cửa sổ, fault/retry và readiness trước source; chưa toàn mini-coursework stream.
 
-[KFP local bốn bước](docs/ml-training.md) đã train/evaluate toàn cohort60ngày, testPR-AUC0,6151/F10,5510 trên mô phỏng;145unit tests/native checks qua. [MLflow](docs/ml-training.md#phiên-bản-mô-hình-và-dữ-liệu-đã-kiểm-chứng) lưu modelversion1 và ba tập dữ liệu, đọc lại kiểm hash/dự đoán, latest tag/candidate có UI thật. [Predictor HTTP model-inside-image](docs/model-serving.md) đã gọi thật trênVM;71tests/100%coverage dòng+nhánh và mutation209/246=84,96% cho riêngpredictor. [KServe Standard](docs/kubernetes-serving.md) đã có podReady và32HTTPprobes khớpSpark. KFPcluster/UI, API kéo feature/chunk, LLM/agents và vận hành còn phải hoàn thiện.
+[KFP trên cluster bốn bước](docs/kfp-cluster.md) đã PASS với nativeFeast3.132.184dòng; testPR-AUC0,6151/F10,5510 theo protocol giữ nguyên. Modelversion2 đã đăng ký MLflow và đọc lại dữ liệu/model; KServe vẫn phục vụ version1. [Feature API→Feast→KServe](docs/feature-api.md) đã kiểm200máy/195prediction/5stopped409, cùng127PCtests/1POSIXskip,57nativefeaturetests;211statements/56branches100%. Mutation featureAPI413/48984,46%, predictor209/24684,96%; Locust10users đạt96,655req/s,p95 32ms/0fail trong60s. Chưa distributedtraining, notebook, incrementaldata versioning hoặc toàn bộ vận hành final.
 
 ## Mục lục
 
@@ -35,8 +35,12 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Flink → Feast: live push, retry, readiness và giới hạn checkpoint](docs/stream-feast-push.md)
 - [ML bốn bước: KFP, protocol cố định, artifact và MLflow](docs/ml-training.md)
 - [Predictor model-inside-image: API, lineage và kiểm thử](docs/model-serving.md)
+- [KServe trên Kubernetes: pod và HTTP thật](docs/kubernetes-serving.md)
+- [Kubeflow cluster: bốn task, artifact bền và modelversion2](docs/kfp-cluster.md)
+- [Feature API: freshness, operating state, mutation và Locust](docs/feature-api.md)
 - [Cách chạy](#cách-chạy)
-- [Checklist rubric](docs/rubric-tracker.md)
+- [Checklist final-coursework chính](docs/final-rubric-tracker.md)
+- [Checklist hai sheet50% trước đây](docs/rubric-tracker.md)
 - [Cấu trúc hiện tại](#cấu-trúc-hiện-tại)
 
 ## Cấu trúc hiện tại
@@ -54,7 +58,8 @@ docs/
   chunk-ingest.md            Spark đọc catalog, Parquet Bronze/Silver và số đo thực
   orchestration.md           Ba DAG trên VM, validation/lineage, lỗi và phục hồi đã chạy
   scale-100gb.md             Nguồn lớn liên tục, gate tài nguyên, số đo và giới hạn xử lý
-  rubric-tracker.md          Trích yêu cầu/điểm từ hai sheet 50%, trạng thái và bằng chứng
+  final-rubric-tracker.md    Chuẩn final chính, trích ô/điểm/proof gốc và bằng chứng
+  rubric-tracker.md          Lịch sử hai sheet50%, không cộng với final
   evidence/day1/             Output kiểm thử, thống kê và thông tin runtime
   evidence/day2-final/       Bằng chứng batch end-to-end và code/runtime hashes
   evidence/day3/             Bằng chứng stream, retention probe và giao diện Flink thật

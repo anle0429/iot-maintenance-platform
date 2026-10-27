@@ -1,0 +1,394 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-27T11:23:21Z",
+        "labels": {
+          "app": "cache-server",
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "name": "cache-server",
+        "namespace": "kubeflow",
+        "resourceVersion": "1301",
+        "uid": "6add5059-16b6-4eed-8882-7372fcc1e03f"
+      },
+      "spec": {
+        "clusterIP": "10.53.114.44",
+        "clusterIPs": [
+          "10.53.114.44"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "port": 443,
+            "protocol": "TCP",
+            "targetPort": "webhook-api"
+          }
+        ],
+        "selector": {
+          "app": "cache-server",
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-27T11:23:21Z",
+        "labels": {
+          "app": "metadata-envoy",
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "name": "metadata-envoy-service",
+        "namespace": "kubeflow",
+        "resourceVersion": "1305",
+        "uid": "352ffbbb-8c28-4dc8-9719-c88c46330010"
+      },
+      "spec": {
+        "clusterIP": "10.53.22.149",
+        "clusterIPs": [
+          "10.53.22.149"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "md-envoy",
+            "port": 9090,
+            "protocol": "TCP",
+            "targetPort": 9090
+          }
+        ],
+        "selector": {
+          "application-crd-id": "kubeflow-pipelines",
+          "component": "metadata-envoy"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-27T11:23:22Z",
+        "labels": {
+          "app": "metadata",
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "name": "metadata-grpc-service",
+        "namespace": "kubeflow",
+        "resourceVersion": "1309",
+        "uid": "d5019cdb-9659-4fb0-9fbc-ce7151dd0c11"
+      },
+      "spec": {
+        "clusterIP": "10.53.189.45",
+        "clusterIPs": [
+          "10.53.189.45"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "grpc-api",
+            "port": 8080,
+            "protocol": "TCP",
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "application-crd-id": "kubeflow-pipelines",
+          "component": "metadata-grpc-server"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "prometheus.io/port": "8888",
+          "prometheus.io/scheme": "http",
+          "prometheus.io/scrape": "true"
+        },
+        "creationTimestamp": "2026-10-27T11:23:22Z",
+        "labels": {
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "name": "ml-pipeline",
+        "namespace": "kubeflow",
+        "resourceVersion": "1313",
+        "uid": "8e93accf-d4e6-4941-9ccb-a9a12ee6c795"
+      },
+      "spec": {
+        "clusterIP": "10.53.171.175",
+        "clusterIPs": [
+          "10.53.171.175"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "http",
+            "port": 8888,
+            "protocol": "TCP",
+            "targetPort": 8888
+          },
+          {
+            "name": "grpc",
+            "port": 8887,
+            "protocol": "TCP",
+            "targetPort": 8887
+          }
+        ],
+        "selector": {
+          "app": "ml-pipeline",
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-27T11:23:22Z",
+        "labels": {
+          "app": "ml-pipeline-ui",
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "name": "ml-pipeline-ui",
+        "namespace": "kubeflow",
+        "resourceVersion": "1317",
+        "uid": "aafb4068-6f9f-416b-a7ef-7ee49eb4d42d"
+      },
+      "spec": {
+        "clusterIP": "10.53.103.36",
+        "clusterIPs": [
+          "10.53.103.36"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "http",
+            "port": 80,
+            "protocol": "TCP",
+            "targetPort": 3000
+          }
+        ],
+        "selector": {
+          "app": "ml-pipeline-ui",
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-27T11:23:22Z",
+        "labels": {
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "name": "ml-pipeline-visualizationserver",
+        "namespace": "kubeflow",
+        "resourceVersion": "1321",
+        "uid": "4eccc839-782f-42ca-ac54-3430c5287558"
+      },
+      "spec": {
+        "clusterIP": "10.53.117.241",
+        "clusterIPs": [
+          "10.53.117.241"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "http",
+            "port": 8888,
+            "protocol": "TCP",
+            "targetPort": 8888
+          }
+        ],
+        "selector": {
+          "app": "ml-pipeline-visualizationserver",
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-27T11:23:22Z",
+        "labels": {
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "name": "mysql",
+        "namespace": "kubeflow",
+        "resourceVersion": "1325",
+        "uid": "3cbe72ca-2659-46ba-bc5d-3fe7726f0c31"
+      },
+      "spec": {
+        "clusterIP": "10.53.127.137",
+        "clusterIPs": [
+          "10.53.127.137"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "port": 3306,
+            "protocol": "TCP",
+            "targetPort": 3306
+          }
+        ],
+        "selector": {
+          "app": "mysql",
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-27T11:23:22Z",
+        "labels": {
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "name": "seaweedfs",
+        "namespace": "kubeflow",
+        "resourceVersion": "1329",
+        "uid": "e15740c7-5d65-49e4-991e-31709cb30149"
+      },
+      "spec": {
+        "clusterIP": "10.53.242.75",
+        "clusterIPs": [
+          "10.53.242.75"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "http-iam",
+            "port": 8111,
+            "protocol": "TCP",
+            "targetPort": 8111
+          },
+          {
+            "name": "http-s3",
+            "port": 8333,
+            "protocol": "TCP",
+            "targetPort": 8333
+          },
+          {
+            "name": "http-s3-compat",
+            "port": 9000,
+            "protocol": "TCP",
+            "targetPort": 8333
+          },
+          {
+            "name": "http-master",
+            "port": 9333,
+            "protocol": "TCP",
+            "targetPort": 9333
+          },
+          {
+            "name": "grpc-master",
+            "port": 19333,
+            "protocol": "TCP",
+            "targetPort": 19333
+          },
+          {
+            "name": "grpc-filer",
+            "port": 18888,
+            "protocol": "TCP",
+            "targetPort": 18888
+          },
+          {
+            "name": "http-filer",
+            "port": 8888,
+            "protocol": "TCP",
+            "targetPort": 8888
+          }
+        ],
+        "selector": {
+          "app": "seaweedfs",
+          "application-crd-id": "kubeflow-pipelines"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}
