@@ -1,6 +1,6 @@
 # Checklist rubric và bằng chứng
 
-Cập nhật27/10: [Serving release exporter](serving-release.md) đã kiểm12fixtures vàreplay5nativeversionsproductionfalse;finalF33/F34Đang làm,chưaSDKproductiondownload/image/CIdeploy. VMđãTERMINATEDtheoCloudAPI,khôngmởphiênmới.Tiêuchínguồn93giữnguyên.
+Cập nhật27/10: [Version pin serving](versioned-serving.md) đã có220PCtests/2POSIXskips, coverage416statements/114branches100%,128HTTPfixturepredictions/0fail. Mutation/native build/Locust/CI mới chưa chạy; finalF11/F13/F15/F33/F34Đang làm. VM đãSTOP, quyền phiên tiếp theo còn chờ. Tiêu chí nguồn93giữ nguyên.
 
 Cập nhật27/10: [CI training chuẩn bị](ci-training.md) có21nativeunits/SDKisolated/pipcheck/compile5task/privatecontroloracle; chưa cóJenkinsbuild/KFPsubmissionsuccess. FinalF29Đang làm,giữnguyênguard90minvàtiêuchí93dònglịchsử.
 

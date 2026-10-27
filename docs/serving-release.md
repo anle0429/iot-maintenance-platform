@@ -2,7 +2,7 @@
 
 [Exporter](../ml/serving_release.py) chọn một phiên bản cụ thể của `iot-pump-failure-v1`, kiểm quyền triển khai và các file đã đánh giá, rồi tạo hai file `portable.json`/`lineage.json` làm đầu vào build image. [CLI](../scripts/export-production-model.py) dùng MLflow client; [12 kiểm thử](../tests/test_serving_release.py) dùng registry fixtures nhỏ và portable weights thật của model1.
 
-Đây là **phần chuẩn bị F33/F34**. API, Dockerfile predictor, feature API và KServe hiện chưa được nối vào exporter; chưa có serving CI build/rollout thành công. Model registry và phiên bản đã triển khai trước đó được giữ nguyên.
+Đây là **phần chuẩn bị F33/F34**. [Cấu hình version pin giữa predictor và feature API](versioned-serving.md) đã nối với bundle exporter qua kiểm thử trên PC. Dockerfile đã nhận bundle/pin tùy chọn; chưa build image mới hoặc có serving CI/KServe rollout thành công. Model registry và phiên bản đã triển khai trước đó được giữ nguyên.
 
 ## Chọn đúng phiên bản và kiểm artifact
 
@@ -26,7 +26,7 @@ Native GET-only lúc **27/10/2026 20:48:09UTC** xác nhận **cả5version READY
 
 Trên PC, replay chính metadata đã thu qua exporter làm **5/5 version bị từ chối trước get_run/artifact access**, không tạo bundle. [Kết quả](evidence/serving-release-preparation/pc-negative-check.json) bind source `1eb4ceb049492f48868b81232a6ad56124c22005` và SHA của metadata. Đây là kiểm cổng chọn trên snapshot thật, chưa phải một lượt download production model qua SDK đang kết nối server.
 
-[12unit tests PASS](evidence/serving-release-preparation/pc-unit-tests.txt): positive fixtures cho legacy/incremental, stage/tag policy, candidate rejection, source/run/protocol mismatch, artifact/manifest corruption, duplicate identical descriptor, marker đổi lúc tải, unsafe/oversized artifact và bundle cũ được giữ nguyên. Các positive fixtures không tự gắn production cho registry thật. Cùng21CI-training tests có33test PASS trên PC; API source không thay đổi từ mốc này, các phép đo coverage/mutation API lịch sử giữ phạm vi riêng.
+[12unit tests PASS](evidence/serving-release-preparation/pc-unit-tests.txt): positive fixtures cho legacy/incremental, stage/tag policy, candidate rejection, source/run/protocol mismatch, artifact/manifest corruption, duplicate identical descriptor, marker đổi lúc tải, unsafe/oversized artifact và bundle cũ được giữ nguyên. Các positive fixtures không tự gắn production cho registry thật. Cùng21CI-training tests có33test PASS trên PC tại source1eb4ceb; API chưa đổi ở mốc đó. Sau đó source3b670c6 đã thêm version pin và có suite riêng; các phép đo mutation/load API lịch sử giữ phạm vi commit ban đầu.
 
 [Cloud API đọc trên PC](evidence/serving-release-preparation/pc-cloud/vm-state.json) xác nhận VM **TERMINATED**, lastStopTimestamp tương ứng20:51:55UTC, `maxRunDuration=28800s`, actionSTOP. Phiên mới vẫn cần quyền đã hỏi trước đó; không start/extend VM trong bước này. Native registry JSON được chép qua encrypted SCP trước STOP; [manifest](evidence/serving-release-preparation/manifest.json) ghi hash file nhận ở PC, chưa có capsule checksum độc lập đo trên VM cho ba file GET này.
 
@@ -43,6 +43,6 @@ python scripts/export-production-model.py \
 
 Credentials dùng môi trường/credential manager của CI; URL có user/password hoặc query token bị từ chối. Với snapshot hiện tại chưa có version production, exporter sẽ chặn. Cần quyết định release của môi trường lab, rồi mới gắn nhãn và đọc lại; exporter không thực hiện promotion.
 
-Tiếp theo: cấu hình predictor và feature API pin bundle/version/hash/threshold từ release, giữ kiểm schema/provenance; thêm Jenkins test/build/auto-deploy cho FastAPI và KServe; chạy lại API coverage/mutation phù hợp thay đổi; kiểm actual model download, image contents, rollout/rollback và HTTP predictions trên VM. Chỉ cập nhật F33/F34 hoàn tất khi các bước đó có bằng chứng thật.
+Tiếp theo: kiểm version pin trên native images; thêm Jenkins test/build/auto-deploy cho FastAPI và KServe; chạy mutation/load phù hợp thay đổi; kiểm actual production model download, image contents, rollout/rollback và HTTP predictions trên VM. Chỉ cập nhật F33/F34 hoàn tất khi các bước đó có bằng chứng thật.
 
 Quy ước tag/alias/stage tham khảo [MLflow registry workflow chính thức](https://mlflow.org/docs/latest/ml/model-registry/workflow/); source và số đo bên trên xác định phạm vi dự án đã kiểm.

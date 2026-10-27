@@ -14,4 +14,6 @@ Người dùng trước đó đã xác nhận availability guard và replay reco
 
 MMD chưa được nêu đích danh trong bất kỳ ô không rỗng nào của hai workbook. Đây là **ứng viên** để phát hiện thay đổi quan hệ giữa cảm biến khi các phân bố biên giữ nguyên, bổ sung cho PSI hiện có. Sự vắng mặt trong lịch không chứng minh chưa từng được giảng; chưa đánh dấu mục này có bằng chứng triển khai hay đã đáp ứng tính ngoài lớp.
 
+Đã đọc lại hai file gốc và đối chiếu snapshot:281ô có nội dung ở EDAI,388ô ở DSAI,11ô trích dẫn liên quan khớp từng giá trị/SHA256; cả hai file giữ nguyên byte. Tổng669ô không thấy tênMMD/maximum mean discrepancy. Nội dung lịch chỉ là nguồn tham chiếu, không trở thành lệnh triển khai hay thay đổi rubric đã được người dùng chốt.
+
 Hai mục novel ideas trong tracker vẫn chưa hoàn tất. Bước lựa chọn tiếp theo cần gắn kỹ thuật cụ thể với hạn chế thật của hệ thống, phép thử có đáp án và phạm vi nội dung lớp; không thêm công nghệ chỉ để đủ số lượng.

@@ -1,0 +1,243 @@
+{
+  "passed": true,
+  "scope": "PC API unit/contract/property/async tests and fixture-backed two-server HTTP preparation only",
+  "source_commit": "3b670c6d8f7f51db4b76c7fbe735b130e67e5c69",
+  "source_files": {
+    "infra/feature-api/Dockerfile": {
+      "executed_worktree_sha256": "e074753ff7dde7283ae087c161e7a14a163191f5bb5c3136928af14474f8db32",
+      "git_sha256": "e074753ff7dde7283ae087c161e7a14a163191f5bb5c3136928af14474f8db32",
+      "bytes_identical": true
+    },
+    "infra/feature-api/Dockerfile.dockerignore": {
+      "executed_worktree_sha256": "dcce6e96b81166cfdedfabdf419a8b4deb73d08af455b87c13349f0ce96523b5",
+      "git_sha256": "dcce6e96b81166cfdedfabdf419a8b4deb73d08af455b87c13349f0ce96523b5",
+      "bytes_identical": true
+    },
+    "infra/predictor/Dockerfile": {
+      "executed_worktree_sha256": "2261121b9525005dea980932cda7335e73bf034fdde03e23f88d45eab13e8ccd",
+      "git_sha256": "2261121b9525005dea980932cda7335e73bf034fdde03e23f88d45eab13e8ccd",
+      "bytes_identical": true
+    },
+    "infra/predictor/Dockerfile.dockerignore": {
+      "executed_worktree_sha256": "04275f6228bbe1e8e06d68caadfe14b4fcd2d40dc4754f4b3cf6458a4618963e",
+      "git_sha256": "04275f6228bbe1e8e06d68caadfe14b4fcd2d40dc4754f4b3cf6458a4618963e",
+      "bytes_identical": true
+    },
+    "ml/protocol.py": {
+      "executed_worktree_sha256": "a2f9aaa604e194db1ba3b2531d46a26e3349bfe1d6b39aa9be91e4c72735fb7f",
+      "git_sha256": "a2f9aaa604e194db1ba3b2531d46a26e3349bfe1d6b39aa9be91e4c72735fb7f",
+      "bytes_identical": true
+    },
+    "ml/protocols/medium-60d-v1.json": {
+      "executed_worktree_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+      "git_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+      "bytes_identical": true
+    },
+    "ml/serving_release.py": {
+      "executed_worktree_sha256": "06e6ed3d44defe44642e7952b2e868e05c29f527334ec6c160e7eed1a0786658",
+      "git_sha256": "06e6ed3d44defe44642e7952b2e868e05c29f527334ec6c160e7eed1a0786658",
+      "bytes_identical": true
+    },
+    "ml/training_contract.py": {
+      "executed_worktree_sha256": "bab648fe1a06425393d5093847e59b978186d3ababf419dcd52f8dae3cab6186",
+      "git_sha256": "bab648fe1a06425393d5093847e59b978186d3ababf419dcd52f8dae3cab6186",
+      "bytes_identical": true
+    },
+    "models/pump-failure-v1/lineage.json": {
+      "executed_worktree_sha256": "4c2b206e2945aff07ac44c54985aa0ce8a1c1f1e013c1a678dea7038216cb4a5",
+      "git_sha256": "4c2b206e2945aff07ac44c54985aa0ce8a1c1f1e013c1a678dea7038216cb4a5",
+      "bytes_identical": true
+    },
+    "models/pump-failure-v1/model-pin.json": {
+      "executed_worktree_sha256": "7aef4e7a64519a1907192be4c8e2cdd2aee64d0918da0e491136ad020e64d8a8",
+      "git_sha256": "7aef4e7a64519a1907192be4c8e2cdd2aee64d0918da0e491136ad020e64d8a8",
+      "bytes_identical": true
+    },
+    "models/pump-failure-v1/portable.json": {
+      "executed_worktree_sha256": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9",
+      "git_sha256": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9",
+      "bytes_identical": true
+    },
+    "pyproject.toml": {
+      "executed_worktree_sha256": "470b518ea88801968cd7fa9dd5a79a3b5f2eb81f34ac93b353e7e1fd4249ca8c",
+      "git_sha256": "470b518ea88801968cd7fa9dd5a79a3b5f2eb81f34ac93b353e7e1fd4249ca8c",
+      "bytes_identical": true
+    },
+    "scripts/write-model-pin.py": {
+      "executed_worktree_sha256": "cf77928b7ae42ac7f57c4c537ae2d38cc335a1e5d05da1bee809de1dfbb04531",
+      "git_sha256": "cf77928b7ae42ac7f57c4c537ae2d38cc335a1e5d05da1bee809de1dfbb04531",
+      "bytes_identical": true
+    },
+    "services/drift_api/__init__.py": {
+      "executed_worktree_sha256": "2c1abe8a62002bb3ad1222f57ff05ad295cb5f4454357ad5cdc8ada2a1028316",
+      "git_sha256": "2c1abe8a62002bb3ad1222f57ff05ad295cb5f4454357ad5cdc8ada2a1028316",
+      "bytes_identical": true
+    },
+    "services/drift_api/app.py": {
+      "executed_worktree_sha256": "f38b37d366749a03b29d28c205d61c94c5c34e90178ba707af2b624e110431fb",
+      "git_sha256": "f38b37d366749a03b29d28c205d61c94c5c34e90178ba707af2b624e110431fb",
+      "bytes_identical": true
+    },
+    "services/drift_api/contracts.py": {
+      "executed_worktree_sha256": "11ac649335a364bdfcece7e1954ff88578f2ff6a057226fa741e9205c33ad2de",
+      "git_sha256": "11ac649335a364bdfcece7e1954ff88578f2ff6a057226fa741e9205c33ad2de",
+      "bytes_identical": true
+    },
+    "services/drift_api/detector.py": {
+      "executed_worktree_sha256": "dd2c23ff16343fd72146552d46bdb7490439026557d43e59b07e885f11c555b8",
+      "git_sha256": "dd2c23ff16343fd72146552d46bdb7490439026557d43e59b07e885f11c555b8",
+      "bytes_identical": true
+    },
+    "services/drift_api/runtime.py": {
+      "executed_worktree_sha256": "e284324dba040201b0a30ef7c33834dd8c5d395dede34766cebff49de607a8e7",
+      "git_sha256": "e284324dba040201b0a30ef7c33834dd8c5d395dede34766cebff49de607a8e7",
+      "bytes_identical": true
+    },
+    "services/feature_api/__init__.py": {
+      "executed_worktree_sha256": "02b53283e60cd8fed8d2d88244a9365400868126711540e846da40b71c55cb10",
+      "git_sha256": "02b53283e60cd8fed8d2d88244a9365400868126711540e846da40b71c55cb10",
+      "bytes_identical": true
+    },
+    "services/feature_api/app.py": {
+      "executed_worktree_sha256": "e25c5d3c5d0ef91e6f84c4cc00b288b030e7232bc0ca0bd68b0df958d88add7b",
+      "git_sha256": "e25c5d3c5d0ef91e6f84c4cc00b288b030e7232bc0ca0bd68b0df958d88add7b",
+      "bytes_identical": true
+    },
+    "services/feature_api/runtime.py": {
+      "executed_worktree_sha256": "c1d1820f994b098346dacb2dd85556ed92f45f9c18e4ff552317bfc6b0a720b6",
+      "git_sha256": "c1d1820f994b098346dacb2dd85556ed92f45f9c18e4ff552317bfc6b0a720b6",
+      "bytes_identical": true
+    },
+    "services/predictor/__init__.py": {
+      "executed_worktree_sha256": "03485db3bf9d8822fecf87ac4bba41199d5855c556014f5343e65fc261217853",
+      "git_sha256": "03485db3bf9d8822fecf87ac4bba41199d5855c556014f5343e65fc261217853",
+      "bytes_identical": true
+    },
+    "services/predictor/app.py": {
+      "executed_worktree_sha256": "ec707e19d83f0b7331d167cca6b3c33ff00ca3a074827f3c2edfdef46bdf4c6a",
+      "git_sha256": "ec707e19d83f0b7331d167cca6b3c33ff00ca3a074827f3c2edfdef46bdf4c6a",
+      "bytes_identical": true
+    },
+    "services/predictor/binding.py": {
+      "executed_worktree_sha256": "57083908da57723ffcbcdd9ad2da0646c07c42e613495956a3246193b1420cd7",
+      "git_sha256": "57083908da57723ffcbcdd9ad2da0646c07c42e613495956a3246193b1420cd7",
+      "bytes_identical": true
+    },
+    "services/predictor/contracts.py": {
+      "executed_worktree_sha256": "5cab032dae3ede91c9cfd5446da195b99b03349f3ed04a915be92f0ed3da12ce",
+      "git_sha256": "5cab032dae3ede91c9cfd5446da195b99b03349f3ed04a915be92f0ed3da12ce",
+      "bytes_identical": true
+    },
+    "services/predictor/runtime.py": {
+      "executed_worktree_sha256": "8c112f80d0e5c2e384aac7eea45c8c24eddf676b0fb66a8a15a51d6aacce9e54",
+      "git_sha256": "8c112f80d0e5c2e384aac7eea45c8c24eddf676b0fb66a8a15a51d6aacce9e54",
+      "bytes_identical": true
+    },
+    "tests/api/test_drift_api.py": {
+      "executed_worktree_sha256": "e1d76d42609b5b5355ad456b15f3202c65e7e9441221f4eff511f15c08cdac93",
+      "git_sha256": "e1d76d42609b5b5355ad456b15f3202c65e7e9441221f4eff511f15c08cdac93",
+      "bytes_identical": true
+    },
+    "tests/api/test_feature_api.py": {
+      "executed_worktree_sha256": "2ca8b62d4e99e8ab49cac3e86e2f429d9c6912e23e04c65ee8d60fc482668a30",
+      "git_sha256": "2ca8b62d4e99e8ab49cac3e86e2f429d9c6912e23e04c65ee8d60fc482668a30",
+      "bytes_identical": true
+    },
+    "tests/api/test_model_binding.py": {
+      "executed_worktree_sha256": "05d5931fac9093efe3112980dd02630fdc062b125f751f2846dfe81724e52eee",
+      "git_sha256": "05d5931fac9093efe3112980dd02630fdc062b125f751f2846dfe81724e52eee",
+      "bytes_identical": true
+    },
+    "tests/api/test_predictor.py": {
+      "executed_worktree_sha256": "3fea466055b1a1568fea43a10d8c412c15cb85177ee9b0c4ac861487c9233dc9",
+      "git_sha256": "3fea466055b1a1568fea43a10d8c412c15cb85177ee9b0c4ac861487c9233dc9",
+      "bytes_identical": true
+    },
+    "tests/fixtures/feature-api-native-online.json": {
+      "executed_worktree_sha256": "4673f42d3f9a1f69cbe802a320a2f5766f58b832751959d1961e92906abe42b5",
+      "git_sha256": "4673f42d3f9a1f69cbe802a320a2f5766f58b832751959d1961e92906abe42b5",
+      "bytes_identical": true
+    },
+    "tests/fixtures/predictor-native-spark.json": {
+      "executed_worktree_sha256": "a572f260bed42403d931df53f3ca3bf1925e41f3150c4dcfcccdc89d650455a0",
+      "git_sha256": "a572f260bed42403d931df53f3ca3bf1925e41f3150c4dcfcccdc89d650455a0",
+      "bytes_identical": true
+    },
+    "tests/test_automatic_versions.py": {
+      "executed_worktree_sha256": "500205f5345ee2120f386ed5ffcb39e2582740a4b84ebb834a6190209a33478b",
+      "git_sha256": "500205f5345ee2120f386ed5ffcb39e2582740a4b84ebb834a6190209a33478b",
+      "bytes_identical": true
+    },
+    "tests/test_ci_training.py": {
+      "executed_worktree_sha256": "c53ba7e81bce42de984e49ba1f76b1c09145f0a2a208cb9306e9584af1129980",
+      "git_sha256": "c53ba7e81bce42de984e49ba1f76b1c09145f0a2a208cb9306e9584af1129980",
+      "bytes_identical": true
+    },
+    "tests/test_data_versions.py": {
+      "executed_worktree_sha256": "db5864cb68025c749c7a2659fe3b70303696cd3e71c147854b037eddc23b73ca",
+      "git_sha256": "db5864cb68025c749c7a2659fe3b70303696cd3e71c147854b037eddc23b73ca",
+      "bytes_identical": true
+    },
+    "tests/test_serving_release.py": {
+      "executed_worktree_sha256": "8cd9675d25b738a625b430987f94c51c66535586ab5f7202509fb9b4c3075752",
+      "git_sha256": "8cd9675d25b738a625b430987f94c51c66535586ab5f7202509fb9b4c3075752",
+      "bytes_identical": true
+    }
+  },
+  "machine": "THIENAN",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.13.14",
+  "captured_utc": "2026-10-27T21:18:26.450289+00:00",
+  "api_tests_passed": 220,
+  "api_tests_skipped": 2,
+  "skips": "Two existing POSIX tzset probes cannot run on Windows; native rerun pending",
+  "coverage": {
+    "covered_lines": 416,
+    "num_statements": 416,
+    "percent_covered": 100.0,
+    "percent_covered_display": "100",
+    "missing_lines": 0,
+    "excluded_lines": 0,
+    "percent_statements_covered": 100.0,
+    "percent_statements_covered_display": "100",
+    "num_branches": 114,
+    "num_partial_branches": 0,
+    "covered_branches": 114,
+    "missing_branches": 0,
+    "percent_branches_covered": 100.0,
+    "percent_branches_covered_display": "100"
+  },
+  "adjacent_unit_tests_passed": 28,
+  "fixture_model_version": "2",
+  "fixture_weights": "Real legacy model1 portable weights, exported via the real exporter with fixture registry/data descriptors",
+  "http": {
+    "scope": "PC loopback HTTP, fixture Feast/context, fixture version2 with real model1 weights; no deployment",
+    "workers": 8,
+    "successful_requests": 128,
+    "failed_requests": 0,
+    "elapsed_seconds": 0.9652002999937395,
+    "p50_ms": 43.25250000692904,
+    "p95_ms": 301.9720000011148,
+    "downstream_identity_fields_rejected": 9
+  },
+  "public_cli": {
+    "passed": true,
+    "version": "1",
+    "production": false,
+    "portable_sha256": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9",
+    "pin_sha256": "7aef4e7a64519a1907192be4c8e2cdd2aee64d0918da0e491136ad020e64d8a8",
+    "existing_output_rejected": true,
+    "existing_output_unchanged": true
+  },
+  "mutation_scope_prepared": [
+    "services/feature_api/app.py",
+    "services/feature_api/runtime.py",
+    "services/predictor/runtime.py",
+    "services/predictor/binding.py"
+  ],
+  "new_mutation_run": false,
+  "docker_images_built": false,
+  "native_rollout": false,
+  "real_registry_promoted": false,
+  "limits": "No new VM session or Docker engine started. Old native mutation/Locust/image/rollout receipts remain bound to historical code. No current screenshot claim."
+}

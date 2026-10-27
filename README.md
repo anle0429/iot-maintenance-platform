@@ -164,4 +164,4 @@ Get-Content outputs/practice-chunks/chunked-report.json
 - [Tự động version dữ liệu và model sau mỗi Feast pull](docs/automatic-ml-versioning.md): hai full runs,0newblobbytes,model4–5/candidate,source/data/weights đã đọc lại.
 - [CI materialization](docs/ci-materialization.md): Jenkins SUCCESS,8task Airflow,200máy incremental/replay và indexed DataHub.
 - [CI training đang chuẩn bị](docs/ci-training.md):21nativeunits/SDK/compile/privatecontroloracle đã kiểm, chưa Jenkins training build hoặc freshKFP run quaCI.
-- [Gói model cho serving CI đang chuẩn bị](docs/serving-release.md):production gate vàhash lineage đã qua12fixtures; snapshotregistry5bảnđềufalsebịchặn,chưaAPI/KServerollout.
+- [Gói model cho serving CI](docs/serving-release.md) và [version pin giữa hai API](docs/versioned-serving.md):220PCtests/2POSIXskips, coverage100%,128HTTPfixturepredictions/0fail. Chưa mutation/imagebuild/nativeCIrollout cho mã mới.

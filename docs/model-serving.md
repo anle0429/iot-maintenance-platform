@@ -1,5 +1,7 @@
 # Phục vụ mô hình máy bơm
 
+Cập nhật source3b670c6: [version pin serving](versioned-serving.md) đã kiểm trên PC; chưa build/rollout native. Các số đo, images và screenshots bên dưới thuộc mốc source ban đầu, không chứng minh deployment mã mới.
+
 **Cập nhật27/10:** [KServe Standard trên K3s](kubernetes-serving.md) đã có InferenceService/pod Ready và32HTTP prediction khớp Spark; ảnh pod và request thật đã lưu. Các số đo Docker/kiểm thử riêng predictor bên dưới là bằng chứng lớp ứng dụng trước khi chuyển lên cluster.
 
 Predictor nhận đúng tám feature của model đã huấn luyện và trả `risk_score`, quyết định theo ngưỡng cố định cùng lineage. Mô hình được **đóng sẵn trong image**; khi khởi động không tải model qua mạng hoặc fit lại. [Runtime](../services/predictor/runtime.py) dùng cùng phép tính portable đã đối chiếu toàn468.384hàng test với Spark trong [mốc training](ml-training.md).

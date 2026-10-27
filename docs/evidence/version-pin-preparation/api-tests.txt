@@ -1,0 +1,29 @@
+............................s...............s....................................................................................................{"version": "2", "production": true, "portable_sha256": "699eb9d0d831960fe7eb9bc3f8719f88af530881543bd3ee5245d8537c9f2bc9", "pin_sha256": "ff2ca4592b32674167d3451bba8f305e83c5d9ad908c6f7556feeaea308bfeec"}
+.....{"scope": "PC loopback HTTP, fixture Feast/context, fixture version2 with real model1 weights; no deployment", "workers": 8, "successful_requests": 128, "failed_requests": 0, "elapsed_seconds": 0.9652002999937395, "p50_ms": 43.25250000692904, "p95_ms": 301.9720000011148, "downstream_identity_fields_rejected": 9}
+........................................................................
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.13.14-final-0 _______________
+
+Name                               Stmts   Miss Branch BrPart  Cover   Missing
+------------------------------------------------------------------------------
+services\drift_api\__init__.py         0      0      0      0   100%
+services\drift_api\app.py             49      0      8      0   100%
+services\drift_api\contracts.py       36      0     10      0   100%
+services\drift_api\detector.py        44      0     12      0   100%
+services\drift_api\runtime.py         43      0     10      0   100%
+services\feature_api\__init__.py       0      0      0      0   100%
+services\feature_api\app.py           46      0      8      0   100%
+services\feature_api\runtime.py       68      0     28      0   100%
+services\predictor\__init__.py         0      0      0      0   100%
+services\predictor\app.py             55      0      6      0   100%
+services\predictor\binding.py         26      0     18      0   100%
+services\predictor\contracts.py       15      0      0      0   100%
+services\predictor\runtime.py         34      0     14      0   100%
+------------------------------------------------------------------------------
+TOTAL                                416      0    114      0   100%
+Coverage HTML written to dir outputs/versioned-api-html-27
+Coverage JSON written to file outputs/versioned-all-api-coverage-27-v2.json
+=========================== short test summary info ===========================
+SKIPPED [1] tests\api\test_drift_api.py:195: Native POSIX timezone probe; Windows has no tzset
+SKIPPED [1] tests\api\test_feature_api.py:73: Process timezone switching is a POSIX-only native check
+220 passed, 2 skipped, 1 warning in 10.38s
