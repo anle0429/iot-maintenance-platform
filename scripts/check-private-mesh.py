@@ -33,7 +33,7 @@ def run(args):
     assert not any(c['name']=='istio-proxy' for c in pod['plain-client']['spec']['containers'])
     fixture=json.loads((ROOT/'tests/fixtures/mesh-predict.json').read_bytes());save('request.json',fixture)
     endpoint='http://mesh-predictor.iot-mesh.svc.cluster.local:8080/v1/models/iot-pump-failure-v1:predict'
-    probe="import json,urllib.request,urllib.error;u="+repr(endpoint)+";body="+repr(fixture['body'])+";req=urllib.request.Request(u,data=json.dumps(body).encode(),headers={'Content-Type':'application/json'});\ntry:\n r=urllib.request.urlopen(req,timeout=12);print(json.dumps({'status':r.status,'headers':dict(r.headers),'body':r.read().decode()}))\nexcept urllib.error.HTTPError as e:\n print(json.dumps({'status':e.code,'headers':dict(e.headers),'body':e.read().decode()}))\nexcept (urllib.error.URLError,ConnectionError,TimeoutError,OSError) as e:\n print(json.dumps({'transport_error':type(e).__name__,'status':None}))"
+    probe="import json,urllib.request,urllib.error,socket;resolved=socket.gethostbyname('mesh-predictor.iot-mesh.svc.cluster.local');u="+repr(endpoint)+";body="+repr(fixture['body'])+";req=urllib.request.Request(u,data=json.dumps(body).encode(),headers={'Content-Type':'application/json'});\ntry:\n r=urllib.request.urlopen(req,timeout=12);print(json.dumps({'status':r.status,'headers':dict(r.headers),'body':r.read().decode()}))\nexcept urllib.error.HTTPError as e:\n print(json.dumps({'status':e.code,'headers':dict(e.headers),'body':e.read().decode()}))\nexcept (urllib.error.URLError,ConnectionError,TimeoutError,OSError) as e:\n print(json.dumps({'transport_error':type(e).__name__,'reason_type':type(getattr(e,'reason',e)).__name__,'resolved_ip':resolved,'status':None}))"
     def request(name,spoof=False,metadata=False):
         script=probe
         if spoof:script=script.replace("{'Content-Type':'application/json'}",repr({'Content-Type':'application/json','X-Forwarded-Client-Cert':'URI=spiffe://cluster.local/ns/iot-mesh/sa/feature-caller'}))
@@ -51,7 +51,7 @@ def run(args):
     after_allowed=metrics('metrics-after-allowed');denied=request('denied-client');save('denied.json',denied);assert denied['status']==403 and 'RBAC' in denied['body']
     spoof=request('denied-client',spoof=True);save('spoofed-identity.json',spoof);assert spoof['status']==403
     metadata=request('allowed-client',metadata=True);save('disallowed-operation.json',metadata);assert metadata['status']==403
-    plain=request('plain-client');save('plaintext.json',plain);assert plain['status'] is None and plain['transport_error']
+    plain=request('plain-client');save('plaintext.json',plain);assert plain['status'] is None and plain['reason_type'] in ['ConnectionResetError','RemoteDisconnected'] and plain['resolved_ip']==get('get','service','mesh-predictor','-n','iot-mesh')['spec']['clusterIP']
     after_rejected=metrics('metrics-after-rejected');assert 'iot_predictor_requests_total{outcome="success"} 1.0' in after_allowed and after_allowed==after_rejected
     time.sleep(1)
     call(k+['logs',pod['mesh-predictor']['metadata']['name'],'-n','iot-mesh','-c','istio-proxy'],'server-proxy-log')
