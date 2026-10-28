@@ -4,7 +4,7 @@ from hashlib import sha256
 from pathlib import Path
 import argparse,importlib.util,json,math,os,re,shutil,subprocess,sys,time
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
-from ml.observability_ci import release,environment,same_model,application_paths,patch_predictor,registry_address,KINDS
+from ml.observability_ci import release,environment,same_model,application_paths,patch_predictor,registry_address,local_base,KINDS
 from ml.serving_ci import docker_config_digest,check_pods
 SPEC=importlib.util.spec_from_file_location('serving_driver',ROOT/'scripts/ci-serving.py')
 SHARED=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(SHARED)
@@ -160,7 +160,8 @@ def run(phase):
         base='iot-ci-observability-tests-base:'+c.release;tag='iot-ci-observability-tests:'+c.release
         c.log('tests-base-build',['docker','build','-f',str(ROOT/'infra/ci/ServingTests.Dockerfile'),'-t',base,str(ROOT)])
         base_id=subprocess.check_output(['docker','image','inspect',base,'--format','{{.Id}}'],text=True).strip()
-        c.log('tests-overlay-build',['docker','build','--build-arg','BASE_IMAGE='+base_id,'-f',str(ROOT/'infra/observability/Tests.Dockerfile'),'-t',tag,str(ROOT)])
+        c.log('tests-overlay-build',['docker','build','--build-arg',local_base(base,base_id),'-f',str(ROOT/'infra/observability/Tests.Dockerfile'),'-t',tag,str(ROOT)])
+        if subprocess.check_output(['docker','image','inspect',base,'--format','{{.Id}}'],text=True).strip()!=base_id:raise ValueError('Test parent tag changed during build')
         out=c.out/'telemetry-tests';out.mkdir();out.chmod(0o1777);scratch=Path('/srv/iot-fast/ci')/c.release;scratch.mkdir(exist_ok=False);scratch.chmod(0o1777)
         command=['docker','run','--name',c.release+'-telemetry-tests','--network','none','--memory','4g','--memory-swap','4g','--cpus','2','--pids-limit','256','--cap-drop','ALL','--security-opt','no-new-privileges',
             '--mount',f'type=bind,src={c.host_root},dst=/sealed,readonly','--mount',f'type=bind,src={c.deploy}/data/ci/source/{c.commit}/manifest.json,dst=/manifest.json,readonly',
@@ -179,7 +180,8 @@ def run(phase):
             expected=actual;paths['services/observed.py']='/app/services/observed.py';expected['services/observed.py']=c.seal['files']['services/observed.py']
             repository={'feature':'iot-coursework-feature-api','drift':'iot-coursework-drift-api','predictor':'iot-coursework-predictor'}[kind];tag=repository+':'+c.release
             if subprocess.run(['docker','image','inspect',tag],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:raise ValueError('Preserve previous image tag')
-            c.log(kind+'-build',['docker','build','--build-arg','BASE_IMAGE='+base['Id'],'--label','org.opencontainers.image.revision='+c.commit,'-f',str(ROOT/'infra/observability/API.Dockerfile'),'-t',tag,str(ROOT)])
+            c.log(kind+'-build',['docker','build','--build-arg',local_base(parent,base['Id']),'--label','org.opencontainers.image.revision='+c.commit,'-f',str(ROOT/'infra/observability/API.Dockerfile'),'-t',tag,str(ROOT)])
+            if subprocess.check_output(['docker','image','inspect',parent,'--format','{{.Id}}'],text=True).strip()!=base['Id']:raise ValueError('Application parent tag changed during build')
             image=json.loads(subprocess.check_output(['docker','image','inspect',tag]))[0]
             if probe(c,image['Id'],paths)!=expected:raise ValueError('Built application differs from tested source/parent weights')
             c.log(kind+'-pip-check',['docker','run','--rm','--network','none','--memory','1g','--cpus','1','--entrypoint','python',image['Id'],'-m','pip','check'])

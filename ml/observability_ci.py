@@ -8,6 +8,14 @@ ENDPOINT='http://iot-jaeger.iot-observability.svc.cluster.local:4318/v1/traces'
 KINDS=('feature','drift','predictor')
 
 
+def local_base(reference,image_id):
+    """Use a local named image for Docker FROM; a config/image ID is not a registry manifest reference."""
+    if (not isinstance(reference,str) or re.fullmatch(r'iot-(?:coursework-[a-z-]+|ci-observability-tests-base):[a-z0-9][a-z0-9.-]*',reference) is None
+            or not isinstance(image_id,str) or re.fullmatch(r'sha256:[0-9a-f]{64}',image_id) is None):
+        raise ValueError('Require an inspected named local coursework parent image')
+    return 'BASE_IMAGE='+reference
+
+
 def registry_address(container):
     """Discover exactly one existing owned private registry network, including a restored bridge after VM restart."""
     networks=container['NetworkSettings']['Networks'];mode=container['HostConfig']['NetworkMode']

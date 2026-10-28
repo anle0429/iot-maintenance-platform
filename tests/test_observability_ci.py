@@ -3,7 +3,7 @@ from copy import deepcopy
 from hashlib import sha256
 from pathlib import Path
 import importlib.util,json,unittest,tempfile
-from ml.observability_ci import release,environment,same_model,application_paths,patch_predictor,registry_address,ENDPOINT
+from ml.observability_ci import release,environment,same_model,application_paths,patch_predictor,registry_address,local_base,ENDPOINT
 
 
 class ObservabilityCITests(unittest.TestCase):
@@ -12,6 +12,13 @@ class ObservabilityCITests(unittest.TestCase):
         self.assertEqual(release('9'),'observe-jenkins-9')
         for n in ['0','01','../1','1;id',1,'1'*11]:
             with self.subTest(n=n),self.assertRaises(ValueError):release(n)
+
+    def test_docker_from_uses_a_local_tag_with_a_separately_checked_image_id(self):
+        image='sha256:'+'a'*64
+        self.assertEqual(local_base('iot-ci-observability-tests-base:observe-jenkins-2',image),'BASE_IMAGE=iot-ci-observability-tests-base:observe-jenkins-2')
+        self.assertEqual(local_base('iot-coursework-predictor:observe-28b-v2',image),'BASE_IMAGE=iot-coursework-predictor:observe-28b-v2')
+        for ref,digest in [(image,image),('external.example/model:latest',image),('iot-coursework-predictor:good;id',image),('iot-coursework-predictor:good','not-a-digest')]:
+            with self.subTest(reference=ref),self.assertRaises(ValueError):local_base(ref,digest)
 
     def test_registry_network_is_discovered_without_assuming_a_stale_bridge_name(self):
         for mode in ['iot-mlflow_default','iot-mlflow-restored-28c']:
