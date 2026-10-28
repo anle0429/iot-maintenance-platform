@@ -9,6 +9,7 @@ Từ repo root, `python -S scripts/verify-final-handover.py` dùng standard libr
 1. Repo: source frozen307file,732tests/292subtests/7skips,15verifier evidence và audit docstrings.
 2. Airflow: ba DAG thành công, tám task, graph lấy từ task definitions qua API thật; đối chiếu lại hai run streaming đã có trong CI.
 3. Feature/model:200máy,195dự đoán tính lại từ portable model6,5máy dừng409, trace/arrival/age/lineage và cache TTL thật.
+4. Clone GitHub trên PC tại`5535bcf`:736 tests/297 subtests/7 skips, pip check, bốn bộ kiểm bằng chứng và bộ test đều qua; [JUnit/console nguyên gốc](evidence/final-release-pc/manifest.json). Số732/292 phía trên thuộc audit frozen cũ, không phải lỗi cộng số.
 
 Đây là kiểm artifact, chạy được khi VM đã STOP. Để chạy tests mới xem [repo quality](repository-quality.md); để kiểm live cần đúng runtime, dữ liệu và phiên VM còn hạn.
 

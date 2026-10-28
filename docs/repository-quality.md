@@ -43,3 +43,7 @@ python scripts/audit-repository.py --output outputs/my-repository-audit --edit-p
 ```
 
 Package/runtime, dữ liệu và dịch vụ riêng từng máy; clone kiểm trên PC không chứng minh laptop đã chạy. [Pattern Adapter/DI/factory và ảnh source gốc](ml-class-design.md) giải thích thiết kế; [diagram](../README.md#sơ-đồ-triển-khai-hiện-có) dùng đơn vị có thể triển khai, không vẽ Feast SDK thành server.
+
+## Kiểm bản phát hành có fullcohort
+
+Clone PC từ GitHub main tại`5535bcffc013b1a9464133f69239cdb963183bb2` đã qua736 tests,297 subtests,7 skips trong môi trường Python riêng từ freeze đã công bố. Pip check, window/fullhandover/MMD/OPA và suite đều exit0; clone sạch trước/sau. [14 payload gốc](evidence/final-release-pc/manifest.json) giữ JUnit/console và receipt. Đây là lượt mới sau audit732/292, không thay số đo frozen cũ và không chứng minh đã chạy trên laptop. Tự kiểm cả hai lượt bằng `python -S scripts/verify-final-handover.py`.

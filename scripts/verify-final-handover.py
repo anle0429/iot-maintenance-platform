@@ -73,5 +73,16 @@ def demo():
     return {'native_predictions':operating,'stopped_409':stopped,'independent_max_probability_delta':maximum,'prepared_wall_utc':context['prepared_wall_utc'],'lease_expires_utc':'2026-10-28T23:10:04.654400+00:00','scope':'Historical synthetic logical clock; actual materialization28Oct, not continuous live sensors.'}
 
 
+def release():
+    """Verify the published PC clone's full test suite and six checks without claiming a new Linux or laptop deployment."""
+    base=ROOT/'docs/evidence/final-release-pc';read=payload(base,14);report=read('verification.json')
+    assert report['passed'] and report['clone_clean'] and len(report['results'])==6 and all(v==0 for v in report['results'].values())
+    assert subprocess.check_output(['git','rev-parse',report['source_commit']+'^{commit}'],cwd=ROOT,text=True).strip()==report['source_commit']
+    suite=ET.parse(base/'junit.xml');assert len(suite.findall('.//testcase'))==743 and len(suite.findall('.//skipped'))==7
+    assert int(suite.find('testsuite').attrib['tests'])==1040 and not suite.findall('.//failure') and not suite.findall('.//error')
+    console=(base/'pytest.stdout').read_bytes();assert b'736 passed, 7 skipped' in console and b'297 subtests passed' in console
+    return {'source_commit':report['source_commit'],'pc_tests':736,'subtests':297,'skipped':7,'checks':6,'scope':report['scope']}
+
+
 if __name__=='__main__':
-    print(json.dumps({'passed':True,'repository':repository(),'airflow':airflow(),'demo':demo()},indent=2))
+    print(json.dumps({'passed':True,'repository':repository(),'airflow':airflow(),'demo':demo(),'published_clone':release()},indent=2))

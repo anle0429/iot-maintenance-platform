@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "repository": {
+    "pc_tests": 732,
+    "subtests": 292,
+    "skipped": 7,
+    "frozen_python_inputs": 307,
+    "frozen_definitions_documented": 1637,
+    "verification_commands": 19
+  },
+  "airflow": {
+    "successful_existing_dags": 3,
+    "successful_tasks": 8,
+    "image_scope": "Original Airflow UI graph screenshots for both streaming DAGs, plus explicitly labeled API reader; completed sequential jobs, not simultaneous running proof."
+  },
+  "demo": {
+    "native_predictions": 195,
+    "stopped_409": 5,
+    "independent_max_probability_delta": 0.0,
+    "prepared_wall_utc": "2026-10-28T22:10:04.654400+00:00",
+    "lease_expires_utc": "2026-10-28T23:10:04.654400+00:00",
+    "scope": "Historical synthetic logical clock; actual materialization28Oct, not continuous live sensors."
+  }
+}
