@@ -1,9 +1,12 @@
 """Check empty acknowledgement, transactional replay and rejection before a drift event is stored."""
 from copy import deepcopy
 from fastapi.testclient import TestClient
+from fastapi import HTTPException
+from hypothesis import given,settings,strategies as st
 import pytest
 from services.drift_api.app import create_app
 from services.drift_api.runtime import DriftRuntime
+from services.drift_api.events import validate_envelope
 from tests.api.test_drift_api import bundle,window
 
 
@@ -49,3 +52,29 @@ def test_metadata_boundaries_and_media_type_parameters(tmp_path):
         assert client.post('/v1/events/drift',content=iter([b'{}']),headers=headers()).status_code==411
         client.app.state.runtime=None
         assert client.post('/v1/events/drift',json=window(),headers=headers()).status_code==503
+
+
+@given(st.text(alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_:-',min_size=1,max_size=100))
+@settings(max_examples=35,deadline=None)
+def test_property_event_identity_and_http_media_type_normalization(identity):
+    """Every allowed identity is valid; another envelope's route metadata cannot bypass the contract."""
+    value={**headers(),'ce-id':identity,'content-type':'  Application/JSON ; charset=utf-8'}
+    validate_envelope(value)
+    for name in ['ce-id','ce-type','ce-source','ce-specversion','content-type']:
+        invalid={**value};invalid.pop(name)
+        with pytest.raises(HTTPException) as error:validate_envelope(invalid)
+        assert error.value.status_code==400
+    with pytest.raises(HTTPException):validate_envelope({**value,'ce-id':identity+' '})
+    with pytest.raises(HTTPException):validate_envelope({**value,'content-type':'application/cloudevents+json'})
+
+
+def test_private_store_error_is_redacted_before_event_ack(tmp_path,monkeypatch):
+    """A failed durable write must neither acknowledge delivery nor disclose backend diagnostics."""
+    runtime=DriftRuntime(bundle(),tmp_path/'windows.db')
+    def broken(*args):raise OSError('SYNTHETIC_PRIVATE_BACKEND_DIAGNOSTIC')
+    monkeypatch.setattr(runtime,'compare',broken)
+    with TestClient(create_app(runtime)) as client:
+        response=client.post('/v1/events/drift',json=window(),headers=headers())
+        assert response.status_code==503
+        assert response.json()=={'detail':'Drift reference or persistent store is unavailable'}
+        assert runtime.ready()['stored_windows']==0
