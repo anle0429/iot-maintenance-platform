@@ -2,7 +2,7 @@
 import argparse
 from datetime import datetime,timedelta,timezone
 from hashlib import sha256
-import ipaddress,json,math,os
+import ipaddress,json,math,os,re
 from pathlib import Path
 import shutil,subprocess,sys
 from types import SimpleNamespace
@@ -289,12 +289,23 @@ def run(phase):
         save(c.out/'selection.json',{'commit':c.commit,'release':c.release,'pin':PumpPredictor(bundle).pin,
             'bundle_sha256':{n:digest(bundle/n) for n in ['portable.json','lineage.json','model-pin.json']},'exported_utc':datetime.now(timezone.utc).isoformat()})
     elif phase=='test':
-        c.selected();tag='iot-ci-serving-tests:'+c.release
+        selected=c.selected();tag='iot-ci-serving-tests:'+c.release
         c.log('tests-build',['docker','build','-f',str(ROOT/'infra/ci/ServingTests.Dockerfile'),'-t',tag,str(ROOT)])
         output=c.out/'tests';output.mkdir();output.chmod(0o1777)
-        c.container('tests',['docker','run','--name',c.release+'-tests','--network','none','--memory','4g','--memory-swap','4g','--cpus','2',
+        command=['docker','run','--name',c.release+'-tests','--network','none','--memory','4g','--memory-swap','4g','--cpus','2',
             '--pids-limit','256','--cap-drop','ALL','--security-opt','no-new-privileges',
-            '--mount',f'type=bind,src={output},dst=/results',tag,'--output','/results'],memory='4g',cpus='2')
+            '--mount',f'type=bind,src={output},dst=/results']
+        arguments=['--output','/results'];parent=os.environ.get('IOT_API_GATE_PARENT','')
+        if parent:
+            if not re.fullmatch(r'[1-9][0-9]{0,9}',parent) or int(parent)>=int(os.environ['BUILD_NUMBER']):raise ValueError('Use an earlier canonical native serving build for mutation reuse')
+            previous=c.deploy/'data/ci/releases'/('serve-jenkins-'+parent)/'outputs'
+            receipt=json.loads((previous/'selection.json').read_text());commit=receipt['commit']
+            if not re.fullmatch('[a-f0-9]{40}',commit):raise ValueError('Parent source commit is not sealed')
+            bindings=[(previous,'/parent-outputs'),(c.deploy/'data/ci/source'/commit/'manifest.json','/parent-source.json'),
+                (c.deploy/'data/ci/source'/c.commit/'manifest.json','/current-source.json'),(c.directory/'bundle/model-pin.json','/expected-pin.json')]
+            for native,inside in bindings:command+=['--mount',f'type=bind,src={native},dst={inside},readonly']
+            arguments+=['--parent-outputs','/parent-outputs','--parent-source','/parent-source.json','--current-source','/current-source.json','--expected-pin','/expected-pin.json']
+        c.container('tests',command+[tag,*arguments],memory='4g',cpus='2')
     elif phase=='build':
         selected=c.selected();tests=c.out/'tests'
         test_gate(json.loads((tests/'coverage.json').read_text()),json.loads((tests/'mutmut-cicd-stats.json').read_text()),(tests/'mutmut-all-results.txt').read_text())

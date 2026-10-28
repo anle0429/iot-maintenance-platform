@@ -24,6 +24,20 @@ def pod_identity(pods):
     return result
 
 
+def model_probe_program():
+    """Read the running app's bundle configuration instead of assuming all image generations share a path."""
+    return """import os,json,pathlib,hashlib
+import services.predictor.app as predictor_app
+from services.predictor.runtime import PumpPredictor
+root=pathlib.Path(predictor_app.__file__).resolve().parents[2]
+p=pathlib.Path(os.environ.get('IOT_MODEL_BUNDLE','models/pump-failure-v1')).resolve()
+if not p.is_relative_to(root):raise ValueError('Model bundle escaped the running application root')
+m=PumpPredictor(p)
+print(json.dumps({'metadata':m.metadata(),'portable_sha256':hashlib.sha256((p/'portable.json').read_bytes()).hexdigest(),
+ 'bundle_path':str(p),'bundle_origin':'IOT_MODEL_BUNDLE' if 'IOT_MODEL_BUNDLE' in os.environ else 'application-default'}))
+"""
+
+
 def model_state(c,name):
     """Read actual ISVC/service/pod identities and model bytes; never infer deployment from a manifest alone."""
     isvc=c.get('get','inferenceservice',name,'-n','iot-serving')
@@ -37,17 +51,21 @@ def model_state(c,name):
     image=isvc['spec']['predictor']['containers'][0]['image']
     config=next(s['imageID'] for s in live[0]['status']['containerStatuses'] if s['name']=='kserve-container').split('://')[-1].split('@')[-1]
     if not re.fullmatch(r'sha256:[0-9a-f]{64}',config):raise ValueError('Predictor lacks a concrete CRI config identity')
-    check_pods(pods['items'],image,config,'kserve-container');pins=[];nodes=set()
-    code="import json,pathlib,hashlib; from services.predictor.runtime import PumpPredictor; p=pathlib.Path('/app/model'); m=PumpPredictor(p); print(json.dumps({'metadata':m.metadata(),'portable_sha256':hashlib.sha256((p/'portable.json').read_bytes()).hexdigest()}))"
+    check_pods(pods['items'],image,config,'kserve-container');pins=[];nodes=set();bundles={}
+    code=model_probe_program()
     for pod in live:
         if pod['metadata']['labels'].get('serving.kserve.io/inferenceservice')!=name:raise ValueError('Service selected another model workload')
         raw=json.loads(subprocess.check_output(c.k+['exec','-n','iot-serving',pod['metadata']['name'],'-c','kserve-container','--','python','-c',code],text=True,timeout=30))
         pin=validate_pin({n:raw['metadata'][n] for n in FIELDS})
         if raw['portable_sha256']!=pin['portable_sha256']:raise ValueError('Native predictor weights differ from its HTTP identity')
+        if not isinstance(raw.get('bundle_path'),str) or raw.get('bundle_origin') not in ['IOT_MODEL_BUNDLE','application-default']:
+            raise ValueError('Native predictor lacks its observed bundle location')
+        bundles[pod['metadata']['uid']]={'path':raw['bundle_path'],'origin':raw['bundle_origin']}
         pins.append(pin);nodes.add(pod['spec']['nodeName'])
     if any(p!=pins[0] for p in pins) or len(nodes)!=1:raise ValueError('Require one observed node and one baseline model identity')
     return {'name':name,'isvc_uid':isvc['metadata']['uid'],'service_uid':service['metadata']['uid'],'url':url,
-        'image':image,'config_digest':config,'pin':pins[0],'pods':pod_identity(pods),'node_name':next(iter(nodes))}
+        'image':image,'config_digest':config,'pin':pins[0],'pods':pod_identity(pods),'node_name':next(iter(nodes)),
+        'bundle_locations':bundles}
 
 
 def feature_identity(c):

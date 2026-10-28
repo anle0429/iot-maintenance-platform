@@ -29,6 +29,8 @@ def package(commit,output):
             'infra/ab-api/Dockerfile','infra/ab-api/Dockerfile.dockerignore','infra/ab-api/helm-values.yaml','infra/ab-api/grafana-dashboard.json']
     if 'ml/ab_ci.py' in available:
         names+=['ml/ab_ci.py','ml/ab_native.py','tests/test_ab_ci.py','tests/integration/test_ab_ci_http.py']
+    if 'ml/serving_gate_reuse.py' in available:
+        names+=['ml/serving_gate_reuse.py','tests/test_serving_gate_reuse.py']
     if set(names)-available:raise ValueError('Serving source commit lacks required files: '+','.join(sorted(set(names)-available)))
     manifest_path=output.with_suffix('.manifest.json')
     if output.exists() or manifest_path.exists():raise FileExistsError('Preserve previous serving source packets')

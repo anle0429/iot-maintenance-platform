@@ -11,6 +11,9 @@ pipeline {
           if (!(params.MODEL_VERSION ==~ /[1-9][0-9]*/)) { error('Pin the production model version') }
           env.IOT_CI_COMMIT = params.SOURCE_COMMIT
           env.IOT_MODEL_VERSION = params.MODEL_VERSION
+          def parent = params.API_GATE_BUILD ?: ''
+          if (!(parent ==~ /[1-9][0-9]{0,9}|/)) { error('Use an earlier build number or empty fresh-mutation mode') }
+          env.IOT_API_GATE_PARENT = parent
         }
         sh '''set +x
           mkdir "build-$BUILD_NUMBER"

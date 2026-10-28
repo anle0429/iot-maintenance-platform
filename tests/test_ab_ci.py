@@ -207,11 +207,12 @@ def test_model_readback_checks_actual_weights_service_selector_and_running_incar
     calls=[]
     def get(*args):calls.append(args);return deepcopy(objects[args[1]])
     context=NS(k=['kubectl-fixture'],get=get,service_url=lambda *args:'http://10.53.0.10')
-    result={'metadata':LEGACY,'portable_sha256':LEGACY['portable_sha256']}
+    result={'metadata':LEGACY,'portable_sha256':LEGACY['portable_sha256'],'bundle_path':'/app/models/pump-failure-v1','bundle_origin':'IOT_MODEL_BUNDLE'}
     with patch.object(ab_native.subprocess,'check_output',return_value=json.dumps(result)) as command:
         state=ab_native.model_state(context,'old')
         assert state['pin']==LEGACY and state['node_name']=='node-fixture' and state['isvc_uid']=='isvc-fixture'
         assert 'app=isvc.old-predictor' in calls[-1] and 'exec' in command.call_args.args[0]
+        assert state['bundle_locations']=={'model-pod-fixture':{'path':'/app/models/pump-failure-v1','origin':'IOT_MODEL_BUNDLE'}}
     with patch.object(ab_native.subprocess,'check_output',return_value=json.dumps({**result,'portable_sha256':'a'*64})):
         with pytest.raises(ValueError,match='weights'):ab_native.model_state(context,'old')
     original=deepcopy(objects)
@@ -221,6 +222,36 @@ def test_model_readback_checks_actual_weights_service_selector_and_running_incar
             lambda x:x['pods']['items'][0]['metadata']['labels'].update({'serving.kserve.io/inferenceservice':'other'})]:
         objects.clear();objects.update(deepcopy(original));change(objects)
         with patch.object(ab_native.subprocess,'check_output',return_value=json.dumps(result)),pytest.raises(ValueError):ab_native.model_state(context,'old')
+
+
+@pytest.mark.parametrize('location',['default','models/pump-failure-v1','model'])
+def test_native_model_probe_executes_both_observed_image_layouts(tmp_path,monkeypatch,capsys,location):
+    """Execute the real Pod probe against actual portable model files in a declared application fixture."""
+    import services.predictor.app as predictor_app
+    app_root=tmp_path/'app';app_root.mkdir()
+    selected=app_root/('models/pump-failure-v1' if location=='default' else location)
+    selected.mkdir(parents=True)
+    for name in ['portable.json','lineage.json','model-pin.json']:
+        shutil.copyfile(ROOT/'models/pump-failure-v1'/name,selected/name)
+    monkeypatch.chdir(app_root);monkeypatch.setattr(predictor_app,'__file__',str(app_root/'services/predictor/app.py'))
+    if location=='default':monkeypatch.delenv('IOT_MODEL_BUNDLE',raising=False)
+    else:monkeypatch.setenv('IOT_MODEL_BUNDLE',str(selected))
+    exec(ab_native.model_probe_program(),{})
+    result=json.loads(capsys.readouterr().out)
+    assert {n:result['metadata'][n] for n in LEGACY}==LEGACY
+    assert result['portable_sha256']==LEGACY['portable_sha256'] and Path(result['bundle_path'])==selected.resolve()
+    assert result['bundle_origin']==('application-default' if location=='default' else 'IOT_MODEL_BUNDLE')
+
+
+def test_native_model_probe_refuses_escaped_or_missing_explicit_bundle(tmp_path,monkeypatch):
+    """A bad deployment must not fall back to another bundle or read a path outside the running application."""
+    import services.predictor.app as predictor_app
+    app_root=tmp_path/'app';app_root.mkdir();monkeypatch.chdir(app_root)
+    monkeypatch.setattr(predictor_app,'__file__',str(app_root/'services/predictor/app.py'))
+    monkeypatch.setenv('IOT_MODEL_BUNDLE',str(tmp_path/'elsewhere'))
+    with pytest.raises(ValueError,match='escaped'):exec(ab_native.model_probe_program(),{})
+    monkeypatch.setenv('IOT_MODEL_BUNDLE',str(app_root/'absent'))
+    with pytest.raises(FileNotFoundError):exec(ab_native.model_probe_program(),{})
 
 
 def test_feature_routing_identity_tracks_the_observed_active_generation():

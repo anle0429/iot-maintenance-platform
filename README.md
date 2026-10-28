@@ -123,7 +123,7 @@ flowchart LR
     Executors -->|T4 task results| Training
     Training -->|T5 data versions và model candidate| MLflow[MLflow tracking container]
     MLflow -->|C2 model6 production-tag lab bundle| Jenkins
-    Jenkins -.->|C3 chờ serving CI5 qua gates và A-B| Predictor
+    Jenkins -.->|C3 chờ serving CI qua gates và A-B| Predictor
     Airflow -->|M1 mỗi năm phút| DriftJob[Offline drift SDK job container]
     Spark -->|M2 feature Parquet qua Feast| DriftJob
     DriftJob -->|M3 PSI và freshness gauges| PG[Pushgateway process]
