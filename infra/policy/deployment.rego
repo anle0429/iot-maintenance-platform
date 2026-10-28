@@ -171,12 +171,12 @@ deny contains sprintf("unsafe privilege/capability settings: %s", [c.name]) if {
 deny contains sprintf("unapproved application CPU limit: %s", [c.name]) if {
   input.kind == "kubernetes"
   some c in pod.containers
-  not object.get(object.get(c, "resources", {}), "limits", {}).cpu in data.approved.application_cpu_limits
+  not object.get(object.get(object.get(c, "resources", {}), "limits", {}), "cpu", "") in data.approved.application_cpu_limits
 }
 deny contains sprintf("unapproved application memory limit: %s", [c.name]) if {
   input.kind == "kubernetes"
   some c in pod.containers
-  not object.get(object.get(c, "resources", {}), "limits", {}).memory in data.approved.application_memory_limits
+  not object.get(object.get(object.get(c, "resources", {}), "limits", {}), "memory", "") in data.approved.application_memory_limits
 }
 deny contains "model is not the approved production version" if {
   input.kind == "kubernetes"
