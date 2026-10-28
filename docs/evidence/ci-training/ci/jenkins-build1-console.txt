@@ -1,0 +1,194 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/iot-training
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 1 hr 20 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare sealed source)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Admit real VM session)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-training/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-training.py admission
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test lineage and holdout gates)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-training/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-training.py test
+test_changed_blob_changes_identity_even_when_path_is_reused (tests.test_ci_training.DockerConfigIdentityTests.test_changed_blob_changes_identity_even_when_path_is_reused) ... ok
+test_jenkins_workspace_mount_uses_actual_daemon_host_path (tests.test_ci_training.DockerConfigIdentityTests.test_jenkins_workspace_mount_uses_actual_daemon_host_path)
+Jenkins sees its home at a different path from the host Docker daemon. ... ok
+test_legacy_and_oci_layouts_bind_same_actual_config (tests.test_ci_training.DockerConfigIdentityTests.test_legacy_and_oci_layouts_bind_same_actual_config) ... ok
+test_missing_or_ambiguous_config_is_rejected (tests.test_ci_training.DockerConfigIdentityTests.test_missing_or_ambiguous_config_is_rejected) ... ok
+test_actual_resource_boundaries (tests.test_ci_training.TrainingCITests.test_actual_resource_boundaries) ... ok
+test_fresh_candidate_known_answer (tests.test_ci_training.TrainingCITests.test_fresh_candidate_known_answer) ... ok
+test_other_data_or_model_rejected (tests.test_ci_training.TrainingCITests.test_other_data_or_model_rejected) ... ok
+test_other_submission_or_source_rejected (tests.test_ci_training.TrainingCITests.test_other_submission_or_source_rejected) ... ok
+test_previous_run_rejected (tests.test_ci_training.TrainingCITests.test_previous_run_rejected) ... ok
+test_production_or_failed_outputs_rejected (tests.test_ci_training.TrainingCITests.test_production_or_failed_outputs_rejected) ... ok
+test_release_identity_cannot_escape_paths (tests.test_ci_training.TrainingCITests.test_release_identity_cannot_escape_paths) ... ok
+test_context_rejects_other_endpoint_and_mutated_code (tests.test_automatic_versions.AutomaticVersionGateTests.test_context_rejects_other_endpoint_and_mutated_code)
+Neither an arbitrary registry destination nor an uncommitted source mutation is accepted. ... ok
+test_validation_binds_exact_weights_and_keeps_test_closed (tests.test_automatic_versions.AutomaticVersionGateTests.test_validation_binds_exact_weights_and_keeps_test_closed)
+Changing selection bytes after validation cannot authorize the final stage. ... ok
+test_contended_publication_is_bounded_and_can_retry_after_release (tests.test_data_versions.DataVersionsTest.test_contended_publication_is_bounded_and_can_retry_after_release)
+Independent publishers cannot enter together; a timed-out waiter does not poison later publication. ... ok
+test_corruption_and_unsafe_names_are_rejected (tests.test_data_versions.DataVersionsTest.test_corruption_and_unsafe_names_are_rejected) ... ok
+test_incremental_replay_change_add_delete_and_restore (tests.test_data_versions.DataVersionsTest.test_incremental_replay_change_add_delete_and_restore) ... ok
+test_same_content_under_two_names_is_stored_once (tests.test_data_versions.DataVersionsTest.test_same_content_under_two_names_is_stored_once) ... ok
+test_changed_bytes_partial_snapshot_and_unsealed_remote_are_rejected (tests.test_model_data_link.ModelDataLinkTest.test_changed_bytes_partial_snapshot_and_unsealed_remote_are_rejected) ... ok
+test_matches_and_wrong_native_pull_is_rejected (tests.test_model_data_link.ModelDataLinkTest.test_matches_and_wrong_native_pull_is_rejected) ... ok
+test_source_snapshot_rejects_changed_code_and_wrong_commit (tests.test_model_data_link.ModelDataLinkTest.test_source_snapshot_rejects_changed_code_and_wrong_commit) ... ok
+test_invalid_validation_never_starts_holdout_container (tests.test_notebook_holdout_gate.NotebookHoldoutGateTests.test_invalid_validation_never_starts_holdout_container)
+A success flag alone cannot authorize evaluation of a different or already-open selection. ... ok
+test_missing_validation_never_starts_holdout_container (tests.test_notebook_holdout_gate.NotebookHoldoutGateTests.test_missing_validation_never_starts_holdout_container)
+Calling the last cell directly must fail before loading any model or test rows. ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.124s
+
+OK
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build verify import images)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-training/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-training.py build
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from TrainingController.Dockerfile
+#1 transferring dockerfile: 772B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2
+#2 DONE 0.0s
+
+#3 [internal] load build context
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2@sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e
+#4 resolve docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2@sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e 0.0s done
+#4 DONE 0.0s
+
+#3 [internal] load build context
+#3 transferring context: 1.00kB done
+#3 DONE 0.0s
+
+#5 [2/3] COPY infra/ci/requirements-training-controller.lock /tmp/requirements.txt
+#5 CACHED
+
+#6 [3/3] RUN python -m venv /opt/kfp-venv     && /opt/kfp-venv/bin/python -m pip install --no-cache-dir -r /tmp/requirements.txt     && /opt/kfp-venv/bin/python -m pip check
+#6 CACHED
+
+#7 exporting to image
+#7 exporting layers done
+#7 exporting manifest sha256:690bcd5a22290946dbceb574ab437131f7ff8f45967f5341e31684ff79a8de23 done
+#7 exporting config sha256:3f2f66f7d539608feac04ffadcd7e9cb3947198802e3f974a01dd8a054bbe640 done
+#7 exporting attestation manifest sha256:9631861760a34fff29c9d62a5526aad84aca375c52bcc124891f5b00deb46666 0.0s done
+#7 exporting manifest list sha256:84167f7900cab884fc2c5222b184044d1323ec5a402ca1ac1708c0f69315693b 0.0s done
+#7 naming to docker.io/library/iot-ci-training-controller:train-jenkins-1
+#7 naming to docker.io/library/iot-ci-training-controller:train-jenkins-1 done
+#7 unpacking to docker.io/library/iot-ci-training-controller:train-jenkins-1 0.0s done
+#7 DONE 0.1s
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Training.Dockerfile
+#1 transferring dockerfile: 800B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2
+#2 DONE 0.0s
+
+#3 [internal] load build context
+#3 transferring context: 342.37kB 0.0s done
+#3 DONE 0.0s
+
+#4 [1/2] FROM docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2@sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e
+#4 resolve docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2@sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e 0.0s done
+#4 CACHED
+
+#5 [2/2] COPY . /opt/iot-release
+#5 DONE 0.1s
+
+#6 exporting to image
+#6 exporting layers 0.1s done
+#6 exporting manifest sha256:a61fadc58b8308146f221a98c76f1221ad90af2d230e9760bf4a935884117304 0.0s done
+#6 exporting config sha256:2f49b7c9a4bf8dbec2fecb9b8b588a5a75e43cb0bd7a7dadddeb99e5a79a2b22 0.0s done
+#6 exporting attestation manifest sha256:dcacc1c3d6bc85cbe9d0cec666bcfa6870c1fd3e7227236ec9da3b4b6fddea32 0.0s done
+#6 exporting manifest list sha256:b1b689f58a1db7fdff0036c2d25c45efb2c557237e5501825d7abd7b0476db6b 0.0s done
+#6 naming to docker.io/library/iot-ci-training-feast:train-jenkins-1 done
+#6 unpacking to docker.io/library/iot-ci-training-feast:train-jenkins-1
+#6 unpacking to docker.io/library/iot-ci-training-feast:train-jenkins-1 0.0s done
+#6 DONE 0.3s
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-training/build-1/scripts/ci-training.py", line 264, in <module>
+    run(parser.parse_args().phase)
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-training/build-1/scripts/ci-training.py", line 113, in run
+    raise ValueError('Built training source differs from tested source')
+ValueError: Built training source differs from tested source
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Auto-deploy sealed KFP package)
+Stage "Auto-deploy sealed KFP package" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Fresh KFP data model readback)
+Stage "Fresh KFP data model readback" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-training/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-training.py cleanup
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE

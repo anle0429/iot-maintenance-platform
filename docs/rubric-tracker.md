@@ -4,13 +4,13 @@ Cập nhật27/10: [Phase A/B CI](ci-ab-deployment.md) đã nối source73file/4
 
 Cập nhật27/10: [A/B API](ab-testing.md) có20test/400HTTPpredictions/40retryPC, modelcounters và driftreadbacks khớp; sealed69file227PASS/1POSIXskip. Grafana tại sourceadaba chỉJSON; [mốc monitoring mới](ab-monitoring.md) đã có6panelPromQL/Grafana và ảnh thật trênPC. Chưa nativeCI/A-B/mutation. FinalF52/F53Doing; giữ93sourcecriteria lịch sử.
 
-Cập nhật27/10: [Serving CI chuẩn bị](ci-serving.md) đã qua37contract tests/207isolated tests/1POSIXskip và Helm lint/render trên PC. Bản sửa bind Jenkins của training chưa lên VM. Chưa native CI/A/B; chốt không cho full cutover thiếu A/B. FinalF29/F33/F34/F52 vẫnĐang làm;93tiêu chí nguồn giữ nguyên.
+Cập nhật28/10: [Training CI đã chạy thật](ci-training.md): Jenkins build2 SUCCESS,22native tests/hai image78file/tự triển khai44MLfile/KFP mới5task/hai executor/model candidate6; F29Có bằng chứng. [Serving CI chuẩn bị](ci-serving.md) và A/B trên VM vẫn chưa; F33/F34/F52Đang làm, không chuyển toàn bộ traffic khi thiếu A/B.93tiêu chí nguồn giữ nguyên.
 
 Cập nhật27/10: [MMD joint-drift audit](joint-drift.md) đã kiểm PC19tests/6caCLI, verifier độc lập1.194statistics; không gộp với API/nativeproof. Ý tưởng1 vẫn cần xác nhận ngoài lớp; availability/replay đã học không nhận novel. Giữ57final+93legacy nguồn.
 
 Cập nhật27/10: [Version pin serving](versioned-serving.md) đã có220PCtests/2POSIXskips, coverage416statements/114branches100%,128HTTPfixturepredictions/0fail. Mutation/native build/Locust/CI mới chưa chạy; finalF11/F13/F15/F33/F34Đang làm. VM đãSTOP, quyền phiên tiếp theo còn chờ. Tiêu chí nguồn93giữ nguyên.
 
-Cập nhật27/10: [CI training chuẩn bị](ci-training.md) có21nativeunits/SDKisolated/pipcheck/compile5task/privatecontroloracle; chưa cóJenkinsbuild/KFPsubmissionsuccess. FinalF29Đang làm,giữnguyênguard90minvàtiêuchí93dònglịchsử.
+Lịch sử chuẩn bị27/10 giữ [SDK/compile/private control oracle](ci-training.md#chuẩn-bị-lịch-sử-trước-build-thành-công) theo source cũ; kết quả28/10 ở phần mới. Guard90phút và93tiêu chí nguồn không đổi.
 
 Cập nhật27/10: [CI materialization](ci-materialization.md) Jenkins build1SUCCESS,8task native Airflow/200máy initial–incremental–replay và6DataHubassertions đã indexed. FinalF28có bằng chứng; F29trainingCIvàproductionAPICI còn riêng. Tiêu chí nguồn93dòng lịch sử giữ nguyên.
 

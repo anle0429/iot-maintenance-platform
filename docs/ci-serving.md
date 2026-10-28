@@ -43,7 +43,7 @@ helm template iot-feature-api infra/charts/iot-api -n iot-features --kube-versio
 
 Tên output phải chưa tồn tại; tool từ chối overwrite. Hai lệnh Helm trên chỉ lint/render fixture, không deploy. Linux test image dùng [38dependency pins](../infra/ci/requirements-serving-tests.lock); không cài mutmut/fork trên Windows hoặc bật Docker khi thiếu RAM.
 
-Khi có phiên VM được phép: kiểm trạng thái job/run thực, chuyển **gói training đã sửa đường dẫn** và cập nhật source mặc định trước lần CI training đầu; xem [CI training](ci-training.md). Sau đó còn cần model production theo policy đã chốt, liveSDKexport, API Linux coverage/mutation/load, image probes, router/monitor A/B và native CI rollout/rollback kèm ảnh thật. Jenkins `iot-serving` chưa được cài trên VM. Chỉ dùng private trusted Jenkins, source do người vận hành chọn; không webhook/untrusted PR hoặc public endpoint mới.
+[Training CI đã SUCCESS](ci-training.md) trên VM với sourcece510c6, KFP mới đủ5task/hai executor/model candidate6. Bước tiếp theo còn cần model production theo policy đã chốt, liveSDKexport, API Linux coverage/mutation/load, image probes, router/monitor A/B và native CI rollout/rollback kèm ảnh thật. Jenkins `iot-serving` chưa được cài trên VM. Chỉ dùng private trusted Jenkins, source do người vận hành chọn; không webhook/untrusted PR hoặc public endpoint mới.
 
 Tham chiếu chính thức: [KServe custom predictor](https://kserve.github.io/website/docs/model-serving/predictive-inference/frameworks/custom-predictor), [Helm3 upgrade](https://docs.helm.sh/docs/v3/helm/helm_upgrade/), [mutmut](https://mutmut.readthedocs.io/en/latest/). Tài liệu nêu mục đích các API; bằng chứng chạy của dự án được tách riêng ở trên.
 

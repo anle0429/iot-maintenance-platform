@@ -1,0 +1,372 @@
+{
+  "capture_utc": "2026-10-28T00:53:20.745139+00:00",
+  "raw_kubernetes_list_sha256": "83397863aff23fe8a66d328c43edf16a4ebd5bf46cd7f5a2d5866fe89fd43910",
+  "transformation": "Selected the five CI application pods from the native 11-pod pipeline list: metadata, node, phase, main identity/termination status, code/data/scratch/CAS mounts and PVC volumes. Drivers, environment, args, secrets, other mounts and managed fields omitted; retained values unchanged.",
+  "pods": [
+    {
+      "metadata": {
+        "name": "iot-versioned-distributed-training-v1-227pv-system-container-impl-1662676149",
+        "namespace": "kubeflow",
+        "uid": "6dc7a76b-7150-4d6d-946d-2b2b38f802b3",
+        "labels": {
+          "pipeline/runid": "ee38ce06-622d-42a9-84e6-89aa20447e9a",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "workflows.argoproj.io/completed": "true",
+          "workflows.argoproj.io/workflow": "iot-versioned-distributed-training-v1-227pv"
+        }
+      },
+      "node": "iot-cw-vm",
+      "phase": "Succeeded",
+      "main": {
+        "name": "main",
+        "image": "docker.io/library/iot-ci-training-spark:train-jenkins-2",
+        "imageID": "sha256:642c01cf8303844a2983fdbaf94738af6fdfb50c898f7bacb051612e4a293f82",
+        "containerID": "containerd://24cfa2ab5693434f731deec365311b665c2fa5c281a2daa6c44e324bda1b930d",
+        "restartCount": 0,
+        "state": {
+          "terminated": {
+            "containerID": "containerd://24cfa2ab5693434f731deec365311b665c2fa5c281a2daa6c44e324bda1b930d",
+            "exitCode": 0,
+            "finishedAt": "2026-10-28T00:39:34Z",
+            "reason": "Completed",
+            "startedAt": "2026-10-28T00:38:26Z"
+          }
+        }
+      },
+      "main_spec": [
+        {
+          "name": "main",
+          "image": "iot-ci-training-spark:train-jenkins-2",
+          "volumeMounts": [
+            {
+              "mountPath": "/workspace",
+              "name": "iot-ml-code"
+            },
+            {
+              "mountPath": "/ml-data",
+              "name": "iot-ml-workspace"
+            },
+            {
+              "mountPath": "/ml-scratch",
+              "name": "iot-ml-scratch"
+            }
+          ]
+        }
+      ],
+      "volumes": [
+        {
+          "name": "iot-ml-code",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-code"
+          }
+        },
+        {
+          "name": "iot-ml-workspace",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-workspace"
+          }
+        },
+        {
+          "name": "iot-ml-scratch",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-scratch"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "iot-versioned-distributed-training-v1-227pv-system-container-impl-1834292689",
+        "namespace": "kubeflow",
+        "uid": "c7817671-7226-4983-8ffd-aa6ee9c25513",
+        "labels": {
+          "pipeline/runid": "ee38ce06-622d-42a9-84e6-89aa20447e9a",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "workflows.argoproj.io/completed": "true",
+          "workflows.argoproj.io/workflow": "iot-versioned-distributed-training-v1-227pv"
+        }
+      },
+      "node": "iot-cw-vm",
+      "phase": "Succeeded",
+      "main": {
+        "name": "main",
+        "image": "docker.io/library/iot-ci-training-feast:train-jenkins-2",
+        "imageID": "sha256:8c17118d5c794189ed2a3582d48161243066698468cb4be75a76e57aa4d6e61e",
+        "containerID": "containerd://1f6d7699b363a0bee1e0d5c9ce463dc5c03693a145fa73dbb3f58de3a1dfe22d",
+        "restartCount": 0,
+        "state": {
+          "terminated": {
+            "containerID": "containerd://1f6d7699b363a0bee1e0d5c9ce463dc5c03693a145fa73dbb3f58de3a1dfe22d",
+            "exitCode": 0,
+            "finishedAt": "2026-10-28T00:33:47Z",
+            "reason": "Completed",
+            "startedAt": "2026-10-28T00:22:37Z"
+          }
+        }
+      },
+      "main_spec": [
+        {
+          "name": "main",
+          "image": "iot-ci-training-feast:train-jenkins-2",
+          "volumeMounts": [
+            {
+              "mountPath": "/workspace",
+              "name": "iot-ml-code"
+            },
+            {
+              "mountPath": "/ml-data",
+              "name": "iot-ml-workspace"
+            },
+            {
+              "mountPath": "/ml-scratch",
+              "name": "iot-ml-scratch"
+            },
+            {
+              "mountPath": "/data-cas",
+              "name": "iot-data-cas"
+            }
+          ]
+        }
+      ],
+      "volumes": [
+        {
+          "name": "iot-ml-code",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-code"
+          }
+        },
+        {
+          "name": "iot-ml-workspace",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-workspace"
+          }
+        },
+        {
+          "name": "iot-ml-scratch",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-scratch"
+          }
+        },
+        {
+          "name": "iot-data-cas",
+          "persistentVolumeClaim": {
+            "claimName": "iot-data-cas"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "iot-versioned-distributed-training-v1-227pv-system-container-impl-2066099947",
+        "namespace": "kubeflow",
+        "uid": "78a3b83a-9817-4e6c-b04d-6b94c1a323af",
+        "labels": {
+          "pipeline/runid": "ee38ce06-622d-42a9-84e6-89aa20447e9a",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "workflows.argoproj.io/completed": "true",
+          "workflows.argoproj.io/workflow": "iot-versioned-distributed-training-v1-227pv"
+        }
+      },
+      "node": "iot-cw-vm",
+      "phase": "Succeeded",
+      "main": {
+        "name": "main",
+        "image": "docker.io/library/iot-ci-training-spark:train-jenkins-2",
+        "imageID": "sha256:642c01cf8303844a2983fdbaf94738af6fdfb50c898f7bacb051612e4a293f82",
+        "containerID": "containerd://ea9e9d852fb649bb00d205eb3244b4ee1ed0cac872ab71c7ac69dc63615f8adb",
+        "restartCount": 0,
+        "state": {
+          "terminated": {
+            "containerID": "containerd://ea9e9d852fb649bb00d205eb3244b4ee1ed0cac872ab71c7ac69dc63615f8adb",
+            "exitCode": 0,
+            "finishedAt": "2026-10-28T00:37:02Z",
+            "reason": "Completed",
+            "startedAt": "2026-10-28T00:35:25Z"
+          }
+        }
+      },
+      "main_spec": [
+        {
+          "name": "main",
+          "image": "iot-ci-training-spark:train-jenkins-2",
+          "volumeMounts": [
+            {
+              "mountPath": "/workspace",
+              "name": "iot-ml-code"
+            },
+            {
+              "mountPath": "/ml-data",
+              "name": "iot-ml-workspace"
+            },
+            {
+              "mountPath": "/ml-scratch",
+              "name": "iot-ml-scratch"
+            }
+          ]
+        }
+      ],
+      "volumes": [
+        {
+          "name": "iot-ml-code",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-code"
+          }
+        },
+        {
+          "name": "iot-ml-workspace",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-workspace"
+          }
+        },
+        {
+          "name": "iot-ml-scratch",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-scratch"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "iot-versioned-distributed-training-v1-227pv-system-container-impl-2236356096",
+        "namespace": "kubeflow",
+        "uid": "41e88766-ab3b-459f-895e-b41f58120d99",
+        "labels": {
+          "pipeline/runid": "ee38ce06-622d-42a9-84e6-89aa20447e9a",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "workflows.argoproj.io/completed": "true",
+          "workflows.argoproj.io/workflow": "iot-versioned-distributed-training-v1-227pv"
+        }
+      },
+      "node": "iot-cw-vm",
+      "phase": "Succeeded",
+      "main": {
+        "name": "main",
+        "image": "docker.io/library/iot-ci-training-spark:train-jenkins-2",
+        "imageID": "sha256:642c01cf8303844a2983fdbaf94738af6fdfb50c898f7bacb051612e4a293f82",
+        "containerID": "containerd://47237a272afa7a71bb247858d009a06ae9cb587f9f278ef1b284fbfff3e869ae",
+        "restartCount": 0,
+        "state": {
+          "terminated": {
+            "containerID": "containerd://47237a272afa7a71bb247858d009a06ae9cb587f9f278ef1b284fbfff3e869ae",
+            "exitCode": 0,
+            "finishedAt": "2026-10-28T00:35:02Z",
+            "reason": "Completed",
+            "startedAt": "2026-10-28T00:34:09Z"
+          }
+        }
+      },
+      "main_spec": [
+        {
+          "name": "main",
+          "image": "iot-ci-training-spark:train-jenkins-2",
+          "volumeMounts": [
+            {
+              "mountPath": "/workspace",
+              "name": "iot-ml-code"
+            },
+            {
+              "mountPath": "/ml-data",
+              "name": "iot-ml-workspace"
+            },
+            {
+              "mountPath": "/ml-scratch",
+              "name": "iot-ml-scratch"
+            }
+          ]
+        }
+      ],
+      "volumes": [
+        {
+          "name": "iot-ml-code",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-code"
+          }
+        },
+        {
+          "name": "iot-ml-workspace",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-workspace"
+          }
+        },
+        {
+          "name": "iot-ml-scratch",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-scratch"
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "name": "iot-versioned-distributed-training-v1-227pv-system-container-impl-3947189889",
+        "namespace": "kubeflow",
+        "uid": "3cd7ce85-08dc-49dc-8eff-582631ee1632",
+        "labels": {
+          "pipeline/runid": "ee38ce06-622d-42a9-84e6-89aa20447e9a",
+          "pipelines.kubeflow.org/v2_component": "true",
+          "workflows.argoproj.io/completed": "true",
+          "workflows.argoproj.io/workflow": "iot-versioned-distributed-training-v1-227pv"
+        }
+      },
+      "node": "iot-cw-vm",
+      "phase": "Succeeded",
+      "main": {
+        "name": "main",
+        "image": "docker.io/library/iot-ci-training-spark:train-jenkins-2",
+        "imageID": "sha256:642c01cf8303844a2983fdbaf94738af6fdfb50c898f7bacb051612e4a293f82",
+        "containerID": "containerd://37d2bcc683d3cd6a08826b68140ed10f0103f62dd213beb3437bc720c69ef51f",
+        "restartCount": 0,
+        "state": {
+          "terminated": {
+            "containerID": "containerd://37d2bcc683d3cd6a08826b68140ed10f0103f62dd213beb3437bc720c69ef51f",
+            "exitCode": 0,
+            "finishedAt": "2026-10-28T00:38:03Z",
+            "reason": "Completed",
+            "startedAt": "2026-10-28T00:37:25Z"
+          }
+        }
+      },
+      "main_spec": [
+        {
+          "name": "main",
+          "image": "iot-ci-training-spark:train-jenkins-2",
+          "volumeMounts": [
+            {
+              "mountPath": "/workspace",
+              "name": "iot-ml-code"
+            },
+            {
+              "mountPath": "/ml-data",
+              "name": "iot-ml-workspace"
+            },
+            {
+              "mountPath": "/ml-scratch",
+              "name": "iot-ml-scratch"
+            }
+          ]
+        }
+      ],
+      "volumes": [
+        {
+          "name": "iot-ml-code",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-code"
+          }
+        },
+        {
+          "name": "iot-ml-workspace",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-workspace"
+          }
+        },
+        {
+          "name": "iot-ml-scratch",
+          "persistentVolumeClaim": {
+            "claimName": "iot-ml-scratch"
+          }
+        }
+      ]
+    }
+  ]
+}

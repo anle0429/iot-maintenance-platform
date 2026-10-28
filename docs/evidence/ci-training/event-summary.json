@@ -1,0 +1,215 @@
+{
+  "checked_utc": "2026-10-28T00:51:16.416348+00:00",
+  "application_ids": [
+    "spark-a78d3b2d66274f86958ec8401efb5645"
+  ],
+  "event_counts": {
+    "SparkListenerLogStart": 1,
+    "SparkListenerResourceProfileAdded": 1,
+    "SparkListenerBlockManagerAdded": 3,
+    "SparkListenerEnvironmentUpdate": 1,
+    "SparkListenerApplicationStart": 1,
+    "SparkListenerExecutorAdded": 2,
+    "SparkListenerJobStart": 48,
+    "SparkListenerStageSubmitted": 50,
+    "SparkListenerTaskStart": 79,
+    "SparkListenerTaskEnd": 79,
+    "SparkListenerStageCompleted": 50,
+    "SparkListenerJobEnd": 48,
+    "org.apache.spark.sql.execution.ui.SparkListenerSQLExecutionStart": 12,
+    "org.apache.spark.sql.execution.ui.SparkListenerSQLAdaptiveExecutionUpdate": 34,
+    "org.apache.spark.sql.execution.ui.SparkListenerDriverAccumUpdates": 16,
+    "org.apache.spark.sql.execution.ui.SparkListenerSQLExecutionEnd": 12,
+    "SparkListenerUnpersistRDD": 6,
+    "SparkListenerApplicationEnd": 1
+  },
+  "task_counts_by_stage_and_executor": {
+    "0": {
+      "1": 1
+    },
+    "1": {
+      "2": 1
+    },
+    "2": {
+      "2": 1,
+      "1": 1
+    },
+    "3": {
+      "1": 1,
+      "2": 1
+    },
+    "5": {
+      "1": 1
+    },
+    "6": {
+      "1": 1,
+      "2": 1
+    },
+    "7": {
+      "1": 1,
+      "2": 1
+    },
+    "8": {
+      "2": 1,
+      "1": 1
+    },
+    "9": {
+      "1": 1,
+      "2": 1
+    },
+    "10": {
+      "1": 1,
+      "2": 1
+    },
+    "11": {
+      "1": 1,
+      "2": 1
+    },
+    "12": {
+      "1": 1,
+      "2": 1
+    },
+    "13": {
+      "2": 1,
+      "1": 1
+    },
+    "14": {
+      "1": 1,
+      "2": 1
+    },
+    "15": {
+      "2": 1,
+      "1": 1
+    },
+    "16": {
+      "2": 1,
+      "1": 1
+    },
+    "17": {
+      "2": 1,
+      "1": 1
+    },
+    "18": {
+      "2": 1,
+      "1": 1
+    },
+    "19": {
+      "1": 1,
+      "2": 1
+    },
+    "21": {
+      "2": 1
+    },
+    "22": {
+      "1": 1,
+      "2": 1
+    },
+    "24": {
+      "1": 1
+    },
+    "25": {
+      "2": 1,
+      "1": 1
+    },
+    "27": {
+      "2": 1
+    },
+    "28": {
+      "2": 1,
+      "1": 1
+    },
+    "30": {
+      "1": 1
+    },
+    "31": {
+      "2": 1,
+      "1": 1
+    },
+    "33": {
+      "2": 1
+    },
+    "34": {
+      "2": 1,
+      "1": 1
+    },
+    "36": {
+      "1": 1
+    },
+    "37": {
+      "2": 1,
+      "1": 1
+    },
+    "39": {
+      "2": 1
+    },
+    "40": {
+      "1": 1,
+      "2": 1
+    },
+    "42": {
+      "2": 1
+    },
+    "43": {
+      "2": 1,
+      "1": 1
+    },
+    "45": {
+      "2": 1
+    },
+    "46": {
+      "2": 1,
+      "1": 1
+    },
+    "47": {
+      "2": 1,
+      "1": 1
+    },
+    "49": {
+      "2": 1,
+      "1": 1
+    },
+    "50": {
+      "1": 1,
+      "2": 1
+    },
+    "53": {
+      "2": 1
+    },
+    "56": {
+      "2": 1,
+      "1": 1
+    },
+    "57": {
+      "2": 1
+    },
+    "58": {
+      "1": 1
+    },
+    "59": {
+      "2": 1
+    },
+    "60": {
+      "1": 1
+    },
+    "62": {
+      "1": 1
+    },
+    "63": {
+      "1": 1
+    },
+    "64": {
+      "1": 1
+    },
+    "66": {
+      "1": 1
+    }
+  },
+  "failed_attempts": [],
+  "raw_event_logs": {
+    "spark-a78d3b2d66274f86958ec8401efb5645": {
+      "bytes": 2802459,
+      "sha256": "efd03d2d90b83e8809b8f594958b6043c00fb424f7f3de45a95e19de9f420de5"
+    }
+  },
+  "scope": "Independent read of SparkListenerTaskEnd in the existing CI2 workspace; no training rerun."
+}

@@ -1,0 +1,232 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/iot-training
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 1 hr 20 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare sealed source)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Admit real VM session)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-training/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-training.py admission
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test lineage and holdout gates)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-training/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-training.py test
+test_changed_blob_changes_identity_even_when_path_is_reused (tests.test_ci_training.DockerConfigIdentityTests.test_changed_blob_changes_identity_even_when_path_is_reused) ... ok
+test_jenkins_workspace_mount_uses_actual_daemon_host_path (tests.test_ci_training.DockerConfigIdentityTests.test_jenkins_workspace_mount_uses_actual_daemon_host_path)
+Jenkins sees its home at a different path from the host Docker daemon. ... ok
+test_legacy_and_oci_layouts_bind_same_actual_config (tests.test_ci_training.DockerConfigIdentityTests.test_legacy_and_oci_layouts_bind_same_actual_config) ... ok
+test_missing_or_ambiguous_config_is_rejected (tests.test_ci_training.DockerConfigIdentityTests.test_missing_or_ambiguous_config_is_rejected) ... ok
+test_actual_resource_boundaries (tests.test_ci_training.TrainingCITests.test_actual_resource_boundaries) ... ok
+test_fresh_candidate_known_answer (tests.test_ci_training.TrainingCITests.test_fresh_candidate_known_answer) ... ok
+test_other_data_or_model_rejected (tests.test_ci_training.TrainingCITests.test_other_data_or_model_rejected) ... ok
+test_other_submission_or_source_rejected (tests.test_ci_training.TrainingCITests.test_other_submission_or_source_rejected) ... ok
+test_previous_run_rejected (tests.test_ci_training.TrainingCITests.test_previous_run_rejected) ... ok
+test_production_or_failed_outputs_rejected (tests.test_ci_training.TrainingCITests.test_production_or_failed_outputs_rejected) ... ok
+test_release_identity_cannot_escape_paths (tests.test_ci_training.TrainingCITests.test_release_identity_cannot_escape_paths) ... ok
+test_context_rejects_other_endpoint_and_mutated_code (tests.test_automatic_versions.AutomaticVersionGateTests.test_context_rejects_other_endpoint_and_mutated_code)
+Neither an arbitrary registry destination nor an uncommitted source mutation is accepted. ... ok
+test_validation_binds_exact_weights_and_keeps_test_closed (tests.test_automatic_versions.AutomaticVersionGateTests.test_validation_binds_exact_weights_and_keeps_test_closed)
+Changing selection bytes after validation cannot authorize the final stage. ... ok
+test_contended_publication_is_bounded_and_can_retry_after_release (tests.test_data_versions.DataVersionsTest.test_contended_publication_is_bounded_and_can_retry_after_release)
+Independent publishers cannot enter together; a timed-out waiter does not poison later publication. ... ok
+test_corruption_and_unsafe_names_are_rejected (tests.test_data_versions.DataVersionsTest.test_corruption_and_unsafe_names_are_rejected) ... ok
+test_incremental_replay_change_add_delete_and_restore (tests.test_data_versions.DataVersionsTest.test_incremental_replay_change_add_delete_and_restore) ... ok
+test_same_content_under_two_names_is_stored_once (tests.test_data_versions.DataVersionsTest.test_same_content_under_two_names_is_stored_once) ... ok
+test_changed_bytes_partial_snapshot_and_unsealed_remote_are_rejected (tests.test_model_data_link.ModelDataLinkTest.test_changed_bytes_partial_snapshot_and_unsealed_remote_are_rejected) ... ok
+test_matches_and_wrong_native_pull_is_rejected (tests.test_model_data_link.ModelDataLinkTest.test_matches_and_wrong_native_pull_is_rejected) ... ok
+test_source_snapshot_rejects_changed_code_and_wrong_commit (tests.test_model_data_link.ModelDataLinkTest.test_source_snapshot_rejects_changed_code_and_wrong_commit) ... ok
+test_invalid_validation_never_starts_holdout_container (tests.test_notebook_holdout_gate.NotebookHoldoutGateTests.test_invalid_validation_never_starts_holdout_container)
+A success flag alone cannot authorize evaluation of a different or already-open selection. ... ok
+test_missing_validation_never_starts_holdout_container (tests.test_notebook_holdout_gate.NotebookHoldoutGateTests.test_missing_validation_never_starts_holdout_container)
+Calling the last cell directly must fail before loading any model or test rows. ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.117s
+
+OK
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build verify import images)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-training/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-training.py build
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from TrainingController.Dockerfile
+#1 transferring dockerfile: 772B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2
+#2 DONE 0.0s
+
+#3 [1/3] FROM docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2@sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e
+#3 resolve docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2@sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e 0.0s done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 1.00kB done
+#4 DONE 0.0s
+
+#5 [2/3] COPY infra/ci/requirements-training-controller.lock /tmp/requirements.txt
+#5 CACHED
+
+#6 [3/3] RUN python -m venv /opt/kfp-venv     && /opt/kfp-venv/bin/python -m pip install --no-cache-dir -r /tmp/requirements.txt     && /opt/kfp-venv/bin/python -m pip check
+#6 CACHED
+
+#7 exporting to image
+#7 exporting layers done
+#7 exporting manifest sha256:690bcd5a22290946dbceb574ab437131f7ff8f45967f5341e31684ff79a8de23 done
+#7 exporting config sha256:3f2f66f7d539608feac04ffadcd7e9cb3947198802e3f974a01dd8a054bbe640 done
+#7 exporting attestation manifest sha256:8331842cf8761eea89c9bb69e55900d09fdbbe78c0082db8ad17098a486fd1f9 0.0s done
+#7 exporting manifest list sha256:afbf3fed00d1ef249b3d61096dddc8f531cff60a34b6e5b95122300cae12f4b0 0.0s done
+#7 naming to docker.io/library/iot-ci-training-controller:train-jenkins-2 done
+#7 unpacking to docker.io/library/iot-ci-training-controller:train-jenkins-2 done
+#7 DONE 0.1s
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Training.Dockerfile
+#1 transferring dockerfile: 913B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2
+#2 DONE 0.0s
+
+#3 [internal] load build context
+#3 transferring context: 356.37kB 0.0s done
+#3 DONE 0.0s
+
+#4 [1/2] FROM docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2@sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e
+#4 resolve docker.io/library/iot-coursework-feast-versioned:0.67.0-3.17.2@sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e 0.0s done
+#4 CACHED
+
+#5 [2/2] COPY . /opt/iot-release
+#5 DONE 0.0s
+
+#6 exporting to image
+#6 exporting layers 0.1s done
+#6 exporting manifest sha256:112daae6ca25874fa2b4cc15f851fc3ae8a20054a7a453d11e2aa9c90b26b02d 0.0s done
+#6 exporting config sha256:8c17118d5c794189ed2a3582d48161243066698468cb4be75a76e57aa4d6e61e 0.0s done
+#6 exporting attestation manifest sha256:1b43447ce2ec55ff5bff546c963a1f174d6868831d113af5791b3692c71f0c88 0.0s done
+#6 exporting manifest list sha256:441a88eda1e50d004c2635a8308641cedf37750374c209c0e18c90d7d7b50644 0.0s done
+#6 naming to docker.io/library/iot-ci-training-feast:train-jenkins-2 done
+#6 unpacking to docker.io/library/iot-ci-training-feast:train-jenkins-2 0.0s done
+#6 DONE 0.3s
+time="2026-10-28T00:20:14Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T00:20:14Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+docker.io/library/iot ci training feast:	saved	
+application/vnd.oci.image.index.v1+json sha256:441a88eda1e50d004c2635a8308641cedf37750374c209c0e18c90d7d7b50644
+Importing	elapsed: 10.8s	total:   0.0 B	(0.0 B/s)	
+time="2026-10-28T00:20:28Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T00:20:28Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Training.Dockerfile
+#1 transferring dockerfile: 913B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-spark-registry:3.5.9-3.17.2
+#2 DONE 0.0s
+
+#3 [internal] load build context
+#3 transferring context: 3.76kB done
+#3 DONE 0.0s
+
+#4 [1/2] FROM docker.io/library/iot-coursework-spark-registry:3.5.9-3.17.2@sha256:7c94ff639de99da322a50befcb1080cbb9441dfe400fe17ab6a499e189990f9a
+#4 resolve docker.io/library/iot-coursework-spark-registry:3.5.9-3.17.2@sha256:7c94ff639de99da322a50befcb1080cbb9441dfe400fe17ab6a499e189990f9a 0.0s done
+#4 DONE 0.1s
+
+#5 [2/2] COPY . /opt/iot-release
+#5 DONE 0.1s
+
+#6 exporting to image
+#6 exporting layers
+#6 exporting layers 0.1s done
+#6 exporting manifest sha256:89d69e7a0eea1ca554f751498b19b936288ed32be1fc9ec2aded0273d2d89736 0.0s done
+#6 exporting config sha256:642c01cf8303844a2983fdbaf94738af6fdfb50c898f7bacb051612e4a293f82 0.0s done
+#6 exporting attestation manifest sha256:80d50cc9c653ec6403e3a05ac96c72ec17eb2291fa54b93f203d2eae47c72b10 0.0s done
+#6 exporting manifest list sha256:a24186d0cc5657df6ee46d944b77f9779f4669679b761e7e2a0fc22dcc33a24f 0.0s done
+#6 naming to docker.io/library/iot-ci-training-spark:train-jenkins-2
+#6 naming to docker.io/library/iot-ci-training-spark:train-jenkins-2 done
+#6 unpacking to docker.io/library/iot-ci-training-spark:train-jenkins-2 0.0s done
+#6 DONE 0.3s
+time="2026-10-28T00:20:41Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T00:20:41Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+docker.io/library/iot ci training spark:	saved	
+application/vnd.oci.image.index.v1+json sha256:a24186d0cc5657df6ee46d944b77f9779f4669679b761e7e2a0fc22dcc33a24f
+Importing	elapsed: 36.2s	total:   0.0 B	(0.0 B/s)	
+time="2026-10-28T00:21:20Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T00:21:20Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+{"passed": true, "tasks": 5, "images": ["iot-ci-training-feast:train-jenkins-2", "iot-ci-training-spark:train-jenkins-2"]}
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Auto-deploy sealed KFP package)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-training/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-training.py deploy
+time="2026-10-28T00:22:00Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T00:22:00Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Fresh KFP data model readback)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-training/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-training.py verify
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
