@@ -284,6 +284,8 @@ def run(phase):
         from services.predictor.runtime import PumpPredictor
         bundle=c.directory/'bundle';export(MlflowClient(tracking_uri='http://tracking:5000'),c.version,bundle,ROOT/'ml/protocols/medium-60d-v1.json')
         subprocess.run([sys.executable,str(ROOT/'scripts/write-model-pin.py'),'--bundle',str(bundle),'--output',str(bundle/'model-pin.json')],check=True)
+        # Export publishes its private staging directory as0700; the outer trusted Jenkins user must read this completed bundle.
+        bundle.chmod(0o755)
         save(c.out/'selection.json',{'commit':c.commit,'release':c.release,'pin':PumpPredictor(bundle).pin,
             'bundle_sha256':{n:digest(bundle/n) for n in ['portable.json','lineage.json','model-pin.json']},'exported_utc':datetime.now(timezone.utc).isoformat()})
     elif phase=='test':
