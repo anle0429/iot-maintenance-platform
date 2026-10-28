@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T08:06:09.540710+00:00",
+  "workload_commit": "4ea64cf305e15e2b514d1e5ffaa134bec3c39743",
+  "workload_source_sha256": "33a5118698aa21cb3208ebe2b4b1d54becd12a2bc9d075120f880029e39bcad6",
+  "pod_targets_unchanged": {
+    "feature": [
+      {
+        "pod_uid": "a98efdcc-e52f-4b59-b22f-d6d6ce272eee",
+        "url": "http://10.52.0.39:8080"
+      }
+    ],
+    "drift": [
+      {
+        "pod_uid": "26f3386f-5071-46f1-a8b2-53ae76a3fbcb",
+        "url": "http://10.52.0.40:8080"
+      }
+    ],
+    "predictor": [
+      {
+        "pod_uid": "b4d4446c-64cf-4517-bb71-6ab5af5e92eb",
+        "url": "http://10.52.0.38:8080"
+      }
+    ]
+  },
+  "client": {
+    "passed": true,
+    "checked_utc": "2026-10-28T08:06:09.036972+00:00",
+    "duration_seconds": 60,
+    "cycles": 185,
+    "client_requests": 747,
+    "sdk_requests_including_predictor_calls": 932,
+    "counter_groups": 10,
+    "http_status_counts": {
+      "422": 3,
+      "404": 2,
+      "409": 1,
+      "200": 741
+    },
+    "scope": "Actual client ledger and per-Pod SDK counter deltas. Predictor oracle includes one downstream call per successful feature prediction. One32row drift window replayed; no ground truth or throughput-capacity claim."
+  },
+  "scope": "Actual bounded workload and counter deltas, stable measured Pods. No Kubernetes credential in client container."
+}

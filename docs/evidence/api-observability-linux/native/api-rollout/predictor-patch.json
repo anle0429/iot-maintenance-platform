@@ -1,0 +1,31 @@
+[
+  {
+    "op": "test",
+    "path": "/metadata/resourceVersion",
+    "value": "81805"
+  },
+  {
+    "op": "test",
+    "path": "/spec/predictor/containers/0/image",
+    "value": "iot-coursework-predictor:serve-jenkins-8"
+  },
+  {
+    "op": "replace",
+    "path": "/spec/predictor/containers/0/image",
+    "value": "iot-coursework-predictor:observe-28b-v2"
+  },
+  {
+    "op": "add",
+    "path": "/spec/predictor/containers/0/env",
+    "value": [
+      {
+        "name": "IOT_API_SERVICE",
+        "value": "predictor"
+      },
+      {
+        "name": "IOT_TRACE_ENDPOINT",
+        "value": "http://iot-jaeger.iot-observability.svc.cluster.local:4318/v1/traces"
+      }
+    ]
+  }
+]

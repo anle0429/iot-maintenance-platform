@@ -1,0 +1,213 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "annotations": {
+      "coursework.iot/model-portable-sha256": "60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981",
+      "coursework.iot/model-version": "6",
+      "coursework.iot/source-commit": "99d6dcc2994f55f06133eace53ecff523f6fc3cb",
+      "deployment.kubernetes.io/revision": "2",
+      "serving.kserve.io/deploymentMode": "Standard",
+      "sidecar.istio.io/inject": "false"
+    },
+    "creationTimestamp": "2026-10-28T04:50:58Z",
+    "generation": 2,
+    "labels": {
+      "app": "isvc.iot-pump-serve-jenkins-8-predictor",
+      "component": "predictor",
+      "iot.coursework/release": "serve-jenkins-8",
+      "serving.kserve.io/inferenceservice": "iot-pump-serve-jenkins-8"
+    },
+    "name": "iot-pump-serve-jenkins-8-predictor",
+    "namespace": "iot-serving",
+    "ownerReferences": [
+      {
+        "apiVersion": "serving.kserve.io/v1beta1",
+        "blockOwnerDeletion": true,
+        "controller": true,
+        "kind": "InferenceService",
+        "name": "iot-pump-serve-jenkins-8",
+        "uid": "696452a2-bade-44d9-93ea-e58e3f984a36"
+      }
+    ],
+    "resourceVersion": "86986",
+    "uid": "0f9f4201-b528-49e6-a551-f8292acbb26f"
+  },
+  "spec": {
+    "progressDeadlineSeconds": 600,
+    "replicas": 1,
+    "revisionHistoryLimit": 10,
+    "selector": {
+      "matchLabels": {
+        "app": "isvc.iot-pump-serve-jenkins-8-predictor"
+      }
+    },
+    "strategy": {
+      "rollingUpdate": {
+        "maxSurge": "25%",
+        "maxUnavailable": "25%"
+      },
+      "type": "RollingUpdate"
+    },
+    "template": {
+      "metadata": {
+        "annotations": {
+          "coursework.iot/model-portable-sha256": "60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981",
+          "coursework.iot/model-version": "6",
+          "coursework.iot/source-commit": "99d6dcc2994f55f06133eace53ecff523f6fc3cb",
+          "serving.kserve.io/deploymentMode": "Standard",
+          "sidecar.istio.io/inject": "false"
+        },
+        "labels": {
+          "app": "isvc.iot-pump-serve-jenkins-8-predictor",
+          "component": "predictor",
+          "iot.coursework/release": "serve-jenkins-8",
+          "serving.kserve.io/inferenceservice": "iot-pump-serve-jenkins-8"
+        },
+        "name": "iot-pump-serve-jenkins-8-predictor",
+        "namespace": "iot-serving"
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "IOT_API_SERVICE",
+                "value": "predictor"
+              },
+              {
+                "name": "IOT_TRACE_ENDPOINT",
+                "value": "http://iot-jaeger.iot-observability.svc.cluster.local:4318/v1/traces"
+              },
+              {
+                "name": "INFERENCE_SERVICE_NAME",
+                "value": "iot-pump-serve-jenkins-8"
+              }
+            ],
+            "image": "iot-coursework-predictor:observe-28b-v2",
+            "imagePullPolicy": "Never",
+            "livenessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/health/live",
+                "port": 8080,
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "name": "kserve-container",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "name": "http1",
+                "protocol": "TCP"
+              }
+            ],
+            "readinessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/health/ready",
+                "port": 8080,
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 5,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "startupProbe": {
+              "failureThreshold": 30,
+              "httpGet": {
+                "path": "/health/ready",
+                "port": 8080,
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 2,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/tmp",
+                "name": "tmp"
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 10001,
+          "runAsGroup": 10001,
+          "runAsNonRoot": true,
+          "runAsUser": 10001,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "iot-predictor",
+        "serviceAccountName": "iot-predictor",
+        "terminationGracePeriodSeconds": 30,
+        "volumes": [
+          {
+            "emptyDir": {
+              "medium": "Memory",
+              "sizeLimit": "32Mi"
+            },
+            "name": "tmp"
+          }
+        ]
+      }
+    }
+  },
+  "status": {
+    "availableReplicas": 1,
+    "conditions": [
+      {
+        "lastTransitionTime": "2026-10-28T06:51:34Z",
+        "lastUpdateTime": "2026-10-28T06:51:34Z",
+        "message": "Deployment has minimum availability.",
+        "reason": "MinimumReplicasAvailable",
+        "status": "True",
+        "type": "Available"
+      },
+      {
+        "lastTransitionTime": "2026-10-28T04:50:58Z",
+        "lastUpdateTime": "2026-10-28T07:47:49Z",
+        "message": "ReplicaSet \"iot-pump-serve-jenkins-8-predictor-7f6d8ccf88\" has successfully progressed.",
+        "reason": "NewReplicaSetAvailable",
+        "status": "True",
+        "type": "Progressing"
+      }
+    ],
+    "observedGeneration": 2,
+    "readyReplicas": 1,
+    "replicas": 1,
+    "terminatingReplicas": 0,
+    "updatedReplicas": 1
+  }
+}

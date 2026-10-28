@@ -1,29 +1,66 @@
-# Metrics và trace cho ba API
+# Metrics và trace của ba API trên VM
 
-**Bản chuẩn bị28/10/2026, chưa có dashboard/trace native để nhận F46/F49 hoàn tất.** Wrapper [services/observed.py](../services/observed.py) bọc các factory feature/drift/predictor hiện có; không sửa logic feature/model/drift.27test mới ban đầu PASS; sau bổ sung kiểm suffix, golden feature và exporter lỗi, tổng30test telemetry nằm trong276test PC PASS/2POSIXskip. Wrapper74statements/16branches100%,0excluded trên Python3.13.14/Windows. Mutation và rollout native còn phải chạy; coverage không thay cho chúng.
+Ngày28/10/2026, feature API, drift API và KServe predictor đã chạy wrapper OpenTelemetry thật trên VM `iot-cw-vm`8CPU/64GiB. Grafana có6panel; Jaeger có trace nối feature→HTTP client→predictor. Serving giữ model6; model7 vẫn candidate. Đây là lab mô phỏng trên cùng VM, không suy ra chất lượng mô hình hoặc khả năng chịu tải tối đa.
 
-Lượt Linux đầu source`ff26518` đã278test PASS/không skip/32,28giây, cùng coverage74/16 100%. Mutation dừng ở bước `also_copy` vì mutmut3.8 chưa tạo `mutants/tests/api` trước khi chép từng file. Cấu hình sửa sang chép cả thư mục test API; giữ nguyên source wrapper, pin dependency, phạm vi một module và mọi ngưỡng kiểm. Lượt lỗi được giữ riêng, không có score hợp lệ từ nó. Lượt thứ hai source82fb787 đã chạy đủ250mutant/200killed/50survived, mọi trạng thái chưa xong bằng0;80% chưa qua điều kiện **>80%**. Runner cũng thiếu chế độ multiline khi đọc inventory; đã thêm regression cho250dòng, identity class Unicode, foreign/duplicate và ngưỡng80% đúng bằng. Test mới kiểm thêm đầy đủ HTTP methods, ranh giới port/credentials, exporter failure/deadline và hai API thật còn lại. Module wrapper74statements vẫn giữ nguyên;48test PC mới và14subtest gate PASS, chưa nhận mutation đạt.
+## Kết quả đã kiểm
 
-Mỗi container chạy một worker, có registry riêng ở `/telemetry/metrics`. HTTP histogram cung cấp tổng số request, phân bố status, duration và tốc độ khi dùng `rate(..._count[1m])`. Healthcheck và scrape không tính vào business request. Bản pin ASGI0.66b1 dùng nhãn `http_target` chứa **route template** cho histogram cũ; yêu cầu tới30mã máy khác nhau vẫn vào cùng series,404 không tạo series cho từng URL lạ. Provider View chỉ giữ method/status/template. Service name cố định theo API.
+| Phép kiểm | Kết quả thực | Proof gốc |
+|---|---|---|
+| Regression Linux |296test chính +14subtest PASS/0skip/28,66giây |[Console](evidence/api-observability-linux/gate/current/api-tests.txt), [JUnit](evidence/api-observability-linux/gate/current/junit.xml) |
+| Coverage wrapper |74/74statements,16/16branches100%,0excluded |[HTML](evidence/api-observability-linux/gate/current/coverage-html/index.html), [ảnh](evidence/api-observability-linux/screenshots/native-coverage.jpg) |
+| Mutation wrapper |221/250=88,4%,29survived; mọi trạng thái chưa xong bằng0 |[Meta](evidence/api-observability-linux/gate/current/observed.py.meta), [inventory](evidence/api-observability-linux/gate/current/mutmut-all-results.txt), [ảnh gate](evidence/api-observability-linux/screenshots/native-gate.jpg) |
+| Rollout |3API Ready/image hashes khớp;200máy:195prediction đúng công thức,5stopped409 |[Receipt](evidence/api-observability-linux/native/api-rollout/verification.json), [200HTTP](evidence/api-observability-linux/native/api-rollout/http-all-machines.json) |
+| Workload60giây |747request client:741×200,3×422,2×404,1×409;932SDK requests gồm185downstream |[Ledger](evidence/api-observability-linux/native/workload/run/requests.jsonl), [deltas](evidence/api-observability-linux/native/workload/run/actual-deltas.json) |
+| Replay |185lời gọi cùng cửa sổ32quan sát; stored_windows6→7 |[Trước](evidence/api-observability-linux/native/workload/drift-ready-before.json), [sau](evidence/api-observability-linux/native/workload/drift-ready-after.json) |
+| Metrics |6panel/28giá trị mỗi engine khớp SDK và phép tính độc lập |[Readbacks](evidence/api-observability-linux/native/metrics-readback/panel-readbacks.json), [overview](evidence/api-observability-linux/screenshots/api-dashboard-overview.jpg), [details](evidence/api-observability-linux/screenshots/api-dashboard-details.jpg) |
+| Traces |5trace/15span, mỗi trace3span nối đúng parent/trace ID qua2API |[OTLP](evidence/api-observability-linux/native/trace-readback/searched-traces.json), [graph](evidence/api-observability-linux/screenshots/jaeger-three-spans.jpg), [metadata](evidence/api-observability-linux/screenshots/jaeger-span-details.jpg) |
 
-Trace dùng OpenTelemetry SDK1.45.1 và FastAPI/urllib instrumentation0.66b1. Kiểm HTTP thật trên PC đã thấy span client từ `asyncio.to_thread` có cùng trace với server và đúng parent/header W3C. [Exporter projection](../services/observed.py) giữ định danh/time/parent/kind và method/status/template, bỏ URL/query/header/exception events, links và status description trước khi gửi OTLP. Không lưu payload feature hoặc Authorization. Chưa claim đã thấy chặng Feast SDK hoặc Redis vì chúng chưa được instrument ở đây.
+JUnit có296phần tử `testcase`; thuộc tính `tests=310` của suite tính thêm14subtest. Field `regression_junit_testcases=310` và `gate/case-count-scope.json` gốc đặt tên/diễn giải chưa chính xác:310 là suite count, không phải số phần tử testcase. Giữ nguyên byte gốc và kiểm hai số riêng, không sửa report.
 
-[API chính thức của Prometheus reader](https://opentelemetry-python.readthedocs.io/en/latest/exporter/prometheus/prometheus.html) cho phép registry riêng và provider View giới hạn attributes. [OTLP HTTP exporter](https://opentelemetry-python.readthedocs.io/en/latest/exporter/otlp/otlp.html) nhận endpoint/timeout; dự án chỉ nhận receiver Jaeger đã khai báo trong cluster, timeout2giây. Span/batch dùng queue hữu hạn mặc định SDK; không bảo đảm không mất trace khi backend lỗi hoặc quá tải.
+Lỗi biên được tạo có chủ đích. Counter409 tuyệt đối của feature là6:5máy stopped ở lượt kiểm200máy và1request stopped của workload. Tổng counter sau workload: feature774/predictor567/drift186, gồm traffic kiểm chứng trước đó. Delta932 khác747request client vì feature prediction gọi tiếp predictor.
 
-[Jaeger2.22.0](https://github.com/jaegertracing/jaeger/releases/tag/v2.22.0) có release06/10/2026; [asset declaration](../infra/observability/jaeger-assets.json) pin SHA256/byte. [Manifest private](../infra/observability/jaeger.yaml) chuẩn bị receiver/query1replica,512MiB, memory tối đa2.000trace, không public service. Cấu hình theo [tài liệu Jaeger2](https://www.jaegertracing.io/docs/2.22/deployment/configuration/); dữ liệu memory mất khi restart. YAML hiện chưa chứng minh đã deploy.
+## Source và triển khai
 
-Native binary/checksum/config validation đã PASS; rollout đầu bị Kubernetes restart vì probe trỏ nhầm `/health/status` và nhận404, không phải OOM. [healthcheckv2 của Collector0.160.0](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/v0.160.0/extension/healthcheckv2extension/README.md) mặc định dùng `/status`; manifest sửa đúng hai probe theo phiên bản đã pin. Readback Pod/events/log cũ giữ riêng; cần xác nhận Ready sau sửa trước khi nhận thành công. AI Assistant của Jaeger được xác nhận disabled trong log native, không thêm vào phạm vi coursework.
+[Wrapper](../services/observed.py) bọc factory hiện có;15module nghiệp vụ giữ nguyên byte so với servingCI8/source99d6dcc. Source test/build/deploy `2fceb321e61af5a455df466b1fc27836d1cbf0e5`,96file seal trước/sau. Workload commit `4ea64cf305e15e2b514d1e5ffaa134bec3c39743`; config monitoring/Jaeger10a750e. [API manifest](evidence/api-observability-linux/native/source/api.json), [config manifest](evidence/api-observability-linux/native/source/config.json), [image proofs](evidence/api-observability-linux/native/image-build/verification.json) giữ SHA256 đầy đủ.
 
-Gate Linux source17d9716 đã PASS **296test chính +14subtest**, coverage74statements/16branches100%, mutation221/250=88,4%/29survived, không timeout/skip/unaccounted. `regression_tests=310` trong receipt cũ là số testcase JUnit gồm14subtest; tên field mới làm rõ là `regression_junit_testcases`. Collector đã Ready và query APIv3 trả200; APIv1 cũ trả404 nên readback chuyển đúng giao thức. API images chưa rollout: `pip check` chặn overlay drift vì thiếu pin transitive `packaging` trong base nhỏ, đã thêm đúng26.3 vốn có trong môi trường test. Feature overlay đầu giữ riêng; chưa dùng thành bằng chứng cả ba image hoàn tất. Dependency lock mới cần gate/build mới trước rollout.
+SDK1.45.1/instrumentation0.66b1/[dependency lock](../infra/observability/requirements.lock), pip check/nonroot10001. Ba image tag `observe-28b-v2` đã kiểm mã/model assets, Docker ID→CRI config digest và Pod thật. Docker image ID và CRI digest có thể khác nhau; verifier dùng đúng config digest. Model6/run `be3b27fa0960493d92b45be69b20690e`/portable `60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981` giữ nguyên.
 
-## Cách kiểm bản chuẩn bị
+Baseline materialize thật07:41:43UTC, Redis0→200key/minTTL3.576.943ms, seed ConfigMap mới bất biến. Rollout07:48:11 và workload08:06:09 còn trong lease1giờ. Không chỉnh timestamp/TTL hoặc ghi đè state cũ. Lease hết08:41:43UTC; demo cần prepare mới.
 
-Trong môi trường API riêng đã cài các pin hiện có và [overlay dependencies](../infra/observability/requirements.lock):
+Gate chạy container2CPU/4GiB/hai workers/không mạng, đủ250mutant module mới; mutation serving cũ giữ scope riêng. **Rollout vận hành riêng sau gate, chưa phải Jenkins serving build mới.** CI8 chỉ chứng minh source99; cần tích hợp overlay/dependencies vào CI. Locust1/10users của CI8 là số đo source cũ; **chưa chạy lại Locust trên wrapper**. Workload hiện tại kiểm counter/trace/replay, không thay SLA/load test.
+
+## Metrics và privacy
+
+Mỗi API một worker/registry; scrape `/telemetry/metrics`, loại health/scrape khỏi business count. Histogram pin cũ dùng `http_target` là route template, không tạo series theo từng mã máy. View giữ method/status/template. Prometheus khám phá Pod Ready/Running cổng8080, bỏ init container và giữ PodUID.
+
+Service account chỉ get/list/watch Pods ở hai namespace; kiểm thật2quyền hợp lệ/3quyền bị từ chối (Secrets, Nodes, default namespace). TLS dùng CA public từ ConfigMap, không tắt xác minh. Token0400 riêng/hạn14:48:31UTC không nằm trong Git/proof; cần cấp lại cho phiên mới.
+
+Sáu panel: tổng request, req/s, lỗi4xx/5xx, P95, mean duration, route/status count. Verifier đọc SDK raw và matrix, tự tính reset/extrapolation/histogram interpolation;28giá trị qua mỗi engine khớp tại **08:06:15UTC**. Ảnh dùng cửa sổ08:04:30–08:06:30UTC; Last ở cuối cửa sổ có thể khác rate/P95 của verifier, không nhận là cùng eval.
+
+Jaeger2.22.0/[asset pin](../infra/observability/jaeger-assets.json)/[manifest](../infra/observability/jaeger.yaml) chạy privateClusterIP/1CPU/512MiB/tối đa2.000trace memory, mất khi restart; OTLP4318/query16686/APIv3. Clock adjustment tắt, raw readback `rawTraces=true`; AI Assistant disabled. Jaeger UI dùng America/Chicago:03:06:05=08:06:05UTC; Grafana ảnh dùng UTC.
+
+Trace chọn `77eac3a48d7878f1d678cb3a54e1e38b`,9,66588ms: featureSERVER→urllibCLIENT→predictorSERVER. Exporter chỉ giữ method/status/route, service/environment, ID/time; bỏ URL/query/header/payload/events/links/status description. Năm nativePOST trace không chứa feature/canary. **CanaryGET riêng chưa được tìm trong năm POST trace này**; unit test kiểm projection/canary riêng. Chưa instrument nội bộ Feast/Redis; queue hữu hạn/timeout2giây không bảo đảm không mất trace khi backend lỗi/quá tải.
+
+## Lỗi gốc và khôi phục
+
+Mutation đầu lỗi chép fixture; lượt hai200/250=80% chưa đạt **>80%**. Sửa parser multiline và thêm test có ý nghĩa, giữ ngưỡng; hai lượt sau221/250. Overlay đầu bị pip check chặn thiếu packaging ở drift base; thêm26.3 rồi gate/build mới. [History80%](evidence/api-observability-linux/gate/history/score-equal-eighty/results/tests/mutmut-cicd-stats.json), [build lỗi](evidence/api-observability-linux/native/history/missing-packaging/drift-build.txt) giữ riêng.
+
+Jaeger probe đầu404 ở `/health/status`, không OOM; sửa `/status` theo Collector0.160.0 rồi Ready. API cũ404 đổi sangv3 thật. Monitoring đầu dùng sai CA path do K3s data directory riêng; tiếp tục bằng CA ConfigMap, không tạo lại token/tắt TLS.
+
+Sau STOP/START, Airflow còn tham chiếu Docker network ID cũ. Đã dùng Compose gốc/env riêng/volume DB hiện có, bridge `iot-metadata-restored-28b`, recreate4container; không resetDB/migrate/đổi credentials. Lúc14:45UTC database/scheduler/dag processor healthy, lịch drift unpause đúng trạng thái gốc. [Readback](evidence/api-observability-linux/runtime-restore/readback.json). DataHub/Jenkins cũ chưa khôi phục trong phép kiểm này; Airflow healthy không chứng minh toàn platform healthy.
+
+## Tự kiểm từ clone
+
+Không cần VM/dependency ngoài standard library:
 
 ```powershell
-python -m pytest tests/api/test_observed.py -q --cov=services.observed --cov-branch
+python -S scripts/verify-api-observability.py
 ```
 
-[Runner native](../scripts/test-api-observability.py) sẽ kiểm source seal, sao chép sang scratch mới, chạy regression cả ba API không skip, rồi mutation **chỉ module wrapper mới** với coverage>90% cả statement/branch và mutation>80%, không tính timeout/skip/chưa xong. Cấu hình7module của servingCI8 và kết quả cũ giữ riêng; không dùng score cũ để chứng minh wrapper này. Runner không deploy hoặc sửa nguồn/model/lease.
+Verifier kiểm199payload/submanifests, Git source, mutation meta/inventory, JUnit/coverage,200HTTP/math, image/Pod identity, ledger/deltas/replay,6panel/28giá trị mỗi engine,5trace/15span và Airflow. Sáu JPEG là screenshot trình duyệt gốc, không sửa pixel. Unit mục tiêu trong môi trường API có dependency overlay:
 
-Bước tiếp theo là kiểm Linux/mutation trước, build image overlay có kiểm parent image, rollout riêng trên VM, đối chiếu số request bằng ledger workload độc lập, đọc cùng metrics qua Prometheus/Grafana và trace qua Jaeger. Chỉ chuyển trạng thái rubric khi có readback/ảnh thật.
+```powershell
+python -m pytest tests/api/test_observed.py tests/test_api_observability_gate.py -q
+```
+
+Kiểm live cần phiên VM được duyệt, token/CA còn hạn và seed mới. Không rerun helper đã tạo state/receipt cũ. Tiếp: Locust mới, CI overlay, rồi gateway/security/streamCI trong tracker final.

@@ -1,0 +1,403 @@
+{
+  "airflow-db": {
+    "id": "28d1c6b676e16f7bb342064f8f97d3c907a261d269a35881b5583ce0edcbf3ad",
+    "image": "sha256:a2420e9555e2224583fe84d0bb3f0b967e69354ae3a0be55a9c14e251388c4eb",
+    "state": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 600547,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-28T14:44:16.883741344Z",
+      "FinishedAt": "0001-01-01T00:00:00Z",
+      "Health": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-28T14:45:28.317305433Z",
+            "End": "2026-10-28T14:45:28.402427527Z",
+            "ExitCode": 0,
+            "Output": "/var/run/postgresql:5432 - accepting connections\n"
+          },
+          {
+            "Start": "2026-10-28T14:45:33.403966295Z",
+            "End": "2026-10-28T14:45:33.485550379Z",
+            "ExitCode": 0,
+            "Output": "/var/run/postgresql:5432 - accepting connections\n"
+          },
+          {
+            "Start": "2026-10-28T14:45:38.486815537Z",
+            "End": "2026-10-28T14:45:38.572871361Z",
+            "ExitCode": 0,
+            "Output": "/var/run/postgresql:5432 - accepting connections\n"
+          },
+          {
+            "Start": "2026-10-28T14:45:43.574649929Z",
+            "End": "2026-10-28T14:45:43.657756953Z",
+            "ExitCode": 0,
+            "Output": "/var/run/postgresql:5432 - accepting connections\n"
+          },
+          {
+            "Start": "2026-10-28T14:45:48.658558481Z",
+            "End": "2026-10-28T14:45:48.747119515Z",
+            "ExitCode": 0,
+            "Output": "/var/run/postgresql:5432 - accepting connections\n"
+          }
+        ]
+      }
+    },
+    "mounts": [
+      {
+        "Type": "volume",
+        "Name": "iot-orchestration_airflow-db",
+        "Source": "/srv/iot-fast/docker/volumes/iot-orchestration_airflow-db/_data",
+        "Destination": "/var/lib/postgresql/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ],
+    "networks": [
+      "iot-metadata-restored-28b"
+    ],
+    "ports": {
+      "5432/tcp": null
+    }
+  },
+  "airflow-api": {
+    "id": "8324e174b8446d44cab3eb3bf6bf4c35199077717550efa5bedc15807d2eb9c9",
+    "image": "sha256:da0a69c50e858fc8e5cd7b5caac82e1832d7bbc59c964f14d45c7c7233ce9b01",
+    "state": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 600856,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-28T14:44:22.569211084Z",
+      "FinishedAt": "0001-01-01T00:00:00Z",
+      "Health": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-28T14:44:43.030600856Z",
+            "End": "2026-10-28T14:44:43.102413201Z",
+            "ExitCode": 0,
+            "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100   305  100   305    0     0  24486      0 --:--:-- --:--:-- --:--:-- 25416\n{\"metadatabase\":{\"status\":\"healthy\"},\"scheduler\":{\"status\":\"unhealthy\",\"latest_scheduler_heartbeat\":\"2026-10-28T06:48:16.102902+00:00\"},\"triggerer\":{\"status\":null,\"latest_triggerer_heartbeat\":null},\"dag_processor\":{\"status\":\"unhealthy\",\"latest_dag_processor_heartbeat\":\"2026-10-28T06:48:14.673869+00:00\"}}"
+          },
+          {
+            "Start": "2026-10-28T14:44:58.104280067Z",
+            "End": "2026-10-28T14:44:58.181547401Z",
+            "ExitCode": 0,
+            "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100   303  100   303    0     0  23078      0 --:--:-- --:--:-- --:--:-- 23307\n{\"metadatabase\":{\"status\":\"healthy\"},\"scheduler\":{\"status\":\"unhealthy\",\"latest_scheduler_heartbeat\":\"2026-10-28T06:48:16.102902+00:00\"},\"triggerer\":{\"status\":null,\"latest_triggerer_heartbeat\":null},\"dag_processor\":{\"status\":\"healthy\",\"latest_dag_processor_heartbeat\":\"2026-10-28T14:44:56.992375+00:00\"}}"
+          },
+          {
+            "Start": "2026-10-28T14:45:13.182474897Z",
+            "End": "2026-10-28T14:45:13.248699672Z",
+            "ExitCode": 0,
+            "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100   301  100   301    0     0  25665      0 --:--:-- --:--:-- --:--:-- 27363\n{\"metadatabase\":{\"status\":\"healthy\"},\"scheduler\":{\"status\":\"healthy\",\"latest_scheduler_heartbeat\":\"2026-10-28T14:45:06.858916+00:00\"},\"triggerer\":{\"status\":null,\"latest_triggerer_heartbeat\":null},\"dag_processor\":{\"status\":\"healthy\",\"latest_dag_processor_heartbeat\":\"2026-10-28T14:45:07.679126+00:00\"}}"
+          },
+          {
+            "Start": "2026-10-28T14:45:28.249952668Z",
+            "End": "2026-10-28T14:45:28.322478563Z",
+            "ExitCode": 0,
+            "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100   301  100   301    0     0  21245      0 --:--:-- --:--:-- --:--:-- 21500\n{\"metadatabase\":{\"status\":\"healthy\"},\"scheduler\":{\"status\":\"healthy\",\"latest_scheduler_heartbeat\":\"2026-10-28T14:45:22.483032+00:00\"},\"triggerer\":{\"status\":null,\"latest_triggerer_heartbeat\":null},\"dag_processor\":{\"status\":\"healthy\",\"latest_dag_processor_heartbeat\":\"2026-10-28T14:45:22.820482+00:00\"}}"
+          },
+          {
+            "Start": "2026-10-28T14:45:43.324176147Z",
+            "End": "2026-10-28T14:45:43.388097632Z",
+            "ExitCode": 0,
+            "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100   301  100   301    0     0  33729      0 --:--:-- --:--:-- --:--:-- 37625\n{\"metadatabase\":{\"status\":\"healthy\"},\"scheduler\":{\"status\":\"healthy\",\"latest_scheduler_heartbeat\":\"2026-10-28T14:45:33.537005+00:00\"},\"triggerer\":{\"status\":null,\"latest_triggerer_heartbeat\":null},\"dag_processor\":{\"status\":\"healthy\",\"latest_dag_processor_heartbeat\":\"2026-10-28T14:45:37.915949+00:00\"}}"
+          }
+        ]
+      }
+    },
+    "mounts": [
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/airflow-logs",
+        "Destination": "/opt/airflow/logs",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/secrets",
+        "Destination": "/opt/airflow/secrets",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/var/run/docker.sock",
+        "Destination": "/var/run/docker.sock",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform",
+        "Destination": "/srv/iot-data/workspace/iot-maintenance-platform",
+        "Mode": "ro",
+        "RW": false,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/data",
+        "Destination": "/srv/iot-data/workspace/iot-maintenance-platform/data",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/outputs",
+        "Destination": "/srv/iot-data/workspace/iot-maintenance-platform/outputs",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      }
+    ],
+    "networks": [
+      "iot-metadata-restored-28b"
+    ],
+    "ports": {
+      "8080/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "18480"
+        }
+      ]
+    }
+  },
+  "airflow-scheduler": {
+    "id": "89e79fc8c030651041a4b59f1635db33c8c53d796c8404d4a886da812471d343",
+    "image": "sha256:da0a69c50e858fc8e5cd7b5caac82e1832d7bbc59c964f14d45c7c7233ce9b01",
+    "state": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 601670,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-28T14:44:44.756991495Z",
+      "FinishedAt": "0001-01-01T00:00:00Z"
+    },
+    "mounts": [
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/airflow-logs",
+        "Destination": "/opt/airflow/logs",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/secrets",
+        "Destination": "/opt/airflow/secrets",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/var/run/docker.sock",
+        "Destination": "/var/run/docker.sock",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform",
+        "Destination": "/srv/iot-data/workspace/iot-maintenance-platform",
+        "Mode": "ro",
+        "RW": false,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/data",
+        "Destination": "/srv/iot-data/workspace/iot-maintenance-platform/data",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/outputs",
+        "Destination": "/srv/iot-data/workspace/iot-maintenance-platform/outputs",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      }
+    ],
+    "networks": [
+      "iot-metadata-restored-28b"
+    ],
+    "ports": {
+      "8080/tcp": null
+    }
+  },
+  "airflow-dag-processor": {
+    "id": "26832451e1689b0f1b2fb0ec89898c309a447f738cc65d237583f503c13ba5e0",
+    "image": "sha256:da0a69c50e858fc8e5cd7b5caac82e1832d7bbc59c964f14d45c7c7233ce9b01",
+    "state": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 601584,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-28T14:44:44.570275508Z",
+      "FinishedAt": "0001-01-01T00:00:00Z"
+    },
+    "mounts": [
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/airflow-logs",
+        "Destination": "/opt/airflow/logs",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/secrets",
+        "Destination": "/opt/airflow/secrets",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/var/run/docker.sock",
+        "Destination": "/var/run/docker.sock",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform",
+        "Destination": "/srv/iot-data/workspace/iot-maintenance-platform",
+        "Mode": "ro",
+        "RW": false,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/data",
+        "Destination": "/srv/iot-data/workspace/iot-maintenance-platform/data",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/outputs",
+        "Destination": "/srv/iot-data/workspace/iot-maintenance-platform/outputs",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": "rprivate"
+      }
+    ],
+    "networks": [
+      "iot-metadata-restored-28b"
+    ],
+    "ports": {
+      "8080/tcp": null
+    }
+  },
+  "dag": {
+    "dag_id": "iot_offline_drift",
+    "dag_display_name": "iot_offline_drift",
+    "is_paused": false,
+    "is_stale": false,
+    "last_parsed_time": "2026-10-28T14:45:28.049806Z",
+    "last_parse_duration": 0.05996992500149645,
+    "last_expired": null,
+    "bundle_name": "dags-folder",
+    "bundle_version": null,
+    "relative_fileloc": "iot_offline_drift.py",
+    "fileloc": "/srv/iot-data/workspace/iot-maintenance-platform/airflow/dags/iot_offline_drift.py",
+    "description": "Label-free offline monitoring; inspect simulated event clocks and actual wall-clock freshness",
+    "timetable_summary": "*/5 * * * *",
+    "timetable_description": "Every 5 minutes",
+    "tags": [
+      {
+        "name": "drift",
+        "dag_id": "iot_offline_drift",
+        "dag_display_name": "iot_offline_drift"
+      },
+      {
+        "name": "feast",
+        "dag_id": "iot_offline_drift",
+        "dag_display_name": "iot_offline_drift"
+      },
+      {
+        "name": "iot",
+        "dag_id": "iot_offline_drift",
+        "dag_display_name": "iot_offline_drift"
+      },
+      {
+        "name": "simulated-replay",
+        "dag_id": "iot_offline_drift",
+        "dag_display_name": "iot_offline_drift"
+      }
+    ],
+    "max_active_tasks": 2,
+    "max_active_runs": 1,
+    "max_consecutive_failed_dag_runs": 0,
+    "has_task_concurrency_limits": false,
+    "has_import_errors": false,
+    "next_dagrun_logical_date": "2026-10-28T14:50:00Z",
+    "next_dagrun_data_interval_start": "2026-10-28T14:50:00Z",
+    "next_dagrun_data_interval_end": "2026-10-28T14:50:00Z",
+    "next_dagrun_run_after": "2026-10-28T14:50:00Z",
+    "owners": [
+      "airflow"
+    ],
+    "file_token": "eyJidW5kbGVfbmFtZSI6ImRhZ3MtZm9sZGVyIiwicmVsYXRpdmVfZmlsZWxvYyI6ImlvdF9vZmZsaW5lX2RyaWZ0LnB5In0.G-yzVjec4OhyQIJqFppPBQSi6fU"
+  },
+  "health": {
+    "metadatabase": {
+      "status": "healthy"
+    },
+    "scheduler": {
+      "status": "healthy",
+      "latest_scheduler_heartbeat": "2026-10-28T14:45:38.709781+00:00"
+    },
+    "triggerer": {
+      "status": null,
+      "latest_triggerer_heartbeat": null
+    },
+    "dag_processor": {
+      "status": "healthy",
+      "latest_dag_processor_heartbeat": "2026-10-28T14:45:42.962592+00:00"
+    }
+  },
+  "checked_utc": "2026-10-28T14:45:50.568360+00:00",
+  "scope": "Original Airflow DB volume retained; API/scheduler/processor recreated with original Compose and protected env on a fresh private bridge after stale Docker network ID prevented startup. No DB reset/migration or manual training."
+}

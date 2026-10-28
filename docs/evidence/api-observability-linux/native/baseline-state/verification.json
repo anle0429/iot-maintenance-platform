@@ -1,0 +1,54 @@
+{
+  "code_sha256": "66c45d9309c4ccb1830e26324d936394dd558d00e435c57a02d8ab93b938b856",
+  "compact_sha256": "d43019682b7138c764db78684948071b5dfc442ae924f3fd35c0cf850a2c4ea1",
+  "completed_utc": "2026-10-28T07:41:43.438642+00:00",
+  "context_sha256": "4180435c80e605407aee6f3e982b65fa456e3d78a91a53a91358e738a6639cc2",
+  "context_status_counts": {
+    "failed": 5,
+    "operating": 195
+  },
+  "cutoff": "2026-11-29T23:50:00+00:00",
+  "online_comparison": {
+    "as_of_simulated_utc": "2026-11-29T23:50:00+00:00",
+    "machines": 200,
+    "passed": true,
+    "sample": [
+      {
+        "current_mean_10m": 13.84911111111111,
+        "current_std_10m": 2.39427587960417,
+        "machine_age_days": 239.99305555555554,
+        "machine_id": "P-001",
+        "prior_failures_24h": 2,
+        "reading_count_10m": 9,
+        "rpm_mean_10m": 2804.1777777777775,
+        "temperature_mean_10m": 56.83822222222222,
+        "vibration_max_10m": 4.352
+      },
+      {
+        "current_mean_10m": 16.523333333333333,
+        "current_std_10m": 1.625530887638456,
+        "machine_age_days": 246.99305555555554,
+        "machine_id": "P-002",
+        "prior_failures_24h": 2,
+        "reading_count_10m": 9,
+        "rpm_mean_10m": 2888.888888888889,
+        "temperature_mean_10m": 59.37688888888889,
+        "vibration_max_10m": 3.901
+      },
+      {
+        "current_mean_10m": 14.12077777777778,
+        "current_std_10m": 1.5912018363333476,
+        "machine_age_days": 253.99305555555554,
+        "machine_id": "P-003",
+        "prior_failures_24h": 0,
+        "reading_count_10m": 9,
+        "rpm_mean_10m": 2771.2666666666664,
+        "temperature_mean_10m": 64.82688888888889,
+        "vibration_max_10m": 7.806
+      }
+    ]
+  },
+  "passed": true,
+  "project": "iot_serving_demo",
+  "scope": "Fixed logical-clock demonstration; not current wall-clock machine state. Only event/received<=as_of; no future label or failure table used. Separate Redis project with1hwallTTL; old materialization/training registries untouched."
+}

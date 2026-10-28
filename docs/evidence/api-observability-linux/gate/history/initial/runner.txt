@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/source/tree/scripts/test-api-observability.py", line 52, in <module>
+    args=parser.parse_args();run(args.source,args.manifest,args.workspace,args.output)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/source/tree/scripts/test-api-observability.py", line 30, in run
+    try:call(['mutmut','run','--max-children','2'],'mutmut-console.txt',3000)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/source/tree/scripts/test-api-observability.py", line 20, in call
+    with (output/name).open('x') as stream:subprocess.run(args,cwd=workspace,env=env,stdout=stream,stderr=subprocess.STDOUT,check=True,timeout=timeout)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['mutmut', 'run', '--max-children', '2']' returned non-zero exit status 1.

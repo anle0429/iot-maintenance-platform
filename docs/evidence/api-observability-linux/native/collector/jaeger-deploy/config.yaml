@@ -1,0 +1,45 @@
+extensions:
+  jaeger_storage:
+    backends:
+      lab_memory:
+        memory:
+          max_traces: 2000
+  jaeger_query:
+    storage:
+      traces: lab_memory
+    max_clock_skew_adjust: 0s
+    http:
+      endpoint: 0.0.0.0:16686
+  healthcheckv2:
+    use_v2: true
+    http:
+      endpoint: 0.0.0.0:13133
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+processors:
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 384
+    spike_limit_mib: 64
+  batch:
+    timeout: 1s
+    send_batch_size: 64
+    send_batch_max_size: 256
+exporters:
+  jaeger_storage_exporter:
+    trace_storage: lab_memory
+service:
+  extensions: [jaeger_storage, jaeger_query, healthcheckv2]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [jaeger_storage_exporter]
+  telemetry:
+    resource:
+      service.name: iot-jaeger
+    logs:
+      level: info

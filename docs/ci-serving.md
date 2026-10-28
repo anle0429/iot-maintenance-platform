@@ -1,5 +1,7 @@
 # CI phục vụ model: Jenkins → KServe và feature API
 
+Cập nhật28/10: [overlay metrics/traces](api-observability.md) source2f đã gate/rollout riêng, chưa Jenkins serving build mới hoặc Locust mới. Các kết quả CI8/source99 bên dưới giữ đúng phạm vi lịch sử.
+
 ## Kết quả native ngày28/10/2026
 
 **Jenkins `iot-serving/8` SUCCESS trong307,949giây**, source **`99d6dcc2994f55f06133eace53ecff523f6fc3cb`**, packet75file. Chạy trên cùng Linux VM8CPU/64GiB, K3s1.35.9+k3s1/Docker29.9.2. CI đã chọn model6 qua MLflow SDK, kiểm thử, build/probe/import ba image, stage private, chạy A/B trước cutover, đổi feature API bằng Helm và kiểm toàn bộ200máy. Model6 có marker production **cho export trong lab dữ liệu mô phỏng**; đây không phải phê duyệt vận hành máy bơm thực.

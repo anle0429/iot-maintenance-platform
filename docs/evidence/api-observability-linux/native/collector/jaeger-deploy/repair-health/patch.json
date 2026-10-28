@@ -1,0 +1,27 @@
+[
+  {
+    "op": "test",
+    "path": "/metadata/resourceVersion",
+    "value": "83392"
+  },
+  {
+    "op": "test",
+    "path": "/spec/template/spec/containers/0/readinessProbe/httpGet/path",
+    "value": "/health/status"
+  },
+  {
+    "op": "replace",
+    "path": "/spec/template/spec/containers/0/readinessProbe/httpGet/path",
+    "value": "/status"
+  },
+  {
+    "op": "test",
+    "path": "/spec/template/spec/containers/0/livenessProbe/httpGet/path",
+    "value": "/health/status"
+  },
+  {
+    "op": "replace",
+    "path": "/spec/template/spec/containers/0/livenessProbe/httpGet/path",
+    "value": "/status"
+  }
+]

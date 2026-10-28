@@ -1,0 +1,92 @@
+[
+  {
+    "key": [
+      "drift",
+      "POST",
+      "200",
+      "/v1/drift:compare"
+    ],
+    "value": 185.0
+  },
+  {
+    "key": [
+      "drift",
+      "POST",
+      "422",
+      "/v1/drift:compare"
+    ],
+    "value": 1.0
+  },
+  {
+    "key": [
+      "feature",
+      "GET",
+      "200",
+      "/v1/machines/{machine_id}/features"
+    ],
+    "value": 186.0
+  },
+  {
+    "key": [
+      "feature",
+      "GET",
+      "404",
+      "/v1/machines/{machine_id}/features"
+    ],
+    "value": 1.0
+  },
+  {
+    "key": [
+      "feature",
+      "GET",
+      "422",
+      "/v1/machines/{machine_id}/features"
+    ],
+    "value": 1.0
+  },
+  {
+    "key": [
+      "feature",
+      "POST",
+      "200",
+      "/v1/machines/{machine_id}:predict"
+    ],
+    "value": 185.0
+  },
+  {
+    "key": [
+      "feature",
+      "POST",
+      "409",
+      "/v1/machines/{machine_id}:predict"
+    ],
+    "value": 1.0
+  },
+  {
+    "key": [
+      "predictor",
+      "GET",
+      "404",
+      "/v1/models/{model_name}"
+    ],
+    "value": 1.0
+  },
+  {
+    "key": [
+      "predictor",
+      "POST",
+      "200",
+      "/v1/models/{model_name}:predict"
+    ],
+    "value": 370.0
+  },
+  {
+    "key": [
+      "predictor",
+      "POST",
+      "422",
+      "/v1/models/{model_name}:predict"
+    ],
+    "value": 1.0
+  }
+]

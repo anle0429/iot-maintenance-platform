@@ -1,0 +1,52 @@
+{
+  "id": "f5c9e8101efca8503ce774f9bc79d9d32ea858a876c9410ad29ea34cbe6e5daf",
+  "name": "/iot-observe-tests-28b-v4",
+  "image": "sha256:8aa6c6beeeaf61b38d2963af995069d7507411f807f194f25d05158318c3ae3e",
+  "state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-28T07:29:22.632108203Z",
+    "FinishedAt": "2026-10-28T07:31:34.840701669Z"
+  },
+  "user": "10001:10001",
+  "limits": {
+    "Memory": 4294967296,
+    "MemorySwap": 4294967296,
+    "NanoCpus": 2000000000,
+    "PidsLimit": 256,
+    "NetworkMode": "none"
+  },
+  "mounts": [
+    {
+      "Type": "bind",
+      "Source": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/api-observability-28b-v4/results",
+      "Destination": "/results",
+      "Mode": "",
+      "RW": true,
+      "Propagation": "rprivate"
+    },
+    {
+      "Type": "bind",
+      "Source": "/srv/iot-fast/observability-28b-v4",
+      "Destination": "/scratch",
+      "Mode": "",
+      "RW": true,
+      "Propagation": "rprivate"
+    },
+    {
+      "Type": "bind",
+      "Source": "/srv/iot-data/workspace/iot-maintenance-platform/data/observability-source-2fceb32",
+      "Destination": "/source",
+      "Mode": "",
+      "RW": false,
+      "Propagation": "rprivate"
+    }
+  ]
+}

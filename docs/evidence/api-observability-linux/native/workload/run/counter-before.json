@@ -1,0 +1,38 @@
+[
+  {
+    "key": [
+      "feature",
+      "GET",
+      "200",
+      "/v1/machines/{machine_id}/features"
+    ],
+    "value": 200.0
+  },
+  {
+    "key": [
+      "feature",
+      "POST",
+      "200",
+      "/v1/machines/{machine_id}:predict"
+    ],
+    "value": 195.0
+  },
+  {
+    "key": [
+      "feature",
+      "POST",
+      "409",
+      "/v1/machines/{machine_id}:predict"
+    ],
+    "value": 5.0
+  },
+  {
+    "key": [
+      "predictor",
+      "POST",
+      "200",
+      "/v1/models/{model_name}:predict"
+    ],
+    "value": 195.0
+  }
+]

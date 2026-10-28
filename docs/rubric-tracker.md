@@ -1,5 +1,7 @@
 # Checklist rubric và bằng chứng
 
+Cập nhật28/10: [Metrics/traces native](api-observability.md) đã3API/sáu panel/28giá trị mỗi engine và5trace/15span, verifier199payload PASS, ảnh gốc. Wrapper mới Linux296main/14subtest/coverage74+16=100%/mutation221of250=88,4%; rollout riêng, chưa CI/Locust mới. Không thay93tiêu chí nguồn; finalF46/F49 cập nhật theo proof.
+
 Cập nhật28/10 06:33UTC: [Feature refresh model6](active-feature-refresh.md) đã200máy/195prediction+5stopped409 sau materialization thật; lease1h, không đổi model7candidate hoặc ghi lại CI/F51.93tiêu chí nguồn giữ nguyên.
 
 Cập nhật28/10: [Serving CI8](ci-serving.md) đã SUCCESS/source99, native A/B/rollback/dashboard/Locust đã có proof; [F51 Airflow→KFP](drift-retraining.md) đã5task/model7candidate từ manual probe giữ drift=false, replay/cooldown không tạo thêm training. Các mục “chưa”27/10 bên dưới là lịch sử theo source cũ. Chuẩn chấm chính là57final; giữ nguyên93tiêu chí nguồn và không gộp điểm.

@@ -1,0 +1,331 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-28T07:04:54.607746Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65",
+                "namespace": "iot-observability",
+                "resourceVersion": "83384",
+                "uid": "4e5f2acb-c5b6-4895-8724-7721d3ba5334"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-observability/iot-jaeger-6b5bb9d64c-4lm65 to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T07:04:54Z",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65.18e29f9c2397f2d5",
+                "namespace": "iot-observability",
+                "resourceVersion": "83389",
+                "uid": "f459cf79-9bfd-40c4-8df7-f6c8db2a1002"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 7,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T07:04:55Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{jaeger}",
+                "kind": "Pod",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65",
+                "namespace": "iot-observability",
+                "resourceVersion": "83385",
+                "uid": "4e5f2acb-c5b6-4895-8724-7721d3ba5334"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T07:10:15Z",
+            "message": "Container image \"iot-coursework-jaeger:2.22.0-native28\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T07:04:55Z",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65.18e29f9c465bd11a",
+                "namespace": "iot-observability",
+                "resourceVersion": "83892",
+                "uid": "2565de6d-b50b-448f-86ea-9592e03455f4"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 7,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T07:04:55Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{jaeger}",
+                "kind": "Pod",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65",
+                "namespace": "iot-observability",
+                "resourceVersion": "83385",
+                "uid": "4e5f2acb-c5b6-4895-8724-7721d3ba5334"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T07:10:15Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T07:04:55Z",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65.18e29f9c49a01b64",
+                "namespace": "iot-observability",
+                "resourceVersion": "83893",
+                "uid": "c9215992-9710-47f8-8a6c-62e751a4cdb4"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T07:04:55Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{jaeger}",
+                "kind": "Pod",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65",
+                "namespace": "iot-observability",
+                "resourceVersion": "83385",
+                "uid": "4e5f2acb-c5b6-4895-8724-7721d3ba5334"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T07:08:15Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T07:04:55Z",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65.18e29f9c501adf7e",
+                "namespace": "iot-observability",
+                "resourceVersion": "83734",
+                "uid": "365f90bb-c9f8-4b4d-a283-62558ad36356"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 19,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T07:05:01Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{jaeger}",
+                "kind": "Pod",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65",
+                "namespace": "iot-observability",
+                "resourceVersion": "83385",
+                "uid": "4e5f2acb-c5b6-4895-8724-7721d3ba5334"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T07:06:31Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 404",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T07:05:01Z",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65.18e29f9dca72386c",
+                "namespace": "iot-observability",
+                "resourceVersion": "83593",
+                "uid": "f737c924-75fa-43b8-b4fa-3c6b1e7b418e"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T07:05:14Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{jaeger}",
+                "kind": "Pod",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65",
+                "namespace": "iot-observability",
+                "resourceVersion": "83385",
+                "uid": "4e5f2acb-c5b6-4895-8724-7721d3ba5334"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T07:06:14Z",
+            "message": "Liveness probe failed: HTTP probe failed with statuscode: 404",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T07:05:14Z",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65.18e29fa0e017c954",
+                "namespace": "iot-observability",
+                "resourceVersion": "83537",
+                "uid": "d0877243-f8b9-431b-ac92-cee8df00675f"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T07:05:34Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{jaeger}",
+                "kind": "Pod",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65",
+                "namespace": "iot-observability",
+                "resourceVersion": "83385",
+                "uid": "4e5f2acb-c5b6-4895-8724-7721d3ba5334"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T07:08:54Z",
+            "message": "Container jaeger failed liveness probe, will be restarted",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T07:05:34Z",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65.18e29fa5883d97ca",
+                "namespace": "iot-observability",
+                "resourceVersion": "83785",
+                "uid": "8f4f3ac2-036e-4a28-9694-e8f7dbdc181b"
+            },
+            "reason": "Killing",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 3,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T07:08:55Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{jaeger}",
+                "kind": "Pod",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65",
+                "namespace": "iot-observability",
+                "resourceVersion": "83385",
+                "uid": "4e5f2acb-c5b6-4895-8724-7721d3ba5334"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T07:10:11Z",
+            "message": "Back-off restarting failed container jaeger in pod iot-jaeger-6b5bb9d64c-4lm65_iot-observability(4e5f2acb-c5b6-4895-8724-7721d3ba5334)",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T07:10:11Z",
+                "name": "iot-jaeger-6b5bb9d64c-4lm65.18e29fd41cd73251",
+                "namespace": "iot-observability",
+                "resourceVersion": "83885",
+                "uid": "92d0e52f-f41e-4920-a248-d47e64135da6"
+            },
+            "reason": "BackOff",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T07:04:54Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-jaeger-6b5bb9d64c",
+                "namespace": "iot-observability",
+                "resourceVersion": "83381",
+                "uid": "c1c5ae38-3651-41a3-b1ba-764e3c40e502"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T07:04:54Z",
+            "message": "Created pod: iot-jaeger-6b5bb9d64c-4lm65",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T07:04:54Z",
+                "name": "iot-jaeger-6b5bb9d64c.18e29f9c22c074dc",
+                "namespace": "iot-observability",
+                "resourceVersion": "83386",
+                "uid": "a174f209-50fb-4414-a6f1-0ce1924d67ec"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T07:04:54Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-jaeger",
+                "namespace": "iot-observability",
+                "resourceVersion": "83380",
+                "uid": "01494fd3-a456-41ce-b520-7f85a8fdf135"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T07:04:54Z",
+            "message": "Scaled up replica set iot-jaeger-6b5bb9d64c from 0 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T07:04:54Z",
+                "name": "iot-jaeger.18e29f9c21df8a13",
+                "namespace": "iot-observability",
+                "resourceVersion": "83383",
+                "uid": "8929f35a-1112-44c4-b6cf-d4dae4345ab3"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

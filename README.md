@@ -10,11 +10,13 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [KFP trên cluster bốn bước](docs/kfp-cluster.md) đã PASS với nativeFeast3.132.184dòng; testPR-AUC0,6151/F10,5510 theo protocol giữ nguyên. Modelversion2 và KServe1 là mốc lịch sử ban đầu; hiện serving model6 theo CI bên dưới. [Feature API→Feast→KServe](docs/feature-api.md) giữ bằng chứng200máy/195prediction/5stopped409 và các số đo API/Locust của source cũ. [Notebook 5 bước/6ô](docs/training-notebook.md) và [KFP 5 task/two-executor](docs/distributed-training.md) đã kiểm thật; [incrementaldata/model3](docs/incremental-data-versioning.md) đã liên kết đúng dữ liệu. [Tự động version dữ liệu/model4–5](docs/automatic-ml-versioning.md) đã chạy trong Notebook/KFP. [CI materialization](docs/ci-materialization.md) đã test/build/auto-deploy thật, kiểm initial/incremental/replay đủ200máy và DataHub.
 
-[CI training](docs/ci-training.md) đã Jenkins build2 SUCCESS:22tests, hai image đúng78file, tự triển khai44file ML và chạy KFP đủ5task/hai executor/model6; dữ liệu không đổi tái sử dụng180file/740MB. Sau đó [serving CI8](docs/ci-serving.md) **SUCCESS trênVM/source99d6dcc**:104contracts/208API tests,425statements100%/125of128branches97,66%; mutation hoàn chỉnh parent5 dùng lại có kiểm nguồn1.309/1.582=82,74%. Model6 được export theo production tag của lab, ba image build/probe/import và full cutover200máy PASS. [A/B native1/6](docs/ci-ab-deployment.md) có780trial/40replay không tăng đếm và [Grafana6panel/26giá trị mỗi engine](docs/ab-monitoring.md) có ảnh gốc. Controlled rollback6→1→6 PASS; Locust1/10users598/5.780requests,0fail,P95 7/28ms. Các số đo này là lab mô phỏng trên cùngVM; PSI/mean risk không chứng minh model tốt hơn. Traces, retrain từ Airflow và security/gateway cùng các mục còn thiếu vẫn ở [tracker final](docs/final-rubric-tracker.md).
+[CI training](docs/ci-training.md) đã Jenkins build2 SUCCESS:22tests, hai image đúng78file, tự triển khai44file ML và chạy KFP đủ5task/hai executor/model6; dữ liệu không đổi tái sử dụng180file/740MB. Sau đó [serving CI8](docs/ci-serving.md) **SUCCESS trênVM/source99d6dcc**:104contracts/208API tests,425statements100%/125of128branches97,66%; mutation hoàn chỉnh parent5 dùng lại có kiểm nguồn1.309/1.582=82,74%. Model6 được export theo production tag của lab, ba image build/probe/import và full cutover200máy PASS. [A/B native1/6](docs/ci-ab-deployment.md) có780trial/40replay không tăng đếm và [Grafana6panel/26giá trị mỗi engine](docs/ab-monitoring.md) có ảnh gốc. Controlled rollback6→1→6 PASS; Locust1/10users598/5.780requests,0fail,P95 7/28ms. Các số đo này là lab mô phỏng trên cùngVM; PSI/mean risk không chứng minh model tốt hơn. Security/gateway và các mục còn thiếu vẫn ở [tracker final](docs/final-rubric-tracker.md).
 
 [Airflow→Kubeflow retrain](docs/drift-retraining.md) đã chạy5task thật/model7candidate,13unit tests, replay/cooldown không tạo thêm training. Manual probe giữ drift=false; reference model3, recipe/split giữ nguyên và chưa tự đổi serving model6. Bộ kiểm độc lập đọc118payload,24PSI từ raw samples,79SparkTaskEnd/0failed, data/model registry và ảnh KFP gốc.
 
 [Làm mới feature sau retrain](docs/active-feature-refresh.md) giữ serving model6: materialize200key thật, seed mới bất biến,195prediction tính lại đúng/5stopped409. Receipt06:33UTC ngày28/10 chỉ chứng minh thời điểm kiểm; demo lease hết sau một giờ và cần prepare mới khi trình bày lại.
+
+[Metrics/traces API trên VM](docs/api-observability.md) đã3API/sáu panel/28giá trị mỗi engine và5trace/15span đúng parent;747client/932SDK requests khớp ledger. Wrapper mới296main+14subtest Linux PASS, coverage74statements/16branches100%, mutation221/250=88,4%. Rollout riêng giữ model6; chưa Jenkins/Locust mới. Bộ kiểm độc lập199payload và sáu ảnh gốc đã lưu.
 
 ## Mục lục
 
@@ -49,7 +51,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [A/B dashboard native và cách tự kiểm bằng chứng](docs/ab-monitoring.md)
 - [Airflow gọi KFP: retrain có admission, replay và cooldown](docs/drift-retraining.md)
 - [Làm mới feature thật và kiểm lại model6 sau retrain](docs/active-feature-refresh.md)
-- [Metrics/traces API: wrapper và kiểm chứng đang thực hiện](docs/api-observability.md)
+- [Metrics/traces API: dashboard và trace native đã kiểm](docs/api-observability.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist final-coursework chính](docs/final-rubric-tracker.md)
 - [Checklist hai sheet50% trước đây](docs/rubric-tracker.md)
@@ -108,7 +110,7 @@ airflow/dags/                DP1–DP3, materialization và offline drift địn
 
 ## Sơ đồ triển khai hiện có
 
-Các hộp là job/container/pod/service có thể triển khai; Feast SDK chạy bên trong job/API. Dữ liệu Parquet/workspace nằm trên volume của cùng VM, không phải một Feast server riêng. Luồng U là dự đoán; D là dữ liệu/metadata; T/C là training/CI; R là lệnh retrain/trạng thái; M/L là metrics/logs. Màu phân biệt nhóm, không chấm mức hoàn thành.
+Các hộp là job/container/pod/service có thể triển khai; Feast SDK chạy bên trong job/API. Dữ liệu Parquet/workspace nằm trên volume của cùng VM, không phải một Feast server riêng. Luồng U là dự đoán; D là dữ liệu/metadata; T/C là training/CI; R là lệnh retrain/trạng thái; M/L là metrics/logs; O là API metrics và distributed trace. Màu phân biệt nhóm, không chấm mức hoàn thành.
 
 ```mermaid
 flowchart LR
@@ -147,6 +149,13 @@ flowchart LR
     Node[node_exporter process] -->|M5 host metric scrape| Prom
     AB -->|M7 trial PSI histogram scrape| Prom
     Prom -->|M6 PromQL query data| Grafana[Grafana process]
+    API -->|O1 SDK HTTP histogram scrape| Prom
+    Predictor -->|O2 SDK HTTP histogram scrape| Prom
+    Drift[Drift API Deployment] -->|O3 SDK HTTP histogram scrape| Prom
+    API -->|O4 OTLP spans| Jaeger[Jaeger collector-query Deployment]
+    Predictor -->|O5 OTLP spans| Jaeger
+    Drift -->|O6 OTLP spans| Jaeger
+    Jaeger -->|O7 trace graph query data| User
     API -->|L1 CRI log file| Alloy[Alloy collector process]
     Predictor -->|L2 CRI log file| Alloy
     Alloy -->|L3 labeled log records| Loki[Loki process]
@@ -154,12 +163,12 @@ flowchart LR
     classDef serving fill:#dcecff,stroke:#3265a8,color:#111;
     classDef data fill:#e1f2df,stroke:#428044,color:#111;
     classDef monitor fill:#fff0cf,stroke:#a97920,color:#111;
-    class API,Redis,Predictor,AB,Old serving;
+    class API,Redis,Predictor,AB,Old,Drift serving;
     class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins,Retrain data;
-    class DriftJob,PG,Prom,Node,Grafana,Alloy,Loki monitor;
+    class DriftJob,PG,Prom,Node,Grafana,Alloy,Loki,Jaeger monitor;
 ```
 
-Sơ đồ tóm tắt các lượt đã có bằng chứng, không có nghĩa mọi job chạy đồng thời. Spark100GB mới có Bronze/Silver; feature/training dùng nguồn60ngày riêng. Đường U hiện pin model6 sauCI8/source99d6dcc; C3–C7 đã chạy thật với gate cache TTL/context và pod identities. A/B tạm giữ mỗi predictor1replica rồi restore1..2; chưa HA nhiều máy. SQLite nằm trong volume HDD của router với PV/PVC Retain. [Tracker](docs/final-rubric-tracker.md) và [kiến trúc chi tiết](docs/architecture.md) ghi phạm vi còn thiếu. Kafka/Flink/push, drift API và metadata dependencies có sơ đồ/receipt riêng trong docs; chúng không được suy ra đã nằm trên luồng U.
+Sơ đồ tóm tắt các lượt đã có bằng chứng, không có nghĩa mọi job chạy đồng thời. Spark100GB mới có Bronze/Silver; feature/training dùng nguồn60ngày riêng. Đường U hiện pin model6 sauCI8/source99d6dcc; C3–C7 đã chạy thật với gate cache TTL/context và pod identities. A/B tạm giữ mỗi predictor1replica rồi restore1..2; chưa HA nhiều máy. SQLite nằm trong volume HDD của router với PV/PVC Retain. [Tracker](docs/final-rubric-tracker.md) và [kiến trúc chi tiết](docs/architecture.md) ghi phạm vi còn thiếu. Kafka/Flink/push và metadata dependencies có sơ đồ/receipt riêng trong docs; chúng không được suy ra đã nằm trên luồng U.
 
 ## Cách chạy
 

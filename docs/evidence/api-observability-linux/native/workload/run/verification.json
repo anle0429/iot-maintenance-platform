@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T08:06:09.036972+00:00",
+  "duration_seconds": 60,
+  "cycles": 185,
+  "client_requests": 747,
+  "sdk_requests_including_predictor_calls": 932,
+  "counter_groups": 10,
+  "http_status_counts": {
+    "422": 3,
+    "404": 2,
+    "409": 1,
+    "200": 741
+  },
+  "scope": "Actual client ledger and per-Pod SDK counter deltas. Predictor oracle includes one downstream call per successful feature prediction. One32row drift window replayed; no ground truth or throughput-capacity claim."
+}

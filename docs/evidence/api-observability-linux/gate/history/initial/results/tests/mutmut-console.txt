@@ -1,0 +1,32 @@
+⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants⠙ Generating mutants⠹ Generating mutants⠸ Generating mutants⠼ Generating mutants⠴ Generating mutants⠦ Generating mutants⠧ Generating mutants⠇ Generating mutants⠏ Generating mutants⠋ Generating mutants
+Traceback (most recent call last):
+  File "/usr/local/bin/mutmut", line 8, in <module>
+    sys.exit(cli())
+             ^^^^^
+  File "/usr/local/lib/python3.12/site-packages/click/core.py", line 1631, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/click/core.py", line 1552, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/click/core.py", line 2032, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/click/core.py", line 1415, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/click/core.py", line 910, in invoke
+    return callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/mutmut/__main__.py", line 941, in run
+    _run(mutant_names, max_children)
+  File "/usr/local/lib/python3.12/site-packages/mutmut/__main__.py", line 957, in _run
+    copy_also_copy_files()
+  File "/usr/local/lib/python3.12/site-packages/mutmut/utils/file_utils.py", line 75, in copy_also_copy_files
+    shutil.copy2(path, destination)
+  File "/usr/local/lib/python3.12/shutil.py", line 475, in copy2
+    copyfile(src, dst, follow_symlinks=follow_symlinks)
+  File "/usr/local/lib/python3.12/shutil.py", line 262, in copyfile
+    with open(dst, 'wb') as fdst:
+         ^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'mutants/tests/api/test_feature_api.py'

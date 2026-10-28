@@ -1,0 +1,286 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T07:04:54Z",
+        "generateName": "iot-jaeger-6b5bb9d64c-",
+        "generation": 1,
+        "labels": {
+          "app": "iot-jaeger",
+          "pod-template-hash": "6b5bb9d64c"
+        },
+        "name": "iot-jaeger-6b5bb9d64c-4lm65",
+        "namespace": "iot-observability",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "ReplicaSet",
+            "name": "iot-jaeger-6b5bb9d64c",
+            "uid": "c1c5ae38-3651-41a3-b1ba-764e3c40e502"
+          }
+        ],
+        "resourceVersion": "83894",
+        "uid": "4e5f2acb-c5b6-4895-8724-7721d3ba5334"
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "image": "iot-coursework-jaeger:2.22.0-native28",
+            "imagePullPolicy": "Never",
+            "livenessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/health/status",
+                "port": "health",
+                "scheme": "HTTP"
+              },
+              "initialDelaySeconds": 10,
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "name": "jaeger",
+            "ports": [
+              {
+                "containerPort": 16686,
+                "name": "query",
+                "protocol": "TCP"
+              },
+              {
+                "containerPort": 4318,
+                "name": "otlp",
+                "protocol": "TCP"
+              },
+              {
+                "containerPort": 13133,
+                "name": "health",
+                "protocol": "TCP"
+              }
+            ],
+            "readinessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/health/status",
+                "port": "health",
+                "scheme": "HTTP"
+              },
+              "initialDelaySeconds": 3,
+              "periodSeconds": 5,
+              "successThreshold": 1,
+              "timeoutSeconds": 1
+            },
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/config",
+                "name": "config",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp"
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "iot-cw-vm",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "runAsGroup": 10001,
+          "runAsNonRoot": true,
+          "runAsUser": 10001,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "iot-jaeger",
+        "serviceAccountName": "iot-jaeger",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "configMap": {
+              "defaultMode": 420,
+              "name": "iot-jaeger-config-28"
+            },
+            "name": "config"
+          },
+          {
+            "emptyDir": {
+              "medium": "Memory",
+              "sizeLimit": "16Mi"
+            },
+            "name": "tmp"
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T07:04:55Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T07:04:54Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T07:04:54Z",
+            "message": "containers with unready status: [jaeger]",
+            "observedGeneration": 1,
+            "reason": "ContainersNotReady",
+            "status": "False",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T07:04:54Z",
+            "message": "containers with unready status: [jaeger]",
+            "observedGeneration": 1,
+            "reason": "ContainersNotReady",
+            "status": "False",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T07:04:54Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "100m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://c24f501600af6aa61d13ac19685074e63548bb8b12fd30041cf57ac7599c4e79",
+            "image": "docker.io/library/iot-coursework-jaeger:2.22.0-native28",
+            "imageID": "sha256:07a2c99c67ca9b945ea1fa984889c18bef7a9298e1de74da1767edfea1e678c8",
+            "lastState": {
+              "terminated": {
+                "containerID": "containerd://02d04076a89fedeb125f805bd642eff30b4f38479047b293db7e968ccb466ae2",
+                "exitCode": 0,
+                "finishedAt": "2026-10-28T07:08:54Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-28T07:08:15Z"
+              }
+            },
+            "name": "jaeger",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 6,
+            "started": true,
+            "state": {
+              "running": {
+                "startedAt": "2026-10-28T07:10:15Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 10001,
+                "supplementalGroups": [
+                  10001
+                ],
+                "uid": 10001
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/config",
+                "name": "config",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp"
+              }
+            ]
+          }
+        ],
+        "hostIP": "10.42.0.2",
+        "hostIPs": [
+          {
+            "ip": "10.42.0.2"
+          }
+        ],
+        "observedGeneration": 1,
+        "phase": "Running",
+        "podIP": "10.52.0.34",
+        "podIPs": [
+          {
+            "ip": "10.52.0.34"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-28T07:04:54Z"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

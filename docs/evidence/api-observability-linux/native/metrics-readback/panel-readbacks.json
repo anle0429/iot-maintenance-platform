@@ -1,0 +1,2080 @@
+[
+  {
+    "panel": 1,
+    "expr": "sum by (service_name) (http_server_duration_milliseconds_count{job=\"iot-api\"})",
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "service_name": "iot-feature-api"
+            },
+            "value": [
+              1793174775,
+              "774"
+            ]
+          },
+          {
+            "metric": {
+              "service_name": "iot-predictor-api"
+            },
+            "value": [
+              1793174775,
+              "567"
+            ]
+          },
+          {
+            "metric": {
+              "service_name": "iot-drift-api"
+            },
+            "value": [
+              1793174775,
+              "186"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: sum by (service_name) (http_server_duration_milliseconds_count{job=\"iot-api\"})\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "service_name": "iot-feature-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{service_name=\"iot-feature-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    774
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "service_name": "iot-predictor-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{service_name=\"iot-predictor-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    567
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "service_name": "iot-drift-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{service_name=\"iot-drift-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    186
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "expected": [
+      {
+        "key": [
+          "iot-drift-api",
+          "",
+          ""
+        ],
+        "value": 186.0
+      },
+      {
+        "key": [
+          "iot-feature-api",
+          "",
+          ""
+        ],
+        "value": 774.0
+      },
+      {
+        "key": [
+          "iot-predictor-api",
+          "",
+          ""
+        ],
+        "value": 567.0
+      }
+    ]
+  },
+  {
+    "panel": 2,
+    "expr": "sum by (service_name) (rate(http_server_duration_milliseconds_count{job=\"iot-api\"}[1m]))",
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "service_name": "iot-feature-api"
+            },
+            "value": [
+              1793174775,
+              "5.482758620689655"
+            ]
+          },
+          {
+            "metric": {
+              "service_name": "iot-predictor-api"
+            },
+            "value": [
+              1793174775,
+              "5.689655172413793"
+            ]
+          },
+          {
+            "metric": {
+              "service_name": "iot-drift-api"
+            },
+            "value": [
+              1793174775,
+              "2.810344827586207"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: sum by (service_name) (rate(http_server_duration_milliseconds_count{job=\"iot-api\"}[1m]))\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "service_name": "iot-feature-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{service_name=\"iot-feature-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    5.482758620689655
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "service_name": "iot-predictor-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{service_name=\"iot-predictor-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    5.689655172413793
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "service_name": "iot-drift-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{service_name=\"iot-drift-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    2.810344827586207
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "expected": [
+      {
+        "key": [
+          "iot-drift-api",
+          "",
+          ""
+        ],
+        "value": 2.810344827586207
+      },
+      {
+        "key": [
+          "iot-feature-api",
+          "",
+          ""
+        ],
+        "value": 5.482758620689655
+      },
+      {
+        "key": [
+          "iot-predictor-api",
+          "",
+          ""
+        ],
+        "value": 5.689655172413793
+      }
+    ]
+  },
+  {
+    "panel": 3,
+    "expr": "sum by (service_name,http_status_code) (http_server_duration_milliseconds_count{job=\"iot-api\",http_status_code=~\"4..|5..\"})",
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "http_status_code": "409",
+              "service_name": "iot-feature-api"
+            },
+            "value": [
+              1793174775,
+              "6"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "422",
+              "service_name": "iot-feature-api"
+            },
+            "value": [
+              1793174775,
+              "1"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "404",
+              "service_name": "iot-feature-api"
+            },
+            "value": [
+              1793174775,
+              "1"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "422",
+              "service_name": "iot-predictor-api"
+            },
+            "value": [
+              1793174775,
+              "1"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "404",
+              "service_name": "iot-predictor-api"
+            },
+            "value": [
+              1793174775,
+              "1"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "422",
+              "service_name": "iot-drift-api"
+            },
+            "value": [
+              1793174775,
+              "1"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: sum by (service_name,http_status_code) (http_server_duration_milliseconds_count{job=\"iot-api\",http_status_code=~\"4..|5..\"})\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "409",
+                      "service_name": "iot-feature-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"409\", service_name=\"iot-feature-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    6
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "422",
+                      "service_name": "iot-feature-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"422\", service_name=\"iot-feature-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "404",
+                      "service_name": "iot-feature-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"404\", service_name=\"iot-feature-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "422",
+                      "service_name": "iot-predictor-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"422\", service_name=\"iot-predictor-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "404",
+                      "service_name": "iot-predictor-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"404\", service_name=\"iot-predictor-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "422",
+                      "service_name": "iot-drift-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"422\", service_name=\"iot-drift-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "expected": [
+      {
+        "key": [
+          "iot-drift-api",
+          "",
+          "422"
+        ],
+        "value": 1.0
+      },
+      {
+        "key": [
+          "iot-feature-api",
+          "",
+          "404"
+        ],
+        "value": 1.0
+      },
+      {
+        "key": [
+          "iot-feature-api",
+          "",
+          "409"
+        ],
+        "value": 6.0
+      },
+      {
+        "key": [
+          "iot-feature-api",
+          "",
+          "422"
+        ],
+        "value": 1.0
+      },
+      {
+        "key": [
+          "iot-predictor-api",
+          "",
+          "404"
+        ],
+        "value": 1.0
+      },
+      {
+        "key": [
+          "iot-predictor-api",
+          "",
+          "422"
+        ],
+        "value": 1.0
+      }
+    ]
+  },
+  {
+    "panel": 4,
+    "expr": "histogram_quantile(0.95, sum by (service_name,le) (rate(http_server_duration_milliseconds_bucket{job=\"iot-api\"}[1m]))) / 1000",
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "service_name": "iot-feature-api"
+            },
+            "value": [
+              1793174775,
+              "0.00986734693877551"
+            ]
+          },
+          {
+            "metric": {
+              "service_name": "iot-predictor-api"
+            },
+            "value": [
+              1793174775,
+              "0.00475"
+            ]
+          },
+          {
+            "metric": {
+              "service_name": "iot-drift-api"
+            },
+            "value": [
+              1793174775,
+              "0.008801470588235294"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: histogram_quantile(0.95, sum by (service_name,le) (rate(http_server_duration_milliseconds_bucket{job=\"iot-api\"}[1m]))) / 1000\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "service_name": "iot-feature-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{service_name=\"iot-feature-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    0.00986734693877551
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "service_name": "iot-predictor-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{service_name=\"iot-predictor-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    0.00475
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "service_name": "iot-drift-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{service_name=\"iot-drift-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    0.008801470588235294
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "expected": [
+      {
+        "key": [
+          "iot-drift-api",
+          "",
+          ""
+        ],
+        "value": 0.008801470588235294
+      },
+      {
+        "key": [
+          "iot-feature-api",
+          "",
+          ""
+        ],
+        "value": 0.00986734693877551
+      },
+      {
+        "key": [
+          "iot-predictor-api",
+          "",
+          ""
+        ],
+        "value": 0.00475
+      }
+    ]
+  },
+  {
+    "panel": 5,
+    "expr": "sum by (service_name) (http_server_duration_milliseconds_sum{job=\"iot-api\"}) / sum by (service_name) (http_server_duration_milliseconds_count{job=\"iot-api\"}) / 1000",
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "service_name": "iot-feature-api"
+            },
+            "value": [
+              1793174775,
+              "0.0070503875968992245"
+            ]
+          },
+          {
+            "metric": {
+              "service_name": "iot-predictor-api"
+            },
+            "value": [
+              1793174775,
+              "0.0020952380952380953"
+            ]
+          },
+          {
+            "metric": {
+              "service_name": "iot-drift-api"
+            },
+            "value": [
+              1793174775,
+              "0.00528494623655914"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: sum by (service_name) (http_server_duration_milliseconds_sum{job=\"iot-api\"}) / sum by (service_name) (http_server_duration_milliseconds_count{job=\"iot-api\"}) / 1000\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "service_name": "iot-feature-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{service_name=\"iot-feature-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    0.0070503875968992245
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "service_name": "iot-predictor-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{service_name=\"iot-predictor-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    0.0020952380952380953
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "service_name": "iot-drift-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{service_name=\"iot-drift-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    0.00528494623655914
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "expected": [
+      {
+        "key": [
+          "iot-drift-api",
+          "",
+          ""
+        ],
+        "value": 0.00528494623655914
+      },
+      {
+        "key": [
+          "iot-feature-api",
+          "",
+          ""
+        ],
+        "value": 0.0070503875968992245
+      },
+      {
+        "key": [
+          "iot-predictor-api",
+          "",
+          ""
+        ],
+        "value": 0.0020952380952380953
+      }
+    ]
+  },
+  {
+    "panel": 6,
+    "expr": "sum by (service_name,http_target,http_status_code) (http_server_duration_milliseconds_count{job=\"iot-api\"})",
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "http_status_code": "200",
+              "http_target": "/v1/machines/{machine_id}/features",
+              "service_name": "iot-feature-api"
+            },
+            "value": [
+              1793174775,
+              "386"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "200",
+              "http_target": "/v1/machines/{machine_id}:predict",
+              "service_name": "iot-feature-api"
+            },
+            "value": [
+              1793174775,
+              "380"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "409",
+              "http_target": "/v1/machines/{machine_id}:predict",
+              "service_name": "iot-feature-api"
+            },
+            "value": [
+              1793174775,
+              "6"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "200",
+              "http_target": "/v1/models/{model_name}:predict",
+              "service_name": "iot-predictor-api"
+            },
+            "value": [
+              1793174775,
+              "565"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "422",
+              "http_target": "/v1/machines/{machine_id}/features",
+              "service_name": "iot-feature-api"
+            },
+            "value": [
+              1793174775,
+              "1"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "404",
+              "http_target": "/v1/machines/{machine_id}/features",
+              "service_name": "iot-feature-api"
+            },
+            "value": [
+              1793174775,
+              "1"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "422",
+              "http_target": "/v1/models/{model_name}:predict",
+              "service_name": "iot-predictor-api"
+            },
+            "value": [
+              1793174775,
+              "1"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "404",
+              "http_target": "/v1/models/{model_name}",
+              "service_name": "iot-predictor-api"
+            },
+            "value": [
+              1793174775,
+              "1"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "422",
+              "http_target": "/v1/drift:compare",
+              "service_name": "iot-drift-api"
+            },
+            "value": [
+              1793174775,
+              "1"
+            ]
+          },
+          {
+            "metric": {
+              "http_status_code": "200",
+              "http_target": "/v1/drift:compare",
+              "service_name": "iot-drift-api"
+            },
+            "value": [
+              1793174775,
+              "185"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: sum by (service_name,http_target,http_status_code) (http_server_duration_milliseconds_count{job=\"iot-api\"})\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "200",
+                      "http_target": "/v1/machines/{machine_id}/features",
+                      "service_name": "iot-feature-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"200\", http_target=\"/v1/machines/{machine_id}/features\", service_name=\"iot-feature-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    386
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "200",
+                      "http_target": "/v1/machines/{machine_id}:predict",
+                      "service_name": "iot-feature-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"200\", http_target=\"/v1/machines/{machine_id}:predict\", service_name=\"iot-feature-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    380
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "409",
+                      "http_target": "/v1/machines/{machine_id}:predict",
+                      "service_name": "iot-feature-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"409\", http_target=\"/v1/machines/{machine_id}:predict\", service_name=\"iot-feature-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    6
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "200",
+                      "http_target": "/v1/models/{model_name}:predict",
+                      "service_name": "iot-predictor-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"200\", http_target=\"/v1/models/{model_name}:predict\", service_name=\"iot-predictor-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    565
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "422",
+                      "http_target": "/v1/machines/{machine_id}/features",
+                      "service_name": "iot-feature-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"422\", http_target=\"/v1/machines/{machine_id}/features\", service_name=\"iot-feature-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "404",
+                      "http_target": "/v1/machines/{machine_id}/features",
+                      "service_name": "iot-feature-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"404\", http_target=\"/v1/machines/{machine_id}/features\", service_name=\"iot-feature-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "422",
+                      "http_target": "/v1/models/{model_name}:predict",
+                      "service_name": "iot-predictor-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"422\", http_target=\"/v1/models/{model_name}:predict\", service_name=\"iot-predictor-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "404",
+                      "http_target": "/v1/models/{model_name}",
+                      "service_name": "iot-predictor-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"404\", http_target=\"/v1/models/{model_name}\", service_name=\"iot-predictor-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "422",
+                      "http_target": "/v1/drift:compare",
+                      "service_name": "iot-drift-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"422\", http_target=\"/v1/drift:compare\", service_name=\"iot-drift-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "http_status_code": "200",
+                      "http_target": "/v1/drift:compare",
+                      "service_name": "iot-drift-api"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{http_status_code=\"200\", http_target=\"/v1/drift:compare\", service_name=\"iot-drift-api\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793174775000
+                  ],
+                  [
+                    185
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "expected": [
+      {
+        "key": [
+          "iot-drift-api",
+          "/v1/drift:compare",
+          "200"
+        ],
+        "value": 185.0
+      },
+      {
+        "key": [
+          "iot-drift-api",
+          "/v1/drift:compare",
+          "422"
+        ],
+        "value": 1.0
+      },
+      {
+        "key": [
+          "iot-feature-api",
+          "/v1/machines/{machine_id}/features",
+          "200"
+        ],
+        "value": 386.0
+      },
+      {
+        "key": [
+          "iot-feature-api",
+          "/v1/machines/{machine_id}/features",
+          "404"
+        ],
+        "value": 1.0
+      },
+      {
+        "key": [
+          "iot-feature-api",
+          "/v1/machines/{machine_id}/features",
+          "422"
+        ],
+        "value": 1.0
+      },
+      {
+        "key": [
+          "iot-feature-api",
+          "/v1/machines/{machine_id}:predict",
+          "200"
+        ],
+        "value": 380.0
+      },
+      {
+        "key": [
+          "iot-feature-api",
+          "/v1/machines/{machine_id}:predict",
+          "409"
+        ],
+        "value": 6.0
+      },
+      {
+        "key": [
+          "iot-predictor-api",
+          "/v1/models/{model_name}",
+          "404"
+        ],
+        "value": 1.0
+      },
+      {
+        "key": [
+          "iot-predictor-api",
+          "/v1/models/{model_name}:predict",
+          "200"
+        ],
+        "value": 565.0
+      },
+      {
+        "key": [
+          "iot-predictor-api",
+          "/v1/models/{model_name}:predict",
+          "422"
+        ],
+        "value": 1.0
+      }
+    ]
+  }
+]

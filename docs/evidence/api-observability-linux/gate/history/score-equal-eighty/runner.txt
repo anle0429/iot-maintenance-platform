@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/source/tree/scripts/test-api-observability.py", line 52, in <module>
+    args=parser.parse_args();run(args.source,args.manifest,args.workspace,args.output)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/source/tree/scripts/test-api-observability.py", line 41, in run
+    if len(rows)!=stats['total'] or len({n for n,_ in rows})!=stats['total'] or sum(s=='killed' for _,s in rows)!=stats['killed']:raise ValueError('Full one-module mutation inventory differs')
+                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Full one-module mutation inventory differs
