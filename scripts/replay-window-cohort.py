@@ -49,14 +49,19 @@ def run(args):
         if args.destination=='offline' and (proof['offline_rows']!=len(rows) or proof['historical_rows']!=len(rows)):raise ValueError('Offline cohort count differs')
         if args.destination=='online' and (proof['acknowledged_windows']!=len(rows) or proof['machines']!=binding['selected_machines']):raise ValueError('Online cohort count differs')
         if args.operation=='replay' and (modes!=['completed_'+args.destination+'_replay_noop']*len(rows) or digest(writer.offline)!=before):raise ValueError('Replay changed the acknowledged store')
-        if args.destination=='offline' and not proof['online_all_missing']:raise ValueError('Offline stage populated the fresh online project')
+        if args.destination=='offline':
+            if not proof['online_all_missing']:raise ValueError('Offline stage populated the fresh online project')
+            # Native verification is exact; preserve PythonFloat64 values instead of pandas.to_json's default10digits.
+            proof['rows']=writer.offline_frame().to_dict(orient='records')
         if args.destination=='online':
             expected={}
             for row in rows:
                 _,_,p=window_payload(row)
                 if p['machine_id'] not in expected or p['event_timestamp']>expected[p['machine_id']]['event_timestamp']:expected[p['machine_id']]=p
-            actual={r['machine_id']:r for r in proof['online_rows']}
+            native=writer.store.get_online_features(features=writer.service,entity_rows=[{'machine_id':m} for m in sorted(expected)]).to_df()
+            actual={r['machine_id']:r for r in native.to_dict(orient='records')}
             if actual.keys()!=expected.keys() or any(any(actual[m][f]!=expected[m][f] for f in FIELDS) for m in expected):raise ValueError('Latest native vectors differ from the retained source oracle')
+            proof['online_rows']=[actual[m] for m in sorted(actual)];proof['expected_latest_rows']=[expected[m] for m in sorted(expected)]
         save(args.output,{**proof,'source_binding':binding,'operation':args.operation,'mode_counts':{m:modes.count(m) for m in sorted(set(modes))},'setup_seconds':setup_seconds,'push_seconds':push_seconds,'verify_seconds':verify_seconds,'elapsed_seconds':time.monotonic()-started,'completed_utc':datetime.now(timezone.utc).isoformat()})
     print(json.dumps({'passed':True,'destination':args.destination,'operation':args.operation,'windows':len(rows),'elapsed_seconds':time.monotonic()-started}),flush=True)
 
