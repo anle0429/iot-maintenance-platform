@@ -1,0 +1,10 @@
+{
+  "format": "iot-joint-cohort-policy-v1",
+  "rows_per_group": 64,
+  "reference": "First64 rows of the already frozen 1024-row training reference, preserving parent lineage and parent byte SHA; no reselection after results",
+  "current": "First64 operating machines sorted by machine_id in the retained genuine gateway cohort; event time from feature_event_ts, conservative availability from captured as_of",
+  "cases": ["identical-reference-control", "retained-gateway-cohort", "current-with-vibration-rotated-left-one"],
+  "counterfactual": "Rotate vibration_max_10m by one among the selected current rows; preserve every marginal multiset; do not assert the MMD diagnostic must alert",
+  "replay": "Reverse current observation order and append an exact duplicate; the canonical assessment must remain identical",
+  "scope": "Bounded offline diagnostic on historical native captures, not fresh serving, calibrated statistical inference, automatic retraining or model-quality measurement"
+}
