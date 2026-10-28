@@ -49,7 +49,7 @@ def run(source,manifest,workspace,output):
     stats=json.loads((workspace/'mutants/mutmut-cicd-stats.json').read_bytes());(output/'mutmut-cicd-stats.json').write_text(json.dumps(stats,indent=2)+'\n')
     score=validate_mutation(stats,(output/'mutmut-all-results.txt').read_text())
     proof={'passed':True,'commit':seal['commit'],'coverage':c,'mutation':stats,'mutation_score_percent':score,
-        'mutation_files':['services/observed.py'],'regression_tests':sum(int(s.attrib['tests']) for s in suites),
+        'mutation_files':['services/observed.py'],'regression_junit_testcases':sum(int(s.attrib['tests']) for s in suites),
         'scope':'New telemetry wrapper only. Unchanged feature/predictor/AB/drift modules run regression tests; earlier serving mutation proof is separate.'}
     (output/'verification.json').write_text(json.dumps(proof,indent=2)+'\n');print(json.dumps(proof))
 

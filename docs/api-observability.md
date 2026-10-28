@@ -14,6 +14,8 @@ Trace dùng OpenTelemetry SDK1.45.1 và FastAPI/urllib instrumentation0.66b1. Ki
 
 Native binary/checksum/config validation đã PASS; rollout đầu bị Kubernetes restart vì probe trỏ nhầm `/health/status` và nhận404, không phải OOM. [healthcheckv2 của Collector0.160.0](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/v0.160.0/extension/healthcheckv2extension/README.md) mặc định dùng `/status`; manifest sửa đúng hai probe theo phiên bản đã pin. Readback Pod/events/log cũ giữ riêng; cần xác nhận Ready sau sửa trước khi nhận thành công. AI Assistant của Jaeger được xác nhận disabled trong log native, không thêm vào phạm vi coursework.
 
+Gate Linux source17d9716 đã PASS **296test chính +14subtest**, coverage74statements/16branches100%, mutation221/250=88,4%/29survived, không timeout/skip/unaccounted. `regression_tests=310` trong receipt cũ là số testcase JUnit gồm14subtest; tên field mới làm rõ là `regression_junit_testcases`. Collector đã Ready và query APIv3 trả200; APIv1 cũ trả404 nên readback chuyển đúng giao thức. API images chưa rollout: `pip check` chặn overlay drift vì thiếu pin transitive `packaging` trong base nhỏ, đã thêm đúng26.3 vốn có trong môi trường test. Feature overlay đầu giữ riêng; chưa dùng thành bằng chứng cả ba image hoàn tất. Dependency lock mới cần gate/build mới trước rollout.
+
 ## Cách kiểm bản chuẩn bị
 
 Trong môi trường API riêng đã cài các pin hiện có và [overlay dependencies](../infra/observability/requirements.lock):
