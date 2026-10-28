@@ -19,11 +19,17 @@ def run(args):
     if remaining<1800 or not r.is_relative_to('/srv/iot-data') or not Path('/srv/iot-fast').is_mount():raise ValueError('Use existing VM disks with30minutes in the approved session')
     pins=json.loads((ROOT/'infra/security/vault-assets.json').read_bytes());binary=r/'data/runtime/vault-assets-28/vault'
     if sha256(binary.read_bytes()).hexdigest()!=pins['binary_sha256']:raise ValueError('Official Vault binary checksum differs')
-    for port in [18200,18201]:
-        with socket.socket() as s:s.bind(('10.52.0.1',port))
+    if not args.resume_uninitialized:
+        for port in [18200,18201]:
+            with socket.socket() as s:s.bind(('10.52.0.1',port))
     out=args.output;private=args.private;server=args.server;state=args.state
-    for path in [out,private,server,state]:path.mkdir(parents=True,exist_ok=False)
-    for path in [server,state]:os.chown(path,65534,65534);path.chmod(0o700)
+    out.mkdir(parents=True,exist_ok=False)
+    if args.resume_uninitialized:
+        if not all(p.is_dir() for p in [private,server,state]) or (private/'bootstrap.json').exists():raise ValueError('Resume only an existing never-initialized Vault')
+    else:
+        for path in [private,server,state]:path.mkdir(parents=True,exist_ok=False)
+        for path in [server,state]:os.chown(path,65534,65534);path.chmod(0o700)
+        (state/'raft').mkdir(mode=0o700);os.chown(state/'raft',65534,65534)
     def save(n,v):(out/n).write_text(json.dumps(v,indent=2,allow_nan=False)+'\n')
     def command(values,stdin=None,log=None):
         p=subprocess.run(values,input=stdin,capture_output=True,timeout=60)
@@ -33,15 +39,27 @@ def run(args):
     address=json.loads(command(['ip','-j','-4','address','show','cni0']))[0]['addr_info'][0]['local'];assert address=='10.52.0.1'
     # Keys are private to the server user; the existing private lab CA is used only by this bootstrap signer.
     ca=r/'outputs/gateway-28/deploy/ca.crt';cakey=r/'data/runtime/gateway-28-private/ca.key';(out/'ca.crt').write_bytes(ca.read_bytes())
-    command(['openssl','req','-new','-newkey','rsa:3072','-nodes','-keyout',str(server/'server.key'),'-out',str(private/'server.csr'),'-subj','/CN=vault.iot.test'],log='tls-request.txt')
-    (private/'extensions.cnf').write_text('basicConstraints=critical,CA:FALSE\nkeyUsage=critical,digitalSignature,keyEncipherment\nextendedKeyUsage=serverAuth\nsubjectAltName=DNS:vault.iot.test,IP:'+address+'\n')
-    command(['openssl','x509','-req','-in',str(private/'server.csr'),'-CA',str(ca),'-CAkey',str(cakey),'-set_serial','0x'+os.urandom(16).hex(),'-out',str(server/'server.crt'),'-days','2','-extfile',str(private/'extensions.cnf')],log='tls-sign.txt')
-    (out/'server.crt').write_bytes((server/'server.crt').read_bytes())
+    if not args.resume_uninitialized:
+        command(['openssl','req','-new','-newkey','rsa:3072','-nodes','-keyout',str(server/'server.key'),'-out',str(private/'server.csr'),'-subj','/CN=vault.iot.test'],log='tls-request.txt')
+        (private/'extensions.cnf').write_text('basicConstraints=critical,CA:FALSE\nkeyUsage=critical,digitalSignature,keyEncipherment\nextendedKeyUsage=serverAuth\nsubjectAltName=DNS:vault.iot.test,IP:'+address+'\n')
+        command(['openssl','x509','-req','-in',str(private/'server.csr'),'-CA',str(ca),'-CAkey',str(cakey),'-set_serial','0x'+os.urandom(16).hex(),'-out',str(server/'server.crt'),'-days','2','-extfile',str(private/'extensions.cnf')],log='tls-sign.txt')
+        (out/'server.crt').write_bytes((server/'server.crt').read_bytes())
+    else:
+        (out/'server.crt').write_bytes((server/'server.crt').read_bytes())
     config='ui = true\ndisable_mlock = true\napi_addr = "https://'+address+':18200"\ncluster_addr = "https://'+address+':18201"\nstorage "raft" {\n  path = "'+str(state/'raft')+'"\n  node_id = "iot-vault-single"\n}\nlistener "tcp" {\n  address = "'+address+':18200"\n  cluster_address = "'+address+':18201"\n  tls_cert_file = "'+str(server/'server.crt')+'"\n  tls_key_file = "'+str(server/'server.key')+'"\n  tls_min_version = "tls12"\n}\n'
-    (server/'vault.hcl').write_text(config);(out/'vault.hcl').write_text(config)
-    for p in server.iterdir():os.chown(p,65534,65534);p.chmod(0o400)
+    if args.resume_uninitialized:
+        if (server/'vault.hcl').read_text()!=config or not (state/'raft').is_dir():raise ValueError('Resume requires unchanged TLS/config and repaired Raft directory')
+    else:
+        (server/'vault.hcl').write_text(config)
+        for p in server.iterdir():os.chown(p,65534,65534);p.chmod(0o400)
+    (out/'vault.hcl').write_text(config)
     unit='[Unit]\nDescription=IoT private non-dev Vault2.2.1 Raft\nAfter=network-online.target\n[Service]\nUser=nobody\nGroup=nogroup\nExecStart='+str(binary)+' server -config='+str(server/'vault.hcl')+'\nNoNewPrivileges=true\nProtectSystem=strict\nProtectHome=true\nPrivateTmp=true\nReadWritePaths='+str(state)+'\nMemoryMax=768M\nMemorySwapMax=0\nCPUQuota=100%\nRestart=on-failure\nRestartSec=5\n'
-    unitpath=Path('/run/systemd/system/iot-vault-28.service');assert not unitpath.exists();unitpath.write_text(unit);(out/'vault.service').write_text(unit)
+    unitpath=Path('/run/systemd/system/iot-vault-28.service')
+    if args.resume_uninitialized:
+        if unitpath.read_text()!=unit:raise ValueError('Existing Vault unit differs')
+    else:
+        assert not unitpath.exists();unitpath.write_text(unit)
+    (out/'vault.service').write_text(unit)
     command(['systemctl','daemon-reload']);command(['systemctl','start','iot-vault-28'])
     context=ssl.create_default_context(cafile=str(ca));opener=build_opener(HTTPSHandler(context=context),NoRedirect());base='https://'+address+':18200/v1/'
     def api(path,body=None,token=None,method=None,allowed=()):
@@ -87,4 +105,4 @@ def run(args):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     for n in ['runtime-root','output','private','server','state']:p.add_argument('--'+n,type=Path,required=True)
-    run(p.parse_args())
+    p.add_argument('--resume-uninitialized',action='store_true');run(p.parse_args())
