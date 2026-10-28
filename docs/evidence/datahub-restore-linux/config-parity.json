@@ -1,0 +1,57 @@
+[
+  {
+    "service": "mysql",
+    "before_config_sha256": "0176e5c74ae4d0c5edab20471db6d128943777a7f72c84a7e85ae0855b019894",
+    "after_normalized_config_sha256": "0176e5c74ae4d0c5edab20471db6d128943777a7f72c84a7e85ae0855b019894",
+    "actual_same_image_id": "sha256:9c3380eac945af0736031b200027f581925927c81e010056214a4bd6b6693714",
+    "before_image_reference": "mysql:8.0.44",
+    "after_image_reference": "sha256:9c3380eac945af0736031b200027f581925927c81e010056214a4bd6b6693714",
+    "config_private_values_omitted": true,
+    "status": "running",
+    "health": "healthy"
+  },
+  {
+    "service": "search",
+    "before_config_sha256": "54be9614bf7c2ebbe5de9356ab823431a5fb0d934a8ce6125f3f45f31294c98e",
+    "after_normalized_config_sha256": "54be9614bf7c2ebbe5de9356ab823431a5fb0d934a8ce6125f3f45f31294c98e",
+    "actual_same_image_id": "sha256:e96cc6ae1500a073d973c0906f30f7cf4d9c461f32f855f9242a2da933660cdd",
+    "before_image_reference": "opensearchproject/opensearch:2.19.3",
+    "after_image_reference": "sha256:e96cc6ae1500a073d973c0906f30f7cf4d9c461f32f855f9242a2da933660cdd",
+    "config_private_values_omitted": true,
+    "status": "running",
+    "health": "healthy"
+  },
+  {
+    "service": "broker",
+    "before_config_sha256": "f5d3b2923a2d9c6966130256d768c3f1415bc8eea5cacd559030cf5221bbe289",
+    "after_normalized_config_sha256": "f5d3b2923a2d9c6966130256d768c3f1415bc8eea5cacd559030cf5221bbe289",
+    "actual_same_image_id": "sha256:9cdc8119cb39c45f0efa6da8e2220058020c7433e3ba3a3ce11a8006a18cb336",
+    "before_image_reference": "confluentinc/cp-kafka:8.0.0",
+    "after_image_reference": "sha256:9cdc8119cb39c45f0efa6da8e2220058020c7433e3ba3a3ce11a8006a18cb336",
+    "config_private_values_omitted": true,
+    "status": "running",
+    "health": "healthy"
+  },
+  {
+    "service": "datahub-gms",
+    "before_config_sha256": "31bce96c72e717baf491459ad0b6dcd80c4e3af62b3328af35cd9d03a6b61825",
+    "after_normalized_config_sha256": "31bce96c72e717baf491459ad0b6dcd80c4e3af62b3328af35cd9d03a6b61825",
+    "actual_same_image_id": "sha256:858b36e3fe00c4af02e47c51252b90d6013f9e789851d05be0f4145e5fed260e",
+    "before_image_reference": "acryldata/datahub-gms:v1.6.0.3",
+    "after_image_reference": "sha256:858b36e3fe00c4af02e47c51252b90d6013f9e789851d05be0f4145e5fed260e",
+    "config_private_values_omitted": true,
+    "status": "running",
+    "health": "healthy"
+  },
+  {
+    "service": "datahub-frontend",
+    "before_config_sha256": "d02584fe9878b55fc6b0f512c805192bec03461688a9a27c9bf65370f134d08b",
+    "after_normalized_config_sha256": "d02584fe9878b55fc6b0f512c805192bec03461688a9a27c9bf65370f134d08b",
+    "actual_same_image_id": "sha256:c8106e606b2bc1ad7737b593535d4c37df136d16eed03e7c42a42babcbf74f02",
+    "before_image_reference": "acryldata/datahub-frontend-react:v1.6.0.3",
+    "after_image_reference": "sha256:c8106e606b2bc1ad7737b593535d4c37df136d16eed03e7c42a42babcbf74f02",
+    "config_private_values_omitted": true,
+    "status": "running",
+    "health": "healthy"
+  }
+]

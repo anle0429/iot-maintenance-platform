@@ -1,0 +1,63 @@
+{
+  "host_files": [
+    {
+      "path": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/linux-monitoring-28/node-exporter.txt",
+      "service": "node-exporter",
+      "time_key": "time",
+      "labels": {
+        "host": "vm-linux",
+        "collection": "native-28-keep",
+        "service": "node-exporter",
+        "source": "host-file"
+      }
+    },
+    {
+      "path": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/linux-monitoring-28/prometheus.txt",
+      "service": "prometheus",
+      "time_key": "time",
+      "labels": {
+        "host": "vm-linux",
+        "collection": "native-28-keep",
+        "service": "prometheus",
+        "source": "host-file"
+      }
+    },
+    {
+      "path": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/linux-monitoring-28/grafana.txt",
+      "service": "grafana",
+      "time_key": "t",
+      "labels": {
+        "host": "vm-linux",
+        "collection": "native-28-keep",
+        "service": "grafana",
+        "source": "host-file"
+      }
+    }
+  ],
+  "cri_files": [
+    {
+      "path": "/var/log/pods/iot-serving_iot-pump-failure-v1-predictor-774894bdbb-7zb26_fd798fe2-0ac3-4a94-8426-d5a7fb352592/kserve-container/0.log",
+      "labels": {
+        "host": "vm-linux",
+        "collection": "native-28-keep",
+        "source": "cri",
+        "service": "predictor",
+        "namespace": "iot-serving",
+        "pod": "iot-pump-failure-v1-predictor-774894bdbb-7zb26",
+        "container": "kserve-container"
+      }
+    },
+    {
+      "path": "/var/log/pods/iot-features_iot-feature-api-59fc84bc69-725jd_3a7dee3e-458e-49d0-84f3-d438c925a604/api/0.log",
+      "labels": {
+        "host": "vm-linux",
+        "collection": "native-28-keep",
+        "source": "cri",
+        "service": "feature-api",
+        "namespace": "iot-features",
+        "pod": "iot-feature-api-59fc84bc69-725jd",
+        "container": "api"
+      }
+    }
+  ]
+}

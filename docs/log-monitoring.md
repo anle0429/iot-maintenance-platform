@@ -1,5 +1,7 @@
 # Tra cứu log trên Linux VM
 
+Cập nhật28/10: [discovery tự theo Pod](log-discovery.md) đã triển khai và kiểm40dòng/twoPodUID/restart/noaddedduplicates/bốnAPI. Bằng chứng fixed-path bên dưới giữ nguyên phạm vi lịch sử.
+
 Log giúp biết dịch vụ đã làm gì và lỗi ở đâu. Mốc này nối **ba file stdout của node_exporter, Prometheus, Grafana và hai file CRI của predictor/feature API → Alloy → Loki → Grafana**. Collector đọc các đường dẫn gắn với PID/Pod UID đã quan sát, không thay dữ liệu telemetry hoặc model.
 
 Loki3.7.9 và Alloy1.21.2 đã chạy thật trên VM8CPU/64GiB. Bộ cấu hình giữ source `12d1374e25ab4f69f257c35d627286243d0be29c`; source đầu `3b8496a` và lượt lỗi vẫn được lưu. [Manifest](evidence/log-monitoring-linux/manifest.json) có58payload/751.258B, gồm thông điệp gốc, cấu hình, phản hồi HTTP và hai ảnh nguyên bản. Binary, Loki store, positions, credentials và helper thao tác riêng không vào Git.

@@ -1,0 +1,9 @@
+MainPID=14551
+ExecStart={ path=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-assets-28/alloy-linux-amd64 ; argv[]=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-assets-28/alloy-linux-amd64 run --disable-reporting --server.http.listen-addr=127.0.0.1:12345 --storage.path=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-keep/alloy /srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-keep/config.alloy ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }
+MemoryCurrent=328339456
+ActiveState=active
+
+MainPID=14380
+ExecStart={ path=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-assets-28/loki-linux-amd64 ; argv[]=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-assets-28/loki-linux-amd64 -config.file=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-ci4/loki.yaml ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }
+MemoryCurrent=218079232
+ActiveState=active

@@ -1,0 +1,12 @@
+# /run/systemd/transient/iot-alloy-discovery-28.service
+# This is a transient unit file, created programmatically via the systemd API. Do not edit.
+[Unit]
+Description=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-assets-28/alloy-linux-amd64 run --disable-reporting --server.http.listen-addr=127.0.0.1:12345 --storage.path=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/log-discovery-28/alloy /srv/iot-data/workspace/iot-maintenance-platform/data/runtime/log-discovery-28/config.alloy
+
+[Service]
+MemoryMax=805306368
+MemorySwapMax=0
+CPUQuota=50%
+NoNewPrivileges=yes
+ExecStart=
+ExecStart="/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-assets-28/alloy-linux-amd64" "run" "--disable-reporting" "--server.http.listen-addr=127.0.0.1:12345" "--storage.path=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/log-discovery-28/alloy" "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/log-discovery-28/config.alloy"

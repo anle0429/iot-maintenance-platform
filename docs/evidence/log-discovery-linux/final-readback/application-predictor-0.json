@@ -1,0 +1,230 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "streams",
+    "result": [
+      {
+        "stream": {
+          "collection": "native-28-auto",
+          "container": "kserve-container",
+          "detected_level": "info",
+          "host": "vm-linux",
+          "namespace": "iot-serving",
+          "pod": "iot-pump-serve-jenkins-8-predictor-55c6c94b78-vmwvb",
+          "pod_uid": "3aaa2ddb-8645-4cb8-a96a-20760db4745c",
+          "service": "predictor",
+          "service_name": "predictor",
+          "source": "cri",
+          "stream": "stderr"
+        },
+        "values": [
+          [
+            "1793203223098566813",
+            "INFO:     Started server process [1]"
+          ],
+          [
+            "1793203223100101513",
+            "INFO:     Waiting for application startup."
+          ],
+          [
+            "1793203223102482853",
+            "INFO:     Application startup complete."
+          ],
+          [
+            "1793203223102982312",
+            "INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)"
+          ]
+        ]
+      }
+    ],
+    "stats": {
+      "summary": {
+        "bytesProcessedPerSecond": 29407,
+        "linesProcessedPerSecond": 303,
+        "totalBytesProcessed": 388,
+        "totalLinesProcessed": 4,
+        "execTime": 0.013194,
+        "queueTime": 0.000379,
+        "subqueries": 0,
+        "totalEntriesReturned": 4,
+        "splits": 6,
+        "shards": 6,
+        "totalPostFilterLines": 4,
+        "totalStructuredMetadataBytesProcessed": 120
+      },
+      "querier": {
+        "store": {
+          "totalChunksRef": 1,
+          "totalChunksDownloaded": 1,
+          "chunksDownloadTime": 108050,
+          "queryReferencedStructuredMetadata": false,
+          "queryUsedV2Engine": false,
+          "chunk": {
+            "headChunkBytes": 0,
+            "headChunkLines": 0,
+            "decompressedBytes": 388,
+            "decompressedLines": 4,
+            "compressedBytes": 202,
+            "totalDuplicates": 0,
+            "postFilterLines": 4,
+            "headChunkStructuredMetadataBytes": 0,
+            "decompressedStructuredMetadataBytes": 120
+          },
+          "chunkRefsFetchTime": 466890,
+          "congestionControlLatency": 0,
+          "pipelineWrapperFilteredLines": 0,
+          "dataobj": {
+            "prePredicateDecompressedRows": 0,
+            "prePredicateDecompressedBytes": 0,
+            "prePredicateDecompressedStructuredMetadataBytes": 0,
+            "postPredicateRows": 0,
+            "postPredicateDecompressedBytes": 0,
+            "postPredicateStructuredMetadataBytes": 0,
+            "postFilterRows": 0,
+            "pagesScanned": 0,
+            "pagesDownloaded": 0,
+            "pagesDownloadedBytes": 0,
+            "pageBatches": 0,
+            "totalRowsAvailable": 0,
+            "totalPageDownloadTime": 0
+          }
+        },
+        "querierExecTime": 0.010427
+      },
+      "ingester": {
+        "totalReached": 4,
+        "totalChunksMatched": 0,
+        "totalBatches": 4,
+        "totalLinesSent": 0,
+        "store": {
+          "totalChunksRef": 0,
+          "totalChunksDownloaded": 0,
+          "chunksDownloadTime": 0,
+          "queryReferencedStructuredMetadata": false,
+          "queryUsedV2Engine": false,
+          "chunk": {
+            "headChunkBytes": 0,
+            "headChunkLines": 0,
+            "decompressedBytes": 0,
+            "decompressedLines": 0,
+            "compressedBytes": 0,
+            "totalDuplicates": 0,
+            "postFilterLines": 0,
+            "headChunkStructuredMetadataBytes": 0,
+            "decompressedStructuredMetadataBytes": 0
+          },
+          "chunkRefsFetchTime": 507760,
+          "congestionControlLatency": 0,
+          "pipelineWrapperFilteredLines": 0,
+          "dataobj": {
+            "prePredicateDecompressedRows": 0,
+            "prePredicateDecompressedBytes": 0,
+            "prePredicateDecompressedStructuredMetadataBytes": 0,
+            "postPredicateRows": 0,
+            "postPredicateDecompressedBytes": 0,
+            "postPredicateStructuredMetadataBytes": 0,
+            "postFilterRows": 0,
+            "pagesScanned": 0,
+            "pagesDownloaded": 0,
+            "pagesDownloadedBytes": 0,
+            "pageBatches": 0,
+            "totalRowsAvailable": 0,
+            "totalPageDownloadTime": 0
+          }
+        },
+        "recvWaitTime": 0.001769
+      },
+      "cache": {
+        "chunk": {
+          "entriesFound": 1,
+          "entriesRequested": 1,
+          "entriesStored": 0,
+          "bytesReceived": 788,
+          "bytesSent": 0,
+          "requests": 2,
+          "downloadTime": 7090,
+          "queryLengthServed": 0
+        },
+        "index": {
+          "entriesFound": 0,
+          "entriesRequested": 0,
+          "entriesStored": 0,
+          "bytesReceived": 0,
+          "bytesSent": 0,
+          "requests": 0,
+          "downloadTime": 0,
+          "queryLengthServed": 0
+        },
+        "result": {
+          "entriesFound": 0,
+          "entriesRequested": 0,
+          "entriesStored": 0,
+          "bytesReceived": 0,
+          "bytesSent": 0,
+          "requests": 0,
+          "downloadTime": 0,
+          "queryLengthServed": 0
+        },
+        "statsResult": {
+          "entriesFound": 3,
+          "entriesRequested": 4,
+          "entriesStored": 4,
+          "bytesReceived": 900,
+          "bytesSent": 0,
+          "requests": 8,
+          "downloadTime": 14700,
+          "queryLengthServed": 90000000000
+        },
+        "volumeResult": {
+          "entriesFound": 0,
+          "entriesRequested": 0,
+          "entriesStored": 0,
+          "bytesReceived": 0,
+          "bytesSent": 0,
+          "requests": 0,
+          "downloadTime": 0,
+          "queryLengthServed": 0
+        },
+        "seriesResult": {
+          "entriesFound": 0,
+          "entriesRequested": 0,
+          "entriesStored": 0,
+          "bytesReceived": 0,
+          "bytesSent": 0,
+          "requests": 0,
+          "downloadTime": 0,
+          "queryLengthServed": 0
+        },
+        "labelResult": {
+          "entriesFound": 0,
+          "entriesRequested": 0,
+          "entriesStored": 0,
+          "bytesReceived": 0,
+          "bytesSent": 0,
+          "requests": 0,
+          "downloadTime": 0,
+          "queryLengthServed": 0
+        },
+        "instantMetricResult": {
+          "entriesFound": 0,
+          "entriesRequested": 0,
+          "entriesStored": 0,
+          "bytesReceived": 0,
+          "bytesSent": 0,
+          "requests": 0,
+          "downloadTime": 0,
+          "queryLengthServed": 0
+        }
+      },
+      "index": {
+        "totalChunks": 0,
+        "postFilterChunks": 0,
+        "shardsDuration": 0,
+        "usedBloomFilters": false,
+        "totalStreams": 0,
+        "chunkRefsLookupTime": 0,
+        "bloomFilterTime": 0
+      }
+    }
+  }
+}

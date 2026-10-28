@@ -1,5 +1,7 @@
 # Phát hiện thay đổi quan hệ giữa cảm biến bằng MMD
 
+Cập nhật28/10: [cohort thực trên Linux](joint-cohort.md) đã có train64/capture64, lineage,3directoracles/597permutations và replay. Vẫn là offline diagnostic, chưa API/autoretrain hay xác nhận ngoài lớp.
+
 [Drift API hiện có](drift-detection.md) dùng PSI để kiểm từng feature riêng. Khi phân bố nhiệt độ và phân bố độ rung đều giữ nguyên, PSI có thể bằng0 dù quan hệ nhiệt–rung đã đổi. [JointDriftAudit](../ml/joint_drift.py) bổ sung một phép kiểm chung tám feature bằng Gaussian MMD. Đây là **audit offline nhỏ, chưa nối vào API/Airflow hoặc kích hoạt retraining**.
 
 Ý tưởng này là ứng viên cho F58. Hai lịch lớp đã có drift, thống kê và kernel; không thấy tênMMD. [Đối chiếu nội dung lớp](novel-ideas.md) vẫn giữ điều kiện xác nhận ngoài lớp, không tự nhận đã đáp ứng toàn bộ tiêu chí novel idea.

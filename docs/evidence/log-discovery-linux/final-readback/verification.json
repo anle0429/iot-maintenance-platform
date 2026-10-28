@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T21:02:34.631823+00:00",
+  "raw_cri_lines": 40,
+  "loki_lines": 40,
+  "probe_pod_uids": [
+    "0384b000-1660-4303-8392-f656eb46cbee",
+    "f18643cc-84a3-44c0-9b87-f9da2560df0d"
+  ],
+  "exact_timestamp_message_identity_match": true,
+  "collector_pid_changed": true,
+  "loki_pid_unchanged": true,
+  "duplicate_rows_after_restart": 0,
+  "current_application_services": [
+    {
+      "service": "ab-api",
+      "pod": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb",
+      "uid": "7d28c33f-23a6-41f9-8e2e-c607fe90b6bb",
+      "lines": 24
+    },
+    {
+      "service": "drift-api",
+      "pod": "iot-drift-api-6f4c46dd6c-67gwq",
+      "uid": "2c37b0c8-ebf7-4c4f-a040-00b9d834250c",
+      "lines": 4
+    },
+    {
+      "service": "feature-api",
+      "pod": "iot-feature-api-d6bb4948b-vnd5k",
+      "uid": "608bc073-5fe1-4992-8b56-b7f2a56613e3",
+      "lines": 4
+    },
+    {
+      "service": "predictor",
+      "pod": "iot-pump-serve-jenkins-8-predictor-55c6c94b78-vmwvb",
+      "uid": "3aaa2ddb-8645-4cb8-a96a-20760db4745c",
+      "lines": 4
+    }
+  ],
+  "flush_used_for_older_startup_logs": true,
+  "scope": "Original same first Pod/CRI retained across repair; real second replacement and one collector restart already completed. Read-only final oracle plus one backing-store flush; no exactly-once/arbitrary-crash/multi-node/rotation claim."
+}

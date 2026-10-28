@@ -1,0 +1,47 @@
+{
+  "Id": "5449922fb3b71e89a214814cf93cf711b27093e4674f091791af0b82322ce9fe",
+  "Image": "sha256:53006c118d8e5a0797c4d28acd612275f42c36299dc2f989aca7715fbb0c2815",
+  "State": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-28T20:59:08.974472005Z",
+    "FinishedAt": "2026-10-28T20:59:10.458634361Z"
+  },
+  "Config": {
+    "User": "10001:10001",
+    "Entrypoint": [
+      "python"
+    ],
+    "Cmd": [
+      "scripts/audit-joint-cohort.py",
+      "--reference",
+      "docs/evidence/offline-drift-linux/reference.json",
+      "--current",
+      "docs/evidence/private-gateway-linux/feature-refresh/http-all-machines.json",
+      "--output",
+      "/results/audit"
+    ],
+    "WorkingDir": "/src"
+  },
+  "HostConfig": {
+    "Memory": 536870912,
+    "MemorySwap": 536870912,
+    "NanoCpus": 1000000000,
+    "NetworkMode": "none",
+    "ReadonlyRootfs": true,
+    "CapDrop": [
+      "ALL"
+    ],
+    "SecurityOpt": [
+      "no-new-privileges"
+    ],
+    "PidsLimit": 128
+  }
+}

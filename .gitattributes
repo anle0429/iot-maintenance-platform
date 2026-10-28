@@ -125,3 +125,8 @@ infra/ci/VaultAccess.Jenkinsfile text eol=lf
 
 # Keep native mesh receipts and original screenshots byte-exact.
 docs/evidence/private-mesh-linux/** -text -whitespace
+
+# Preserve discovery, bounded MMD and same-volume restoration native bytes.
+docs/evidence/log-discovery-linux/** -text -whitespace
+docs/evidence/joint-cohort-linux/** -text -whitespace
+docs/evidence/datahub-restore-linux/** -text -whitespace

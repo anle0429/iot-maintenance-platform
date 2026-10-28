@@ -1,0 +1,118 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T20:54:47.402204+00:00",
+  "services": [
+    {
+      "service": "mysql",
+      "before_id": "182c512e4c5df0a2b2f20ae0a1f6143e47be8af17baa979617a5749f755ef142",
+      "after_id": "f6be5d09484eb8ed4a6686c646fc0173efdd1863a468da4aea03a44886168d0a",
+      "image_id": "sha256:9c3380eac945af0736031b200027f581925927c81e010056214a4bd6b6693714",
+      "config_preserved_except_image_reference_pinned_to_same_id": true,
+      "exact_mounts_preserved": true,
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "iot-datahub_mysqldata",
+          "destination": "/var/lib/mysql",
+          "read_write": true
+        }
+      ],
+      "ports": {},
+      "old_container_preserved": "iot-datahub-mysql-1-before-session-28d",
+      "new_bridge": "iot-metadata-restored-28b"
+    },
+    {
+      "service": "search",
+      "before_id": "5ad7108c935e4d8d7c9a2c156b1ac5017b6d7e43d8bbca5ab45839f6e01b75a9",
+      "after_id": "22b3fc1286200e5ab7c654e329b9392e3494aa72744bd33e4d7fcf68a6b4edda",
+      "image_id": "sha256:e96cc6ae1500a073d973c0906f30f7cf4d9c461f32f855f9242a2da933660cdd",
+      "config_preserved_except_image_reference_pinned_to_same_id": true,
+      "exact_mounts_preserved": true,
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "iot-datahub_osdata",
+          "destination": "/usr/share/opensearch/data",
+          "read_write": true
+        }
+      ],
+      "ports": {},
+      "old_container_preserved": "iot-datahub-search-1-before-session-28d",
+      "new_bridge": "iot-metadata-restored-28b"
+    },
+    {
+      "service": "broker",
+      "before_id": "617231e516c3a647c6bf62a689e50a980c3cdc32851e1075655fc98bd4297026",
+      "after_id": "0a8cdc53ce76e1efdf49e03565cbfbd264b27af4473c30bf583e471ea2f91720",
+      "image_id": "sha256:9cdc8119cb39c45f0efa6da8e2220058020c7433e3ba3a3ce11a8006a18cb336",
+      "config_preserved_except_image_reference_pinned_to_same_id": true,
+      "exact_mounts_preserved": true,
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "8a87d24e84fec571b34c0068f128c97ae8332be126f5bc26fe6999d033ea592b",
+          "destination": "/etc/kafka/secrets",
+          "read_write": true
+        },
+        {
+          "type": "volume",
+          "name": "iot-datahub_broker",
+          "destination": "/var/lib/kafka/data",
+          "read_write": true
+        }
+      ],
+      "ports": {},
+      "old_container_preserved": "iot-datahub-broker-1-before-session-28d",
+      "new_bridge": "iot-metadata-restored-28b"
+    },
+    {
+      "service": "datahub-gms",
+      "before_id": "4ae64d3936fd9b38a4b4ecf701be053d3dae227d6da17cbd6e7e6a8d92723820",
+      "after_id": "c5c00cefe4bd69b3b262dee4446ea9ccb0345fa209d5b635809397949f3be6e4",
+      "image_id": "sha256:858b36e3fe00c4af02e47c51252b90d6013f9e789851d05be0f4145e5fed260e",
+      "config_preserved_except_image_reference_pinned_to_same_id": true,
+      "exact_mounts_preserved": true,
+      "mounts": [],
+      "ports": {
+        "8080/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "18080"
+          }
+        ]
+      },
+      "old_container_preserved": "iot-datahub-datahub-gms-1-before-session-28d",
+      "new_bridge": "iot-metadata-restored-28b"
+    },
+    {
+      "service": "datahub-frontend",
+      "before_id": "e28a79a75df6b11d804cef73c3a1951f27216c6abd4a428d7b4b218009248108",
+      "after_id": "30bcd58bce31e991a4360ca83d6637dd2f9e056fe3f01d064871537c1b2dad21",
+      "image_id": "sha256:c8106e606b2bc1ad7737b593535d4c37df136d16eed03e7c42a42babcbf74f02",
+      "config_preserved_except_image_reference_pinned_to_same_id": true,
+      "exact_mounts_preserved": true,
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null,
+          "destination": "/datahub-frontend/conf/user.props",
+          "read_write": false
+        }
+      ],
+      "ports": {
+        "9002/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "19002"
+          }
+        ]
+      },
+      "old_container_preserved": "iot-datahub-datahub-frontend-1-before-session-28d",
+      "new_bridge": "iot-metadata-restored-28b"
+    }
+  ],
+  "gms_http": 200,
+  "frontend_login_http": 200,
+  "upgrade_not_rerun": true,
+  "scope": "Restore existing lab services after missing Docker network; exact Config/image/mounts, old containers retained. Metadata indexed readback follows separately."
+}

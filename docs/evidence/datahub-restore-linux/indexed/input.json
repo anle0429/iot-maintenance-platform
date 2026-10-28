@@ -1,0 +1,23 @@
+{
+  "data": {
+    "dataset": {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.feast.machine_rolling_batch,DEV)",
+      "name": "feast/machine_rolling_batch",
+      "lineage": {
+        "total": 1,
+        "relationships": [
+          {
+            "entity": {
+              "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.medium.features.feat_machine_10m,DEV)",
+              "type": "DATASET"
+            }
+          }
+        ]
+      },
+      "assertions": {
+        "assertions": []
+      }
+    }
+  },
+  "extensions": {}
+}

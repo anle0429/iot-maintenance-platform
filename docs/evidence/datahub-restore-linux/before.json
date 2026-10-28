@@ -1,0 +1,695 @@
+[
+  {
+    "Id": "e28a79a75df6b11d804cef73c3a1951f27216c6abd4a428d7b4b218009248108",
+    "Name": "/iot-datahub-datahub-frontend-1",
+    "State": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 143,
+      "Error": "failed to set up container networking: failed to create endpoint iot-datahub-datahub-frontend-1 on network iot-metadata: network 6bbd80fa1f0e2509241803ac5d26e922cf1c91b5aa74b7f4110e59432165bedd does not exist",
+      "StartedAt": "2026-10-28T00:05:43.385484984Z",
+      "FinishedAt": "2026-10-28T06:48:22.618737775Z",
+      "Health": {
+        "Status": "unhealthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-28T06:46:14.462166921Z",
+            "End": "2026-10-28T06:46:14.532462706Z",
+            "ExitCode": 0,
+            "Output": "  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current\n                                 Dload  Upload  Total   Spent   Left   Speed\n\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\n"
+          },
+          {
+            "Start": "2026-10-28T06:46:44.534287123Z",
+            "End": "2026-10-28T06:46:44.600666969Z",
+            "ExitCode": 0,
+            "Output": "  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current\n                                 Dload  Upload  Total   Spent   Left   Speed\n\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\n"
+          },
+          {
+            "Start": "2026-10-28T06:47:14.601588344Z",
+            "End": "2026-10-28T06:47:14.66700241Z",
+            "ExitCode": 0,
+            "Output": "  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current\n                                 Dload  Upload  Total   Spent   Left   Speed\n\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\n"
+          },
+          {
+            "Start": "2026-10-28T06:47:44.668100094Z",
+            "End": "2026-10-28T06:47:44.733321459Z",
+            "ExitCode": 0,
+            "Output": "  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current\n                                 Dload  Upload  Total   Spent   Left   Speed\n\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\n"
+          },
+          {
+            "Start": "2026-10-28T06:48:14.734786198Z",
+            "End": "2026-10-28T06:48:14.806290673Z",
+            "ExitCode": 0,
+            "Output": "  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current\n                                 Dload  Upload  Total   Spent   Left   Speed\n\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\r  0      0   0      0   0      0      0      0                              0\n"
+          }
+        ]
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/secrets/datahub-users.props",
+        "Destination": "/datahub-frontend/conf/user.props",
+        "Mode": "ro",
+        "RW": false,
+        "Propagation": "rprivate"
+      }
+    ],
+    "NetworkSettings": {
+      "SandboxID": "",
+      "SandboxKey": "",
+      "Ports": {},
+      "Networks": {
+        "iot-metadata": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": [
+            "iot-datahub-datahub-frontend-1",
+            "datahub-frontend"
+          ],
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "6bbd80fa1f0e2509241803ac5d26e922cf1c91b5aa74b7f4110e59432165bedd",
+          "EndpointID": "",
+          "Gateway": "",
+          "IPAddress": "",
+          "MacAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": [
+            "iot-datahub-datahub-frontend-1",
+            "datahub-frontend",
+            "e28a79a75df6",
+            "datahub-frontend-react"
+          ]
+        }
+      }
+    },
+    "Image": "acryldata/datahub-frontend-react:v1.6.0.3",
+    "Labels": {
+      "com.docker.compose.config-hash": "8e62f22b6c035d0a0d6f594b4bf29e8174e41eab96c61ce361ceb085f5755164",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "datahub-upgrade:service_completed_successfully:false",
+      "com.docker.compose.image": "sha256:32237ddd6d3ae7ccc96b3b677fb43b7dca595fc7a86984e202d0ac7da7cc3187",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "iot-datahub",
+      "com.docker.compose.project.config_files": "/srv/iot-data/workspace/iot-maintenance-platform/infra/datahub.compose.yaml",
+      "com.docker.compose.project.environment_file": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/secrets/orchestration.env",
+      "com.docker.compose.project.working_dir": "/srv/iot-data/workspace/iot-maintenance-platform/infra",
+      "com.docker.compose.replace": "datahub-frontend-1",
+      "com.docker.compose.service": "datahub-frontend",
+      "com.docker.compose.version": "5.6.1",
+      "dev.chainguard.image.title": "wolfi-base",
+      "dev.chainguard.package.main": "",
+      "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/",
+      "org.opencontainers.image.created": "2026-09-24T16:25:14Z",
+      "org.opencontainers.image.source": "https://github.com/chainguard-images/images/tree/main/images/wolfi-base",
+      "org.opencontainers.image.title": "wolfi-base",
+      "org.opencontainers.image.url": "https://images.chainguard.dev/directory/image/wolfi-base/overview",
+      "org.opencontainers.image.vendor": "Chainguard"
+    },
+    "Ports": {
+      "9002/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "19002"
+        }
+      ]
+    }
+  },
+  {
+    "Id": "4ae64d3936fd9b38a4b4ecf701be053d3dae227d6da17cbd6e7e6a8d92723820",
+    "Name": "/iot-datahub-datahub-gms-1",
+    "State": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 143,
+      "Error": "failed to set up container networking: failed to create endpoint iot-datahub-datahub-gms-1 on network iot-metadata: network 6bbd80fa1f0e2509241803ac5d26e922cf1c91b5aa74b7f4110e59432165bedd does not exist",
+      "StartedAt": "2026-10-28T00:05:43.233189525Z",
+      "FinishedAt": "2026-10-28T06:48:23.862436531Z",
+      "Health": {
+        "Status": "unhealthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-28T06:48:01.648843173Z",
+            "End": "2026-10-28T06:48:01.738617677Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-28T06:48:06.739918146Z",
+            "End": "2026-10-28T06:48:06.83087704Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-28T06:48:11.83290544Z",
+            "End": "2026-10-28T06:48:11.919594384Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-28T06:48:16.921076554Z",
+            "End": "2026-10-28T06:48:17.012952717Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-28T06:48:22.014298026Z",
+            "End": "2026-10-28T06:48:22.571850048Z",
+            "ExitCode": 0,
+            "Output": ""
+          }
+        ]
+      }
+    },
+    "Mounts": [],
+    "NetworkSettings": {
+      "SandboxID": "",
+      "SandboxKey": "",
+      "Ports": {},
+      "Networks": {
+        "iot-metadata": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": [
+            "iot-datahub-datahub-gms-1",
+            "datahub-gms"
+          ],
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "6bbd80fa1f0e2509241803ac5d26e922cf1c91b5aa74b7f4110e59432165bedd",
+          "EndpointID": "",
+          "Gateway": "",
+          "IPAddress": "",
+          "MacAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": [
+            "iot-datahub-datahub-gms-1",
+            "datahub-gms",
+            "4ae64d3936fd"
+          ]
+        }
+      }
+    },
+    "Image": "acryldata/datahub-gms:v1.6.0.3",
+    "Labels": {
+      "com.docker.compose.config-hash": "f25480e3b4528e89e5d866b98a6b83cebd214df2a80acfebf5d3da0c5e5f7d96",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "datahub-upgrade:service_completed_successfully:false",
+      "com.docker.compose.image": "sha256:55f6f4ab71f163df053682dac44a95924c29206f4aea1aa4e1b9ef159b40f9ef",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "iot-datahub",
+      "com.docker.compose.project.config_files": "/srv/iot-data/workspace/iot-maintenance-platform/infra/datahub.compose.yaml",
+      "com.docker.compose.project.environment_file": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/secrets/orchestration.env",
+      "com.docker.compose.project.working_dir": "/srv/iot-data/workspace/iot-maintenance-platform/infra",
+      "com.docker.compose.replace": "datahub-gms-1",
+      "com.docker.compose.service": "datahub-gms",
+      "com.docker.compose.version": "5.6.1",
+      "dev.chainguard.image.title": "wolfi-base",
+      "dev.chainguard.package.main": "",
+      "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/",
+      "org.opencontainers.image.created": "2026-09-24T16:25:14Z",
+      "org.opencontainers.image.source": "https://github.com/chainguard-images/images/tree/main/images/wolfi-base",
+      "org.opencontainers.image.title": "wolfi-base",
+      "org.opencontainers.image.url": "https://images.chainguard.dev/directory/image/wolfi-base/overview",
+      "org.opencontainers.image.vendor": "Chainguard"
+    },
+    "Ports": {
+      "8080/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "18080"
+        }
+      ]
+    }
+  },
+  {
+    "Id": "8c9f42f2b0eb0b5dbe3e035e41cbcdd5c0d24fca0c3eeb1e6db8816895b968da",
+    "Name": "/iot-datahub-datahub-upgrade-1",
+    "State": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-26T19:45:06.529193212Z",
+      "FinishedAt": "2026-10-26T19:45:51.937354339Z"
+    },
+    "Mounts": [],
+    "NetworkSettings": {
+      "SandboxID": "",
+      "SandboxKey": "",
+      "Ports": {},
+      "Networks": {
+        "iot-metadata": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": [
+            "iot-datahub-datahub-upgrade-1",
+            "datahub-upgrade"
+          ],
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "6bbd80fa1f0e2509241803ac5d26e922cf1c91b5aa74b7f4110e59432165bedd",
+          "EndpointID": "",
+          "Gateway": "",
+          "IPAddress": "",
+          "MacAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": [
+            "iot-datahub-datahub-upgrade-1",
+            "datahub-upgrade",
+            "8c9f42f2b0eb",
+            "datahub-system-update"
+          ]
+        }
+      }
+    },
+    "Image": "acryldata/datahub-upgrade:v1.6.0.3",
+    "Labels": {
+      "com.docker.compose.config-hash": "3ead8b9ea104de7c05e6781dbb2ef92f10ffc706c90b3112de4f9fd9d3155953",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "mysql:service_healthy:false,search:service_healthy:false,broker:service_healthy:false",
+      "com.docker.compose.image": "sha256:134e741d96ca7fed93a5ed4a4eda4818f8fe6d3ca6d6eeda98044e6f934c24d1",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "iot-datahub",
+      "com.docker.compose.project.config_files": "/srv/iot-data/workspace/iot-maintenance-platform/infra/datahub.compose.yaml",
+      "com.docker.compose.project.environment_file": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/secrets/orchestration.env",
+      "com.docker.compose.project.working_dir": "/srv/iot-data/workspace/iot-maintenance-platform/infra",
+      "com.docker.compose.replace": "datahub-upgrade-1",
+      "com.docker.compose.service": "datahub-upgrade",
+      "com.docker.compose.version": "5.6.1",
+      "dev.chainguard.image.title": "wolfi-base",
+      "dev.chainguard.package.main": "",
+      "org.opencontainers.image.authors": "Chainguard Team https://www.chainguard.dev/",
+      "org.opencontainers.image.created": "2026-09-24T16:25:14Z",
+      "org.opencontainers.image.source": "https://github.com/chainguard-images/images/tree/main/images/wolfi-base",
+      "org.opencontainers.image.title": "wolfi-base",
+      "org.opencontainers.image.url": "https://images.chainguard.dev/directory/image/wolfi-base/overview",
+      "org.opencontainers.image.vendor": "Chainguard"
+    },
+    "Ports": {}
+  },
+  {
+    "Id": "617231e516c3a647c6bf62a689e50a980c3cdc32851e1075655fc98bd4297026",
+    "Name": "/iot-datahub-broker-1",
+    "State": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 143,
+      "Error": "failed to set up container networking: failed to create endpoint iot-datahub-broker-1 on network iot-metadata: network 6bbd80fa1f0e2509241803ac5d26e922cf1c91b5aa74b7f4110e59432165bedd does not exist",
+      "StartedAt": "2026-10-28T00:05:43.231457356Z",
+      "FinishedAt": "2026-10-28T06:48:24.505133878Z",
+      "Health": {
+        "Status": "unhealthy",
+        "FailingStreak": 1,
+        "Log": [
+          {
+            "Start": "2026-10-28T06:48:02.023609148Z",
+            "End": "2026-10-28T06:48:02.083005554Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-28T06:48:07.084560164Z",
+            "End": "2026-10-28T06:48:07.1436021Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-28T06:48:12.145072239Z",
+            "End": "2026-10-28T06:48:12.202984435Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-28T06:48:17.204298544Z",
+            "End": "2026-10-28T06:48:17.26534977Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-28T06:48:22.266318078Z",
+            "End": "2026-10-28T06:48:22.832385511Z",
+            "ExitCode": 1,
+            "Output": ""
+          }
+        ]
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "volume",
+        "Name": "8a87d24e84fec571b34c0068f128c97ae8332be126f5bc26fe6999d033ea592b",
+        "Source": "/srv/iot-fast/docker/volumes/8a87d24e84fec571b34c0068f128c97ae8332be126f5bc26fe6999d033ea592b/_data",
+        "Destination": "/etc/kafka/secrets",
+        "Driver": "local",
+        "Mode": "",
+        "RW": true,
+        "Propagation": ""
+      },
+      {
+        "Type": "volume",
+        "Name": "iot-datahub_broker",
+        "Source": "/srv/iot-fast/docker/volumes/iot-datahub_broker/_data",
+        "Destination": "/var/lib/kafka/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ],
+    "NetworkSettings": {
+      "SandboxID": "",
+      "SandboxKey": "",
+      "Ports": {},
+      "Networks": {
+        "iot-metadata": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": [
+            "iot-datahub-broker-1",
+            "broker"
+          ],
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "6bbd80fa1f0e2509241803ac5d26e922cf1c91b5aa74b7f4110e59432165bedd",
+          "EndpointID": "",
+          "Gateway": "",
+          "IPAddress": "",
+          "MacAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": [
+            "iot-datahub-broker-1",
+            "broker",
+            "617231e516c3"
+          ]
+        }
+      }
+    },
+    "Image": "confluentinc/cp-kafka:8.0.0",
+    "Labels": {
+      "architecture": "x86_64",
+      "build-date": "2025-04-28T15:45:43",
+      "com.docker.compose.config-hash": "0196bf3238e882ce6b2604b6548ee740b7ff3f2af2af94f1dbf6465c924e0f41",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:2f13377289a5f5f224a9f41a5aa1e6acd0001560deed3c3d51f8793d7a39871b",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "iot-datahub",
+      "com.docker.compose.project.config_files": "/srv/iot-data/workspace/iot-maintenance-platform/infra/datahub.compose.yaml",
+      "com.docker.compose.project.environment_file": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/secrets/orchestration.env",
+      "com.docker.compose.project.working_dir": "/srv/iot-data/workspace/iot-maintenance-platform/infra",
+      "com.docker.compose.service": "broker",
+      "com.docker.compose.version": "5.6.1",
+      "com.redhat.component": "ubi9-minimal-container",
+      "com.redhat.license_terms": "https://www.redhat.com/en/about/red-hat-end-user-license-agreements#UBI",
+      "description": "Common base image for Confluent's Docker images.",
+      "distribution-scope": "public",
+      "io.buildah.version": "1.39.0-dev",
+      "io.confluent.docker": "true",
+      "io.confluent.docker.build.number": "c67fe93b",
+      "io.confluent.docker.git.id": "284bf36",
+      "io.confluent.docker.git.repo": "confluentinc/kafka-images",
+      "io.k8s.description": "The Universal Base Image Minimal is a stripped down image that uses microdnf as a package manager. This base image is freely redistributable, but Red Hat only supports Red Hat technologies through subscriptions for Red Hat products. This image is maintained by Red Hat and updated regularly.",
+      "io.k8s.display-name": "Red Hat Universal Base Image 9 Minimal",
+      "io.openshift.expose-services": "",
+      "io.openshift.tags": "minimal rhel9",
+      "maintainer": "partner-support@confluent.io",
+      "name": "cp-kafka",
+      "release": "8.0.0-47",
+      "summary": "Confluent platform Kafka.",
+      "url": "https://www.redhat.com",
+      "vcs-ref": "f072486a5ead2d7d882ba4af2ce72e19cce20791",
+      "vcs-type": "git",
+      "vendor": "Confluent",
+      "version": "284bf36"
+    },
+    "Ports": {}
+  },
+  {
+    "Id": "182c512e4c5df0a2b2f20ae0a1f6143e47be8af17baa979617a5749f755ef142",
+    "Name": "/iot-datahub-mysql-1",
+    "State": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 128,
+      "Error": "failed to set up container networking: failed to create endpoint iot-datahub-mysql-1 on network iot-metadata: network 6bbd80fa1f0e2509241803ac5d26e922cf1c91b5aa74b7f4110e59432165bedd does not exist",
+      "StartedAt": "2026-10-28T00:05:43.216321681Z",
+      "FinishedAt": "2026-10-28T06:48:23.597780589Z",
+      "Health": {
+        "Status": "unhealthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-28T06:48:00.776539131Z",
+            "End": "2026-10-28T06:48:00.848146776Z",
+            "ExitCode": 0,
+            "Output": "mysqladmin: [Warning] Using a password on the command line interface can be insecure.\nmysqld is alive\n"
+          },
+          {
+            "Start": "2026-10-28T06:48:05.849939145Z",
+            "End": "2026-10-28T06:48:05.92378688Z",
+            "ExitCode": 0,
+            "Output": "mysqladmin: [Warning] Using a password on the command line interface can be insecure.\nmysqld is alive\n"
+          },
+          {
+            "Start": "2026-10-28T06:48:10.92482488Z",
+            "End": "2026-10-28T06:48:10.994708025Z",
+            "ExitCode": 0,
+            "Output": "mysqladmin: [Warning] Using a password on the command line interface can be insecure.\nmysqld is alive\n"
+          },
+          {
+            "Start": "2026-10-28T06:48:15.996098844Z",
+            "End": "2026-10-28T06:48:16.073145619Z",
+            "ExitCode": 0,
+            "Output": "mysqladmin: [Warning] Using a password on the command line interface can be insecure.\nmysqld is alive\n"
+          },
+          {
+            "Start": "2026-10-28T06:48:21.074383638Z",
+            "End": "2026-10-28T06:48:21.154796893Z",
+            "ExitCode": 0,
+            "Output": "mysqladmin: [Warning] Using a password on the command line interface can be insecure.\nmysqld is alive\n"
+          }
+        ]
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "volume",
+        "Name": "iot-datahub_mysqldata",
+        "Source": "/srv/iot-fast/docker/volumes/iot-datahub_mysqldata/_data",
+        "Destination": "/var/lib/mysql",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ],
+    "NetworkSettings": {
+      "SandboxID": "",
+      "SandboxKey": "",
+      "Ports": {},
+      "Networks": {
+        "iot-metadata": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": [
+            "iot-datahub-mysql-1",
+            "mysql"
+          ],
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "6bbd80fa1f0e2509241803ac5d26e922cf1c91b5aa74b7f4110e59432165bedd",
+          "EndpointID": "",
+          "Gateway": "",
+          "IPAddress": "",
+          "MacAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": [
+            "iot-datahub-mysql-1",
+            "mysql",
+            "182c512e4c5d"
+          ]
+        }
+      }
+    },
+    "Image": "mysql:8.0.44",
+    "Labels": {
+      "com.docker.compose.config-hash": "f87d54ec8036da67b9e16ed7a49723f35759a53bfa1a09308a3c3df787a07680",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:f7878bec832c6be5e61c39d3949651be8aa977daf875089b4560ae1434d2cb9c",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "iot-datahub",
+      "com.docker.compose.project.config_files": "/srv/iot-data/workspace/iot-maintenance-platform/infra/datahub.compose.yaml",
+      "com.docker.compose.project.environment_file": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/secrets/orchestration.env",
+      "com.docker.compose.project.working_dir": "/srv/iot-data/workspace/iot-maintenance-platform/infra",
+      "com.docker.compose.service": "mysql",
+      "com.docker.compose.version": "5.6.1"
+    },
+    "Ports": {}
+  },
+  {
+    "Id": "5ad7108c935e4d8d7c9a2c156b1ac5017b6d7e43d8bbca5ab45839f6e01b75a9",
+    "Name": "/iot-datahub-search-1",
+    "State": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 143,
+      "Error": "failed to set up container networking: failed to create endpoint iot-datahub-search-1 on network iot-metadata: network 6bbd80fa1f0e2509241803ac5d26e922cf1c91b5aa74b7f4110e59432165bedd does not exist",
+      "StartedAt": "2026-10-28T00:05:43.21877965Z",
+      "FinishedAt": "2026-10-28T06:48:24.92727645Z",
+      "Health": {
+        "Status": "unhealthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-28T06:48:03.007559323Z",
+            "End": "2026-10-28T06:48:03.067726009Z",
+            "ExitCode": 0,
+            "Output": "{\"cluster_name\":\"docker-cluster\",\"status\":\"yellow\",\"timed_out\":false,\"number_of_nodes\":1,\"number_of_data_nodes\":1,\"discovered_master\":true,\"discovered_cluster_manager\":true,\"active_primary_shards\":86,\"active_shards\":86,\"relocating_shards\":0,\"initializing_shards\":0,\"unassigned_shards\":80,\"delayed_unassigned_shards\":0,\"number_of_pending_tasks\":0,\"number_of_in_flight_fetch\":0,\"task_max_waiting_in_queue_millis\":0,\"active_shards_percent_as_number\":51.80722891566265}"
+          },
+          {
+            "Start": "2026-10-28T06:48:08.068856869Z",
+            "End": "2026-10-28T06:48:08.131399494Z",
+            "ExitCode": 0,
+            "Output": "{\"cluster_name\":\"docker-cluster\",\"status\":\"yellow\",\"timed_out\":false,\"number_of_nodes\":1,\"number_of_data_nodes\":1,\"discovered_master\":true,\"discovered_cluster_manager\":true,\"active_primary_shards\":86,\"active_shards\":86,\"relocating_shards\":0,\"initializing_shards\":0,\"unassigned_shards\":80,\"delayed_unassigned_shards\":0,\"number_of_pending_tasks\":0,\"number_of_in_flight_fetch\":0,\"task_max_waiting_in_queue_millis\":0,\"active_shards_percent_as_number\":51.80722891566265}"
+          },
+          {
+            "Start": "2026-10-28T06:48:13.132364434Z",
+            "End": "2026-10-28T06:48:13.19281964Z",
+            "ExitCode": 0,
+            "Output": "{\"cluster_name\":\"docker-cluster\",\"status\":\"yellow\",\"timed_out\":false,\"number_of_nodes\":1,\"number_of_data_nodes\":1,\"discovered_master\":true,\"discovered_cluster_manager\":true,\"active_primary_shards\":86,\"active_shards\":86,\"relocating_shards\":0,\"initializing_shards\":0,\"unassigned_shards\":80,\"delayed_unassigned_shards\":0,\"number_of_pending_tasks\":0,\"number_of_in_flight_fetch\":0,\"task_max_waiting_in_queue_millis\":0,\"active_shards_percent_as_number\":51.80722891566265}"
+          },
+          {
+            "Start": "2026-10-28T06:48:18.194431739Z",
+            "End": "2026-10-28T06:48:18.253589405Z",
+            "ExitCode": 0,
+            "Output": "{\"cluster_name\":\"docker-cluster\",\"status\":\"yellow\",\"timed_out\":false,\"number_of_nodes\":1,\"number_of_data_nodes\":1,\"discovered_master\":true,\"discovered_cluster_manager\":true,\"active_primary_shards\":86,\"active_shards\":86,\"relocating_shards\":0,\"initializing_shards\":0,\"unassigned_shards\":80,\"delayed_unassigned_shards\":0,\"number_of_pending_tasks\":0,\"number_of_in_flight_fetch\":0,\"task_max_waiting_in_queue_millis\":0,\"active_shards_percent_as_number\":51.80722891566265}"
+          },
+          {
+            "Start": "2026-10-28T06:48:23.255106662Z",
+            "End": "2026-10-28T06:48:23.650932256Z",
+            "ExitCode": 0,
+            "Output": "curl: (7) Failed to connect to search port 9200 after 9 ms: Could not connect to server\n"
+          }
+        ]
+      }
+    },
+    "Mounts": [
+      {
+        "Type": "volume",
+        "Name": "iot-datahub_osdata",
+        "Source": "/srv/iot-fast/docker/volumes/iot-datahub_osdata/_data",
+        "Destination": "/usr/share/opensearch/data",
+        "Driver": "local",
+        "Mode": "rw",
+        "RW": true,
+        "Propagation": ""
+      }
+    ],
+    "NetworkSettings": {
+      "SandboxID": "",
+      "SandboxKey": "",
+      "Ports": {},
+      "Networks": {
+        "iot-metadata": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": [
+            "iot-datahub-search-1",
+            "search"
+          ],
+          "DriverOpts": null,
+          "GwPriority": 0,
+          "NetworkID": "6bbd80fa1f0e2509241803ac5d26e922cf1c91b5aa74b7f4110e59432165bedd",
+          "EndpointID": "",
+          "Gateway": "",
+          "IPAddress": "",
+          "MacAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "DNSNames": [
+            "iot-datahub-search-1",
+            "search",
+            "5ad7108c935e"
+          ]
+        }
+      }
+    },
+    "Image": "opensearchproject/opensearch:2.19.3",
+    "Labels": {
+      "DOCKERFILE": "https://github.com/opensearch-project/opensearch-build/blob/main/docker/release/dockerfiles/opensearch.al2.dockerfile",
+      "com.docker.compose.config-hash": "d7fd96aea48193a7cfb5ba1c892e7ba48aa184845933ecbf1b7adf651742eaa1",
+      "com.docker.compose.container-number": "1",
+      "com.docker.compose.depends_on": "",
+      "com.docker.compose.image": "sha256:acc1f30665727eb5d186fd15f40079615e1c9a0ee9fd3db3a8180f41d9982f51",
+      "com.docker.compose.oneoff": "False",
+      "com.docker.compose.project": "iot-datahub",
+      "com.docker.compose.project.config_files": "/srv/iot-data/workspace/iot-maintenance-platform/infra/datahub.compose.yaml",
+      "com.docker.compose.project.environment_file": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/secrets/orchestration.env",
+      "com.docker.compose.project.working_dir": "/srv/iot-data/workspace/iot-maintenance-platform/infra",
+      "com.docker.compose.service": "search",
+      "com.docker.compose.version": "5.6.1",
+      "org.label-schema.build-date": "2025-10-15T19:15:23Z",
+      "org.label-schema.description": "11238",
+      "org.label-schema.license": "Apache-2.0",
+      "org.label-schema.name": "opensearch",
+      "org.label-schema.schema-version": "1.0",
+      "org.label-schema.url": "https://opensearch.org",
+      "org.label-schema.vcs-url": "https://github.com/opensearch-project/OpenSearch",
+      "org.label-schema.vendor": "OpenSearch",
+      "org.label-schema.version": "2.19.3"
+    },
+    "Ports": {}
+  }
+]

@@ -1,5 +1,7 @@
 # Airflow incremental materialization và DataHub
 
+Cập nhật28/10: [DataHub đã phục hồi sau STOP/START](datahub-restore.md), cùng image/volume, hai dataset/producing job/sáu assertion cũ còn được index. Không chạy lại materialization hoặc publication chỉ để phục hồi UI.
+
 Ngày27/10 đã có [CI materialization riêng](ci-materialization.md): Jenkins test/build/auto-deploy và8task initial/incremental/replay/metadata chạy thật trên namespace CI tách riêng. Những receipt lịch sử trong tài liệu này vẫn giữ nguyên; CI không ghi ngược checkpoint/namespace cũ.
 
 [DAG thực chạy](../airflow/dags/iot_feast_materialization.py) đưa 8 feature của 200máy từ offline Feast qua Redis, kiểm lại toàn bộ vector rồi mới gửi metadata. Nguồn là bản feature200máy×60ngày đã kiểm, giữ nguyên dataset/registry huấn luyện; registry online của DAG dùng project riêng `iot_materialization`.

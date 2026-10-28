@@ -1,0 +1,39 @@
+{
+  "sources": [
+    {
+      "service": "node-exporter",
+      "path": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/linux-monitoring-28/node-exporter.txt",
+      "time_key": "time"
+    },
+    {
+      "service": "prometheus",
+      "path": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/linux-monitoring-28/prometheus.txt",
+      "time_key": "time"
+    },
+    {
+      "service": "grafana",
+      "path": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/linux-monitoring-28/grafana.txt",
+      "time_key": "t"
+    }
+  ],
+  "pods": [
+    {
+      "namespace": "iot-features",
+      "service": "feature-api",
+      "pod": "iot-feature-api-d6bb4948b-vnd5k",
+      "uid": "608bc073-5fe1-4992-8b56-b7f2a56613e3",
+      "container": "api",
+      "rotation": 0,
+      "path": "/var/log/pods/iot-features_iot-feature-api-d6bb4948b-vnd5k_608bc073-5fe1-4992-8b56-b7f2a56613e3/api/0.log"
+    },
+    {
+      "namespace": "iot-serving",
+      "service": "predictor",
+      "pod": "iot-pump-serve-jenkins-8-predictor-55c6c94b78-vmwvb",
+      "uid": "3aaa2ddb-8645-4cb8-a96a-20760db4745c",
+      "container": "kserve-container",
+      "rotation": 0,
+      "path": "/var/log/pods/iot-serving_iot-pump-serve-jenkins-8-predictor-55c6c94b78-vmwvb_3aaa2ddb-8645-4cb8-a96a-20760db4745c/kserve-container/0.log"
+    }
+  ]
+}

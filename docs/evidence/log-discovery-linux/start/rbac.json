@@ -1,0 +1,22 @@
+[
+  {
+    "path": "/api/v1/namespaces/iot-features/pods",
+    "http": 200
+  },
+  {
+    "path": "/api/v1/namespaces/iot-serving/pods",
+    "http": 200
+  },
+  {
+    "path": "/api/v1/namespaces/default/pods",
+    "http": 403
+  },
+  {
+    "path": "/api/v1/namespaces/iot-features/secrets",
+    "http": 403
+  },
+  {
+    "path": "/api/v1/nodes",
+    "http": 403
+  }
+]
