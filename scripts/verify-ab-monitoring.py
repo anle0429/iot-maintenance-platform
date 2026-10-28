@@ -31,7 +31,7 @@ def main():
                 old,new=tomllib.loads(git.decode()),tomllib.loads(raw.decode())
                 old['tool']['mutmut']['also_copy']=[('scripts/' if n=='scripts/write-model-pin.py' else n) for n in old['tool']['mutmut']['also_copy']]
                 assert old==new
-            elif name=='tests/api/test_ab_api.py':
+            elif name in ['tests/api/test_ab_api.py','tests/api/test_model_binding.py']:
                 # Later tests strengthen native wiring, persisted identity and metric consumer contracts.
                 # The saved experiment still binds the exact historical test bytes above, not this expanded suite.
                 functions=lambda text:{n.name:ast.dump(n,include_attributes=False) for n in ast.parse(text).body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef))}

@@ -8,6 +8,8 @@ Trong lúc build3 chạy, test A/B được bổ sung để kiểm đúng hai ve
 
 Cache thật của mutmut3.8 trên Linux còn cho thấy tên phương thức dạng `module.xǁClassǁmethod__mutmut_1`; parser cũ chỉ tách `.x_` của hàm thường. Regression test đã tái hiện lỗi, parser mới nhận cả hai dạng bằng biểu thức đầy đủ và vẫn từ chối tên lạ/sai module/thiếu inventory. **62contract tests/41subtests PASS trên PC** sau sửa; không đổi7module, số mutant, ngưỡng coverage/mutation, timeout hoặc worker. Build3 vẫn dùng source1134ead cũ; sửa này cần source/build mới để được kiểm native.
 
+Thêm một kiểm tra chính sách: tag registry `production=false` phải chặn export kể cả khi stage cũ ghi `Production`; chỉ trường hợp **không có tag** mới được dùng stage.55test model binding PASS trên PC sau bổ sung; bộ55 này gồm một test mới so với lần đo206 ở trên.
+
 CI này nhằm tránh tình huống feature API gọi model mới nhưng vẫn đọc Redis, metadata hoặc ảnh chạy của bản cũ. [Jenkinsfile](../infra/ci/Serving.Jenkinsfile) và [driver](../scripts/ci-serving.py) chuẩn bị từng release độc lập, rồi mới đổi API chính sau các chốt kiểm. Đây là mã ứng dụng/vận hành cần cho coursework; secrets và trạng thái chạy riêng không nằm trong Git.
 
 ## Luồng và các điều kiện

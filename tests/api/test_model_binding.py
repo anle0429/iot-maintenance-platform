@@ -122,6 +122,12 @@ def test_legacy_stage_production_claim_can_be_loaded(release):
     assert PumpPredictor(release).metadata()['production'] is True
 
 
+def test_explicit_false_tag_cannot_fall_back_to_production_stage(release):
+    """A registry stage cannot override an explicit refusal to export a production artifact."""
+    set_lineage(release,lambda v:v['registry_selection'].update(production_tag='false',registry_stage='Production'))
+    with pytest.raises(ValueError):PumpPredictor(release)
+
+
 @pytest.mark.parametrize('field,value',[(n,'invalid') for n in ['name','version','run_id','protocol_sha256','portable_sha256','training_code_commit','data_version']]
     +[('version',1),('threshold',0),('threshold',1),('threshold',float('nan')),('threshold',True),('production','false')])
 def test_pin_schema_rejects_invalid_identity_and_boundaries(field,value):
