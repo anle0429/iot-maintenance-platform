@@ -1,0 +1,184 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T22:14:52.552466+00:00",
+  "machine": "PC ThienAn Windows, Python3.13.14",
+  "source_commit": "b8f0ef81d9d5305ad63a9e3099435801499c5f0c",
+  "source_files": 307,
+  "junit": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "7",
+    "tests": "1031",
+    "time": "67.160",
+    "timestamp": "2026-10-28T17:12:34.708410-05:00",
+    "hostname": "ThienAn"
+  },
+  "skips": [
+    {
+      "class": "tests.api.test_drift_api",
+      "test": "test_canonical_times_ignore_server_timezone",
+      "reason": "Native POSIX timezone probe; Windows has no tzset"
+    },
+    {
+      "class": "tests.api.test_feature_api",
+      "test": "test_server_timezone_cannot_change_returned_timestamp",
+      "reason": "Process timezone switching is a POSIX-only native check"
+    },
+    {
+      "class": "tests.integration.test_ab_monitoring_http",
+      "test": "test_real_prometheus_and_grafana_panels",
+      "reason": "Explicit standalone Prometheus/Grafana binaries required; no simulated dashboard"
+    },
+    {
+      "class": "tests.integration.test_host_monitoring_http",
+      "test": "test_real_windows_exporter_prometheus_grafana",
+      "reason": "Explicit Windows exporter/Prometheus/Grafana binaries required; no fixture substituted"
+    },
+    {
+      "class": "tests.test_host_monitoring",
+      "test": "test_known_answer_promql_in_actual_promtool",
+      "reason": "Explicit promtool binary required; fixtures are not a real host exporter"
+    },
+    {
+      "class": "tests.test_source_runtime.SourceRuntimeTests",
+      "test": "test_native_codec_keeps_full_source_bytes_and_rules",
+      "reason": "optional scale codec not installed"
+    },
+    {
+      "class": "tests.test_source_runtime.SourceRuntimeTests",
+      "test": "test_native_codec_preserves_strict_fallbacks",
+      "reason": "optional scale codec not installed"
+    }
+  ],
+  "results": {
+    "audit": {
+      "command": [
+        "scripts/audit-repository.py",
+        "--output",
+        "$REPO\\outputs\\repository-final-28\\audit",
+        "--edit-proof",
+        "docs/evidence/repository-audit/docstring-edits.json"
+      ],
+      "exit": 0
+    },
+    "pytest": {
+      "command": [
+        "-m",
+        "pytest",
+        "-q",
+        "tests",
+        "--hypothesis-seed=20261028",
+        "--junitxml=$REPO\\outputs\\repository-final-28\\junit.xml"
+      ],
+      "exit": 0
+    },
+    "pip-check": {
+      "command": [
+        "-m",
+        "pip",
+        "check"
+      ],
+      "exit": 0
+    },
+    "freeze": {
+      "command": [
+        "-m",
+        "pip",
+        "freeze"
+      ],
+      "exit": 0
+    },
+    "verify-focused-api.py": {
+      "command": [
+        "scripts/verify-focused-api.py"
+      ],
+      "exit": 0
+    },
+    "verify-deployment-policy.py": {
+      "command": [
+        "scripts/verify-deployment-policy.py"
+      ],
+      "exit": 0
+    },
+    "verify-iac-final.py": {
+      "command": [
+        "scripts/verify-iac-final.py"
+      ],
+      "exit": 0
+    },
+    "verify-log-discovery.py": {
+      "command": [
+        "scripts/verify-log-discovery.py"
+      ],
+      "exit": 0
+    },
+    "verify-joint-cohort.py": {
+      "command": [
+        "scripts/verify-joint-cohort.py"
+      ],
+      "exit": 0
+    },
+    "verify-datahub-restore.py": {
+      "command": [
+        "scripts/verify-datahub-restore.py"
+      ],
+      "exit": 0
+    },
+    "verify-private-gateway.py": {
+      "command": [
+        "scripts/verify-private-gateway.py"
+      ],
+      "exit": 0
+    },
+    "verify-private-mesh.py": {
+      "command": [
+        "scripts/verify-private-mesh.py"
+      ],
+      "exit": 0
+    },
+    "verify-vault.py": {
+      "command": [
+        "scripts/verify-vault.py"
+      ],
+      "exit": 0
+    },
+    "verify-ci-stream-push.py": {
+      "command": [
+        "scripts/verify-ci-stream-push.py"
+      ],
+      "exit": 0
+    },
+    "verify-drift-eventing.py": {
+      "command": [
+        "scripts/verify-drift-eventing.py"
+      ],
+      "exit": 0
+    },
+    "verify-native-serving.py": {
+      "command": [
+        "scripts/verify-native-serving.py"
+      ],
+      "exit": 0
+    },
+    "verify-ci-api-observability.py": {
+      "command": [
+        "scripts/verify-ci-api-observability.py"
+      ],
+      "exit": 0
+    },
+    "verify-offline-drift.py": {
+      "command": [
+        "scripts/verify-offline-drift.py"
+      ],
+      "exit": 0
+    },
+    "verify-ab-monitoring.py": {
+      "command": [
+        "scripts/verify-ab-monitoring.py"
+      ],
+      "exit": 0
+    }
+  },
+  "scope": "Frozen PC full-suite and offline evidence verifiers; not new Linux coverage/mutation/load/deployment results. Source unchanged during the entire run."
+}

@@ -22,7 +22,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [Hai CI stream offline/online](docs/ci-stream-push.md) đã Jenkins3/2 SUCCESS/source491: test/build/auto-deploy2+2task Airflow, offline3row đúng/online ban đầu trống, sau đó latest40/100. Replay không tăng đếm và upstream read-only;225payload/bốn ảnh gốc. Nguồn là ba cửa sổ Kafka/Flink thật27/10 được replay, chưa luồng live mới liên tục.
 
-S1–S4 là hai job độc lập được CI triển khai; cửa sổ nguồn là snapshot đã chốt, không vẽ file thành service. Redis phân biệt project cho các monitoring feature, không thay tám feature của predictor.
+S1–S5 là hai job độc lập được CI triển khai; cửa sổ nguồn là snapshot đã chốt, không vẽ file thành service. Redis phân biệt project cho các monitoring feature, không thay tám feature của predictor.
 
 [Gateway private NGINX](docs/private-gateway.md) đã4tuyến metrics/logs/trace/features, Basic auth/HTTPS/rate limit thực:8lần401,4redirect308,32burst6HTTP200/26HTTP429 rồi phục hồi.86payload/bốn ảnh gốc; domain `.test` trong lab với CA riêng, chưa publicDNS/browsertrust.
 
@@ -31,6 +31,8 @@ S1–S4 là hai job độc lập được CI triển khai; cửa sổ nguồn l�
 [Mesh native](docs/private-mesh.md) dùng Istio1.31.3 và STRICT mTLS: principal đúng gọi model6 trả200/math khớp; principal sai, giả header và thao tác ngoài quyền bị403; plaintext bị TLS reset.106payload/hai ảnh gốc/verifier; kiểm chứng namespace riêng, chưa migration production.
 
 [TTL và ba đường ghi feature](docs/feature-jobs-and-ttl.md) phân biệt event freshness, Redis expiry và lease demo. [IaC audit](docs/iac-verification.md) bổ sung plan14no-op mới, recaps Ansible và ảnh report gốc.
+
+[Audit chất lượng repo](docs/repository-quality.md) giữ source cố định, full tests trên PC và giới hạn kiểm chứng. [Bàn giao demo và cách tự kiểm](docs/final-handover.md) phân biệt source100GB, feature60ngày và dữ liệu mô phỏng.
 
 ## Mục lục
 
@@ -76,6 +78,12 @@ S1–S4 là hai job độc lập được CI triển khai; cửa sổ nguồn l�
 - [Gateway private: authentication, rate limit và HTTPS](docs/private-gateway.md)
 - [CI hai job stream offline/online](docs/ci-stream-push.md)
 - [CI telemetry: test/build/auto-deploy cùng model production](docs/ci-api-observability.md)
+- [API boundary/partition và Hypothesis](docs/api-validation.md)
+- [OPA: policy gate biết từ chối cấu hình sai](docs/deployment-policy.md)
+- [TTL từng view và ba đường ghi feature](docs/feature-jobs-and-ttl.md)
+- [Terraform/Ansible: plan, recaps và ảnh gốc](docs/iac-verification.md)
+- [Chất lượng repo và docstrings](docs/repository-quality.md)
+- [Bàn giao demo và tự kiểm](docs/final-handover.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist final-coursework chính](docs/final-rubric-tracker.md)
 - [Checklist hai sheet50% trước đây](docs/rubric-tracker.md)
@@ -134,7 +142,7 @@ airflow/dags/                DP1–DP3, materialization và offline drift địn
 
 ## Sơ đồ triển khai hiện có
 
-Các hộp là job/container/pod/service có thể triển khai; Feast SDK chạy bên trong job/API. Dữ liệu Parquet/workspace nằm trên volume của cùng VM, không phải một Feast server riêng. Luồng U là dự đoán; D là dữ liệu/metadata; T/C là training/CI; R là lệnh retrain/trạng thái; M/L là metrics/logs; O là API metrics và distributed trace. Màu phân biệt nhóm, không chấm mức hoàn thành.
+Các hộp là job/container/pod/service có thể triển khai; Feast SDK chạy bên trong job/API. Dữ liệu Parquet/workspace nằm trên volume của cùng VM, không phải một Feast server riêng. Luồng U là dự đoán; D là dữ liệu/metadata; F/S là nguồn stream và hai job store; H/P là mesh/policy riêng; T/C là training/CI; R là lệnh retrain/trạng thái; M/L là metrics/logs; O là API metrics và distributed trace. Màu phân biệt nhóm, không chấm mức hoàn thành.
 
 ```mermaid
 flowchart LR
@@ -155,17 +163,23 @@ flowchart LR
     Spark -->|D6 Parquet feature qua HDD| Materialize
     Materialize -->|D7 native online vectors| BatchRedis[Redis batch-stream container]
     Jenkins[Jenkins controller container] -->|S1 triển khai hai DAG sau gates| Airflow
-    Airflow -->|S2 retained finalized-window snapshot| StreamOffline[Stream offline job container]
-    StreamOffline -->|S3 verified release qua HDD read-only| StreamOnline[Stream online job container]
-    StreamOnline -->|S4 latest monitoring vectors| Redis
+    Airflow -->|S2 submit offline release| StreamOffline[Stream offline job container]
+    Airflow -->|S3 submit online release| StreamOnline[Stream online job container]
+    StreamOffline -->|S4 verified Parquet qua HDD read-only| StreamOnline
+    StreamOnline -->|S5 latest monitoring vectors| Redis
+    Generator -->|F1 telemetry replay theo arrival| Kafka[Kafka broker container]
+    Kafka -->|F2 readings và retries| Flink[Flink job containers]
+    Flink -->|F3 retained finalized snapshot qua HDD| StreamOffline
     Jenkins -->|V1 AppRole và đọc credential CI| Vault[Vault Raft process - HDD state]
     Vault -->|V2 short token và credential Airflow| Jenkins
     VaultSync[Gateway credential sync job] -->|V3 AppRole và đọc KV2| Vault
     Vault -->|V4 gateway credential version| VaultSync
     VaultSync -->|V5 auth Secret update được controller watch| Gateway
-    MeshCaller[Identity probe - feature-caller SA] -->|S1 mTLS principal và POST allowed| MeshProxy[Istio Envoy - iot-mesh namespace]
-    MeshOther[Untrusted và plaintext probes] -->|S2 denied403 hoặc TLS reset| MeshProxy
-    MeshProxy -->|S3 chỉ request được phép| MeshPredictor[Isolated real model6 clone]
+    MeshCaller[Identity probe Deployment - feature-caller SA] -->|H1 mTLS principal và POST allowed| MeshPredictor[Isolated model6 Deployment - Envoy và predictor]
+    MeshOther[Untrusted và plaintext probe Deployments] -->|H2 denied403 hoặc TLS reset| MeshPredictor
+    Istiod[Istiod Deployment] -->|H3 workload identity và certificate| MeshPredictor
+    Jenkins -->|P1 sealed plan và release envelope| Policy[OPA policy job container]
+    Policy -->|P2 allow0 hoặc deny1 - không deploy| Jenkins
     Jenkins -->|C1 submit training CI| KFP[Kubeflow API Deployment]
     KFP -->|T1 điều phối năm task| Training[KFP ML task pods]
     Spark -->|T2 offline feature qua HDD và Feast| Training
@@ -208,10 +222,10 @@ flowchart LR
     classDef data fill:#e1f2df,stroke:#428044,color:#111;
     classDef monitor fill:#fff0cf,stroke:#a97920,color:#111;
     class Gateway,API,Redis,Predictor,AB,Old,Drift,EventDrift,EventIngress,IMC,EventFilter serving;
-    class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins,Retrain,EventPub,StreamOffline,StreamOnline data;
+    class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins,Retrain,EventPub,StreamOffline,StreamOnline,Kafka,Flink,Policy data;
     class DriftJob,PG,Prom,Node,Grafana,Alloy,Loki,Jaeger monitor;
     classDef security fill:#eee0f6,stroke:#75408d,color:#111;
-    class Vault,VaultSync security;
+    class Vault,VaultSync,Istiod,MeshCaller,MeshOther,MeshPredictor security;
 ```
 
 Sơ đồ tóm tắt các lượt đã có bằng chứng, không có nghĩa mọi job chạy đồng thời. Spark100GB mới có Bronze/Silver; feature/training dùng nguồn60ngày riêng. Đường U hiện pin model6 sauCI8/source99d6dcc; C3–C7 đã chạy thật với gate cache TTL/context và pod identities. A/B tạm giữ mỗi predictor1replica rồi restore1..2; chưa HA nhiều máy. SQLite nằm trong volume HDD của router với PV/PVC Retain. [Tracker](docs/final-rubric-tracker.md) và [kiến trúc chi tiết](docs/architecture.md) ghi phạm vi còn thiếu. Kafka/Flink/push và metadata dependencies có sơ đồ/receipt riêng trong docs; chúng không được suy ra đã nằm trên luồng U.
@@ -297,9 +311,3 @@ Get-Content outputs/practice-chunks/chunked-report.json
 - [Airflow theo dõi drift offline](docs/offline-drift-monitoring.md):hai lượt scheduler cách5phút, mỗi lượt1.024snapshot qua Feast; PSI độc lập/23gauge/sáu panel qua Pushgateway→Prometheus/Grafana đều khớp. SHA sai bị chặn và không cập nhật success;64file proof/ba ảnh gốc. Đồng hồ mô phỏng, không groundtruth hoặc accuracy; tự kiểm bằng `python -S scripts/verify-offline-drift.py`.
 
 - [CI drift Eventing→KServe và tải native](docs/drift-eventing.md): Jenkins3 SUCCESS, ACK204 sau durable write, filter/replay/conflict; `python -S scripts/verify-drift-eventing.py`.
-
-- [API: kiểm thử biên, phân hoạch và 220 ví dụ Hypothesis](docs/api-validation.md).
-
-- [OPA policy gate:48ca và Jenkins chặn triển khai sai](docs/deployment-policy.md).
-- [TTL từng view và ba đường ghi feature](docs/feature-jobs-and-ttl.md).
-- [Terraform/Ansible: plan mới, recaps và ảnh report gốc](docs/iac-verification.md).

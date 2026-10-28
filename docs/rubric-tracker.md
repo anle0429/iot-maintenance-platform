@@ -168,3 +168,5 @@ Security28/10: [Mesh native](private-mesh.md) theo final F55: STRICT mTLS/identi
 28/10: [Discovery logs](log-discovery.md)126payload/3JPEG, [MMD native cohort](joint-cohort.md)17payload/597permutations and [DataHub restore](datahub-restore.md)9payload verified offline. Final F48/F58 scope updated; historical93source rows unchanged.
 
 Đối chiếu bổ sung28Oct: [TTL từng view và ba job](feature-jobs-and-ttl.md), [IaC14no-op/Ansible recap/ảnh](iac-verification.md), [API71JUnit/220Hypothesis](api-validation.md). Giữ trạng thái lịch sử93dòng; final57 là chuẩn chính, không cộng hai bảng.
+
+28Oct bổ sung [repoquality](repository-quality.md), [Airflow API graph/freshmodel6/demo](final-handover.md); whole-source streaming push5.760windows còn triển khai, không thay bằng3windowfixture.

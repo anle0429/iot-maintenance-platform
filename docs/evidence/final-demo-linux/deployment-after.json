@@ -1,0 +1,274 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "annotations": {
+      "deployment.kubernetes.io/revision": "28",
+      "meta.helm.sh/release-name": "iot-feature-api",
+      "meta.helm.sh/release-namespace": "iot-features"
+    },
+    "creationTimestamp": "2026-10-27T15:34:07Z",
+    "generation": 50,
+    "labels": {
+      "app.kubernetes.io/instance": "iot-feature-api",
+      "app.kubernetes.io/managed-by": "Helm",
+      "app.kubernetes.io/name": "iot-api"
+    },
+    "name": "iot-feature-api",
+    "namespace": "iot-features",
+    "resourceVersion": "208893",
+    "uid": "8ee0405d-518b-44a7-97d1-5c208c9788c0"
+  },
+  "spec": {
+    "progressDeadlineSeconds": 90,
+    "replicas": 1,
+    "revisionHistoryLimit": 5,
+    "selector": {
+      "matchLabels": {
+        "app.kubernetes.io/instance": "iot-feature-api"
+      }
+    },
+    "strategy": {
+      "rollingUpdate": {
+        "maxSurge": 1,
+        "maxUnavailable": 0
+      },
+      "type": "RollingUpdate"
+    },
+    "template": {
+      "metadata": {
+        "annotations": {
+          "iot.coursework/revision-marker": "final-demo-28"
+        },
+        "labels": {
+          "app.kubernetes.io/instance": "iot-feature-api",
+          "app.kubernetes.io/name": "iot-api"
+        }
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "IOT_FEAST_REDIS",
+                "value": "online-serve-jenkins-8.iot-features.svc.cluster.local:6379"
+              },
+              {
+                "name": "IOT_SERVING_STATE",
+                "value": "/state"
+              },
+              {
+                "name": "IOT_KSERVE_URL",
+                "value": "http://iot-pump-serve-jenkins-8-predictor.iot-serving.svc.cluster.local"
+              },
+              {
+                "name": "IOT_MODEL_PIN",
+                "value": "/app/model-pin.json"
+              },
+              {
+                "name": "IOT_API_SERVICE",
+                "value": "feature"
+              },
+              {
+                "name": "IOT_TRACE_ENDPOINT",
+                "value": "http://iot-jaeger.iot-observability.svc.cluster.local:4318/v1/traces"
+              }
+            ],
+            "image": "iot-coursework-feature-api:observe-jenkins-2",
+            "imagePullPolicy": "Never",
+            "lifecycle": {
+              "preStop": {
+                "exec": {
+                  "command": [
+                    "python",
+                    "-c",
+                    "import time; time.sleep(5)"
+                  ]
+                }
+              }
+            },
+            "livenessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/health/live",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 2
+            },
+            "name": "api",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "name": "http",
+                "protocol": "TCP"
+              }
+            ],
+            "readinessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/health/ready",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 3,
+              "successThreshold": 1,
+              "timeoutSeconds": 5
+            },
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "1Gi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "256Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "startupProbe": {
+              "failureThreshold": 45,
+              "httpGet": {
+                "path": "/health/ready",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 2,
+              "successThreshold": 1,
+              "timeoutSeconds": 5
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/state",
+                "name": "state"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp"
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "initContainers": [
+          {
+            "command": [
+              "python",
+              "-c",
+              "import shutil,pathlib; p=pathlib.Path('/state/registry'); p.mkdir(); [shutil.copyfile('/seed/'+n,'/state/'+n) for n in ['context.json','verification.json','_READY.json']]; shutil.copyfile('/seed/registry.db','/state/registry/registry.db')"
+            ],
+            "image": "iot-coursework-feature-api:observe-jenkins-2",
+            "imagePullPolicy": "Never",
+            "name": "copy-state",
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "256Mi"
+              },
+              "requests": {
+                "cpu": "50m",
+                "memory": "64Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/seed",
+                "name": "seed",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/state",
+                "name": "state"
+              }
+            ]
+          }
+        ],
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 10001,
+          "runAsGroup": 10001,
+          "runAsNonRoot": true,
+          "runAsUser": 10001,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "terminationGracePeriodSeconds": 30,
+        "volumes": [
+          {
+            "configMap": {
+              "defaultMode": 420,
+              "name": "iot-feature-final-demo-28"
+            },
+            "name": "seed"
+          },
+          {
+            "emptyDir": {
+              "medium": "Memory",
+              "sizeLimit": "16Mi"
+            },
+            "name": "state"
+          },
+          {
+            "emptyDir": {
+              "medium": "Memory",
+              "sizeLimit": "32Mi"
+            },
+            "name": "tmp"
+          }
+        ]
+      }
+    }
+  },
+  "status": {
+    "availableReplicas": 1,
+    "conditions": [
+      {
+        "lastTransitionTime": "2026-10-28T22:10:17Z",
+        "lastUpdateTime": "2026-10-28T22:10:17Z",
+        "message": "Deployment has minimum availability.",
+        "reason": "MinimumReplicasAvailable",
+        "status": "True",
+        "type": "Available"
+      },
+      {
+        "lastTransitionTime": "2026-10-28T06:33:05Z",
+        "lastUpdateTime": "2026-10-28T22:10:17Z",
+        "message": "ReplicaSet \"iot-feature-api-5f9785454f\" has successfully progressed.",
+        "reason": "NewReplicaSetAvailable",
+        "status": "True",
+        "type": "Progressing"
+      }
+    ],
+    "observedGeneration": 50,
+    "readyReplicas": 1,
+    "replicas": 1,
+    "terminatingReplicas": 1,
+    "updatedReplicas": 1
+  }
+}

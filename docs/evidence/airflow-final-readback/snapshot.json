@@ -1,0 +1,894 @@
+{
+  "checked_utc": "2026-10-28T22:13:21.544866+00:00",
+  "source": "Live authenticated GETs from existing Airflow3.1.7 API; no DAG trigger/pause/write",
+  "runs": [
+    {
+      "dag": "iot_feast_materialization",
+      "run_id": "feast-incremental-27",
+      "run": {
+        "dag_run_id": "feast-incremental-27",
+        "dag_id": "iot_feast_materialization",
+        "logical_date": "2026-10-27T06:04:08.146016Z",
+        "queued_at": "2026-10-27T06:04:08.165274Z",
+        "start_date": "2026-10-27T06:04:08.468658Z",
+        "end_date": "2026-10-27T06:04:46.859675Z",
+        "duration": 38.391017,
+        "data_interval_start": "2026-10-27T06:04:08.146016Z",
+        "data_interval_end": "2026-10-27T06:04:08.146016Z",
+        "run_after": "2026-10-27T06:04:08.154253Z",
+        "last_scheduling_decision": "2026-10-27T06:04:46.853366Z",
+        "run_type": "manual",
+        "state": "success",
+        "triggered_by": "rest_api",
+        "triggering_user_name": "learner",
+        "conf": {
+          "end_utc": "2026-11-30T00:00:00Z",
+          "batch_id": "feast-incremental-27"
+        },
+        "note": null,
+        "dag_versions": [
+          {
+            "id": "01a17bf1-1136-7496-a7b2-9debc6678b28",
+            "version_number": 1,
+            "dag_id": "iot_feast_materialization",
+            "bundle_name": "dags-folder",
+            "bundle_version": null,
+            "created_at": "2026-10-27T05:59:18.582678Z",
+            "dag_display_name": "iot_feast_materialization",
+            "bundle_url": null
+          }
+        ],
+        "bundle_version": null,
+        "dag_display_name": "iot_feast_materialization"
+      },
+      "instances": {
+        "task_instances": [
+          {
+            "id": "01a17bf5-7c72-725d-b07f-bdc1361e5fff",
+            "task_id": "register_bound_source",
+            "dag_id": "iot_feast_materialization",
+            "dag_run_id": "feast-incremental-27",
+            "map_index": -1,
+            "logical_date": "2026-10-27T06:04:08.146016Z",
+            "run_after": "2026-10-27T06:04:08.154253Z",
+            "start_date": "2026-10-27T06:04:08.532579Z",
+            "end_date": "2026-10-27T06:04:18.369514Z",
+            "duration": 9.836935,
+            "state": "success",
+            "try_number": 1,
+            "max_tries": 0,
+            "task_display_name": "register_bound_source",
+            "dag_display_name": "iot_feast_materialization",
+            "hostname": "66abb82666f5",
+            "unixname": "airflow",
+            "pool": "feast_jobs",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 4,
+            "operator": "PythonOperator",
+            "operator_name": "PythonOperator",
+            "queued_when": "2026-10-27T06:04:08.515320Z",
+            "scheduled_when": "2026-10-27T06:04:08.496062Z",
+            "pid": 34,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a17bf1-1136-7496-a7b2-9debc6678b28",
+              "version_number": 1,
+              "dag_id": "iot_feast_materialization",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-10-27T05:59:18.582678Z",
+              "dag_display_name": "iot_feast_materialization",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a17bf5-7c73-79f4-aee6-f376a0c750cc",
+            "task_id": "materialize_incremental",
+            "dag_id": "iot_feast_materialization",
+            "dag_run_id": "feast-incremental-27",
+            "map_index": -1,
+            "logical_date": "2026-10-27T06:04:08.146016Z",
+            "run_after": "2026-10-27T06:04:08.154253Z",
+            "start_date": "2026-10-27T06:04:18.914491Z",
+            "end_date": "2026-10-27T06:04:31.851655Z",
+            "duration": 12.937164,
+            "state": "success",
+            "try_number": 1,
+            "max_tries": 0,
+            "task_display_name": "materialize_incremental",
+            "dag_display_name": "iot_feast_materialization",
+            "hostname": "66abb82666f5",
+            "unixname": "airflow",
+            "pool": "feast_jobs",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 3,
+            "operator": "PythonOperator",
+            "operator_name": "PythonOperator",
+            "queued_when": "2026-10-27T06:04:18.898107Z",
+            "scheduled_when": "2026-10-27T06:04:18.874578Z",
+            "pid": 35,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a17bf1-1136-7496-a7b2-9debc6678b28",
+              "version_number": 1,
+              "dag_id": "iot_feast_materialization",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-10-27T05:59:18.582678Z",
+              "dag_display_name": "iot_feast_materialization",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a17bf5-7c74-7ee9-8044-210f9a551f17",
+            "task_id": "validate_online",
+            "dag_id": "iot_feast_materialization",
+            "dag_run_id": "feast-incremental-27",
+            "map_index": -1,
+            "logical_date": "2026-10-27T06:04:08.146016Z",
+            "run_after": "2026-10-27T06:04:08.154253Z",
+            "start_date": "2026-10-27T06:04:32.913709Z",
+            "end_date": "2026-10-27T06:04:43.006518Z",
+            "duration": 10.092809,
+            "state": "success",
+            "try_number": 1,
+            "max_tries": 0,
+            "task_display_name": "validate_online",
+            "dag_display_name": "iot_feast_materialization",
+            "hostname": "66abb82666f5",
+            "unixname": "airflow",
+            "pool": "feast_jobs",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 2,
+            "operator": "PythonOperator",
+            "operator_name": "PythonOperator",
+            "queued_when": "2026-10-27T06:04:32.897825Z",
+            "scheduled_when": "2026-10-27T06:04:32.874636Z",
+            "pid": 36,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a17bf1-1136-7496-a7b2-9debc6678b28",
+              "version_number": 1,
+              "dag_id": "iot_feast_materialization",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-10-27T05:59:18.582678Z",
+              "dag_display_name": "iot_feast_materialization",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a17bf5-7c75-73f0-932d-111d3a9a5312",
+            "task_id": "publish_to_datahub",
+            "dag_id": "iot_feast_materialization",
+            "dag_run_id": "feast-incremental-27",
+            "map_index": -1,
+            "logical_date": "2026-10-27T06:04:08.146016Z",
+            "run_after": "2026-10-27T06:04:08.154253Z",
+            "start_date": "2026-10-27T06:04:43.539013Z",
+            "end_date": "2026-10-27T06:04:46.447522Z",
+            "duration": 2.908509,
+            "state": "success",
+            "try_number": 1,
+            "max_tries": 0,
+            "task_display_name": "publish_to_datahub",
+            "dag_display_name": "iot_feast_materialization",
+            "hostname": "66abb82666f5",
+            "unixname": "airflow",
+            "pool": "feast_jobs",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 1,
+            "operator": "PythonOperator",
+            "operator_name": "PythonOperator",
+            "queued_when": "2026-10-27T06:04:43.524114Z",
+            "scheduled_when": "2026-10-27T06:04:43.505368Z",
+            "pid": 37,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a17bf1-1136-7496-a7b2-9debc6678b28",
+              "version_number": 1,
+              "dag_id": "iot_feast_materialization",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-10-27T05:59:18.582678Z",
+              "dag_display_name": "iot_feast_materialization",
+              "bundle_url": null
+            }
+          }
+        ],
+        "total_entries": 4
+      },
+      "definitions": {
+        "tasks": [
+          {
+            "task_id": "materialize_incremental",
+            "task_display_name": "materialize_incremental",
+            "owner": "airflow",
+            "start_date": "2026-10-01T00:00:00Z",
+            "end_date": null,
+            "trigger_rule": "all_success",
+            "depends_on_past": false,
+            "wait_for_downstream": false,
+            "retries": 0.0,
+            "queue": "default",
+            "pool": "feast_jobs",
+            "pool_slots": 1.0,
+            "execution_timeout": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 600,
+              "microseconds": 0
+            },
+            "retry_delay": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 300,
+              "microseconds": 0
+            },
+            "retry_exponential_backoff": false,
+            "priority_weight": 1.0,
+            "weight_rule": "downstream",
+            "ui_color": "#ffefeb",
+            "ui_fgcolor": "#000",
+            "template_fields": [
+              "templates_dict",
+              "op_args",
+              "op_kwargs"
+            ],
+            "downstream_task_ids": [
+              "validate_online"
+            ],
+            "doc_md": null,
+            "operator_name": "PythonOperator",
+            "params": {},
+            "class_ref": {
+              "module_path": "airflow.providers.standard.operators.python",
+              "class_name": "PythonOperator"
+            },
+            "is_mapped": false,
+            "extra_links": []
+          },
+          {
+            "task_id": "publish_to_datahub",
+            "task_display_name": "publish_to_datahub",
+            "owner": "airflow",
+            "start_date": "2026-10-01T00:00:00Z",
+            "end_date": null,
+            "trigger_rule": "all_success",
+            "depends_on_past": false,
+            "wait_for_downstream": false,
+            "retries": 0.0,
+            "queue": "default",
+            "pool": "feast_jobs",
+            "pool_slots": 1.0,
+            "execution_timeout": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 600,
+              "microseconds": 0
+            },
+            "retry_delay": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 300,
+              "microseconds": 0
+            },
+            "retry_exponential_backoff": false,
+            "priority_weight": 1.0,
+            "weight_rule": "downstream",
+            "ui_color": "#ffefeb",
+            "ui_fgcolor": "#000",
+            "template_fields": [
+              "templates_dict",
+              "op_args",
+              "op_kwargs"
+            ],
+            "downstream_task_ids": [],
+            "doc_md": null,
+            "operator_name": "PythonOperator",
+            "params": {},
+            "class_ref": {
+              "module_path": "airflow.providers.standard.operators.python",
+              "class_name": "PythonOperator"
+            },
+            "is_mapped": false,
+            "extra_links": []
+          },
+          {
+            "task_id": "register_bound_source",
+            "task_display_name": "register_bound_source",
+            "owner": "airflow",
+            "start_date": "2026-10-01T00:00:00Z",
+            "end_date": null,
+            "trigger_rule": "all_success",
+            "depends_on_past": false,
+            "wait_for_downstream": false,
+            "retries": 0.0,
+            "queue": "default",
+            "pool": "feast_jobs",
+            "pool_slots": 1.0,
+            "execution_timeout": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 600,
+              "microseconds": 0
+            },
+            "retry_delay": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 300,
+              "microseconds": 0
+            },
+            "retry_exponential_backoff": false,
+            "priority_weight": 1.0,
+            "weight_rule": "downstream",
+            "ui_color": "#ffefeb",
+            "ui_fgcolor": "#000",
+            "template_fields": [
+              "templates_dict",
+              "op_args",
+              "op_kwargs"
+            ],
+            "downstream_task_ids": [
+              "materialize_incremental"
+            ],
+            "doc_md": null,
+            "operator_name": "PythonOperator",
+            "params": {},
+            "class_ref": {
+              "module_path": "airflow.providers.standard.operators.python",
+              "class_name": "PythonOperator"
+            },
+            "is_mapped": false,
+            "extra_links": []
+          },
+          {
+            "task_id": "validate_online",
+            "task_display_name": "validate_online",
+            "owner": "airflow",
+            "start_date": "2026-10-01T00:00:00Z",
+            "end_date": null,
+            "trigger_rule": "all_success",
+            "depends_on_past": false,
+            "wait_for_downstream": false,
+            "retries": 0.0,
+            "queue": "default",
+            "pool": "feast_jobs",
+            "pool_slots": 1.0,
+            "execution_timeout": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 600,
+              "microseconds": 0
+            },
+            "retry_delay": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 300,
+              "microseconds": 0
+            },
+            "retry_exponential_backoff": false,
+            "priority_weight": 1.0,
+            "weight_rule": "downstream",
+            "ui_color": "#ffefeb",
+            "ui_fgcolor": "#000",
+            "template_fields": [
+              "templates_dict",
+              "op_args",
+              "op_kwargs"
+            ],
+            "downstream_task_ids": [
+              "publish_to_datahub"
+            ],
+            "doc_md": null,
+            "operator_name": "PythonOperator",
+            "params": {},
+            "class_ref": {
+              "module_path": "airflow.providers.standard.operators.python",
+              "class_name": "PythonOperator"
+            },
+            "is_mapped": false,
+            "extra_links": []
+          }
+        ],
+        "total_entries": 4
+      }
+    },
+    {
+      "dag": "iot_ci_stream_offline",
+      "run_id": "stream-offline-jenkins-3",
+      "run": {
+        "dag_run_id": "stream-offline-jenkins-3",
+        "dag_id": "iot_ci_stream_offline",
+        "logical_date": "2026-10-28T19:31:58.023120Z",
+        "queued_at": "2026-10-28T19:31:58.043026Z",
+        "start_date": "2026-10-28T19:31:58.642204Z",
+        "end_date": "2026-10-28T19:32:17.116324Z",
+        "duration": 18.47412,
+        "data_interval_start": "2026-10-28T19:31:58.023120Z",
+        "data_interval_end": "2026-10-28T19:31:58.023120Z",
+        "run_after": "2026-10-28T19:31:58.032416Z",
+        "last_scheduling_decision": "2026-10-28T19:32:17.112576Z",
+        "run_type": "manual",
+        "state": "success",
+        "triggered_by": "rest_api",
+        "triggering_user_name": "learner",
+        "conf": {
+          "commit": "49115d5a7dcb8c331e8169e8a37df462743d921f",
+          "release": "stream-offline-jenkins-3"
+        },
+        "note": null,
+        "dag_versions": [
+          {
+            "id": "01a183e8-a79f-730f-80b3-8325a7540b0a",
+            "version_number": 1,
+            "dag_id": "iot_ci_stream_offline",
+            "bundle_name": "dags-folder",
+            "bundle_version": null,
+            "created_at": "2026-10-28T19:07:04.991108Z",
+            "dag_display_name": "iot_ci_stream_offline",
+            "bundle_url": null
+          }
+        ],
+        "bundle_version": null,
+        "dag_display_name": "iot_ci_stream_offline"
+      },
+      "instances": {
+        "task_instances": [
+          {
+            "id": "01a183ff-6fe5-7499-9d2e-38cacdccdd37",
+            "task_id": "push_finalized_windows",
+            "dag_id": "iot_ci_stream_offline",
+            "dag_run_id": "stream-offline-jenkins-3",
+            "map_index": -1,
+            "logical_date": "2026-10-28T19:31:58.023120Z",
+            "run_after": "2026-10-28T19:31:58.032416Z",
+            "start_date": "2026-10-28T19:31:58.714825Z",
+            "end_date": "2026-10-28T19:32:07.683712Z",
+            "duration": 8.968887,
+            "state": "success",
+            "try_number": 1,
+            "max_tries": 0,
+            "task_display_name": "push_finalized_windows",
+            "dag_display_name": "iot_ci_stream_offline",
+            "hostname": "89e79fc8c030",
+            "unixname": "airflow",
+            "pool": "feast_jobs",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 2,
+            "operator": "PythonOperator",
+            "operator_name": "PythonOperator",
+            "queued_when": "2026-10-28T19:31:58.698608Z",
+            "scheduled_when": "2026-10-28T19:31:58.671145Z",
+            "pid": 134,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a183e8-a79f-730f-80b3-8325a7540b0a",
+              "version_number": 1,
+              "dag_id": "iot_ci_stream_offline",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-10-28T19:07:04.991108Z",
+              "dag_display_name": "iot_ci_stream_offline",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a183ff-6fe6-7e92-a9e6-5d43c3eb1cc9",
+            "task_id": "replay_without_new_writes",
+            "dag_id": "iot_ci_stream_offline",
+            "dag_run_id": "stream-offline-jenkins-3",
+            "map_index": -1,
+            "logical_date": "2026-10-28T19:31:58.023120Z",
+            "run_after": "2026-10-28T19:31:58.032416Z",
+            "start_date": "2026-10-28T19:32:08.174492Z",
+            "end_date": "2026-10-28T19:32:16.923027Z",
+            "duration": 8.748535,
+            "state": "success",
+            "try_number": 1,
+            "max_tries": 0,
+            "task_display_name": "replay_without_new_writes",
+            "dag_display_name": "iot_ci_stream_offline",
+            "hostname": "89e79fc8c030",
+            "unixname": "airflow",
+            "pool": "feast_jobs",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 1,
+            "operator": "PythonOperator",
+            "operator_name": "PythonOperator",
+            "queued_when": "2026-10-28T19:32:08.156753Z",
+            "scheduled_when": "2026-10-28T19:32:08.132242Z",
+            "pid": 135,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a183e8-a79f-730f-80b3-8325a7540b0a",
+              "version_number": 1,
+              "dag_id": "iot_ci_stream_offline",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-10-28T19:07:04.991108Z",
+              "dag_display_name": "iot_ci_stream_offline",
+              "bundle_url": null
+            }
+          }
+        ],
+        "total_entries": 2
+      },
+      "definitions": {
+        "tasks": [
+          {
+            "task_id": "push_finalized_windows",
+            "task_display_name": "push_finalized_windows",
+            "owner": "airflow",
+            "start_date": "2026-10-01T00:00:00Z",
+            "end_date": null,
+            "trigger_rule": "all_success",
+            "depends_on_past": false,
+            "wait_for_downstream": false,
+            "retries": 0.0,
+            "queue": "default",
+            "pool": "feast_jobs",
+            "pool_slots": 1.0,
+            "execution_timeout": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 360,
+              "microseconds": 0
+            },
+            "retry_delay": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 300,
+              "microseconds": 0
+            },
+            "retry_exponential_backoff": false,
+            "priority_weight": 1.0,
+            "weight_rule": "downstream",
+            "ui_color": "#ffefeb",
+            "ui_fgcolor": "#000",
+            "template_fields": [
+              "templates_dict",
+              "op_args",
+              "op_kwargs"
+            ],
+            "downstream_task_ids": [
+              "replay_without_new_writes"
+            ],
+            "doc_md": null,
+            "operator_name": "PythonOperator",
+            "params": {},
+            "class_ref": {
+              "module_path": "airflow.providers.standard.operators.python",
+              "class_name": "PythonOperator"
+            },
+            "is_mapped": false,
+            "extra_links": []
+          },
+          {
+            "task_id": "replay_without_new_writes",
+            "task_display_name": "replay_without_new_writes",
+            "owner": "airflow",
+            "start_date": "2026-10-01T00:00:00Z",
+            "end_date": null,
+            "trigger_rule": "all_success",
+            "depends_on_past": false,
+            "wait_for_downstream": false,
+            "retries": 0.0,
+            "queue": "default",
+            "pool": "feast_jobs",
+            "pool_slots": 1.0,
+            "execution_timeout": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 360,
+              "microseconds": 0
+            },
+            "retry_delay": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 300,
+              "microseconds": 0
+            },
+            "retry_exponential_backoff": false,
+            "priority_weight": 1.0,
+            "weight_rule": "downstream",
+            "ui_color": "#ffefeb",
+            "ui_fgcolor": "#000",
+            "template_fields": [
+              "templates_dict",
+              "op_args",
+              "op_kwargs"
+            ],
+            "downstream_task_ids": [],
+            "doc_md": null,
+            "operator_name": "PythonOperator",
+            "params": {},
+            "class_ref": {
+              "module_path": "airflow.providers.standard.operators.python",
+              "class_name": "PythonOperator"
+            },
+            "is_mapped": false,
+            "extra_links": []
+          }
+        ],
+        "total_entries": 2
+      }
+    },
+    {
+      "dag": "iot_ci_stream_online",
+      "run_id": "stream-online-jenkins-2",
+      "run": {
+        "dag_run_id": "stream-online-jenkins-2",
+        "dag_id": "iot_ci_stream_online",
+        "logical_date": "2026-10-28T19:33:47.879287Z",
+        "queued_at": "2026-10-28T19:33:47.894425Z",
+        "start_date": "2026-10-28T19:33:48.408781Z",
+        "end_date": "2026-10-28T19:34:04.274982Z",
+        "duration": 15.866201,
+        "data_interval_start": "2026-10-28T19:33:47.879287Z",
+        "data_interval_end": "2026-10-28T19:33:47.879287Z",
+        "run_after": "2026-10-28T19:33:47.886304Z",
+        "last_scheduling_decision": "2026-10-28T19:34:04.271717Z",
+        "run_type": "manual",
+        "state": "success",
+        "triggered_by": "rest_api",
+        "triggering_user_name": "learner",
+        "conf": {
+          "commit": "49115d5a7dcb8c331e8169e8a37df462743d921f",
+          "release": "stream-online-jenkins-2"
+        },
+        "note": null,
+        "dag_versions": [
+          {
+            "id": "01a183e8-a7a0-784b-be2f-b6ab59defe86",
+            "version_number": 1,
+            "dag_id": "iot_ci_stream_online",
+            "bundle_name": "dags-folder",
+            "bundle_version": null,
+            "created_at": "2026-10-28T19:07:04.991125Z",
+            "dag_display_name": "iot_ci_stream_online",
+            "bundle_url": null
+          }
+        ],
+        "bundle_version": null,
+        "dag_display_name": "iot_ci_stream_online"
+      },
+      "instances": {
+        "task_instances": [
+          {
+            "id": "01a18401-1d00-75ad-bc8b-1787dff6f563",
+            "task_id": "push_finalized_windows",
+            "dag_id": "iot_ci_stream_online",
+            "dag_run_id": "stream-online-jenkins-2",
+            "map_index": -1,
+            "logical_date": "2026-10-28T19:33:47.879287Z",
+            "run_after": "2026-10-28T19:33:47.886304Z",
+            "start_date": "2026-10-28T19:33:48.461069Z",
+            "end_date": "2026-10-28T19:33:55.952264Z",
+            "duration": 7.491195,
+            "state": "success",
+            "try_number": 1,
+            "max_tries": 0,
+            "task_display_name": "push_finalized_windows",
+            "dag_display_name": "iot_ci_stream_online",
+            "hostname": "89e79fc8c030",
+            "unixname": "airflow",
+            "pool": "feast_jobs",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 2,
+            "operator": "PythonOperator",
+            "operator_name": "PythonOperator",
+            "queued_when": "2026-10-28T19:33:48.447019Z",
+            "scheduled_when": "2026-10-28T19:33:48.427858Z",
+            "pid": 136,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a183e8-a7a0-784b-be2f-b6ab59defe86",
+              "version_number": 1,
+              "dag_id": "iot_ci_stream_online",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-10-28T19:07:04.991125Z",
+              "dag_display_name": "iot_ci_stream_online",
+              "bundle_url": null
+            }
+          },
+          {
+            "id": "01a18401-1d01-7d4a-a612-9e940cfa0b18",
+            "task_id": "replay_without_new_writes",
+            "dag_id": "iot_ci_stream_online",
+            "dag_run_id": "stream-online-jenkins-2",
+            "map_index": -1,
+            "logical_date": "2026-10-28T19:33:47.879287Z",
+            "run_after": "2026-10-28T19:33:47.886304Z",
+            "start_date": "2026-10-28T19:33:56.462306Z",
+            "end_date": "2026-10-28T19:34:03.620491Z",
+            "duration": 7.158185,
+            "state": "success",
+            "try_number": 1,
+            "max_tries": 0,
+            "task_display_name": "replay_without_new_writes",
+            "dag_display_name": "iot_ci_stream_online",
+            "hostname": "89e79fc8c030",
+            "unixname": "airflow",
+            "pool": "feast_jobs",
+            "pool_slots": 1,
+            "queue": "default",
+            "priority_weight": 1,
+            "operator": "PythonOperator",
+            "operator_name": "PythonOperator",
+            "queued_when": "2026-10-28T19:33:56.444843Z",
+            "scheduled_when": "2026-10-28T19:33:56.424815Z",
+            "pid": 137,
+            "executor": null,
+            "executor_config": "{}",
+            "note": null,
+            "rendered_map_index": null,
+            "rendered_fields": {},
+            "trigger": null,
+            "triggerer_job": null,
+            "dag_version": {
+              "id": "01a183e8-a7a0-784b-be2f-b6ab59defe86",
+              "version_number": 1,
+              "dag_id": "iot_ci_stream_online",
+              "bundle_name": "dags-folder",
+              "bundle_version": null,
+              "created_at": "2026-10-28T19:07:04.991125Z",
+              "dag_display_name": "iot_ci_stream_online",
+              "bundle_url": null
+            }
+          }
+        ],
+        "total_entries": 2
+      },
+      "definitions": {
+        "tasks": [
+          {
+            "task_id": "push_finalized_windows",
+            "task_display_name": "push_finalized_windows",
+            "owner": "airflow",
+            "start_date": "2026-10-01T00:00:00Z",
+            "end_date": null,
+            "trigger_rule": "all_success",
+            "depends_on_past": false,
+            "wait_for_downstream": false,
+            "retries": 0.0,
+            "queue": "default",
+            "pool": "feast_jobs",
+            "pool_slots": 1.0,
+            "execution_timeout": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 360,
+              "microseconds": 0
+            },
+            "retry_delay": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 300,
+              "microseconds": 0
+            },
+            "retry_exponential_backoff": false,
+            "priority_weight": 1.0,
+            "weight_rule": "downstream",
+            "ui_color": "#ffefeb",
+            "ui_fgcolor": "#000",
+            "template_fields": [
+              "templates_dict",
+              "op_args",
+              "op_kwargs"
+            ],
+            "downstream_task_ids": [
+              "replay_without_new_writes"
+            ],
+            "doc_md": null,
+            "operator_name": "PythonOperator",
+            "params": {},
+            "class_ref": {
+              "module_path": "airflow.providers.standard.operators.python",
+              "class_name": "PythonOperator"
+            },
+            "is_mapped": false,
+            "extra_links": []
+          },
+          {
+            "task_id": "replay_without_new_writes",
+            "task_display_name": "replay_without_new_writes",
+            "owner": "airflow",
+            "start_date": "2026-10-01T00:00:00Z",
+            "end_date": null,
+            "trigger_rule": "all_success",
+            "depends_on_past": false,
+            "wait_for_downstream": false,
+            "retries": 0.0,
+            "queue": "default",
+            "pool": "feast_jobs",
+            "pool_slots": 1.0,
+            "execution_timeout": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 360,
+              "microseconds": 0
+            },
+            "retry_delay": {
+              "__type": "TimeDelta",
+              "days": 0,
+              "seconds": 300,
+              "microseconds": 0
+            },
+            "retry_exponential_backoff": false,
+            "priority_weight": 1.0,
+            "weight_rule": "downstream",
+            "ui_color": "#ffefeb",
+            "ui_fgcolor": "#000",
+            "template_fields": [
+              "templates_dict",
+              "op_args",
+              "op_kwargs"
+            ],
+            "downstream_task_ids": [],
+            "doc_md": null,
+            "operator_name": "PythonOperator",
+            "params": {},
+            "class_ref": {
+              "module_path": "airflow.providers.standard.operators.python",
+              "class_name": "PythonOperator"
+            },
+            "is_mapped": false,
+            "extra_links": []
+          }
+        ],
+        "total_entries": 2
+      }
+    }
+  ]
+}

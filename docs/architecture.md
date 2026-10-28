@@ -15,9 +15,12 @@
 | Stream CI S | Jenkins → Airflow hai DAG → offline job → online job → Redis theo project riêng | [Offline3/online2SUCCESS](ci-stream-push.md),124Gitinputs;3cửa sổ Kafka/Flink27Oct replay, source read-only, latest40/100; không live source mới hoặc model rolling feature |
 | Secret V | Vault non-dev Raft process trên HDD → Jenkins consumer/gateway sync job qua TLS/AppRole | [Native Vault](vault.md): hai role, đường đọc riêng, token 300 giây; rotation/deny/revoke/restart thực. Root chỉ bootstrap/operator; chưa HA/auto-unseal/migration mọi secret |
 | Gateway G | NGINX Ingress Controller Pod → Grafana relay/Jaeger/feature Service | [Private HTTPS/auth/rate native](private-gateway.md):4virtualhosts/CA+SNI; hostmapping trong lab, chưa publicDNS/browsertrust/cluster-wide isolation |
-| Logs L | Năm file quan sát từ host/API → Alloy → Loki → Grafana | [Log proof](log-monitoring.md), timestamp/message/label exact, chưa auto-discovery Pod hoặc traces |
+| Logs L | Host files và Kubernetes Pod discovery → Alloy → Loki → Grafana | [Dynamic discovery](log-discovery.md):40CRI rows/twoPodUID/restart/multisetkhớp; bốnAPI readbacks; chưa exactly-once mọi crash/rotation |
+| Mesh H | Istiod Deployment và các probe/model Deployments trong namespace riêng, Envoy sidecar nằm trong Pod | [mTLS/authz thật](private-mesh.md): allowed200/math,identity/spoof/operation403/plaintextreset; chưa migration production |
+| Policy P | Jenkins → OPA job container → gate0/1 | [48ca/2allow46deny](deployment-policy.md), positive3/negative5 cùngsource; standalone gate không deploy/admission webhook |
+| Joint diagnostic J | Docker audit job đọc trainreference và retained featurecapture | [MMD cohort](joint-cohort.md):64+64/lineage/permutations; historical diagnostic, chưaAPI/autoretrain; outsideclasspending |
 
-Feast SDK, Parquet/SQLite và volume là thư viện/trạng thái trong các đơn vị thực thi, không vẽ thành service có HTTP endpoint giả. DataHub còn MySQL/OpenSearch và MLflow có backend/artifact volumes; [Compose](../infra/orchestration.compose.yaml)/[DataHub](../infra/datahub.compose.yaml)/[MLflow](../infra/mlflow.compose.yaml) là cấu hình chi tiết. Kubernetes API/Redis/KFP/MLflow nội bộ và UI loopback qua IAP; chưa suy ra đã có Vault/service mesh/public gateway từ các kết nối này.
+Feast SDK, Parquet/SQLite và volume là thư viện/trạng thái trong các đơn vị thực thi, không vẽ thành service có HTTP endpoint giả. DataHub còn MySQL/OpenSearch và MLflow có backend/artifact volumes; [Compose](../infra/orchestration.compose.yaml)/[DataHub](../infra/datahub.compose.yaml)/[MLflow](../infra/mlflow.compose.yaml) là cấu hình chi tiết. Kubernetes API/Redis/KFP/MLflow nội bộ và UI loopback qua IAP. Vault/gateway/mesh có bằng chứng riêng trong các hàng trên; mesh giới hạn namespace thử và gateway chưa publicDNS/browsertrust. VM có một external egress config STANDARD hiện có; firewall của network chỉ cho IAP SSH22.
 
 ## Luồng đã chạy trên VM ngày27/10/2026
 
