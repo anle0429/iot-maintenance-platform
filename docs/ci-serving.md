@@ -1,4 +1,67 @@
-# Chuẩn bị CI phục vụ model: Jenkins → KServe và feature API
+# CI phục vụ model: Jenkins → KServe và feature API
+
+## Kết quả native ngày28/10/2026
+
+**Jenkins `iot-serving/8` SUCCESS trong307,949giây**, source **`99d6dcc2994f55f06133eace53ecff523f6fc3cb`**, packet75file. Chạy trên cùng Linux VM8CPU/64GiB, K3s1.35.9+k3s1/Docker29.9.2. CI đã chọn model6 qua MLflow SDK, kiểm thử, build/probe/import ba image, stage private, chạy A/B trước cutover, đổi feature API bằng Helm và kiểm toàn bộ200máy. Model6 có marker production **cho export trong lab dữ liệu mô phỏng**; đây không phải phê duyệt vận hành máy bơm thực.
+
+| Phép kiểm | Kết quả thực tế | Bằng chứng |
+|---|---|---|
+| Native contract/API |104contracts/41subtests;208API tests PASS |[Contracts](evidence/ci-serving-linux/ci/tests/contracts.txt), [API](evidence/ci-serving-linux/ci/tests/api-tests.txt) |
+| API coverage |425/425statements100%;125/128branches97,65625%;0excluded |[HTML](evidence/ci-serving-linux/ci/tests/coverage-html/index.html), [gate](evidence/ci-serving-linux/ci/tests/verification.json) |
+| Mutation đầy đủ |1.309killed/1.582total=82,74336%;273survived; các trạng thái bỏ/chưa xong đều0 |[Provenance](evidence/ci-serving-linux/ci/tests/mutation-provenance.json), [inventory parent5](evidence/ci-serving-linux/mutation-parent5/tests/mutmut-all-results.txt) |
+| A/B model1/model6 |780trial:376/404;94/101snapshot;40concurrent replay không tăng đếm |[Native report](evidence/ci-serving-linux/ci/ab-verification.json), [ledger readback](evidence/ci-serving-linux/independent-hdd-ledger.json) |
+| Full cutover |195operating predictions đúng arithmetic;5stopped trả409 |[200HTTP responses](evidence/ci-serving-linux/ci/http-all-machines.json) |
+| Controlled rollback |6 →1 →6; mỗi bước195prediction+5stopped, phục hồi candidate |[Rollback](evidence/ci-serving-linux/rollback/verification.json) |
+| Dashboard native |6panel;26giá trị qua mỗi engine Prometheus/Grafana;16PSI tính độc lập |[Query readbacks](evidence/ci-serving-linux/monitoring/panel-queries.json) |
+
+Mutation được **dùng lại từ lượt hoàn chỉnh build5/source914d494**, không chạy lại trong8:67file API/test/fixture/model/dependency và pip freeze/model pin khớp; hash artifact gốc/full inventory đều được kiểm. Contract/API/coverage chạy mới trong8. Source/API/test/dependency đổi sẽ từ chối reuse; không nhận partial hoặc reuse-chain. Test container2CPU/4GiB không OOM. [Manifest](evidence/ci-serving-linux/manifest.json) giữ172payload/11.639.527byte và10JPEG gốc; `native-capture.json` giữ inventory161file ban đầu, chỉ bỏ hai file bookkeeping của coverage khi xuất bản. Các projection có ghi nguồn/hash và phép chọn; không có database, secret, helper setup hoặc dataset lớn trong capsule.
+
+![Jenkins serving8 SUCCESS trên VM](evidence/ci-serving-linux/screenshots/jenkins8-success.jpg)
+
+![API208tests Linux PASS](evidence/ci-serving-linux/screenshots/api-tests8-linux.jpg)
+
+![Coverage native](evidence/ci-serving-linux/screenshots/api-coverage8-linux.jpg)
+
+![Mutation gate hoàn chỉnh, provenance parent5](evidence/ci-serving-linux/screenshots/api-gate8-linux.jpg)
+
+![Nguồn mutation parent5 và source hiện tại được phân biệt](evidence/ci-serving-linux/screenshots/mutation-provenance8-linux.jpg)
+
+## Rollback và cửa sổ đo
+
+Build6 bị guard chặn khi HPA thêm pod giữa A/B. Source mới journal UID/bounds, tạm giữ mỗi predictor1replica, chờ hội tụ rồi giữ nguyên guard identities; CI8 đọc initial/final giống nhau và phục hồi đúng bounds1..2. Đây là điều kiện đo ổn định trên một VM, chưa phải bằng chứng HA/autoscale.
+
+CI7 SUCCESS nhưng kiểm rollback riêng sau đó thất bại: Redis baseline đã hết key dù context chưa hết hạn. CI8 chuẩn bị state/ConfigMap mới bằng materialization thật, rồi kiểm cả HTTP/cohort/pin, lease context và **PTTL vật lý của đủ200key** trước A/B và hai lần trước cutover. Ngưỡng dự phòng15phút giữ nguyên; minPTTL ngay trước switch3.040.112ms. Không sửa đồng hồ hoặc TTL để vượt guard. [Lỗi rollback7](evidence/ci-serving-linux/failed-fallback7/rollback-to-baseline.txt), [cache diagnostic](evidence/ci-serving-linux/failed-fallback7/baseline-redis-diagnostic.json), [guard6](evidence/ci-serving-linux/failed-ab6/ab.txt) được giữ cùng lượt thành công.
+
+Post-CI controlled rollback8 hoàn tất04:55:43UTC, kiểm HTTP và portable model từ từng pod đúng đường dẫn bundle rồi phục hồi6 trong `finally`. Đây là rollback có kiểm soát sau CI; chưa đo zero downtime dưới tải hoặc thử image lỗi trong Helm atomic. Mọi rollout/rollback tiếp theo vẫn phải kiểm context và cache thực còn hạn.
+
+## Locust native: feature retrieval API
+
+Locust2.47.0,1/10users,60giây cấu hình mỗi lượt, pacing0,1giây/user, ramp2/s; cùng VM dùng chung. SLA giữ≥100request,0failure,P95≤500ms. Workload chỉ `GET` feature, không đo prediction TPS hoặc tải cực đại.
+
+| Users | Final requests | Failures | Req/s | P50/P95/P99 ms | HTML |
+|---:|---:|---:|---:|---|---|
+|1|598|0|10,016|6/7/7|[Báo cáo1](evidence/ci-serving-linux/load/users-1.html)|
+|10|5.780|0|96,652|17/28/31|[Báo cáo10](evidence/ci-serving-linux/load/users-10.html)|
+
+HTML cuối lượt khớp quitting-SLA summary. CSV là snapshot định kỳ sớm hơn:591/5.706request, cùng0failure/P95; history cuối khớp CSV. [Locust2.47 stats](https://github.com/locustio/locust/blob/2.47.0/locust/stats.py) ghi CSV mỗi giây và đóng file không ghi lại snapshot cuối. Giữ nguyên cả hai, không sửa CSV cho bằng HTML. Giao diện có thể hiển thị59giây do làm tròn; cấu hình thực60giây. Receipts có epoch hoặc timestamp kèm offset, quy đổi UTC khi đối chiếu; trình duyệt trênPC Chicago hiển thị giờ địa phương.
+
+![Locust1user trên API VM](evidence/ci-serving-linux/screenshots/locust8-users-1.jpg)
+
+![Locust10users trên API VM](evidence/ci-serving-linux/screenshots/locust8-users-10.jpg)
+
+## Tự kiểm bằng chứng và chạy lại
+
+Từ repo root trong bản clone có lịch sử Git đầy đủ:
+
+```powershell
+python -S scripts/verify-native-serving.py
+```
+
+Verifier chỉ cần standard library+Git, không bật Docker/VM: kiểm172hash, tái tạo packet75file và parent73file từ Git lịch sử,67protected inputs, toàn bộ1.582mutation IDs, image source/CRI config IDs, UID/PV/PVC/HDD ledger,780HTTP/arithmetic/cohort/replay,600HTTP rollback,26series mỗi engine, HTML/CSV và10JPEG nguyên gốc. Đây là audit receipt đã lưu, không tạo một deployment mới. Khi dùng shallow clone cần lấy đủ historical commits trước.
+
+Chạy hệ thống mới cần runtime/dataset/registry và quyền private Jenkins trênVM. Chọn fullGitSHA đã push và version model cụ thể; exporter yêu cầu production policy. Không reuse ledger/release cũ. Candidate6 hiện đã active nên không submit lại thí nghiệm6-vs6; cần một candidate thực sự mới và baseline khỏe. Nếu chạy mutation mới lâu, chuẩn bị lại baseline bằng dữ liệu thật trước cửa sổ A/B, kiểm TTL/clock reserve; không refresh giữa thí nghiệm. Guard90phút ban đầu/15phút các phase,12GiB RAM/20GB hai đĩa và VMautoSTOP8giờ giữ nguyên. UI chỉ qua IAP/loopback, không public webhook.
+
+Mean risk/PSI không đo accuracy và không tự phê duyệt model. [Native A/B dashboard](ab-monitoring.md) giải thích phép tính và giới hạn. Các mục sau là lịch sử theo đúng source/build; những câu “chưa” trong snapshot cũ không mô tả CI8.
 
 ## CI7 thành công; kiểm tra cache fallback
 
@@ -6,7 +69,7 @@
 
 Kiểm post-CI rollback về revision12 gặp lỗi readiness và timeout240giây. `finally` đã restore candidate6, không ghi marker thành công cho fallback. Chẩn đoán readonly: Redis legacy0key,600expired/0evicted; context thật được chuẩn bị04:06:12UTC vẫn chưa hết3600giây. Đây là hai hạn khác nhau. [Feast0.67 Redis writer](https://github.com/feast-dev/feast/blob/v0.67.0/sdk/python/feast/infra/online_stores/redis.py) bỏ qua event có timestamp bằng/cũ hơn và chỉ đặt TTL trong nhánh ghi; vì vậy lặp cùng snapshot không bảo đảm gia hạn TTL cache. Native module source và Redis diagnostics đã giữ; không sửa timestamp, kéo TTL hoặc xóa key để che lỗi.
 
-Adapter mới kiểm fallback trước A/B và ngay trước cutover: API ready; toàn bộ cohort lấy feature đúng máy/protocol; ít nhất một operating prediction đúng pin; context còn≥15phút; Redis service private có đủ key cho cohort và **PTTL thực mỗi key≥15phút**. Mọi bước readonly.104contracts/41subtests trênPC PASS, có ca context mới nhưng physical TTL hết, API lỗi, cohort/pin/trace/endpoint sai. Cần native lượt mới trên source sửa này; CI7 SUCCESS không được gắn sang mã mới. Đang chuẩn bị baseline mới với state/ConfigMap mới và kiểmTTL≥55phút sau materialization; receipt/ledger cũ giữ nguyên.
+Adapter mới kiểm fallback trước A/B và ngay trước cutover: API ready; toàn bộ cohort lấy feature đúng máy/protocol; ít nhất một operating prediction đúng pin; context còn≥15phút; Redis service private có đủ key cho cohort và **PTTL thực mỗi key≥15phút**. Mọi bước readonly.104contracts/41subtests trênPC PASS, có ca context mới nhưng physical TTL hết, API lỗi, cohort/pin/trace/endpoint sai. Sửa này đã được kiểm trongCI8 ở đầu tài liệu; CI7 SUCCESS giữ đúng source cũ. Baseline8 mới dùng state/ConfigMap riêng và kiểmTTL≥55phút sau materialization; receipt/ledger cũ giữ nguyên.
 
 Các mục bên dưới giữ lịch sử build5/6 và phần chuẩn bị ban đầu; các câu “chưa” trong snapshot cũ chỉ áp dụng nguồn/lượt nêu ở mục đó.
 
@@ -48,7 +111,7 @@ Số đo này cho thấy ngân sách mutation40phút chưa đủ cho bộ test �
 
 CI này nhằm tránh tình huống feature API gọi model mới nhưng vẫn đọc Redis, metadata hoặc ảnh chạy của bản cũ. [Jenkinsfile](../infra/ci/Serving.Jenkinsfile) và [driver](../scripts/ci-serving.py) chuẩn bị từng release độc lập, rồi mới đổi API chính sau các chốt kiểm. Đây là mã ứng dụng/vận hành cần cho coursework; secrets và trạng thái chạy riêng không nằm trong Git.
 
-## Luồng và các điều kiện
+## Snapshot thiết kế trước native SUCCESS: luồng và điều kiện
 
 1. **Nguồn cố định:** người vận hành chọn full Git SHA đã push và model version cụ thể. Gói ban đầu có56file; [source A/B đầu](ab-testing.md) có69file và [CI bridge](ci-ab-deployment.md) có73file, cùng manifest SHA từng file; kiểm lại trước các phase. Không lấy working files hoặc tự chọn alias `candidate`.
 2. **Tài nguyên thật:** còn ít nhất90phút trước thời điểm auto-stop thực,12GiB RAM khả dụng và20GB trên cả HDD/SSD. Các phase sau vẫn cần15phút dự phòng. Đây là guard của serving; guard100phút ban đầu/90phút runner,24GiB/40GB của training giữ riêng.
@@ -73,7 +136,7 @@ Rollback chỉ hướng tới revision trước của chính release; không ghi
 
 Hai manifest giữ31payload nhỏ của hai thời điểm riêng. Hai console mỗi capsule chỉ bỏ đường dẫn PC bằng phép thay được ghi rõ, có hash raw/published. Các payload khác giữ bytes gốc; không có weights runtime, credentials, tar lớn hoặc binary Helm trong Git. [Manifest hiện tại](evidence/serving-ci-preparation/current/manifest.json).
 
-## Tự kiểm và tiếp tục
+## Các lệnh kiểm bản chuẩn bị d811 lịch sử
 
 Trên môi trường Python test của dự án đã cài dependency tương ứng:
 
@@ -87,7 +150,7 @@ helm template iot-feature-api infra/charts/iot-api -n iot-features --kube-versio
 
 Tên output phải chưa tồn tại; tool từ chối overwrite. Hai lệnh Helm trên chỉ lint/render fixture, không deploy. Linux test image dùng [38dependency pins](../infra/ci/requirements-serving-tests.lock); không cài mutmut/fork trên Windows hoặc bật Docker khi thiếu RAM.
 
-[Training CI đã SUCCESS](ci-training.md) trên VM với sourcece510c6, KFP mới đủ5task/hai executor/model candidate6. Bước tiếp theo còn cần model production theo policy đã chốt, liveSDKexport, API Linux coverage/mutation/load, image probes, router/monitor A/B và native CI rollout/rollback kèm ảnh thật. Jenkins `iot-serving` chưa được cài trên VM. Chỉ dùng private trusted Jenkins, source do người vận hành chọn; không webhook/untrusted PR hoặc public endpoint mới.
+[Training CI](ci-training.md) và serving8 đã SUCCESS trênVM; kết quả hiện tại ở đầu tài liệu. Những lệnh d811 ở đây chỉ tái tạo bản chuẩn bị lịch sử. Chỉ dùng private trusted Jenkins, source do người vận hành chọn; không webhook/untrusted PR hoặc public endpoint mới.
 
 Tham chiếu chính thức: [KServe custom predictor](https://kserve.github.io/website/docs/model-serving/predictive-inference/frameworks/custom-predictor), [Helm3 upgrade](https://docs.helm.sh/docs/v3/helm/helm_upgrade/), [mutmut](https://mutmut.readthedocs.io/en/latest/). Tài liệu nêu mục đích các API; bằng chứng chạy của dự án được tách riêng ở trên.
 

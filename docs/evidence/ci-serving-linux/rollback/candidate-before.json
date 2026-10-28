@@ -1,0 +1,1099 @@
+{
+  "passed": true,
+  "variant": "candidate",
+  "pin": {
+    "name": "iot-pump-failure-v1",
+    "version": "6",
+    "run_id": "be3b27fa0960493d92b45be69b20690e",
+    "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "portable_sha256": "60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981",
+    "training_code_commit": "ce510c6bcccd58235fbc78d22cd90570934c50a6",
+    "data_version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
+    "threshold": 0.7,
+    "production": true
+  },
+  "operating": 195,
+  "stopped": 5,
+  "max_abs_score_delta": 0.0,
+  "helm_revision": 17,
+  "feature_deployment": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "annotations": {
+        "deployment.kubernetes.io/revision": "17",
+        "meta.helm.sh/release-name": "iot-feature-api",
+        "meta.helm.sh/release-namespace": "iot-features"
+      },
+      "creationTimestamp": "2026-10-27T15:34:07Z",
+      "generation": 24,
+      "labels": {
+        "app.kubernetes.io/instance": "iot-feature-api",
+        "app.kubernetes.io/managed-by": "Helm",
+        "app.kubernetes.io/name": "iot-api"
+      },
+      "name": "iot-feature-api",
+      "namespace": "iot-features",
+      "resourceVersion": "70926",
+      "uid": "8ee0405d-518b-44a7-97d1-5c208c9788c0"
+    },
+    "spec": {
+      "progressDeadlineSeconds": 90,
+      "replicas": 2,
+      "revisionHistoryLimit": 5,
+      "selector": {
+        "matchLabels": {
+          "app.kubernetes.io/instance": "iot-feature-api"
+        }
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": 1,
+          "maxUnavailable": 0
+        },
+        "type": "RollingUpdate"
+      },
+      "template": {
+        "metadata": {
+          "annotations": {
+            "iot.coursework/revision-marker": "serve-jenkins-8"
+          },
+          "labels": {
+            "app.kubernetes.io/instance": "iot-feature-api",
+            "app.kubernetes.io/name": "iot-api"
+          }
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online-serve-jenkins-8.iot-features.svc.cluster.local:6379"
+                },
+                {
+                  "name": "IOT_SERVING_STATE",
+                  "value": "/state"
+                },
+                {
+                  "name": "IOT_KSERVE_URL",
+                  "value": "http://iot-pump-serve-jenkins-8-predictor.iot-serving.svc.cluster.local"
+                },
+                {
+                  "name": "IOT_MODEL_PIN",
+                  "value": "/app/model-pin.json"
+                }
+              ],
+              "image": "iot-coursework-feature-api:serve-jenkins-8",
+              "imagePullPolicy": "Never",
+              "lifecycle": {
+                "preStop": {
+                  "exec": {
+                    "command": [
+                      "python",
+                      "-c",
+                      "import time; time.sleep(5)"
+                    ]
+                  }
+                }
+              },
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/health/live",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 10,
+                "successThreshold": 1,
+                "timeoutSeconds": 2
+              },
+              "name": "api",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http",
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/health/ready",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 3,
+                "successThreshold": 1,
+                "timeoutSeconds": 5
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "1",
+                  "memory": "1Gi"
+                },
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "256Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true
+              },
+              "startupProbe": {
+                "failureThreshold": 45,
+                "httpGet": {
+                  "path": "/health/ready",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 2,
+                "successThreshold": 1,
+                "timeoutSeconds": 5
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/state",
+                  "name": "state"
+                },
+                {
+                  "mountPath": "/tmp",
+                  "name": "tmp"
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "initContainers": [
+            {
+              "command": [
+                "python",
+                "-c",
+                "import shutil,pathlib; p=pathlib.Path('/state/registry'); p.mkdir(); [shutil.copyfile('/seed/'+n,'/state/'+n) for n in ['context.json','verification.json','_READY.json']]; shutil.copyfile('/seed/registry.db','/state/registry/registry.db')"
+              ],
+              "image": "iot-coursework-feature-api:serve-jenkins-8",
+              "imagePullPolicy": "Never",
+              "name": "copy-state",
+              "resources": {
+                "limits": {
+                  "cpu": "500m",
+                  "memory": "256Mi"
+                },
+                "requests": {
+                  "cpu": "50m",
+                  "memory": "64Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/seed",
+                  "name": "seed",
+                  "readOnly": true
+                },
+                {
+                  "mountPath": "/state",
+                  "name": "state"
+                }
+              ]
+            }
+          ],
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {
+            "fsGroup": 10001,
+            "runAsGroup": 10001,
+            "runAsNonRoot": true,
+            "runAsUser": 10001,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "terminationGracePeriodSeconds": 30,
+          "volumes": [
+            {
+              "configMap": {
+                "defaultMode": 420,
+                "name": "iot-feature-state-serve-jenkins-8"
+              },
+              "name": "seed"
+            },
+            {
+              "emptyDir": {
+                "medium": "Memory",
+                "sizeLimit": "16Mi"
+              },
+              "name": "state"
+            },
+            {
+              "emptyDir": {
+                "medium": "Memory",
+                "sizeLimit": "32Mi"
+              },
+              "name": "tmp"
+            }
+          ]
+        }
+      }
+    },
+    "status": {
+      "availableReplicas": 2,
+      "conditions": [
+        {
+          "lastTransitionTime": "2026-10-28T04:35:35Z",
+          "lastUpdateTime": "2026-10-28T04:53:09Z",
+          "message": "ReplicaSet \"iot-feature-api-89c5867dc\" has successfully progressed.",
+          "reason": "NewReplicaSetAvailable",
+          "status": "True",
+          "type": "Progressing"
+        },
+        {
+          "lastTransitionTime": "2026-10-28T04:53:59Z",
+          "lastUpdateTime": "2026-10-28T04:53:59Z",
+          "message": "Deployment has minimum availability.",
+          "reason": "MinimumReplicasAvailable",
+          "status": "True",
+          "type": "Available"
+        }
+      ],
+      "observedGeneration": 24,
+      "readyReplicas": 2,
+      "replicas": 2,
+      "terminatingReplicas": 0,
+      "updatedReplicas": 2
+    }
+  },
+  "feature_pods": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "annotations": {
+            "iot.coursework/revision-marker": "serve-jenkins-8"
+          },
+          "creationTimestamp": "2026-10-28T04:53:51Z",
+          "generateName": "iot-feature-api-89c5867dc-",
+          "generation": 1,
+          "labels": {
+            "app.kubernetes.io/instance": "iot-feature-api",
+            "app.kubernetes.io/name": "iot-api",
+            "pod-template-hash": "89c5867dc"
+          },
+          "name": "iot-feature-api-89c5867dc-hrjrk",
+          "namespace": "iot-features",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "iot-feature-api-89c5867dc",
+              "uid": "7e58c042-12b6-4e1c-a4ca-11371caae552"
+            }
+          ],
+          "resourceVersion": "70922",
+          "uid": "bf0a3a2d-aeb8-48fe-97d6-aca29a1c07a1"
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online-serve-jenkins-8.iot-features.svc.cluster.local:6379"
+                },
+                {
+                  "name": "IOT_SERVING_STATE",
+                  "value": "/state"
+                },
+                {
+                  "name": "IOT_KSERVE_URL",
+                  "value": "http://iot-pump-serve-jenkins-8-predictor.iot-serving.svc.cluster.local"
+                },
+                {
+                  "name": "IOT_MODEL_PIN",
+                  "value": "/app/model-pin.json"
+                }
+              ],
+              "image": "iot-coursework-feature-api:serve-jenkins-8",
+              "imagePullPolicy": "Never",
+              "lifecycle": {
+                "preStop": {
+                  "exec": {
+                    "command": [
+                      "python",
+                      "-c",
+                      "import time; time.sleep(5)"
+                    ]
+                  }
+                }
+              },
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/health/live",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 10,
+                "successThreshold": 1,
+                "timeoutSeconds": 2
+              },
+              "name": "api",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http",
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/health/ready",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 3,
+                "successThreshold": 1,
+                "timeoutSeconds": 5
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "1",
+                  "memory": "1Gi"
+                },
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "256Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true
+              },
+              "startupProbe": {
+                "failureThreshold": 45,
+                "httpGet": {
+                  "path": "/health/ready",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 2,
+                "successThreshold": 1,
+                "timeoutSeconds": 5
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/state",
+                  "name": "state"
+                },
+                {
+                  "mountPath": "/tmp",
+                  "name": "tmp"
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "initContainers": [
+            {
+              "command": [
+                "python",
+                "-c",
+                "import shutil,pathlib; p=pathlib.Path('/state/registry'); p.mkdir(); [shutil.copyfile('/seed/'+n,'/state/'+n) for n in ['context.json','verification.json','_READY.json']]; shutil.copyfile('/seed/registry.db','/state/registry/registry.db')"
+              ],
+              "image": "iot-coursework-feature-api:serve-jenkins-8",
+              "imagePullPolicy": "Never",
+              "name": "copy-state",
+              "resources": {
+                "limits": {
+                  "cpu": "500m",
+                  "memory": "256Mi"
+                },
+                "requests": {
+                  "cpu": "50m",
+                  "memory": "64Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/seed",
+                  "name": "seed",
+                  "readOnly": true
+                },
+                {
+                  "mountPath": "/state",
+                  "name": "state"
+                }
+              ]
+            }
+          ],
+          "nodeName": "iot-cw-vm",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {
+            "fsGroup": 10001,
+            "runAsGroup": 10001,
+            "runAsNonRoot": true,
+            "runAsUser": 10001,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "serviceAccount": "default",
+          "serviceAccountName": "default",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "configMap": {
+                "defaultMode": 420,
+                "name": "iot-feature-state-serve-jenkins-8"
+              },
+              "name": "seed"
+            },
+            {
+              "emptyDir": {
+                "medium": "Memory",
+                "sizeLimit": "16Mi"
+              },
+              "name": "state"
+            },
+            {
+              "emptyDir": {
+                "medium": "Memory",
+                "sizeLimit": "32Mi"
+              },
+              "name": "tmp"
+            }
+          ]
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-28T04:53:52Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-28T04:53:52Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-28T04:53:59Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-28T04:53:59Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-28T04:53:51Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "allocatedResources": {
+                "cpu": "100m",
+                "memory": "256Mi"
+              },
+              "containerID": "containerd://863a93b7f30f3a52e2f37ada5cc655b06abf47d780d3d455496052ea56c0fb60",
+              "image": "docker.io/library/iot-coursework-feature-api:serve-jenkins-8",
+              "imageID": "sha256:c35ae82be5c564761e721f2c9d4bc838067ad93d7fd55988b224ea47a5504e02",
+              "lastState": {},
+              "name": "api",
+              "ready": true,
+              "resources": {
+                "limits": {
+                  "cpu": "1",
+                  "memory": "1Gi"
+                },
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "256Mi"
+                }
+              },
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-10-28T04:53:52Z"
+                }
+              },
+              "user": {
+                "linux": {
+                  "gid": 10001,
+                  "supplementalGroups": [
+                    10001
+                  ],
+                  "uid": 10001
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/state",
+                  "name": "state"
+                },
+                {
+                  "mountPath": "/tmp",
+                  "name": "tmp"
+                }
+              ]
+            }
+          ],
+          "hostIP": "10.42.0.2",
+          "hostIPs": [
+            {
+              "ip": "10.42.0.2"
+            }
+          ],
+          "initContainerStatuses": [
+            {
+              "allocatedResources": {
+                "cpu": "50m",
+                "memory": "64Mi"
+              },
+              "containerID": "containerd://4012c62a2633d62f14445477b339f4c2bfe3822c936fce4e1331095803e726e3",
+              "image": "docker.io/library/iot-coursework-feature-api:serve-jenkins-8",
+              "imageID": "sha256:c35ae82be5c564761e721f2c9d4bc838067ad93d7fd55988b224ea47a5504e02",
+              "lastState": {},
+              "name": "copy-state",
+              "ready": true,
+              "resources": {
+                "limits": {
+                  "cpu": "500m",
+                  "memory": "256Mi"
+                },
+                "requests": {
+                  "cpu": "50m",
+                  "memory": "64Mi"
+                }
+              },
+              "restartCount": 0,
+              "started": false,
+              "state": {
+                "terminated": {
+                  "containerID": "containerd://4012c62a2633d62f14445477b339f4c2bfe3822c936fce4e1331095803e726e3",
+                  "exitCode": 0,
+                  "finishedAt": "2026-10-28T04:53:52Z",
+                  "reason": "Completed",
+                  "startedAt": "2026-10-28T04:53:51Z"
+                }
+              },
+              "user": {
+                "linux": {
+                  "gid": 10001,
+                  "supplementalGroups": [
+                    10001
+                  ],
+                  "uid": 10001
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/seed",
+                  "name": "seed",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                },
+                {
+                  "mountPath": "/state",
+                  "name": "state"
+                }
+              ]
+            }
+          ],
+          "observedGeneration": 1,
+          "phase": "Running",
+          "podIP": "10.52.0.215",
+          "podIPs": [
+            {
+              "ip": "10.52.0.215"
+            }
+          ],
+          "qosClass": "Burstable",
+          "startTime": "2026-10-28T04:53:51Z"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "metadata": {
+          "annotations": {
+            "iot.coursework/revision-marker": "serve-jenkins-8"
+          },
+          "creationTimestamp": "2026-10-28T04:52:59Z",
+          "generateName": "iot-feature-api-89c5867dc-",
+          "generation": 1,
+          "labels": {
+            "app.kubernetes.io/instance": "iot-feature-api",
+            "app.kubernetes.io/name": "iot-api",
+            "pod-template-hash": "89c5867dc"
+          },
+          "name": "iot-feature-api-89c5867dc-wtsk9",
+          "namespace": "iot-features",
+          "ownerReferences": [
+            {
+              "apiVersion": "apps/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "ReplicaSet",
+              "name": "iot-feature-api-89c5867dc",
+              "uid": "7e58c042-12b6-4e1c-a4ca-11371caae552"
+            }
+          ],
+          "resourceVersion": "70794",
+          "uid": "9c43421a-e1d5-45c3-a960-bae0ae47b30a"
+        },
+        "spec": {
+          "automountServiceAccountToken": false,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "IOT_FEAST_REDIS",
+                  "value": "online-serve-jenkins-8.iot-features.svc.cluster.local:6379"
+                },
+                {
+                  "name": "IOT_SERVING_STATE",
+                  "value": "/state"
+                },
+                {
+                  "name": "IOT_KSERVE_URL",
+                  "value": "http://iot-pump-serve-jenkins-8-predictor.iot-serving.svc.cluster.local"
+                },
+                {
+                  "name": "IOT_MODEL_PIN",
+                  "value": "/app/model-pin.json"
+                }
+              ],
+              "image": "iot-coursework-feature-api:serve-jenkins-8",
+              "imagePullPolicy": "Never",
+              "lifecycle": {
+                "preStop": {
+                  "exec": {
+                    "command": [
+                      "python",
+                      "-c",
+                      "import time; time.sleep(5)"
+                    ]
+                  }
+                }
+              },
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/health/live",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 10,
+                "successThreshold": 1,
+                "timeoutSeconds": 2
+              },
+              "name": "api",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http",
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/health/ready",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 3,
+                "successThreshold": 1,
+                "timeoutSeconds": 5
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "1",
+                  "memory": "1Gi"
+                },
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "256Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true
+              },
+              "startupProbe": {
+                "failureThreshold": 45,
+                "httpGet": {
+                  "path": "/health/ready",
+                  "port": "http",
+                  "scheme": "HTTP"
+                },
+                "periodSeconds": 2,
+                "successThreshold": 1,
+                "timeoutSeconds": 5
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/state",
+                  "name": "state"
+                },
+                {
+                  "mountPath": "/tmp",
+                  "name": "tmp"
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "enableServiceLinks": true,
+          "initContainers": [
+            {
+              "command": [
+                "python",
+                "-c",
+                "import shutil,pathlib; p=pathlib.Path('/state/registry'); p.mkdir(); [shutil.copyfile('/seed/'+n,'/state/'+n) for n in ['context.json','verification.json','_READY.json']]; shutil.copyfile('/seed/registry.db','/state/registry/registry.db')"
+              ],
+              "image": "iot-coursework-feature-api:serve-jenkins-8",
+              "imagePullPolicy": "Never",
+              "name": "copy-state",
+              "resources": {
+                "limits": {
+                  "cpu": "500m",
+                  "memory": "256Mi"
+                },
+                "requests": {
+                  "cpu": "50m",
+                  "memory": "64Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/seed",
+                  "name": "seed",
+                  "readOnly": true
+                },
+                {
+                  "mountPath": "/state",
+                  "name": "state"
+                }
+              ]
+            }
+          ],
+          "nodeName": "iot-cw-vm",
+          "preemptionPolicy": "PreemptLowerPriority",
+          "priority": 0,
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {
+            "fsGroup": 10001,
+            "runAsGroup": 10001,
+            "runAsNonRoot": true,
+            "runAsUser": 10001,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "serviceAccount": "default",
+          "serviceAccountName": "default",
+          "terminationGracePeriodSeconds": 30,
+          "tolerations": [
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            },
+            {
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable",
+              "operator": "Exists",
+              "tolerationSeconds": 300
+            }
+          ],
+          "volumes": [
+            {
+              "configMap": {
+                "defaultMode": 420,
+                "name": "iot-feature-state-serve-jenkins-8"
+              },
+              "name": "seed"
+            },
+            {
+              "emptyDir": {
+                "medium": "Memory",
+                "sizeLimit": "16Mi"
+              },
+              "name": "state"
+            },
+            {
+              "emptyDir": {
+                "medium": "Memory",
+                "sizeLimit": "32Mi"
+              },
+              "name": "tmp"
+            }
+          ]
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-28T04:53:00Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodReadyToStartContainers"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-28T04:53:01Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Initialized"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-28T04:53:09Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-28T04:53:09Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "ContainersReady"
+            },
+            {
+              "lastProbeTime": null,
+              "lastTransitionTime": "2026-10-28T04:52:59Z",
+              "observedGeneration": 1,
+              "status": "True",
+              "type": "PodScheduled"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "allocatedResources": {
+                "cpu": "100m",
+                "memory": "256Mi"
+              },
+              "containerID": "containerd://ff7ed908fea1cc8ded82c8f712dde4c09edd96426fcaad609a32e0e2162acb15",
+              "image": "docker.io/library/iot-coursework-feature-api:serve-jenkins-8",
+              "imageID": "sha256:c35ae82be5c564761e721f2c9d4bc838067ad93d7fd55988b224ea47a5504e02",
+              "lastState": {},
+              "name": "api",
+              "ready": true,
+              "resources": {
+                "limits": {
+                  "cpu": "1",
+                  "memory": "1Gi"
+                },
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "256Mi"
+                }
+              },
+              "restartCount": 0,
+              "started": true,
+              "state": {
+                "running": {
+                  "startedAt": "2026-10-28T04:53:01Z"
+                }
+              },
+              "user": {
+                "linux": {
+                  "gid": 10001,
+                  "supplementalGroups": [
+                    10001
+                  ],
+                  "uid": 10001
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/state",
+                  "name": "state"
+                },
+                {
+                  "mountPath": "/tmp",
+                  "name": "tmp"
+                }
+              ]
+            }
+          ],
+          "hostIP": "10.42.0.2",
+          "hostIPs": [
+            {
+              "ip": "10.42.0.2"
+            }
+          ],
+          "initContainerStatuses": [
+            {
+              "allocatedResources": {
+                "cpu": "50m",
+                "memory": "64Mi"
+              },
+              "containerID": "containerd://170001b141010df28cfe0b9094a47f249a9d6be07e9edff3b83413503d5d4050",
+              "image": "docker.io/library/iot-coursework-feature-api:serve-jenkins-8",
+              "imageID": "sha256:c35ae82be5c564761e721f2c9d4bc838067ad93d7fd55988b224ea47a5504e02",
+              "lastState": {},
+              "name": "copy-state",
+              "ready": true,
+              "resources": {
+                "limits": {
+                  "cpu": "500m",
+                  "memory": "256Mi"
+                },
+                "requests": {
+                  "cpu": "50m",
+                  "memory": "64Mi"
+                }
+              },
+              "restartCount": 0,
+              "started": false,
+              "state": {
+                "terminated": {
+                  "containerID": "containerd://170001b141010df28cfe0b9094a47f249a9d6be07e9edff3b83413503d5d4050",
+                  "exitCode": 0,
+                  "finishedAt": "2026-10-28T04:53:00Z",
+                  "reason": "Completed",
+                  "startedAt": "2026-10-28T04:52:59Z"
+                }
+              },
+              "user": {
+                "linux": {
+                  "gid": 10001,
+                  "supplementalGroups": [
+                    10001
+                  ],
+                  "uid": 10001
+                }
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/seed",
+                  "name": "seed",
+                  "readOnly": true,
+                  "recursiveReadOnly": "Disabled"
+                },
+                {
+                  "mountPath": "/state",
+                  "name": "state"
+                }
+              ]
+            }
+          ],
+          "observedGeneration": 1,
+          "phase": "Running",
+          "podIP": "10.52.0.214",
+          "podIPs": [
+            {
+              "ip": "10.52.0.214"
+            }
+          ],
+          "qosClass": "Burstable",
+          "startTime": "2026-10-28T04:52:59Z"
+        }
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "checked_utc": "2026-10-28T04:54:57.753188+00:00"
+}

@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T04:57:55.173104+00:00",
+  "endpoint": "http://10.53.109.158",
+  "service_uid": "8582002a-c653-4a2e-8cc4-0e3e15dc0f10",
+  "deployment_uid": "c860c1f1-a25a-4ec8-a3fd-3de7582b8098",
+  "target": "10.53.109.158:80",
+  "promtool": "Checking /srv/iot-data/workspace/iot-maintenance-platform/outputs/ab-monitoring-linux-8/prometheus-next.json\n SUCCESS: /srv/iot-data/workspace/iot-maintenance-platform/outputs/ab-monitoring-linux-8/prometheus-next.json is valid prometheus config file syntax\n\n",
+  "prometheus_same_pid": 204844,
+  "source_files": {
+    "ml/ab_monitoring.py": "abc5ed563f86cadf0752a424526476c18063c5074dc85a786a0cd3fa7142bb09",
+    "infra/ab-api/grafana-dashboard.json": "54e5c23b7093ec4378659c70b51f214f01445ddf721cbe55980ee23958da8507"
+  },
+  "dashboard_sha256": "15247917d4e9a2de5ed8058e5d411b5e3b14f277eb4fe3a2e098753a26dbbd33",
+  "native_ab_report_sha256": "a03ff8dbdaff4ad0729182b8f9ff28c7693d0e8c4032a4ec5669c864a9e2ad39",
+  "scope": "One additional scrape job and replacement of the old waiting dashboard; no inference rollout or mutation of retained ledger."
+}

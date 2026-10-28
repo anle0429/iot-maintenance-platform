@@ -8,9 +8,9 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [Feature60ngày](docs/medium-feature-dataset.md)/[Feast](docs/feast-feature-store.md) có3.456.000snapshots/3.132.184training rows theo protocol cố định; native full retrieval/nhãn và replay/corruption đã kiểm. [Airflow materialization](docs/feast-materialization.md) đã chạy initial/incremental/replay200máy, chặn lùi checkpoint và publish DataHub. [Flink→Feast](docs/stream-feast-push.md) có live push ba cửa sổ, fault/retry và readiness trước source; chưa toàn mini-coursework stream.
 
-[KFP trên cluster bốn bước](docs/kfp-cluster.md) đã PASS với nativeFeast3.132.184dòng; testPR-AUC0,6151/F10,5510 theo protocol giữ nguyên. Modelversion2 đã đăng ký MLflow và đọc lại dữ liệu/model; KServe vẫn phục vụ version1. [Feature API→Feast→KServe](docs/feature-api.md) đã kiểm200máy/195prediction/5stopped409, cùng127PCtests/1POSIXskip,57nativefeaturetests;211statements/56branches100%. Mutation featureAPI413/48984,46%, predictor209/24684,96%; Locust10users đạt96,655req/s,p95 32ms/0fail trong60s. [Notebook 5 bước/6ô](docs/training-notebook.md) và [KFP 5 task/two-executor](docs/distributed-training.md) đã kiểm thật; [incrementaldata/model3](docs/incremental-data-versioning.md) đã liên kết đúng dữ liệu. [Tự động version dữ liệu/model4–5](docs/automatic-ml-versioning.md) đã chạy trong Notebook/KFP. [CI materialization](docs/ci-materialization.md) đã test/build/auto-deploy thật, kiểm initial/incremental/replay đủ200máy và DataHub; còn CI/CD production API và các mục vận hành final.
+[KFP trên cluster bốn bước](docs/kfp-cluster.md) đã PASS với nativeFeast3.132.184dòng; testPR-AUC0,6151/F10,5510 theo protocol giữ nguyên. Modelversion2 và KServe1 là mốc lịch sử ban đầu; hiện serving model6 theo CI bên dưới. [Feature API→Feast→KServe](docs/feature-api.md) giữ bằng chứng200máy/195prediction/5stopped409 và các số đo API/Locust của source cũ. [Notebook 5 bước/6ô](docs/training-notebook.md) và [KFP 5 task/two-executor](docs/distributed-training.md) đã kiểm thật; [incrementaldata/model3](docs/incremental-data-versioning.md) đã liên kết đúng dữ liệu. [Tự động version dữ liệu/model4–5](docs/automatic-ml-versioning.md) đã chạy trong Notebook/KFP. [CI materialization](docs/ci-materialization.md) đã test/build/auto-deploy thật, kiểm initial/incremental/replay đủ200máy và DataHub.
 
-[CI training](docs/ci-training.md) đã Jenkins build2 SUCCESS:22tests, hai image đúng78file, tự triển khai44file ML và chạy KFP mới đủ5task/hai executor/model candidate6. Dữ liệu không đổi nên tái sử dụng180file/740MB, không upload blob mới; chưa production. [A/B API](docs/ab-testing.md) đã chạy400HTTPpredictions/40concurrentretries qua hai predictor trênPC, counters khớp và200snapshotdrift không đếm trùng. Registry/Feast vẫnfixture, hai model dùng cùng legacyweights. [Phase A/B trong serving CI](docs/ci-ab-deployment.md) đã nối mã/73file, qua49contracttests và800HTTPtrial với readiness nền trênPC; chưa nativeJenkins/build/deploy/mutation. [Prometheus/Grafana đã chạy thật trênPC](docs/ab-monitoring.md):6panel/26seriesmỗiengine/800trial/40retry và ảnh thật; chưa dashboard trênVM. Cutover vẫn cần receipt từ pod/volume/SQL thật.
+[CI training](docs/ci-training.md) đã Jenkins build2 SUCCESS:22tests, hai image đúng78file, tự triển khai44file ML và chạy KFP đủ5task/hai executor/model6; dữ liệu không đổi tái sử dụng180file/740MB. Sau đó [serving CI8](docs/ci-serving.md) **SUCCESS trênVM/source99d6dcc**:104contracts/208API tests,425statements100%/125of128branches97,66%; mutation hoàn chỉnh parent5 dùng lại có kiểm nguồn1.309/1.582=82,74%. Model6 được export theo production tag của lab, ba image build/probe/import và full cutover200máy PASS. [A/B native1/6](docs/ci-ab-deployment.md) có780trial/40replay không tăng đếm và [Grafana6panel/26giá trị mỗi engine](docs/ab-monitoring.md) có ảnh gốc. Controlled rollback6→1→6 PASS; Locust1/10users598/5.780requests,0fail,P95 7/28ms. Các số đo này là lab mô phỏng trên cùngVM; PSI/mean risk không chứng minh model tốt hơn. Traces, retrain từ Airflow và security/gateway cùng các mục còn thiếu vẫn ở [tracker final](docs/final-rubric-tracker.md).
 
 ## Mục lục
 
@@ -41,6 +41,8 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [KServe trên Kubernetes: pod và HTTP thật](docs/kubernetes-serving.md)
 - [Kubeflow cluster: bốn task, artifact bền và modelversion2](docs/kfp-cluster.md)
 - [Feature API: freshness, operating state, mutation và Locust](docs/feature-api.md)
+- [Serving CI: native gates, A/B, cutover, rollback và Locust](docs/ci-serving.md)
+- [A/B dashboard native và cách tự kiểm bằng chứng](docs/ab-monitoring.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist final-coursework chính](docs/final-rubric-tracker.md)
 - [Checklist hai sheet50% trước đây](docs/rubric-tracker.md)
@@ -93,7 +95,7 @@ Nguồn được sinh tại `data/source/`, báo cáo các lần chạy tại `o
 services/predictor/          Predictor tám feature, model bundle và version pin
 services/feature_api/        Đọc Feast, kiểm freshness/trạng thái rồi gọi predictor
 services/drift_api/          So cửa sổ với reference train, lưu kết quả idempotent
-services/ab_api/             Chia cohort, ledger và metric A/B; native CI đang kiểm
+services/ab_api/             Chia cohort, ledger và metric A/B; native CI8 đã PASS
 airflow/dags/                DP1–DP3, materialization và offline drift định kỳ
 ```
 
@@ -123,12 +125,17 @@ flowchart LR
     Executors -->|T4 task results| Training
     Training -->|T5 data versions và model candidate| MLflow[MLflow tracking container]
     MLflow -->|C2 model6 production-tag lab bundle| Jenkins
-    Jenkins -.->|C3 chờ serving CI qua gates và A-B| Predictor
+    Jenkins -->|C3 stage image và model6 sau gates| Predictor
+    Jenkins -->|C4 triển khai experiment trước cutover| AB[A-B router Deployment - SQLite HDD PV]
+    AB -->|C5 cohort baseline| Old[KServe model1 Deployment]
+    AB -->|C6 cohort candidate6| Predictor
+    Jenkins -->|C7 Helm switch sau A-B và recheck| API
     Airflow -->|M1 mỗi năm phút| DriftJob[Offline drift SDK job container]
     Spark -->|M2 feature Parquet qua Feast| DriftJob
     DriftJob -->|M3 PSI và freshness gauges| PG[Pushgateway process]
     PG -->|M4 metric scrape| Prom[Prometheus process]
     Node[node_exporter process] -->|M5 host metric scrape| Prom
+    AB -->|M7 trial PSI histogram scrape| Prom
     Prom -->|M6 PromQL query data| Grafana[Grafana process]
     API -->|L1 CRI log file| Alloy[Alloy collector process]
     Predictor -->|L2 CRI log file| Alloy
@@ -137,12 +144,12 @@ flowchart LR
     classDef serving fill:#dcecff,stroke:#3265a8,color:#111;
     classDef data fill:#e1f2df,stroke:#428044,color:#111;
     classDef monitor fill:#fff0cf,stroke:#a97920,color:#111;
-    class API,Redis,Predictor serving;
+    class API,Redis,Predictor,AB,Old serving;
     class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins data;
     class DriftJob,PG,Prom,Node,Grafana,Alloy,Loki monitor;
 ```
 
-Sơ đồ tóm tắt các lượt đã có bằng chứng, không có nghĩa mọi job chạy đồng thời. Spark100GB mới có Bronze/Silver; feature/training dùng nguồn60ngày riêng. Model6 đã được chọn cho bundle lab, còn đường dự đoán active pin model1 đến khi CI/A-B hoàn tất. Mũi tên C3 là bước đang chờ; [tracker](docs/final-rubric-tracker.md) và [kiến trúc chi tiết](docs/architecture.md) ghi rõ phạm vi. Kafka/Flink/push, drift API và metadata dependencies có sơ đồ/receipt riêng trong docs; chúng không được suy ra đã nằm trên luồng dự đoán U.
+Sơ đồ tóm tắt các lượt đã có bằng chứng, không có nghĩa mọi job chạy đồng thời. Spark100GB mới có Bronze/Silver; feature/training dùng nguồn60ngày riêng. Đường U hiện pin model6 sauCI8/source99d6dcc; C3–C7 đã chạy thật với gate cache TTL/context và pod identities. A/B tạm giữ mỗi predictor1replica rồi restore1..2; chưa HA nhiều máy. SQLite nằm trong volume HDD của router với PV/PVC Retain. [Tracker](docs/final-rubric-tracker.md) và [kiến trúc chi tiết](docs/architecture.md) ghi phạm vi còn thiếu. Kafka/Flink/push, drift API và metadata dependencies có sơ đồ/receipt riêng trong docs; chúng không được suy ra đã nằm trên luồng U.
 
 ## Cách chạy
 

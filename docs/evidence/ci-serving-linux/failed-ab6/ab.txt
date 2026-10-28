@@ -1,0 +1,11 @@
+time="2026-10-28T04:12:01Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T04:12:01Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+Traceback (most recent call last):
+  File "/src/scripts/ci-serving.py", line 395, in <module>
+    run(parser.parse_args().phase)
+  File "/src/scripts/ci-serving.py", line 354, in run
+    report=ab_native.run(c,ROOT,p,stage,build,http,http_text)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/src/ml/ab_native.py", line 164, in run
+    raise ValueError('A/B or active workload changed during the experiment')
+ValueError: A/B or active workload changed during the experiment

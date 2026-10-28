@@ -1,0 +1,44 @@
+{
+  "checked_utc": "2026-10-28T04:59:53.096266+00:00",
+  "source_commit": "99d6dcc2994f55f06133eace53ecff523f6fc3cb",
+  "build": {
+    "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+    "building": false,
+    "duration": 307949,
+    "number": 8,
+    "result": "SUCCESS"
+  },
+  "model_pin": {
+    "name": "iot-pump-failure-v1",
+    "version": "6",
+    "run_id": "be3b27fa0960493d92b45be69b20690e",
+    "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "portable_sha256": "60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981",
+    "training_code_commit": "ce510c6bcccd58235fbc78d22cd90570934c50a6",
+    "data_version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
+    "threshold": 0.7,
+    "production": true
+  },
+  "session": {
+    "auto_stop_utc": "2026-10-28T08:05:05.721000+00:00",
+    "last_start_utc": "2026-10-28T00:05:05.721000+00:00",
+    "max_run_seconds": 28800,
+    "source": "Native Compute lastStartTimestamp + maxRunDuration; same existing VM session28, no scheduling mutation"
+  },
+  "ram_available_bytes": 54813376512,
+  "hdd_free_bytes": 345163628544,
+  "endpoint": "http://10.53.26.245",
+  "service_uid": "64b0f98e-6c23-4439-8d87-da77bfd27bdf",
+  "locust_version": "locust 2.47.0 from /srv/iot-data/workspace/iot-maintenance-platform/data/runtime/locust-venv/lib/python3.12/site-packages/locust (Python 3.12.3)",
+  "workloads": [
+    {
+      "users": 1,
+      "duration_seconds": 60
+    },
+    {
+      "users": 10,
+      "duration_seconds": 60
+    }
+  ],
+  "scope": "Feature reads only; paced0.1s/user,ramp2/s; same shared VM, no optimization/max-capacity/prediction claim."
+}

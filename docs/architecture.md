@@ -7,10 +7,10 @@
 | Luồng | Đơn vị thực thi và dữ liệu | Bằng chứng/phạm vi |
 |---|---|---|
 | Offline DE | Generator job → Spark containers → Parquet HDD; Airflow điều phối validation, SDK job gửi DataHub | [Full102,45GB](full-scale-ingest.md) Bronze/Silver; [DP1–DP3](orchestration.md) pilot riêng, không nhận feature100GB |
-| Serving U | Feature API Deployment → Redis API Deployment → KServe predictor Deployment | [Native feature/serving](feature-api.md), active model1; Redis batch/stream tách riêng |
+| Serving U | Feature API Deployment → Redis API Deployment → KServe predictor Deployment | [Serving CI8](ci-serving.md), active model6/lab production tag;200máy195prediction+5stopped409; Redis batch/stream tách riêng |
 | Training T | KFP API → năm task pods → hai Spark executor pods; load qua Feast SDK, đăng ký dữ liệu/model ở MLflow | [Distributed training](distributed-training.md), [CI training](ci-training.md) build2 SUCCESS/model6candidate; cùng một VM, giữ protocol/split đã seal |
-| Serving CI C | Jenkins controller pull bundle model6 có lab production tag, chạy coverage/mutation rồi mới build/stage/A-B/cutover | [CI A/B](ci-ab-deployment.md) hiện chưa nativeSUCCESS; không vẽ model6 đang nhận traffic |
-| Metrics M | node_exporter → Prometheus → Grafana; Airflow → SDK offline drift → Pushgateway → Prometheus/Grafana | [Host VM](host-monitoring.md) và [hai scheduled drift runs](offline-drift-monitoring.md); clock mô phỏng/reference train model3, không accuracy |
+| Serving CI C | Jenkins pull bundle production-tag6 → test/build/stage → A/B router Deployment → model1/6 → Helm cutover | [CI8 SUCCESS](ci-serving.md),780trial/40replay; UID/PV/PVC/SQLite trênHDD đối chiếu thật; controlled rollback6→1→6 PASS |
+| Metrics M | node_exporter/Pushgateway/A-B router → Prometheus → Grafana | [Host VM](host-monitoring.md), [scheduled offline drift](offline-drift-monitoring.md), [A/B native6panel/26giá trị mỗi engine](ab-monitoring.md); reference train cố định, không accuracy |
 | Logs L | Năm file quan sát từ host/API → Alloy → Loki → Grafana | [Log proof](log-monitoring.md), timestamp/message/label exact, chưa auto-discovery Pod hoặc traces |
 
 Feast SDK, Parquet/SQLite và volume là thư viện/trạng thái trong các đơn vị thực thi, không vẽ thành service có HTTP endpoint giả. DataHub còn MySQL/OpenSearch và MLflow có backend/artifact volumes; [Compose](../infra/orchestration.compose.yaml)/[DataHub](../infra/datahub.compose.yaml)/[MLflow](../infra/mlflow.compose.yaml) là cấu hình chi tiết. Kubernetes API/Redis/KFP/MLflow nội bộ và UI loopback qua IAP; chưa suy ra đã có Vault/service mesh/public gateway từ các kết nối này.

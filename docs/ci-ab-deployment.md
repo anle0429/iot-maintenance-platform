@@ -1,6 +1,6 @@
 # Phase A/B trong serving CI
 
-**Chưa có serving Jenkins SUCCESS/cutover native.** Build5 có mutation hoàn chỉnh82,74336%, ba image thật và private stage. Build6/source`314cfc9` qua test/build/stage, thực chạy A/B rồi bị guard chặn vì HPA thêm pod giữa phép đo; retained ledger và terminal83payload được giữ. [Sửa cửa sổ replica](ci-serving.md) tạm pin hai predictor1replica, giữ guard và restore bounds sau verify/rollback;95contracts trênPC PASS, còn lượt native mới. Dashboard A/B trênVM vẫn cần bằng chứng riêng. Các kết quả chi tiết PC bên dưới giữ nguyên nguồn cũ; F33/F34/F52/F53 vẫn đang làm.
+**Jenkins serving8/source`99d6dcc` đã SUCCESS trên Linux VM**, stage/A-B/cutover model6 thật sau104contracts/208API tests và các gate. Hai model đã train khác nhau1/6 nhận780trial:376/404,94/101snapshot;40replay không tăng ledger/metrics. Latest-row DuckDB oracle, portable arithmetic, ConfigMap/ISVC/pod/container identities và SQLite trên HDD PV/PVC đều đã đọc thật. Controlled rollback riêng6→1→6 PASS. [Serving CI](ci-serving.md) giữ coverage/mutation provenance, lỗi6/7 và hướng dẫn tự kiểm172payload; [dashboard native](ab-monitoring.md) có6panel/26series mỗi engine và ảnh gốc. Model6 production tag chỉ phục vụ export lab mô phỏng, không đồng nghĩa duyệt hệ thống công nghiệp. Kết quả PC dưới đây giữ đúng nguồn lịch sử.
 
 [Jenkinsfile](../infra/ci/Serving.Jenkinsfile) gọi `ab` sau khi stage model/Feast và trước full cutover. [Driver](../scripts/ci-serving.py) build/probe/import thêm image A/B, rồi dùng [native adapter](../ml/ab_native.py) triển khai và đọc lại tài nguyên. [Bộ kiểm giao thức](../ml/ab_ci.py) độc lập với Kubernetes để kiểm response, offline trace, metrics và retry. Nó không tự tạo UID hoặc nhận report PC thành bằng chứng native.
 
@@ -14,21 +14,21 @@ flowchart LR
   F --> G[Helm atomic và kiểm 200 máy]
 ```
 
-Đây là luồng mã đã triển khai, chưa phải hình chụp một Jenkins run thành công.
+Luồng này đã thực thi trong CI8. [Ảnh Jenkins gốc](evidence/ci-serving-linux/screenshots/jenkins8-success.jpg) và [report native](evidence/ci-serving-linux/ci/ab-verification.json) gắn source/release cụ thể; không suy ra chất lượng model từ traffic split.
 
 ## Pipeline kiểm gì?
 
 1. Đọc URL predictor từ deployment feature API đang hoạt động; không cố định baseline là version1. Chỉ nhận service KServe private. Đọc ISVC/service/pod UID, container ID/restart count/config digest, rồi kiểm portable hash và model metadata ngay trong predictor pod.
 2. Tạo A/B release riêng với hai pin/URL, reference đã lấy từ cluster và seed Feast mới. Config/reference dùng ConfigMap immutable riêng. Ledger dùng static PV/PVC `Retain` trên HDD hiện có, cùng node đã quan sát; không tạo đĩa cloud. `1Gi` là dung lượng khai báo, không phải quota filesystem được chứng minh đã cưỡng chế. Không xóa dữ liệu cũ khi trùng tên tài nguyên/release.
 3. Gửi bốn lượt qua mọi máy đang operating, tối đa2.048trial. Trước khi tạo tài nguyên phải có ít nhất32máy ở mỗi nhóm hash và đủ100request mỗi nhóm. Những lượt lặp không biến thành mẫu thống kê độc lập. Máy stopped không được đưa vào thử nghiệm dự đoán.
-4. Mỗi response phải đúng request/máy/variant và9field pin. Feature values, event time, age, operating context, protocol, source manifest và lease phải khớp seed cùng latest-row lookup độc lập từ Parquet bằng DuckDB. **Truy vấn DuckDB trên dataset VM chưa chạy ở mốc này.**
+4. Mỗi response phải đúng request/máy/variant và9field pin. Feature values, event time, age, operating context, protocol, source manifest và lease phải khớp seed cùng latest-row lookup độc lập từ Parquet bằng DuckDB. **CI8 đã thực thi truy vấn này trên dataset VM**, đối chiếu780trial và toàn bộ cohort sau switch. Các test PC lịch sử ở dưới vẫn dùng fixture.
 5. Đọc report và Prometheus scrape từ A/B API: trial counts phải khớp chính xác; drift dùng snapshot duy nhất và đúng reference/8feature. Counter trực tiếp ở predictor phải tăng **ít nhất** số trial tương ứng, vì có thể có health probe/lưu lượng khác. Không gán phần tăng thêm đó cho thí nghiệm.
 6. Retry40request đồng thời; response và ledger/metrics của thí nghiệm phải giữ nguyên. Đọc SQLite ở chế độ read-only từ thư mục volume của release, đối chiếu toàn bộ trial cùng seal experiment/pins/context/reference/capacity. Chỉ trạng thái PVC `Bound` chưa đủ chứng minh dữ liệu đã ghi đúng chỗ.
 7. Giữ ổn định ISVC/service/pod/container identities và active routing trong lúc thử. Trước full cutover, receipt phải còn dưới5phút, đúng source/release/candidate UID, config/volume/ledger vẫn khớp và lease thật còn hiệu lực. Receipt PC hoặc tài nguyên bị thay/restart làm job dừng. Sau đó mới dùng Helm atomic và kiểm toàn bộ máy qua API chính.
 
 Lỗi giữ lại tài nguyên/bằng chứng của release để điều tra; cleanup chỉ dừng controller của build và rollback đúng lần switch của nó. Không tự xóa PV/PVC/model/data. Ledger cũ không được nhận thành một run mới, không có resume bằng cách sửa attempt marker. Rollback command chưa chứng minh fallback khỏe nếu lease baseline đã hết; vẫn cần kiểm native riêng.
 
-Thêm A/B và image thứ ba làm tăng thời gian chuẩn bị: guard ban đầu cần **90phút** trước auto-stop thực; Jenkins timeout85phút, các phase sau vẫn cần15phút dự phòng/12GiB RAM/20GB trên cả HDD/SSD. Đây là ngân sách kiểm bảo thủ, chưa phải số đo thời gian Jenkins native. Guard training100phút ban đầu/90phút runner,24GiB/40GB hai đĩa giữ nguyên; auto-stop VM8giờ giữ nguyên.
+Thêm A/B và image thứ ba làm tăng thời gian chuẩn bị: guard ban đầu cần **90phút** trước auto-stop thực; Jenkins timeout85phút, các phase sau vẫn cần15phút dự phòng/12GiB RAM/20GB trên cả HDD/SSD. Đây là ngân sách kiểm bảo thủ. CI8 thực đo307,949giây vì reuse mutation hoàn chỉnh5; build5 chạy44phút56,068giây rồi lỗi adapter, không phải số đo full pipeline SUCCESS. Guard training100phút ban đầu/90phút runner,24GiB/40GB hai đĩa giữ nguyên; auto-stop VM8giờ giữ nguyên.
 
 ## Bằng chứng PC
 
@@ -55,6 +55,6 @@ finally { Remove-Item Env:IOT_AB_CI_PROOF_DIR }
 
 Output directory phải chưa tồn tại. Test chỉ mở loopback và tự đóng server/thread; không chạm Kubernetes/cloud. Lệnh `ci-serving.py ab` dành cho trusted Jenkins với source seal, session, dataset và controller SDK có sẵn trên VM; không chạy trực tiếp từ PC để thay một lượt native.
 
-[Training CI đã SUCCESS](ci-training.md) và model6 đã qua SDK export trong lab; serving build3 đang kiểm Linux mutation theo [trạng thái CI](ci-serving.md). Vẫn còn các gate image, A/B SQL/volume/pod readbacks, Jenkins SUCCESS và ảnh thật trước khi nhận F33/F34/F52 hoàn tất. [Grafana6panel](ab-monitoring.md) đã được kiểm bằng Prometheus/Grafana thật trênPC:26seriesmỗiengine/800trial/40retry và ảnh gốc. Dashboard trênVM vẫn chưa chạy. Template màu hiển thị hiện ở9fa1326; packet73file ởda1 vẫn là bằng chứng nguồn lịch sử. Không suy đoán approval mới từ thời gian chờ.
+[Training CI](ci-training.md) và [serving CI8](ci-serving.md) đều SUCCESS riêng trênVM; [Grafana native](ab-monitoring.md) đã đọc đủ26giá trị mỗi engine từ experiment8. Packet73file/source da1 và800trialPC phía trên vẫn là bằng chứng lịch sử; không thay bằng source99 hoặc số đo native. Chạy lại cần release/candidate/context thực mới, không overwrite thí nghiệm đã niêm phong.
 
 Tham chiếu: [ConfigMap immutable](https://kubernetes.io/docs/concepts/configuration/configmap/#immutable-configmaps), [storage classes và volume binding](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode). Tài liệu dự án và kết quả PC ở trên giữ phạm vi riêng với API documentation.

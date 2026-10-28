@@ -1,8 +1,24 @@
 # Theo dõi hai phiên bản bằng Prometheus và Grafana
 
-**Đã chạy thật trên PC Windows ngày 27/10/2026; chưa chạy trên VM.** Prometheus **3.13.5 LTS** lấy metrics từ A/B API; Grafana OSS **13.3.0** đọc Prometheus và hiển thị sáu biểu đồ. Code chạy ở commit `9fa1326d68615c4120aa99dee65387766a9a9ea9`. Registry và feature Feast là fixture; hai version pin dùng cùng weights legacy. Kết quả chứng minh đường monitoring, chưa chứng minh model mới tốt hơn hoặc A/B đã triển khai qua Jenkins/Kubernetes.
+## Native VM ngày28/10/2026
 
-Sau mốc PC, native serving CI sửa quyền đọc bundle và cấu hình thư mục mutation. Verifier giữ77source bindings **lịch sử**; hai file CI mới được đối chiếu riêng: ba HTTP helper đã dùng không đổi AST, cấu hình mutation chỉ thay copy script đơn thành thư mục.75file runtime/API/monitoring còn lại vẫn khớp. Không nhận các số đo PC này thành proof cho native CI hoặc cấu hình mutation mới. [Host monitoring trên Linux VM](host-monitoring.md#linux-vm-kết-quả-chạy-thật-ngày2810) đã có proof riêng; không đồng nghĩa đã có dashboard A/B native.
+**Đã đọc dashboard thật từ A/B triển khai qua Jenkins serving8/source`99d6dcc`**, Prometheus3.13.5 và Grafana OSS13.3.0. Hai predictor là model1 và model6 đã train riêng, Feast cohort thật trênVM. Experiment `serve-jenkins-8` có780trial:376baseline/404candidate,94/101snapshot duy nhất và40replay không tăng đếm. Sáu panel trả **26giá trị mỗi engine** tại cùng evaluation1793163484 (04:58:04UTC); độc lập tính lại từ raw report và train reference. [Verification](evidence/ci-serving-linux/monitoring/verification.json), [query readbacks](evidence/ci-serving-linux/monitoring/panel-queries.json), [16PSI độc lập](evidence/ci-serving-linux/monitoring/independent-psi.json).
+
+Prometheus scrape private ClusterIP quan sát thật`10.53.109.158`; dashboardUID`iot-two-model-ab`, datasourceUID`iot-ab-prometheus`. Thêm target8 bằng file discovery, giữ target7 và cùng Prometheus process; không thay report/ledger gốc để tạo đồ thị. Runtime/password/database chỉ ởVM; UI qua IAP/loopback. [Serving CI](ci-serving.md) ghi image/UID/PV/PVC/SQL readbacks và controlled rollback6→1→6.
+
+![A/B native:376 và404trials,94 và101snapshots](evidence/ci-serving-linux/screenshots/ab8-grafana-overview.jpg)
+
+![PSI native của tám feature ở hai phiên bản](evidence/ci-serving-linux/screenshots/ab8-grafana-psi.jpg)
+
+Snapshot được dedup trước PSI, bốn lượt lặp không thành780mẫu độc lập. Reference lấy train model3 đã cố định trước, không chọn theo test; verifier dùng raw referenceSHA`b102b670e58aca8876125a631cb9b44219bba5f07b63754d0bf8ce1da2e3001b`. Counter predictor có thể tăng thêm bởi health probes, nên đối chiếu ít nhất trial mỗi nhóm; số đếm thí nghiệm dùng ledger riêng. P95 là nội suy histogram server, không phải latency client chính xác. Không có groundtruth trong dashboard: mean risk và PSI không phải accuracy, cũng không chứng minh candidate tốt hơn hoặc tự quyết định promotion.
+
+Tự kiểm toàn bộ capsule bằng `python -S scripts/verify-native-serving.py`. Mục PC bên dưới giữ nguyên source/fixture/số đo lịch sử, có verifier riêng; không cộng800PCtrial vào780native.
+
+## Kết quả PC Windows ngày27/10/2026
+
+Prometheus **3.13.5 LTS** lấy metrics từ A/B API; Grafana OSS **13.3.0** đọc Prometheus và hiển thị sáu biểu đồ. Code chạy ở commit `9fa1326d68615c4120aa99dee65387766a9a9ea9`. Registry và feature Feast là fixture; hai version pin dùng cùng weights legacy. Kết quả này chứng minh đường monitoring trênPC; không thay cho kết quả native ở trên hoặc đánh giá chất lượng model.
+
+Sau mốc PC, native serving CI sửa quyền đọc bundle và cấu hình thư mục mutation. Verifier PC giữ77source bindings **lịch sử**; hai file CI mới được đối chiếu riêng: ba HTTP helper đã dùng không đổi AST, cấu hình mutation chỉ thay copy script đơn thành thư mục.75file runtime/API/monitoring còn lại vẫn khớp. Không nhận các số đo PC thành proof cho native CI. [Host monitoring trên Linux VM](host-monitoring.md#linux-vm-kết-quả-chạy-thật-ngày2810) cũng có proof riêng với dashboard A/B native ở đầu tài liệu.
 
 ## Thành phần và số đo
 

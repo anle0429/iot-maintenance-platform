@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "completed_utc": "2026-10-28T05:01:58.083565+00:00",
+  "source_commit": "99d6dcc2994f55f06133eace53ecff523f6fc3cb",
+  "workloads": {
+    "1": {
+      "passed": true,
+      "sla": {
+        "minimum_requests": 100,
+        "maximum_failures": 0,
+        "p95_ms": 500,
+        "clock_mode": "simulation"
+      },
+      "requests": 598,
+      "failures": 0,
+      "requests_per_second": 10.015577659973923,
+      "p50_ms": 6,
+      "p95_ms": 7,
+      "p99_ms": 7,
+      "scope": "Feature retrieval only, paced clients on same shared VM; not max capacity, external network latency, RAG/LLM or prediction throughput."
+    },
+    "10": {
+      "passed": true,
+      "sla": {
+        "minimum_requests": 100,
+        "maximum_failures": 0,
+        "p95_ms": 500,
+        "clock_mode": "simulation"
+      },
+      "requests": 5780,
+      "failures": 0,
+      "requests_per_second": 96.65194593998731,
+      "p50_ms": 17,
+      "p95_ms": 28,
+      "p99_ms": 31,
+      "scope": "Feature retrieval only, paced clients on same shared VM; not max capacity, external network latency, RAG/LLM or prediction throughput."
+    }
+  },
+  "scope": "Two finite actual native Locust workloads after CI8 cutover; feature retrieval only. Workload/SLA unchanged from declared Git source, original HTML/CSV retained."
+}
