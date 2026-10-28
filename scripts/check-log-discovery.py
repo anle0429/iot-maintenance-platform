@@ -22,14 +22,21 @@ def main(args):
         return p.stdout
     session=json.loads((r/'data/runtime/ci/session.json').read_bytes());assert (datetime.fromisoformat(session['auto_stop_utc'])-datetime.now(timezone.utc)).total_seconds()>1800
     assert json.loads((r/'outputs/log-discovery-28/start/verification.json').read_bytes())['passed']
+    retain_first=False
     if args.resume_from:
-        previous=args.resume_from.resolve();assert previous.is_relative_to(r/'outputs/log-discovery-28') and not (previous/'first.cri').exists()
-        assert not json.loads(subprocess.check_output(k+['get','pods','-n','iot-features','-l','app=iot-log-discovery-probe','-o','json']))['items']
-        deployment=json.loads(subprocess.check_output(k+['get','deployment','iot-log-discovery-probe','-n','iot-features','-o','json']));save('failed-empty-deployment.json',deployment)
+        previous=args.resume_from.resolve();assert previous.is_relative_to(r/'outputs/log-discovery-28') and not (previous/'second.cri').exists()
+        current_pods=json.loads(subprocess.check_output(k+['get','pods','-n','iot-features','-l','app=iot-log-discovery-probe','-o','json']))['items']
+        retain_first=(previous/'first.cri').exists()
+        if retain_first:
+            previous_pods=json.loads((previous/'first-pods.json').read_bytes())['items'];assert {p['metadata']['uid'] for p in current_pods}=={p['metadata']['uid'] for p in previous_pods}
+            assert json.loads((previous/'first-deployment.json').read_bytes())==probe_deployment('first')
+            (out/'prior-first.cri').write_bytes((previous/'first.cri').read_bytes())
+        else:assert not current_pods
+        deployment=json.loads(subprocess.check_output(k+['get','deployment','iot-log-discovery-probe','-n','iot-features','-o','json']));save('checkpoint-deployment.json',deployment)
         assert deployment['spec']['selector']['matchLabels']=={'app':'iot-log-discovery-probe'} and deployment['spec']['template']['spec']['containers'][0]['image']=='iot-coursework-predictor:observe-jenkins-2'
-        save('resume.json',{'prior_output':str(previous.relative_to(r)),'no_pod_or_cri_created':True,'only_controlled_probe_will_be_repaired':True})
+        save('resume.json',{'prior_output':str(previous.relative_to(r)),'first_pod_and_cri_retained':retain_first,'no_pod_or_cri_created':not retain_first,'only_controlled_probe_will_be_repaired':True})
     else:assert subprocess.run(k+['get','deployment','iot-log-discovery-probe','-n','iot-features'],capture_output=True).returncode!=0
-    begun=time.time_ns();expected=[];uids=[]
+    begun=int(nanos((previous/'first.cri').read_text().split(' ',1)[0])) if retain_first else time.time_ns();expected=[];uids=[]
     def query(label):
         expression='{host="vm-linux",collection="native-28-auto",service="log-probe"} |= "iot-log-discovery-28"'
         url='http://127.0.0.1:13100/loki/api/v1/query_range?'+urllib.parse.urlencode({'query':expression,'start':str(begun-10**9),'end':str(time.time_ns()),'limit':1000,'direction':'forward'})
@@ -45,11 +52,13 @@ def main(args):
         raise RuntimeError('Loki did not contain exact expected '+str(count)+' lines')
     original_loki=int(subprocess.check_output(['systemctl','show','iot-loki-28','-p','MainPID','--value']))
     for batch in ['first','second']:
-        manifest=probe_deployment(batch);save(batch+'-deployment.json',manifest);call(batch+'-apply',k+['apply','-f',str(out/(batch+'-deployment.json'))]);call(batch+'-ready',k+['rollout','status','deployment/iot-log-discovery-probe','-n','iot-features','--timeout=90s'])
+        manifest=probe_deployment(batch);save(batch+'-deployment.json',manifest)
+        if not (batch=='first' and retain_first):call(batch+'-apply',k+['apply','-f',str(out/(batch+'-deployment.json'))]);call(batch+'-ready',k+['rollout','status','deployment/iot-log-discovery-probe','-n','iot-features','--timeout=90s'])
         pods=json.loads(subprocess.check_output(k+['get','pods','-n','iot-features','-l','app=iot-log-discovery-probe','-o','json']));save(batch+'-pods.json',pods);running=[p for p in pods['items'] if p['status']['phase']=='Running' and not p['metadata'].get('deletionTimestamp')];assert len(running)==1;p=running[0];uid=p['metadata']['uid'];assert uid not in uids;uids.append(uid)
         path=Path('/var/log/pods')/('iot-features_'+p['metadata']['name']+'_'+uid)/'probe/0.log';deadline=time.monotonic()+15
         while not path.exists():assert time.monotonic()<deadline;time.sleep(.2)
         time.sleep(1);raw=path.read_bytes();(out/(batch+'.cri')).write_bytes(raw);lines=raw.decode().splitlines();assert len(lines)==20
+        if batch=='first' and retain_first:assert raw==(previous/'first.cri').read_bytes()
         for index,line in enumerate(lines):
             ts,stream,flag,message=line.split(' ',3);assert stream=='stdout' and flag=='F';content=json.loads(message);assert content=={'experiment':'iot-log-discovery-28','batch':batch,'sequence':index,'pod_uid':uid};expected.append((uid,nanos(ts),message))
         wait_for(len(expected),batch+'-loki')
