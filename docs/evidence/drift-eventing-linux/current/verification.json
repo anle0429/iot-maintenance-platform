@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "commit": "869a02ee4d5dd23435175bf70f603f7f51974a19",
+  "release": "drift-event-jenkins-3",
+  "checked_utc": "2026-10-28T18:21:38.660986+00:00",
+  "eventing_version": "knative-v1.24.0",
+  "model_pin": {
+    "name": "iot-pump-failure-v1",
+    "version": "6",
+    "run_id": "be3b27fa0960493d92b45be69b20690e",
+    "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "portable_sha256": "60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981",
+    "training_code_commit": "ce510c6bcccd58235fbc78d22cd90570934c50a6",
+    "data_version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
+    "threshold": 0.7,
+    "production": true
+  },
+  "reference_lineage": {
+    "data_version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
+    "model_name": "iot-pump-failure-v1",
+    "model_run_id": "0f2fe09b6f974eadb858424a70edc7e6",
+    "model_version": "3",
+    "native_report_sha256": "03b601a4637805be25ef7f762245635f2b6e62d03a89eccd477a7f4fce08ccce",
+    "partition": "train",
+    "partitions_sha256": "6e9861ac04dcc8fa48e76a9d1f50b29c5774334e43a28da0b742f6382e623d6e",
+    "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "selection": "lowest1024 SHA256(machine_id|event_timestamp); no label selected"
+  },
+  "pod_uids": [
+    "fb476600-6e2a-4a55-bcd0-fdcb119cf9f7"
+  ],
+  "matching_events": 9,
+  "successful_subscriber_requests": 9,
+  "unique_windows": 1,
+  "filtered_events": 1,
+  "filter_observation_seconds": 3,
+  "scope": "Private Jenkins test/build/auto-deploy Broker\u2192Trigger\u2192KServe drift receiver. Nine distinct transport IDs, one persistent data-window. Production model pulled and schema/data baseline checked; no model promotion, ground-truth quality, durable broker or exactly-once transport claim."
+}

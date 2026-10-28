@@ -1,0 +1,195 @@
+# services.drift_api.app.x_create_app__mutmut_5: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -7,7 +7,7 @@
+         yield
+         app.state.runtime = None
+ 
+-    app = FastAPI(title='IoT label-free drift API', version='1.0.0', lifespan=lifespan)
++    app = FastAPI(version='1.0.0', lifespan=lifespan)
+     app.state.runtime = None
+ 
+     @app.middleware('http')
+ 
+# services.drift_api.app.x_create_app__mutmut_6: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -7,7 +7,7 @@
+         yield
+         app.state.runtime = None
+ 
+-    app = FastAPI(title='IoT label-free drift API', version='1.0.0', lifespan=lifespan)
++    app = FastAPI(title='IoT label-free drift API', lifespan=lifespan)
+     app.state.runtime = None
+ 
+     @app.middleware('http')
+ 
+# services.drift_api.app.x_create_app__mutmut_8: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -7,7 +7,7 @@
+         yield
+         app.state.runtime = None
+ 
+-    app = FastAPI(title='IoT label-free drift API', version='1.0.0', lifespan=lifespan)
++    app = FastAPI(title='XXIoT label-free drift APIXX', version='1.0.0', lifespan=lifespan)
+     app.state.runtime = None
+ 
+     @app.middleware('http')
+ 
+# services.drift_api.app.x_create_app__mutmut_9: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -7,7 +7,7 @@
+         yield
+         app.state.runtime = None
+ 
+-    app = FastAPI(title='IoT label-free drift API', version='1.0.0', lifespan=lifespan)
++    app = FastAPI(title='iot label-free drift api', version='1.0.0', lifespan=lifespan)
+     app.state.runtime = None
+ 
+     @app.middleware('http')
+ 
+# services.drift_api.app.x_create_app__mutmut_10: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -7,7 +7,7 @@
+         yield
+         app.state.runtime = None
+ 
+-    app = FastAPI(title='IoT label-free drift API', version='1.0.0', lifespan=lifespan)
++    app = FastAPI(title='IOT LABEL-FREE DRIFT API', version='1.0.0', lifespan=lifespan)
+     app.state.runtime = None
+ 
+     @app.middleware('http')
+ 
+# services.drift_api.app.x_create_app__mutmut_11: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -7,7 +7,7 @@
+         yield
+         app.state.runtime = None
+ 
+-    app = FastAPI(title='IoT label-free drift API', version='1.0.0', lifespan=lifespan)
++    app = FastAPI(title='IoT label-free drift API', version='XX1.0.0XX', lifespan=lifespan)
+     app.state.runtime = None
+ 
+     @app.middleware('http')
+ 
+# services.drift_api.app.x_create_app__mutmut_12: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -8,7 +8,7 @@
+         app.state.runtime = None
+ 
+     app = FastAPI(title='IoT label-free drift API', version='1.0.0', lifespan=lifespan)
+-    app.state.runtime = None
++    app.state.runtime = ""
+ 
+     @app.middleware('http')
+     async def bound_body(request, call_next):
+ 
+# services.drift_api.app.x_create_app__mutmut_19: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -25,7 +25,7 @@
+     async def invoke(method, *args):
+         """Bound CPU/database work and keep the ASGI event loop available for health checks."""
+         if app.state.runtime is None:
+-            raise HTTPException(503, 'Drift service is not ready')
++            raise HTTPException(503, 'XXDrift service is not readyXX')
+         try:
+             async with app.state.slots:
+                 return await asyncio.to_thread(getattr(app.state.runtime, method), *args)
+ 
+# services.drift_api.app.x_create_app__mutmut_20: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -25,7 +25,7 @@
+     async def invoke(method, *args):
+         """Bound CPU/database work and keep the ASGI event loop available for health checks."""
+         if app.state.runtime is None:
+-            raise HTTPException(503, 'Drift service is not ready')
++            raise HTTPException(503, 'drift service is not ready')
+         try:
+             async with app.state.slots:
+                 return await asyncio.to_thread(getattr(app.state.runtime, method), *args)
+ 
+# services.drift_api.app.x_create_app__mutmut_21: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -25,7 +25,7 @@
+     async def invoke(method, *args):
+         """Bound CPU/database work and keep the ASGI event loop available for health checks."""
+         if app.state.runtime is None:
+-            raise HTTPException(503, 'Drift service is not ready')
++            raise HTTPException(503, 'DRIFT SERVICE IS NOT READY')
+         try:
+             async with app.state.slots:
+                 return await asyncio.to_thread(getattr(app.state.runtime, method), *args)
+ 
+# services.drift_api.app.x_create_app__mutmut_42: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -34,7 +34,7 @@
+         except StoreFull as error:
+             raise HTTPException(507, str(error)) from error
+         except Exception as error:
+-            raise HTTPException(503, 'Drift reference or persistent store is unavailable') from error
++            raise HTTPException(503, None) from error
+ 
+     @app.get('/health/live')
+     async def live():
+ 
+# services.drift_api.app.x_create_app__mutmut_44: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -34,7 +34,7 @@
+         except StoreFull as error:
+             raise HTTPException(507, str(error)) from error
+         except Exception as error:
+-            raise HTTPException(503, 'Drift reference or persistent store is unavailable') from error
++            raise HTTPException(503, ) from error
+ 
+     @app.get('/health/live')
+     async def live():
+ 
+# services.drift_api.app.x_create_app__mutmut_46: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -34,7 +34,7 @@
+         except StoreFull as error:
+             raise HTTPException(507, str(error)) from error
+         except Exception as error:
+-            raise HTTPException(503, 'Drift reference or persistent store is unavailable') from error
++            raise HTTPException(503, 'XXDrift reference or persistent store is unavailableXX') from error
+ 
+     @app.get('/health/live')
+     async def live():
+ 
+# services.drift_api.app.x_create_app__mutmut_47: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -34,7 +34,7 @@
+         except StoreFull as error:
+             raise HTTPException(507, str(error)) from error
+         except Exception as error:
+-            raise HTTPException(503, 'Drift reference or persistent store is unavailable') from error
++            raise HTTPException(503, 'drift reference or persistent store is unavailable') from error
+ 
+     @app.get('/health/live')
+     async def live():
+ 
+# services.drift_api.app.x_create_app__mutmut_48: survived
+--- services/drift_api/app.py
++++ services/drift_api/app.py
+@@ -34,7 +34,7 @@
+         except StoreFull as error:
+             raise HTTPException(507, str(error)) from error
+         except Exception as error:
+-            raise HTTPException(503, 'Drift reference or persistent store is unavailable') from error
++            raise HTTPException(503, 'DRIFT REFERENCE OR PERSISTENT STORE IS UNAVAILABLE') from error
+ 
+     @app.get('/health/live')
+     async def live():
+ 

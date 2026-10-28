@@ -1,0 +1,50 @@
+{
+  "checked_utc": "2026-10-28T18:23:01.093042+00:00",
+  "source_commit": "1e7dc8e9686399a79e97e693af0b30806707295c",
+  "api_source_commit": "869a02ee4d5dd23435175bf70f603f7f51974a19",
+  "session": {
+    "last_start_utc": "2026-10-28T15:13:58.766000+00:00",
+    "auto_stop_utc": "2026-10-28T23:13:58.766000+00:00",
+    "max_run_seconds": 28800,
+    "source": "Actual Compute lastStartTimestamp; user explicitly approved this next sameVM8CPU64GiB/three existing disks max8h/STOP session."
+  },
+  "ram_available_bytes": 59292352512,
+  "disk_free_bytes": [
+    341481766912,
+    97399169024
+  ],
+  "locust_version": "locust 2.47.0 from /srv/iot-data/workspace/iot-maintenance-platform/data/runtime/locust-venv/lib/python3.12/site-packages/locust (Python 3.12.3)",
+  "producer_endpoint": "http://10.53.14.201",
+  "broker_host": "broker-ingress.knative-eventing.svc.cluster.local",
+  "broker_path": "/iot-drift-events/iot-drift-event-jenkins-3-broker",
+  "receiver_url": "http://10.53.23.54",
+  "kserve_image": {
+    "commit": "869a02ee4d5dd23435175bf70f603f7f51974a19",
+    "release": "drift-event-jenkins-3",
+    "tag": "iot-coursework-drift-api:drift-event-jenkins-3",
+    "parent": "iot-coursework-drift-api:observe-jenkins-2",
+    "parent_id": "sha256:53006c118d8e5a0797c4d28acd612275f42c36299dc2f989aca7715fbb0c2815",
+    "config_digest": "sha256:7348ee7265f6ed2a13810f7552865e61ca2b64fd835934d27848b8d7ed227083",
+    "image_id": "sha256:03111e602c6d8314d0dbdeab3aa63ff1c2f7d71027fbf02037b7ff5ba4903421",
+    "cri_config_id": "sha256:7348ee7265f6ed2a13810f7552865e61ca2b64fd835934d27848b8d7ed227083",
+    "packaged_sha256": {
+      "services/drift_api/__init__.py": "2c1abe8a62002bb3ad1222f57ff05ad295cb5f4454357ad5cdc8ada2a1028316",
+      "services/drift_api/contracts.py": "11ac649335a364bdfcece7e1954ff88578f2ff6a057226fa741e9205c33ad2de",
+      "services/drift_api/detector.py": "dd2c23ff16343fd72146552d46bdb7490439026557d43e59b07e885f11c555b8",
+      "services/drift_api/runtime.py": "e284324dba040201b0a30ef7c33834dd8c5d395dede34766cebff49de607a8e7",
+      "services/observed.py": "0cf4e505f4666c326a2b61b5c8928719d016f453eed464a0c2ca13ab79b8fa33",
+      "services/drift_api/app.py": "2ca9bef89846dd4f3e1cc6c12ab759384f541c8378dfe254532fe46ed0c96126",
+      "services/drift_api/events.py": "c91a53a23cc0fd7be537a2b9a022508a36aa9c350cfef0d81752c3de65f38491",
+      "portable.json": "60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981",
+      "lineage.json": "1268c4b85fe9139077729aaeb621605747be7237b2207e55efca04a85ccf3f30",
+      "model-pin.json": "17416f76f541ea3ba4267bc61544476c6b753aa345f990b4a633de1ca0d0fa7b"
+    },
+    "archive_bytes": 54903808
+  },
+  "ready": {
+    "ready": true,
+    "reference_id": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93",
+    "stored_windows": 1
+  },
+  "scope": "One replica of the actual Jenkins3 KServe sink;1/10paced users,2persecond ramp,60s configured each. Producer ACK and subscriber metrics checked separately."
+}

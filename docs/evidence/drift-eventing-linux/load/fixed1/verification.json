@@ -1,0 +1,61 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T18:29:52.621832+00:00",
+  "source_commit": "1e7dc8e9686399a79e97e693af0b30806707295c",
+  "api_source_commit": "869a02ee4d5dd23435175bf70f603f7f51974a19",
+  "release": "drift-event-jenkins-3",
+  "pod_uids_unchanged": {
+    "receiver": [
+      "fb476600-6e2a-4a55-bcd0-fdcb119cf9f7"
+    ],
+    "transport": [
+      "0d2ddba3-1884-4c24-bf9c-d1636219fb0b",
+      "426f1e54-2350-4a3c-ba07-5ee4926a2aad",
+      "48b23f45-6e04-45c8-a426-a182fc5f73f5",
+      "4c7ac7f7-2801-4b14-bce1-79fb122adb90",
+      "8edda15a-8c6e-4117-9767-e08c2585ee09",
+      "b2a1bfd5-f232-4202-8c47-f0f58a638199",
+      "c05a4a89-a7b2-4385-8157-056fbe338c21",
+      "cb6724ff-59fb-4d7e-992b-c0433d93d353",
+      "e77f6a78-de43-4579-afba-faeff3b49707"
+    ]
+  },
+  "subscriber_204_before": 5079.0,
+  "subscriber_204_after": 9944.0,
+  "producer_requests": 4865,
+  "unique_windows": 1,
+  "persistent_rows_unchanged": true,
+  "workloads": {
+    "1": {
+      "passed": true,
+      "sla": {
+        "minimum_requests": 100,
+        "maximum_failures": 0,
+        "p95_ack_ms": 500
+      },
+      "requests": 598,
+      "failures": 0,
+      "requests_per_second": 10.012310965568231,
+      "p50_ms": 10,
+      "p95_ack_ms": 11,
+      "p99_ack_ms": 12,
+      "scope": "Paced producer acknowledgements through the private in-memory Broker on a shared VM. One historical synthetic window is replayed under distinct CloudEvent IDs. Subscriber counters/persistent rows must be checked separately; not maximum capacity, unique-window throughput, model-quality evidence or a durable transport guarantee."
+    },
+    "10": {
+      "passed": true,
+      "sla": {
+        "minimum_requests": 100,
+        "maximum_failures": 0,
+        "p95_ack_ms": 500
+      },
+      "requests": 4267,
+      "failures": 0,
+      "requests_per_second": 71.23892297957048,
+      "p50_ms": 100,
+      "p95_ack_ms": 210,
+      "p99_ack_ms": 880,
+      "scope": "Paced producer acknowledgements through the private in-memory Broker on a shared VM. One historical synthetic window is replayed under distinct CloudEvent IDs. Subscriber counters/persistent rows must be checked separately; not maximum capacity, unique-window throughput, model-quality evidence or a durable transport guarantee."
+    }
+  },
+  "scope": "Real paced Broker ACK workload, matching successful KServe deliveries and stable exact persistent replay result. No unique-window throughput, maximum capacity, durable Broker, exactly-once transport or external-network claim."
+}

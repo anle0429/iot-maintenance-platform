@@ -1,0 +1,43 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from ServingTests.Dockerfile
+#1 transferring dockerfile: 1.30kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim-bookworm@sha256:fc169880a4d941f3142c0e2e623f05f246150add19dc36fc9224df20fb19e5fd
+#2 DONE 0.3s
+
+#3 [internal] load build context
+#3 transferring context: 508.82kB 0.0s done
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/python:3.12-slim-bookworm@sha256:fc169880a4d941f3142c0e2e623f05f246150add19dc36fc9224df20fb19e5fd
+#4 resolve docker.io/library/python:3.12-slim-bookworm@sha256:fc169880a4d941f3142c0e2e623f05f246150add19dc36fc9224df20fb19e5fd 0.0s done
+#4 DONE 0.0s
+
+#5 [4/6] RUN mkdir /work && chown 10001:10001 /work
+#5 CACHED
+
+#6 [2/6] COPY infra/ci/requirements-serving-tests.lock /tmp/requirements.txt
+#6 CACHED
+
+#7 [3/6] RUN pip install --no-cache-dir --disable-pip-version-check -r /tmp/requirements.txt && pip check
+#7 CACHED
+
+#8 [5/6] WORKDIR /work
+#8 CACHED
+
+#9 [6/6] COPY --chown=10001:10001 . /work/
+#9 DONE 0.1s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 0.1s done
+#10 exporting manifest sha256:03a6e34e13a06249f1c3ce3dbb9a6d9075fa1d17358fc14d0f729185d90463a9 0.0s done
+#10 exporting config sha256:5ee4817c27d5d7d3c156954fecedb409970c8fb2e0fe7e73ed8f9802be0a70d4 0.0s done
+#10 exporting attestation manifest sha256:a48b433d8417ae5ecf92c83fa7e728ee0b14152bd7531770fc18a6d6190623ee 0.0s done
+#10 exporting manifest list sha256:4f3b60a110e12ba694c554644e3ed6ccd9c7b29a26da80de51006ea64cab4c78 0.0s done
+#10 naming to docker.io/library/iot-ci-observability-tests-base:drift-event-jenkins-1
+#10 naming to docker.io/library/iot-ci-observability-tests-base:drift-event-jenkins-1 done
+#10 unpacking to docker.io/library/iot-ci-observability-tests-base:drift-event-jenkins-1 0.0s done
+#10 DONE 0.3s

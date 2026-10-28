@@ -1,0 +1,109 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T17:57:16Z",
+        "labels": {
+          "messaging.knative.dev/role": "in-memory-channel"
+        },
+        "name": "iot-drift-event-pilot-28-broker-kne-trigger-kn-channel",
+        "namespace": "iot-drift-events",
+        "ownerReferences": [
+          {
+            "apiVersion": "messaging.knative.dev/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "InMemoryChannel",
+            "name": "iot-drift-event-pilot-28-broker-kne-trigger",
+            "uid": "52d7fc48-282c-49db-ac30-071afbed658c"
+          }
+        ],
+        "resourceVersion": "136737",
+        "uid": "8649d730-83d0-4f8d-b08d-3cbfa93a58c0"
+      },
+      "spec": {
+        "externalName": "imc-dispatcher.knative-eventing.svc.cluster.local",
+        "ports": [
+          {
+            "name": "http",
+            "port": 80,
+            "protocol": "TCP",
+            "targetPort": 80
+          }
+        ],
+        "sessionAffinity": "None",
+        "type": "ExternalName"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "coursework.iot/production-portable-sha256": "60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981",
+          "coursework.iot/reference-bytes-sha256": "b102b670e58aca8876125a631cb9b44219bba5f07b63754d0bf8ce1da2e3001b",
+          "serving.kserve.io/deploymentMode": "Standard",
+          "sidecar.istio.io/inject": "false"
+        },
+        "creationTimestamp": "2026-10-28T17:57:16Z",
+        "labels": {
+          "app": "isvc.iot-drift-event-pilot-28-predictor",
+          "component": "predictor",
+          "iot.coursework/release": "drift-event-pilot-28",
+          "serving.kserve.io/inferenceservice": "iot-drift-event-pilot-28"
+        },
+        "name": "iot-drift-event-pilot-28-predictor",
+        "namespace": "iot-drift-events",
+        "ownerReferences": [
+          {
+            "apiVersion": "serving.kserve.io/v1beta1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "InferenceService",
+            "name": "iot-drift-event-pilot-28",
+            "uid": "ce9b5e18-8399-468a-be43-6be75ab4b9db"
+          }
+        ],
+        "resourceVersion": "136715",
+        "uid": "05742870-9769-4c9f-95ca-c39a7b6a16a0"
+      },
+      "spec": {
+        "clusterIP": "10.53.102.30",
+        "clusterIPs": [
+          "10.53.102.30"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "http1",
+            "port": 80,
+            "protocol": "TCP",
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "app": "isvc.iot-drift-event-pilot-28-predictor"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

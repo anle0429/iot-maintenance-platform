@@ -1,0 +1,30 @@
+Oct 28 18:29:52 iot-cw-vm python3[379470]:         "p95_ack_ms": 500
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       },
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "requests": 598,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "failures": 0,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "requests_per_second": 10.012310965568231,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "p50_ms": 10,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "p95_ack_ms": 11,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "p99_ack_ms": 12,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "scope": "Paced producer acknowledgements through the private in-memory Broker on a shared VM. One historical synthetic window is replayed under distinct CloudEvent IDs. Subscriber counters/persistent rows must be checked separately; not maximum capacity, unique-window throughput, model-quality evidence or a durable transport guarantee."
+Oct 28 18:29:52 iot-cw-vm python3[379470]:     },
+Oct 28 18:29:52 iot-cw-vm python3[379470]:     "10": {
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "passed": true,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "sla": {
+Oct 28 18:29:52 iot-cw-vm python3[379470]:         "minimum_requests": 100,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:         "maximum_failures": 0,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:         "p95_ack_ms": 500
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       },
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "requests": 4267,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "failures": 0,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "requests_per_second": 71.23892297957048,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "p50_ms": 100,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "p95_ack_ms": 210,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "p99_ack_ms": 880,
+Oct 28 18:29:52 iot-cw-vm python3[379470]:       "scope": "Paced producer acknowledgements through the private in-memory Broker on a shared VM. One historical synthetic window is replayed under distinct CloudEvent IDs. Subscriber counters/persistent rows must be checked separately; not maximum capacity, unique-window throughput, model-quality evidence or a durable transport guarantee."
+Oct 28 18:29:52 iot-cw-vm python3[379470]:     }
+Oct 28 18:29:52 iot-cw-vm python3[379470]:   },
+Oct 28 18:29:52 iot-cw-vm python3[379470]:   "scope": "Real paced Broker ACK workload, matching successful KServe deliveries and stable exact persistent replay result. No unique-window throughput, maximum capacity, durable Broker, exactly-once transport or external-network claim."
+Oct 28 18:29:52 iot-cw-vm python3[379470]: }
+Oct 28 18:29:53 iot-cw-vm systemd[1]: iot-eventing-load-fixed1-28c.service: Deactivated successfully.
+Oct 28 18:29:53 iot-cw-vm systemd[1]: iot-eventing-load-fixed1-28c.service: Consumed 17.867s CPU time, 64.1M memory peak, 0B memory swap peak.

@@ -1,0 +1,134 @@
+{
+  "broker-filter-hpa": {
+    "apiVersion": "autoscaling/v2",
+    "kind": "HorizontalPodAutoscaler",
+    "metadata": {
+      "creationTimestamp": "2026-10-28T17:46:30Z",
+      "labels": {
+        "app.kubernetes.io/component": "broker-filter",
+        "app.kubernetes.io/name": "knative-eventing",
+        "app.kubernetes.io/version": "1.24.0"
+      },
+      "name": "broker-filter-hpa",
+      "namespace": "knative-eventing",
+      "resourceVersion": "145067",
+      "uid": "40a68911-0f1a-48c5-8ae5-7cc08d23950a"
+    },
+    "spec": {
+      "maxReplicas": 1,
+      "metrics": [
+        {
+          "resource": {
+            "name": "cpu",
+            "target": {
+              "averageUtilization": 70,
+              "type": "Utilization"
+            }
+          },
+          "type": "Resource"
+        }
+      ],
+      "minReplicas": 1,
+      "scaleTargetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "mt-broker-filter"
+      }
+    },
+    "status": {
+      "conditions": [
+        {
+          "lastTransitionTime": "2026-10-28T17:46:45Z",
+          "message": "the HPA controller was able to update the target scale to 1",
+          "reason": "SucceededRescale",
+          "status": "True",
+          "type": "AbleToScale"
+        },
+        {
+          "lastTransitionTime": "2026-10-28T17:47:30Z",
+          "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+          "reason": "ValidMetricFound",
+          "status": "True",
+          "type": "ScalingActive"
+        },
+        {
+          "lastTransitionTime": "2026-10-28T17:47:30Z",
+          "message": "the desired count is within the acceptable range",
+          "reason": "DesiredWithinRange",
+          "status": "False",
+          "type": "ScalingLimited"
+        }
+      ],
+      "currentMetrics": null,
+      "currentReplicas": 2,
+      "desiredReplicas": 1,
+      "lastScaleTime": "2026-10-28T18:27:47Z"
+    }
+  },
+  "broker-ingress-hpa": {
+    "apiVersion": "autoscaling/v2",
+    "kind": "HorizontalPodAutoscaler",
+    "metadata": {
+      "creationTimestamp": "2026-10-28T17:46:30Z",
+      "labels": {
+        "app.kubernetes.io/component": "broker-ingress",
+        "app.kubernetes.io/name": "knative-eventing",
+        "app.kubernetes.io/version": "1.24.0"
+      },
+      "name": "broker-ingress-hpa",
+      "namespace": "knative-eventing",
+      "resourceVersion": "145051",
+      "uid": "eef33405-01d5-40a8-813d-08fa59ccfae4"
+    },
+    "spec": {
+      "maxReplicas": 1,
+      "metrics": [
+        {
+          "resource": {
+            "name": "cpu",
+            "target": {
+              "averageUtilization": 70,
+              "type": "Utilization"
+            }
+          },
+          "type": "Resource"
+        }
+      ],
+      "minReplicas": 1,
+      "scaleTargetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "mt-broker-ingress"
+      }
+    },
+    "status": {
+      "conditions": [
+        {
+          "lastTransitionTime": "2026-10-28T17:46:45Z",
+          "message": "the HPA controller was able to update the target scale to 1",
+          "reason": "SucceededRescale",
+          "status": "True",
+          "type": "AbleToScale"
+        },
+        {
+          "lastTransitionTime": "2026-10-28T17:47:15Z",
+          "message": "the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)",
+          "reason": "ValidMetricFound",
+          "status": "True",
+          "type": "ScalingActive"
+        },
+        {
+          "lastTransitionTime": "2026-10-28T17:47:15Z",
+          "message": "the desired count is within the acceptable range",
+          "reason": "DesiredWithinRange",
+          "status": "False",
+          "type": "ScalingLimited"
+        }
+      ],
+      "currentMetrics": null,
+      "currentReplicas": 2,
+      "desiredReplicas": 1,
+      "lastScaleTime": "2026-10-28T18:27:47Z"
+    }
+  }
+}

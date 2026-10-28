@@ -18,6 +18,8 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [Metrics/traces API trên VM](docs/api-observability.md) đã3API/sáu panel/28giá trị mỗi engine và5trace/15span đúng parent;747client/932SDK requests khớp ledger. Wrapper mới296main+14subtest Linux PASS, coverage74statements/16branches100%, mutation221/250=88,4%. Rollout riêng giữ model6; [Locust wrapper](docs/observed-api-load.md)598/5767request0lỗi/P95 6/28ms đã kiểm. [Jenkins telemetry2](docs/ci-api-observability.md) SUCCESS/source372:299main+21subtest/coverage100%/mutation88,4%/ba image/200HTTP; giữ model6, không đổi model/A-B mới. Bộ kiểm độc lập199payload và sáu ảnh gốc đã lưu.
 
+[CI drift qua Knative Eventing→KServe](docs/drift-eventing.md) đã **Jenkins3 SUCCESS/source869**: production6 SDK,101main+20subtest/coverage65statements10branches100%/mutation103of119=86,55%. Chín event tới sink204 nhưng chỉ một cửa sổ lưu; replay/409/filter kiểm thật. Locust598/4.267ACK không lỗi/P95 11/210ms, delta4.865khớp subscriber; giữ Podstable và khôi phục HPA1–10.270payload/bốn ảnh gốc có verifier; window mô phỏng, memoryBroker, chưa compute-throughput cho cửa sổ mới.
+
 ## Mục lục
 
 - [Phạm vi và dữ liệu](docs/domain-proposal.md)
@@ -50,6 +52,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Serving CI: native gates, A/B, cutover, rollback và Locust](docs/ci-serving.md)
 - [A/B dashboard native và cách tự kiểm bằng chứng](docs/ab-monitoring.md)
 - [Airflow gọi KFP: retrain có admission, replay và cooldown](docs/drift-retraining.md)
+- [CI drift qua Knative Eventing và KServe](docs/drift-eventing.md)
 - [Làm mới feature thật và kiểm lại model6 sau retrain](docs/active-feature-refresh.md)
 - [Metrics/traces API: dashboard và trace native đã kiểm](docs/api-observability.md)
 - [Locust trên wrapper: SLA, replica và bằng chứng gốc](docs/observed-api-load.md)
@@ -141,6 +144,11 @@ flowchart LR
     AB -->|C5 cohort baseline| Old[KServe model1 Deployment]
     AB -->|C6 cohort candidate6| Predictor
     Jenkins -->|C7 Helm switch sau A-B và recheck| API
+    Jenkins -->|C8 image và event receiver sau fresh gates| EventDrift[KServe drift receiver Deployment - SQLite HDD PV]
+    EventPub[Locust publisher process] -->|E1 binary CloudEvent| EventIngress[Knative broker ingress Deployment]
+    EventIngress -->|E2 channel dispatch| IMC[IMC dispatcher Deployment]
+    IMC -->|E3 Trigger dispatch| EventFilter[Knative broker filter Deployment]
+    EventFilter -->|E4 selected JSON window| EventDrift
     Airflow -->|M1 lịch năm phút| DriftJob[Offline drift SDK job container]
     Airflow -->|R1 report path và policy retrain| Retrain[Retrain controller container]
     Retrain -->|R2 package và run parameters qua API| KFP
@@ -165,12 +173,14 @@ flowchart LR
     classDef serving fill:#dcecff,stroke:#3265a8,color:#111;
     classDef data fill:#e1f2df,stroke:#428044,color:#111;
     classDef monitor fill:#fff0cf,stroke:#a97920,color:#111;
-    class API,Redis,Predictor,AB,Old,Drift serving;
-    class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins,Retrain data;
+    class API,Redis,Predictor,AB,Old,Drift,EventDrift,EventIngress,IMC,EventFilter serving;
+    class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins,Retrain,EventPub data;
     class DriftJob,PG,Prom,Node,Grafana,Alloy,Loki,Jaeger monitor;
 ```
 
 Sơ đồ tóm tắt các lượt đã có bằng chứng, không có nghĩa mọi job chạy đồng thời. Spark100GB mới có Bronze/Silver; feature/training dùng nguồn60ngày riêng. Đường U hiện pin model6 sauCI8/source99d6dcc; C3–C7 đã chạy thật với gate cache TTL/context và pod identities. A/B tạm giữ mỗi predictor1replica rồi restore1..2; chưa HA nhiều máy. SQLite nằm trong volume HDD của router với PV/PVC Retain. [Tracker](docs/final-rubric-tracker.md) và [kiến trúc chi tiết](docs/architecture.md) ghi phạm vi còn thiếu. Kafka/Flink/push và metadata dependencies có sơ đồ/receipt riêng trong docs; chúng không được suy ra đã nằm trên luồng U.
+
+E1–E4 là publisher/ingress/channel/filter/sink đã chạy thật theo [F35](docs/drift-eventing.md). Broker/Trigger là cấu hình CRD, không vẽ như các process riêng. Publisher đọc window mô phỏng đã lưu; chưa nối trực tiếp Flink vào Broker.
 
 ## Cách chạy
 
@@ -249,3 +259,5 @@ Get-Content outputs/practice-chunks/chunked-report.json
 - [Theo dõi tài nguyên host](docs/host-monitoring.md): Windows PC và Linux VM đều có exporter/Prometheus/Grafana thật,9panel/11query mỗi engine, phép tính độc lập từ mẫu gốc và ảnh. Linux có21file proof/9source bindings,8CPU và ba filesystem khớp OS; không quy toàn bộ tải host cho một job.
 - [Tra cứu log trên VM](docs/log-monitoring.md): Loki/Alloy/Grafana thực,237dòng từ ba dịch vụ host và hai API khớp cả nội dung/nhãn/timestamp;164mẫu đếm theo cửa sổ được tính lại độc lập. Giữ lượt lỗi19timestamp và kiểm lại sau restart collector;58file proof/hai ảnh gốc. Chưa tự theo Pod mới hoặc distributed traces.
 - [Airflow theo dõi drift offline](docs/offline-drift-monitoring.md):hai lượt scheduler cách5phút, mỗi lượt1.024snapshot qua Feast; PSI độc lập/23gauge/sáu panel qua Pushgateway→Prometheus/Grafana đều khớp. SHA sai bị chặn và không cập nhật success;64file proof/ba ảnh gốc. Đồng hồ mô phỏng, không groundtruth hoặc accuracy; tự kiểm bằng `python -S scripts/verify-offline-drift.py`.
+
+- [CI drift Eventing→KServe và tải native](docs/drift-eventing.md): Jenkins3 SUCCESS, ACK204 sau durable write, filter/replay/conflict; `python -S scripts/verify-drift-eventing.py`.

@@ -1,0 +1,9 @@
+Oct 28 17:57:12 iot-cw-vm systemd[1]: Started iot-eventing-pilot-28.service - /usr/bin/python3 /tmp/run-event-pilot-28.py.
+Oct 28 17:57:27 iot-cw-vm python3[312841]: Traceback (most recent call last):
+Oct 28 17:57:27 iot-cw-vm python3[312841]:   File "/tmp/run-event-pilot-28.py", line 35, in <module>
+Oct 28 17:57:27 iot-cw-vm python3[312841]:     services=get('get','services','-n',NAMESPACE)['items'];assert all(s['spec'].get('type','ClusterIP')=='ClusterIP' and not s['spec'].get('externalIPs') for s in services)
+Oct 28 17:57:27 iot-cw-vm python3[312841]:                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Oct 28 17:57:27 iot-cw-vm python3[312841]: AssertionError
+Oct 28 17:57:27 iot-cw-vm systemd[1]: iot-eventing-pilot-28.service: Main process exited, code=exited, status=1/FAILURE
+Oct 28 17:57:27 iot-cw-vm systemd[1]: iot-eventing-pilot-28.service: Failed with result 'exit-code'.
+Oct 28 17:57:27 iot-cw-vm systemd[1]: iot-eventing-pilot-28.service: Consumed 3.991s CPU time.

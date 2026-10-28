@@ -1,0 +1,49 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/iot-drift-eventing
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 1 hr 25 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare sealed Eventing source)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Admit actual VM session)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py admission
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Pull production model and fixed training reference)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py select
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Fresh regression coverage mutation)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py test

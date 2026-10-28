@@ -1,0 +1,136 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/iot-drift-eventing
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 1 hr 25 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare sealed Eventing source)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Admit actual VM session)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py admission
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Pull production model and fixed training reference)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py select
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Fresh regression coverage mutation)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py test
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build probe and import event image)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py build
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-drift-eventing/build-2/scripts/ci-drift-eventing.py", line 184, in <module>
+    if __name__=='__main__':run(sys.argv[1])
+                            ~~~^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-drift-eventing/build-2/scripts/ci-drift-eventing.py", line 173, in run
+    c.log('image-import',['/usr/local/bin/k3s','ctr','images','import',str(archive)],240)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-drift-eventing/build-2/scripts/ci-serving.py", line 73, in log
+    with (self.out/(name+'.txt')).open('w') as stream:subprocess.run(command,stdout=stream,stderr=subprocess.STDOUT,check=True,timeout=timeout)
+                                                      ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 1857, in _execute_child
+    self._posix_spawn(args, executable, env, restore_signals, close_fds,
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      p2cread, p2cwrite,
+                      ^^^^^^^^^^^^^^^^^^
+                      c2pread, c2pwrite,
+                      ^^^^^^^^^^^^^^^^^^
+                      errread, errwrite)
+                      ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 1801, in _posix_spawn
+    self.pid = os.posix_spawn(executable, args, env, **kwargs)
+               ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/usr/local/bin/k3s'
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Auto deploy Broker Trigger and KServe)
+Stage "Auto deploy Broker Trigger and KServe" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Native filtered delivery persistent replay conflict)
+Stage "Native filtered delivery persistent replay conflict" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py archive
+{"commit": "cfc9a33352875a3bb20d2a4cdc78ad165c36b41d", "release": "drift-event-jenkins-2", "archived": true}
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE

@@ -1,0 +1,385 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T17:46:30Z",
+        "labels": {
+          "app.kubernetes.io/component": "broker-filter",
+          "app.kubernetes.io/name": "knative-eventing",
+          "app.kubernetes.io/version": "1.24.0",
+          "eventing.knative.dev/brokerRole": "filter"
+        },
+        "name": "broker-filter",
+        "namespace": "knative-eventing",
+        "resourceVersion": "133751",
+        "uid": "9389b34b-13ff-4c96-a22d-4c11d9a40b3b"
+      },
+      "spec": {
+        "clusterIP": "10.53.225.37",
+        "clusterIPs": [
+          "10.53.225.37"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "http",
+            "port": 80,
+            "protocol": "TCP",
+            "targetPort": 8080
+          },
+          {
+            "name": "https",
+            "port": 443,
+            "protocol": "TCP",
+            "targetPort": 8443
+          },
+          {
+            "name": "http-metrics",
+            "port": 9092,
+            "protocol": "TCP",
+            "targetPort": 9092
+          }
+        ],
+        "selector": {
+          "eventing.knative.dev/brokerRole": "filter"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T17:46:30Z",
+        "labels": {
+          "app.kubernetes.io/component": "broker-ingress",
+          "app.kubernetes.io/name": "knative-eventing",
+          "app.kubernetes.io/version": "1.24.0",
+          "eventing.knative.dev/brokerRole": "ingress"
+        },
+        "name": "broker-ingress",
+        "namespace": "knative-eventing",
+        "resourceVersion": "133766",
+        "uid": "6ffe8b92-c16a-4682-aad9-30e524f25080"
+      },
+      "spec": {
+        "clusterIP": "10.53.14.201",
+        "clusterIPs": [
+          "10.53.14.201"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "http",
+            "port": 80,
+            "protocol": "TCP",
+            "targetPort": 8080
+          },
+          {
+            "name": "https",
+            "port": 443,
+            "protocol": "TCP",
+            "targetPort": 8443
+          },
+          {
+            "name": "http-metrics",
+            "port": 9092,
+            "protocol": "TCP",
+            "targetPort": 9092
+          }
+        ],
+        "selector": {
+          "eventing.knative.dev/brokerRole": "ingress"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T17:46:01Z",
+        "labels": {
+          "app.kubernetes.io/component": "eventing-webhook",
+          "app.kubernetes.io/name": "knative-eventing",
+          "app.kubernetes.io/version": "1.24.0",
+          "role": "eventing-webhook"
+        },
+        "name": "eventing-webhook",
+        "namespace": "knative-eventing",
+        "resourceVersion": "133381",
+        "uid": "96f37bfb-afa8-4be4-ad47-b0b523fb47d2"
+      },
+      "spec": {
+        "clusterIP": "10.53.172.225",
+        "clusterIPs": [
+          "10.53.172.225"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "https-webhook",
+            "port": 443,
+            "protocol": "TCP",
+            "targetPort": 8443
+          }
+        ],
+        "selector": {
+          "role": "eventing-webhook"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T17:46:29Z",
+        "labels": {
+          "app.kubernetes.io/component": "imc-dispatcher",
+          "app.kubernetes.io/name": "knative-eventing",
+          "app.kubernetes.io/version": "1.24.0",
+          "messaging.knative.dev/channel": "in-memory-channel",
+          "messaging.knative.dev/role": "dispatcher"
+        },
+        "name": "imc-dispatcher",
+        "namespace": "knative-eventing",
+        "resourceVersion": "133694",
+        "uid": "0b9e5952-d0c3-4288-a635-69d673960d59"
+      },
+      "spec": {
+        "clusterIP": "10.53.118.41",
+        "clusterIPs": [
+          "10.53.118.41"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "http-dispatcher",
+            "port": 80,
+            "protocol": "TCP",
+            "targetPort": 8080
+          },
+          {
+            "name": "https-dispatcher",
+            "port": 443,
+            "protocol": "TCP",
+            "targetPort": 8443
+          },
+          {
+            "name": "http-metrics",
+            "port": 9090,
+            "protocol": "TCP",
+            "targetPort": 9090
+          }
+        ],
+        "selector": {
+          "messaging.knative.dev/channel": "in-memory-channel",
+          "messaging.knative.dev/role": "dispatcher"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T17:46:29Z",
+        "labels": {
+          "app.kubernetes.io/component": "imc-controller",
+          "app.kubernetes.io/name": "knative-eventing",
+          "app.kubernetes.io/version": "1.24.0"
+        },
+        "name": "inmemorychannel-webhook",
+        "namespace": "knative-eventing",
+        "resourceVersion": "133687",
+        "uid": "20e7bf92-b0ce-4bca-94c5-b237a9c92126"
+      },
+      "spec": {
+        "clusterIP": "10.53.247.131",
+        "clusterIPs": [
+          "10.53.247.131"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "https-webhook",
+            "port": 443,
+            "protocol": "TCP",
+            "targetPort": 8443
+          },
+          {
+            "name": "http-metrics",
+            "port": 9090,
+            "protocol": "TCP",
+            "targetPort": 9090
+          },
+          {
+            "name": "http-profiling",
+            "port": 8008,
+            "protocol": "TCP",
+            "targetPort": 8008
+          }
+        ],
+        "selector": {
+          "messaging.knative.dev/channel": "in-memory-channel",
+          "messaging.knative.dev/role": "controller"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T17:46:01Z",
+        "labels": {
+          "app.kubernetes.io/component": "job-sink",
+          "app.kubernetes.io/name": "knative-eventing",
+          "app.kubernetes.io/version": "1.24.0",
+          "sinks.knative.dev/sink": "job-sink"
+        },
+        "name": "job-sink",
+        "namespace": "knative-eventing",
+        "resourceVersion": "133358",
+        "uid": "9f2f4388-3028-4da3-b4c5-55dff7481a3a"
+      },
+      "spec": {
+        "clusterIP": "10.53.83.171",
+        "clusterIPs": [
+          "10.53.83.171"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "http",
+            "port": 80,
+            "protocol": "TCP",
+            "targetPort": 8080
+          },
+          {
+            "name": "https",
+            "port": 443,
+            "protocol": "TCP",
+            "targetPort": 8443
+          },
+          {
+            "name": "http-metrics",
+            "port": 9092,
+            "protocol": "TCP",
+            "targetPort": 9092
+          }
+        ],
+        "selector": {
+          "sinks.knative.dev/sink": "job-sink"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T17:46:01Z",
+        "labels": {
+          "app.kubernetes.io/component": "request-reply",
+          "app.kubernetes.io/name": "knative-eventing",
+          "app.kubernetes.io/version": "1.24.0",
+          "eventing.knative.dev/part-of": "request-reply"
+        },
+        "name": "request-reply",
+        "namespace": "knative-eventing",
+        "resourceVersion": "133370",
+        "uid": "0e080249-8a9e-499e-95e1-ac995ce08186"
+      },
+      "spec": {
+        "clusterIP": "10.53.27.226",
+        "clusterIPs": [
+          "10.53.27.226"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "http",
+            "port": 80,
+            "protocol": "TCP",
+            "targetPort": 8080
+          },
+          {
+            "name": "https",
+            "port": 443,
+            "protocol": "TCP",
+            "targetPort": 8443
+          }
+        ],
+        "selector": {
+          "eventing.knative.dev/part-of": "request-reply"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

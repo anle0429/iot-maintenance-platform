@@ -1,0 +1,146 @@
+{
+  "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+  "actions": [
+    {
+      "_class": "hudson.model.ParametersAction",
+      "parameters": [
+        {
+          "_class": "hudson.model.StringParameterValue",
+          "name": "SOURCE_COMMIT",
+          "value": "fd9bf9320c1dae8240f59979c4bb9d1ac9dcae16"
+        },
+        {
+          "_class": "hudson.model.StringParameterValue",
+          "name": "MODEL_VERSION",
+          "value": "6"
+        }
+      ]
+    },
+    {
+      "_class": "hudson.model.CauseAction"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.libs.LibrariesAction"
+    },
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.workflow.cps.EnvActionImpl"
+    },
+    {},
+    {},
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.displayurlapi.actions.RunDisplayAction"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.pipeline.modeldefinition.actions.RestartDeclarativePipelineAction"
+    },
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.views.FlowGraphAction"
+    },
+    {},
+    {}
+  ],
+  "artifacts": [
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/admission.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/contracts.txt"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/controller-build.txt"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/controller.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/inventory.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/reference.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/select-container.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/select.txt"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/selection.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/api-tests.txt"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/coverage-html/class_index.html"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/coverage-html/coverage_html_cb_54cfdca1.js"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/coverage-html/favicon_32_cb_c827f16f.png"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/coverage-html/function_index.html"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/coverage-html/index.html"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/coverage-html/keybd_closed_cb_900cfef5.png"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/coverage-html/status.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/coverage-html/style_cb_4667309f.css"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/coverage-html/z_da970418c10ed19b_app_py.html"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/coverage-html/z_da970418c10ed19b_events_py.html"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/coverage.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/junit.xml"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/mutmut-all-results.txt"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/mutmut-cicd-stats.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/mutmut-console.txt"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/mutmut-export.txt"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests/gate/requirements-installed.lock"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests-base-build.txt"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests-container.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests-overlay-build.txt"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-drift-eventing/native/tests.txt"
+    }
+  ],
+  "building": false,
+  "duration": 86978,
+  "number": 1,
+  "result": "FAILURE",
+  "timestamp": 1793210988650,
+  "url": "http://127.0.0.1:18787/job/iot-drift-eventing/1/"
+}

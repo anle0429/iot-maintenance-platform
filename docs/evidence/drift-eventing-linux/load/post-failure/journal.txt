@@ -1,0 +1,11 @@
+Oct 28 18:23:01 iot-cw-vm systemd[1]: Started iot-eventing-load-28c.service - /usr/bin/python3 /tmp/run-eventing-load-28c.py.
+Oct 28 18:24:03 iot-cw-vm python3[369650]: {"users": 1, "passed": true, "sla": {"minimum_requests": 100, "maximum_failures": 0, "p95_ack_ms": 500}, "requests": 598, "failures": 0, "requests_per_second": 10.01491596894921, "p50_ms": 9, "p95_ack_ms": 11, "p99_ack_ms": 13, "scope": "Paced producer acknowledgements through the private in-memory Broker on a shared VM. One historical synthetic window is replayed under distinct CloudEvent IDs. Subscriber counters/persistent rows must be checked separately; not maximum capacity, unique-window throughput, model-quality evidence or a durable transport guarantee."}
+Oct 28 18:25:03 iot-cw-vm python3[369650]: {"users": 10, "passed": true, "sla": {"minimum_requests": 100, "maximum_failures": 0, "p95_ack_ms": 500}, "requests": 4472, "failures": 0, "requests_per_second": 74.71649363990767, "p50_ms": 98, "p95_ack_ms": 200, "p99_ack_ms": 700, "scope": "Paced producer acknowledgements through the private in-memory Broker on a shared VM. One historical synthetic window is replayed under distinct CloudEvent IDs. Subscriber counters/persistent rows must be checked separately; not maximum capacity, unique-window throughput, model-quality evidence or a durable transport guarantee."}
+Oct 28 18:25:04 iot-cw-vm python3[369650]: Traceback (most recent call last):
+Oct 28 18:25:04 iot-cw-vm python3[369650]:   File "/tmp/run-eventing-load-28c.py", line 48, in <module>
+Oct 28 18:25:04 iot-cw-vm python3[369650]:     after=pods();save('pods-after.json',after);assert identities(before)==identities(after)
+Oct 28 18:25:04 iot-cw-vm python3[369650]:                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Oct 28 18:25:04 iot-cw-vm python3[369650]: AssertionError
+Oct 28 18:25:04 iot-cw-vm systemd[1]: iot-eventing-load-28c.service: Main process exited, code=exited, status=1/FAILURE
+Oct 28 18:25:04 iot-cw-vm systemd[1]: iot-eventing-load-28c.service: Failed with result 'exit-code'.
+Oct 28 18:25:04 iot-cw-vm systemd[1]: iot-eventing-load-28c.service: Consumed 13.690s CPU time, 58.1M memory peak, 0B memory swap peak.

@@ -33,6 +33,15 @@ class DriftEventingTests(unittest.TestCase):
             args['reference_raw']=json.dumps(ref)
             with self.subTest(edit=edit),self.assertRaises(ValueError):plan(**args)
 
+    def test_reference_size_matches_the_detector_runtime_boundary(self):
+        args=self.fixture();reference=json.loads(args['reference_raw']);row=reference['samples'][0]
+        for size,accepted in [(31,False),(32,True),(2048,True),(2049,False)]:
+            args['reference_raw']=json.dumps({**reference,'samples':[row]*size})
+            with self.subTest(size=size):
+                if accepted:self.assertEqual(len(plan(**args)['objects']),8)
+                else:
+                    with self.assertRaises(ValueError):plan(**args)
+
     def test_public_image_arbitrary_ledger_and_header_injection_are_rejected(self):
         for key,value in [('release','../x'),('image','external.example/model:latest'),('ledger','/etc/other'),('node','host;id')]:
             args=self.fixture();args[key]=value

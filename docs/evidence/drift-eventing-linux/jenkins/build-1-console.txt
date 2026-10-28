@@ -1,0 +1,120 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/iot-drift-eventing
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 1 hr 25 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare sealed Eventing source)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Admit actual VM session)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py admission
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Pull production model and fixed training reference)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py select
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Fresh regression coverage mutation)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py test
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-drift-eventing/build-1/scripts/ci-serving.py", line 98, in container
+    try:self.log(name,command,3300 if name=='tests' else 3000)
+        ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-drift-eventing/build-1/scripts/ci-serving.py", line 73, in log
+    with (self.out/(name+'.txt')).open('w') as stream:subprocess.run(command,stdout=stream,stderr=subprocess.STDOUT,check=True,timeout=timeout)
+                                                      ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['docker', 'run', '--name', 'drift-event-jenkins-1-tests', '--network', 'none', '--memory', '4g', '--memory-swap', '4g', '--cpus', '2', '--pids-limit', '256', '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges', '--mount', 'type=bind,src=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/jenkins-home-27/workspace/iot-drift-eventing/build-1,dst=/sealed,readonly', '--mount', 'type=bind,src=/srv/iot-data/workspace/iot-maintenance-platform/data/ci/source/fd9bf9320c1dae8240f59979c4bb9d1ac9dcae16/manifest.json,dst=/manifest.json,readonly', '--mount', 'type=bind,src=/srv/iot-fast/ci/drift-event-jenkins-1,dst=/scratch', '--mount', 'type=bind,src=/srv/iot-data/workspace/iot-maintenance-platform/data/ci/releases/drift-event-jenkins-1/outputs/tests,dst=/results', 'iot-ci-eventing-tests:drift-event-jenkins-1', '/sealed/scripts/test-drift-eventing.py', '--source', '/sealed', '--manifest', '/manifest.json', '--workspace', '/scratch/run', '--output', '/results/gate']' returned non-zero exit status 1.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-drift-eventing/build-1/scripts/ci-drift-eventing.py", line 184, in <module>
+    if __name__=='__main__':run(sys.argv[1])
+                            ~~~^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-drift-eventing/build-1/scripts/ci-drift-eventing.py", line 159, in run
+    c.container('tests',command,memory='4g',cpus='2');gate(c)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-drift-eventing/build-1/scripts/ci-serving.py", line 108, in container
+    if state.get('OOMKilled') or state.get('Running') or state.get('ExitCode')!=0:raise RuntimeError('Serving CI container did not complete successfully')
+                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Serving CI container did not complete successfully
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build probe and import event image)
+Stage "Build probe and import event image" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Auto deploy Broker Trigger and KServe)
+Stage "Auto deploy Broker Trigger and KServe" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Native filtered delivery persistent replay conflict)
+Stage "Native filtered delivery persistent replay conflict" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py archive
+{"commit": "fd9bf9320c1dae8240f59979c4bb9d1ac9dcae16", "release": "drift-event-jenkins-1", "archived": true}
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE

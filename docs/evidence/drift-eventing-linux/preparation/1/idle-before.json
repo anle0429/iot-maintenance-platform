@@ -1,0 +1,56 @@
+{
+  "_class": "hudson.model.Hudson",
+  "jobs": [
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+      "name": "iot-api-observability",
+      "lastBuild": {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+        "building": false,
+        "number": 2,
+        "result": "SUCCESS"
+      }
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+      "name": "iot-dp1-dp3",
+      "lastBuild": {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+        "building": false,
+        "number": 2,
+        "result": "SUCCESS"
+      }
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+      "name": "iot-materialization",
+      "lastBuild": {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+        "building": false,
+        "number": 1,
+        "result": "SUCCESS"
+      }
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+      "name": "iot-serving",
+      "lastBuild": {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+        "building": false,
+        "number": 8,
+        "result": "SUCCESS"
+      }
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+      "name": "iot-training",
+      "lastBuild": {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+        "building": false,
+        "number": 2,
+        "result": "SUCCESS"
+      }
+    }
+  ],
+  "quietingDown": false
+}

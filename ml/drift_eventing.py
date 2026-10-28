@@ -38,7 +38,7 @@ def plan(release,image,node,reference_raw,pin,portable,ledger):
     pin=validate_pin(pin);reference=json.loads(reference_raw)
     if (pin['production'] is not True or reference['lineage']['partition']!='train'
             or reference['lineage']['data_version']!=pin['data_version'] or reference['lineage']['protocol_sha256']!=pin['protocol_sha256']
-            or not 32<=len(reference['samples'])<=20000 or any(set(row)!=set(portable['features']) for row in reference['samples'])):
+            or not 32<=len(reference['samples'])<=2048 or any(set(row)!=set(portable['features']) for row in reference['samples'])):
         raise ValueError('Production schema/data lineage and fixed training reference differ')
     path=PurePosixPath(ledger)
     if not path.is_relative_to('/srv/iot-data') or '..' in path.parts or path.parts[-2:]!=('eventing',release):raise ValueError('Keep a separate owned HDD ledger')

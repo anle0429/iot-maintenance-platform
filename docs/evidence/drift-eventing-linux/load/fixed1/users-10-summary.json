@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "sla": {
+    "minimum_requests": 100,
+    "maximum_failures": 0,
+    "p95_ack_ms": 500
+  },
+  "requests": 4267,
+  "failures": 0,
+  "requests_per_second": 71.23892297957048,
+  "p50_ms": 100,
+  "p95_ack_ms": 210,
+  "p99_ack_ms": 880,
+  "scope": "Paced producer acknowledgements through the private in-memory Broker on a shared VM. One historical synthetic window is replayed under distinct CloudEvent IDs. Subscriber counters/persistent rows must be checked separately; not maximum capacity, unique-window throughput, model-quality evidence or a durable transport guarantee."
+}

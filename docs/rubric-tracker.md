@@ -1,5 +1,7 @@
 # Checklist rubric và bằng chứng
 
+Cập nhật28/10: [F35 drift EventingCI3](drift-eventing.md) SUCCESS/source869,101main+20subtest/coverage65+10=100%/mutation103of119=86,55%; native9delivery/1window và4865pacedACKkhớp subscriber.270payload/4ảnh/verifier. Giữ nguyên93tiêu chí nguồn, chuẩn chính57final.
+
 Cập nhật28/10: [Jenkins telemetry2](ci-api-observability.md) SUCCESS/source372, native299main+21subtest/74statements16branches100%/221of250mutants88,4%;3images/200HTTPmodel6,96payload/2ảnh/verifier. Cùngmodel, không A/B/promotion mới; giữ93tiêu chí nguồn.
 
 Cập nhật28/10: [Locust cho wrapper telemetry](observed-api-load.md) đã598/5767requests,0fail/P95 6/28ms với1replica; HPA1–2 và Airflow khôi phục. Giữ lỗi guard Pod đầu,75payload/2ảnh/verifier. Không đổi93tiêu chí nguồn hoặc nhận maxcapacity.

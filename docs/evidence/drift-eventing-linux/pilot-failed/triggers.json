@@ -1,0 +1,84 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "eventing.knative.dev/v1",
+      "kind": "Trigger",
+      "metadata": {
+        "annotations": {
+          "eventing.knative.dev/creator": "system:admin",
+          "eventing.knative.dev/lastModifier": "system:admin"
+        },
+        "creationTimestamp": "2026-10-28T17:57:16Z",
+        "generation": 1,
+        "labels": {
+          "eventing.knative.dev/broker": "iot-drift-event-pilot-28-broker",
+          "iot.coursework/release": "drift-event-pilot-28"
+        },
+        "name": "iot-drift-event-pilot-28-trigger",
+        "namespace": "iot-drift-events",
+        "resourceVersion": "136757",
+        "uid": "606ae67e-d530-4d05-9f4e-17cda219496b"
+      },
+      "spec": {
+        "broker": "iot-drift-event-pilot-28-broker",
+        "filter": {
+          "attributes": {
+            "type": "dev.edai.iot.drift.window"
+          }
+        },
+        "subscriber": {
+          "uri": "http://iot-drift-event-pilot-28-predictor.iot-drift-events.svc.cluster.local/v1/drift:compare"
+        }
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastTransitionTime": "2026-10-28T17:57:16Z",
+            "status": "True",
+            "type": "BrokerReady"
+          },
+          {
+            "lastTransitionTime": "2026-10-28T17:57:16Z",
+            "message": "No dead letter sink is configured.",
+            "reason": "DeadLetterSinkNotConfigured",
+            "status": "True",
+            "type": "DeadLetterSinkResolved"
+          },
+          {
+            "lastTransitionTime": "2026-10-28T17:57:16Z",
+            "status": "True",
+            "type": "DependencyReady"
+          },
+          {
+            "lastTransitionTime": "2026-10-28T17:57:16Z",
+            "reason": "authentication-oidc feature disabled",
+            "status": "True",
+            "type": "OIDCIdentityCreated"
+          },
+          {
+            "lastTransitionTime": "2026-10-28T17:57:17Z",
+            "status": "True",
+            "type": "Ready"
+          },
+          {
+            "lastTransitionTime": "2026-10-28T17:57:16Z",
+            "status": "True",
+            "type": "SubscriberResolved"
+          },
+          {
+            "lastTransitionTime": "2026-10-28T17:57:17Z",
+            "status": "True",
+            "type": "SubscriptionReady"
+          }
+        ],
+        "observedGeneration": 1,
+        "subscriberUri": "http://iot-drift-event-pilot-28-predictor.iot-drift-events.svc.cluster.local/v1/drift:compare"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

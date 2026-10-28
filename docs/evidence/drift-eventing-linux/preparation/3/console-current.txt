@@ -1,0 +1,116 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/iot-drift-eventing
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 1 hr 25 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare sealed Eventing source)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Admit actual VM session)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-3
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py admission
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Pull production model and fixed training reference)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-3
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py select
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Fresh regression coverage mutation)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-3
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py test
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build probe and import event image)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-3
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py build
+time="2026-10-28T18:21:02Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T18:21:02Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+docker.io/library/iot coursework drift a	saved	
+application/vnd.oci.image.index.v1+json sha256:03111e602c6d8314d0dbdeab3aa63ff1c2f7d71027fbf02037b7ff5ba4903421
+Importing	elapsed: 1.9 s	total:   0.0 B	(0.0 B/s)	
+time="2026-10-28T18:21:09Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T18:21:09Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Auto deploy Broker Trigger and KServe)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-3
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py deploy
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Native filtered delivery persistent replay conflict)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-3
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py verify
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-drift-eventing/build-3
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-drift-eventing.py archive
+{"commit": "869a02ee4d5dd23435175bf70f603f7f51974a19", "release": "drift-event-jenkins-3", "archived": true}
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
