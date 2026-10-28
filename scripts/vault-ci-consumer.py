@@ -13,7 +13,7 @@ def run(args):
     if data['url']!='http://127.0.0.1:18480' or data['username']!='learner':raise ValueError('Use only the declared existing private Airflow identity')
     request=Request(data['url']+'/auth/token',data=json.dumps({'username':data['username'],'password':data['password']}).encode(),headers={'Content-Type':'application/json'})
     with urlopen(request,timeout=15) as r:
-        assert r.status==200;token=json.load(r)['access_token']
+        login_http=r.status;assert login_http in [200,201];token=json.load(r)['access_token']
     data=None
     with urlopen(Request('http://127.0.0.1:18480/api/v2/dags?limit=1',headers={'Authorization':'Bearer '+token}),timeout=15) as r:
         assert r.status==200;dags=json.load(r)
@@ -26,7 +26,7 @@ def run(args):
     except VaultRequestError as error:assert error.status==403;revoked=error.status
     else:raise AssertionError('Revoked Vault token remains usable')
     finally:client._token=None;previous=None
-    proof={'passed':True,'consumer':'Jenkins','authentication':'AppRole','role_policy':'iot-ci','lease':lease,'secret_path':'iot/data/ci/airflow','secret_version':version,'airflow_login_http':200,'airflow_dag_list_http':200,'returned_dag_ids':[v['dag_id'] for v in dags['dags']],'cross_gateway_read_http':cross,'revoked_read_http':revoked,'scope':'Actual private Airflow login/read using a secret fetched at job execution; no root token, secret values or auth responses archived.'}
+    proof={'passed':True,'consumer':'Jenkins','authentication':'AppRole','role_policy':'iot-ci','lease':lease,'secret_path':'iot/data/ci/airflow','secret_version':version,'airflow_login_http':login_http,'airflow_dag_list_http':200,'returned_dag_ids':[v['dag_id'] for v in dags['dags']],'cross_gateway_read_http':cross,'revoked_read_http':revoked,'scope':'Actual private Airflow login/read using a secret fetched at job execution; no root token, secret values or auth responses archived.'}
     args.output.write_text(json.dumps(proof,indent=2)+'\n');print(json.dumps(proof))
 
 
