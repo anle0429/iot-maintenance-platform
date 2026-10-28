@@ -1,0 +1,35 @@
+{
+  "job_name": "iot-api",
+  "scrape_interval": "2s",
+  "scrape_timeout": "2s",
+  "metrics_path": "/telemetry/metrics",
+  "sample_limit": 10000,
+  "kubernetes_sd_configs": [
+    {
+      "role": "pod",
+      "api_server": "__KUBERNETES_API_SERVER__",
+      "authorization": {"credentials_file": "__KUBERNETES_TOKEN_FILE__"},
+      "tls_config": {"ca_file": "__KUBERNETES_CA_FILE__"},
+      "namespaces": {"names": ["iot-features"]},
+      "selectors": [{"role": "pod", "label": "app.kubernetes.io/instance in (iot-feature-api,iot-drift-api)"}]
+    },
+    {
+      "role": "pod",
+      "api_server": "__KUBERNETES_API_SERVER__",
+      "authorization": {"credentials_file": "__KUBERNETES_TOKEN_FILE__"},
+      "tls_config": {"ca_file": "__KUBERNETES_CA_FILE__"},
+      "namespaces": {"names": ["iot-serving"]},
+      "selectors": [{"role": "pod", "label": "serving.kserve.io/inferenceservice=iot-pump-serve-jenkins-8"}]
+    }
+  ],
+  "relabel_configs": [
+    {"source_labels": ["__meta_kubernetes_pod_phase"], "regex": "Running", "action": "keep"},
+    {"source_labels": ["__meta_kubernetes_pod_ready"], "regex": "true", "action": "keep"},
+    {"source_labels": ["__meta_kubernetes_pod_container_init"], "regex": "true", "action": "drop"},
+    {"source_labels": ["__meta_kubernetes_pod_container_name"], "regex": "api|kserve-container", "action": "keep"},
+    {"source_labels": ["__meta_kubernetes_pod_container_port_number"], "regex": "8080", "action": "keep"},
+    {"source_labels": ["__meta_kubernetes_namespace"], "target_label": "namespace"},
+    {"source_labels": ["__meta_kubernetes_pod_name"], "target_label": "pod"},
+    {"source_labels": ["__meta_kubernetes_pod_uid"], "target_label": "pod_uid"}
+  ]
+}

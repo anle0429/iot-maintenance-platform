@@ -165,7 +165,7 @@ def test_exporter_projection_preserves_identity_times_kind_and_result_but_not_ev
     provider.shutdown()
 
 
-@pytest.mark.parametrize('method,expected',[('GET','GET'),('BANANA','HTTP'),(None,'HTTP')])
+@pytest.mark.parametrize('method,expected',[(v,v) for v in ['GET','POST','PUT','PATCH','DELETE','HEAD','OPTIONS','HTTP']]+[('BANANA','HTTP'),(None,'HTTP')])
 def test_exporter_names_have_bounded_method_fallback(method,expected):
     memory=InMemorySpanExporter();provider=TracerProvider();provider.add_span_processor(SimpleSpanProcessor(PrivateSpanExporter(memory)))
     with provider.get_tracer('test').start_as_current_span('private path') as span:
@@ -174,7 +174,7 @@ def test_exporter_names_have_bounded_method_fallback(method,expected):
     provider.shutdown()
 
 
-@pytest.mark.parametrize('value',[ENDPOINT.replace('http:','https:'),ENDPOINT.replace('iot-jaeger','other'),ENDPOINT.replace('4318','4317'),ENDPOINT+'?token=secret',ENDPOINT+'#fragment',ENDPOINT.replace('http://','http://u:p@'),ENDPOINT.replace('/v1/traces','/'), 'http://localhost:4318/v1/traces'])
+@pytest.mark.parametrize('value',[ENDPOINT.replace('http:','https:'),ENDPOINT.replace('iot-jaeger','other'),ENDPOINT.replace('4318','4317'),ENDPOINT.replace('4318','4319'),ENDPOINT.replace(':4318',''),ENDPOINT+'?token=secret',ENDPOINT+'#fragment',ENDPOINT.replace('http://','http://u:p@'),ENDPOINT.replace('http://','http://:p@'),ENDPOINT.replace('http://','http://u@'),ENDPOINT.replace('/v1/traces','/'), 'http://localhost:4318/v1/traces'])
 def test_export_cannot_be_redirected_to_public_or_credentialed_endpoint(value):
     with pytest.raises(ValueError):private_endpoint(value)
 
@@ -230,3 +230,44 @@ def test_factory_requires_explicit_known_service(monkeypatch):
     with pytest.raises(ValueError,match='Unknown'):create_app()
     monkeypatch.delenv('IOT_API_SERVICE')
     with pytest.raises(KeyError):create_app()
+
+
+def test_export_failure_and_flush_deadline_propagate_to_sdk_caller():
+    """A caller must observe exporter failure and its own flush deadline, rather than a fabricated success."""
+    seen={}
+    class Destination:
+        def export(self,spans):seen['batch']=spans;return SpanExportResult.FAILURE
+        def force_flush(self,timeout_millis):seen['timeout']=timeout_millis;return False
+        def shutdown(self):seen['closed']=True
+    memory=InMemorySpanExporter();provider=TracerProvider(resource=Resource({'service.name':'iot-predictor-api'}));provider.add_span_processor(SimpleSpanProcessor(memory))
+    with provider.get_tracer('wire-test','1.0').start_as_current_span('private',kind=SpanKind.CLIENT) as span:
+        span.set_attribute('http.method','PUT');span.set_attribute('http.status_code',500)
+    raw=memory.get_finished_spans()[0];safe=PrivateSpanExporter(Destination())
+    assert safe.export([raw])==SpanExportResult.FAILURE
+    assert safe.force_flush(17) is False and seen['timeout']==17
+    projected=seen['batch'][0]
+    assert projected.resource==raw.resource and projected.instrumentation_scope==raw.instrumentation_scope
+    assert projected.context==raw.context and projected.kind==raw.kind and projected.start_time==raw.start_time and projected.end_time==raw.end_time
+    safe.shutdown();assert seen['closed'] is True;provider.shutdown()
+
+
+@pytest.mark.parametrize('kind',['drift','predictor'])
+def test_actual_other_api_factory_keeps_service_identity_and_response(kind,tmp_path):
+    """Every API needs a distinct service identity and genuine business response, not just a factory selection mock."""
+    if kind=='drift':
+        from tests.api.test_drift_api import bundle,window
+        from services.drift_api.app import create_app as factory
+        from services.drift_api.runtime import DriftRuntime
+        runtime=DriftRuntime(bundle(),tmp_path/'windows.db');app=factory(runtime)
+        path='/v1/drift:compare';body=window(runtime.detector.reference_id)
+    else:
+        from services.predictor.app import create_app as factory
+        from tests.api.test_feature_api import BUNDLE,GOLDEN
+        app=factory(BUNDLE);path='/v1/models/iot-pump-failure-v1:predict';body={'instances':[GOLDEN['samples'][0]['features']]}
+    exporter=InMemorySpanExporter();observe(app,kind,exporter,SimpleSpanProcessor)
+    with TestClient(app) as client:
+        reply=client.post(path,json=body);assert reply.status_code==200
+        counts=samples(client.get('/telemetry/metrics').text,'http_server_duration_milliseconds_count')
+        assert len(counts)==1 and counts[0].value==1 and counts[0].labels['service_name']=='iot-'+kind+'-api'
+        span=exporter.get_finished_spans()[0]
+        assert span.resource.attributes=={'service.name':'iot-'+kind+'-api','deployment.environment.name':'coursework-synthetic-lab'}

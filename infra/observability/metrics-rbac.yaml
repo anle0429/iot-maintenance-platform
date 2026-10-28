@@ -1,0 +1,55 @@
+# The host Prometheus may discover pods only in the two API namespaces; no Secret, Node or cluster-wide read.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: iot-api-metrics
+  namespace: iot-observability
+automountServiceAccountToken: false
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: iot-api-metrics
+  namespace: iot-features
+rules:
+  - apiGroups: [""]
+    resources: [pods]
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: iot-api-metrics
+  namespace: iot-features
+subjects:
+  - kind: ServiceAccount
+    name: iot-api-metrics
+    namespace: iot-observability
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: iot-api-metrics
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: iot-api-metrics
+  namespace: iot-serving
+rules:
+  - apiGroups: [""]
+    resources: [pods]
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: iot-api-metrics
+  namespace: iot-serving
+subjects:
+  - kind: ServiceAccount
+    name: iot-api-metrics
+    namespace: iot-observability
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: iot-api-metrics
