@@ -166,3 +166,5 @@ Security28/10: [Vault native](vault.md) theo final F54, hai consumer AppRole/den
 Security28/10: [Mesh native](private-mesh.md) theo final F55: STRICT mTLS/identity+route authorization,200/3x403/plaintextTLSreset,106payload/2ảnh gốc. Bốn identity probe workload riêng; không nhận migration production. Giữ nguyên các dòng nguồn93tiêu chí lịch sử.
 
 28/10: [Discovery logs](log-discovery.md)126payload/3JPEG, [MMD native cohort](joint-cohort.md)17payload/597permutations and [DataHub restore](datahub-restore.md)9payload verified offline. Final F48/F58 scope updated; historical93source rows unchanged.
+
+Đối chiếu bổ sung28Oct: [TTL từng view và ba job](feature-jobs-and-ttl.md), [IaC14no-op/Ansible recap/ảnh](iac-verification.md), [API71JUnit/220Hypothesis](api-validation.md). Giữ trạng thái lịch sử93dòng; final57 là chuẩn chính, không cộng hai bảng.

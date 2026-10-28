@@ -1,0 +1,20 @@
+# Identifier/email/IP redaction only; original private console SHA256 retained in verification.json.
+google_project_service.required["iap.googleapis.com"]: Refreshing state... [id=<REDACTED_PROJECT_ID>/iap.googleapis.com]
+google_project_service.required["oslogin.googleapis.com"]: Refreshing state... [id=<REDACTED_PROJECT_ID>/oslogin.googleapis.com]
+google_project_service.required["iam.googleapis.com"]: Refreshing state... [id=<REDACTED_PROJECT_ID>/iam.googleapis.com]
+google_project_service.required["compute.googleapis.com"]: Refreshing state... [id=<REDACTED_PROJECT_ID>/compute.googleapis.com]
+google_service_account.workload: Refreshing state... [id=projects/<REDACTED_PROJECT_ID>/serviceAccounts/iot-cw-vm@<REDACTED_PROJECT_ID>.iam.gserviceaccount.com]
+google_project_iam_member.operator["roles/compute.osAdminLogin"]: Refreshing state... [id=<REDACTED_PROJECT_ID>/roles/compute.osAdminLogin/user:<REDACTED_EMAIL>]
+google_project_iam_member.operator["roles/iap.tunnelResourceAccessor"]: Refreshing state... [id=<REDACTED_PROJECT_ID>/roles/iap.tunnelResourceAccessor/user:<REDACTED_EMAIL>]
+google_compute_network.coursework: Refreshing state... [id=projects/<REDACTED_PROJECT_ID>/global/networks/iot-cw-network]
+google_compute_disk.data: Refreshing state... [id=projects/<REDACTED_PROJECT_ID>/zones/us-central1-a/disks/iot-cw-data]
+google_compute_disk.scratch[0]: Refreshing state... [id=projects/<REDACTED_PROJECT_ID>/zones/us-central1-a/disks/iot-cw-scratch]
+google_compute_subnetwork.coursework: Refreshing state... [id=projects/<REDACTED_PROJECT_ID>/regions/us-central1/subnetworks/iot-cw-subnet]
+google_compute_firewall.iap_ssh: Refreshing state... [id=projects/<REDACTED_PROJECT_ID>/global/firewalls/iot-cw-iap-ssh]
+google_service_account_iam_member.operator: Refreshing state... [id=projects/<REDACTED_PROJECT_ID>/serviceAccounts/iot-cw-vm@<REDACTED_PROJECT_ID>.iam.gserviceaccount.com/roles/iam.serviceAccountUser/user:<REDACTED_EMAIL>]
+google_compute_instance.coursework: Refreshing state... [id=projects/<REDACTED_PROJECT_ID>/zones/us-central1-a/instances/iot-cw-vm]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.

@@ -17,3 +17,7 @@ MMD chưa được nêu đích danh trong bất kỳ ô không rỗng nào của
 Đã đọc lại hai file gốc và đối chiếu snapshot:281ô có nội dung ở EDAI,388ô ở DSAI,11ô trích dẫn liên quan khớp từng giá trị/SHA256; cả hai file giữ nguyên byte. Tổng669ô không thấy tênMMD/maximum mean discrepancy. Nội dung lịch chỉ là nguồn tham chiếu, không trở thành lệnh triển khai hay thay đổi rubric đã được người dùng chốt.
 
 Hai mục novel ideas trong tracker vẫn chưa hoàn tất. MMD đã có proof nhỏ về giá trị bổ sung; còn xác nhận ngoài lớp và bước dùng cohort thực có lineage. Ý tưởng thứ hai vẫn cần chọn theo hạn chế thật của hệ thống và kiểm chứng cụ thể; không thêm công nghệ chỉ để đủ số lượng.
+
+## Bằng chứng bổ sung ngày28/10
+
+[MMD native cohort](joint-cohort.md) đã chạy trên64trainreference và64máy trong genuinegatewaycapture, có lineage, directoracle/permutations/replay; đây là diagnostic lịch sử, chưaAPI/autoretrain. [OPA pre-deployment gate](deployment-policy.md) là ứng viên thứ hai: bắt thiếu seccomp/limits, cloud ngoài profile và model/context không cùng lineage. Native48cases2allow46deny; Jenkins3success và5rejection dùng cùng19Gitinputs, không deploy. Cả hai vẫn chờ người dùng xác nhận kỹ thuật cụ thể ngoài nội dung đã học; không nhận sự vắng mặt tên trong lịch là bằng chứng chắc chắn. Các câu “chưa native/cần chọn ý tưởng2” phía trên là trạng thái lịch sử trước bổ sung.

@@ -1,0 +1,80 @@
+
+PLAY [Configure Kubernetes on the approved existing coursework VM] *************
+
+TASK [Gathering Facts] *********************************************************
+[WARNING]: Host 'localhost' is using the discovered Python interpreter at '/usr/bin/python3.12', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.21/reference_appendices/interpreter_discovery.html for more information.
+ok: [localhost]
+
+TASK [Require the approved project and VM identity] ****************************
+ok: [localhost]
+
+TASK [Read the actual project identity] ****************************************
+ok: [localhost]
+
+TASK [Read the actual VM identity] *********************************************
+ok: [localhost]
+
+TASK [Refuse any different host] ***********************************************
+ok: [localhost]
+
+TASK [Require completed full-source verification and actual resource reserves] ***
+ok: [localhost]
+
+TASK [Show admitted resource summary] ******************************************
+ok: [localhost] => {
+    "iot_cluster_admission.stdout": "{\"passed\": true, \"source_offline_bytes\": 102447847856, \"available_ram_bytes\": 57034973184, \"ssd_free_bytes\": 122154536960}"
+}
+
+TASK [kubernetes : Check the pinned official binary and installer bytes] *******
+ok: [localhost] => (item=k3s)
+ok: [localhost] => (item=k3s-install.sh)
+
+TASK [kubernetes : Refuse missing or altered vendor assets] ********************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [kubernetes : Inspect an existing K3s binary without changing it] *********
+ok: [localhost]
+
+TASK [kubernetes : Read the installed K3s version when present] ****************
+ok: [localhost]
+
+TASK [kubernetes : Refuse an unrelated preexisting cluster version] ************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [kubernetes : Create private configuration and SSD state directories] *****
+ok: [localhost] => (item={'path': '/etc/rancher/k3s', 'mode': '0700'})
+ok: [localhost] => (item={'path': '/srv/iot-fast/k3s', 'mode': '0700'})
+ok: [localhost] => (item={'path': '/srv/iot-fast/k3s-storage', 'mode': '0700'})
+
+TASK [kubernetes : Install only the checksum-verified binary] ******************
+ok: [localhost]
+
+TASK [kubernetes : Configure a single private node with encrypted secrets and explicit storage] ***
+ok: [localhost]
+
+TASK [kubernetes : Install the official systemd integration without starting early] ***
+ok: [localhost]
+
+TASK [kubernetes : Require SSD before service startup] *************************
+ok: [localhost]
+
+TASK [kubernetes : Bound control-plane service and keep mount dependency] ******
+ok: [localhost]
+
+TASK [kubernetes : Apply only pending K3s configuration changes] ***************
+
+TASK [kubernetes : Enable private K3s on the existing VM] **********************
+ok: [localhost]
+
+TASK [kubernetes : Wait for the actual node to become ready] *******************
+ok: [localhost]
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=20   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

@@ -1,0 +1,170 @@
+{
+  "format": "iot-deployment-request-v1",
+  "kind": "terraform",
+  "resources": [
+    {
+      "address": "google_compute_disk.data",
+      "type": "google_compute_disk",
+      "actions": [
+        "no-op"
+      ],
+      "values": {
+        "name": "iot-cw-data",
+        "size_gib": 500,
+        "type": "pd-standard"
+      }
+    },
+    {
+      "address": "google_compute_disk.scratch[0]",
+      "type": "google_compute_disk",
+      "actions": [
+        "no-op"
+      ],
+      "values": {
+        "name": "iot-cw-scratch",
+        "size_gib": 150,
+        "type": "pd-balanced"
+      }
+    },
+    {
+      "address": "google_compute_firewall.iap_ssh",
+      "type": "google_compute_firewall",
+      "actions": [
+        "no-op"
+      ],
+      "values": {
+        "source_ranges": [
+          "35.235.240.0/20"
+        ],
+        "allowed_rules": [
+          {
+            "protocol": "tcp",
+            "ports": [
+              "22"
+            ]
+          }
+        ],
+        "target_tags": [
+          "iot-cw-iap"
+        ]
+      }
+    },
+    {
+      "address": "google_compute_instance.coursework",
+      "type": "google_compute_instance",
+      "actions": [
+        "no-op"
+      ],
+      "values": {
+        "machine_type": "e2-highmem-8",
+        "scheduling": {
+          "max_run_seconds": 28800,
+          "termination_action": "STOP"
+        },
+        "access_configs": [
+          {
+            "network_tier": "STANDARD"
+          }
+        ],
+        "boot_disk": {
+          "size_gib": 50,
+          "type": "pd-balanced"
+        },
+        "attached_disk_names": [
+          "iot-cw-data",
+          "iot-cw-scratch"
+        ],
+        "network_interface_count": 1,
+        "network_tags": [
+          "unreviewed"
+        ]
+      }
+    },
+    {
+      "address": "google_compute_network.coursework",
+      "type": "google_compute_network",
+      "actions": [
+        "no-op"
+      ],
+      "values": {}
+    },
+    {
+      "address": "google_compute_subnetwork.coursework",
+      "type": "google_compute_subnetwork",
+      "actions": [
+        "no-op"
+      ],
+      "values": {}
+    },
+    {
+      "address": "google_project_iam_member.operator[\"roles/compute.osAdminLogin\"]",
+      "type": "google_project_iam_member",
+      "actions": [
+        "no-op"
+      ],
+      "values": {}
+    },
+    {
+      "address": "google_project_iam_member.operator[\"roles/iap.tunnelResourceAccessor\"]",
+      "type": "google_project_iam_member",
+      "actions": [
+        "no-op"
+      ],
+      "values": {}
+    },
+    {
+      "address": "google_project_service.required[\"compute.googleapis.com\"]",
+      "type": "google_project_service",
+      "actions": [
+        "no-op"
+      ],
+      "values": {}
+    },
+    {
+      "address": "google_project_service.required[\"iam.googleapis.com\"]",
+      "type": "google_project_service",
+      "actions": [
+        "no-op"
+      ],
+      "values": {}
+    },
+    {
+      "address": "google_project_service.required[\"iap.googleapis.com\"]",
+      "type": "google_project_service",
+      "actions": [
+        "no-op"
+      ],
+      "values": {}
+    },
+    {
+      "address": "google_project_service.required[\"oslogin.googleapis.com\"]",
+      "type": "google_project_service",
+      "actions": [
+        "no-op"
+      ],
+      "values": {}
+    },
+    {
+      "address": "google_service_account.workload",
+      "type": "google_service_account",
+      "actions": [
+        "no-op"
+      ],
+      "values": {}
+    },
+    {
+      "address": "google_service_account_iam_member.operator",
+      "type": "google_service_account_iam_member",
+      "actions": [
+        "no-op"
+      ],
+      "values": {}
+    }
+  ],
+  "observation": {
+    "terraform_version": "1.16.6",
+    "plan_timestamp": "2026-10-28T21:19:00Z",
+    "raw_private_plan_sha256": "017297f60d12d474e86186d873221b776341034dcc63a7e04f244eb5d4dafc17",
+    "projection": "Addresses/types/actions and allowlisted resource settings only; identity/project/email and secret state omitted; ephemeral public IP address omitted, existing STANDARD egress configuration retained"
+  }
+}

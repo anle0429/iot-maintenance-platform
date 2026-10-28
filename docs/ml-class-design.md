@@ -25,3 +25,7 @@ Luồng liên kết: native Feast pull tạo cohort và canonical files; store/p
 Ảnh chụp source được coverage tool xuất sau lượt native40test. [Bản HTML gốc](evidence/drift-api/mutation/coverage-html/z_da970418c10ed19b_app_py.html) và source hashes trong [manifest](evidence/drift-api/capture/manifest.json) cho phép đối chiếu. Mỗi factory có runtime riêng; endpoint async đưa tác vụ đồng bộ ra thread và giới hạn concurrency, thay vì giữ event loop chờ SDK/SQLite.
 
 Các lớp không tự mở cloud resource, promote model, đổi protocol hoặc quyết định retrain. Những thao tác đó thuộc orchestration/policy riêng và cần có receipt tương ứng khi được triển khai.
+
+## Đối chiếu trạng thái hiện tại
+
+Đoạn model1/reference3 bên trên mô tả snapshot lịch sử gắn với bằng chứng. Hiện production serving model6 qua [CI](ci-serving.md), model7 giữ candidate; [gateway](private-gateway.md) và [mesh](private-mesh.md) đã so lineage/math model6. Pattern Adapter/DI/factory không đổi trách nhiệm giữa các phiên bản. Audit A2 docstrings toàn repo vẫn được theo dõi riêng; ảnh source/pattern không tự chứng minh mọi hàm đều có docstring.

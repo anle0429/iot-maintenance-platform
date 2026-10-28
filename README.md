@@ -30,6 +30,8 @@ S1–S4 là hai job độc lập được CI triển khai; cửa sổ nguồn l�
 
 [Mesh native](docs/private-mesh.md) dùng Istio1.31.3 và STRICT mTLS: principal đúng gọi model6 trả200/math khớp; principal sai, giả header và thao tác ngoài quyền bị403; plaintext bị TLS reset.106payload/hai ảnh gốc/verifier; kiểm chứng namespace riêng, chưa migration production.
 
+[TTL và ba đường ghi feature](docs/feature-jobs-and-ttl.md) phân biệt event freshness, Redis expiry và lease demo. [IaC audit](docs/iac-verification.md) bổ sung plan14no-op mới, recaps Ansible và ảnh report gốc.
+
 ## Mục lục
 
 - [Phạm vi và dữ liệu](docs/domain-proposal.md)
@@ -297,3 +299,7 @@ Get-Content outputs/practice-chunks/chunked-report.json
 - [CI drift Eventing→KServe và tải native](docs/drift-eventing.md): Jenkins3 SUCCESS, ACK204 sau durable write, filter/replay/conflict; `python -S scripts/verify-drift-eventing.py`.
 
 - [API: kiểm thử biên, phân hoạch và 220 ví dụ Hypothesis](docs/api-validation.md).
+
+- [OPA policy gate:48ca và Jenkins chặn triển khai sai](docs/deployment-policy.md).
+- [TTL từng view và ba đường ghi feature](docs/feature-jobs-and-ttl.md).
+- [Terraform/Ansible: plan mới, recaps và ảnh report gốc](docs/iac-verification.md).

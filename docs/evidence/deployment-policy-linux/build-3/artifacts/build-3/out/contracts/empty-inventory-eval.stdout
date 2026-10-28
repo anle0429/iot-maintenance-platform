@@ -1,0 +1,24 @@
+{
+  "result": [
+    {
+      "expressions": [
+        {
+          "value": {
+            "allowed": false,
+            "violations": [
+              "Terraform inventory must contain each approved address exactly once",
+              "Terraform must describe exactly one approved VM",
+              "Terraform must retain exactly two approved data disks",
+              "Terraform resource inventory is empty"
+            ]
+          },
+          "text": "data.iot.deployment.result",
+          "location": {
+            "row": 1,
+            "col": 1
+          }
+        }
+      ]
+    }
+  ]
+}

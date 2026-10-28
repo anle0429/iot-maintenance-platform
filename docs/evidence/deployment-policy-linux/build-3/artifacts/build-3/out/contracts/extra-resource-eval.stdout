@@ -1,0 +1,30 @@
+{
+  "result": [
+    {
+      "expressions": [
+        {
+          "value": {
+            "allowed": false,
+            "violations": [
+              "Terraform address and resource type disagree",
+              "Terraform inventory must contain each approved address exactly once",
+              "Terraform must describe exactly one approved VM",
+              "VM boot disk differs from the approved size and type",
+              "VM machine type exceeds the approved profile",
+              "VM must retain the approved eight-hour STOP limit",
+              "VM network interface inventory differs",
+              "VM network inventory must be explicit",
+              "VM tags must retain the reviewed IAP firewall target",
+              "unapproved Terraform address"
+            ]
+          },
+          "text": "data.iot.deployment.result",
+          "location": {
+            "row": 1,
+            "col": 1
+          }
+        }
+      ]
+    }
+  ]
+}

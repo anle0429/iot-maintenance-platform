@@ -1,0 +1,25 @@
+{
+  "result": [
+    {
+      "expressions": [
+        {
+          "value": {
+            "allowed": false,
+            "violations": [
+              "application containers are missing",
+              "application must declare RuntimeDefault seccomp",
+              "application must declare a nonroot user and RuntimeDefault seccomp",
+              "application must disable automatic service-account token mounting",
+              "application user must be positive"
+            ]
+          },
+          "text": "data.iot.deployment.result",
+          "location": {
+            "row": 1,
+            "col": 1
+          }
+        }
+      ]
+    }
+  ]
+}
