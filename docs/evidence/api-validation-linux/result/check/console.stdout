@@ -1,0 +1,126 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.16, pytest-9.1.1, pluggy-1.7.0 -- /usr/local/bin/python
+cachedir: /results/check/pytest-cache
+hypothesis profile 'default'
+rootdir: /src
+configfile: ../dev/null
+plugins: platformdirs-4.13.6, hypothesis-6.170.12, cov-7.1.0, anyio-4.15.1
+collecting ... collected 71 items
+
+tests/api/test_feature_api.py::test_feature_age_boundaries[0-True] PASSED [  1%]
+tests/api/test_feature_api.py::test_feature_age_boundaries[599-True] PASSED [  2%]
+tests/api/test_feature_api.py::test_feature_age_boundaries[600-True] PASSED [  4%]
+tests/api/test_feature_api.py::test_feature_age_boundaries[601-False] PASSED [  5%]
+tests/api/test_feature_api.py::test_feature_age_boundaries[-1-False] PASSED [  7%]
+tests/api/test_feature_api.py::test_wall_lease_boundaries[0-True] PASSED [  8%]
+tests/api/test_feature_api.py::test_wall_lease_boundaries[3599-True] PASSED [  9%]
+tests/api/test_feature_api.py::test_wall_lease_boundaries[3600-False] PASSED [ 11%]
+tests/api/test_feature_api.py::test_wall_lease_boundaries[-1-False] PASSED [ 12%]
+tests/api/test_feature_api.py::test_replay_and_key_order_are_invariant PASSED [ 14%]
+tests/api/test_predictor.py::test_batch_boundaries[0-422] PASSED         [ 15%]
+tests/api/test_predictor.py::test_batch_boundaries[1-200] PASSED         [ 16%]
+tests/api/test_predictor.py::test_batch_boundaries[128-200] PASSED       [ 18%]
+tests/api/test_predictor.py::test_batch_boundaries[129-422] PASSED       [ 19%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[temperature_mean_10m--273.151] PASSED [ 21%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[temperature_mean_10m-1000001.0] PASSED [ 22%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[vibration_max_10m--0.001] PASSED [ 23%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[current_mean_10m--1.0] PASSED [ 25%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[current_std_10m--0.001] PASSED [ 26%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[rpm_mean_10m--1.0] PASSED [ 28%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[rpm_mean_10m-1000000001.0] PASSED [ 29%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[reading_count_10m-0] PASSED [ 30%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[reading_count_10m-1000001] PASSED [ 32%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[reading_count_10m-1.1] PASSED [ 33%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[prior_failures_24h--1] PASSED [ 35%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[prior_failures_24h-1000001] PASSED [ 36%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[machine_age_days--0.001] PASSED [ 38%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[machine_age_days-1000001.0] PASSED [ 39%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[current_mean_10m-16] PASSED [ 40%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[rpm_mean_10m-True] PASSED [ 42%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[reading_count_10m-True] PASSED [ 43%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[prior_failures_24h-False] PASSED [ 45%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[vibration_max_10m-None] PASSED [ 46%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[temperature_mean_10m--273.15] PASSED [ 47%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[temperature_mean_10m-1000000.0] PASSED [ 49%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[vibration_max_10m-0.0] PASSED [ 50%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[current_mean_10m-0.0] PASSED [ 52%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[current_std_10m-0.0] PASSED [ 53%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[rpm_mean_10m-0.0] PASSED [ 54%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[rpm_mean_10m-1000000000.0] PASSED [ 56%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[reading_count_10m-1] PASSED [ 57%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[reading_count_10m-1000000] PASSED [ 59%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[machine_age_days-0.0] PASSED [ 60%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[machine_age_days-1000000.0] PASSED [ 61%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[prior_failures_24h-0] PASSED [ 63%]
+tests/api/test_predictor.py::test_valid_feature_boundaries[prior_failures_24h-1000000] PASSED [ 64%]
+tests/api/test_predictor.py::test_property_prediction_replay_and_key_order PASSED [ 66%]
+tests/api/test_drift_api.py::test_histogram_boundary_and_psi_hand_answer PASSED [ 67%]
+tests/api/test_drift_api.py::test_reference_sample_boundaries[31-False] PASSED [ 69%]
+tests/api/test_drift_api.py::test_reference_sample_boundaries[32-True] PASSED [ 70%]
+tests/api/test_drift_api.py::test_reference_sample_boundaries[2048-True] PASSED [ 71%]
+tests/api/test_drift_api.py::test_reference_sample_boundaries[2049-False] PASSED [ 73%]
+tests/api/test_drift_api.py::test_sample_size_partitions[31-False] PASSED [ 74%]
+tests/api/test_drift_api.py::test_sample_size_partitions[32-True] PASSED [ 76%]
+tests/api/test_drift_api.py::test_sample_size_partitions[2048-True] PASSED [ 77%]
+tests/api/test_drift_api.py::test_sample_size_partitions[2049-False] PASSED [ 78%]
+tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions[<lambda>0] PASSED [ 80%]
+tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions[<lambda>1] PASSED [ 81%]
+tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions[<lambda>2] PASSED [ 83%]
+tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions[<lambda>3] PASSED [ 84%]
+tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions[<lambda>4] PASSED [ 85%]
+tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions[<lambda>5] PASSED [ 87%]
+tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions[<lambda>6] PASSED [ 88%]
+tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions[<lambda>7] PASSED [ 90%]
+tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions[<lambda>8] PASSED [ 91%]
+tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions[<lambda>9] PASSED [ 92%]
+tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions[<lambda>10] PASSED [ 94%]
+tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions[<lambda>11] PASSED [ 95%]
+tests/api/test_drift_api.py::test_persistent_replay_conflict_capacity_and_concurrent_workers PASSED [ 97%]
+tests/api/test_drift_api.py::test_property_row_order_duplicate_and_timezone_invariance PASSED [ 98%]
+tests/api/test_drift_properties.py::test_http_sqlite_idempotency_under_generated_reordering_and_duplicates PASSED [100%]
+
+=============================== warnings summary ===============================
+../usr/local/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /usr/local/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+----------------- generated xml file: /results/check/junit.xml -----------------
+============================ Hypothesis Statistics =============================
+tests/api/test_feature_api.py::test_replay_and_key_order_are_invariant:
+
+  - during generate phase (0.12 seconds):
+    - Typical runtimes: ~ 0-1 ms, of which < 1ms in data generation
+    - 50 passing, 0 failing, and 0 invalid test cases
+
+  - Stopped because settings.max_examples=50
+
+
+tests/api/test_predictor.py::test_property_prediction_replay_and_key_order:
+
+  - during generate phase (2.11 seconds):
+    - Typical runtimes: ~ 16-29 ms, of which < 1ms in data generation
+    - 100 passing, 0 failing, and 0 invalid test cases
+
+  - Stopped because settings.max_examples=100
+
+
+tests/api/test_drift_api.py::test_property_row_order_duplicate_and_timezone_invariance:
+
+  - during generate phase (0.30 seconds):
+    - Typical runtimes: ~ 6-11 ms, of which < 1ms in data generation
+    - 35 passing, 0 failing, and 0 invalid test cases
+
+  - Stopped because settings.max_examples=35
+
+
+tests/api/test_drift_properties.py::test_http_sqlite_idempotency_under_generated_reordering_and_duplicates:
+
+  - during generate phase (1.68 seconds):
+    - Typical runtimes: ~ 38-57 ms, of which ~ 0-1 ms in data generation
+    - 35 passing, 0 failing, and 0 invalid test cases
+
+  - Stopped because settings.max_examples=35
+
+
+======================== 71 passed, 1 warning in 6.38s =========================

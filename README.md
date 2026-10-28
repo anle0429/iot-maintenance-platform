@@ -295,3 +295,5 @@ Get-Content outputs/practice-chunks/chunked-report.json
 - [Airflow theo dõi drift offline](docs/offline-drift-monitoring.md):hai lượt scheduler cách5phút, mỗi lượt1.024snapshot qua Feast; PSI độc lập/23gauge/sáu panel qua Pushgateway→Prometheus/Grafana đều khớp. SHA sai bị chặn và không cập nhật success;64file proof/ba ảnh gốc. Đồng hồ mô phỏng, không groundtruth hoặc accuracy; tự kiểm bằng `python -S scripts/verify-offline-drift.py`.
 
 - [CI drift Eventing→KServe và tải native](docs/drift-eventing.md): Jenkins3 SUCCESS, ACK204 sau durable write, filter/replay/conflict; `python -S scripts/verify-drift-eventing.py`.
+
+- [API: kiểm thử biên, phân hoạch và 220 ví dụ Hypothesis](docs/api-validation.md).

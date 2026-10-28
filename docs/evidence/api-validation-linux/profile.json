@@ -1,0 +1,27 @@
+{
+  "format": "iot-api-focused-validation-v1",
+  "hypothesis_seed": 20261028,
+  "selectors": [
+    "tests/api/test_feature_api.py::test_feature_age_boundaries",
+    "tests/api/test_feature_api.py::test_wall_lease_boundaries",
+    "tests/api/test_feature_api.py::test_replay_and_key_order_are_invariant",
+    "tests/api/test_predictor.py::test_batch_boundaries",
+    "tests/api/test_predictor.py::test_invalid_feature_partitions",
+    "tests/api/test_predictor.py::test_valid_feature_boundaries",
+    "tests/api/test_predictor.py::test_property_prediction_replay_and_key_order",
+    "tests/api/test_drift_api.py::test_histogram_boundary_and_psi_hand_answer",
+    "tests/api/test_drift_api.py::test_reference_sample_boundaries",
+    "tests/api/test_drift_api.py::test_sample_size_partitions",
+    "tests/api/test_drift_api.py::test_invalid_window_equivalence_partitions",
+    "tests/api/test_drift_api.py::test_persistent_replay_conflict_capacity_and_concurrent_workers",
+    "tests/api/test_drift_api.py::test_property_row_order_duplicate_and_timezone_invariance",
+    "tests/api/test_drift_properties.py::test_http_sqlite_idempotency_under_generated_reordering_and_duplicates"
+  ],
+  "rules": {
+    "feature_event_age_seconds": {"accepted": [0, 599, 600], "rejected": [-1, 601]},
+    "wall_lease_seconds": {"accepted": [0, 3599], "rejected": [-1, 3600]},
+    "drift_reference_and_window_rows": {"accepted": [32, 2048], "rejected": [31, 2049]},
+    "idempotency": "Generated key/order permutations, exact duplicate deliveries and timezone-equivalent timestamps preserve prediction/canonical assessment; HTTP/SQLite replay persists one window after reopening"
+  },
+  "scope": "Focused known-answer boundary/partition and property proof on unchanged API business code; not a replacement for full coverage/mutation/integration/load gates"
+}

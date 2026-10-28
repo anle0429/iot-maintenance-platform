@@ -1,0 +1,40 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.16, pytest-9.1.1, pluggy-1.7.0 -- /usr/local/bin/python
+cachedir: /results/check/pytest-cache
+hypothesis profile 'default'
+rootdir: /src
+configfile: ../dev/null
+plugins: platformdirs-4.13.6, hypothesis-6.170.12, cov-7.1.0, anyio-4.15.1
+collecting ... collected 71 items
+
+tests/api/test_feature_api.py::test_feature_age_boundaries[0-True] PASSED [  1%]
+tests/api/test_feature_api.py::test_feature_age_boundaries[599-True] PASSED [  2%]
+tests/api/test_feature_api.py::test_feature_age_boundaries[600-True] PASSED [  4%]
+tests/api/test_feature_api.py::test_feature_age_boundaries[601-False] PASSED [  5%]
+tests/api/test_feature_api.py::test_feature_age_boundaries[-1-False] PASSED [  7%]
+tests/api/test_feature_api.py::test_wall_lease_boundaries[0-True] PASSED [  8%]
+tests/api/test_feature_api.py::test_wall_lease_boundaries[3599-True] PASSED [  9%]
+tests/api/test_feature_api.py::test_wall_lease_boundaries[3600-False] PASSED [ 11%]
+tests/api/test_feature_api.py::test_wall_lease_boundaries[-1-False] PASSED [ 12%]
+tests/api/test_feature_api.py::test_replay_and_key_order_are_invariant PASSED [ 14%]
+tests/api/test_predictor.py::test_batch_boundaries[0-422] PASSED         [ 15%]
+tests/api/test_predictor.py::test_batch_boundaries[1-200] PASSED         [ 16%]
+tests/api/test_predictor.py::test_batch_boundaries[128-200] PASSED       [ 18%]
+tests/api/test_predictor.py::test_batch_boundaries[129-422] PASSED       [ 19%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[temperature_mean_10m--273.151] PASSED [ 21%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[temperature_mean_10m-1000001.0] PASSED [ 22%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[vibration_max_10m--0.001] PASSED [ 23%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[current_mean_10m--1.0] PASSED [ 25%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[current_std_10m--0.001] PASSED [ 26%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[rpm_mean_10m--1.0] PASSED [ 28%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[rpm_mean_10m-1000000001.0] PASSED [ 29%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[reading_count_10m-0] PASSED [ 30%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[reading_count_10m-1000001] PASSED [ 32%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[reading_count_10m-1.1] PASSED [ 33%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[prior_failures_24h--1] PASSED [ 35%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[prior_failures_24h-1000001] PASSED [ 36%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[machine_age_days--0.001] PASSED [ 38%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[machine_age_days-1000001.0] PASSED [ 39%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[current_mean_10m-16] PASSED [ 40%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[rpm_mean_10m-True] PASSED [ 42%]
+tests/api/test_predictor.py::test_invalid_feature_partitions[reading_count_10m-True] PASSED [ 43%]
