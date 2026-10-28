@@ -4,7 +4,7 @@ from datetime import datetime,timedelta,timezone
 from pathlib import Path
 from types import SimpleNamespace as NS
 from unittest.mock import patch
-import importlib.util,io,json,shutil
+import importlib.util,io,json,shutil,sys
 from urllib.error import HTTPError
 import pytest,yaml
 from ml import ab_ci,ab_native
@@ -289,9 +289,12 @@ def test_native_adapter_command_sequence_and_recheck_with_mocked_control_plane(t
         # A real fixture SQLite file exercises read-only retention checks; cluster mounts remain mocked.
         shutil.copyfile(fixture.runtime.database,context.directory/'runtime/ab-ledger/trials.sqlite')
         return result
+    def healthy(c,pin,machines,http,label):
+        ab_native.save(c.out/('baseline-health-'+label+'.json'),{'fixture':True});return {'fixture':True}
     build={'images':{'predictor':{'config_digest':'sha256:'+'f'*64}}};stage={'isvc_uid':'candidate-fixture'}
     with patch.object(ab_native,'model_state',side_effect=models),patch.object(ab_native,'feature_identity',return_value=active),\
             patch.object(ab_native,'pin_scaling') as pinned,\
+            patch.object(ab_native,'baseline_health',side_effect=healthy),\
             patch.object(ab_native,'workload_state',return_value={'url':'http://10.53.0.12','uid':'ab-fixture'}),\
             patch.object(ab_native,'offline_lookup',return_value=fixture.offline),patch.object(ab_ci,'deployment_plan',side_effect=planned),\
             patch.object(ab_ci,'probe',side_effect=probed),patch.object(ab_native.subprocess,'check_output',side_effect=output),\
@@ -405,6 +408,37 @@ def test_scaling_never_expands_the_existing_single_node_replica_budget(tmp_path,
 
 def test_restore_without_a_scaling_journal_does_not_query_or_change_cluster(tmp_path):
     c=NS(out=tmp_path);ab_native.restore_scaling(c)
+
+
+@pytest.mark.parametrize('fault',[None,'not-ready','cohort','expired-context','pin','trace','ttl','key-count','cache-url'])
+def test_fallback_health_requires_both_live_cohort_and_real_physical_cache_reserve(tmp_path,monkeypatch,fault):
+    """A new context timestamp must not conceal a cache whose original TTL has expired."""
+    machines={'P-001':{},'P-002':{}};prepared=(datetime.now(timezone.utc)-timedelta(seconds=100)).isoformat()
+    trace={'clock_mode':'simulation','protocol_sha256':LEGACY['protocol_sha256'],'prepared_wall_utc':prepared,
+        'operating_context':{'status':'operating'},'features':GOLDEN['samples'][0]['features']}
+    traces={m:{**deepcopy(trace),'machine_id':m} for m in machines}
+    if fault=='expired-context':traces['P-002']['prepared_wall_utc']=(datetime.now(timezone.utc)-timedelta(seconds=2701)).isoformat()
+    if fault=='cohort':traces['P-002']['protocol_sha256']='0'*64
+    backend=fixture_runtime(tmp_path/'model-fixture').runtimes['baseline'].backend
+    prediction=backend.predict(trace['features']);reply={'model':prediction['model'],'prediction':prediction['predictions'][0],'feature_trace':traces['P-001']}
+    if fault=='pin':reply['model']={**reply['model'],'version':'other'}
+    if fault=='trace':reply['feature_trace']={**traces['P-001'],'machine_id':'P-999'}
+    def http(url,path,body=None):
+        if path=='/health/ready':return (503,{'ready':False}) if fault=='not-ready' else (200,{'ready':True})
+        if path.endswith(':predict'):return 200,reply
+        return 200,traces[path.split('/')[3]]
+    cache=NS(scan_iter=lambda **kw:iter([b'1iot_serving_demo'] if fault=='key-count' else [b'1iot_serving_demo',b'2iot_serving_demo']),
+        pttl=lambda key:899_999 if fault=='ttl' else 3_500_000,close=lambda:None)
+    redis=NS(Redis=lambda **kw:cache);monkeypatch.setitem(sys.modules,'redis',redis)
+    deployment={'metadata':{'uid':'active-fixture','generation':1},'spec':{'template':{'spec':{'containers':[{'name':'api','env':[
+        {'name':'IOT_FEAST_REDIS','value':'online.iot-features.svc.cluster.local:6379' if fault!='cache-url' else 'evil.example:6379'}]}]}}}}
+    c=NS(out=tmp_path,commit='a'*40,release='serve-jenkins-7',get=lambda *args:deployment,service_url=lambda *args:'http://10.53.0.5')
+    if fault:
+        with pytest.raises(ValueError):ab_native.baseline_health(c,LEGACY,machines,http,'before-ab')
+        assert not (tmp_path/'baseline-health-before-ab.json').exists()
+    else:
+        proof=ab_native.baseline_health(c,LEGACY,machines,http,'before-ab')
+        assert proof['passed'] and proof['cache_keys']==2 and len(proof['features'])==2 and proof['cache_ttl_ms']==[3_500_000]*2
 
 
 def test_controller_json_and_metrics_transport_has_an_actual_body_bound():

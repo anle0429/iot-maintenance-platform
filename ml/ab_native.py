@@ -4,7 +4,7 @@ from hashlib import sha256
 from contextlib import closing
 import json,os,re,sqlite3,subprocess,time
 from ml import ab_ci
-from ml.serving_ci import check_pods,check_seed_configmap,ab_gate
+from ml.serving_ci import check_pods,check_seed_configmap,check_prediction,ab_gate
 from services.predictor.binding import FIELDS,validate_pin
 
 
@@ -155,6 +155,48 @@ def restore_scaling(c):
         'restored_utc':datetime.now(timezone.utc).isoformat(),'states':states})
 
 
+def baseline_health(c,pin,machines,http,label):
+    """Require a live fallback API, truthful lease and real Redis TTL reserve before risking a switch."""
+    import redis
+    deployment=c.get('get','deployment','iot-feature-api','-n','iot-features')
+    env={e['name']:e.get('value') for v in deployment['spec']['template']['spec']['containers'] if v['name']=='api' for e in v.get('env',[])}
+    match=re.fullmatch(r'([a-z][a-z0-9-]*)\.iot-features\.svc\.cluster\.local:6379',env.get('IOT_FEAST_REDIS',''))
+    if not match:raise ValueError('Fallback cache must be an observed private Redis service')
+    endpoint=c.service_url('iot-feature-api','iot-features');code,ready=http(endpoint,'/health/ready')
+    if code!=200 or ready.get('ready') is not True:raise ValueError('Fallback feature API is not healthy')
+    features=[];remaining=[]
+    for machine in sorted(machines):
+        code,reply=http(endpoint,'/v1/machines/'+machine+'/features')
+        if code!=200 or reply.get('machine_id')!=machine or reply.get('protocol_sha256')!=pin['protocol_sha256'] or reply.get('clock_mode')!='simulation':
+            raise ValueError('Fallback feature cohort is unavailable or belongs to another protocol')
+        age=(datetime.now(timezone.utc)-datetime.fromisoformat(reply['prepared_wall_utc'])).total_seconds()
+        if not 0<=age<=2700:raise ValueError('Fallback demo lease needs at least15minutes of reserve')
+        remaining.append(3600-age);features.append(reply)
+    operating=next((f for f in features if f['operating_context']['status']=='operating'),None)
+    if operating is None:raise ValueError('Fallback lacks an operating machine probe')
+    code,prediction=http(endpoint,'/v1/machines/'+operating['machine_id']+':predict',{})
+    if code!=200 or prediction.get('model') is None or any(prediction['model'].get(n)!=v for n,v in pin.items()) or prediction.get('feature_trace')!=operating:
+        raise ValueError('Fallback prediction no longer serves its observed model pin')
+    check_prediction(prediction['prediction'],prediction['model'],pin)
+    address=c.service_url(match[1],'iot-features').removeprefix('http://')
+    client=redis.Redis(host=address,port=6379,socket_timeout=2,socket_connect_timeout=2)
+    try:
+        keys=[]
+        for key in client.scan_iter(match=b'*iot_serving_demo',count=256):
+            keys.append(key)
+            if len(keys)>2048:raise ValueError('Fallback cache exceeds the bounded coursework cohort')
+        if len(keys)!=len(machines):raise ValueError('Fallback cache key count differs from the checked cohort')
+        ttls=[client.pttl(k) for k in keys]
+        if not ttls or any(type(t) is not int or t<900_000 for t in ttls):raise ValueError('Fallback cache TTL needs at least15minutes of reserve')
+    finally:client.close()
+    proof={'passed':True,'commit':c.commit,'release':c.release,'checked_utc':datetime.now(timezone.utc).isoformat(),
+        'feature_deployment_uid':deployment['metadata']['uid'],'feature_generation':deployment['metadata']['generation'],
+        'features':features,'prediction':prediction,'cache_service':match[1],'cache_keys':len(keys),'cache_ttl_ms':ttls,
+        'cache_key_set_sha256':sha256(ab_ci.canonical(sorted(k.hex() for k in keys))).hexdigest(),
+        'minimum_context_lease_seconds':min(remaining),'scope':'Read-only live fallback API/cohort/model and physical Redis TTL checks; no lease editing or cache writes.'}
+    save(c.out/('baseline-health-'+label+'.json'),proof);return proof
+
+
 def workload_state(c,plan,build):
     """Read back AB rollout, immutable inputs and the exact static HDD volume bound to its claim."""
     name=plan['helm_release'];deployment=c.get('get','deployment',name,'-n','iot-features');status=deployment['status'];spec=deployment['spec']
@@ -221,6 +263,7 @@ def run(c,root,pair,stage,build,http,text):
     reference_source=c.get('get','configmap','iot-drift-reference-v1','-n','iot-features');reference_raw=reference_source['data']['reference.json']
     detector=DriftDetector(json.loads(reference_raw));context=json.loads((c.directory/'runtime/state/context.json').read_text())
     ab_ci.trial_jobs(context,c.release) # reject insufficient cohorts before creating resources
+    baseline_health(c,baseline['pin'],context['machines'],http,'before-ab')
     node=c.get('get','node',baseline['node_name']);hostname=node['metadata']['labels']['kubernetes.io/hostname']
     if candidate['node_name']!=baseline['node_name']:raise ValueError('Use the observed single coursework node')
     ledger=c.directory/'runtime/ab-ledger'
@@ -257,13 +300,13 @@ def run(c,root,pair,stage,build,http,text):
         'capture_kind':'native-kubernetes-http','baseline_native':baseline,'candidate_native':candidate,'active_feature_before':active,
         'ab_native':initial,'ab_plan_sha256':sha256((c.out/'ab-plan.json').read_bytes()).hexdigest(),
         'reference_source_uid':reference_source['metadata']['uid'],'reference_raw_sha256':plan['reference_sha256'],
-        'retained_ledger':retained,
+        'retained_ledger':retained,'baseline_health_before_ab_sha256':sha256((c.out/'baseline-health-before-ab.json').read_bytes()).hexdigest(),
         'checked_utc':datetime.now(timezone.utc).isoformat(),'predictor_counter_deltas':result['predictor_counter_deltas'],
         'counter_scope':'Upstream counts may include health probes/other traffic; exact per-experiment counts come from the durable AB ledger/scrape.'}
     ab_gate(report,pair['pin'],stage['isvc_uid']);return report
 
 
-def recheck(c,pair,stage,build,report):
+def recheck(c,pair,stage,build,report,http=None,label='before-switch'):
     """Refuse a stale/copied receipt or changed pod, volume, input or active baseline immediately before full cutover."""
     age=(datetime.now(timezone.utc)-datetime.fromisoformat(report['checked_utc'])).total_seconds()
     if (not 0<=age<300 or report['capture_kind']!='native-kubernetes-http' or report['commit']!=c.commit or report['release']!=c.release
@@ -275,4 +318,5 @@ def recheck(c,pair,stage,build,report):
             or model_state(c,pair['isvc']['metadata']['name'])!=report['candidate_native']):raise ValueError('Actual A/B inputs/workloads changed before cutover')
     context=json.loads((c.directory/'runtime/state/context.json').read_text())
     if ledger_state(c.directory/'runtime/ab-ledger/trials.sqlite',report,context)!=report['retained_ledger']:raise ValueError('Retained ledger changed before cutover')
+    baseline_health(c,report['baseline_native']['pin'],context['machines'],http,label)
     ab_gate(report,pair['pin'],stage['isvc_uid'])

@@ -352,7 +352,7 @@ def run(phase):
         from ml import ab_native
         p,stage=staged_plan(c);build=scoped_receipt(c,'build.json')
         report=ab_native.run(c,ROOT,p,stage,build,http,http_text)
-        staged_plan(c);ab_native.recheck(c,p,stage,build,report)
+        staged_plan(c);ab_native.recheck(c,p,stage,build,report,http,label='ab-recheck')
         save(c.out/'ab-verification.json',report)
     elif phase=='switch':c.selected();c.control('switch-host',cluster=True)
     elif phase=='switch-host':
@@ -361,7 +361,7 @@ def run(phase):
         if not evidence.exists():raise ValueError('Full cutover is blocked until native A/B routing and monitoring are implemented and verified for this release')
         ab_gate(scoped_receipt(c,'ab-verification.json'),p['pin'],stage['isvc_uid'])
         from ml.ab_native import recheck
-        recheck(c,p,stage,scoped_receipt(c,'build.json'),scoped_receipt(c,'ab-verification.json'))
+        recheck(c,p,stage,scoped_receipt(c,'build.json'),scoped_receipt(c,'ab-verification.json'),http)
         status=json.loads(subprocess.check_output([c.helm,'status','iot-feature-api','-n','iot-features','-o','json'],text=True))
         values=json.loads(subprocess.check_output([c.helm,'get','values','iot-feature-api','-n','iot-features','--all','-o','json'],text=True))
         save(c.out/'previous.json',{'revision':status['version'],'marker':values.get('revisionMarker'),'observed_utc':datetime.now(timezone.utc).isoformat()})
