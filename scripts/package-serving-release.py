@@ -31,6 +31,11 @@ def package(commit,output):
         names+=['ml/ab_ci.py','ml/ab_native.py','tests/test_ab_ci.py','tests/integration/test_ab_ci_http.py']
     if 'ml/serving_gate_reuse.py' in available:
         names+=['ml/serving_gate_reuse.py','tests/test_serving_gate_reuse.py']
+    if 'scripts/ci-observability.py' in available:
+        names+=['services/observed.py','ml/observability_ci.py','scripts/ci-observability.py','scripts/test-api-observability.py',
+            'tests/test_api_observability_gate.py','tests/test_observability_ci.py','tests/api/test_observed.py','tests/api/test_drift_api.py',
+            'services/drift_api/app.py','services/drift_api/runtime.py','infra/ci/Observability.Jenkinsfile']
+        names+=['infra/observability/'+n for n in ['API.Dockerfile','API.Dockerfile.dockerignore','Tests.Dockerfile','Tests.Dockerfile.dockerignore','requirements.lock','mutmut.toml']]
     if set(names)-available:raise ValueError('Serving source commit lacks required files: '+','.join(sorted(set(names)-available)))
     manifest_path=output.with_suffix('.manifest.json')
     if output.exists() or manifest_path.exists():raise FileExistsError('Preserve previous serving source packets')

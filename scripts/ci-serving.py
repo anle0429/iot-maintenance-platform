@@ -119,7 +119,7 @@ class Context:
             command+=['--mount','type=bind,src=/usr/local/bin/k3s,dst=/usr/local/bin/k3s,readonly',
                 '--mount','type=bind,src=/etc/rancher/k3s/k3s.yaml,dst=/etc/rancher/k3s/k3s.yaml,readonly',
                 '--mount',f'type=bind,src={self.helm},dst={self.helm},readonly','--env','KUBECONFIG=/etc/rancher/k3s/k3s.yaml']
-        command+=(extra or [])+[image,'/src/scripts/ci-serving.py',phase]
+        command+=(extra or [])+[image,getattr(self,'driver','/src/scripts/ci-serving.py'),phase]
         self.container(name,command,memory)
 
 
