@@ -7,6 +7,14 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from infra.mesh.resources import resources,IMAGE
 
 
+def proxy_ready(pod):
+    """Recognize a running classic or Kubernetes-native restartable Istio sidecar, not a completed one-shot init."""
+    regular=any(c['name']=='istio-proxy' for c in pod['spec']['containers'])
+    native=any(c['name']=='istio-proxy' and c.get('restartPolicy')=='Always' for c in pod['spec'].get('initContainers',[]))
+    status=pod['status'].get('containerStatuses' if regular else 'initContainerStatuses',[])
+    return (regular or native) and any(c['name']=='istio-proxy' and c.get('ready') is True and bool(c.get('state',{}).get('running')) and (regular or c.get('started') is True) for c in status)
+
+
 def run(args):
     """Require real successful/denied/plaintext requests, exact model math and unchanged application count for rejected traffic."""
     r=args.runtime_root.resolve();out=args.output;out.mkdir(parents=True,exist_ok=False);os.environ['KUBECONFIG']='/etc/rancher/k3s/k3s.yaml';k=['/usr/local/bin/k3s','kubectl']
@@ -18,19 +26,29 @@ def run(args):
     save=lambda n,v:(out/n).write_text(json.dumps(v,indent=2,allow_nan=False)+'\n')
     session=json.loads((r/'data/runtime/ci/session.json').read_bytes());assert (datetime.fromisoformat(session['auto_stop_utc'])-datetime.now(timezone.utc)).total_seconds()>1800
     assert json.loads((r/'outputs/mesh-28/control-plane/ready.json').read_bytes())['ready']
-    assert subprocess.run(k+['get','namespace','iot-mesh'],capture_output=True).returncode!=0
-    original=get('get','inferenceservice','iot-pump-serve-jenkins-8','-n','iot-serving');active=get('get','deployment','iot-feature-api','-n','iot-features');save('original-serving.json',original);save('original-feature.json',active)
-    image=json.loads(subprocess.check_output(['docker','image','inspect',IMAGE]))[0];save('image.json',{key:image[key] for key in ['Id','RepoTags','Architecture','Os']})
-    code="import os,json,pathlib,hashlib;from services.predictor.runtime import PumpPredictor;p=pathlib.Path(os.environ['IOT_MODEL_BUNDLE']);m=PumpPredictor(p);print(json.dumps({'pin':m.pin,'portable_sha256':hashlib.sha256((p/'portable.json').read_bytes()).hexdigest()}))"
-    baked=json.loads(call(['docker','run','--rm','--network','none','--memory','256m','--cpus','.5','--entrypoint','python',image['Id'],'-c',code],'baked-model'))
-    assert baked['pin']['version']=='6' and baked['pin']['production'] is True and baked['portable_sha256']==baked['pin']['portable_sha256'];save('baked-model.json',baked)
-    manifest={'apiVersion':'v1','kind':'List','items':resources()};save('workloads.json',manifest)
-    call(k+['create','namespace','iot-mesh'],'namespace');call(k+['label','namespace','iot-mesh','istio.io/rev=iot-1313'],'namespace-label')
-    call(k+['apply','-f',str(ROOT/'infra/mesh/policies.yaml')],'policies');call(k+['apply','-f',str(out/'workloads.json')],'workloads')
-    for name in ['mesh-predictor','allowed-client','denied-client','plain-client']:call(k+['rollout','status','deployment/'+name,'-n','iot-mesh','--timeout=180s'],'ready-'+name,190)
+    if args.resume_from:
+        previous=args.resume_from.resolve();assert previous.is_relative_to(r/'outputs/mesh-28') and not (previous/'allowed.json').exists()
+        namespace=get('get','namespace','iot-mesh');assert namespace['metadata']['labels']['istio.io/rev']=='iot-1313'
+        expected=json.loads((previous/'workloads.json').read_bytes());assert expected=={'apiVersion':'v1','kind':'List','items':resources()}
+        for n in ['original-serving.json','original-feature.json','image.json','baked-model.json','workloads.json']:(out/n).write_bytes((previous/n).read_bytes())
+        original=json.loads((out/'original-serving.json').read_bytes());active=json.loads((out/'original-feature.json').read_bytes());image=json.loads((out/'image.json').read_bytes());baked=json.loads((out/'baked-model.json').read_bytes())
+        assert json.loads(subprocess.check_output(['docker','image','inspect',IMAGE]))[0]['Id']==image['Id']
+        old_pods=json.loads((previous/'pods-before.json').read_bytes());current=get('get','pods','-n','iot-mesh');assert {p['metadata']['uid'] for p in old_pods['items']}=={p['metadata']['uid'] for p in current['items']}
+        save('resume.json',{'checkpoint':previous.relative_to(r).as_posix(),'pod_uids_unchanged':True,'no_prior_request_receipt':True,'read_only_resume':True,'checkpoint_sha256':{n:sha256((previous/n).read_bytes()).hexdigest() for n in ['original-serving.json','original-feature.json','image.json','baked-model.json','workloads.json','pods-before.json']}})
+    else:
+        assert subprocess.run(k+['get','namespace','iot-mesh'],capture_output=True).returncode!=0
+        original=get('get','inferenceservice','iot-pump-serve-jenkins-8','-n','iot-serving');active=get('get','deployment','iot-feature-api','-n','iot-features');save('original-serving.json',original);save('original-feature.json',active)
+        image=json.loads(subprocess.check_output(['docker','image','inspect',IMAGE]))[0];save('image.json',{key:image[key] for key in ['Id','RepoTags','Architecture','Os']})
+        code="import os,json,pathlib,hashlib;from services.predictor.runtime import PumpPredictor;p=pathlib.Path(os.environ['IOT_MODEL_BUNDLE']);m=PumpPredictor(p);print(json.dumps({'pin':m.pin,'portable_sha256':hashlib.sha256((p/'portable.json').read_bytes()).hexdigest()}))"
+        baked=json.loads(call(['docker','run','--rm','--network','none','--memory','256m','--cpus','.5','--entrypoint','python',image['Id'],'-c',code],'baked-model'))
+        assert baked['pin']['version']=='6' and baked['pin']['production'] is True and baked['portable_sha256']==baked['pin']['portable_sha256'];save('baked-model.json',baked)
+        manifest={'apiVersion':'v1','kind':'List','items':resources()};save('workloads.json',manifest)
+        call(k+['create','namespace','iot-mesh'],'namespace');call(k+['label','namespace','iot-mesh','istio.io/rev=iot-1313'],'namespace-label')
+        call(k+['apply','-f',str(ROOT/'infra/mesh/policies.yaml')],'policies');call(k+['apply','-f',str(out/'workloads.json')],'workloads')
+        for name in ['mesh-predictor','allowed-client','denied-client','plain-client']:call(k+['rollout','status','deployment/'+name,'-n','iot-mesh','--timeout=180s'],'ready-'+name,190)
     pods=get('get','pods','-n','iot-mesh');save('pods-before.json',pods);pod={p['metadata']['labels']['app']:p for p in pods['items']}
-    assert all(any(c['name']=='istio-proxy' for c in pod[n]['spec']['containers']) for n in ['mesh-predictor','allowed-client','denied-client'])
-    assert not any(c['name']=='istio-proxy' for c in pod['plain-client']['spec']['containers'])
+    assert all(proxy_ready(pod[n]) for n in ['mesh-predictor','allowed-client','denied-client'])
+    assert not proxy_ready(pod['plain-client']) and not any(c['name']=='istio-proxy' for c in pod['plain-client']['spec'].get('initContainers',[]))
     fixture=json.loads((ROOT/'tests/fixtures/mesh-predict.json').read_bytes());save('request.json',fixture)
     endpoint='http://mesh-predictor.iot-mesh.svc.cluster.local:8080/v1/models/iot-pump-failure-v1:predict'
     probe="import json,urllib.request,urllib.error,socket;resolved=socket.gethostbyname('mesh-predictor.iot-mesh.svc.cluster.local');u="+repr(endpoint)+";body="+repr(fixture['body'])+";req=urllib.request.Request(u,data=json.dumps(body).encode(),headers={'Content-Type':'application/json'});\ntry:\n r=urllib.request.urlopen(req,timeout=12);print(json.dumps({'status':r.status,'headers':dict(r.headers),'body':r.read().decode()}))\nexcept urllib.error.HTTPError as e:\n print(json.dumps({'status':e.code,'headers':dict(e.headers),'body':e.read().decode()}))\nexcept (urllib.error.URLError,ConnectionError,TimeoutError,OSError) as e:\n print(json.dumps({'transport_error':type(e).__name__,'reason_type':type(getattr(e,'reason',e)).__name__,'resolved_ip':resolved,'status':None}))"
@@ -67,4 +85,4 @@ def run(args):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--runtime-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);run(p.parse_args())
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--runtime-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--resume-from',type=Path);run(p.parse_args())
