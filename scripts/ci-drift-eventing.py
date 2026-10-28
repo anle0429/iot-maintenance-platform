@@ -170,10 +170,23 @@ def run(phase):
         c.log('image-pip-check',['docker','run','--rm','--network','none','--entrypoint','python',tag,'-m','pip','check'])
         archive=Path('/srv/iot-fast/ci')/c.release/'image.tar';c.log('image-export',['docker','save','-o',str(archive),tag])
         with archive.open('rb') as f:config=docker_config_digest(f)
-        c.log('image-import',['/usr/local/bin/k3s','ctr','images','import',str(archive)],240)
-        save(c,'build.json',{'commit':c.commit,'release':c.release,'tag':tag,'parent':parent,'parent_id':before,'config_digest':config,'packaged_sha256':expected,'archive_bytes':archive.stat().st_size});archive.unlink()
-    elif phase=='deploy':deploy(c)
-    elif phase=='verify':verify(c)
+        controller=read(c.out/'controller.json')['id']
+        native=['docker','run','--rm','--network','none','--memory','1g','--cpus','1',
+            '--mount','type=bind,src=/usr/local/bin/k3s,dst=/usr/local/bin/k3s,readonly',
+            '--mount','type=bind,src=/run/k3s/containerd/containerd.sock,dst=/run/k3s/containerd/containerd.sock',
+            '--entrypoint','/usr/local/bin/k3s',controller]
+        exporter=subprocess.Popen(['docker','save',tag],stdout=subprocess.PIPE)
+        try:subprocess.run(native[:2]+['-i']+native[2:]+['ctr','--address','/run/k3s/containerd/containerd.sock','--namespace','k8s.io','images','import','-'],stdin=exporter.stdout,check=True,timeout=240)
+        finally:exporter.stdout.close();status=exporter.wait()
+        if status:raise RuntimeError('CRI import stream failed')
+        cri=json.loads(subprocess.check_output(native+['crictl','--config=/dev/null','--runtime-endpoint=unix:///run/k3s/containerd/containerd.sock','--image-endpoint=unix:///run/k3s/containerd/containerd.sock','inspecti',tag]))
+        if cri['status']['id']!=config:raise ValueError('Imported image config differs')
+        save(c,'build.json',{'commit':c.commit,'release':c.release,'tag':tag,'parent':parent,'parent_id':before,'config_digest':config,
+            'image_id':subprocess.check_output(['docker','image','inspect',tag,'--format','{{.Id}}'],text=True).strip(),
+            'cri_config_id':cri['status']['id'],'packaged_sha256':expected,'archive_bytes':archive.stat().st_size});archive.unlink()
+    elif phase in ['deploy','verify']:c.control(phase+'-host',cluster=True,memory='4g')
+    elif phase=='deploy-host':deploy(c)
+    elif phase=='verify-host':verify(c)
     elif phase=='archive':
         destination=ROOT/'outputs/ci-drift-eventing';destination.mkdir(parents=True,exist_ok=False)
         __import__('shutil').copytree(c.out,destination/'native',ignore=__import__('shutil').ignore_patterns('*.attempt'))
