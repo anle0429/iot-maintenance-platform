@@ -113,13 +113,13 @@ spec:
               drop: [ALL]
           readinessProbe:
             httpGet:
-              path: /health/status
+              path: /status
               port: health
             initialDelaySeconds: 3
             periodSeconds: 5
           livenessProbe:
             httpGet:
-              path: /health/status
+              path: /status
               port: health
             initialDelaySeconds: 10
             periodSeconds: 10

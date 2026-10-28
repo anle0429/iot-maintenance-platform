@@ -12,6 +12,8 @@ Trace dùng OpenTelemetry SDK1.45.1 và FastAPI/urllib instrumentation0.66b1. Ki
 
 [Jaeger2.22.0](https://github.com/jaegertracing/jaeger/releases/tag/v2.22.0) có release06/10/2026; [asset declaration](../infra/observability/jaeger-assets.json) pin SHA256/byte. [Manifest private](../infra/observability/jaeger.yaml) chuẩn bị receiver/query1replica,512MiB, memory tối đa2.000trace, không public service. Cấu hình theo [tài liệu Jaeger2](https://www.jaegertracing.io/docs/2.22/deployment/configuration/); dữ liệu memory mất khi restart. YAML hiện chưa chứng minh đã deploy.
 
+Native binary/checksum/config validation đã PASS; rollout đầu bị Kubernetes restart vì probe trỏ nhầm `/health/status` và nhận404, không phải OOM. [healthcheckv2 của Collector0.160.0](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/v0.160.0/extension/healthcheckv2extension/README.md) mặc định dùng `/status`; manifest sửa đúng hai probe theo phiên bản đã pin. Readback Pod/events/log cũ giữ riêng; cần xác nhận Ready sau sửa trước khi nhận thành công. AI Assistant của Jaeger được xác nhận disabled trong log native, không thêm vào phạm vi coursework.
+
 ## Cách kiểm bản chuẩn bị
 
 Trong môi trường API riêng đã cài các pin hiện có và [overlay dependencies](../infra/observability/requirements.lock):
