@@ -1,0 +1,7 @@
+# Fresh mutation of the changed HTTP application and new event receiver; unchanged PSI/store retain their independent prior gates.
+[tool.mutmut]
+source_paths = ["services/"]
+only_mutate = ["services/drift_api/app.py", "services/drift_api/events.py"]
+pytest_add_cli_args_test_selection = ["tests/api/test_drift_api.py", "tests/api/test_drift_events.py"]
+also_copy = ["ml/", "models/", "tests/fixtures/", "tests/api/", "tests/__init__.py"]
+process_isolation = "forkserver"

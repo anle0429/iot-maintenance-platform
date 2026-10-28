@@ -36,6 +36,12 @@ def package(commit,output):
             'tests/test_api_observability_gate.py','tests/test_observability_ci.py','tests/api/test_observed.py','tests/api/test_drift_api.py',
             'services/drift_api/app.py','services/drift_api/runtime.py','infra/ci/Observability.Jenkinsfile']
         names+=['infra/observability/'+n for n in ['API.Dockerfile','API.Dockerfile.dockerignore','Tests.Dockerfile','Tests.Dockerfile.dockerignore','requirements.lock','mutmut.toml']]
+    if 'scripts/ci-drift-eventing.py' in available:
+        names+=['ml/drift_eventing.py','services/drift_api/events.py','tests/api/test_drift_events.py','tests/test_drift_eventing.py',
+            'scripts/ci-drift-eventing.py','scripts/test-drift-eventing.py','tests/test_drift_eventing_gate.py','infra/ci/DriftEventing.Jenkinsfile',
+            'infra/eventing/API.Dockerfile','infra/eventing/API.Dockerfile.dockerignore','infra/eventing/mutmut.toml',
+            'docs/evidence/offline-drift-linux/reference.json','docs/evidence/ci-serving-linux/selected-model6/model-pin.json',
+            'docs/evidence/ci-serving-linux/selected-model6/portable.json']
     if set(names)-available:raise ValueError('Serving source commit lacks required files: '+','.join(sorted(set(names)-available)))
     manifest_path=output.with_suffix('.manifest.json')
     if output.exists() or manifest_path.exists():raise FileExistsError('Preserve previous serving source packets')

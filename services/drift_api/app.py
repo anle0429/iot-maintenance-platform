@@ -62,4 +62,6 @@ def create_app(runtime=None):
         """Assess a label-free window exactly once, with immutable reference and window identities."""
         return await invoke('compare', request)
 
+    from services.drift_api.events import install
+    install(app,invoke)
     return app

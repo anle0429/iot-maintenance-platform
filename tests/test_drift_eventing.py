@@ -22,7 +22,7 @@ class DriftEventingTests(unittest.TestCase):
         isvc=next(o for o in value['objects'] if o['kind']=='InferenceService');self.assertEqual(isvc['spec']['predictor']['maxReplicas'],1)
         self.assertEqual(next(o for o in value['objects'] if o['kind']=='PersistentVolume')['spec']['persistentVolumeReclaimPolicy'],'Retain')
         trigger=next(o for o in value['objects'] if o['kind']=='Trigger');self.assertEqual(trigger['spec']['filter']['attributes']['type'],EVENT_TYPE)
-        self.assertTrue(trigger['spec']['subscriber']['uri'].endswith('.svc.cluster.local/v1/drift:compare'))
+        self.assertTrue(trigger['spec']['subscriber']['uri'].endswith('.svc.cluster.local/v1/events/drift'))
 
     def test_other_data_version_or_schema_cannot_silently_reset_the_baseline(self):
         for edit in ['data_version','protocol_sha256','samples','production']:
