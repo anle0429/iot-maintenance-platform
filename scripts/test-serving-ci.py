@@ -57,7 +57,7 @@ def run(output,parent_outputs=None,parent_source=None,current_source=None,expect
         call(['mutmut','export-cicd-stats'],'mutmut-export.txt',60)
         shutil.copyfile(ROOT/'mutants/mutmut-cicd-stats.json',output/'mutmut-cicd-stats.json')
     stats=output/'mutmut-cicd-stats.json'
-    proof=test_gate(json.loads((output/'coverage.json').read_text()),json.loads(stats.read_text()),(output/'mutmut-all-results.txt').read_text())
+    proof=test_gate(json.loads((output/'coverage.json').read_text()),json.loads(stats.read_text()),(output/'mutmut-all-results.txt').read_text(encoding='utf-8'))
     proof['result_sha256']={name:sha256((output/name).read_bytes()).hexdigest() for name in ['coverage.json','mutmut-cicd-stats.json','mutmut-all-results.txt','junit.xml']}
     if provenance is not None:
         proof['mutation_provenance']=provenance

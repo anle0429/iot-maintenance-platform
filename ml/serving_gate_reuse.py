@@ -51,7 +51,7 @@ def completed_mutation(parent_source, current_source, parent_outputs, current_re
         if sha256((tests/name).read_bytes()).hexdigest()!=original['result_sha256'][name]:
             raise ValueError('Original native API gate artifact changed')
     coverage,stats=load(tests/'coverage.json'),load(tests/'mutmut-cicd-stats.json')
-    proof=test_gate(coverage,stats,(tests/'mutmut-all-results.txt').read_text())
+    proof=test_gate(coverage,stats,(tests/'mutmut-all-results.txt').read_text(encoding='utf-8'))
     if original['mutation']!=proof['mutation'] or original['mutation_score_percent']!=proof['mutation_score_percent']:
         raise ValueError('Original native score does not match complete mutation inventory')
     return {**scope,'parent_release':selection['release'],

@@ -48,8 +48,9 @@ def artifact_fixture(tmp_path):
     dump(folder/'selection.json',{'commit':parent['commit'],'pin':pin,'release':'serve-jenkins-5'})
     coverage={'totals':{'num_statements':2,'covered_lines':2,'num_branches':2,'covered_branches':2,'excluded_lines':0}}
     statuses='\n'.join(name[:-3].replace('/','.')+'.x_known_fixture__mutmut_1: killed' for name in sorted(MUTATION_FILES))+'\n'
+    statuses=statuses.replace('.x_known_fixture__mutmut_1','.xǁKnownFixtureǁcall__mutmut_1',1)
     stats={k:0 for k in ['survived','no_tests','skipped','suspicious','timeout','check_was_interrupted_by_user','segfault']};stats.update(total=7,killed=7)
-    dump(tests/'coverage.json',coverage);dump(tests/'mutmut-cicd-stats.json',stats);(tests/'mutmut-all-results.txt').write_text(statuses)
+    dump(tests/'coverage.json',coverage);dump(tests/'mutmut-cicd-stats.json',stats);(tests/'mutmut-all-results.txt').write_text(statuses,encoding='utf-8')
     (tests/'junit.xml').write_text('<testsuite tests="1"/>');(tests/'requirements-installed.lock').write_text('declared-fixture==1\n')
     current_freeze=tmp_path/'freeze.lock';current_freeze.write_bytes((tests/'requirements-installed.lock').read_bytes())
     proof={'passed':True,'mutation':stats,'mutation_score_percent':100.,'result_sha256':{n:sha256((tests/n).read_bytes()).hexdigest() for n in ['coverage.json','mutmut-cicd-stats.json','mutmut-all-results.txt','junit.xml']}}
