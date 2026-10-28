@@ -1,0 +1,8 @@
+# Include only the overlay inputs; the parent image is already sealed and inspected separately.
+**
+!services/
+!services/observed.py
+!infra/
+!infra/observability/
+!infra/observability/requirements.lock
+!infra/observability/API.Dockerfile

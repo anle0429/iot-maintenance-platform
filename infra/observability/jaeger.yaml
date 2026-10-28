@@ -1,0 +1,156 @@
+# Private bounded lab receiver/query service; trace memory is lost on restart.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: iot-observability
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: iot-jaeger
+  namespace: iot-observability
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: iot-jaeger-config-28
+  namespace: iot-observability
+immutable: true
+data:
+  config.yaml: |
+    extensions:
+      jaeger_storage:
+        backends:
+          lab_memory:
+            memory:
+              max_traces: 2000
+      jaeger_query:
+        storage:
+          traces: lab_memory
+        max_clock_skew_adjust: 0s
+        http:
+          endpoint: 0.0.0.0:16686
+      healthcheckv2:
+        use_v2: true
+        http:
+          endpoint: 0.0.0.0:13133
+    receivers:
+      otlp:
+        protocols:
+          http:
+            endpoint: 0.0.0.0:4318
+    processors:
+      memory_limiter:
+        check_interval: 1s
+        limit_mib: 384
+        spike_limit_mib: 64
+      batch:
+        timeout: 1s
+        send_batch_size: 64
+        send_batch_max_size: 256
+    exporters:
+      jaeger_storage_exporter:
+        trace_storage: lab_memory
+    service:
+      extensions: [jaeger_storage, jaeger_query, healthcheckv2]
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [memory_limiter, batch]
+          exporters: [jaeger_storage_exporter]
+      telemetry:
+        resource:
+          service.name: iot-jaeger
+        logs:
+          level: info
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iot-jaeger
+  namespace: iot-observability
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iot-jaeger
+  template:
+    metadata:
+      labels:
+        app: iot-jaeger
+    spec:
+      serviceAccountName: iot-jaeger
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: jaeger
+          image: iot-coursework-jaeger:2.22.0-native28
+          imagePullPolicy: Never
+          ports:
+            - name: query
+              containerPort: 16686
+            - name: otlp
+              containerPort: 4318
+            - name: health
+              containerPort: 13133
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          readinessProbe:
+            httpGet:
+              path: /health/status
+              port: health
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health/status
+              port: health
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: config
+          configMap:
+            name: iot-jaeger-config-28
+        - name: tmp
+          emptyDir:
+            medium: Memory
+            sizeLimit: 16Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iot-jaeger
+  namespace: iot-observability
+spec:
+  type: ClusterIP
+  selector:
+    app: iot-jaeger
+  ports:
+    - name: query
+      port: 16686
+      targetPort: query
+    - name: otlp
+      port: 4318
+      targetPort: otlp

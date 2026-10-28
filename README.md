@@ -49,6 +49,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [A/B dashboard native và cách tự kiểm bằng chứng](docs/ab-monitoring.md)
 - [Airflow gọi KFP: retrain có admission, replay và cooldown](docs/drift-retraining.md)
 - [Làm mới feature thật và kiểm lại model6 sau retrain](docs/active-feature-refresh.md)
+- [Metrics/traces API: wrapper và kiểm chứng đang thực hiện](docs/api-observability.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist final-coursework chính](docs/final-rubric-tracker.md)
 - [Checklist hai sheet50% trước đây](docs/rubric-tracker.md)
