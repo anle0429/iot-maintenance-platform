@@ -89,7 +89,7 @@ def run(phase):
         fixture(ROOT);c.log('contracts',[sys.executable,'-m','unittest','tests.test_stream_staging_contract','-q'])
         c.log('controller-build',['docker','build','-f',str(ROOT/'infra/ci/ServingController.Dockerfile'),'-t','iot-ci-stream-controller:'+c.release,str(ROOT)])
         save(c,'controller.json',{'id':subprocess.check_output(['docker','image','inspect','iot-ci-stream-controller:'+c.release,'--format','{{.Id}}'],text=True).strip()})
-        c.control('discover-host',cluster=True)
+        c.control('discover-host',cluster=True,extra=['--env','IOT_STREAM_DESTINATION'])
         tag='iot-ci-stream-tests:'+c.release;c.log('tests-build',['docker','build','-f',str(ROOT/'infra/ci/StreamPush.Dockerfile'),'-t',tag,str(ROOT)])
         hashes=probe(tag)
         if hashes!={n:c.seal['files'][n] for n in PACKAGED}:raise ValueError('Native test image differs from sealed source')
