@@ -24,6 +24,8 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 S1–S4 là hai job độc lập được CI triển khai; cửa sổ nguồn là snapshot đã chốt, không vẽ file thành service. Redis phân biệt project cho các monitoring feature, không thay tám feature của predictor.
 
+[Gateway private NGINX](docs/private-gateway.md) đã4tuyến metrics/logs/trace/features, Basic auth/HTTPS/rate limit thực:8lần401,4redirect308,32burst6HTTP200/26HTTP429 rồi phục hồi.86payload/bốn ảnh gốc; domain `.test` trong lab với CA riêng, chưa publicDNS/browsertrust.
+
 ## Mục lục
 
 - [Phạm vi và dữ liệu](docs/domain-proposal.md)
@@ -60,6 +62,7 @@ S1–S4 là hai job độc lập được CI triển khai; cửa sổ nguồn l�
 - [Làm mới feature thật và kiểm lại model6 sau retrain](docs/active-feature-refresh.md)
 - [Metrics/traces API: dashboard và trace native đã kiểm](docs/api-observability.md)
 - [Locust trên wrapper: SLA, replica và bằng chứng gốc](docs/observed-api-load.md)
+- [Gateway private: authentication, rate limit và HTTPS](docs/private-gateway.md)
 - [CI hai job stream offline/online](docs/ci-stream-push.md)
 - [CI telemetry: test/build/auto-deploy cùng model production](docs/ci-api-observability.md)
 - [Cách chạy](#cách-chạy)
@@ -124,7 +127,10 @@ Các hộp là job/container/pod/service có thể triển khai; Feast SDK chạ
 
 ```mermaid
 flowchart LR
-    User[Người dùng] -->|U1 machine_id| API[Feature API Deployment]
+    User[Người dùng] -->|G1 private HTTPS Basic auth| Gateway[NGINX Ingress Controller Deployment]
+    Gateway -->|U1 machine_id sau auth và rate limit| API[Feature API Deployment]
+    Gateway -->|G2 metrics và logs qua CNI relay| Grafana[Grafana process]
+    Gateway -->|G3 trace queries| Jaeger[Jaeger collector-query Deployment]
     API -->|U2 lookup| Redis[Redis API Deployment]
     Redis -->|U3 tám feature và timestamp| API
     API -->|U4 vector hợp lệ| Predictor[KServe predictor Deployment]
@@ -182,7 +188,7 @@ flowchart LR
     classDef serving fill:#dcecff,stroke:#3265a8,color:#111;
     classDef data fill:#e1f2df,stroke:#428044,color:#111;
     classDef monitor fill:#fff0cf,stroke:#a97920,color:#111;
-    class API,Redis,Predictor,AB,Old,Drift,EventDrift,EventIngress,IMC,EventFilter serving;
+    class Gateway,API,Redis,Predictor,AB,Old,Drift,EventDrift,EventIngress,IMC,EventFilter serving;
     class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins,Retrain,EventPub,StreamOffline,StreamOnline data;
     class DriftJob,PG,Prom,Node,Grafana,Alloy,Loki,Jaeger monitor;
 ```

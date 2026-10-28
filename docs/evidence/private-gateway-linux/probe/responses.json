@@ -1,0 +1,127 @@
+[
+  {
+    "host": "metrics.iot.test",
+    "path": "/api/health",
+    "auth": "none",
+    "status": 401,
+    "headers": {
+      "Server": "nginx",
+      "Date": "Wed, 28 Oct 2026 19:43:23 GMT",
+      "Content-Type": "text/html",
+      "Content-Length": "172",
+      "Connection": "keep-alive",
+      "WWW-Authenticate": "Basic realm=\"IoT coursework\""
+    },
+    "body": "<html>\r\n<head><title>401 Authorization Required</title></head>\r\n<body>\r\n<center><h1>401 Authorization Required</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+  },
+  {
+    "host": "metrics.iot.test",
+    "path": "/api/health",
+    "auth": "correct",
+    "status": 200,
+    "headers": {
+      "Server": "nginx",
+      "Date": "Wed, 28 Oct 2026 19:43:25 GMT",
+      "Content-Type": "application/json; charset=UTF-8",
+      "Content-Length": "101",
+      "Connection": "keep-alive",
+      "Cache-Control": "no-store",
+      "X-Content-Type-Options": "nosniff",
+      "X-Frame-Options": "deny",
+      "X-Xss-Protection": "1; mode=block"
+    },
+    "body": "{\n  \"database\": \"ok\",\n  \"version\": \"13.3.0\",\n  \"commit\": \"6f8ce3c693b493043ebcd4787566d2b6b118b0f0\"\n}"
+  },
+  {
+    "host": "logs.iot.test",
+    "path": "/d/iot-linux-logs/iot-logs-linux-host-and-apis",
+    "auth": "none",
+    "status": 401,
+    "headers": {
+      "Server": "nginx",
+      "Date": "Wed, 28 Oct 2026 19:43:25 GMT",
+      "Content-Type": "text/html",
+      "Content-Length": "172",
+      "Connection": "keep-alive",
+      "WWW-Authenticate": "Basic realm=\"IoT coursework\""
+    },
+    "body": "<html>\r\n<head><title>401 Authorization Required</title></head>\r\n<body>\r\n<center><h1>401 Authorization Required</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+  },
+  {
+    "host": "logs.iot.test",
+    "path": "/d/iot-linux-logs/iot-logs-linux-host-and-apis",
+    "auth": "correct",
+    "status": 200,
+    "headers": {
+      "Server": "nginx",
+      "Date": "Wed, 28 Oct 2026 19:43:25 GMT",
+      "Content-Type": "text/html; charset=UTF-8",
+      "Transfer-Encoding": "chunked",
+      "Connection": "keep-alive",
+      "Cache-Control": "no-store",
+      "X-Content-Type-Options": "nosniff",
+      "X-Frame-Options": "deny",
+      "X-Xss-Protection": "1; mode=block"
+    },
+    "body": "<!DOCTYPE html>\n<html lang=\"en-US\">\n  <head>\n    \n    <meta charset=\"utf-8\" />\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" />\n    <meta name=\"viewport\" content=\"width=device-width\" />\n    <meta name=\"theme-color\" content=\"#000\" />\n\n    <title>Grafana</title>\n\n    <base href=\"/\" />\n\n    <link rel=\"icon\" type=\"image/png\" href=\"public/build/img/fav32.png\" />\n    <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"public/build/img/apple-touch-icon.png\" />\n    <link rel=\"mask-icon\" href=\"public/img/grafana_mask_icon.svg\" color=\"#F05A28\" />\n\n    \n      <link rel=\"stylesheet\" href=\"public/build/grafana.app.7ca5f36f6102524c.css\" />\n    \n\n    \n    \n    <link rel=\"stylesheet\" href=\"public/build/grafana.dark.453fbc8c19310720.css\" />\n    \n\n    <script nonce=\"\">\n      performance.mark('frontend_boot_css_time_seconds');\n    </script>\n\n    <meta name=\"apple-mobile-web-app-capable\" content=\"yes\" />\n    <meta name=\"mobile-web-app-capable\" content=\"yes\" />\n    <meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black\" />\n    <meta name=\"msapplication-TileColor\" content=\"#2b5797\" />\n    <meta name=\"msapplication-config\" content=\"public/img/browserconfig.xml\" />\n  </head>\n\n  <body class=\"theme-dark app-grafana\">\n    <div class=\"preloader\">\n      <style>\n        html {\n          height: 100%;\n        }\n\n        body {\n          height: 100%;\n          margin: 0;\n          width: 100%;\n        }\n\n        body.theme-dark {\n          background-color: #111217;\n        }\n\n        body.theme-light {\n          background-color: #fbfbfb;\n        }\n\n        .preloader {\n          height: 100%;\n          flex-direction: column;\n          display: flex;\n          justify-content: center;\n          align-items: center;\n          margin: 0 32px;\n        }\n\n        .preloader__enter {\n          opacity: 0;\n          animation-name: preloader-fade-in;\n          animation-iteration-count: 1;\n          animation-duration: 0.9s;\n          animation-delay: 0.5s;\n          animation-fill-mode: forwards;\n        }\n\n        .preloader__bounce {\n          text-align: center;\n          animation-name: preloader-bounce;\n          animation-duration: 0.9s;\n          animation-iteration-count: infinite;\n        }\n\n        .preloader__logo {\n          display: inline-block;\n          animation-name: preloader-squash;\n          animation-duration: 0.9s;\n          animation-iteration-count: infinite;\n          width: 60px;\n          height: 60px;\n          background-repeat: no-repeat;\n          background-size: contain;\n          background-image: url('public/build/img/grafana_icon.svg');\n        }\n\n        .preloader__text {\n          margin-top: 16px;\n          font-weight: 500;\n          font-size: 14px;\n          font-family: Sans-serif;\n          opacity: 0;\n          animation-name: preloader-fade-in;\n          animation-duration: 0.9s;\n          animation-delay: 0.5s;\n          animation-fill-mode: forwards;\n        }\n\n        .theme-light .preloader__text {\n"
+  },
+  {
+    "host": "traces.iot.test",
+    "path": "/api/v3/services",
+    "auth": "none",
+    "status": 401,
+    "headers": {
+      "Server": "nginx",
+      "Date": "Wed, 28 Oct 2026 19:43:25 GMT",
+      "Content-Type": "text/html",
+      "Content-Length": "172",
+      "Connection": "keep-alive",
+      "WWW-Authenticate": "Basic realm=\"IoT coursework\""
+    },
+    "body": "<html>\r\n<head><title>401 Authorization Required</title></head>\r\n<body>\r\n<center><h1>401 Authorization Required</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+  },
+  {
+    "host": "traces.iot.test",
+    "path": "/api/v3/services",
+    "auth": "correct",
+    "status": 200,
+    "headers": {
+      "Server": "nginx",
+      "Date": "Wed, 28 Oct 2026 19:43:25 GMT",
+      "Content-Type": "application/json",
+      "Content-Length": "68",
+      "Connection": "keep-alive",
+      "Traceresponse": "00-feace5bf339120bd61a5b12d5d011290-2d6a70f0c7c64cba-01"
+    },
+    "body": "{\"services\":[\"iot-predictor-api\",\"iot-feature-api\",\"iot-drift-api\"]}"
+  },
+  {
+    "host": "features.iot.test",
+    "path": "/health/ready",
+    "auth": "none",
+    "status": 401,
+    "headers": {
+      "Server": "nginx",
+      "Date": "Wed, 28 Oct 2026 19:43:25 GMT",
+      "Content-Type": "text/html",
+      "Content-Length": "172",
+      "Connection": "keep-alive",
+      "WWW-Authenticate": "Basic realm=\"IoT coursework\""
+    },
+    "body": "<html>\r\n<head><title>401 Authorization Required</title></head>\r\n<body>\r\n<center><h1>401 Authorization Required</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+  },
+  {
+    "host": "features.iot.test",
+    "path": "/health/ready",
+    "auth": "correct",
+    "status": 502,
+    "headers": {
+      "Server": "nginx",
+      "Date": "Wed, 28 Oct 2026 19:43:25 GMT",
+      "Content-Type": "text/html",
+      "Content-Length": "150",
+      "Connection": "keep-alive"
+    },
+    "body": "<html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+  }
+]

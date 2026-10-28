@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T19:47:57.860781+00:00",
+  "routes": 4,
+  "unauthorized_401": 8,
+  "https_redirects_308": 4,
+  "tls_negative_cases": 2,
+  "ca_required": true,
+  "hostname_required": true,
+  "burst_requests": 32,
+  "burst_statuses": {
+    "200": 6,
+    "429": 26
+  },
+  "burst_duration_seconds": 0.15847902699897531,
+  "recovery_status": 200,
+  "exact_feature_backend_match": true,
+  "machine_id": "P-001",
+  "scope": "Private .test DNS names resolved to existing ClusterIP with explicit SNI/CA. No public DNS, browser trust bypass, Internet gateway, max-throughput or cluster-wide network isolation claim."
+}

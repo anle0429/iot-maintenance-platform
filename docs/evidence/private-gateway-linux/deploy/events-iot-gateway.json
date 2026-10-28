@@ -1,0 +1,325 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "action": "Binding",
+      "apiVersion": "v1",
+      "eventTime": "2026-10-28T19:42:50.363217Z",
+      "firstTimestamp": null,
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "name": "iot-gateway-5dcb8485b4-nnvpq",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165162",
+        "uid": "eafce0ee-f54b-4ea6-ad62-00ba41a57c27"
+      },
+      "kind": "Event",
+      "lastTimestamp": null,
+      "message": "Successfully assigned iot-gateway/iot-gateway-5dcb8485b4-nnvpq to iot-cw-vm",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:42:50Z",
+        "name": "iot-gateway-5dcb8485b4-nnvpq.18e2c8f849d81ab9",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165169",
+        "uid": "84a27f10-5d81-4dcd-9cae-1be4b47cb90c"
+      },
+      "reason": "Scheduled",
+      "reportingComponent": "default-scheduler",
+      "reportingInstance": "default-scheduler-iot-cw-vm",
+      "source": {},
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T19:42:50Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{controller}",
+        "kind": "Pod",
+        "name": "iot-gateway-5dcb8485b4-nnvpq",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165166",
+        "uid": "eafce0ee-f54b-4ea6-ad62-00ba41a57c27"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:42:50Z",
+      "message": "Pulling image \"nginx/nginx-ingress@sha256:cf6a49ddb69065d17aded929b04ac0fa98525950ccfb98ce4723517edf6d3050\"",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:42:50Z",
+        "name": "iot-gateway-5dcb8485b4-nnvpq.18e2c8f8678a3f01",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165184",
+        "uid": "55235f25-3026-4641-9fe6-6315498683b2"
+      },
+      "reason": "Pulling",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T19:42:55Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{controller}",
+        "kind": "Pod",
+        "name": "iot-gateway-5dcb8485b4-nnvpq",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165166",
+        "uid": "eafce0ee-f54b-4ea6-ad62-00ba41a57c27"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:42:55Z",
+      "message": "Successfully pulled image \"nginx/nginx-ingress@sha256:cf6a49ddb69065d17aded929b04ac0fa98525950ccfb98ce4723517edf6d3050\" in 4.486s (4.486s including waiting). Image size: 109650353 bytes.",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:42:55Z",
+        "name": "iot-gateway-5dcb8485b4-nnvpq.18e2c8f972fbc9b4",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165216",
+        "uid": "f2db71c6-3f6c-42d3-b586-cf47c42c8212"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T19:42:55Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{controller}",
+        "kind": "Pod",
+        "name": "iot-gateway-5dcb8485b4-nnvpq",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165166",
+        "uid": "eafce0ee-f54b-4ea6-ad62-00ba41a57c27"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:42:55Z",
+      "message": "Container created",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:42:55Z",
+        "name": "iot-gateway-5dcb8485b4-nnvpq.18e2c8f9747d7cc4",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165217",
+        "uid": "b57b6c40-00e3-4a2b-ad4d-33bea36d6e2c"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T19:42:55Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{controller}",
+        "kind": "Pod",
+        "name": "iot-gateway-5dcb8485b4-nnvpq",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165166",
+        "uid": "eafce0ee-f54b-4ea6-ad62-00ba41a57c27"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:42:55Z",
+      "message": "Container started",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:42:55Z",
+        "name": "iot-gateway-5dcb8485b4-nnvpq.18e2c8f979cb4934",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165220",
+        "uid": "d83bfd56-1509-4801-a69f-f4dd3b454969"
+      },
+      "reason": "Started",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T19:42:50Z",
+      "involvedObject": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "name": "iot-gateway-5dcb8485b4",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165154",
+        "uid": "bf7755fb-cad7-486a-ad25-93f81e783469"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:42:50Z",
+      "message": "Created pod: iot-gateway-5dcb8485b4-nnvpq",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:42:50Z",
+        "name": "iot-gateway-5dcb8485b4.18e2c8f8488bd7bd",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165164",
+        "uid": "b7bd23b7-b13d-43bb-9fa8-38d4f8c683a6"
+      },
+      "reason": "SuccessfulCreate",
+      "reportingComponent": "replicaset-controller",
+      "reportingInstance": "",
+      "source": {
+        "component": "replicaset-controller"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T19:42:50Z",
+      "involvedObject": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "iot-gateway",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165152",
+        "uid": "a40346b4-7fd9-4b1b-9894-f3d3ee39feba"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:42:50Z",
+      "message": "Scaled up replica set iot-gateway-5dcb8485b4 from 0 to 1",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:42:50Z",
+        "name": "iot-gateway.18e2c8f845cb4244",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165157",
+        "uid": "8e800b69-1909-4cd7-8146-217a188b20eb"
+      },
+      "reason": "ScalingReplicaSet",
+      "reportingComponent": "deployment-controller",
+      "reportingInstance": "",
+      "source": {
+        "component": "deployment-controller"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T19:42:55Z",
+      "involvedObject": {
+        "apiVersion": "networking.k8s.io/v1",
+        "kind": "Ingress",
+        "name": "logs",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165180",
+        "uid": "ba35e739-5158-42a0-8153-aae683cf55e4"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:42:55Z",
+      "message": "Configuration for iot-gateway/logs was added or updated ",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:42:56Z",
+        "name": "logs.18e2c8f98e886bd8",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165231",
+        "uid": "0dacb103-89f1-4028-a19c-f0e3be67ff5f"
+      },
+      "reason": "AddedOrUpdated",
+      "reportingComponent": "nginx-ingress-controller",
+      "reportingInstance": "",
+      "source": {
+        "component": "nginx-ingress-controller"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T19:42:55Z",
+      "involvedObject": {
+        "apiVersion": "networking.k8s.io/v1",
+        "kind": "Ingress",
+        "name": "metrics",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165176",
+        "uid": "21ff4292-b5e5-45f0-9ee5-66cfa831a218"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:42:55Z",
+      "message": "Configuration for iot-gateway/metrics was added or updated ",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:42:56Z",
+        "name": "metrics.18e2c8f98e8875c4",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165232",
+        "uid": "648a07cd-ff57-41c4-960e-7cb0285ab142"
+      },
+      "reason": "AddedOrUpdated",
+      "reportingComponent": "nginx-ingress-controller",
+      "reportingInstance": "",
+      "source": {
+        "component": "nginx-ingress-controller"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T19:42:55Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "kind": "ConfigMap",
+        "name": "nginx-config",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165151",
+        "uid": "3b865019-2266-41a7-912a-234ec577f6e1"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:42:55Z",
+      "message": "ConfigMap iot-gateway/nginx-config updated without error",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:42:55Z",
+        "name": "nginx-config.18e2c8f98e87bd5a",
+        "namespace": "iot-gateway",
+        "resourceVersion": "165221",
+        "uid": "8db085e8-3753-4f8a-a264-61657e85f7cd"
+      },
+      "reason": "Updated",
+      "reportingComponent": "nginx-ingress-controller",
+      "reportingInstance": "",
+      "source": {
+        "component": "nginx-ingress-controller"
+      },
+      "type": "Normal"
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

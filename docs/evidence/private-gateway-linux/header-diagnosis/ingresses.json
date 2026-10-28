@@ -1,0 +1,230 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "networking.k8s.io/v1",
+            "kind": "Ingress",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"networking.k8s.io/v1\",\"kind\":\"Ingress\",\"metadata\":{\"annotations\":{\"nginx.org/basic-auth-realm\":\"IoT coursework\",\"nginx.org/basic-auth-secret\":\"gateway-auth\",\"nginx.org/limit-req-burst\":\"5\",\"nginx.org/limit-req-key\":\"${binary_remote_addr}\",\"nginx.org/limit-req-no-delay\":\"true\",\"nginx.org/limit-req-rate\":\"5r/s\",\"nginx.org/limit-req-reject-code\":\"429\",\"nginx.org/proxy-set-headers\":\"Authorization: \\\"\\\"\",\"nginx.org/ssl-redirect\":\"true\"},\"name\":\"features\",\"namespace\":\"iot-features\"},\"spec\":{\"ingressClassName\":\"iot-gateway\",\"rules\":[{\"host\":\"features.iot.test\",\"http\":{\"paths\":[{\"backend\":{\"service\":{\"name\":\"iot-feature-api\",\"port\":{\"number\":80}}},\"path\":\"/\",\"pathType\":\"Prefix\"}]}}],\"tls\":[{\"hosts\":[\"features.iot.test\"],\"secretName\":\"gateway-tls\"}]}}\n",
+                    "nginx.org/basic-auth-realm": "IoT coursework",
+                    "nginx.org/basic-auth-secret": "gateway-auth",
+                    "nginx.org/limit-req-burst": "5",
+                    "nginx.org/limit-req-key": "${binary_remote_addr}",
+                    "nginx.org/limit-req-no-delay": "true",
+                    "nginx.org/limit-req-rate": "5r/s",
+                    "nginx.org/limit-req-reject-code": "429",
+                    "nginx.org/proxy-set-headers": "Authorization: \"\"",
+                    "nginx.org/ssl-redirect": "true"
+                },
+                "creationTimestamp": "2026-10-28T19:42:50Z",
+                "generation": 1,
+                "name": "features",
+                "namespace": "iot-features",
+                "resourceVersion": "165916",
+                "uid": "666d915a-1dad-4940-8e10-24e9d523b701"
+            },
+            "spec": {
+                "ingressClassName": "iot-gateway",
+                "rules": [
+                    {
+                        "host": "features.iot.test",
+                        "http": {
+                            "paths": [
+                                {
+                                    "backend": {
+                                        "service": {
+                                            "name": "iot-feature-api",
+                                            "port": {
+                                                "number": 80
+                                            }
+                                        }
+                                    },
+                                    "path": "/",
+                                    "pathType": "Prefix"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "tls": [
+                    {
+                        "hosts": [
+                            "features.iot.test"
+                        ],
+                        "secretName": "gateway-tls"
+                    }
+                ]
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "networking.k8s.io/v1",
+            "kind": "Ingress",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"networking.k8s.io/v1\",\"kind\":\"Ingress\",\"metadata\":{\"annotations\":{\"nginx.org/basic-auth-realm\":\"IoT coursework\",\"nginx.org/basic-auth-secret\":\"gateway-auth\",\"nginx.org/proxy-set-headers\":\"Authorization: \\\"\\\"\",\"nginx.org/ssl-redirect\":\"true\"},\"name\":\"logs\",\"namespace\":\"iot-gateway\"},\"spec\":{\"ingressClassName\":\"iot-gateway\",\"rules\":[{\"host\":\"logs.iot.test\",\"http\":{\"paths\":[{\"backend\":{\"service\":{\"name\":\"logs\",\"port\":{\"number\":13002}}},\"path\":\"/\",\"pathType\":\"Prefix\"}]}}],\"tls\":[{\"hosts\":[\"logs.iot.test\"],\"secretName\":\"gateway-tls\"}]}}\n",
+                    "nginx.org/basic-auth-realm": "IoT coursework",
+                    "nginx.org/basic-auth-secret": "gateway-auth",
+                    "nginx.org/proxy-set-headers": "Authorization: \"\"",
+                    "nginx.org/ssl-redirect": "true"
+                },
+                "creationTimestamp": "2026-10-28T19:42:50Z",
+                "generation": 1,
+                "name": "logs",
+                "namespace": "iot-gateway",
+                "resourceVersion": "165913",
+                "uid": "ba35e739-5158-42a0-8153-aae683cf55e4"
+            },
+            "spec": {
+                "ingressClassName": "iot-gateway",
+                "rules": [
+                    {
+                        "host": "logs.iot.test",
+                        "http": {
+                            "paths": [
+                                {
+                                    "backend": {
+                                        "service": {
+                                            "name": "logs",
+                                            "port": {
+                                                "number": 13002
+                                            }
+                                        }
+                                    },
+                                    "path": "/",
+                                    "pathType": "Prefix"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "tls": [
+                    {
+                        "hosts": [
+                            "logs.iot.test"
+                        ],
+                        "secretName": "gateway-tls"
+                    }
+                ]
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "networking.k8s.io/v1",
+            "kind": "Ingress",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"networking.k8s.io/v1\",\"kind\":\"Ingress\",\"metadata\":{\"annotations\":{\"nginx.org/basic-auth-realm\":\"IoT coursework\",\"nginx.org/basic-auth-secret\":\"gateway-auth\",\"nginx.org/proxy-set-headers\":\"Authorization: \\\"\\\"\",\"nginx.org/ssl-redirect\":\"true\"},\"name\":\"metrics\",\"namespace\":\"iot-gateway\"},\"spec\":{\"ingressClassName\":\"iot-gateway\",\"rules\":[{\"host\":\"metrics.iot.test\",\"http\":{\"paths\":[{\"backend\":{\"service\":{\"name\":\"metrics\",\"port\":{\"number\":13002}}},\"path\":\"/\",\"pathType\":\"Prefix\"}]}}],\"tls\":[{\"hosts\":[\"metrics.iot.test\"],\"secretName\":\"gateway-tls\"}]}}\n",
+                    "nginx.org/basic-auth-realm": "IoT coursework",
+                    "nginx.org/basic-auth-secret": "gateway-auth",
+                    "nginx.org/proxy-set-headers": "Authorization: \"\"",
+                    "nginx.org/ssl-redirect": "true"
+                },
+                "creationTimestamp": "2026-10-28T19:42:50Z",
+                "generation": 1,
+                "name": "metrics",
+                "namespace": "iot-gateway",
+                "resourceVersion": "165912",
+                "uid": "21ff4292-b5e5-45f0-9ee5-66cfa831a218"
+            },
+            "spec": {
+                "ingressClassName": "iot-gateway",
+                "rules": [
+                    {
+                        "host": "metrics.iot.test",
+                        "http": {
+                            "paths": [
+                                {
+                                    "backend": {
+                                        "service": {
+                                            "name": "metrics",
+                                            "port": {
+                                                "number": 13002
+                                            }
+                                        }
+                                    },
+                                    "path": "/",
+                                    "pathType": "Prefix"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "tls": [
+                    {
+                        "hosts": [
+                            "metrics.iot.test"
+                        ],
+                        "secretName": "gateway-tls"
+                    }
+                ]
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "networking.k8s.io/v1",
+            "kind": "Ingress",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"networking.k8s.io/v1\",\"kind\":\"Ingress\",\"metadata\":{\"annotations\":{\"nginx.org/basic-auth-realm\":\"IoT coursework\",\"nginx.org/basic-auth-secret\":\"gateway-auth\",\"nginx.org/proxy-set-headers\":\"Authorization: \\\"\\\"\",\"nginx.org/ssl-redirect\":\"true\"},\"name\":\"traces\",\"namespace\":\"iot-observability\"},\"spec\":{\"ingressClassName\":\"iot-gateway\",\"rules\":[{\"host\":\"traces.iot.test\",\"http\":{\"paths\":[{\"backend\":{\"service\":{\"name\":\"iot-jaeger\",\"port\":{\"number\":16686}}},\"path\":\"/\",\"pathType\":\"Prefix\"}]}}],\"tls\":[{\"hosts\":[\"traces.iot.test\"],\"secretName\":\"gateway-tls\"}]}}\n",
+                    "nginx.org/basic-auth-realm": "IoT coursework",
+                    "nginx.org/basic-auth-secret": "gateway-auth",
+                    "nginx.org/proxy-set-headers": "Authorization: \"\"",
+                    "nginx.org/ssl-redirect": "true"
+                },
+                "creationTimestamp": "2026-10-28T19:42:50Z",
+                "generation": 1,
+                "name": "traces",
+                "namespace": "iot-observability",
+                "resourceVersion": "165914",
+                "uid": "5fed98a9-1037-44a1-be5f-f74d1f3df21d"
+            },
+            "spec": {
+                "ingressClassName": "iot-gateway",
+                "rules": [
+                    {
+                        "host": "traces.iot.test",
+                        "http": {
+                            "paths": [
+                                {
+                                    "backend": {
+                                        "service": {
+                                            "name": "iot-jaeger",
+                                            "port": {
+                                                "number": 16686
+                                            }
+                                        }
+                                    },
+                                    "path": "/",
+                                    "pathType": "Prefix"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "tls": [
+                    {
+                        "hosts": [
+                            "traces.iot.test"
+                        ],
+                        "secretName": "gateway-tls"
+                    }
+                ]
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

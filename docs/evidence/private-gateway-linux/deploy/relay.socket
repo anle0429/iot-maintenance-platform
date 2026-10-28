@@ -1,0 +1,7 @@
+[Unit]
+Description=IoT gateway private CNI Grafana socket
+[Socket]
+ListenStream=10.52.0.1:13002
+NoDelay=true
+[Install]
+WantedBy=sockets.target

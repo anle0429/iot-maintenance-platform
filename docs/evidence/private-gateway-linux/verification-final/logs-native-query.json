@@ -1,0 +1,25 @@
+{
+  "host": "logs.iot.test",
+  "path": "/api/datasources/proxy/uid/iot-logs-loki/loki/api/v1/labels",
+  "auth": "correct",
+  "status": 200,
+  "headers": {
+    "Server": "nginx",
+    "Date": "Wed, 28 Oct 2026 19:47:52 GMT",
+    "Content-Type": "application/json; charset=UTF-8",
+    "Content-Length": "131",
+    "Connection": "keep-alive",
+    "Content-Security-Policy": "sandbox",
+    "Via": "1.1 grafana",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "deny",
+    "X-Xss-Protection": "1; mode=block"
+  },
+  "body": "{\"status\":\"success\",\"data\":[\"collection\",\"container\",\"host\",\"level\",\"namespace\",\"pod\",\"service\",\"service_name\",\"source\",\"stream\"]}\n",
+  "elapsed_seconds": 0.0731362079968676,
+  "tls": {
+    "version": "TLSv1.3",
+    "ca_verified": true,
+    "hostname_verified": true
+  }
+}

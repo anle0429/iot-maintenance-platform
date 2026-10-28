@@ -1,0 +1,250 @@
+I20261028 19:42:55.580203   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=online-serve-jenkins-6 Adding service: online-serve-jenkins-6
+I20261028 19:42:55.580223   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=online-serve-jenkins-8 Adding service: online-serve-jenkins-8
+I20261028 19:42:55.580241   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=feature-api Adding service: feature-api
+I20261028 19:42:55.580249   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=iot-ab-serve-jenkins-7 Adding service: iot-ab-serve-jenkins-7
+I20261028 19:42:55.580256   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=online-serve-jenkins-5 Adding service: online-serve-jenkins-5
+W20261028 19:42:55.652208   1 controller.go:3723] resource_namespace=iot-features resource_kind=Ingress resource_name=features Error retrieving endpoints for the service iot-feature-api: no endpointslices for target port 8080 in service iot-feature-api
+2026/10/28 19:42:55 [notice] 12#12: signal 1 (SIGHUP) received from 19, reconfiguring
+2026/10/28 19:42:55 [notice] 12#12: reconfiguring
+2026/10/28 19:42:55 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:42:55 [notice] 12#12: start worker processes
+2026/10/28 19:42:55 [notice] 12#12: start worker process 20
+2026/10/28 19:42:55 [notice] 15#15: gracefully shutting down
+2026/10/28 19:42:55 [notice] 15#15: exiting
+2026/10/28 19:42:55 [notice] 15#15: exit
+I20261028 19:42:55.810704   1 main.go:116] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"iot-gateway", Name:"nginx-config", UID:"3b865019-2266-41a7-912a-234ec577f6e1", APIVersion:"v1", ResourceVersion:"165151", FieldPath:""}): type: 'Normal' reason: 'Updated' ConfigMap iot-gateway/nginx-config updated without error
+I20261028 19:42:55.810791   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-features", Name:"features", UID:"666d915a-1dad-4940-8e10-24e9d523b701", APIVersion:"networking.k8s.io/v1", ResourceVersion:"165182", FieldPath:""}): type: 'Normal' reason: 'AddedOrUpdated' Configuration for iot-features/features was added or updated 
+I20261028 19:42:55.810805   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-gateway", Name:"logs", UID:"ba35e739-5158-42a0-8153-aae683cf55e4", APIVersion:"networking.k8s.io/v1", ResourceVersion:"165180", FieldPath:""}): type: 'Normal' reason: 'AddedOrUpdated' Configuration for iot-gateway/logs was added or updated 
+I20261028 19:42:55.810813   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-gateway", Name:"metrics", UID:"21ff4292-b5e5-45f0-9ee5-66cfa831a218", APIVersion:"networking.k8s.io/v1", ResourceVersion:"165176", FieldPath:""}): type: 'Normal' reason: 'AddedOrUpdated' Configuration for iot-gateway/metrics was added or updated 
+I20261028 19:42:55.810826   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-observability", Name:"traces", UID:"5fed98a9-1037-44a1-be5f-f74d1f3df21d", APIVersion:"networking.k8s.io/v1", ResourceVersion:"165181", FieldPath:""}): type: 'Normal' reason: 'AddedOrUpdated' Configuration for iot-observability/traces was added or updated 
+2026/10/28 19:42:55 [notice] 12#12: signal 17 (SIGCHLD) received from 15
+2026/10/28 19:42:55 [notice] 12#12: worker process 15 exited with code 0
+2026/10/28 19:42:55 [notice] 12#12: signal 29 (SIGIO) received
+E20261028 19:43:00.529684   1 main.go:1217] Error updating pod with labels on attempt 2 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+E20261028 19:43:05.535721   1 main.go:1217] Error updating pod with labels on attempt 3 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+E20261028 19:43:10.540566   1 main.go:1217] Error updating pod with labels on attempt 4 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+E20261028 19:43:15.546091   1 main.go:1217] Error updating pod with labels on attempt 5 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+E20261028 19:43:20.551053   1 main.go:1217] Error updating pod with labels on attempt 6 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+2026-10-28T19:43:23+00:00 metrics.iot.test 401 GET /api/health
+2026-10-28T19:43:25+00:00 metrics.iot.test 200 GET /api/health
+2026-10-28T19:43:25+00:00 logs.iot.test 401 GET /d/iot-linux-logs/iot-logs-linux-host-and-apis
+E20261028 19:43:25.555696   1 main.go:1217] Error updating pod with labels on attempt 7 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+2026-10-28T19:43:25+00:00 logs.iot.test 200 GET /d/iot-linux-logs/iot-logs-linux-host-and-apis
+2026-10-28T19:43:25+00:00 traces.iot.test 401 GET /api/v3/services
+2026-10-28T19:43:25+00:00 traces.iot.test 200 GET /api/v3/services
+2026-10-28T19:43:25+00:00 features.iot.test 401 GET /health/ready
+2026/10/28 19:43:25 [error] 20#20: *13 connect() failed (111: Connection refused) while connecting to upstream, client: 10.52.0.1, server: features.iot.test, request: "GET /health/ready HTTP/1.1", upstream: "http://127.0.0.1:8181/health/ready", host: "features.iot.test"
+2026-10-28T19:43:25+00:00 features.iot.test 502 GET /health/ready
+E20261028 19:43:30.560214   1 main.go:1217] Error updating pod with labels on attempt 8 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+E20261028 19:43:35.565272   1 main.go:1217] Error updating pod with labels on attempt 9 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+E20261028 19:43:40.570119   1 main.go:1217] Error updating pod with labels on attempt 10 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+E20261028 19:43:40.570140   1 main.go:1231] Failed to update pod labels after 10 attempts
+W20261028 19:44:27.626017   1 controller.go:3723] resource_namespace=iot-features resource_kind=Ingress resource_name=features Error retrieving endpoints for the service iot-feature-api: no endpointslices for target port 8080 in service iot-feature-api
+2026/10/28 19:44:27 [notice] 12#12: signal 1 (SIGHUP) received from 23, reconfiguring
+2026/10/28 19:44:27 [notice] 12#12: reconfiguring
+2026/10/28 19:44:27 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:44:27 [notice] 12#12: start worker processes
+2026/10/28 19:44:27 [notice] 12#12: start worker process 24
+2026/10/28 19:44:27 [notice] 20#20: gracefully shutting down
+2026/10/28 19:44:27 [notice] 20#20: exiting
+2026/10/28 19:44:27 [notice] 20#20: exit
+2026/10/28 19:44:27 [notice] 12#12: signal 17 (SIGCHLD) received from 20
+2026/10/28 19:44:27 [notice] 12#12: worker process 20 exited with code 0
+2026/10/28 19:44:27 [notice] 12#12: signal 29 (SIGIO) received
+2026/10/28 19:44:34 [notice] 12#12: signal 1 (SIGHUP) received from 26, reconfiguring
+2026/10/28 19:44:34 [notice] 12#12: reconfiguring
+2026/10/28 19:44:34 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:44:34 [notice] 12#12: start worker processes
+2026/10/28 19:44:34 [notice] 12#12: start worker process 27
+2026/10/28 19:44:34 [notice] 24#24: gracefully shutting down
+2026/10/28 19:44:34 [notice] 24#24: exiting
+2026/10/28 19:44:34 [notice] 24#24: exit
+2026/10/28 19:44:34 [notice] 12#12: signal 17 (SIGCHLD) received from 24
+2026/10/28 19:44:34 [notice] 12#12: worker process 24 exited with code 0
+2026/10/28 19:44:34 [notice] 12#12: signal 29 (SIGIO) received
+2026/10/28 19:44:34 [notice] 12#12: signal 1 (SIGHUP) received from 29, reconfiguring
+2026/10/28 19:44:34 [notice] 12#12: reconfiguring
+2026/10/28 19:44:34 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:44:34 [notice] 12#12: start worker processes
+2026/10/28 19:44:34 [notice] 12#12: start worker process 30
+2026/10/28 19:44:34 [notice] 27#27: gracefully shutting down
+2026/10/28 19:44:34 [notice] 27#27: exiting
+2026/10/28 19:44:34 [notice] 27#27: exit
+2026/10/28 19:44:35 [notice] 12#12: signal 17 (SIGCHLD) received from 27
+2026/10/28 19:44:35 [notice] 12#12: worker process 27 exited with code 0
+2026/10/28 19:44:35 [notice] 12#12: signal 29 (SIGIO) received
+2026/10/28 19:44:40 [notice] 12#12: signal 1 (SIGHUP) received from 32, reconfiguring
+2026/10/28 19:44:40 [notice] 12#12: reconfiguring
+2026/10/28 19:44:40 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:44:40 [notice] 12#12: start worker processes
+2026/10/28 19:44:40 [notice] 12#12: start worker process 33
+2026/10/28 19:44:40 [notice] 30#30: gracefully shutting down
+2026/10/28 19:44:40 [notice] 30#30: exiting
+2026/10/28 19:44:40 [notice] 30#30: exit
+2026/10/28 19:44:40 [notice] 12#12: signal 17 (SIGCHLD) received from 30
+2026/10/28 19:44:40 [notice] 12#12: worker process 30 exited with code 0
+2026/10/28 19:44:40 [notice] 12#12: signal 29 (SIGIO) received
+I20261028 19:45:14.236518   1 manager.go:225] Deleting config from /etc/nginx/conf.d/iot-gateway-metrics.conf
+2026/10/28 19:45:14 [notice] 12#12: signal 1 (SIGHUP) received from 35, reconfiguring
+2026/10/28 19:45:14 [notice] 12#12: reconfiguring
+2026/10/28 19:45:14 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:45:14 [notice] 12#12: start worker processes
+2026/10/28 19:45:14 [notice] 12#12: start worker process 36
+2026/10/28 19:45:14 [notice] 33#33: gracefully shutting down
+2026/10/28 19:45:14 [notice] 33#33: exiting
+2026/10/28 19:45:14 [notice] 33#33: exit
+I20261028 19:45:14.395190   1 manager.go:225] Deleting config from /etc/nginx/conf.d/iot-gateway-logs.conf
+I20261028 19:45:14.395585   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-gateway", Name:"metrics", UID:"21ff4292-b5e5-45f0-9ee5-66cfa831a218", APIVersion:"networking.k8s.io/v1", ResourceVersion:"165176", FieldPath:""}): type: 'Warning' reason: 'Rejected' iot-gateway/metrics was rejected: with error: annotations.nginx.org/proxy-set-headers: Invalid value: "Authorization: \"\"": must have all '"' (double quotes) escaped and must not end with an unescaped '\' (backslash) (regex used for validation is '([^"\\]|\\.)*')
+2026/10/28 19:45:14 [notice] 12#12: signal 17 (SIGCHLD) received from 33
+2026/10/28 19:45:14 [notice] 12#12: worker process 33 exited with code 0
+2026/10/28 19:45:14 [notice] 12#12: signal 29 (SIGIO) received
+2026/10/28 19:45:14 [notice] 12#12: signal 1 (SIGHUP) received from 38, reconfiguring
+2026/10/28 19:45:14 [notice] 12#12: reconfiguring
+2026/10/28 19:45:14 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:45:14 [notice] 12#12: start worker processes
+2026/10/28 19:45:14 [notice] 12#12: start worker process 39
+2026/10/28 19:45:14 [notice] 36#36: gracefully shutting down
+2026/10/28 19:45:14 [notice] 36#36: exiting
+2026/10/28 19:45:14 [notice] 36#36: exit
+I20261028 19:45:14.549438   1 manager.go:225] Deleting config from /etc/nginx/conf.d/iot-observability-traces.conf
+I20261028 19:45:14.550036   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-gateway", Name:"logs", UID:"ba35e739-5158-42a0-8153-aae683cf55e4", APIVersion:"networking.k8s.io/v1", ResourceVersion:"165180", FieldPath:""}): type: 'Warning' reason: 'Rejected' iot-gateway/logs was rejected: with error: annotations.nginx.org/proxy-set-headers: Invalid value: "Authorization: \"\"": must have all '"' (double quotes) escaped and must not end with an unescaped '\' (backslash) (regex used for validation is '([^"\\]|\\.)*')
+2026/10/28 19:45:14 [notice] 12#12: signal 17 (SIGCHLD) received from 36
+2026/10/28 19:45:14 [notice] 12#12: worker process 36 exited with code 0
+2026/10/28 19:45:14 [notice] 12#12: signal 29 (SIGIO) received
+2026/10/28 19:45:14 [notice] 12#12: signal 1 (SIGHUP) received from 41, reconfiguring
+2026/10/28 19:45:14 [notice] 12#12: reconfiguring
+2026/10/28 19:45:14 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:45:14 [notice] 12#12: start worker processes
+2026/10/28 19:45:14 [notice] 12#12: start worker process 42
+2026/10/28 19:45:14 [notice] 39#39: gracefully shutting down
+2026/10/28 19:45:14 [notice] 39#39: exiting
+2026/10/28 19:45:14 [notice] 39#39: exit
+I20261028 19:45:14.703575   1 manager.go:225] Deleting config from /etc/nginx/conf.d/iot-features-features.conf
+I20261028 19:45:14.703889   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-observability", Name:"traces", UID:"5fed98a9-1037-44a1-be5f-f74d1f3df21d", APIVersion:"networking.k8s.io/v1", ResourceVersion:"165181", FieldPath:""}): type: 'Warning' reason: 'Rejected' iot-observability/traces was rejected: with error: annotations.nginx.org/proxy-set-headers: Invalid value: "Authorization: \"\"": must have all '"' (double quotes) escaped and must not end with an unescaped '\' (backslash) (regex used for validation is '([^"\\]|\\.)*')
+2026/10/28 19:45:14 [notice] 12#12: signal 17 (SIGCHLD) received from 39
+2026/10/28 19:45:14 [notice] 12#12: worker process 39 exited with code 0
+2026/10/28 19:45:14 [notice] 12#12: signal 29 (SIGIO) received
+2026/10/28 19:45:14 [notice] 12#12: signal 1 (SIGHUP) received from 44, reconfiguring
+2026/10/28 19:45:14 [notice] 12#12: reconfiguring
+2026/10/28 19:45:14 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:45:14 [notice] 12#12: start worker processes
+2026/10/28 19:45:14 [notice] 12#12: start worker process 45
+2026/10/28 19:45:14 [notice] 42#42: gracefully shutting down
+2026/10/28 19:45:14 [notice] 42#42: exiting
+2026/10/28 19:45:14 [notice] 42#42: exit
+I20261028 19:45:14.854443   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-features", Name:"features", UID:"666d915a-1dad-4940-8e10-24e9d523b701", APIVersion:"networking.k8s.io/v1", ResourceVersion:"165182", FieldPath:""}): type: 'Warning' reason: 'Rejected' iot-features/features was rejected: with error: annotations.nginx.org/proxy-set-headers: Invalid value: "Authorization: \"\"": must have all '"' (double quotes) escaped and must not end with an unescaped '\' (backslash) (regex used for validation is '([^"\\]|\\.)*')
+2026/10/28 19:45:14 [notice] 12#12: signal 17 (SIGCHLD) received from 42
+2026/10/28 19:45:14 [notice] 12#12: worker process 42 exited with code 0
+2026/10/28 19:45:14 [notice] 12#12: signal 29 (SIGIO) received
+2026/10/28 19:46:36 [notice] 12#12: signal 1 (SIGHUP) received from 47, reconfiguring
+2026/10/28 19:46:36 [notice] 12#12: reconfiguring
+2026/10/28 19:46:36 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:46:36 [notice] 12#12: start worker processes
+2026/10/28 19:46:36 [notice] 12#12: start worker process 48
+2026/10/28 19:46:36 [notice] 45#45: gracefully shutting down
+2026/10/28 19:46:36 [notice] 45#45: exiting
+2026/10/28 19:46:36 [notice] 45#45: exit
+I20261028 19:46:36.370631   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-gateway", Name:"metrics", UID:"21ff4292-b5e5-45f0-9ee5-66cfa831a218", APIVersion:"networking.k8s.io/v1", ResourceVersion:"166271", FieldPath:""}): type: 'Normal' reason: 'AddedOrUpdated' Configuration for iot-gateway/metrics was added or updated 
+I20261028 19:46:36.370910   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-gateway", Name:"logs", UID:"ba35e739-5158-42a0-8153-aae683cf55e4", APIVersion:"networking.k8s.io/v1", ResourceVersion:"166272", FieldPath:""}): type: 'Normal' reason: 'AddedOrUpdated' Configuration for iot-gateway/logs was added or updated 
+2026/10/28 19:46:36 [notice] 12#12: signal 17 (SIGCHLD) received from 45
+2026/10/28 19:46:36 [notice] 12#12: worker process 45 exited with code 0
+2026/10/28 19:46:36 [notice] 12#12: signal 29 (SIGIO) received
+I20261028 19:46:36.372512   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-observability", Name:"traces", UID:"5fed98a9-1037-44a1-be5f-f74d1f3df21d", APIVersion:"networking.k8s.io/v1", ResourceVersion:"166273", FieldPath:""}): type: 'Normal' reason: 'AddedOrUpdated' Configuration for iot-observability/traces was added or updated 
+I20261028 19:46:36.373125   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-features", Name:"features", UID:"666d915a-1dad-4940-8e10-24e9d523b701", APIVersion:"networking.k8s.io/v1", ResourceVersion:"166274", FieldPath:""}): type: 'Normal' reason: 'AddedOrUpdated' Configuration for iot-features/features was added or updated 
+2026/10/28 19:46:36 [notice] 12#12: signal 1 (SIGHUP) received from 50, reconfiguring
+2026/10/28 19:46:36 [notice] 12#12: reconfiguring
+2026/10/28 19:46:36 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:46:36 [notice] 12#12: start worker processes
+2026/10/28 19:46:36 [notice] 12#12: start worker process 51
+2026/10/28 19:46:36 [notice] 48#48: gracefully shutting down
+2026/10/28 19:46:36 [notice] 48#48: exiting
+2026/10/28 19:46:36 [notice] 48#48: exit
+2026/10/28 19:46:36 [notice] 12#12: signal 17 (SIGCHLD) received from 48
+2026/10/28 19:46:36 [notice] 12#12: worker process 48 exited with code 0
+2026/10/28 19:46:36 [notice] 12#12: signal 29 (SIGIO) received
+2026-10-28T19:47:06+00:00 metrics.iot.test 401 GET /api/dashboards/uid/iot-api-observability
+2026/10/28 19:47:06 [error] 51#51: *29 user "coursework": password mismatch, client: 10.52.0.1, server: metrics.iot.test, request: "GET /api/dashboards/uid/iot-api-observability HTTP/1.1", host: "metrics.iot.test"
+2026-10-28T19:47:06+00:00 metrics.iot.test 401 GET /api/dashboards/uid/iot-api-observability
+2026-10-28T19:47:07+00:00 metrics.iot.test 200 GET /api/dashboards/uid/iot-api-observability
+2026-10-28T19:47:07+00:00 metrics.iot.test 308 GET /api/dashboards/uid/iot-api-observability
+2026-10-28T19:47:49+00:00 metrics.iot.test 401 GET /api/dashboards/uid/iot-api-observability
+2026-10-28T19:47:50+00:00 metrics.iot.test 401 GET /api/dashboards/uid/iot-api-observability
+2026/10/28 19:47:50 [error] 51#51: *34 user "coursework": password mismatch, client: 10.52.0.1, server: metrics.iot.test, request: "GET /api/dashboards/uid/iot-api-observability HTTP/1.1", host: "metrics.iot.test"
+2026-10-28T19:47:50+00:00 metrics.iot.test 200 GET /api/dashboards/uid/iot-api-observability
+2026-10-28T19:47:50+00:00 metrics.iot.test 308 GET /api/dashboards/uid/iot-api-observability
+2026-10-28T19:47:50+00:00 logs.iot.test 401 GET /api/dashboards/uid/iot-linux-logs
+2026/10/28 19:47:50 [error] 51#51: *38 user "coursework": password mismatch, client: 10.52.0.1, server: logs.iot.test, request: "GET /api/dashboards/uid/iot-linux-logs HTTP/1.1", host: "logs.iot.test"
+2026-10-28T19:47:50+00:00 logs.iot.test 401 GET /api/dashboards/uid/iot-linux-logs
+2026-10-28T19:47:51+00:00 logs.iot.test 200 GET /api/dashboards/uid/iot-linux-logs
+2026-10-28T19:47:51+00:00 logs.iot.test 308 GET /api/dashboards/uid/iot-linux-logs
+2026-10-28T19:47:51+00:00 traces.iot.test 401 GET /api/v3/services
+2026-10-28T19:47:51+00:00 traces.iot.test 401 GET /api/v3/services
+2026/10/28 19:47:51 [error] 51#51: *43 user "coursework": password mismatch, client: 10.52.0.1, server: traces.iot.test, request: "GET /api/v3/services HTTP/1.1", host: "traces.iot.test"
+2026-10-28T19:47:51+00:00 traces.iot.test 200 GET /api/v3/services
+2026-10-28T19:47:52+00:00 traces.iot.test 308 GET /api/v3/services
+2026-10-28T19:47:52+00:00 features.iot.test 401 GET /health/ready
+2026-10-28T19:47:52+00:00 features.iot.test 401 GET /health/ready
+2026/10/28 19:47:52 [error] 51#51: *48 user "coursework": password mismatch, client: 10.52.0.1, server: features.iot.test, request: "GET /health/ready HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:52+00:00 features.iot.test 200 GET /health/ready
+2026-10-28T19:47:52+00:00 features.iot.test 308 GET /health/ready
+2026-10-28T19:47:52+00:00 logs.iot.test 200 GET /api/datasources/proxy/uid/iot-logs-loki/loki/api/v1/labels
+2026-10-28T19:47:53+00:00 features.iot.test 200 GET /v1/machines/P-001/features
+2026-10-28T19:47:55+00:00 features.iot.test 200 GET /v1/machines/P-001/features
+2026-10-28T19:47:55+00:00 features.iot.test 200 GET /v1/machines/P-001/features
+2026-10-28T19:47:55+00:00 features.iot.test 200 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *64 limiting requests, excess: 5.795 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026-10-28T19:47:55+00:00 features.iot.test 200 GET /v1/machines/P-001/features
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *66 limiting requests, excess: 5.750 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 200 GET /v1/machines/P-001/features
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *68 limiting requests, excess: 5.730 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *69 limiting requests, excess: 5.705 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 200 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *70 limiting requests, excess: 5.685 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *71 limiting requests, excess: 5.665 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *72 limiting requests, excess: 5.645 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026/10/28 19:47:55 [error] 51#51: *73 limiting requests, excess: 5.625 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *74 limiting requests, excess: 5.600 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *75 limiting requests, excess: 5.585 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *76 limiting requests, excess: 5.560 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *77 limiting requests, excess: 5.540 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *78 limiting requests, excess: 5.520 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *79 limiting requests, excess: 5.500 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *80 limiting requests, excess: 5.485 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *81 limiting requests, excess: 5.465 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026/10/28 19:47:55 [error] 51#51: *82 limiting requests, excess: 5.440 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *83 limiting requests, excess: 5.420 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *84 limiting requests, excess: 5.400 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *85 limiting requests, excess: 5.380 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026/10/28 19:47:55 [error] 51#51: *86 limiting requests, excess: 5.360 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *87 limiting requests, excess: 5.340 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *88 limiting requests, excess: 5.320 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *89 limiting requests, excess: 5.300 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026/10/28 19:47:55 [error] 51#51: *90 limiting requests, excess: 5.280 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026/10/28 19:47:55 [error] 51#51: *91 limiting requests, excess: 5.275 by zone "iot-features/features", client: 10.52.0.1, server: features.iot.test, request: "GET /v1/machines/P-001/features HTTP/1.1", host: "features.iot.test"
+2026-10-28T19:47:55+00:00 features.iot.test 429 GET /v1/machines/P-001/features
+2026-10-28T19:47:57+00:00 features.iot.test 200 GET /v1/machines/P-001/features

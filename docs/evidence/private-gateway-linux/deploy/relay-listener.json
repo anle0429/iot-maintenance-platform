@@ -1,0 +1,7 @@
+{
+  "listener": "10.52.0.1:13002",
+  "upstream": "127.0.0.1:13001",
+  "public": false,
+  "mechanism": "systemd-socket-proxyd",
+  "scope": "CNI-private bridge; backends remain trusted internal; no public listener or new cloud firewall."
+}

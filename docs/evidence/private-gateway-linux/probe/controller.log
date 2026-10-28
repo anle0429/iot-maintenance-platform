@@ -1,0 +1,61 @@
+NGINX Ingress Controller Version=5.7.0 Commit=8b0b6ca890ad48157561d2aa3fd2c045758ae47d Date=2026-10-13T16:55:57Z DirtyState=false Arch=linux/amd64 Go=go1.27.2
+I20261028 19:42:55.492037   1 flags.go:359] Starting with flags: ["-ingress-class=iot-gateway" "-watch-namespace=iot-gateway,iot-features,iot-observability" "-enable-custom-resources=false" "-enable-leader-election=false" "-enable-telemetry-reporting=false" "-nginx-configmaps=iot-gateway/nginx-config" "-nginx-status=false"]
+I20261028 19:42:55.492227   1 flags.go:377] Namespaces watched: [iot-gateway iot-features iot-observability]
+I20261028 19:42:55.497351   1 main.go:508] Kubernetes version: 1.35.9
+I20261028 19:42:55.519747   1 main.go:668] Using nginx version: nginx/1.31.7
+
+E20261028 19:42:55.524239   1 main.go:1217] Error updating pod with labels on attempt 1 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+2026/10/28 19:42:55 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:42:55 [notice] 12#12: nginx/1.31.7
+2026/10/28 19:42:55 [notice] 12#12: built by gcc 14.2.0 (Debian 14.2.0-19) 
+2026/10/28 19:42:55 [notice] 12#12: OS: Linux 7.0.0-1014-gcp
+2026/10/28 19:42:55 [notice] 12#12: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2026/10/28 19:42:55 [notice] 12#12: start worker processes
+2026/10/28 19:42:55 [notice] 12#12: start worker process 15
+I20261028 19:42:55.558472   1 service.go:29] resource_namespace=iot-gateway resource_kind=Service resource_name=iot-gateway Adding service: iot-gateway
+I20261028 19:42:55.558506   1 service.go:29] resource_namespace=iot-gateway resource_kind=Service resource_name=logs Adding service: logs
+I20261028 19:42:55.558612   1 service.go:29] resource_namespace=iot-gateway resource_kind=Service resource_name=metrics Adding service: metrics
+I20261028 19:42:55.579722   1 service.go:29] resource_namespace=iot-observability resource_kind=Service resource_name=iot-jaeger Adding service: iot-jaeger
+I20261028 19:42:55.580061   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=online-serve-jenkins-7 Adding service: online-serve-jenkins-7
+I20261028 19:42:55.580088   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=iot-ab-serve-jenkins-6 Adding service: iot-ab-serve-jenkins-6
+I20261028 19:42:55.580098   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=iot-ab-serve-jenkins-8 Adding service: iot-ab-serve-jenkins-8
+I20261028 19:42:55.580108   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=iot-drift-api Adding service: iot-drift-api
+I20261028 19:42:55.580128   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=iot-feature-api Adding service: iot-feature-api
+I20261028 19:42:55.580137   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=online Adding service: online
+I20261028 19:42:55.580203   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=online-serve-jenkins-6 Adding service: online-serve-jenkins-6
+I20261028 19:42:55.580223   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=online-serve-jenkins-8 Adding service: online-serve-jenkins-8
+I20261028 19:42:55.580241   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=feature-api Adding service: feature-api
+I20261028 19:42:55.580249   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=iot-ab-serve-jenkins-7 Adding service: iot-ab-serve-jenkins-7
+I20261028 19:42:55.580256   1 service.go:29] resource_namespace=iot-features resource_kind=Service resource_name=online-serve-jenkins-5 Adding service: online-serve-jenkins-5
+W20261028 19:42:55.652208   1 controller.go:3723] resource_namespace=iot-features resource_kind=Ingress resource_name=features Error retrieving endpoints for the service iot-feature-api: no endpointslices for target port 8080 in service iot-feature-api
+2026/10/28 19:42:55 [notice] 12#12: signal 1 (SIGHUP) received from 19, reconfiguring
+2026/10/28 19:42:55 [notice] 12#12: reconfiguring
+2026/10/28 19:42:55 [notice] 12#12: using the "epoll" event method
+2026/10/28 19:42:55 [notice] 12#12: start worker processes
+2026/10/28 19:42:55 [notice] 12#12: start worker process 20
+2026/10/28 19:42:55 [notice] 15#15: gracefully shutting down
+2026/10/28 19:42:55 [notice] 15#15: exiting
+2026/10/28 19:42:55 [notice] 15#15: exit
+I20261028 19:42:55.810704   1 main.go:116] Event(v1.ObjectReference{Kind:"ConfigMap", Namespace:"iot-gateway", Name:"nginx-config", UID:"3b865019-2266-41a7-912a-234ec577f6e1", APIVersion:"v1", ResourceVersion:"165151", FieldPath:""}): type: 'Normal' reason: 'Updated' ConfigMap iot-gateway/nginx-config updated without error
+I20261028 19:42:55.810791   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-features", Name:"features", UID:"666d915a-1dad-4940-8e10-24e9d523b701", APIVersion:"networking.k8s.io/v1", ResourceVersion:"165182", FieldPath:""}): type: 'Normal' reason: 'AddedOrUpdated' Configuration for iot-features/features was added or updated 
+I20261028 19:42:55.810805   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-gateway", Name:"logs", UID:"ba35e739-5158-42a0-8153-aae683cf55e4", APIVersion:"networking.k8s.io/v1", ResourceVersion:"165180", FieldPath:""}): type: 'Normal' reason: 'AddedOrUpdated' Configuration for iot-gateway/logs was added or updated 
+I20261028 19:42:55.810813   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-gateway", Name:"metrics", UID:"21ff4292-b5e5-45f0-9ee5-66cfa831a218", APIVersion:"networking.k8s.io/v1", ResourceVersion:"165176", FieldPath:""}): type: 'Normal' reason: 'AddedOrUpdated' Configuration for iot-gateway/metrics was added or updated 
+I20261028 19:42:55.810826   1 main.go:116] Event(v1.ObjectReference{Kind:"Ingress", Namespace:"iot-observability", Name:"traces", UID:"5fed98a9-1037-44a1-be5f-f74d1f3df21d", APIVersion:"networking.k8s.io/v1", ResourceVersion:"165181", FieldPath:""}): type: 'Normal' reason: 'AddedOrUpdated' Configuration for iot-observability/traces was added or updated 
+2026/10/28 19:42:55 [notice] 12#12: signal 17 (SIGCHLD) received from 15
+2026/10/28 19:42:55 [notice] 12#12: worker process 15 exited with code 0
+2026/10/28 19:42:55 [notice] 12#12: signal 29 (SIGIO) received
+E20261028 19:43:00.529684   1 main.go:1217] Error updating pod with labels on attempt 2 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+E20261028 19:43:05.535721   1 main.go:1217] Error updating pod with labels on attempt 3 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+E20261028 19:43:10.540566   1 main.go:1217] Error updating pod with labels on attempt 4 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+E20261028 19:43:15.546091   1 main.go:1217] Error updating pod with labels on attempt 5 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+E20261028 19:43:20.551053   1 main.go:1217] Error updating pod with labels on attempt 6 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+2026-10-28T19:43:23+00:00 metrics.iot.test 401 GET /api/health
+2026-10-28T19:43:25+00:00 metrics.iot.test 200 GET /api/health
+2026-10-28T19:43:25+00:00 logs.iot.test 401 GET /d/iot-linux-logs/iot-logs-linux-host-and-apis
+E20261028 19:43:25.555696   1 main.go:1217] Error updating pod with labels on attempt 7 of 10: pods "iot-gateway-5dcb8485b4-nnvpq" is forbidden: User "system:serviceaccount:iot-gateway:iot-gateway" cannot update resource "pods" in API group "" in the namespace "iot-gateway"
+2026-10-28T19:43:25+00:00 logs.iot.test 200 GET /d/iot-linux-logs/iot-logs-linux-host-and-apis
+2026-10-28T19:43:25+00:00 traces.iot.test 401 GET /api/v3/services
+2026-10-28T19:43:25+00:00 traces.iot.test 200 GET /api/v3/services
+2026-10-28T19:43:25+00:00 features.iot.test 401 GET /health/ready
+2026/10/28 19:43:25 [error] 20#20: *13 connect() failed (111: Connection refused) while connecting to upstream, client: 10.52.0.1, server: features.iot.test, request: "GET /health/ready HTTP/1.1", upstream: "http://127.0.0.1:8181/health/ready", host: "features.iot.test"
+2026-10-28T19:43:25+00:00 features.iot.test 502 GET /health/ready

@@ -1,0 +1,108 @@
+{
+  "utc": "2026-10-28T19:42:46.588302+00:00",
+  "session": {
+    "last_start_utc": "2026-10-28T15:13:58.766000+00:00",
+    "auto_stop_utc": "2026-10-28T23:13:58.766000+00:00",
+    "max_run_seconds": 28800,
+    "source": "Actual Compute lastStartTimestamp; user explicitly approved this next sameVM8CPU64GiB/three existing disks max8h/STOP session."
+  },
+  "services": {
+    "features": {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "annotations": {
+          "meta.helm.sh/release-name": "iot-feature-api",
+          "meta.helm.sh/release-namespace": "iot-features"
+        },
+        "creationTimestamp": "2026-10-27T15:34:07Z",
+        "labels": {
+          "app.kubernetes.io/instance": "iot-feature-api",
+          "app.kubernetes.io/managed-by": "Helm",
+          "app.kubernetes.io/name": "iot-api"
+        },
+        "name": "iot-feature-api",
+        "namespace": "iot-features",
+        "resourceVersion": "22759",
+        "uid": "64b0f98e-6c23-4439-8d87-da77bfd27bdf"
+      },
+      "spec": {
+        "clusterIP": "10.53.26.245",
+        "clusterIPs": [
+          "10.53.26.245"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "http",
+            "port": 80,
+            "protocol": "TCP",
+            "targetPort": "http"
+          }
+        ],
+        "selector": {
+          "app.kubernetes.io/instance": "iot-feature-api"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    },
+    "traces": {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T07:04:54Z",
+        "name": "iot-jaeger",
+        "namespace": "iot-observability",
+        "resourceVersion": "83394",
+        "uid": "61f2b4ae-4f71-4203-be51-6ae23d286297"
+      },
+      "spec": {
+        "clusterIP": "10.53.206.169",
+        "clusterIPs": [
+          "10.53.206.169"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+          "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+          {
+            "name": "query",
+            "port": 16686,
+            "protocol": "TCP",
+            "targetPort": "query"
+          },
+          {
+            "name": "otlp",
+            "port": 4318,
+            "protocol": "TCP",
+            "targetPort": "otlp"
+          }
+        ],
+        "selector": {
+          "app": "iot-jaeger"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+      },
+      "status": {
+        "loadBalancer": {}
+      }
+    }
+  },
+  "bridge_ip": "10.52.0.1",
+  "source_sha256": {
+    "infra/gateway/resources.py": "1df265c9ef5f2d2d3734e761f4d60733f448a3a6794f837528aa5ca2d0ca1c44",
+    "infra/gateway/assets.json": "e1a0a4b4edeef395221b0917820f25c3497f6fb4bc8f4906f69b0ca9f6913a97",
+    "scripts/deploy-private-gateway.py": "9bf8cc6e2332eac3ced7a8a53c59ea75f167366ef010b5c7e3a734137a73de4a"
+  }
+}

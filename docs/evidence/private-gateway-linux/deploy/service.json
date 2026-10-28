@@ -1,0 +1,47 @@
+{
+  "apiVersion": "v1",
+  "kind": "Service",
+  "metadata": {
+    "annotations": {
+      "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"annotations\":{},\"name\":\"iot-gateway\",\"namespace\":\"iot-gateway\"},\"spec\":{\"ports\":[{\"name\":\"http\",\"port\":80,\"targetPort\":\"http\"},{\"name\":\"https\",\"port\":443,\"targetPort\":\"https\"}],\"selector\":{\"app\":\"iot-gateway\"},\"type\":\"ClusterIP\"}}\n"
+    },
+    "creationTimestamp": "2026-10-28T19:42:50Z",
+    "name": "iot-gateway",
+    "namespace": "iot-gateway",
+    "resourceVersion": "165155",
+    "uid": "52a28992-7479-477e-8cc8-0519f0fab2be"
+  },
+  "spec": {
+    "clusterIP": "10.53.22.203",
+    "clusterIPs": [
+      "10.53.22.203"
+    ],
+    "internalTrafficPolicy": "Cluster",
+    "ipFamilies": [
+      "IPv4"
+    ],
+    "ipFamilyPolicy": "SingleStack",
+    "ports": [
+      {
+        "name": "http",
+        "port": 80,
+        "protocol": "TCP",
+        "targetPort": "http"
+      },
+      {
+        "name": "https",
+        "port": 443,
+        "protocol": "TCP",
+        "targetPort": "https"
+      }
+    ],
+    "selector": {
+      "app": "iot-gateway"
+    },
+    "sessionAffinity": "None",
+    "type": "ClusterIP"
+  },
+  "status": {
+    "loadBalancer": {}
+  }
+}

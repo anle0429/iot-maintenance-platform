@@ -158,3 +158,5 @@ Tổng điểm thô đối chiếu với các ô số: 100; số tiêu chí có 
 | M2-57 | B57; E57 | Novel ideas  / Idea 2 | Idea 2 | Document idea + proof it worked! | 2 | Chọn ngày 1; triển khai 1-9 | Cần chọn lại | [Đối chiếu lịch lớp](novel-ideas.md): replay reconciliation và availability đã học; giữ bằng chứng tính đúng nhưng không tính novel. Ý tưởng thứ hai chưa chọn/triển khai. |
 
 Tổng điểm thô đối chiếu với các ô số: 100; số tiêu chí có điểm: 55.
+
+Gateway28/10 theo final F38–F43: [private native proof](private-gateway.md),86payload/4ảnhgốc;4virtualhosts/Basic/rate/CA+SNI. Tracker93dòng giữ nguyên source; không suy publicDNS hoặc browser-trustedTLS từ ảnh qua review bridge.

@@ -1,0 +1,444 @@
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+# configuration file /etc/nginx/nginx.conf:
+worker_processes  1;
+daemon off;
+
+error_log  stderr notice;
+pid        /var/lib/nginx/nginx.pid;
+
+load_module modules/ngx_http_js_module.so;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+    map_hash_max_size 2048;
+    map_hash_bucket_size 256;
+
+    js_import /etc/nginx/njs/apikey_auth.js;
+    js_set $apikey_auth_hash apikey_auth.hash;
+
+    log_format  main escape=json 
+                     '$time_iso8601 $host $status $request_method $uri'
+                     ;
+
+    map $upstream_trailer_grpc_status $grpc_status {
+        default $upstream_trailer_grpc_status;
+        '' $sent_http_grpc_status;
+    }
+    map $nginx_version $secret_dir_path {
+        default "/etc/nginx/secrets";
+    }
+    access_log /dev/stdout main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout 75s;
+    keepalive_requests 1000;
+
+    #gzip  on;
+
+    server_names_hash_max_size 1024;
+    server_names_hash_bucket_size 256;
+
+    variables_hash_bucket_size 256;
+    variables_hash_max_size 1024;
+
+    map $request_uri $request_uri_no_args {
+        "~^(?P<path>[^?]*)(\?.*)?$" $path;
+    }
+
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        ''      close;
+    }
+    map $http_upgrade $default_connection_header {
+        default "";
+    }
+    map $http_host $resource_type {
+        default "";
+    }
+    map $http_host $resource_name {
+        default "";
+    }
+    map $http_host $resource_namespace {
+        default "";
+    }
+    map $http_host $service {
+        default "";
+    }
+    map $http_upgrade $vs_connection_header {
+        default upgrade;
+        ''      $default_connection_header;
+    }
+    ssl_protocols TLSv1.2 TLSv1.3;
+
+    include /etc/nginx/config-version.conf;
+    include /etc/nginx/conf.d/*.conf;
+
+    server {
+        listen unix:/var/lib/nginx/nginx-502-server.sock;
+        access_log off;
+
+        return 502;
+    }
+
+    server {
+        listen unix:/var/lib/nginx/nginx-418-server.sock;
+        access_log off;
+
+        return 418;
+    }
+}
+
+stream {
+    log_format  stream-main  '$remote_addr [$time_local] '
+                      '$protocol $status $bytes_sent $bytes_received '
+                      '$session_time "$ssl_preread_server_name"';
+
+    access_log  /dev/stdout  stream-main;
+
+    map_hash_max_size 2048;
+    map_hash_bucket_size 256;
+    map $nginx_version $secret_dir_path {
+        default "/etc/nginx/secrets";
+    }
+
+    include /etc/nginx/stream-conf.d/*.conf;
+}
+
+# configuration file /etc/nginx/mime.types:
+
+types {
+    text/html                                        html htm shtml;
+    text/css                                         css;
+    text/xml                                         xml;
+    image/gif                                        gif;
+    image/jpeg                                       jpeg jpg;
+    application/javascript                           js;
+    application/atom+xml                             atom;
+    application/rss+xml                              rss;
+
+    text/mathml                                      mml;
+    text/plain                                       txt;
+    text/vnd.sun.j2me.app-descriptor                 jad;
+    text/vnd.wap.wml                                 wml;
+    text/x-component                                 htc;
+
+    image/avif                                       avif;
+    image/png                                        png;
+    image/svg+xml                                    svg svgz;
+    image/tiff                                       tif tiff;
+    image/vnd.wap.wbmp                               wbmp;
+    image/webp                                       webp;
+    image/x-icon                                     ico;
+    image/x-jng                                      jng;
+    image/x-ms-bmp                                   bmp;
+
+    font/woff                                        woff;
+    font/woff2                                       woff2;
+
+    application/java-archive                         jar war ear;
+    application/json                                 json;
+    application/mac-binhex40                         hqx;
+    application/msword                               doc;
+    application/pdf                                  pdf;
+    application/postscript                           ps eps ai;
+    application/rtf                                  rtf;
+    application/vnd.apple.mpegurl                    m3u8;
+    application/vnd.google-earth.kml+xml             kml;
+    application/vnd.google-earth.kmz                 kmz;
+    application/vnd.ms-excel                         xls;
+    application/vnd.ms-fontobject                    eot;
+    application/vnd.ms-powerpoint                    ppt;
+    application/vnd.oasis.opendocument.graphics      odg;
+    application/vnd.oasis.opendocument.presentation  odp;
+    application/vnd.oasis.opendocument.spreadsheet   ods;
+    application/vnd.oasis.opendocument.text          odt;
+    application/vnd.openxmlformats-officedocument.presentationml.presentation
+                                                     pptx;
+    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+                                                     xlsx;
+    application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                                                     docx;
+    application/vnd.wap.wmlc                         wmlc;
+    application/wasm                                 wasm;
+    application/x-7z-compressed                      7z;
+    application/x-cocoa                              cco;
+    application/x-java-archive-diff                  jardiff;
+    application/x-java-jnlp-file                     jnlp;
+    application/x-makeself                           run;
+    application/x-perl                               pl pm;
+    application/x-pilot                              prc pdb;
+    application/x-rar-compressed                     rar;
+    application/x-redhat-package-manager             rpm;
+    application/x-sea                                sea;
+    application/x-shockwave-flash                    swf;
+    application/x-stuffit                            sit;
+    application/x-tcl                                tcl tk;
+    application/x-x509-ca-cert                       der pem crt;
+    application/x-xpinstall                          xpi;
+    application/xhtml+xml                            xhtml;
+    application/xspf+xml                             xspf;
+    application/zip                                  zip;
+
+    application/octet-stream                         bin exe dll;
+    application/octet-stream                         deb;
+    application/octet-stream                         dmg;
+    application/octet-stream                         iso img;
+    application/octet-stream                         msi msp msm;
+
+    audio/midi                                       mid midi kar;
+    audio/mpeg                                       mp3;
+    audio/ogg                                        ogg;
+    audio/x-m4a                                      m4a;
+    audio/x-realaudio                                ra;
+
+    video/3gpp                                       3gpp 3gp;
+    video/mp2t                                       ts;
+    video/mp4                                        mp4;
+    video/mpeg                                       mpeg mpg;
+    video/quicktime                                  mov;
+    video/webm                                       webm;
+    video/x-flv                                      flv;
+    video/x-m4v                                      m4v;
+    video/x-mng                                      mng;
+    video/x-ms-asf                                   asx asf;
+    video/x-ms-wmv                                   wmv;
+    video/x-msvideo                                  avi;
+}
+
+# configuration file /etc/nginx/config-version.conf:
+server {
+    listen unix:/var/lib/nginx/nginx-config-version.sock;
+	access_log off;
+
+    location /configVersion {
+        return 200 11;
+    }
+}
+map $http_x_expected_config_version $config_version_mismatch {
+	"11" "";
+	default "mismatch";
+}
+# configuration file /etc/nginx/conf.d/_default-server.conf:
+# configuration for /
+
+
+server {
+	listen 80 default_server;listen [::]:80 default_server;
+	listen 443 ssl default_server;listen [::]:443 ssl default_server;
+	ssl_reject_handshake on;
+
+	server_tokens off;
+
+	server_name _;
+	location / {
+		return 404;
+	}
+}
+
+# configuration file /etc/nginx/conf.d/iot-features-features.conf:
+# configuration for iot-features/features
+upstream iot-features-features-features.iot.test-iot-feature-api-80 {
+	zone iot-features-features-features.iot.test-iot-feature-api-80 256k;
+	random two least_conn;
+	server 10.52.0.112:8080 max_fails=1 fail_timeout=10s max_conns=0;
+}
+
+limit_req_zone ${binary_remote_addr} zone=iot-features/features:10m rate=5r/s;
+
+
+
+server {
+	listen 80;listen [::]:80;
+	listen 443 ssl;listen [::]:443 ssl;
+	ssl_certificate $secret_dir_path/ssl_keypair_iot-features_gateway-tls.pem;
+	ssl_certificate_key $secret_dir_path/ssl_keypair_iot-features_gateway-tls.pem;
+
+	server_tokens off;
+
+	server_name features.iot.test;
+	set $resource_type "ingress";
+	set $resource_name "features";
+	set $resource_namespace "iot-features";
+	set $service "-";
+	if ($scheme = http) {
+		return 308 https://$host:443$request_uri;
+	}
+	auth_basic "IoT coursework";
+	auth_basic_user_file /etc/nginx/secrets/basic_auth_iot-features_gateway-auth;
+	location "/" {
+		set $service "iot-feature-api";
+		proxy_connect_timeout 60s;
+		proxy_read_timeout 60s;
+		proxy_send_timeout 60s;
+		client_max_body_size 1m;
+		proxy_set_header Authorization "";
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Host $host;
+		proxy_set_header X-Forwarded-Port $server_port;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_buffering on;
+		proxy_pass http://iot-features-features-features.iot.test-iot-feature-api-80;
+		
+		limit_req zone=iot-features/features burst=5 nodelay;
+		
+		limit_req_log_level error;
+		limit_req_status 429;
+		
+	}
+	
+}
+
+# configuration file /etc/nginx/conf.d/iot-gateway-logs.conf:
+# configuration for iot-gateway/logs
+upstream iot-gateway-logs-logs.iot.test-logs-13002 {
+	zone iot-gateway-logs-logs.iot.test-logs-13002 256k;
+	random two least_conn;
+	server 10.52.0.1:13002 max_fails=1 fail_timeout=10s max_conns=0;
+}
+
+
+
+server {
+	listen 80;listen [::]:80;
+	listen 443 ssl;listen [::]:443 ssl;
+	ssl_certificate $secret_dir_path/ssl_keypair_iot-gateway_gateway-tls.pem;
+	ssl_certificate_key $secret_dir_path/ssl_keypair_iot-gateway_gateway-tls.pem;
+
+	server_tokens off;
+
+	server_name logs.iot.test;
+	set $resource_type "ingress";
+	set $resource_name "logs";
+	set $resource_namespace "iot-gateway";
+	set $service "-";
+	if ($scheme = http) {
+		return 308 https://$host:443$request_uri;
+	}
+	auth_basic "IoT coursework";
+	auth_basic_user_file /etc/nginx/secrets/basic_auth_iot-gateway_gateway-auth;
+	location "/" {
+		set $service "logs";
+		proxy_connect_timeout 60s;
+		proxy_read_timeout 60s;
+		proxy_send_timeout 60s;
+		client_max_body_size 1m;
+		proxy_set_header Authorization "";
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Host $host;
+		proxy_set_header X-Forwarded-Port $server_port;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_buffering on;
+		proxy_pass http://iot-gateway-logs-logs.iot.test-logs-13002;
+		
+	}
+	
+}
+
+# configuration file /etc/nginx/conf.d/iot-gateway-metrics.conf:
+# configuration for iot-gateway/metrics
+upstream iot-gateway-metrics-metrics.iot.test-metrics-13002 {
+	zone iot-gateway-metrics-metrics.iot.test-metrics-13002 256k;
+	random two least_conn;
+	server 10.52.0.1:13002 max_fails=1 fail_timeout=10s max_conns=0;
+}
+
+
+
+server {
+	listen 80;listen [::]:80;
+	listen 443 ssl;listen [::]:443 ssl;
+	ssl_certificate $secret_dir_path/ssl_keypair_iot-gateway_gateway-tls.pem;
+	ssl_certificate_key $secret_dir_path/ssl_keypair_iot-gateway_gateway-tls.pem;
+
+	server_tokens off;
+
+	server_name metrics.iot.test;
+	set $resource_type "ingress";
+	set $resource_name "metrics";
+	set $resource_namespace "iot-gateway";
+	set $service "-";
+	if ($scheme = http) {
+		return 308 https://$host:443$request_uri;
+	}
+	auth_basic "IoT coursework";
+	auth_basic_user_file /etc/nginx/secrets/basic_auth_iot-gateway_gateway-auth;
+	location "/" {
+		set $service "metrics";
+		proxy_connect_timeout 60s;
+		proxy_read_timeout 60s;
+		proxy_send_timeout 60s;
+		client_max_body_size 1m;
+		proxy_set_header Authorization "";
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Host $host;
+		proxy_set_header X-Forwarded-Port $server_port;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_buffering on;
+		proxy_pass http://iot-gateway-metrics-metrics.iot.test-metrics-13002;
+		
+	}
+	
+}
+
+# configuration file /etc/nginx/conf.d/iot-observability-traces.conf:
+# configuration for iot-observability/traces
+upstream iot-observability-traces-traces.iot.test-iot-jaeger-16686 {
+	zone iot-observability-traces-traces.iot.test-iot-jaeger-16686 256k;
+	random two least_conn;
+	server 10.52.0.74:16686 max_fails=1 fail_timeout=10s max_conns=0;
+}
+
+
+
+server {
+	listen 80;listen [::]:80;
+	listen 443 ssl;listen [::]:443 ssl;
+	ssl_certificate $secret_dir_path/ssl_keypair_iot-observability_gateway-tls.pem;
+	ssl_certificate_key $secret_dir_path/ssl_keypair_iot-observability_gateway-tls.pem;
+
+	server_tokens off;
+
+	server_name traces.iot.test;
+	set $resource_type "ingress";
+	set $resource_name "traces";
+	set $resource_namespace "iot-observability";
+	set $service "-";
+	if ($scheme = http) {
+		return 308 https://$host:443$request_uri;
+	}
+	auth_basic "IoT coursework";
+	auth_basic_user_file /etc/nginx/secrets/basic_auth_iot-observability_gateway-auth;
+	location "/" {
+		set $service "iot-jaeger";
+		proxy_connect_timeout 60s;
+		proxy_read_timeout 60s;
+		proxy_send_timeout 60s;
+		client_max_body_size 1m;
+		proxy_set_header Authorization "";
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Host $host;
+		proxy_set_header X-Forwarded-Port $server_port;
+		proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_buffering on;
+		proxy_pass http://iot-observability-traces-traces.iot.test-iot-jaeger-16686;
+		
+	}
+	
+}
+

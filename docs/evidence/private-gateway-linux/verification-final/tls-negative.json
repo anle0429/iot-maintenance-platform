@@ -1,0 +1,18 @@
+[
+  {
+    "case": "untrusted-ca",
+    "rejected": true,
+    "type": "SSLCertVerificationError",
+    "reason": "CERTIFICATE_VERIFY_FAILED",
+    "verify_code": 20,
+    "verify_message": "unable to get local issuer certificate"
+  },
+  {
+    "case": "wrong-hostname",
+    "rejected": true,
+    "type": "SSLError",
+    "reason": "TLSV1_UNRECOGNIZED_NAME",
+    "verify_code": null,
+    "verify_message": null
+  }
+]

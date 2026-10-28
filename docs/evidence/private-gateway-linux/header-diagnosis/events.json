@@ -1,0 +1,133 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T19:45:14Z",
+            "involvedObject": {
+                "apiVersion": "networking.k8s.io/v1",
+                "kind": "Ingress",
+                "name": "features",
+                "namespace": "iot-features",
+                "resourceVersion": "165182",
+                "uid": "666d915a-1dad-4940-8e10-24e9d523b701"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T19:45:14Z",
+            "message": "iot-features/features was rejected: with error: annotations.nginx.org/proxy-set-headers: Invalid value: \"Authorization: \\\"\\\"\": must have all '\"' (double quotes) escaped and must not end with an unescaped '\\' (backslash) (regex used for validation is '([^\"\\\\]|\\\\.)*')",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T19:45:14Z",
+                "name": "features.18e2c919ee307384",
+                "namespace": "iot-features",
+                "resourceVersion": "165920",
+                "uid": "59655e28-986d-434a-bc56-c43f01fa70fa"
+            },
+            "reason": "Rejected",
+            "reportingComponent": "nginx-ingress-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "nginx-ingress-controller"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T19:45:14Z",
+            "involvedObject": {
+                "apiVersion": "networking.k8s.io/v1",
+                "kind": "Ingress",
+                "name": "logs",
+                "namespace": "iot-gateway",
+                "resourceVersion": "165180",
+                "uid": "ba35e739-5158-42a0-8153-aae683cf55e4"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T19:45:14Z",
+            "message": "iot-gateway/logs was rejected: with error: annotations.nginx.org/proxy-set-headers: Invalid value: \"Authorization: \\\"\\\"\": must have all '\"' (double quotes) escaped and must not end with an unescaped '\\' (backslash) (regex used for validation is '([^\"\\\\]|\\\\.)*')",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T19:45:14Z",
+                "name": "logs.18e2c919dbffa62d",
+                "namespace": "iot-gateway",
+                "resourceVersion": "165918",
+                "uid": "7410b1f5-40c9-4edc-ae7c-42843f293177"
+            },
+            "reason": "Rejected",
+            "reportingComponent": "nginx-ingress-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "nginx-ingress-controller"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T19:45:14Z",
+            "involvedObject": {
+                "apiVersion": "networking.k8s.io/v1",
+                "kind": "Ingress",
+                "name": "metrics",
+                "namespace": "iot-gateway",
+                "resourceVersion": "165176",
+                "uid": "21ff4292-b5e5-45f0-9ee5-66cfa831a218"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T19:45:14Z",
+            "message": "iot-gateway/metrics was rejected: with error: annotations.nginx.org/proxy-set-headers: Invalid value: \"Authorization: \\\"\\\"\": must have all '\"' (double quotes) escaped and must not end with an unescaped '\\' (backslash) (regex used for validation is '([^\"\\\\]|\\\\.)*')",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T19:45:14Z",
+                "name": "metrics.18e2c919d2cd7c4a",
+                "namespace": "iot-gateway",
+                "resourceVersion": "165915",
+                "uid": "0308b8f9-3a77-43fc-970c-48334ef8f4b3"
+            },
+            "reason": "Rejected",
+            "reportingComponent": "nginx-ingress-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "nginx-ingress-controller"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-28T19:45:14Z",
+            "involvedObject": {
+                "apiVersion": "networking.k8s.io/v1",
+                "kind": "Ingress",
+                "name": "traces",
+                "namespace": "iot-observability",
+                "resourceVersion": "165181",
+                "uid": "5fed98a9-1037-44a1-be5f-f74d1f3df21d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-28T19:45:14Z",
+            "message": "iot-observability/traces was rejected: with error: annotations.nginx.org/proxy-set-headers: Invalid value: \"Authorization: \\\"\\\"\": must have all '\"' (double quotes) escaped and must not end with an unescaped '\\' (backslash) (regex used for validation is '([^\"\\\\]|\\\\.)*')",
+            "metadata": {
+                "creationTimestamp": "2026-10-28T19:45:14Z",
+                "name": "traces.18e2c919e530873c",
+                "namespace": "iot-observability",
+                "resourceVersion": "165919",
+                "uid": "cc19d7c4-a783-4224-9851-6d1355b868a6"
+            },
+            "reason": "Rejected",
+            "reportingComponent": "nginx-ingress-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "nginx-ingress-controller"
+            },
+            "type": "Warning"
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

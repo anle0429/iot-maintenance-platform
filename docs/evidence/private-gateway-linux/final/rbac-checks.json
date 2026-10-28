@@ -1,0 +1,38 @@
+[
+  {
+    "namespace": "iot-gateway",
+    "verb": "get",
+    "resource": "secrets",
+    "allowed": true
+  },
+  {
+    "namespace": "iot-features",
+    "verb": "get",
+    "resource": "secrets",
+    "allowed": true
+  },
+  {
+    "namespace": "iot-observability",
+    "verb": "get",
+    "resource": "secrets",
+    "allowed": true
+  },
+  {
+    "namespace": "iot-serving",
+    "verb": "get",
+    "resource": "secrets",
+    "allowed": false
+  },
+  {
+    "namespace": "default",
+    "verb": "create",
+    "resource": "deployments",
+    "allowed": false
+  },
+  {
+    "namespace": "iot-features",
+    "verb": "delete",
+    "resource": "secrets",
+    "allowed": false
+  }
+]

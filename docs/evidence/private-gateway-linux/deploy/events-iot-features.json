@@ -1,0 +1,832 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "count": 67,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:14:49Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "feature-api-7cbb967c9-8h6pv",
+        "namespace": "iot-features",
+        "resourceVersion": "119427",
+        "uid": "ee0b699a-ba46-4a72-972d-a52816b64974"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:35:45Z",
+      "message": "Container image \"iot-coursework-feature-api:v1\" already present on machine and can be accessed by the pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:14:50Z",
+        "name": "feature-api-7cbb967c9-8h6pv.18e2ba5845610371",
+        "namespace": "iot-features",
+        "resourceVersion": "163272",
+        "uid": "cc4fd1e6-fd2b-4802-865e-36f24eab850e"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 164,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:14:53Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "feature-api-7cbb967c9-8h6pv",
+        "namespace": "iot-features",
+        "resourceVersion": "119427",
+        "uid": "ee0b699a-ba46-4a72-972d-a52816b64974"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T18:54:59Z",
+      "message": "Startup probe failed: Get \"http://10.52.0.69:8080/health/ready\": dial tcp 10.52.0.69:8080: connect: connection refused",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:14:53Z",
+        "name": "feature-api-7cbb967c9-8h6pv.18e2ba590aff89ab",
+        "namespace": "iot-features",
+        "resourceVersion": "152432",
+        "uid": "a147d5a7-f3e2-4fe9-b5e0-addfdb724550"
+      },
+      "reason": "Unhealthy",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 2751,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:15:03Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "feature-api-7cbb967c9-8h6pv",
+        "namespace": "iot-features",
+        "resourceVersion": "119427",
+        "uid": "ee0b699a-ba46-4a72-972d-a52816b64974"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:29:53Z",
+      "message": "Startup probe failed: HTTP probe failed with statuscode: 503",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:15:03Z",
+        "name": "feature-api-7cbb967c9-8h6pv.18e2ba5b5f24ec28",
+        "namespace": "iot-features",
+        "resourceVersion": "161701",
+        "uid": "d465c06e-0775-4870-8aa3-9b8c10a14b9a"
+      },
+      "reason": "Unhealthy",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 66,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:16:21Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "feature-api-7cbb967c9-8h6pv",
+        "namespace": "iot-features",
+        "resourceVersion": "119427",
+        "uid": "ee0b699a-ba46-4a72-972d-a52816b64974"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:30:45Z",
+      "message": "Container api failed startup probe, will be restarted",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:16:21Z",
+        "name": "feature-api-7cbb967c9-8h6pv.18e2ba6d8849cb7d",
+        "namespace": "iot-features",
+        "resourceVersion": "161926",
+        "uid": "a3208fea-7aaa-442e-8add-d44b93461057"
+      },
+      "reason": "Killing",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 206,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:22:21Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "feature-api-7cbb967c9-8h6pv",
+        "namespace": "iot-features",
+        "resourceVersion": "119427",
+        "uid": "ee0b699a-ba46-4a72-972d-a52816b64974"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:40:13Z",
+      "message": "Back-off restarting failed container api in pod feature-api-7cbb967c9-8h6pv_iot-features(ee0b699a-ba46-4a72-972d-a52816b64974)",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:30:16Z",
+        "name": "feature-api-7cbb967c9-8h6pv.18e2bac182d8b307",
+        "namespace": "iot-features",
+        "resourceVersion": "164472",
+        "uid": "1e787698-eced-44b6-b455-6644336dd6c7"
+      },
+      "reason": "BackOff",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 1,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T19:42:55Z",
+      "involvedObject": {
+        "apiVersion": "networking.k8s.io/v1",
+        "kind": "Ingress",
+        "name": "features",
+        "namespace": "iot-features",
+        "resourceVersion": "165182",
+        "uid": "666d915a-1dad-4940-8e10-24e9d523b701"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:42:55Z",
+      "message": "Configuration for iot-features/features was added or updated ",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:42:55Z",
+        "name": "features.18e2c8f98e885c38",
+        "namespace": "iot-features",
+        "resourceVersion": "165222",
+        "uid": "a40b2e4b-c759-4f42-96ab-c077deb16900"
+      },
+      "reason": "AddedOrUpdated",
+      "reportingComponent": "nginx-ingress-controller",
+      "reportingInstance": "",
+      "source": {
+        "component": "nginx-ingress-controller"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 66,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:14:49Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs",
+        "namespace": "iot-features",
+        "resourceVersion": "119639",
+        "uid": "a5d0cb61-b71f-49c4-b414-2565866c5c15"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:34:56Z",
+      "message": "Container image \"iot-coursework-ab-api:serve-jenkins-6\" already present on machine and can be accessed by the pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:14:49Z",
+        "name": "iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs.18e2ba58278d8285",
+        "namespace": "iot-features",
+        "resourceVersion": "163053",
+        "uid": "2ebd2afc-d658-4b44-8ea8-4968825f5e08"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 60,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:14:49Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs",
+        "namespace": "iot-features",
+        "resourceVersion": "119639",
+        "uid": "a5d0cb61-b71f-49c4-b414-2565866c5c15"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:09:56Z",
+      "message": "Container created",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:09:56Z",
+        "name": "iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs.18e2ba582b61e4fb",
+        "namespace": "iot-features",
+        "resourceVersion": "156405",
+        "uid": "8d786445-746b-44d6-963e-461014453d1c"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 178,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:14:52Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs",
+        "namespace": "iot-features",
+        "resourceVersion": "119639",
+        "uid": "a5d0cb61-b71f-49c4-b414-2565866c5c15"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:34:58Z",
+      "message": "Startup probe failed: Get \"http://10.52.0.80:8080/health/ready\": dial tcp 10.52.0.80:8080: connect: connection refused",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T18:11:08Z",
+        "name": "iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs.18e2ba58d76ec0e5",
+        "namespace": "iot-features",
+        "resourceVersion": "163062",
+        "uid": "fcbd51aa-c2bc-430d-9064-54c4eb9195fc"
+      },
+      "reason": "Unhealthy",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 2371,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:15:02Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs",
+        "namespace": "iot-features",
+        "resourceVersion": "119639",
+        "uid": "a5d0cb61-b71f-49c4-b414-2565866c5c15"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T18:54:54Z",
+      "message": "Startup probe failed: HTTP probe failed with statuscode: 503",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:15:02Z",
+        "name": "iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs.18e2ba5b2c0229e7",
+        "namespace": "iot-features",
+        "resourceVersion": "152417",
+        "uid": "68df4a5e-5dae-4727-9e88-437adeb558b3"
+      },
+      "reason": "Unhealthy",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 65,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:16:20Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs",
+        "namespace": "iot-features",
+        "resourceVersion": "119639",
+        "uid": "a5d0cb61-b71f-49c4-b414-2565866c5c15"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:29:50Z",
+      "message": "Container api failed startup probe, will be restarted",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:16:20Z",
+        "name": "iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs.18e2ba6d542de9b5",
+        "namespace": "iot-features",
+        "resourceVersion": "161671",
+        "uid": "0d7ca1dd-ecc0-4ef7-8104-3d96cabacb6f"
+      },
+      "reason": "Killing",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 202,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:22:48Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs",
+        "namespace": "iot-features",
+        "resourceVersion": "119639",
+        "uid": "a5d0cb61-b71f-49c4-b414-2565866c5c15"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:40:43Z",
+      "message": "Back-off restarting failed container api in pod iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs_iot-features(a5d0cb61-b71f-49c4-b414-2565866c5c15)",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:30:01Z",
+        "name": "iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs.18e2bac7a06e314b",
+        "namespace": "iot-features",
+        "resourceVersion": "164602",
+        "uid": "79490cbc-5f83-4c8c-9d95-1b63abb8c7f8"
+      },
+      "reason": "BackOff",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 67,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:14:49Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-7-6c546b96b5-rvtn4",
+        "namespace": "iot-features",
+        "resourceVersion": "119578",
+        "uid": "c078ee8c-79f0-4ae3-bfac-5e6d881d367d"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:41:34Z",
+      "message": "Container image \"iot-coursework-ab-api:serve-jenkins-7\" already present on machine and can be accessed by the pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:14:49Z",
+        "name": "iot-ab-serve-jenkins-7-6c546b96b5-rvtn4.18e2ba583f0fc825",
+        "namespace": "iot-features",
+        "resourceVersion": "164819",
+        "uid": "91f4fda9-acc1-446e-b15b-f873c56cf803"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 63,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:14:49Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-7-6c546b96b5-rvtn4",
+        "namespace": "iot-features",
+        "resourceVersion": "119578",
+        "uid": "c078ee8c-79f0-4ae3-bfac-5e6d881d367d"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:24:59Z",
+      "message": "Container created",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T18:34:54Z",
+        "name": "iot-ab-serve-jenkins-7-6c546b96b5-rvtn4.18e2ba5842e6ef1e",
+        "namespace": "iot-features",
+        "resourceVersion": "160378",
+        "uid": "00fbe441-3967-472a-9146-e85fd20cb782"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 177,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:14:52Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-7-6c546b96b5-rvtn4",
+        "namespace": "iot-features",
+        "resourceVersion": "119578",
+        "uid": "c078ee8c-79f0-4ae3-bfac-5e6d881d367d"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:34:58Z",
+      "message": "Startup probe failed: Get \"http://10.52.0.77:8080/health/ready\": dial tcp 10.52.0.77:8080: connect: connection refused",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:14:52Z",
+        "name": "iot-ab-serve-jenkins-7-6c546b96b5-rvtn4.18e2ba58c427f0f4",
+        "namespace": "iot-features",
+        "resourceVersion": "163060",
+        "uid": "01bb0baf-a544-477b-b8d3-f3f2dd577416"
+      },
+      "reason": "Unhealthy",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 2241,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:15:04Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-7-6c546b96b5-rvtn4",
+        "namespace": "iot-features",
+        "resourceVersion": "119578",
+        "uid": "c078ee8c-79f0-4ae3-bfac-5e6d881d367d"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T18:44:52Z",
+      "message": "Startup probe failed: HTTP probe failed with statuscode: 503",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:15:04Z",
+        "name": "iot-ab-serve-jenkins-7-6c546b96b5-rvtn4.18e2ba5b8ff4c7ed",
+        "namespace": "iot-features",
+        "resourceVersion": "149699",
+        "uid": "41d62773-3a42-4dcf-ba89-0ba9f520d1e5"
+      },
+      "reason": "Unhealthy",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 65,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:16:20Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-7-6c546b96b5-rvtn4",
+        "namespace": "iot-features",
+        "resourceVersion": "119578",
+        "uid": "c078ee8c-79f0-4ae3-bfac-5e6d881d367d"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:34:50Z",
+      "message": "Container api failed startup probe, will be restarted",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:09:42Z",
+        "name": "iot-ab-serve-jenkins-7-6c546b96b5-rvtn4.18e2ba6d410a1762",
+        "namespace": "iot-features",
+        "resourceVersion": "163011",
+        "uid": "cce8f603-2d38-41d4-a36d-f7e6d054a3aa"
+      },
+      "reason": "Killing",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 204,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:22:49Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-7-6c546b96b5-rvtn4",
+        "namespace": "iot-features",
+        "resourceVersion": "119578",
+        "uid": "c078ee8c-79f0-4ae3-bfac-5e6d881d367d"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:40:36Z",
+      "message": "Back-off restarting failed container api in pod iot-ab-serve-jenkins-7-6c546b96b5-rvtn4_iot-features(c078ee8c-79f0-4ae3-bfac-5e6d881d367d)",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:31:05Z",
+        "name": "iot-ab-serve-jenkins-7-6c546b96b5-rvtn4.18e2bac8043a43e3",
+        "namespace": "iot-features",
+        "resourceVersion": "164562",
+        "uid": "b3ead6c9-079b-4c2d-85e5-8cf96c588dff"
+      },
+      "reason": "BackOff",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 65,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:14:49Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb",
+        "namespace": "iot-features",
+        "resourceVersion": "119605",
+        "uid": "7d28c33f-23a6-41f9-8e2e-c607fe90b6bb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:34:52Z",
+      "message": "Container image \"iot-coursework-ab-api:serve-jenkins-8\" already present on machine and can be accessed by the pod",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:14:49Z",
+        "name": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb.18e2ba583b267c71",
+        "namespace": "iot-features",
+        "resourceVersion": "163042",
+        "uid": "91fb04fc-b1fc-4e45-80aa-c7036ddc37c8"
+      },
+      "reason": "Pulled",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 65,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:14:49Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb",
+        "namespace": "iot-features",
+        "resourceVersion": "119605",
+        "uid": "7d28c33f-23a6-41f9-8e2e-c607fe90b6bb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:34:52Z",
+      "message": "Container created",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T19:09:44Z",
+        "name": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb.18e2ba58415227ba",
+        "namespace": "iot-features",
+        "resourceVersion": "163043",
+        "uid": "f2a991fc-27a4-4337-a386-0468e816eb9b"
+      },
+      "reason": "Created",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 177,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:14:52Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb",
+        "namespace": "iot-features",
+        "resourceVersion": "119605",
+        "uid": "7d28c33f-23a6-41f9-8e2e-c607fe90b6bb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:34:54Z",
+      "message": "Startup probe failed: Get \"http://10.52.0.79:8080/health/ready\": dial tcp 10.52.0.79:8080: connect: connection refused",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T18:36:08Z",
+        "name": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb.18e2ba58cfbe2cb8",
+        "namespace": "iot-features",
+        "resourceVersion": "163047",
+        "uid": "22e5583c-e311-420f-9a8f-71795d69393b"
+      },
+      "reason": "Unhealthy",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 2579,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:15:02Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb",
+        "namespace": "iot-features",
+        "resourceVersion": "119605",
+        "uid": "7d28c33f-23a6-41f9-8e2e-c607fe90b6bb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:19:52Z",
+      "message": "Startup probe failed: HTTP probe failed with statuscode: 503",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:15:02Z",
+        "name": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb.18e2ba5b26b6b63a",
+        "namespace": "iot-features",
+        "resourceVersion": "159036",
+        "uid": "713e137c-0c8d-4325-970c-6893fe956d68"
+      },
+      "reason": "Unhealthy",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 56,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:16:20Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb",
+        "namespace": "iot-features",
+        "resourceVersion": "119605",
+        "uid": "7d28c33f-23a6-41f9-8e2e-c607fe90b6bb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T18:55:58Z",
+      "message": "Container api failed startup probe, will be restarted",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:16:20Z",
+        "name": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb.18e2ba6d4d18b1ae",
+        "namespace": "iot-features",
+        "resourceVersion": "152701",
+        "uid": "9f637321-16d6-4c75-a01c-b52759c4f629"
+      },
+      "reason": "Killing",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Normal"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 204,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T15:22:48Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb",
+        "namespace": "iot-features",
+        "resourceVersion": "119605",
+        "uid": "7d28c33f-23a6-41f9-8e2e-c607fe90b6bb"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:40:45Z",
+      "message": "Back-off restarting failed container api in pod iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb_iot-features(7d28c33f-23a6-41f9-8e2e-c607fe90b6bb)",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T15:25:16Z",
+        "name": "iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb.18e2bac7985467dd",
+        "namespace": "iot-features",
+        "resourceVersion": "164606",
+        "uid": "8991f86a-a2d7-4021-891e-44e3fb338d22"
+      },
+      "reason": "BackOff",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    },
+    {
+      "apiVersion": "v1",
+      "count": 4181,
+      "eventTime": null,
+      "firstTimestamp": "2026-10-28T16:17:51Z",
+      "involvedObject": {
+        "apiVersion": "v1",
+        "fieldPath": "spec.containers{api}",
+        "kind": "Pod",
+        "name": "iot-feature-api-646dcc94d7-v48g7",
+        "namespace": "iot-features",
+        "resourceVersion": "124727",
+        "uid": "cda25f28-c955-42f4-b1b5-2dc17c4db6b5"
+      },
+      "kind": "Event",
+      "lastTimestamp": "2026-10-28T19:42:52Z",
+      "message": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+      "metadata": {
+        "creationTimestamp": "2026-10-28T16:17:51Z",
+        "name": "iot-feature-api-646dcc94d7-v48g7.18e2bdc8afd6e86b",
+        "namespace": "iot-features",
+        "resourceVersion": "165212",
+        "uid": "153c2779-0aea-49fa-bd75-b592385cf638"
+      },
+      "reason": "Unhealthy",
+      "reportingComponent": "kubelet",
+      "reportingInstance": "iot-cw-vm",
+      "source": {
+        "component": "kubelet",
+        "host": "iot-cw-vm"
+      },
+      "type": "Warning"
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}
