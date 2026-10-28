@@ -32,14 +32,22 @@ def run(args):
     if args.destination=='offline':context=OfflineStage(args.state,args.source_id)
     else:
         upstream=json.loads(args.offline_report.read_bytes())
-        if upstream['source_binding']!=binding:raise ValueError('Online source differs from the completed offline cohort')
+        if upstream['source_binding']!=binding or upstream['source_id']!=args.source_id:raise ValueError('Online source differs from the completed offline cohort')
         context=OnlineStage(args.online_state,args.state,upstream);rows=list(reversed(rows))
+    own_state=args.state if args.destination=='offline' else args.online_state;bound=own_state/'cohort-source.json';identity={'source_id':args.source_id,'destination':args.destination,'binding':binding}
+    if bound.exists():
+        if json.loads(bound.read_bytes())!=identity:raise ValueError('Existing cohort source binding differs')
+    elif (own_state/'stage-binding.json').exists():raise ValueError('Do not adopt an existing unbound stage')
     with context as writer:
+        if not bound.exists():
+            with bound.open('x') as stream:stream.write(json.dumps(identity,indent=2)+'\n')
         before=digest(writer.offline);modes=[]
         for index,row in enumerate(rows,1):
             modes.append(writer.push(row))
             if index%128==0:print(json.dumps({'destination':args.destination,'operation':args.operation,'processed':index,'elapsed_seconds':time.monotonic()-started}),flush=True)
         proof=writer.verify()
+        if args.destination=='offline' and (proof['offline_rows']!=len(rows) or proof['historical_rows']!=len(rows)):raise ValueError('Offline cohort count differs')
+        if args.destination=='online' and (proof['acknowledged_windows']!=len(rows) or proof['machines']!=binding['selected_machines']):raise ValueError('Online cohort count differs')
         if args.operation=='replay' and (modes!=['completed_'+args.destination+'_replay_noop']*len(rows) or digest(writer.offline)!=before):raise ValueError('Replay changed the acknowledged store')
         if args.destination=='offline' and not proof['online_all_missing']:raise ValueError('Offline stage populated the fresh online project')
         if args.destination=='online':
