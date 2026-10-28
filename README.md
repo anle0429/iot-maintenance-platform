@@ -14,6 +14,8 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [Airflow→Kubeflow retrain](docs/drift-retraining.md) đã chạy5task thật/model7candidate,13unit tests, replay/cooldown không tạo thêm training. Manual probe giữ drift=false; reference model3, recipe/split giữ nguyên và chưa tự đổi serving model6. Bộ kiểm độc lập đọc118payload,24PSI từ raw samples,79SparkTaskEnd/0failed, data/model registry và ảnh KFP gốc.
 
+[Làm mới feature sau retrain](docs/active-feature-refresh.md) giữ serving model6: materialize200key thật, seed mới bất biến,195prediction tính lại đúng/5stopped409. Receipt06:33UTC ngày28/10 chỉ chứng minh thời điểm kiểm; demo lease hết sau một giờ và cần prepare mới khi trình bày lại.
+
 ## Mục lục
 
 - [Phạm vi và dữ liệu](docs/domain-proposal.md)
@@ -46,6 +48,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Serving CI: native gates, A/B, cutover, rollback và Locust](docs/ci-serving.md)
 - [A/B dashboard native và cách tự kiểm bằng chứng](docs/ab-monitoring.md)
 - [Airflow gọi KFP: retrain có admission, replay và cooldown](docs/drift-retraining.md)
+- [Làm mới feature thật và kiểm lại model6 sau retrain](docs/active-feature-refresh.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist final-coursework chính](docs/final-rubric-tracker.md)
 - [Checklist hai sheet50% trước đây](docs/rubric-tracker.md)

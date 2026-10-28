@@ -1,0 +1,130 @@
+{
+  "name": "iot-feature-api",
+  "info": {
+    "first_deployed": "2026-10-27T15:34:07.349472771Z",
+    "last_deployed": "2026-10-28T06:33:04.893165915Z",
+    "deleted": "",
+    "description": "Upgrade complete",
+    "status": "deployed"
+  },
+  "config": {
+    "autoscaling": {
+      "enabled": true,
+      "maxReplicas": 2,
+      "minReplicas": 1,
+      "targetCPUUtilizationPercentage": 60
+    },
+    "env": [
+      {
+        "name": "IOT_FEAST_REDIS",
+        "value": "online-serve-jenkins-8.iot-features.svc.cluster.local:6379"
+      },
+      {
+        "name": "IOT_SERVING_STATE",
+        "value": "/state"
+      },
+      {
+        "name": "IOT_KSERVE_URL",
+        "value": "http://iot-pump-serve-jenkins-8-predictor.iot-serving.svc.cluster.local"
+      },
+      {
+        "name": "IOT_MODEL_PIN",
+        "value": "/app/model-pin.json"
+      }
+    ],
+    "image": {
+      "pullPolicy": "Never",
+      "repository": "iot-coursework-feature-api",
+      "tag": "serve-jenkins-8"
+    },
+    "initContainers": [
+      {
+        "command": [
+          "python",
+          "-c",
+          "import shutil,pathlib; p=pathlib.Path('/state/registry'); p.mkdir(); [shutil.copyfile('/seed/'+n,'/state/'+n) for n in ['context.json','verification.json','_READY.json']]; shutil.copyfile('/seed/registry.db','/state/registry/registry.db')"
+        ],
+        "image": "iot-coursework-feature-api:serve-jenkins-8",
+        "imagePullPolicy": "Never",
+        "name": "copy-state",
+        "resources": {
+          "limits": {
+            "cpu": "500m",
+            "memory": "256Mi"
+          },
+          "requests": {
+            "cpu": "50m",
+            "memory": "64Mi"
+          }
+        },
+        "securityContext": {
+          "allowPrivilegeEscalation": false,
+          "capabilities": {
+            "drop": [
+              "ALL"
+            ]
+          },
+          "readOnlyRootFilesystem": true
+        },
+        "volumeMounts": [
+          {
+            "mountPath": "/seed",
+            "name": "seed",
+            "readOnly": true
+          },
+          {
+            "mountPath": "/state",
+            "name": "state"
+          }
+        ]
+      }
+    ],
+    "replicas": 1,
+    "resources": {
+      "limits": {
+        "cpu": "1",
+        "memory": "1Gi"
+      },
+      "requests": {
+        "cpu": "100m",
+        "memory": "256Mi"
+      }
+    },
+    "revisionMarker": "active6-refresh-after-retrain28-verified",
+    "volumeMounts": [
+      {
+        "mountPath": "/state",
+        "name": "state"
+      },
+      {
+        "mountPath": "/tmp",
+        "name": "tmp"
+      }
+    ],
+    "volumes": [
+      {
+        "configMap": {
+          "name": "iot-feature-active6-refresh-after-retrain28"
+        },
+        "name": "seed"
+      },
+      {
+        "emptyDir": {
+          "medium": "Memory",
+          "sizeLimit": "16Mi"
+        },
+        "name": "state"
+      },
+      {
+        "emptyDir": {
+          "medium": "Memory",
+          "sizeLimit": "32Mi"
+        },
+        "name": "tmp"
+      }
+    ]
+  },
+  "manifest": "---\n# Source: iot-api/templates/service.yaml\n# ClusterIP only; access remains private through the existing IAP connection.\napiVersion: v1\nkind: Service\nmetadata:\n  name: iot-feature-api\n  labels: {app.kubernetes.io/name: iot-api, app.kubernetes.io/instance: iot-feature-api}\nspec:\n  type: ClusterIP\n  selector: {app.kubernetes.io/instance: iot-feature-api}\n  ports: [{name: http, port: 80, targetPort: http}]\n---\n# Source: iot-api/templates/deployment.yaml\n# All live pods retain a usable replica during an upgrade; --atomic is enforced by the deployment CLI.\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: iot-feature-api\n  labels: {app.kubernetes.io/name: iot-api, app.kubernetes.io/instance: iot-feature-api}\nspec:\n  revisionHistoryLimit: 5\n  progressDeadlineSeconds: 90\n  strategy:\n    type: RollingUpdate\n    rollingUpdate: {maxSurge: 1, maxUnavailable: 0}\n  selector:\n    matchLabels: {app.kubernetes.io/instance: iot-feature-api}\n  template:\n    metadata:\n      labels: {app.kubernetes.io/name: iot-api, app.kubernetes.io/instance: iot-feature-api}\n      annotations:\n        iot.coursework/revision-marker: \"active6-refresh-after-retrain28-verified\"\n    spec:\n      automountServiceAccountToken: false\n      terminationGracePeriodSeconds: 30\n      securityContext:\n        runAsNonRoot: true\n        runAsUser: 10001\n        runAsGroup: 10001\n        fsGroup: 10001\n        seccompProfile: {type: RuntimeDefault}\n      initContainers:\n        - command:\n          - python\n          - -c\n          - import shutil,pathlib; p=pathlib.Path('/state/registry'); p.mkdir(); [shutil.copyfile('/seed/'+n,'/state/'+n)\n            for n in ['context.json','verification.json','_READY.json']]; shutil.copyfile('/seed/registry.db','/state/registry/registry.db')\n          image: iot-coursework-feature-api:serve-jenkins-8\n          imagePullPolicy: Never\n          name: copy-state\n          resources:\n            limits:\n              cpu: 500m\n              memory: 256Mi\n            requests:\n              cpu: 50m\n              memory: 64Mi\n          securityContext:\n            allowPrivilegeEscalation: false\n            capabilities:\n              drop:\n              - ALL\n            readOnlyRootFilesystem: true\n          volumeMounts:\n          - mountPath: /seed\n            name: seed\n            readOnly: true\n          - mountPath: /state\n            name: state\n      containers:\n        - name: api\n          image: \"iot-coursework-feature-api:serve-jenkins-8\"\n          imagePullPolicy: Never\n          ports: [{name: http, containerPort: 8080}]\n          lifecycle:\n            preStop:\n              # Keep the old process alive while EndpointSlice/kube-proxy withdraw its address.\n              exec: {command: [python, -c, 'import time; time.sleep(5)']}\n          resources:\n            limits:\n              cpu: \"1\"\n              memory: 1Gi\n            requests:\n              cpu: 100m\n              memory: 256Mi\n          securityContext:\n            allowPrivilegeEscalation: false\n            readOnlyRootFilesystem: true\n            capabilities: {drop: [ALL]}\n          env:\n            - name: IOT_FEAST_REDIS\n              value: online-serve-jenkins-8.iot-features.svc.cluster.local:6379\n            - name: IOT_SERVING_STATE\n              value: /state\n            - name: IOT_KSERVE_URL\n              value: http://iot-pump-serve-jenkins-8-predictor.iot-serving.svc.cluster.local\n            - name: IOT_MODEL_PIN\n              value: /app/model-pin.json\n          startupProbe:\n            httpGet: {path: /health/ready, port: http}\n            periodSeconds: 2\n            failureThreshold: 45\n            timeoutSeconds: 5\n          readinessProbe:\n            httpGet: {path: /health/ready, port: http}\n            periodSeconds: 3\n            timeoutSeconds: 5\n          livenessProbe:\n            httpGet: {path: /health/live, port: http}\n            periodSeconds: 10\n            timeoutSeconds: 2\n          volumeMounts:\n            - mountPath: /state\n              name: state\n            - mountPath: /tmp\n              name: tmp\n      volumes:\n        - configMap:\n            name: iot-feature-active6-refresh-after-retrain28\n          name: seed\n        - emptyDir:\n            medium: Memory\n            sizeLimit: 16Mi\n          name: state\n        - emptyDir:\n            medium: Memory\n            sizeLimit: 32Mi\n          name: tmp\n---\n# Source: iot-api/templates/hpa.yaml\n# CPU utilization uses the declared request, with a small same-node demonstration ceiling.\napiVersion: autoscaling/v2\nkind: HorizontalPodAutoscaler\nmetadata:\n  name: iot-feature-api\nspec:\n  scaleTargetRef: {apiVersion: apps/v1, kind: Deployment, name: iot-feature-api}\n  minReplicas: 1\n  maxReplicas: 2\n  metrics:\n    - type: Resource\n      resource:\n        name: cpu\n        target: {type: Utilization, averageUtilization: 60}\n  behavior:\n    scaleDown:\n      stabilizationWindowSeconds: 120\n",
+  "version": 22,
+  "namespace": "iot-features"
+}

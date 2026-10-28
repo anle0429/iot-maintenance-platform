@@ -4,6 +4,8 @@
 
 **Jenkins `iot-serving/8` SUCCESS trong307,949giây**, source **`99d6dcc2994f55f06133eace53ecff523f6fc3cb`**, packet75file. Chạy trên cùng Linux VM8CPU/64GiB, K3s1.35.9+k3s1/Docker29.9.2. CI đã chọn model6 qua MLflow SDK, kiểm thử, build/probe/import ba image, stage private, chạy A/B trước cutover, đổi feature API bằng Helm và kiểm toàn bộ200máy. Model6 có marker production **cho export trong lab dữ liệu mô phỏng**; đây không phải phê duyệt vận hành máy bơm thực.
 
+[Refresh vận hành06:33UTC](active-feature-refresh.md) dùng cùng image/model6 nhưng seed mới từ materialization thật sau khi lease cũ hết. Kết quả200máy được lưu riêng, không tính thành một lần chạy CI8 mới.
+
 | Phép kiểm | Kết quả thực tế | Bằng chứng |
 |---|---|---|
 | Native contract/API |104contracts/41subtests;208API tests PASS |[Contracts](evidence/ci-serving-linux/ci/tests/contracts.txt), [API](evidence/ci-serving-linux/ci/tests/api-tests.txt) |

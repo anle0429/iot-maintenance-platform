@@ -1,0 +1,161 @@
+{
+  "apiVersion": "serving.kserve.io/v1beta1",
+  "kind": "InferenceService",
+  "metadata": {
+    "annotations": {
+      "coursework.iot/model-portable-sha256": "60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981",
+      "coursework.iot/model-version": "6",
+      "coursework.iot/source-commit": "99d6dcc2994f55f06133eace53ecff523f6fc3cb",
+      "serving.kserve.io/deploymentMode": "Standard",
+      "sidecar.istio.io/inject": "false"
+    },
+    "creationTimestamp": "2026-10-28T04:50:58Z",
+    "finalizers": [
+      "inferenceservice.finalizers"
+    ],
+    "generation": 3,
+    "labels": {
+      "iot.coursework/release": "serve-jenkins-8"
+    },
+    "name": "iot-pump-serve-jenkins-8",
+    "namespace": "iot-serving",
+    "resourceVersion": "70855",
+    "uid": "696452a2-bade-44d9-93ea-e58e3f984a36"
+  },
+  "spec": {
+    "predictor": {
+      "automountServiceAccountToken": false,
+      "containers": [
+        {
+          "image": "iot-coursework-predictor:serve-jenkins-8",
+          "imagePullPolicy": "Never",
+          "livenessProbe": {
+            "httpGet": {
+              "path": "/health/live",
+              "port": 8080
+            },
+            "periodSeconds": 10
+          },
+          "name": "kserve-container",
+          "ports": [
+            {
+              "containerPort": 8080,
+              "name": "http1",
+              "protocol": "TCP"
+            }
+          ],
+          "readinessProbe": {
+            "httpGet": {
+              "path": "/health/ready",
+              "port": 8080
+            },
+            "periodSeconds": 5
+          },
+          "resources": {
+            "limits": {
+              "cpu": "500m",
+              "memory": "512Mi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "128Mi"
+            }
+          },
+          "securityContext": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            },
+            "readOnlyRootFilesystem": true
+          },
+          "startupProbe": {
+            "failureThreshold": 30,
+            "httpGet": {
+              "path": "/health/ready",
+              "port": 8080
+            },
+            "periodSeconds": 2
+          },
+          "volumeMounts": [
+            {
+              "mountPath": "/tmp",
+              "name": "tmp"
+            }
+          ]
+        }
+      ],
+      "maxReplicas": 2,
+      "minReplicas": 1,
+      "securityContext": {
+        "fsGroup": 10001,
+        "runAsGroup": 10001,
+        "runAsNonRoot": true,
+        "runAsUser": 10001,
+        "seccompProfile": {
+          "type": "RuntimeDefault"
+        }
+      },
+      "serviceAccountName": "iot-predictor",
+      "volumes": [
+        {
+          "emptyDir": {
+            "medium": "Memory",
+            "sizeLimit": "32Mi"
+          },
+          "name": "tmp"
+        }
+      ]
+    }
+  },
+  "status": {
+    "address": {
+      "url": "http://iot-pump-serve-jenkins-8-predictor.iot-serving.svc.cluster.local"
+    },
+    "components": {
+      "predictor": {
+        "url": "http://iot-pump-serve-jenkins-8-predictor-iot-serving.iot.internal"
+      }
+    },
+    "conditions": [
+      {
+        "lastTransitionTime": "2026-10-28T04:50:58Z",
+        "status": "True",
+        "type": "IngressReady"
+      },
+      {
+        "lastTransitionTime": "2026-10-28T04:51:03Z",
+        "message": "ReplicaSet \"iot-pump-serve-jenkins-8-predictor-777f598f\" has successfully progressed.",
+        "reason": "NewReplicaSetAvailable",
+        "status": "True",
+        "type": "PredictorReady"
+      },
+      {
+        "lastTransitionTime": "2026-10-28T04:51:03Z",
+        "status": "True",
+        "type": "Ready"
+      },
+      {
+        "lastTransitionTime": "2026-10-28T04:50:58Z",
+        "severity": "Info",
+        "status": "False",
+        "type": "Stopped"
+      }
+    ],
+    "deploymentMode": "Standard",
+    "modelStatus": {
+      "copies": {
+        "failedCopies": 0,
+        "totalCopies": 1
+      },
+      "states": {
+        "activeModelState": "Loaded",
+        "targetModelState": "Loaded"
+      },
+      "transitionStatus": "UpToDate"
+    },
+    "observedGeneration": 1,
+    "url": "http://iot-pump-serve-jenkins-8-iot-serving.iot.internal"
+  }
+}

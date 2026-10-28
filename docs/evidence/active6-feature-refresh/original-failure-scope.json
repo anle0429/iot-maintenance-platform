@@ -1,0 +1,20 @@
+{
+  "scope": "Derived diagnostic of operator helper; original first HTTP response was not retained. No invented traceback or success receipt. Rollback failure log is original bytes.",
+  "helper_sha256": "151f3d1fe5f10ffe9546cf3cb39707ddc81233e5868e515a815908b912621760",
+  "failed_expression": "reply['model']==pin",
+  "reason": "Response contains the nine identity fields plus descriptive features, score_kind and data_scope. Full dict equality was too strict. Recovery selected an expired old seed and timed out.",
+  "retained_model_keys": [
+    "data_scope",
+    "data_version",
+    "features",
+    "name",
+    "portable_sha256",
+    "production",
+    "protocol_sha256",
+    "run_id",
+    "score_kind",
+    "threshold",
+    "training_code_commit",
+    "version"
+  ]
+}

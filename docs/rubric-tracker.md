@@ -1,5 +1,7 @@
 # Checklist rubric và bằng chứng
 
+Cập nhật28/10 06:33UTC: [Feature refresh model6](active-feature-refresh.md) đã200máy/195prediction+5stopped409 sau materialization thật; lease1h, không đổi model7candidate hoặc ghi lại CI/F51.93tiêu chí nguồn giữ nguyên.
+
 Cập nhật28/10: [Serving CI8](ci-serving.md) đã SUCCESS/source99, native A/B/rollback/dashboard/Locust đã có proof; [F51 Airflow→KFP](drift-retraining.md) đã5task/model7candidate từ manual probe giữ drift=false, replay/cooldown không tạo thêm training. Các mục “chưa”27/10 bên dưới là lịch sử theo source cũ. Chuẩn chấm chính là57final; giữ nguyên93tiêu chí nguồn và không gộp điểm.
 
 Cập nhật27/10: [Phase A/B CI](ci-ab-deployment.md) đã nối source73file/49contracts/262sealedtests/1skip và800HTTPtrialPC có readiness nền, không tăngsnapshotdrift. Chưa nativebuild/deploy/SQL/CI SUCCESS; finalF33/F34/F52Doing.93sourcecriteria giữ nguyên.

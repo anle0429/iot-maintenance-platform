@@ -2,6 +2,8 @@
 
 **Đã chạy thật ngày28/10/2026:** Airflow`manual-retrain-probe-28-v2` SUCCESS, KFP`7780560d-f944-4303-9e4e-792f35d742ad` SUCCEEDED đủ5task. Controller thực đo1.128,680giây; UI hiển thị18phút45giây theo thời gian backend. Model mới **version7/candidate/production=false**, modelrun`ae599077b711443b856c1c9c588ad5fa`. Đây là demo thủ công với **drift thực=false**, không phải một cảnh báo drift tự phát sinh.
 
+Feature lease của model6 hết hạn trong phiên này; capture F51 giữ nguyên trạng thái đó. [Lượt làm mới riêng lúc06:33UTC](active-feature-refresh.md) đã materialize và kiểm lại200máy với model6, không thăng cấp model7 hoặc sửa bằng chứng F51.
+
 ![Run ID, source binding và trạng thái Succeeded thật](evidence/drift-retraining-linux/screenshots/kfp-retrain-success-detail.jpg)
 
 ![Năm task KFP hoàn tất sau lời gọi từ Airflow](evidence/drift-retraining-linux/screenshots/kfp-retrain-success-graph.jpg)
