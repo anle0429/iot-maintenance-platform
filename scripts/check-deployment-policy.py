@@ -83,7 +83,7 @@ def run(opa,output,source_manifest=None):
         common=['eval','--data',str(ROOT/'infra/policy/deployment.rego'),'--data',str(ROOT/'infra/policy/approved.json'),'--input',str(path)]
         evaluation=call(name+'-eval',[*common,'--format=json','data.iot.deployment.result']);assert evaluation.returncode==0
         decision=json.loads(evaluation.stdout)['result'][0]['expressions'][0]['value'];assert type(decision['allowed']) is bool and decision['allowed']==want and bool(decision['violations'])==(not want)
-        gate=call(name+'-gate',[*common,'--fail','--format=json','data.iot.deployment.result.allowed == true']);assert gate.returncode==(0 if want else 1)
+        gate=call(name+'-gate',[*common,'--fail','--format=json','data.iot.deployment.result.allowed = true']);assert gate.returncode==(0 if want else 1)
         rows.append({'case':name,'expected_allowed':want,'allowed':decision['allowed'],'violations':decision['violations'],'gate_exit':gate.returncode})
     if seal:
         for n,h in seal['files'].items():assert sha256((ROOT/n).read_bytes()).hexdigest()==h

@@ -38,7 +38,7 @@ PY
       steps {
         sh '''set +x
           set +e
-          docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges --user 10001:10001 --cpus 1 --memory 512m --memory-swap 512m --tmpfs /tmp:rw,nosuid,nodev,size=32m --mount "type=bind,src=$IOT_DEPLOY_ROOT/data/ci/source/$IOT_CI_COMMIT/tree,dst=/src,readonly" --mount "type=bind,src=$IOT_DEPLOY_ROOT/data/runtime/policy-assets-28/opa,dst=/opa,readonly" --entrypoint /opa iot-coursework-feast-versioned:0.67.0-3.17.2 eval --data /src/infra/policy/deployment.rego --data /src/infra/policy/approved.json --input "/src/tests/fixtures/$POLICY_INPUT" --fail --format=json 'data.iot.deployment.result.allowed == true' > "build-$BUILD_NUMBER/out/candidate-gate.stdout" 2> "build-$BUILD_NUMBER/out/candidate-gate.stderr"
+          docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges --user 10001:10001 --cpus 1 --memory 512m --memory-swap 512m --tmpfs /tmp:rw,nosuid,nodev,size=32m --mount "type=bind,src=$IOT_DEPLOY_ROOT/data/ci/source/$IOT_CI_COMMIT/tree,dst=/src,readonly" --mount "type=bind,src=$IOT_DEPLOY_ROOT/data/runtime/policy-assets-28/opa,dst=/opa,readonly" --entrypoint /opa iot-coursework-feast-versioned:0.67.0-3.17.2 eval --data /src/infra/policy/deployment.rego --data /src/infra/policy/approved.json --input "/src/tests/fixtures/$POLICY_INPUT" --fail --format=json 'data.iot.deployment.result.allowed = true' > "build-$BUILD_NUMBER/out/candidate-gate.stdout" 2> "build-$BUILD_NUMBER/out/candidate-gate.stderr"
           policy_exit=$?
           printf '%s' "$policy_exit" > "build-$BUILD_NUMBER/out/candidate-gate.exit"
           exit "$policy_exit"
