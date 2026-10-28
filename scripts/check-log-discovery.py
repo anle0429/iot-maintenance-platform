@@ -22,7 +22,13 @@ def main(args):
         return p.stdout
     session=json.loads((r/'data/runtime/ci/session.json').read_bytes());assert (datetime.fromisoformat(session['auto_stop_utc'])-datetime.now(timezone.utc)).total_seconds()>1800
     assert json.loads((r/'outputs/log-discovery-28/start/verification.json').read_bytes())['passed']
-    assert not json.loads(subprocess.check_output(k+['get','deployment','-n','iot-features','-l','app=iot-log-discovery-probe','-o','json']))['items']
+    if args.resume_from:
+        previous=args.resume_from.resolve();assert previous.is_relative_to(r/'outputs/log-discovery-28') and not (previous/'first.cri').exists()
+        assert not json.loads(subprocess.check_output(k+['get','pods','-n','iot-features','-l','app=iot-log-discovery-probe','-o','json']))['items']
+        deployment=json.loads(subprocess.check_output(k+['get','deployment','iot-log-discovery-probe','-n','iot-features','-o','json']));save('failed-empty-deployment.json',deployment)
+        assert deployment['spec']['selector']['matchLabels']=={'app':'iot-log-discovery-probe'} and deployment['spec']['template']['spec']['containers'][0]['image']=='iot-coursework-predictor:observe-jenkins-2'
+        save('resume.json',{'prior_output':str(previous.relative_to(r)),'no_pod_or_cri_created':True,'only_controlled_probe_will_be_repaired':True})
+    else:assert subprocess.run(k+['get','deployment','iot-log-discovery-probe','-n','iot-features'],capture_output=True).returncode!=0
     begun=time.time_ns();expected=[];uids=[]
     def query(label):
         expression='{host="vm-linux",collection="native-28-auto",service="log-probe"} |= "iot-log-discovery-28"'
@@ -65,4 +71,4 @@ def main(args):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--runtime-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);main(p.parse_args())
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--runtime-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--resume-from',type=Path);main(p.parse_args())

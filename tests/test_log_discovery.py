@@ -23,7 +23,7 @@ class LogDiscoveryTests(unittest.TestCase):
 
     def test_probe_batches_change_pod_template_without_credentials(self):
         first=probe_deployment('first');second=probe_deployment('second');self.assertNotEqual(first['spec']['template'],second['spec']['template'])
-        spec=first['spec']['template']['spec'];self.assertFalse(spec['automountServiceAccountToken']);self.assertNotIn('volumes',spec)
+        spec=first['spec']['template']['spec'];self.assertFalse(spec['automountServiceAccountToken']);self.assertNotIn('volumes',spec);self.assertEqual(spec['securityContext']['seccompProfile'],{'type':'RuntimeDefault'})
         self.assertEqual(spec['containers'][0]['resources']['limits']['memory'],'128Mi')
         with self.assertRaises(ValueError):probe_deployment('arbitrary')
 
