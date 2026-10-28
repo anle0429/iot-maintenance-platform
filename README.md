@@ -28,6 +28,8 @@ S1–S4 là hai job độc lập được CI triển khai; cửa sổ nguồn l�
 
 [Vault native](docs/vault.md) có hai consumer AppRole thực: Jenkins đăng nhập Airflow từ secret lấy lúc chạy, gateway đổi mật khẩu bản 2. Đọc chéo/token đã thu hồi bị 403, CAS cũ bị 400, restart giữ dữ liệu và quyền. 81 payload/hai ảnh gốc; phạm vi một VM/một operator, chưa migration mọi secret/HA/auto-unseal.
 
+[Mesh native](docs/private-mesh.md) dùng Istio1.31.3 và STRICT mTLS: principal đúng gọi model6 trả200/math khớp; principal sai, giả header và thao tác ngoài quyền bị403; plaintext bị TLS reset.106payload/hai ảnh gốc/verifier; kiểm chứng namespace riêng, chưa migration production.
+
 ## Mục lục
 
 - [Phạm vi và dữ liệu](docs/domain-proposal.md)
@@ -65,6 +67,7 @@ S1–S4 là hai job độc lập được CI triển khai; cửa sổ nguồn l�
 - [Metrics/traces API: dashboard và trace native đã kiểm](docs/api-observability.md)
 - [Locust trên wrapper: SLA, replica và bằng chứng gốc](docs/observed-api-load.md)
 - [Vault: quyền đọc riêng, rotation và dữ liệu bền sau restart](docs/vault.md)
+- [Mesh: danh tính mTLS và phân quyền service-to-service](docs/private-mesh.md)
 - [Gateway private: authentication, rate limit và HTTPS](docs/private-gateway.md)
 - [CI hai job stream offline/online](docs/ci-stream-push.md)
 - [CI telemetry: test/build/auto-deploy cùng model production](docs/ci-api-observability.md)
@@ -155,6 +158,9 @@ flowchart LR
     VaultSync[Gateway credential sync job] -->|V3 AppRole và đọc KV2| Vault
     Vault -->|V4 gateway credential version| VaultSync
     VaultSync -->|V5 auth Secret update được controller watch| Gateway
+    MeshCaller[Identity probe - feature-caller SA] -->|S1 mTLS principal và POST allowed| MeshProxy[Istio Envoy - iot-mesh namespace]
+    MeshOther[Untrusted và plaintext probes] -->|S2 denied403 hoặc TLS reset| MeshProxy
+    MeshProxy -->|S3 chỉ request được phép| MeshPredictor[Isolated real model6 clone]
     Jenkins -->|C1 submit training CI| KFP[Kubeflow API Deployment]
     KFP -->|T1 điều phối năm task| Training[KFP ML task pods]
     Spark -->|T2 offline feature qua HDD và Feast| Training

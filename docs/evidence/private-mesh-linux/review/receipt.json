@@ -1,0 +1,12 @@
+{
+  "started_utc": "2026-10-28T20:39:58.605392+00:00",
+  "listener": "127.0.0.1:19406",
+  "pod": "mesh-predictor-769fdd755c-cdh7h",
+  "pod_uid": "1517095a-0ec7-478f-9a91-9ce2b41b99dc",
+  "allowlisted_get_paths": [
+    "/stats",
+    "/certs",
+    "/logs"
+  ],
+  "scope": "Read-only live native Envoy output through Kubernetes exec/logs. Certificate metadata endpoint only; no configuration/private-key dumps, mutation proxy or public port."
+}

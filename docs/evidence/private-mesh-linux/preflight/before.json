@@ -1,0 +1,1109 @@
+{
+  "utc": "2026-10-28T20:25:00.646741+00:00",
+  "namespaces": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{},\"name\":\"cert-manager\"}}\n"
+          },
+          "creationTimestamp": "2026-10-27T11:20:42Z",
+          "labels": {
+            "kubernetes.io/metadata.name": "cert-manager"
+          },
+          "name": "cert-manager",
+          "resourceVersion": "737",
+          "uid": "42e5f219-1da1-4aa7-8ea3-20a20c9accab"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "creationTimestamp": "2026-10-27T11:05:51Z",
+          "labels": {
+            "kubernetes.io/metadata.name": "default"
+          },
+          "name": "default",
+          "resourceVersion": "23",
+          "uid": "ab5eafb0-82bd-4082-b242-d4f56421e709"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "creationTimestamp": "2026-10-28T17:57:16Z",
+          "labels": {
+            "kubernetes.io/metadata.name": "iot-drift-events",
+            "pod-security.kubernetes.io/enforce": "restricted"
+          },
+          "name": "iot-drift-events",
+          "resourceVersion": "136702",
+          "uid": "3276a992-470b-4cc6-8b58-4428a26a171b"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{},\"labels\":{\"pod-security.kubernetes.io/enforce\":\"restricted\"},\"name\":\"iot-features\"}}\n"
+          },
+          "creationTimestamp": "2026-10-27T11:46:22Z",
+          "labels": {
+            "kubernetes.io/metadata.name": "iot-features",
+            "pod-security.kubernetes.io/enforce": "restricted"
+          },
+          "name": "iot-features",
+          "resourceVersion": "3814",
+          "uid": "143b1914-e691-4c95-8ad0-f18b8324422f"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{},\"name\":\"iot-gateway\"}}\n"
+          },
+          "creationTimestamp": "2026-10-28T19:42:48Z",
+          "labels": {
+            "kubernetes.io/metadata.name": "iot-gateway"
+          },
+          "name": "iot-gateway",
+          "resourceVersion": "165144",
+          "uid": "d7bc1254-2026-4d73-9bc0-03406b6f0651"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "creationTimestamp": "2026-10-28T07:04:54Z",
+          "labels": {
+            "kubernetes.io/metadata.name": "iot-observability"
+          },
+          "name": "iot-observability",
+          "resourceVersion": "83375",
+          "uid": "e34c1aaa-58c4-4bc9-bf05-faac3598e317"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{},\"labels\":{\"pod-security.kubernetes.io/enforce\":\"restricted\"},\"name\":\"iot-serving\"}}\n"
+          },
+          "creationTimestamp": "2026-10-27T11:21:48Z",
+          "labels": {
+            "kubernetes.io/metadata.name": "iot-serving",
+            "pod-security.kubernetes.io/enforce": "restricted"
+          },
+          "name": "iot-serving",
+          "resourceVersion": "1072",
+          "uid": "f625aa3b-186b-4674-865e-68b8ebc94fc2"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "creationTimestamp": "2026-10-28T17:46:01Z",
+          "labels": {
+            "app.kubernetes.io/name": "knative-eventing",
+            "app.kubernetes.io/version": "1.24.0",
+            "kubernetes.io/metadata.name": "knative-eventing"
+          },
+          "name": "knative-eventing",
+          "resourceVersion": "133316",
+          "uid": "981c972b-6ae0-4d19-bbd4-b79c7c69edd1"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "creationTimestamp": "2026-10-27T11:20:55Z",
+          "labels": {
+            "kubernetes.io/metadata.name": "kserve",
+            "name": "kserve"
+          },
+          "name": "kserve",
+          "resourceVersion": "895",
+          "uid": "7187053e-4468-4177-be3b-891295c62784"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "creationTimestamp": "2026-10-27T11:05:51Z",
+          "labels": {
+            "kubernetes.io/metadata.name": "kube-node-lease"
+          },
+          "name": "kube-node-lease",
+          "resourceVersion": "32",
+          "uid": "cbcce021-199c-4b48-b872-70f15f6d9226"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "creationTimestamp": "2026-10-27T11:05:51Z",
+          "labels": {
+            "kubernetes.io/metadata.name": "kube-public"
+          },
+          "name": "kube-public",
+          "resourceVersion": "16",
+          "uid": "1e202415-8e83-4117-a78a-8d6e8b406ea5"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "creationTimestamp": "2026-10-27T11:05:51Z",
+          "labels": {
+            "kubernetes.io/metadata.name": "kube-system"
+          },
+          "name": "kube-system",
+          "resourceVersion": "6",
+          "uid": "bc5636a5-0c5f-4214-90cb-fed65b5ce572"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "Namespace",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Namespace\",\"metadata\":{\"annotations\":{},\"name\":\"kubeflow\"}}\n"
+          },
+          "creationTimestamp": "2026-10-27T11:23:17Z",
+          "labels": {
+            "kubernetes.io/metadata.name": "kubeflow",
+            "pod-security.kubernetes.io/enforce": "baseline",
+            "pod-security.kubernetes.io/warn": "restricted"
+          },
+          "name": "kubeflow",
+          "resourceVersion": "1248",
+          "uid": "3b0ef4e9-ff11-4bf8-8534-ac600c46c1e8"
+        },
+        "spec": {
+          "finalizers": [
+            "kubernetes"
+          ]
+        },
+        "status": {
+          "phase": "Active"
+        }
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "mutating_webhooks": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "apiVersion": "admissionregistration.k8s.io/v1",
+        "kind": "MutatingWebhookConfiguration",
+        "metadata": {
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"admissionregistration.k8s.io/v1\",\"kind\":\"MutatingWebhookConfiguration\",\"metadata\":{\"annotations\":{},\"name\":\"cache-webhook-kubeflow\"},\"webhooks\":[{\"admissionReviewVersions\":[\"v1beta1\"],\"clientConfig\":{\"caBundle\":\"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMxekNDQW4yZ0F3SUJBZ0lRRUhLVDAyTHJpekZBWDd6Wjh6M1gwekFLQmdncWhrak9QUVFEQWpBak1TRXcKSHdZRFZRUUREQmhyTTNNdGMyVnlkbVZ5TFdOaFFERTNPVE13T1RreE5EUXdIaGNOTWpZeE1ESTNNVEV4T1RNNApXaGNOTWpjeE1ESTNNVEV4T1RNNFdqQklNUlV3RXdZRFZRUUtFd3h6ZVhOMFpXMDZibTlrWlhNeEx6QXRCZ05WCkJBTU1Kbk41YzNSbGJUcHViMlJsT21OaFkyaGxMWE5sY25abGNpNXJkV0psWm14dmR5NXpkbU03TUlJQklqQU4KQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBcjlYaFFrMld1b1FzOEdrL2xKYlh6TXM0blNDTwpUcjN2MG1TbEgvcTZ6M0ErSjNPdUxqTUVyMnlLVGtyOGxBTy9LLytFdkpLencyM210d2ZTRk5BUWhTcnhRNTIrCjBuNjNZbGFHcVJYRVFhenZ1T2NGQ1kvbG5CcXVUQmNZZElLa1BOOTVuV2l3RzJIeHFjdUdId29VWXJQWld5aWUKVTE5cmltejNiVzI0c2dDbzVWTjFhRzhrZnBvbUI0Tk1OM1RqWVprNXRPNDA0OHpuMzRDUFFHVWsrRDhjZEluZQo4Y050SERLeU8rSzNFM055ZXVZVWZzUjFZNzVpUWlab0VCTU1McmdpUnpWcEc0ZWZob1IvK0Q2cmI4RktSWnIwCmNnMFNQRThCR1krNTZrVk15V2x6UE5QZnJyU2FTQjhBbkNEVy9BNHNYUE9lUGtOdmVKWmY1aklzMXdJREFRQUIKbzRHaU1JR2ZNQTRHQTFVZER3RUIvd1FFQXdJRm9EQVRCZ05WSFNVRUREQUtCZ2dyQmdFRkJRY0RBVEFNQmdOVgpIUk1CQWY4RUFqQUFNQjhHQTFVZEl3UVlNQmFBRktFNzJ5Yi9ZOTF3eURQV25vWkI5NHZkQVJCRU1Fa0dBMVVkCkVRUkNNRUNDREdOaFkyaGxMWE5sY25abGNvSVZZMkZqYUdVdGMyVnlkbVZ5TG10MVltVm1iRzkzZ2hsallXTm8KWlMxelpYSjJaWEl1YTNWaVpXWnNiM2N1YzNaak1Bb0dDQ3FHU000OUJBTUNBMGdBTUVVQ0lCUnY2akV3U1lOMQpnL1dOMC9VeExzZnczYzl3ME9UYWFZSGQvbFV4cnpoY0FpRUErby9FTmYxWURrU0VjeHl1UEQ1cTVHMlE5K2FUCnRyaW84L3JYTE9RREJZMD0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=\",\"service\":{\"name\":\"cache-server\",\"namespace\":\"kubeflow\",\"path\":\"/mutate\"}},\"failurePolicy\":\"Ignore\",\"name\":\"cache-server.kubeflow.svc\",\"objectSelector\":{\"matchLabels\":{\"pipelines.kubeflow.org/cache_enabled\":\"true\"}},\"rules\":[{\"apiGroups\":[\"\"],\"apiVersions\":[\"v1\"],\"operations\":[\"CREATE\"],\"resources\":[\"pods\"]}],\"sideEffects\":\"None\",\"timeoutSeconds\":5}]}\n"
+          },
+          "creationTimestamp": "2026-10-27T11:24:39Z",
+          "generation": 1,
+          "name": "cache-webhook-kubeflow",
+          "resourceVersion": "1751",
+          "uid": "4d21a5a4-8c74-4fcb-80f0-5cef25de13f4"
+        },
+        "webhooks": [
+          {
+            "admissionReviewVersions": [
+              "v1beta1"
+            ],
+            "clientConfig": {
+              "caBundle": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUMxekNDQW4yZ0F3SUJBZ0lRRUhLVDAyTHJpekZBWDd6Wjh6M1gwekFLQmdncWhrak9QUVFEQWpBak1TRXcKSHdZRFZRUUREQmhyTTNNdGMyVnlkbVZ5TFdOaFFERTNPVE13T1RreE5EUXdIaGNOTWpZeE1ESTNNVEV4T1RNNApXaGNOTWpjeE1ESTNNVEV4T1RNNFdqQklNUlV3RXdZRFZRUUtFd3h6ZVhOMFpXMDZibTlrWlhNeEx6QXRCZ05WCkJBTU1Kbk41YzNSbGJUcHViMlJsT21OaFkyaGxMWE5sY25abGNpNXJkV0psWm14dmR5NXpkbU03TUlJQklqQU4KQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBcjlYaFFrMld1b1FzOEdrL2xKYlh6TXM0blNDTwpUcjN2MG1TbEgvcTZ6M0ErSjNPdUxqTUVyMnlLVGtyOGxBTy9LLytFdkpLencyM210d2ZTRk5BUWhTcnhRNTIrCjBuNjNZbGFHcVJYRVFhenZ1T2NGQ1kvbG5CcXVUQmNZZElLa1BOOTVuV2l3RzJIeHFjdUdId29VWXJQWld5aWUKVTE5cmltejNiVzI0c2dDbzVWTjFhRzhrZnBvbUI0Tk1OM1RqWVprNXRPNDA0OHpuMzRDUFFHVWsrRDhjZEluZQo4Y050SERLeU8rSzNFM055ZXVZVWZzUjFZNzVpUWlab0VCTU1McmdpUnpWcEc0ZWZob1IvK0Q2cmI4RktSWnIwCmNnMFNQRThCR1krNTZrVk15V2x6UE5QZnJyU2FTQjhBbkNEVy9BNHNYUE9lUGtOdmVKWmY1aklzMXdJREFRQUIKbzRHaU1JR2ZNQTRHQTFVZER3RUIvd1FFQXdJRm9EQVRCZ05WSFNVRUREQUtCZ2dyQmdFRkJRY0RBVEFNQmdOVgpIUk1CQWY4RUFqQUFNQjhHQTFVZEl3UVlNQmFBRktFNzJ5Yi9ZOTF3eURQV25vWkI5NHZkQVJCRU1Fa0dBMVVkCkVRUkNNRUNDREdOaFkyaGxMWE5sY25abGNvSVZZMkZqYUdVdGMyVnlkbVZ5TG10MVltVm1iRzkzZ2hsallXTm8KWlMxelpYSjJaWEl1YTNWaVpXWnNiM2N1YzNaak1Bb0dDQ3FHU000OUJBTUNBMGdBTUVVQ0lCUnY2akV3U1lOMQpnL1dOMC9VeExzZnczYzl3ME9UYWFZSGQvbFV4cnpoY0FpRUErby9FTmYxWURrU0VjeHl1UEQ1cTVHMlE5K2FUCnRyaW84L3JYTE9RREJZMD0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=",
+              "service": {
+                "name": "cache-server",
+                "namespace": "kubeflow",
+                "path": "/mutate",
+                "port": 443
+              }
+            },
+            "failurePolicy": "Ignore",
+            "matchPolicy": "Equivalent",
+            "name": "cache-server.kubeflow.svc",
+            "namespaceSelector": {},
+            "objectSelector": {
+              "matchLabels": {
+                "pipelines.kubeflow.org/cache_enabled": "true"
+              }
+            },
+            "reinvocationPolicy": "Never",
+            "rules": [
+              {
+                "apiGroups": [
+                  ""
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE"
+                ],
+                "resources": [
+                  "pods"
+                ],
+                "scope": "*"
+              }
+            ],
+            "sideEffects": "None",
+            "timeoutSeconds": 5
+          }
+        ]
+      },
+      {
+        "apiVersion": "admissionregistration.k8s.io/v1",
+        "kind": "MutatingWebhookConfiguration",
+        "metadata": {
+          "annotations": {
+            "cert-manager.io/inject-ca-from-secret": "cert-manager/cert-manager-webhook-ca",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"admissionregistration.k8s.io/v1\",\"kind\":\"MutatingWebhookConfiguration\",\"metadata\":{\"annotations\":{\"cert-manager.io/inject-ca-from-secret\":\"cert-manager/cert-manager-webhook-ca\"},\"labels\":{\"app\":\"webhook\",\"app.kubernetes.io/component\":\"webhook\",\"app.kubernetes.io/instance\":\"cert-manager\",\"app.kubernetes.io/name\":\"webhook\",\"app.kubernetes.io/version\":\"v1.21.3\"},\"name\":\"cert-manager-webhook\"},\"webhooks\":[{\"admissionReviewVersions\":[\"v1\"],\"clientConfig\":{\"service\":{\"name\":\"cert-manager-webhook\",\"namespace\":\"cert-manager\",\"path\":\"/mutate\"}},\"failurePolicy\":\"Fail\",\"matchPolicy\":\"Equivalent\",\"name\":\"webhook.cert-manager.io\",\"rules\":[{\"apiGroups\":[\"cert-manager.io\"],\"apiVersions\":[\"v1\"],\"operations\":[\"CREATE\"],\"resources\":[\"certificaterequests\"]}],\"sideEffects\":\"None\",\"timeoutSeconds\":30}]}\n"
+          },
+          "creationTimestamp": "2026-10-27T11:20:43Z",
+          "generation": 2,
+          "labels": {
+            "app": "webhook",
+            "app.kubernetes.io/component": "webhook",
+            "app.kubernetes.io/instance": "cert-manager",
+            "app.kubernetes.io/name": "webhook",
+            "app.kubernetes.io/version": "v1.21.3"
+          },
+          "name": "cert-manager-webhook",
+          "resourceVersion": "886",
+          "uid": "219ab664-7fae-4028-b417-0980238bffdb"
+        },
+        "webhooks": [
+          {
+            "admissionReviewVersions": [
+              "v1"
+            ],
+            "clientConfig": {
+              "caBundle": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJ4VENDQVV1Z0F3SUJBZ0lVUElqTEUxQ1VxUng1eE8rd2c4MkxxVFVFTTJzd0NnWUlLb1pJemowRUF3TXcKSWpFZ01CNEdBMVVFQXhNWFkyVnlkQzF0WVc1aFoyVnlMWGRsWW1odmIyc3RZMkV3SGhjTk1qWXhNREkzTVRFeQpNRFEzV2hjTk1qY3hNREkzTVRFeU1EUTNXakFpTVNBd0hnWURWUVFERXhkalpYSjBMVzFoYm1GblpYSXRkMlZpCmFHOXZheTFqWVRCMk1CQUdCeXFHU000OUFnRUdCU3VCQkFBaUEySUFCSU8raGFIa3kwVGZlbmJrOTdNaWhSRHAKSlA5WHlzY2I5RHZqQXc1QnZTTWdEekNWaTV6MzZucTIyQk5RTHh3Y3hPdTlhNWV6Tkd2NUVsL0F1ekQ2a01JSApFV0FCaHkrOU5oQlBydUoxNnRYc040QW1hczZqVER3TDNueHlHcVluQjZOQ01FQXdEZ1lEVlIwUEFRSC9CQVFECkFnS2tNQThHQTFVZEV3RUIvd1FGTUFNQkFmOHdIUVlEVlIwT0JCWUVGTmRvbXl2ekw3cG5idFE2eUt2QjlwR2MKRDJCaU1Bb0dDQ3FHU000OUJBTURBMmdBTUdVQ01RQzdDcXpIYVI1b29BK3FtcUtVaXNZTWR4aXFYSTROUStiTgo2UDhBNy9GSG9HVDQxci9BeTlHVHk3eEt1Y1QrcFp3Q01CU053RWYxamNWb2FhY1VZNW5NYlJpTVBaSGNGQ2dICjM4QnFJWm1sZFBJcytGTlN4WDVyZEVmanFzcWpTNEhvK1E9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==",
+              "service": {
+                "name": "cert-manager-webhook",
+                "namespace": "cert-manager",
+                "path": "/mutate",
+                "port": 443
+              }
+            },
+            "failurePolicy": "Fail",
+            "matchPolicy": "Equivalent",
+            "name": "webhook.cert-manager.io",
+            "namespaceSelector": {},
+            "objectSelector": {},
+            "reinvocationPolicy": "Never",
+            "rules": [
+              {
+                "apiGroups": [
+                  "cert-manager.io"
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE"
+                ],
+                "resources": [
+                  "certificaterequests"
+                ],
+                "scope": "*"
+              }
+            ],
+            "sideEffects": "None",
+            "timeoutSeconds": 30
+          }
+        ]
+      },
+      {
+        "apiVersion": "admissionregistration.k8s.io/v1",
+        "kind": "MutatingWebhookConfiguration",
+        "metadata": {
+          "annotations": {
+            "cert-manager.io/inject-ca-from": "kserve/serving-cert",
+            "meta.helm.sh/release-name": "kserve-resources",
+            "meta.helm.sh/release-namespace": "kserve"
+          },
+          "creationTimestamp": "2026-10-27T11:21:03Z",
+          "generation": 2,
+          "labels": {
+            "app.kubernetes.io/component": "kserve",
+            "app.kubernetes.io/managed-by": "Helm",
+            "app.kubernetes.io/name": "kserve"
+          },
+          "name": "inferenceservice.serving.kserve.io",
+          "resourceVersion": "989",
+          "uid": "41b34bd7-d9fd-4c2a-8ad5-dc1ed2bdd02e"
+        },
+        "webhooks": [
+          {
+            "admissionReviewVersions": [
+              "v1beta1"
+            ],
+            "clientConfig": {
+              "caBundle": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURTVENDQWpHZ0F3SUJBZ0lVY1grZm1tcHdoSThQT2RhQWVZZ3lYT0E1UXdNd0RRWUpLb1pJaHZjTkFRRUwKQlFBd016RXhNQzhHQTFVRUF4TW9hM05sY25abExYZGxZbWh2YjJzdGMyVnlkbVZ5TFhObGNuWnBZMlV1YTNObApjblpsTG5OMll6QWVGdzB5TmpFd01qY3hNVEl4TURSYUZ3MHlOekF4TWpVeE1USXhNRFJhTURNeE1UQXZCZ05WCkJBTVRLR3R6WlhKMlpTMTNaV0pvYjI5ckxYTmxjblpsY2kxelpYSjJhV05sTG10elpYSjJaUzV6ZG1Nd2dnRWkKTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCRHdBd2dnRUtBb0lCQVFDcTM4Uk82aUl3MHlsNFJSbmhlUzJ5UDAyRQpOZmVYbHdYdzUwejZqc3lGN1VwU0ZFcGY5VnpDbUtJWGNLVmpjbmpTeTBMdzBWZGVxWVpRcWdjV2F0M2dhMXQ4CjdEVEQ1blJ4bDlLelV3blAxR2pwSXpTTG5UdFRtZVhOd0tMQU4xcVRuWnZlT1dzbURxZ21ZeUFIaVJnRGhLMUIKKzd4TGhXWDhsM0gxQkxzcDR6bm1jam5vRS9jMmdEMGhSS0NPWnhGMWs5MGVxbTlKN2QxcTJBWDFLM0tPdkFVRQo2L1hNdi9kamU1NmVzMmRyZkZUbUNwdHVWYm41NU95Y3UzbkFzcUs1RkJDM2l2UUZtUjJ1a1p4ZWF2VGFieWpWClB1WkxMVThTUTVRRWtBSk51MjdtdEtob214bkRSd1NPV2VtMEY5UUR3VTlic0hPb2dXWC91S2xTdStYYkFnTUIKQUFHalZUQlRNQTRHQTFVZER3RUIvd1FFQXdJRm9EQU1CZ05WSFJNQkFmOEVBakFBTURNR0ExVWRFUVFzTUNxQwpLR3R6WlhKMlpTMTNaV0pvYjI5ckxYTmxjblpsY2kxelpYSjJhV05sTG10elpYSjJaUzV6ZG1Nd0RRWUpLb1pJCmh2Y05BUUVMQlFBRGdnRUJBR1hMSk5SRDlhRVpQZkc2MVArT0o0bnNQL01vVjYwWlhLZHo2VUt5MEQ0ZS9FTi8KV0hJck1ZalBNQytSR1VQUnlydUhDUDB1US9XMlFkWS85ZHFJRjlmYnAraWVPbE9ObVJUNEhGYStoSmxmaGRwMgpHMHQ1elRmM3dRWW5hYWV5TE1LOFlaZ1BtTXZaR3FWSlBYc2x4WVNyaGlGKzg1aW8xbFdDQ3E1R21EaUNTbkI2ClVvYUZhemo3Yk1rRVhUYWV3L29NOTFycExrMjJpNWdFUGR2andzOEpZOXE3eng5WWlMa0wvdG9QOXl6eG1ScmcKMy9oV1puYTR2enN1dUF3VDdFZDhEczczQTNXZWk2a1dqVk56Mm12SkFEb20vOHhodFVCUXhWaXY0b2d0dnZGOAplaFlEQ3JGZTFaemNWRVM1c1VOVUxvWlBBbStYUmdhb1JiaXVCOG89Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K",
+              "service": {
+                "name": "kserve-webhook-server-service",
+                "namespace": "kserve",
+                "path": "/mutate-serving-kserve-io-v1beta1-inferenceservice",
+                "port": 443
+              }
+            },
+            "failurePolicy": "Fail",
+            "matchPolicy": "Equivalent",
+            "name": "inferenceservice.kserve-webhook-server.defaulter",
+            "namespaceSelector": {},
+            "objectSelector": {},
+            "reinvocationPolicy": "Never",
+            "rules": [
+              {
+                "apiGroups": [
+                  "serving.kserve.io"
+                ],
+                "apiVersions": [
+                  "v1beta1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "inferenceservices"
+                ],
+                "scope": "*"
+              }
+            ],
+            "sideEffects": "None",
+            "timeoutSeconds": 10
+          },
+          {
+            "admissionReviewVersions": [
+              "v1beta1"
+            ],
+            "clientConfig": {
+              "caBundle": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURTVENDQWpHZ0F3SUJBZ0lVY1grZm1tcHdoSThQT2RhQWVZZ3lYT0E1UXdNd0RRWUpLb1pJaHZjTkFRRUwKQlFBd016RXhNQzhHQTFVRUF4TW9hM05sY25abExYZGxZbWh2YjJzdGMyVnlkbVZ5TFhObGNuWnBZMlV1YTNObApjblpsTG5OMll6QWVGdzB5TmpFd01qY3hNVEl4TURSYUZ3MHlOekF4TWpVeE1USXhNRFJhTURNeE1UQXZCZ05WCkJBTVRLR3R6WlhKMlpTMTNaV0pvYjI5ckxYTmxjblpsY2kxelpYSjJhV05sTG10elpYSjJaUzV6ZG1Nd2dnRWkKTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCRHdBd2dnRUtBb0lCQVFDcTM4Uk82aUl3MHlsNFJSbmhlUzJ5UDAyRQpOZmVYbHdYdzUwejZqc3lGN1VwU0ZFcGY5VnpDbUtJWGNLVmpjbmpTeTBMdzBWZGVxWVpRcWdjV2F0M2dhMXQ4CjdEVEQ1blJ4bDlLelV3blAxR2pwSXpTTG5UdFRtZVhOd0tMQU4xcVRuWnZlT1dzbURxZ21ZeUFIaVJnRGhLMUIKKzd4TGhXWDhsM0gxQkxzcDR6bm1jam5vRS9jMmdEMGhSS0NPWnhGMWs5MGVxbTlKN2QxcTJBWDFLM0tPdkFVRQo2L1hNdi9kamU1NmVzMmRyZkZUbUNwdHVWYm41NU95Y3UzbkFzcUs1RkJDM2l2UUZtUjJ1a1p4ZWF2VGFieWpWClB1WkxMVThTUTVRRWtBSk51MjdtdEtob214bkRSd1NPV2VtMEY5UUR3VTlic0hPb2dXWC91S2xTdStYYkFnTUIKQUFHalZUQlRNQTRHQTFVZER3RUIvd1FFQXdJRm9EQU1CZ05WSFJNQkFmOEVBakFBTURNR0ExVWRFUVFzTUNxQwpLR3R6WlhKMlpTMTNaV0pvYjI5ckxYTmxjblpsY2kxelpYSjJhV05sTG10elpYSjJaUzV6ZG1Nd0RRWUpLb1pJCmh2Y05BUUVMQlFBRGdnRUJBR1hMSk5SRDlhRVpQZkc2MVArT0o0bnNQL01vVjYwWlhLZHo2VUt5MEQ0ZS9FTi8KV0hJck1ZalBNQytSR1VQUnlydUhDUDB1US9XMlFkWS85ZHFJRjlmYnAraWVPbE9ObVJUNEhGYStoSmxmaGRwMgpHMHQ1elRmM3dRWW5hYWV5TE1LOFlaZ1BtTXZaR3FWSlBYc2x4WVNyaGlGKzg1aW8xbFdDQ3E1R21EaUNTbkI2ClVvYUZhemo3Yk1rRVhUYWV3L29NOTFycExrMjJpNWdFUGR2andzOEpZOXE3eng5WWlMa0wvdG9QOXl6eG1ScmcKMy9oV1puYTR2enN1dUF3VDdFZDhEczczQTNXZWk2a1dqVk56Mm12SkFEb20vOHhodFVCUXhWaXY0b2d0dnZGOAplaFlEQ3JGZTFaemNWRVM1c1VOVUxvWlBBbStYUmdhb1JiaXVCOG89Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K",
+              "service": {
+                "name": "kserve-webhook-server-service",
+                "namespace": "kserve",
+                "path": "/mutate-pods",
+                "port": 443
+              }
+            },
+            "failurePolicy": "Fail",
+            "matchPolicy": "Equivalent",
+            "name": "inferenceservice.kserve-webhook-server.pod-mutator",
+            "namespaceSelector": {
+              "matchExpressions": [
+                {
+                  "key": "control-plane",
+                  "operator": "DoesNotExist"
+                }
+              ]
+            },
+            "objectSelector": {
+              "matchExpressions": [
+                {
+                  "key": "serving.kserve.io/inferenceservice",
+                  "operator": "Exists"
+                }
+              ]
+            },
+            "reinvocationPolicy": "IfNeeded",
+            "rules": [
+              {
+                "apiGroups": [
+                  ""
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE"
+                ],
+                "resources": [
+                  "pods"
+                ],
+                "scope": "*"
+              }
+            ],
+            "sideEffects": "None",
+            "timeoutSeconds": 10
+          }
+        ]
+      },
+      {
+        "apiVersion": "admissionregistration.k8s.io/v1",
+        "kind": "MutatingWebhookConfiguration",
+        "metadata": {
+          "creationTimestamp": "2026-10-28T17:46:29Z",
+          "generation": 2,
+          "labels": {
+            "app.kubernetes.io/name": "knative-eventing",
+            "app.kubernetes.io/version": "1.24.0"
+          },
+          "name": "inmemorychannel.eventing.knative.dev",
+          "ownerReferences": [
+            {
+              "apiVersion": "v1",
+              "blockOwnerDeletion": true,
+              "controller": false,
+              "kind": "Namespace",
+              "name": "knative-eventing",
+              "uid": "981c972b-6ae0-4d19-bbd4-b79c7c69edd1"
+            }
+          ],
+          "resourceVersion": "133833",
+          "uid": "b89430ad-23ce-4657-b1bf-146aaf1f8118"
+        },
+        "webhooks": [
+          {
+            "admissionReviewVersions": [
+              "v1"
+            ],
+            "clientConfig": {
+              "caBundle": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN1RENDQWw2Z0F3SUJBZ0lRWUZZL0haTTIxcFFuZVN3RUltbGxnekFLQmdncWhrak9QUVFEQWpCTk1SUXcKRWdZRFZRUUtFd3RyYm1GMGFYWmxMbVJsZGpFMU1ETUdBMVVFQXhNc2FXNXRaVzF2Y25samFHRnVibVZzTFhkbApZbWh2YjJzdWEyNWhkR2wyWlMxbGRtVnVkR2x1Wnk1emRtTXdIaGNOTWpZeE1ESTRNVGMwTmpNeldoY05Nall4Ck1UQTBNVGMwTmpNeldqQk5NUlF3RWdZRFZRUUtFd3RyYm1GMGFYWmxMbVJsZGpFMU1ETUdBMVVFQXhNc2FXNXQKWlcxdmNubGphR0Z1Ym1Wc0xYZGxZbWh2YjJzdWEyNWhkR2wyWlMxbGRtVnVkR2x1Wnk1emRtTXdXVEFUQmdjcQpoa2pPUFFJQkJnZ3Foa2pPUFFNQkJ3TkNBQVN3UEtMaEpOdzJhSUtBL2tQZlMxR2c2MUs4Y3JLL3VJdU0yenNDCkl3OUxmOFJnb0MwQURsVmhKU1JEWGN0SDBjNm12UTlhNUs0b0tVYndFaTJoL0FHeG80SUJIakNDQVJvd0RnWUQKVlIwUEFRSC9CQVFEQWdLRU1CMEdBMVVkSlFRV01CUUdDQ3NHQVFVRkJ3TUJCZ2dyQmdFRkJRY0RBakFQQmdOVgpIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJRSHAwVzgwQjc1QnptZ0tXc1FXTUNDUHZyb3l6Q0J1QVlEClZSMFJCSUd3TUlHdGdoZHBibTFsYlc5eWVXTm9ZVzV1Wld3dGQyVmlhRzl2YTRJb2FXNXRaVzF2Y25samFHRnUKYm1Wc0xYZGxZbWh2YjJzdWEyNWhkR2wyWlMxbGRtVnVkR2x1WjRJc2FXNXRaVzF2Y25samFHRnVibVZzTFhkbApZbWh2YjJzdWEyNWhkR2wyWlMxbGRtVnVkR2x1Wnk1emRtT0NPbWx1YldWdGIzSjVZMmhoYm01bGJDMTNaV0pvCmIyOXJMbXR1WVhScGRtVXRaWFpsYm5ScGJtY3VjM1pqTG1Oc2RYTjBaWEl1Ykc5allXd3dDZ1lJS29aSXpqMEUKQXdJRFNBQXdSUUloQVBOcTB3emFqS1pzcVovazVTT1ZUTy9hejUza3ZnS0t1U1d6OWJJNjJ3b1hBaUFRbEtvUwo0WWhHR0htT3dVWFk3eU03VUNVZVNBYXVnaUxlTHd3TnBZV09NUT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K",
+              "service": {
+                "name": "inmemorychannel-webhook",
+                "namespace": "knative-eventing",
+                "path": "/defaulting",
+                "port": 443
+              }
+            },
+            "failurePolicy": "Fail",
+            "matchPolicy": "Equivalent",
+            "name": "inmemorychannel.eventing.knative.dev",
+            "namespaceSelector": {
+              "matchExpressions": [
+                {
+                  "key": "webhooks.knative.dev/exclude",
+                  "operator": "DoesNotExist"
+                }
+              ]
+            },
+            "objectSelector": {},
+            "reinvocationPolicy": "IfNeeded",
+            "rules": [
+              {
+                "apiGroups": [
+                  "messaging.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "inmemorychannels",
+                  "inmemorychannels/status"
+                ],
+                "scope": "*"
+              }
+            ],
+            "sideEffects": "None",
+            "timeoutSeconds": 10
+          }
+        ]
+      },
+      {
+        "apiVersion": "admissionregistration.k8s.io/v1",
+        "kind": "MutatingWebhookConfiguration",
+        "metadata": {
+          "creationTimestamp": "2026-10-28T17:46:03Z",
+          "generation": 2,
+          "labels": {
+            "app.kubernetes.io/name": "knative-eventing",
+            "app.kubernetes.io/version": "1.24.0"
+          },
+          "name": "sinkbindings.webhook.sources.knative.dev",
+          "resourceVersion": "133545",
+          "uid": "5f0c8b79-c51f-429f-a23d-83a566beb1a7"
+        },
+        "webhooks": [
+          {
+            "admissionReviewVersions": [
+              "v1",
+              "v1beta1"
+            ],
+            "clientConfig": {
+              "caBundle": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNqVENDQWpPZ0F3SUJBZ0lRUit5eUdUeGNuNk9qODZkbnRYVDl6ekFLQmdncWhrak9QUVFEQWpCR01SUXcKRWdZRFZRUUtFd3RyYm1GMGFYWmxMbVJsZGpFdU1Dd0dBMVVFQXhNbFpYWmxiblJwYm1jdGQyVmlhRzl2YXk1cgpibUYwYVhabExXVjJaVzUwYVc1bkxuTjJZekFlRncweU5qRXdNamd4TnpRMk1EZGFGdzB5TmpFeE1EUXhOelEyCk1EZGFNRVl4RkRBU0JnTlZCQW9UQzJ0dVlYUnBkbVV1WkdWMk1TNHdMQVlEVlFRREV5VmxkbVZ1ZEdsdVp5MTMKWldKb2IyOXJMbXR1WVhScGRtVXRaWFpsYm5ScGJtY3VjM1pqTUZrd0V3WUhLb1pJemowQ0FRWUlLb1pJemowRApBUWNEUWdBRUlsb2xUaVhIZStWVXFiNFNvallaRHh5OVN4ZDVEbms0TE5KYmVES0JQSmN0aVlXVGdrTXBKV2ZZClVrREozeE9TMmd2SUpZUDg3cm9ldXppWm1Yb2ZhcU9DQVFFd2dmNHdEZ1lEVlIwUEFRSC9CQVFEQWdLRU1CMEcKQTFVZEpRUVdNQlFHQ0NzR0FRVUZCd01CQmdnckJnRUZCUWNEQWpBUEJnTlZIUk1CQWY4RUJUQURBUUgvTUIwRwpBMVVkRGdRV0JCVE05VFFiZkR1Q3AzL1lUOHlyQ09ZNzRjank2VENCbkFZRFZSMFJCSUdVTUlHUmdoQmxkbVZ1CmRHbHVaeTEzWldKb2IyOXJnaUZsZG1WdWRHbHVaeTEzWldKb2IyOXJMbXR1WVhScGRtVXRaWFpsYm5ScGJtZUMKSldWMlpXNTBhVzVuTFhkbFltaHZiMnN1YTI1aGRHbDJaUzFsZG1WdWRHbHVaeTV6ZG1PQ00yVjJaVzUwYVc1bgpMWGRsWW1odmIyc3VhMjVoZEdsMlpTMWxkbVZ1ZEdsdVp5NXpkbU11WTJ4MWMzUmxjaTVzYjJOaGJEQUtCZ2dxCmhrak9QUVFEQWdOSUFEQkZBaUFSdEZITnRIa1JSRnp1QWVSOGtXTDYwWG9GU1IxdFN0cFlNUmVqR3JGRWhRSWgKQUk1UjNocTFWbVZBZFNHbWxweEk0bTJTT3BGVTFoWEhKNE9zaWNLSjdqa1cKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=",
+              "service": {
+                "name": "eventing-webhook",
+                "namespace": "knative-eventing",
+                "path": "/sinkbindings",
+                "port": 443
+              }
+            },
+            "failurePolicy": "Fail",
+            "matchPolicy": "Equivalent",
+            "name": "sinkbindings.webhook.sources.knative.dev",
+            "namespaceSelector": {
+              "matchExpressions": [
+                {
+                  "key": "bindings.knative.dev/exclude",
+                  "operator": "NotIn",
+                  "values": [
+                    "true"
+                  ]
+                }
+              ]
+            },
+            "objectSelector": {
+              "matchExpressions": [
+                {
+                  "key": "bindings.knative.dev/exclude",
+                  "operator": "NotIn",
+                  "values": [
+                    "true"
+                  ]
+                }
+              ]
+            },
+            "reinvocationPolicy": "IfNeeded",
+            "sideEffects": "None",
+            "timeoutSeconds": 10
+          }
+        ]
+      },
+      {
+        "apiVersion": "admissionregistration.k8s.io/v1",
+        "kind": "MutatingWebhookConfiguration",
+        "metadata": {
+          "creationTimestamp": "2026-10-28T17:46:03Z",
+          "generation": 2,
+          "labels": {
+            "app.kubernetes.io/name": "knative-eventing",
+            "app.kubernetes.io/version": "1.24.0"
+          },
+          "name": "webhook.eventing.knative.dev",
+          "ownerReferences": [
+            {
+              "apiVersion": "v1",
+              "blockOwnerDeletion": true,
+              "controller": false,
+              "kind": "Namespace",
+              "name": "knative-eventing",
+              "uid": "981c972b-6ae0-4d19-bbd4-b79c7c69edd1"
+            }
+          ],
+          "resourceVersion": "133549",
+          "uid": "2f399fb0-59b0-421a-8437-858e0e99848c"
+        },
+        "webhooks": [
+          {
+            "admissionReviewVersions": [
+              "v1",
+              "v1beta1"
+            ],
+            "clientConfig": {
+              "caBundle": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNqVENDQWpPZ0F3SUJBZ0lRUit5eUdUeGNuNk9qODZkbnRYVDl6ekFLQmdncWhrak9QUVFEQWpCR01SUXcKRWdZRFZRUUtFd3RyYm1GMGFYWmxMbVJsZGpFdU1Dd0dBMVVFQXhNbFpYWmxiblJwYm1jdGQyVmlhRzl2YXk1cgpibUYwYVhabExXVjJaVzUwYVc1bkxuTjJZekFlRncweU5qRXdNamd4TnpRMk1EZGFGdzB5TmpFeE1EUXhOelEyCk1EZGFNRVl4RkRBU0JnTlZCQW9UQzJ0dVlYUnBkbVV1WkdWMk1TNHdMQVlEVlFRREV5VmxkbVZ1ZEdsdVp5MTMKWldKb2IyOXJMbXR1WVhScGRtVXRaWFpsYm5ScGJtY3VjM1pqTUZrd0V3WUhLb1pJemowQ0FRWUlLb1pJemowRApBUWNEUWdBRUlsb2xUaVhIZStWVXFiNFNvallaRHh5OVN4ZDVEbms0TE5KYmVES0JQSmN0aVlXVGdrTXBKV2ZZClVrREozeE9TMmd2SUpZUDg3cm9ldXppWm1Yb2ZhcU9DQVFFd2dmNHdEZ1lEVlIwUEFRSC9CQVFEQWdLRU1CMEcKQTFVZEpRUVdNQlFHQ0NzR0FRVUZCd01CQmdnckJnRUZCUWNEQWpBUEJnTlZIUk1CQWY4RUJUQURBUUgvTUIwRwpBMVVkRGdRV0JCVE05VFFiZkR1Q3AzL1lUOHlyQ09ZNzRjank2VENCbkFZRFZSMFJCSUdVTUlHUmdoQmxkbVZ1CmRHbHVaeTEzWldKb2IyOXJnaUZsZG1WdWRHbHVaeTEzWldKb2IyOXJMbXR1WVhScGRtVXRaWFpsYm5ScGJtZUMKSldWMlpXNTBhVzVuTFhkbFltaHZiMnN1YTI1aGRHbDJaUzFsZG1WdWRHbHVaeTV6ZG1PQ00yVjJaVzUwYVc1bgpMWGRsWW1odmIyc3VhMjVoZEdsMlpTMWxkbVZ1ZEdsdVp5NXpkbU11WTJ4MWMzUmxjaTVzYjJOaGJEQUtCZ2dxCmhrak9QUVFEQWdOSUFEQkZBaUFSdEZITnRIa1JSRnp1QWVSOGtXTDYwWG9GU1IxdFN0cFlNUmVqR3JGRWhRSWgKQUk1UjNocTFWbVZBZFNHbWxweEk0bTJTT3BGVTFoWEhKNE9zaWNLSjdqa1cKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=",
+              "service": {
+                "name": "eventing-webhook",
+                "namespace": "knative-eventing",
+                "path": "/defaulting",
+                "port": 443
+              }
+            },
+            "failurePolicy": "Fail",
+            "matchPolicy": "Equivalent",
+            "name": "webhook.eventing.knative.dev",
+            "namespaceSelector": {
+              "matchExpressions": [
+                {
+                  "key": "webhooks.knative.dev/exclude",
+                  "operator": "DoesNotExist"
+                }
+              ]
+            },
+            "objectSelector": {},
+            "reinvocationPolicy": "IfNeeded",
+            "rules": [
+              {
+                "apiGroups": [
+                  "eventing.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "brokers",
+                  "brokers/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "eventing.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "triggers",
+                  "triggers/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "eventing.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1alpha1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "eventpolicies",
+                  "eventpolicies/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "eventing.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1alpha1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "eventtransforms",
+                  "eventtransforms/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "eventing.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1alpha1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "requestreplies",
+                  "requestreplies/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "eventing.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1beta1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "eventtypes",
+                  "eventtypes/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "eventing.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1beta2"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "eventtypes",
+                  "eventtypes/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "flows.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "parallels",
+                  "parallels/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "flows.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "sequences",
+                  "sequences/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "messaging.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "channels",
+                  "channels/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "messaging.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "subscriptions",
+                  "subscriptions/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "sinks.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1alpha1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "integrationsinks",
+                  "integrationsinks/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "sinks.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1alpha1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "jobsinks",
+                  "jobsinks/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "sources.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "apiserversources",
+                  "apiserversources/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "sources.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "containersources",
+                  "containersources/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "sources.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "pingsources",
+                  "pingsources/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "sources.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "sinkbindings",
+                  "sinkbindings/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "sources.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1alpha1"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "integrationsources",
+                  "integrationsources/status"
+                ],
+                "scope": "*"
+              },
+              {
+                "apiGroups": [
+                  "sources.knative.dev"
+                ],
+                "apiVersions": [
+                  "v1beta2"
+                ],
+                "operations": [
+                  "CREATE",
+                  "UPDATE"
+                ],
+                "resources": [
+                  "pingsources",
+                  "pingsources/status"
+                ],
+                "scope": "*"
+              }
+            ],
+            "sideEffects": "None",
+            "timeoutSeconds": 10
+          }
+        ]
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "session": {
+    "last_start_utc": "2026-10-28T15:13:58.766000+00:00",
+    "auto_stop_utc": "2026-10-28T23:13:58.766000+00:00",
+    "max_run_seconds": 28800,
+    "source": "Actual Compute lastStartTimestamp; user explicitly approved this next sameVM8CPU64GiB/three existing disks max8h/STOP session."
+  },
+  "ram_available_bytes": 58739773440,
+  "ssd_free_bytes": 96518176768,
+  "kubernetes": {
+    "clientVersion": {
+      "major": "1",
+      "minor": "35",
+      "gitVersion": "v1.35.9+k3s1",
+      "gitCommit": "58877f27435fe86ee292859db3d0df2ca5423991",
+      "gitTreeState": "clean",
+      "buildDate": "2026-09-30T16:04:02Z",
+      "goVersion": "go1.26.8",
+      "compiler": "gc",
+      "platform": "linux/amd64"
+    },
+    "kustomizeVersion": "v5.7.1",
+    "serverVersion": {
+      "major": "1",
+      "minor": "35",
+      "emulationMajor": "1",
+      "emulationMinor": "35",
+      "minCompatibilityMajor": "1",
+      "minCompatibilityMinor": "34",
+      "gitVersion": "v1.35.9+k3s1",
+      "gitCommit": "58877f27435fe86ee292859db3d0df2ca5423991",
+      "gitTreeState": "clean",
+      "buildDate": "2026-09-30T16:04:02Z",
+      "goVersion": "go1.26.8",
+      "compiler": "gc",
+      "platform": "linux/amd64"
+    }
+  }
+}

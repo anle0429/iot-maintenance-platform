@@ -122,3 +122,6 @@ docs/evidence/private-gateway-linux/** -text -whitespace
 docs/evidence/vault-linux/** -text -whitespace
 infra/security/*.hcl text eol=lf
 infra/ci/VaultAccess.Jenkinsfile text eol=lf
+
+# Keep native mesh receipts and original screenshots byte-exact.
+docs/evidence/private-mesh-linux/** -text -whitespace

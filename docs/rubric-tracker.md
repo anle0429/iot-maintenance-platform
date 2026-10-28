@@ -162,3 +162,5 @@ Tổng điểm thô đối chiếu với các ô số: 100; số tiêu chí có 
 Gateway28/10 theo final F38–F43: [private native proof](private-gateway.md),86payload/4ảnhgốc;4virtualhosts/Basic/rate/CA+SNI. Tracker93dòng giữ nguyên source; không suy publicDNS hoặc browser-trustedTLS từ ảnh qua review bridge.
 
 Security28/10: [Vault native](vault.md) theo final F54, hai consumer AppRole/deny/rotation/restart,81payload/2ảnh gốc. Giữ source93dòng cũ; chưa migration toànrepo.
+
+Security28/10: [Mesh native](private-mesh.md) theo final F55: STRICT mTLS/identity+route authorization,200/3x403/plaintextTLSreset,106payload/2ảnh gốc. Bốn identity probe workload riêng; không nhận migration production. Giữ nguyên các dòng nguồn93tiêu chí lịch sử.

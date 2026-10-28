@@ -1,0 +1,170 @@
+{
+  "manifest_sha256": "70948eee017d4b769cb1d523b678f3ec35db17efb57b897669cdde438cd394d6",
+  "resources": [
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "authorizationpolicies.security.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "destinationrules.networking.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "envoyfilters.networking.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "gateways.networking.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "peerauthentications.security.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "proxyconfigs.networking.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "requestauthentications.security.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "serviceentries.networking.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "sidecars.networking.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "telemetries.telemetry.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "trafficextensions.extensions.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "virtualservices.networking.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "wasmplugins.extensions.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "workloadentries.networking.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "CustomResourceDefinition",
+      "name": "workloadgroups.networking.istio.io",
+      "namespace": null
+    },
+    {
+      "kind": "ServiceAccount",
+      "name": "istio-reader-service-account",
+      "namespace": "iot-mesh-system"
+    },
+    {
+      "kind": "ServiceAccount",
+      "name": "istiod-iot-1313",
+      "namespace": "iot-mesh-system"
+    },
+    {
+      "kind": "ClusterRole",
+      "name": "istio-reader-clusterrole-iot-1313-iot-mesh-system",
+      "namespace": null
+    },
+    {
+      "kind": "ClusterRole",
+      "name": "istiod-clusterrole-iot-1313-iot-mesh-system",
+      "namespace": null
+    },
+    {
+      "kind": "ClusterRole",
+      "name": "istiod-gateway-controller-iot-1313-iot-mesh-system",
+      "namespace": null
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "name": "istio-reader-clusterrole-iot-1313-iot-mesh-system",
+      "namespace": null
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "name": "istiod-clusterrole-iot-1313-iot-mesh-system",
+      "namespace": null
+    },
+    {
+      "kind": "ClusterRoleBinding",
+      "name": "istiod-gateway-controller-iot-1313-iot-mesh-system",
+      "namespace": null
+    },
+    {
+      "kind": "ValidatingWebhookConfiguration",
+      "name": "istio-validator-iot-1313-iot-mesh-system",
+      "namespace": null
+    },
+    {
+      "kind": "ConfigMap",
+      "name": "istio-iot-1313",
+      "namespace": "iot-mesh-system"
+    },
+    {
+      "kind": "ConfigMap",
+      "name": "istio-sidecar-injector-iot-1313",
+      "namespace": "iot-mesh-system"
+    },
+    {
+      "kind": "ConfigMap",
+      "name": "values-iot-1313",
+      "namespace": "iot-mesh-system"
+    },
+    {
+      "kind": "MutatingWebhookConfiguration",
+      "name": "istio-sidecar-injector-iot-1313-iot-mesh-system",
+      "namespace": null
+    },
+    {
+      "kind": "Deployment",
+      "name": "istiod-iot-1313",
+      "namespace": "iot-mesh-system"
+    },
+    {
+      "kind": "Role",
+      "name": "istiod-iot-1313",
+      "namespace": "iot-mesh-system"
+    },
+    {
+      "kind": "RoleBinding",
+      "name": "istiod-iot-1313",
+      "namespace": "iot-mesh-system"
+    },
+    {
+      "kind": "Service",
+      "name": "istiod-iot-1313",
+      "namespace": "iot-mesh-system"
+    }
+  ],
+  "source_files": {
+    "scripts/install-private-mesh.py": "4e0e6843b772107ce8d43c6a6b6a928b80051c5ab3f92af4b399219c8a0b24f4",
+    "infra/mesh/assets.json": "28dac83192e3fcf5b9f3dd2dfcb468b802fb2a9c7d132102885593266f76076e",
+    "infra/mesh/istio-operator.yaml": "ffd20c9e12c99344a3d758e8daa4386b32882234888661623532ae0e1537b119"
+  }
+}

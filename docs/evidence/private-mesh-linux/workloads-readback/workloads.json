@@ -1,0 +1,444 @@
+{
+  "apiVersion": "v1",
+  "kind": "List",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Namespace",
+      "metadata": {
+        "name": "iot-mesh",
+        "labels": {
+          "istio.io/rev": "iot-1313"
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "name": "model-server",
+        "namespace": "iot-mesh"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "name": "feature-caller",
+        "namespace": "iot-mesh"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "name": "untrusted-caller",
+        "namespace": "iot-mesh"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "name": "plaintext-caller",
+        "namespace": "iot-mesh"
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "mesh-predictor",
+        "namespace": "iot-mesh"
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "app": "mesh-predictor"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "mesh-predictor"
+            },
+            "annotations": {
+              "sidecar.istio.io/inject": "true",
+              "sidecar.istio.io/rewriteAppHTTPProbers": "true"
+            }
+          },
+          "spec": {
+            "serviceAccountName": "model-server",
+            "securityContext": {
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "containers": [
+              {
+                "name": "application",
+                "image": "iot-coursework-predictor:observe-jenkins-2",
+                "imagePullPolicy": "Never",
+                "command": [
+                  "python",
+                  "-m",
+                  "uvicorn",
+                  "services.predictor.app:create_app",
+                  "--factory",
+                  "--host",
+                  "0.0.0.0",
+                  "--port",
+                  "8080"
+                ],
+                "env": [
+                  {
+                    "name": "PYTHONDONTWRITEBYTECODE",
+                    "value": "1"
+                  }
+                ],
+                "resources": {
+                  "requests": {
+                    "cpu": "10m",
+                    "memory": "64Mi"
+                  },
+                  "limits": {
+                    "cpu": "500m",
+                    "memory": "256Mi"
+                  }
+                },
+                "securityContext": {
+                  "runAsUser": 10001,
+                  "runAsNonRoot": true,
+                  "allowPrivilegeEscalation": false,
+                  "readOnlyRootFilesystem": true,
+                  "capabilities": {
+                    "drop": [
+                      "ALL"
+                    ]
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "tmp",
+                    "mountPath": "/tmp"
+                  }
+                ],
+                "ports": [
+                  {
+                    "name": "http",
+                    "containerPort": 8080
+                  }
+                ],
+                "readinessProbe": {
+                  "httpGet": {
+                    "path": "/health/ready",
+                    "port": "http"
+                  },
+                  "periodSeconds": 3
+                }
+              }
+            ],
+            "volumes": [
+              {
+                "name": "tmp",
+                "emptyDir": {
+                  "medium": "Memory",
+                  "sizeLimit": "16Mi"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "allowed-client",
+        "namespace": "iot-mesh"
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "app": "allowed-client"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "allowed-client"
+            },
+            "annotations": {
+              "sidecar.istio.io/inject": "true",
+              "sidecar.istio.io/rewriteAppHTTPProbers": "true"
+            }
+          },
+          "spec": {
+            "serviceAccountName": "feature-caller",
+            "securityContext": {
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "containers": [
+              {
+                "name": "application",
+                "image": "iot-coursework-predictor:observe-jenkins-2",
+                "imagePullPolicy": "Never",
+                "command": [
+                  "python",
+                  "-c",
+                  "import time;time.sleep(10800)"
+                ],
+                "env": [
+                  {
+                    "name": "PYTHONDONTWRITEBYTECODE",
+                    "value": "1"
+                  }
+                ],
+                "resources": {
+                  "requests": {
+                    "cpu": "10m",
+                    "memory": "64Mi"
+                  },
+                  "limits": {
+                    "cpu": "500m",
+                    "memory": "128Mi"
+                  }
+                },
+                "securityContext": {
+                  "runAsUser": 10001,
+                  "runAsNonRoot": true,
+                  "allowPrivilegeEscalation": false,
+                  "readOnlyRootFilesystem": true,
+                  "capabilities": {
+                    "drop": [
+                      "ALL"
+                    ]
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "tmp",
+                    "mountPath": "/tmp"
+                  }
+                ]
+              }
+            ],
+            "volumes": [
+              {
+                "name": "tmp",
+                "emptyDir": {
+                  "medium": "Memory",
+                  "sizeLimit": "16Mi"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "denied-client",
+        "namespace": "iot-mesh"
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "app": "denied-client"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "denied-client"
+            },
+            "annotations": {
+              "sidecar.istio.io/inject": "true",
+              "sidecar.istio.io/rewriteAppHTTPProbers": "true"
+            }
+          },
+          "spec": {
+            "serviceAccountName": "untrusted-caller",
+            "securityContext": {
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "containers": [
+              {
+                "name": "application",
+                "image": "iot-coursework-predictor:observe-jenkins-2",
+                "imagePullPolicy": "Never",
+                "command": [
+                  "python",
+                  "-c",
+                  "import time;time.sleep(10800)"
+                ],
+                "env": [
+                  {
+                    "name": "PYTHONDONTWRITEBYTECODE",
+                    "value": "1"
+                  }
+                ],
+                "resources": {
+                  "requests": {
+                    "cpu": "10m",
+                    "memory": "64Mi"
+                  },
+                  "limits": {
+                    "cpu": "500m",
+                    "memory": "128Mi"
+                  }
+                },
+                "securityContext": {
+                  "runAsUser": 10001,
+                  "runAsNonRoot": true,
+                  "allowPrivilegeEscalation": false,
+                  "readOnlyRootFilesystem": true,
+                  "capabilities": {
+                    "drop": [
+                      "ALL"
+                    ]
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "tmp",
+                    "mountPath": "/tmp"
+                  }
+                ]
+              }
+            ],
+            "volumes": [
+              {
+                "name": "tmp",
+                "emptyDir": {
+                  "medium": "Memory",
+                  "sizeLimit": "16Mi"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "plain-client",
+        "namespace": "iot-mesh"
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "app": "plain-client"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "plain-client"
+            },
+            "annotations": {
+              "sidecar.istio.io/inject": "false",
+              "sidecar.istio.io/rewriteAppHTTPProbers": "true"
+            }
+          },
+          "spec": {
+            "serviceAccountName": "plaintext-caller",
+            "securityContext": {
+              "seccompProfile": {
+                "type": "RuntimeDefault"
+              }
+            },
+            "containers": [
+              {
+                "name": "application",
+                "image": "iot-coursework-predictor:observe-jenkins-2",
+                "imagePullPolicy": "Never",
+                "command": [
+                  "python",
+                  "-c",
+                  "import time;time.sleep(10800)"
+                ],
+                "env": [
+                  {
+                    "name": "PYTHONDONTWRITEBYTECODE",
+                    "value": "1"
+                  }
+                ],
+                "resources": {
+                  "requests": {
+                    "cpu": "10m",
+                    "memory": "64Mi"
+                  },
+                  "limits": {
+                    "cpu": "500m",
+                    "memory": "128Mi"
+                  }
+                },
+                "securityContext": {
+                  "runAsUser": 10001,
+                  "runAsNonRoot": true,
+                  "allowPrivilegeEscalation": false,
+                  "readOnlyRootFilesystem": true,
+                  "capabilities": {
+                    "drop": [
+                      "ALL"
+                    ]
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "tmp",
+                    "mountPath": "/tmp"
+                  }
+                ]
+              }
+            ],
+            "volumes": [
+              {
+                "name": "tmp",
+                "emptyDir": {
+                  "medium": "Memory",
+                  "sizeLimit": "16Mi"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "name": "mesh-predictor",
+        "namespace": "iot-mesh"
+      },
+      "spec": {
+        "type": "ClusterIP",
+        "selector": {
+          "app": "mesh-predictor"
+        },
+        "ports": [
+          {
+            "name": "http",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ]
+      }
+    }
+  ]
+}
