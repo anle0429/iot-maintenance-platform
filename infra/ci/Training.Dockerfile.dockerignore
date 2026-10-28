@@ -5,6 +5,8 @@
 !feature_store/
 !feature_store/**
 !scripts/
+# Reopening a parent also admits descendants; exclude them before selecting runtime scripts.
+scripts/**
 !scripts/version-feast-dataset.py
 !scripts/run-training-notebook.py
 !scripts/run-versioned-training.py
@@ -13,6 +15,7 @@
 !notebooks/
 !notebooks/01_failure_training.ipynb
 !infra/
+infra/**
 !infra/kfp/
 !infra/kfp/**
 !infra/ml-versioning/
