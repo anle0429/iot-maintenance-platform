@@ -2,7 +2,7 @@
 from copy import deepcopy
 from pathlib import Path
 import json,unittest
-from ml.drift_eventing import plan,event_headers,EVENT_TYPE
+from ml.drift_eventing import plan,event_headers,private_services,EVENT_TYPE
 
 
 class DriftEventingTests(unittest.TestCase):
@@ -40,6 +40,15 @@ class DriftEventingTests(unittest.TestCase):
         for identity in ['', 'id\r\nAuthorization:secret', 'x'*101]:
             with self.subTest(identity=identity),self.assertRaises(ValueError):event_headers(identity)
         self.assertEqual(event_headers('pilot-1')['ce-type'],EVENT_TYPE)
+
+    def test_only_an_internal_alias_to_a_private_clusterip_is_allowed(self):
+        target={'metadata':{'name':'receiver','namespace':'iot-drift-events'},'spec':{'type':'ClusterIP','clusterIP':'10.53.1.2'}}
+        alias={'metadata':{'name':'isvc','namespace':'iot-drift-events'},'spec':{'type':'ExternalName','externalName':'receiver.iot-drift-events.svc.cluster.local'}}
+        self.assertEqual(private_services([alias],lambda name,ns:target)['isvc']['cluster_ip'],'10.53.1.2')
+        for value in ['outside.example','receiver.default.svc.cluster.local']:
+            bad=deepcopy(alias);bad['spec']['externalName']=value
+            with self.subTest(value=value),self.assertRaises(ValueError):private_services([bad],lambda *a:target)
+        with self.assertRaises(ValueError):private_services([alias],lambda *a:{**target,'spec':{'type':'LoadBalancer','clusterIP':'10.53.1.2'}})
 
 
 if __name__=='__main__':unittest.main()

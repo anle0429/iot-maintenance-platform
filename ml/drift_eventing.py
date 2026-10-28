@@ -1,11 +1,28 @@
 """Build private Broker-to-KServe drift resources and bounded binary CloudEvents without changing the reference cohort."""
 from hashlib import sha256
 from pathlib import PurePosixPath
-import json,re
+import ipaddress,json,re
 from services.predictor.binding import validate_pin
 
 EVENT_TYPE='dev.edai.iot.drift.window'
 NAMESPACE='iot-drift-events'
+
+
+def private_services(items,resolve):
+    """Allow an internal KServe/channel DNS alias only after resolving it to a private ClusterIP service."""
+    result={}
+    for service in items:
+        spec=service['spec'];kind=spec.get('type','ClusterIP');target=service
+        if spec.get('externalIPs') or service.get('status',{}).get('loadBalancer',{}).get('ingress'):raise ValueError('No public Eventing service')
+        if kind=='ExternalName':
+            parts=spec['externalName'].split('.')
+            if len(parts)!=5 or parts[2:]!=['svc','cluster','local'] or parts[1] not in [NAMESPACE,'knative-eventing']:raise ValueError('Alias leaves the owned cluster namespaces')
+            target=resolve(parts[0],parts[1]);spec=target['spec'];kind=spec.get('type','ClusterIP')
+        if kind!='ClusterIP' or spec.get('externalIPs'):raise ValueError('Sink must resolve to ClusterIP')
+        address=ipaddress.ip_address(spec['clusterIP'])
+        if address.version!=4 or not address.is_private or address.is_loopback or address.is_link_local or address.is_unspecified or address.is_multicast:raise ValueError('Sink address is not private')
+        result[service['metadata']['name']]={'target':target['metadata']['name'],'namespace':target['metadata']['namespace'],'cluster_ip':str(address)}
+    return result
 
 
 def event_headers(identity):
