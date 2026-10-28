@@ -51,7 +51,11 @@ def test_gate(coverage,stats,all_results):
         raise ValueError('Every mutant must finish as killed or survived; no timeout/skip/interruption credit')
     entries=re.findall(r'^\s*(\S+): (killed|survived)\s*$',all_results,re.M)
     if len(entries)!=stats['total'] or len({name for name,_ in entries})!=len(entries):raise ValueError('All-mutant result inventory differs')
-    files={name.split('.x_',1)[0].replace('.','/')+'.py' for name,_ in entries}
+    files=set()
+    for name,_ in entries:
+        match=re.fullmatch(r'([a-z_][a-z0-9_]*(?:\.[a-z_][a-z0-9_]*)*)\.x(?:_[A-Za-z_]\w*|ǁ[A-Za-z_]\w*ǁ[A-Za-z_]\w*)__mutmut_[1-9][0-9]*',name)
+        if match is None:raise ValueError('Unexpected native mutation identity')
+        files.add(match[1].replace('.','/')+'.py')
     if files!=MUTATION_FILES or sum(status=='killed' for _,status in entries)!=stats['killed']:
         raise ValueError('Mutation results do not match the changed API modules/counts')
     score=stats['killed']/stats['total']

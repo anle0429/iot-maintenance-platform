@@ -38,6 +38,14 @@ def main():
                 old,new=functions(git.decode()),functions(raw.decode())
                 assert set(old)<=set(new)
                 assert all(old[n]==new[n] for n in old if n!='test_native_startup_uses_existing_sdk_state_and_two_fixed_urls')
+            elif name in ['ml/serving_ci.py','tests/test_serving_ci.py']:
+                # The old PC HTTP experiment did not invoke the later native mutation inventory parser.
+                omitted={'test_gate'} if name=='ml/serving_ci.py' else {'gate','test_native_mutmut_class_and_function_names_bind_to_the_same_seven_files'}
+                old,new=ast.parse(git.decode()),ast.parse(raw.decode())
+                for tree in [old,new]:
+                    for parent in [tree]+[n for n in ast.walk(tree) if isinstance(n,ast.ClassDef)]:
+                        parent.body=[n for n in parent.body if not isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) or n.name not in omitted]
+                assert ast.dump(old,include_attributes=False)==ast.dump(new,include_attributes=False)
             else:raise AssertionError('PC experiment runtime source changed: '+name)
             superseded.append(name)
         execution=proof['executed_worktree_sha256'][name]

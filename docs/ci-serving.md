@@ -6,6 +6,8 @@ Cập nhật28/10: model6 từ training CI đã được cấp marker cho **expo
 
 Trong lúc build3 chạy, test A/B được bổ sung để kiểm đúng hai vector chia nhóm ở biên byte127/128, readiness trả đủ hai pin/reference, ledger giữ schema định danh khi mở lại, và metrics khớp bảng đáp án có hai nhóm khác nhau/lỗi/đúng biên histogram. Test startup giờ thực hiện prediction qua backend được lắp vào API, thay vì chỉ đọc tên experiment. **206test PASS/1POSIXskip trên PC**,425statements100%/125of128branches97,65625%; chưa phải native mutation gate cho bộ test mới. Không sửa source đã niêm phong của build3 hoặc nhận các thay đổi chữ hoa/thường tương đương là killed.
 
+Cache thật của mutmut3.8 trên Linux còn cho thấy tên phương thức dạng `module.xǁClassǁmethod__mutmut_1`; parser cũ chỉ tách `.x_` của hàm thường. Regression test đã tái hiện lỗi, parser mới nhận cả hai dạng bằng biểu thức đầy đủ và vẫn từ chối tên lạ/sai module/thiếu inventory. **62contract tests/41subtests PASS trên PC** sau sửa; không đổi7module, số mutant, ngưỡng coverage/mutation, timeout hoặc worker. Build3 vẫn dùng source1134ead cũ; sửa này cần source/build mới để được kiểm native.
+
 CI này nhằm tránh tình huống feature API gọi model mới nhưng vẫn đọc Redis, metadata hoặc ảnh chạy của bản cũ. [Jenkinsfile](../infra/ci/Serving.Jenkinsfile) và [driver](../scripts/ci-serving.py) chuẩn bị từng release độc lập, rồi mới đổi API chính sau các chốt kiểm. Đây là mã ứng dụng/vận hành cần cho coursework; secrets và trạng thái chạy riêng không nằm trong Git.
 
 ## Luồng và các điều kiện

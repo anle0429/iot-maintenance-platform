@@ -34,7 +34,7 @@ def gate(killed=81):
     entries=[]
     for i in range(100):
         module=sorted(ci.MUTATION_FILES)[i%len(ci.MUTATION_FILES)].removesuffix('.py').replace('/','.')
-        entries.append('    '+module+'.x_probe__mutmut_'+str(i)+': '+('killed' if i<killed else 'survived'))
+        entries.append('    '+module+'.x_probe__mutmut_'+str(i+1)+': '+('killed' if i<killed else 'survived'))
     return coverage,stats,'\n'.join(entries)
 
 
@@ -76,6 +76,16 @@ class ServingCITests(unittest.TestCase):
         coverage,stats,results=gate()
         for changed in [results.rsplit('\n',1)[0],results+'\n'+results.splitlines()[0],results.replace('services.feature_api.app','services.drift_api.app')]:
             with self.assertRaises(ValueError):ci.test_gate(coverage,stats,changed)
+
+    def test_native_mutmut_class_and_function_names_bind_to_the_same_seven_files(self):
+        """Mutmut3.8 uses the Unicode class separator observed in the actual Linux cache."""
+        coverage,stats,results=gate()
+        actual=results.replace('.x_probe__mutmut_', '.x\u01c1FeatureRuntime\u01c1predict__mutmut_')
+        self.assertEqual(ci.test_gate(coverage,stats,actual)['mutation_files'],sorted(ci.MUTATION_FILES))
+        for bad in [actual.replace('.x\u01c1FeatureRuntime\u01c1predict__mutmut_', '.arbitrary_'),
+                actual.replace('.x\u01c1FeatureRuntime\u01c1predict__mutmut_', '.x\u01c1FeatureRuntime\u01c1predict__invalid_'),
+                actual.replace('services.feature_api.app','services.drift_api.app')]:
+            with self.subTest(inventory=bad[:100]),self.assertRaises(ValueError):ci.test_gate(coverage,stats,bad)
 
     def test_model_and_feature_routes_switch_as_a_pair(self):
         value=plan();self.assertEqual(value,plan())
