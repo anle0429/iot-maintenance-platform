@@ -1,0 +1,64 @@
+{
+  "status": "success",
+  "data": {
+    "activeTargets": [
+      {
+        "discoveredLabels": {
+          "__address__": "127.0.0.1:19100",
+          "__always_scrape_classic_histograms__": "false",
+          "__convert_classic_histograms_to_nhcb__": "false",
+          "__meta_filepath": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/monitoring-28/targets/host.json",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "2s",
+          "__scrape_native_histograms__": "false",
+          "__scrape_timeout__": "1s",
+          "host": "vm-linux",
+          "job": "iot-host"
+        },
+        "labels": {
+          "host": "vm-linux",
+          "instance": "127.0.0.1:19100",
+          "job": "iot-host"
+        },
+        "scrapePool": "iot-host",
+        "scrapeUrl": "http://127.0.0.1:19100/metrics",
+        "globalUrl": "http://iot-cw-vm:19100/metrics",
+        "lastError": "",
+        "lastScrape": "2026-10-28T03:21:52.085203047Z",
+        "lastScrapeDuration": 0.079590284,
+        "health": "up",
+        "scrapeInterval": "2s",
+        "scrapeTimeout": "1s"
+      },
+      {
+        "discoveredLabels": {
+          "__address__": "127.0.0.1:19092",
+          "__always_scrape_classic_histograms__": "false",
+          "__convert_classic_histograms_to_nhcb__": "false",
+          "__metrics_path__": "/metrics",
+          "__scheme__": "http",
+          "__scrape_interval__": "2s",
+          "__scrape_native_histograms__": "false",
+          "__scrape_timeout__": "1s",
+          "job": "iot-offline-drift-gateway"
+        },
+        "labels": {
+          "instance": "127.0.0.1:19092",
+          "job": "iot-offline-drift-gateway"
+        },
+        "scrapePool": "iot-offline-drift-gateway",
+        "scrapeUrl": "http://127.0.0.1:19092/metrics",
+        "globalUrl": "http://iot-cw-vm:19092/metrics",
+        "lastError": "",
+        "lastScrape": "2026-10-28T03:21:52.546858739Z",
+        "lastScrapeDuration": 0.00268449,
+        "health": "up",
+        "scrapeInterval": "2s",
+        "scrapeTimeout": "1s"
+      }
+    ],
+    "droppedTargets": [],
+    "droppedTargetCounts": null
+  }
+}

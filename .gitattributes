@@ -91,3 +91,6 @@ docs/evidence/host-monitoring-linux/** -text -whitespace
 
 # Keep original Linux log messages, HTTP responses and browser screenshots byte-exact.
 docs/evidence/log-monitoring-linux/** -text -whitespace
+
+# Preserve actual scheduled-run inputs, HTTP metrics and original dashboard captures.
+docs/evidence/offline-drift-linux/** -text -whitespace

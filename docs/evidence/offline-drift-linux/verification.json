@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T03:21:53.337583+00:00",
+  "scheduled_runs": [
+    {
+      "run_id": "scheduled__2026-10-28T03:15:00+00:00",
+      "rows": 1024,
+      "window_start": "2026-11-22T00:15:00+00:00",
+      "window_end": "2026-11-22T01:15:00+00:00",
+      "oracle": {
+        "passed": true,
+        "rows": 1024,
+        "psi": {
+          "temperature_mean_10m": 0.012668151134611902,
+          "vibration_max_10m": 0.05032774139827312,
+          "current_mean_10m": 0.013970752447491304,
+          "current_std_10m": 0.025372210852167305,
+          "rpm_mean_10m": 0.017995847890103465,
+          "reading_count_10m": 0.0024363010533049127,
+          "machine_age_days": 0.007280360877840104,
+          "prior_failures_24h": 0.01994699481597589
+        },
+        "drifted_features": 0,
+        "scope": "Independent raw-sample marginal PSI arithmetic; no ground truth, native source lookup or model accuracy claim."
+      }
+    },
+    {
+      "run_id": "scheduled__2026-10-28T03:20:00+00:00",
+      "rows": 1024,
+      "window_start": "2026-11-22T00:20:00+00:00",
+      "window_end": "2026-11-22T01:20:00+00:00",
+      "oracle": {
+        "passed": true,
+        "rows": 1024,
+        "psi": {
+          "temperature_mean_10m": 0.01193570729137392,
+          "vibration_max_10m": 0.042398061872251466,
+          "current_mean_10m": 0.012225356713551934,
+          "current_std_10m": 0.027791588736962133,
+          "rpm_mean_10m": 0.01831700200017796,
+          "reading_count_10m": 0.0016283474984164006,
+          "machine_age_days": 0.010915398019996815,
+          "prior_failures_24h": 0.014374604078625735
+        },
+        "drifted_features": 0,
+        "scope": "Independent raw-sample marginal PSI arithmetic; no ground truth, native source lookup or model accuracy claim."
+      }
+    }
+  ],
+  "query_counts": {
+    "prometheus": {
+      "source_gauges": 23,
+      "panel_series": [
+        8,
+        8,
+        1,
+        1,
+        1,
+        1
+      ],
+      "panel_samples": 20
+    },
+    "grafana": {
+      "source_gauges": 23,
+      "panel_series": [
+        8,
+        8,
+        1,
+        1,
+        1,
+        1
+      ],
+      "panel_samples": 20
+    }
+  },
+  "input_bytes_unchanged": true,
+  "negative_sha_check_passed": true,
+  "scope": "Two native5-minute scheduled Airflow runs; each1024actual registered Feast offline snapshots; independent PSI and23gauges/20panelseries per engine. Synthetic clock, reference model3, no labels/model-quality/retrain/production cutover claim."
+}

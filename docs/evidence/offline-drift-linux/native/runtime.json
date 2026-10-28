@@ -1,0 +1,85 @@
+{
+  "passed": true,
+  "memory_available_bytes": 55353556992,
+  "unit": "iot-pushgateway-28",
+  "command": [
+    "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/drift-monitoring/pushgateway-1.11.4.linux-amd64/pushgateway",
+    "--web.listen-address=127.0.0.1:19092",
+    "--persistence.file=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/drift-monitoring/pushgateway-state/metrics.data",
+    "--persistence.interval=5m"
+  ],
+  "ready": "OK",
+  "clock": {
+    "format": "iot-offline-drift-clock-v1",
+    "wall_origin": "2026-10-28T03:00:00Z",
+    "event_origin": "2026-11-22T01:00:00Z",
+    "width_seconds": 3600,
+    "data_start": "2026-10-01T00:00:00Z",
+    "data_end": "2026-11-30T00:00:00Z",
+    "reference_train_end": "2026-11-12T00:00:00Z",
+    "sample_limit": 1024,
+    "source_sha256": "d43019682b7138c764db78684948071b5dfc442ae924f3fd35c0cf850a2c4ea1",
+    "reference_sha256": "b102b670e58aca8876125a631cb9b44219bba5f07b63754d0bf8ce1da2e3001b"
+  },
+  "deployment": {
+    "source_root": "data/offline-drift-source-0bca67c/tree",
+    "image_id": "sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff",
+    "reference": "data/drift/reference-27/reference.json",
+    "clock": "data/runtime/drift-monitoring/clock.json"
+  },
+  "promtool": "Checking /srv/iot-data/workspace/iot-maintenance-platform/data/runtime/drift-monitoring/prometheus-next.json\n SUCCESS: /srv/iot-data/workspace/iot-maintenance-platform/data/runtime/drift-monitoring/prometheus-next.json is valid prometheus config file syntax\n\n",
+  "prometheus_pid_unchanged": 204844,
+  "prometheus_after": {
+    "global": {
+      "scrape_interval": "2s",
+      "scrape_timeout": "1s",
+      "evaluation_interval": "2s"
+    },
+    "scrape_configs": [
+      {
+        "job_name": "iot-host",
+        "sample_limit": 5000,
+        "file_sd_configs": [
+          {
+            "files": [
+              "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/monitoring-28/targets/host.json"
+            ],
+            "refresh_interval": "2s"
+          }
+        ],
+        "metric_relabel_configs": [
+          {
+            "source_labels": [
+              "__name__"
+            ],
+            "regex": "node_cpu_seconds_total|node_memory_MemAvailable_bytes|node_memory_MemTotal_bytes|node_filesystem_avail_bytes|node_filesystem_size_bytes|node_disk_read_bytes_total|node_disk_written_bytes_total|node_network_receive_bytes_total|node_network_transmit_bytes_total|node_scrape_collector_success|node_exporter_build_info",
+            "action": "keep"
+          }
+        ]
+      },
+      {
+        "job_name": "iot-offline-drift-gateway",
+        "honor_labels": true,
+        "sample_limit": 100,
+        "static_configs": [
+          {
+            "targets": [
+              "127.0.0.1:19092"
+            ]
+          }
+        ],
+        "metric_relabel_configs": [
+          {
+            "source_labels": [
+              "__name__"
+            ],
+            "regex": "iot_offline_drift_.*|push_time_seconds|push_failure_time_seconds|pushgateway_build_info",
+            "action": "keep"
+          }
+        ]
+      }
+    ]
+  },
+  "checked_utc": "2026-10-28T03:14:44.787267+00:00",
+  "scope": "Existing VM; only a new loopback batch gateway, one scrape job and one dashboard. No restart of Jenkins/Prometheus/Grafana or data rewrite."
+}

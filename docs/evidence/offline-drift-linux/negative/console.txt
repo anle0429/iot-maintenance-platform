@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/src/feature_store/drift_monitor.py", line 101, in <module>
+    run(parser.parse_args())
+  File "/src/feature_store/drift_monitor.py", line 36, in run
+    raise ValueError('Immutable source/reference/protocol binding differs')
+ValueError: Immutable source/reference/protocol binding differs

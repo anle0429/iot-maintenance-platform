@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "source": {
+    "format": "iot-offline-drift-audit-source-v1",
+    "commit": "e7ac32eeec38f52e59e6e943ce0c22c0bf3d29a3",
+    "files": {
+      "ml/__init__.py": "f72c7b8641a6376aa7bac523df071c3205a7c21276534aeb6aa9b32412890e98",
+      "ml/drift_monitoring.py": "0218497c430dd2c81c2e628d45fcaec3cc4d20ccde47cd035836bc216888dfe8",
+      "tests/__init__.py": "b9286bc9f14709c0c5dbce4e5d1d2fb586e43df7e69e5452068b6d8393aafd77",
+      "tests/test_drift_monitoring.py": "eec126d9748b479653468b1aec137964683d1848000a3b8e24c0fe58189dcc11",
+      "tests/offline_drift_oracle.py": "90c987eadf10e68cecf2ecf610b691b4a1d92bc504cc227d57122835e11b6912",
+      "tests/test_offline_drift_oracle.py": "33ed760e3d6749708f76be46fa71d501ac03bd2b8fdf29d5fa57b0ed992d6e14"
+    },
+    "archive_sha256": "2accac9dbadb33da2bf8c1d72abd30b51b6ad773c1aa36a787f63a948b62a0db"
+  },
+  "dashboard_sha256": "b19330971bc6b5a9e9b89681060779bf4b175f6b6bdf7f31f61dd61c73c43133",
+  "scope": "Only correct Grafana presentation milliseconds/colors. Original source metrics, SDK snapshot, Airflow code, inputs and thresholds unchanged; no service restart."
+}

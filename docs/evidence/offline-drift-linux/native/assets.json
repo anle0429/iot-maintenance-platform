@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "asset": {
+    "format": "iot-public-linux-asset-v1",
+    "project": "prometheus/pushgateway",
+    "version": "1.11.4",
+    "platform": "linux-amd64",
+    "url": "https://github.com/prometheus/pushgateway/releases/download/v1.11.4/pushgateway-1.11.4.linux-amd64.tar.gz",
+    "bytes": 12575258,
+    "sha256": "e6d631d1f511ce386de2dcbc3bd18a7165d8117588f2aefea15e89cf794751b3",
+    "release": "https://github.com/prometheus/pushgateway/releases/tag/v1.11.4"
+  },
+  "publisher_checksums_sha256": "40b4b158133903f22f72b438dc873916067851017b43ec216ea395c3833b39f7",
+  "binary": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/drift-monitoring/pushgateway-1.11.4.linux-amd64/pushgateway",
+  "binary_sha256": "79b8e822c08f7f5584a51b1c9917ffa9d78860937b70ceb0af6257436e035163",
+  "version": "pushgateway, version 1.11.4 (branch: HEAD, revision: 3e29338978f3046ba1a602d6cca520121ab91112)\n  build user:       root@2839220c35ea\n  build date:       20261008-10:43:24\n  go version:       go1.27.1\n  platform:         linux/amd64\n  tags:             unknown\n",
+  "source": {
+    "format": "iot-offline-drift-source-v1",
+    "commit": "0bca67cf674b446f3f435842fd109a60a2b491e3",
+    "files": {
+      "airflow/dags/iot_offline_drift.py": "70c9e6ec541914079742fc9bafe55dd207dc60eaddfec1be5d8baccef73e1602",
+      "feature_store/__init__.py": "683578277219dd6127933df12994a50dd3ef5e14c1bff624f3af5b971554968a",
+      "feature_store/common.py": "1763fa6da99f357256dd6bb5c6521224796240aa61ee59be422c9ff32be18441",
+      "feature_store/repository.py": "aa34bdb2470d02c41d43bf4a20a3be28e8075d5b0885301e7ee3d35204f5b382",
+      "feature_store/batch.py": "9f074e6ae63b7c8adf2caae6c630e4833a46b7a2e6b00a9e6907447fc4b2361d",
+      "feature_store/drift_airflow.py": "74a5ce5895d61cd8a7900f2722c84304b1d1746a65414e4ed4dcbeeb65075a50",
+      "feature_store/drift_monitor.py": "6aa68ed7c9981fa49283e164577652ae8a5424bc1e36b1aa28e381af82e02a32",
+      "ml/__init__.py": "f72c7b8641a6376aa7bac523df071c3205a7c21276534aeb6aa9b32412890e98",
+      "ml/protocol.py": "a2f9aaa604e194db1ba3b2531d46a26e3349bfe1d6b39aa9be91e4c72735fb7f",
+      "ml/protocols/medium-60d-v1.json": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+      "ml/drift_monitoring.py": "575ffc6529d036ad0d89f0d5ce117ed673f4b1b3d1e28f15a2f7117fe3e50803",
+      "services/__init__.py": "8955d44c39c2acd561243c6cd5604b9b1b40490dd2aebcbf207763019ebffe7c",
+      "services/predictor/__init__.py": "03485db3bf9d8822fecf87ac4bba41199d5855c556014f5343e65fc261217853",
+      "services/predictor/contracts.py": "5cab032dae3ede91c9cfd5446da195b99b03349f3ed04a915be92f0ed3da12ce",
+      "services/drift_api/__init__.py": "2c1abe8a62002bb3ad1222f57ff05ad295cb5f4454357ad5cdc8ada2a1028316",
+      "services/drift_api/contracts.py": "11ac649335a364bdfcece7e1954ff88578f2ff6a057226fa741e9205c33ad2de",
+      "services/drift_api/detector.py": "dd2c23ff16343fd72146552d46bdb7490439026557d43e59b07e885f11c555b8",
+      "tests/__init__.py": "b9286bc9f14709c0c5dbce4e5d1d2fb586e43df7e69e5452068b6d8393aafd77",
+      "tests/test_drift_monitoring.py": "0098ec7948d5b2096afcdd3578ab97938434ce337f6868014b154dfa72b06049",
+      "infra/monitoring/pushgateway-linux.json": "257e5013821e3a2d1bee8b597e3d0b35b6e42ec8cf10aa28638923cff82c131f"
+    },
+    "archive_sha256": "f725ef9d137410fc1dec71df9f972165b07b5d6b73d12fc80a2f6f4d47d6381e"
+  }
+}

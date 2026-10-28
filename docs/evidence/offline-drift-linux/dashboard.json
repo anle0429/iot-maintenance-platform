@@ -1,0 +1,307 @@
+{
+  "meta": {
+    "type": "db",
+    "canSave": false,
+    "canEdit": false,
+    "canAdmin": false,
+    "canStar": false,
+    "canDelete": false,
+    "slug": "iot-offline-drift-simulated-replay",
+    "url": "/d/iot-offline-drift/iot-offline-drift-simulated-replay",
+    "expires": "0001-01-01T00:00:00Z",
+    "created": "2026-10-28T03:14:48Z",
+    "updated": "2026-10-28T03:20:46Z",
+    "updatedBy": "Anonymous",
+    "createdBy": "Anonymous",
+    "version": 2,
+    "hasAcl": false,
+    "isFolder": false,
+    "apiVersion": "v0alpha1",
+    "folderId": 3064457010712576,
+    "folderUid": "dg2jmhvabmmtca",
+    "folderTitle": "IoT host",
+    "folderUrl": "/dashboards/f/dg2jmhvabmmtca/iot-host",
+    "provisioned": true,
+    "provisionedExternalId": "offline-drift.json",
+    "annotationsPermissions": {
+      "dashboard": {
+        "canAdd": false,
+        "canEdit": false,
+        "canDelete": false
+      }
+    }
+  },
+  "dashboard": {
+    "description": "Airflow reads immutable Feast offline features. Simulated windows after train; no labels, accuracy or automatic promotion. Pushgateway retains old gauges: inspect wall-clock freshness.",
+    "editable": false,
+    "id": 3092873037565952,
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "iot-host-prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "min": 0,
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "options": {},
+        "targets": [
+          {
+            "expr": "iot_offline_drift_psi{job=\"iot_offline_drift\"}",
+            "legendFormat": "{{feature}}",
+            "refId": "A"
+          }
+        ],
+        "title": "PSI by feature (fixed train reference)",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "iot-host-prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "min": 0,
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 2,
+        "options": {},
+        "targets": [
+          {
+            "expr": "iot_offline_drift_feature_alert{job=\"iot_offline_drift\"}",
+            "legendFormat": "{{feature}}",
+            "refId": "A"
+          }
+        ],
+        "title": "Features flagged by declared policy",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "iot-host-prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "blue",
+              "mode": "fixed"
+            },
+            "decimals": 0,
+            "min": 0,
+            "unit": "none"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        },
+        "id": 3,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "values": false
+          }
+        },
+        "targets": [
+          {
+            "expr": "iot_offline_drift_sample_rows{job=\"iot_offline_drift\"}",
+            "legendFormat": "{{feature}}",
+            "refId": "A"
+          }
+        ],
+        "title": "Unique snapshots sampled",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "iot-host-prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 600
+                }
+              ]
+            },
+            "unit": "s"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 8
+        },
+        "id": 4,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "values": false
+          }
+        },
+        "targets": [
+          {
+            "expr": "time()-iot_offline_drift_last_success_seconds{job=\"iot_offline_drift\"}",
+            "legendFormat": "{{feature}}",
+            "refId": "A"
+          }
+        ],
+        "title": "Seconds since successful comparison",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "iot-host-prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "blue",
+              "mode": "fixed"
+            },
+            "min": 0,
+            "unit": "dateTimeAsIso"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 16
+        },
+        "id": 5,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "values": false
+          }
+        },
+        "targets": [
+          {
+            "expr": "iot_offline_drift_window_start_seconds{job=\"iot_offline_drift\"} * 1000",
+            "legendFormat": "{{feature}}",
+            "refId": "A"
+          }
+        ],
+        "title": "SIMULATED window start",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "iot-host-prometheus"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "blue",
+              "mode": "fixed"
+            },
+            "min": 0,
+            "unit": "dateTimeAsIso"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 16
+        },
+        "id": 6,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "values": false
+          }
+        },
+        "targets": [
+          {
+            "expr": "iot_offline_drift_window_end_seconds{job=\"iot_offline_drift\"} * 1000",
+            "legendFormat": "{{feature}}",
+            "refId": "A"
+          }
+        ],
+        "title": "SIMULATED window end (exclusive)",
+        "type": "stat"
+      }
+    ],
+    "refresh": "5s",
+    "schemaVersion": 39,
+    "tags": [
+      "iot",
+      "drift",
+      "offline-replay"
+    ],
+    "time": {
+      "from": "now-15m",
+      "to": "now"
+    },
+    "timezone": "utc",
+    "title": "IoT offline drift / simulated replay",
+    "uid": "iot-offline-drift",
+    "version": 2
+  }
+}
