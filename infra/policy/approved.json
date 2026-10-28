@@ -72,6 +72,20 @@
       "data_version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
       "threshold": 0.7,
       "production": true
-    }
+    },
+    "ssh_allowed_rules": [
+      {
+        "protocol": "tcp",
+        "ports": [
+          "22"
+        ]
+      }
+    ],
+    "network_tags": [
+      "iot-cw-iap"
+    ],
+    "max_access_configs": 1,
+    "network_tier": "STANDARD",
+    "network_interface_count": 1
   }
 }

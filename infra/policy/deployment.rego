@@ -29,10 +29,47 @@ deny contains "VM must retain the approved eight-hour STOP limit" if {
   r.type == "google_compute_instance"
   not r.values.scheduling == {"max_run_seconds": data.approved.max_run_seconds, "termination_action": "STOP"}
 }
-deny contains "VM public IP is forbidden" if {
+deny contains "additional external address configurations exceed the approved inventory" if {
   input.kind == "terraform"
   some r in input.resources
-  not r.values.access_configs == []
+  count(object.get(r.values, "access_configs", [])) > data.approved.max_access_configs
+}
+deny contains "VM network inventory must be explicit" if {
+  input.kind == "terraform"
+  some r in input.resources
+  r.type == "google_compute_instance"
+  not is_array(object.get(r.values, "access_configs", null))
+}
+deny contains "VM network tier differs from the approved existing egress" if {
+  input.kind == "terraform"
+  some r in input.resources
+  r.type == "google_compute_instance"
+  some cfg in r.values.access_configs
+  not cfg.network_tier == data.approved.network_tier
+}
+deny contains "VM network interface inventory differs" if {
+  input.kind == "terraform"
+  some r in input.resources
+  r.type == "google_compute_instance"
+  not r.values.network_interface_count == data.approved.network_interface_count
+}
+deny contains "VM tags must retain the reviewed IAP firewall target" if {
+  input.kind == "terraform"
+  some r in input.resources
+  r.type == "google_compute_instance"
+  not r.values.network_tags == data.approved.network_tags
+}
+deny contains "firewall may allow only the reviewed SSH rule" if {
+  input.kind == "terraform"
+  some r in input.resources
+  r.type == "google_compute_firewall"
+  not r.values.allowed_rules == data.approved.ssh_allowed_rules
+}
+deny contains "firewall target tags differ from the reviewed VM" if {
+  input.kind == "terraform"
+  some r in input.resources
+  r.type == "google_compute_firewall"
+  not r.values.target_tags == data.approved.network_tags
 }
 deny contains sprintf("unapproved disk size: %s", [r.values.name]) if {
   input.kind == "terraform"
