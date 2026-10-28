@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime,timezone
 from pathlib import Path
 import argparse,base64,http.client,json,socket,ssl,subprocess,time
+from urllib.parse import urlsplit
 
 HOSTS={'metrics':'metrics.iot.test','logs':'logs.iot.test','traces':'traces.iot.test','features':'features.iot.test'}
 
@@ -35,10 +36,11 @@ def run(args):
             assert row['status']==(200 if mode=='correct' else 401),(name,mode,row['status'])
             time.sleep(.25)
         row=request(host,paths[name],None,False);responses.append(row);save('routing-auth.json',responses)
-        assert row['status']==308 and row['headers']['Location']=='https://'+host+paths[name]
+        target=urlsplit(row['headers'].get('Location',''));assert row['status']==308 and target.scheme=='https' and target.hostname==host and (target.port or 443)==443 and target.path==paths[name] and not target.query and target.username is None
     assert json.loads(next(r['body'] for r in responses if r['host']==HOSTS['metrics'] and r['auth']=='correct'))['dashboard']['uid']=='iot-api-observability'
     assert json.loads(next(r['body'] for r in responses if r['host']==HOSTS['logs'] and r['auth']=='correct'))['dashboard']['uid']=='iot-linux-logs'
     assert set(json.loads(next(r['body'] for r in responses if r['host']==HOSTS['traces'] and r['auth']=='correct'))['services'])>={'iot-feature-api','iot-predictor-api','iot-drift-api'}
+    logdata=request(HOSTS['logs'],'/api/datasources/proxy/uid/iot-logs-loki/loki/api/v1/labels');save('logs-native-query.json',logdata);assert logdata['status']==200 and json.loads(logdata['body'])['status']=='success' and json.loads(logdata['body'])['data']
     negative=[]
     for name,ctx,hostname in [('untrusted-ca',ssl.create_default_context(),HOSTS['features']),('wrong-hostname',context,'wrong.iot.test')]:
         try:
