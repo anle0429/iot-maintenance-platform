@@ -113,7 +113,7 @@ def process(root, directory, policy_path, state, probe, train, now=None):
             if previous['report_sha256'] != audit['report_sha256'] or not previous['passed']:
                 raise ValueError('Replay conflicts with retained result')
             return {**previous, 'action': 'reused_completed_submission', 'replayed_utc': now.isoformat()}
-        if any(not (p.parent / 'result.json').exists() for p in state.glob('drift-*/intent.json')):
+        if any(not (p.parent / 'result.json').exists() and not reconciled(p.parent) for p in state.glob('drift-*/intent.json')):
             raise ValueError('Unresolved training intent; reconcile the existing KFP run before another submission')
         age = (now - clock(completion['completed_wall_utc'])).total_seconds()
         if not 0 <= age <= policy['max_report_age_seconds']: raise ValueError('Stale or future drift completion')
@@ -131,6 +131,24 @@ def process(root, directory, policy_path, state, probe, train, now=None):
         return result
     finally:
         connection.rollback(); connection.close()
+
+
+def reconciled(attempt):
+    """Accept an explicit operator reconciliation only with sealed intent and complete zero-match backend readback."""
+    path = attempt / 'reconciled-no-submission.json'
+    if not path.exists(): return False
+    value = read(path)
+    if not (value['outcome'] == 'confirmed_not_submitted' and value['run_name'] == attempt.name
+            and value['intent_sha256'] == digest(attempt / 'intent.json')
+            and value['backend_readback_sha256'] == digest(attempt / 'reconciliation-backend.json')
+            and value['controller_sha256'] == digest(attempt / 'controller.txt')
+            and value['runner_failed_before_api'] is True):
+        raise ValueError('Operator reconciliation differs from its retained evidence')
+    backend = read(attempt / 'reconciliation-backend.json')
+    if not (backend['namespace'] == 'kubeflow' and backend['pagination_complete'] is True
+            and backend['matching_run_names'] == [] and attempt.name not in backend['all_run_names']):
+        raise ValueError('An existing or unknown backend run cannot be treated as unsubmitted')
+    return True
 
 
 def native_train(root, run, attempt):

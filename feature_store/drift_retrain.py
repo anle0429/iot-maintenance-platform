@@ -49,7 +49,8 @@ def execute(monitoring, run_id, try_number, manual_probe=False):
         container = client.containers.run(image, command, entrypoint=['python'], detach=True,
             name='iot-drift-retrain-' + label, user='0:0', network_mode='host', working_dir='/control',
             read_only=True, mem_limit='2g', memswap_limit='2g', nano_cpus=1_000_000_000,
-            tmpfs={'/tmp': 'rw,nosuid,nodev,size=536870912'}, volumes=volumes,
+            tmpfs={'/tmp': 'rw,nosuid,nodev,size=536870912',
+                   '/var/lib/rancher/k3s': 'rw,nosuid,nodev,size=536870912'}, volumes=volumes,
             environment={'PYTHONPATH':'/control', 'PYTHONDONTWRITEBYTECODE':'1', 'HOME':'/tmp',
                          'OMP_NUM_THREADS':'1', 'OPENBLAS_NUM_THREADS':'1'},
             labels={'iot.pipeline':'drift-retrain', 'iot.run':label})

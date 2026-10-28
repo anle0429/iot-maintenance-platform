@@ -125,5 +125,35 @@ class DriftRetrainTests(unittest.TestCase):
             self.assertEqual(first.result()['action'],'submitted_and_verified')
         self.assertEqual(len(self.calls),1);self.assertEqual(self.call(True)['action'],'reused_completed_submission')
 
+    def test_operator_reconciliation_requires_sealed_zero_match_evidence(self):
+        def failed(run,attempt):
+            (attempt/'controller.txt').write_text('Known fixture failure before API');raise RuntimeError('pre-submission')
+        with self.assertRaises(RuntimeError):self.call(True,train=failed)
+        attempt=next(self.state.glob('drift-*'))
+        self.write(attempt/'reconciliation-backend.json',{'namespace':'kubeflow','pagination_complete':True,
+            'matching_run_names':[],'all_run_names':['other-completed-run']})
+        value={'outcome':'confirmed_not_submitted','run_name':attempt.name,'intent_sha256':digest(attempt/'intent.json'),
+            'backend_readback_sha256':digest(attempt/'reconciliation-backend.json'),
+            'controller_sha256':digest(attempt/'controller.txt'),'runner_failed_before_api':True}
+        self.write(attempt/'reconciled-no-submission.json',value)
+        self.report['window_id']='new-window';self.seal()
+        self.assertEqual(self.call(True)['action'],'submitted_and_verified');self.assertEqual(len(self.calls),1)
+
+    def test_reconciliation_cannot_hide_an_existing_run_or_changed_intent(self):
+        def failed(run,attempt):
+            (attempt/'controller.txt').write_text('Known fixture failure');raise RuntimeError('uncertain')
+        with self.assertRaises(RuntimeError):self.call(True,train=failed)
+        attempt=next(self.state.glob('drift-*'))
+        self.write(attempt/'reconciliation-backend.json',{'namespace':'kubeflow','pagination_complete':True,
+            'matching_run_names':[attempt.name],'all_run_names':[attempt.name]})
+        value={'outcome':'confirmed_not_submitted','run_name':attempt.name,'intent_sha256':digest(attempt/'intent.json'),
+            'backend_readback_sha256':digest(attempt/'reconciliation-backend.json'),
+            'controller_sha256':digest(attempt/'controller.txt'),'runner_failed_before_api':True}
+        self.write(attempt/'reconciled-no-submission.json',value);self.report['window_id']='new-window';self.seal()
+        with self.assertRaisesRegex(ValueError,'existing or unknown'):self.call(True)
+        value['intent_sha256']='0'*64;self.write(attempt/'reconciled-no-submission.json',value)
+        with self.assertRaisesRegex(ValueError,'reconciliation differs'):self.call(True)
+        self.assertEqual(self.calls,[])
+
 
 if __name__=='__main__':unittest.main()
