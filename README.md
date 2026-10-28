@@ -20,6 +20,10 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [CI drift qua Knative Eventing→KServe](docs/drift-eventing.md) đã **Jenkins3 SUCCESS/source869**: production6 SDK,101main+20subtest/coverage65statements10branches100%/mutation103of119=86,55%. Chín event tới sink204 nhưng chỉ một cửa sổ lưu; replay/409/filter kiểm thật. Locust598/4.267ACK không lỗi/P95 11/210ms, delta4.865khớp subscriber; giữ Podstable và khôi phục HPA1–10.270payload/bốn ảnh gốc có verifier; window mô phỏng, memoryBroker, chưa compute-throughput cho cửa sổ mới.
 
+[Hai CI stream offline/online](docs/ci-stream-push.md) đã Jenkins3/2 SUCCESS/source491: test/build/auto-deploy2+2task Airflow, offline3row đúng/online ban đầu trống, sau đó latest40/100. Replay không tăng đếm và upstream read-only;225payload/bốn ảnh gốc. Nguồn là ba cửa sổ Kafka/Flink thật27/10 được replay, chưa luồng live mới liên tục.
+
+S1–S4 là hai job độc lập được CI triển khai; cửa sổ nguồn là snapshot đã chốt, không vẽ file thành service. Redis phân biệt project cho các monitoring feature, không thay tám feature của predictor.
+
 ## Mục lục
 
 - [Phạm vi và dữ liệu](docs/domain-proposal.md)
@@ -56,6 +60,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Làm mới feature thật và kiểm lại model6 sau retrain](docs/active-feature-refresh.md)
 - [Metrics/traces API: dashboard và trace native đã kiểm](docs/api-observability.md)
 - [Locust trên wrapper: SLA, replica và bằng chứng gốc](docs/observed-api-load.md)
+- [CI hai job stream offline/online](docs/ci-stream-push.md)
 - [CI telemetry: test/build/auto-deploy cùng model production](docs/ci-api-observability.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist final-coursework chính](docs/final-rubric-tracker.md)
@@ -132,7 +137,11 @@ flowchart LR
     Airflow -->|D5 chạy materialization| Materialize[Feast materialization job container]
     Spark -->|D6 Parquet feature qua HDD| Materialize
     Materialize -->|D7 native online vectors| BatchRedis[Redis batch-stream container]
-    Jenkins[Jenkins controller container] -->|C1 submit training CI| KFP[Kubeflow API Deployment]
+    Jenkins[Jenkins controller container] -->|S1 triển khai hai DAG sau gates| Airflow
+    Airflow -->|S2 retained finalized-window snapshot| StreamOffline[Stream offline job container]
+    StreamOffline -->|S3 verified release qua HDD read-only| StreamOnline[Stream online job container]
+    StreamOnline -->|S4 latest monitoring vectors| Redis
+    Jenkins -->|C1 submit training CI| KFP[Kubeflow API Deployment]
     KFP -->|T1 điều phối năm task| Training[KFP ML task pods]
     Spark -->|T2 offline feature qua HDD và Feast| Training
     Training -->|T3 distributed tasks| Executors[Hai Spark executor pods]
@@ -174,7 +183,7 @@ flowchart LR
     classDef data fill:#e1f2df,stroke:#428044,color:#111;
     classDef monitor fill:#fff0cf,stroke:#a97920,color:#111;
     class API,Redis,Predictor,AB,Old,Drift,EventDrift,EventIngress,IMC,EventFilter serving;
-    class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins,Retrain,EventPub data;
+    class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins,Retrain,EventPub,StreamOffline,StreamOnline data;
     class DriftJob,PG,Prom,Node,Grafana,Alloy,Loki,Jaeger monitor;
 ```
 

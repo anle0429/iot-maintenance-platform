@@ -1,0 +1,192 @@
+{
+  "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+  "actions": [
+    {
+      "_class": "hudson.model.ParametersAction",
+      "parameters": [
+        {
+          "_class": "hudson.model.StringParameterValue",
+          "name": "SOURCE_COMMIT",
+          "value": "49115d5a7dcb8c331e8169e8a37df462743d921f"
+        },
+        {
+          "_class": "hudson.model.StringParameterValue",
+          "name": "OFFLINE_RELEASE",
+          "value": "stream-offline-jenkins-3"
+        }
+      ]
+    },
+    {
+      "_class": "hudson.model.CauseAction"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.libs.LibrariesAction"
+    },
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.workflow.cps.EnvActionImpl"
+    },
+    {},
+    {},
+    {},
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.displayurlapi.actions.RunDisplayAction"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.pipeline.modeldefinition.actions.RestartDeclarativePipelineAction"
+    },
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.views.FlowGraphAction"
+    },
+    {},
+    {}
+  ],
+  "artifacts": [
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/admission.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/airflow.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/build.attempt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/build.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/contracts.txt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/controller-build.txt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/controller.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/deploy.attempt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/deployment.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/discover-container.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/discover-host.attempt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/discover.txt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/image-build.txt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/image-pip-check.txt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/inventory.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/runtime-parity.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/test.attempt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/test.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/tests-build.txt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/tests-container.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/tests.txt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/verification.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/native/verify.attempt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/runs/replay-container.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/runs/replay.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/runs/write-container.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/runs/write.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/offline/binding.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/offline/outbox.sqlite"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/offline/registry/registry.db"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/offline/stage-binding.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/offline/window_features.parquet"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/offline/writer.lock"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/offline-fault.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/offline-fault.txt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/offline-finish.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/offline-finish.txt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/online/outbox.sqlite"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/online/registry/registry.db"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/online/stage-binding.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/online/writer.lock"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/online-fault.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/online-fault.txt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/online-finish.json"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/phases/online-finish.txt"
+    },
+    {
+      "relativePath": "build-2/outputs/ci-stream-push/tests/verification.json"
+    }
+  ],
+  "building": false,
+  "duration": 77355,
+  "number": 2,
+  "result": "SUCCESS",
+  "timestamp": 1793215973900,
+  "url": "http://127.0.0.1:18787/job/iot-stream-online/2/"
+}

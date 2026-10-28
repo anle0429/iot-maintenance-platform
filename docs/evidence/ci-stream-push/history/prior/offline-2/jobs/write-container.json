@@ -1,0 +1,27 @@
+{
+  "id": "e51d6778a9055fa850415fdfca7dd192d68924a41f76c4a3566755ac36f89cb3",
+  "image_id": "sha256:c34e939b644f6aa3405b37463318029376567db9a8013eebdb6ef6fe80b18ff7",
+  "exit_code": 0,
+  "oom_killed": false,
+  "started_utc": "2026-10-28T19:07:09.546621392Z",
+  "finished_utc": "2026-10-28T19:07:16.901514993Z",
+  "memory_bytes": 4294967296,
+  "nano_cpus": 1000000000,
+  "memory_swap_bytes": 4294967296,
+  "mounts": [
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/ci/releases/stream-offline-jenkins-2/runs",
+      "destination": "/workspace/reports",
+      "rw": true
+    },
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/ci/releases/stream-offline-jenkins-2/state",
+      "destination": "/workspace/state",
+      "rw": true
+    }
+  ],
+  "commit": "1f6c69d8afefb9b9e6693fcfe2fa09693756f285",
+  "release": "stream-offline-jenkins-2",
+  "destination": "offline",
+  "operation": "write"
+}

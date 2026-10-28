@@ -1,0 +1,154 @@
+{
+  "passed": true,
+  "reports": {
+    "offline-fault": {
+      "checks": {
+        "one_pending_intent": true,
+        "one_real_offline_row": true,
+        "online_still_missing": true
+      },
+      "observed_utc": "2026-10-28T19:09:53.689661+00:00",
+      "operation": "offline-fault",
+      "passed": true,
+      "source_id": "checks-stream-online-jenkins-1"
+    },
+    "offline-finish": {
+      "checks": {
+        "conflicting_source_rejected": true,
+        "offline_did_not_populate_online": true,
+        "replay_all_noop": true,
+        "replay_offline_bytes_unchanged": true,
+        "three_acknowledged_windows": true,
+        "two_machines": true
+      },
+      "destination": "offline",
+      "historical_rows": 3,
+      "machines": 2,
+      "modes": [
+        "reconciled_offline_only",
+        "native_offline_only",
+        "native_offline_only"
+      ],
+      "offline_rows": 3,
+      "offline_sha256": "4ba48fd59afb7578a30625238ed5bfc3cc2cb4ddb96547368823cf4dc5bcd971",
+      "online_all_missing": true,
+      "operation": "offline-finish",
+      "passed": true,
+      "project": "iot_windows_54941e0083d2",
+      "registry_sha256": "44ea7c4dd5bdb4c477301006084e98b6418e101e561d3f0bfc23132758858580",
+      "replay_modes": [
+        "completed_offline_replay_noop",
+        "completed_offline_replay_noop",
+        "completed_offline_replay_noop"
+      ],
+      "rows": [
+        {
+          "created": "2026-10-27T07:03:14.736Z",
+          "event_timestamp": "2026-10-01T00:10:00.000Z",
+          "machine_id": "P-001",
+          "reading_count": 3,
+          "temperature_mean": 20.0,
+          "temperature_sum": 60.0,
+          "vibration_max": 3.0
+        },
+        {
+          "created": "2026-10-27T07:04:13.017Z",
+          "event_timestamp": "2026-10-01T00:20:00.000Z",
+          "machine_id": "P-001",
+          "reading_count": 1,
+          "temperature_mean": 40.0,
+          "temperature_sum": 40.0,
+          "vibration_max": 4.0
+        },
+        {
+          "created": "2026-10-27T07:03:14.737Z",
+          "event_timestamp": "2026-10-01T00:10:00.000Z",
+          "machine_id": "P-002",
+          "reading_count": 1,
+          "temperature_mean": 100.0,
+          "temperature_sum": 100.0,
+          "vibration_max": 10.0
+        }
+      ],
+      "source_id": "checks-stream-online-jenkins-1",
+      "verified_utc": "2026-10-28T19:10:00.620326+00:00"
+    },
+    "online-fault": {
+      "checks": {
+        "offline_unchanged": true,
+        "one_pending_intent": true,
+        "real_latest_online_write": true
+      },
+      "observed_utc": "2026-10-28T19:10:07.339410+00:00",
+      "operation": "online-fault",
+      "passed": true,
+      "source_id": "checks-stream-online-jenkins-1"
+    },
+    "online-finish": {
+      "acknowledged_windows": 3,
+      "checks": {
+        "conflicting_source_rejected": true,
+        "latest_values_40_and_100": true,
+        "replay_all_noop": true,
+        "replay_offline_bytes_unchanged": true,
+        "three_acknowledged_windows": true,
+        "two_machines": true
+      },
+      "destination": "online",
+      "expected_latest_rows": [
+        {
+          "created": "2026-10-27T07:04:13.017Z",
+          "event_timestamp": "2026-10-01T00:20:00.000Z",
+          "machine_id": "P-001",
+          "reading_count": 1,
+          "temperature_mean": 40.0,
+          "temperature_sum": 40.0,
+          "vibration_max": 4.0
+        },
+        {
+          "created": "2026-10-27T07:03:14.737Z",
+          "event_timestamp": "2026-10-01T00:10:00.000Z",
+          "machine_id": "P-002",
+          "reading_count": 1,
+          "temperature_mean": 100.0,
+          "temperature_sum": 100.0,
+          "vibration_max": 10.0
+        }
+      ],
+      "machines": 2,
+      "modes": [
+        "native_online_only",
+        "native_online_only",
+        "native_online_only"
+      ],
+      "offline_sha256_unchanged": "4ba48fd59afb7578a30625238ed5bfc3cc2cb4ddb96547368823cf4dc5bcd971",
+      "online_rows": [
+        {
+          "machine_id": "P-001",
+          "reading_count": 1,
+          "temperature_mean": 40.0,
+          "temperature_sum": 40.0,
+          "vibration_max": 4.0
+        },
+        {
+          "machine_id": "P-002",
+          "reading_count": 1,
+          "temperature_mean": 100.0,
+          "temperature_sum": 100.0,
+          "vibration_max": 10.0
+        }
+      ],
+      "operation": "online-finish",
+      "passed": true,
+      "project": "iot_windows_54941e0083d2",
+      "replay_modes": [
+        "completed_online_replay_noop",
+        "completed_online_replay_noop",
+        "completed_online_replay_noop"
+      ],
+      "verified_utc": "2026-10-28T19:10:14.132851+00:00"
+    }
+  },
+  "scope": "Fresh real native Feast writes; offline writes no online features, online writes no offline rows; independent process failures/replay. Retained genuine Kafka/Flink source, no fresh live source claim.",
+  "source_id": "checks-stream-online-jenkins-1"
+}

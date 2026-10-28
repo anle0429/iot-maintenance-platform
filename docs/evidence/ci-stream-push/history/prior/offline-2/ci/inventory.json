@@ -1,0 +1,45 @@
+{
+  "commit": "1f6c69d8afefb9b9e6693fcfe2fa09693756f285",
+  "redis_url": "10.53.55.207:6379",
+  "redis_service_uid": "10e390ab-4d17-4b75-9442-3518fdb56285",
+  "service": {
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+      "creationTimestamp": "2026-10-28T04:50:58Z",
+      "labels": {
+        "iot.coursework/release": "serve-jenkins-8"
+      },
+      "name": "online-serve-jenkins-8",
+      "namespace": "iot-features",
+      "resourceVersion": "70458",
+      "uid": "10e390ab-4d17-4b75-9442-3518fdb56285"
+    },
+    "spec": {
+      "clusterIP": "10.53.55.207",
+      "clusterIPs": [
+        "10.53.55.207"
+      ],
+      "internalTrafficPolicy": "Cluster",
+      "ipFamilies": [
+        "IPv4"
+      ],
+      "ipFamilyPolicy": "SingleStack",
+      "ports": [
+        {
+          "port": 6379,
+          "protocol": "TCP",
+          "targetPort": 6379
+        }
+      ],
+      "selector": {
+        "app": "online-serve-jenkins-8"
+      },
+      "sessionAffinity": "None",
+      "type": "ClusterIP"
+    },
+    "status": {
+      "loadBalancer": {}
+    }
+  }
+}

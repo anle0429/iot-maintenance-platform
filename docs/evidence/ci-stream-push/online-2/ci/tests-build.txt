@@ -1,0 +1,38 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from StreamPush.Dockerfile
+#1 transferring dockerfile: 1.56kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-feast:0.67.0
+#2 DONE 0.0s
+
+#3 [internal] load build context
+#3 transferring context: 81.10kB done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/iot-coursework-feast:0.67.0@sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff
+#4 resolve docker.io/library/iot-coursework-feast:0.67.0@sha256:113eda1343e5208922aa2075b1403726d816535d5e309d3d31f5afe1217222ff 0.0s done
+#4 DONE 0.0s
+
+#5 [2/5] COPY feature_store/__init__.py feature_store/common.py feature_store/outbox.py feature_store/push.py feature_store/staged_push.py feature_store/staging_contract.py feature_store/staged_checks.py feature_store/staged_job.py /opt/iot-release/feature_store/
+#5 CACHED
+
+#6 [3/5] COPY tests/fixtures/stream-finalized-native.json /opt/iot-release/tests/fixtures/
+#6 CACHED
+
+#7 [4/5] COPY docs/evidence/stream-push/warm/feast/source-report.json /opt/iot-release/docs/evidence/stream-push/warm/feast/
+#7 CACHED
+
+#8 [5/5] COPY pipelines/stream_job.py pipelines/stream_contract.py pipelines/stream_verification.py /opt/iot-release/pipelines/
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers done
+#9 exporting manifest sha256:67d05d977d966a2b616c7fe14309634f27e87f2c93853d14914c398fb9f60b94 done
+#9 exporting config sha256:2f42d48c104e57d014aec4502254fb4bb94d8c5702de8a69a4221eb94c1f377a done
+#9 exporting attestation manifest sha256:9370f320dc3d68403f7883fe796b32d97a13e21e001ec7744d7edc06aced5367 0.0s done
+#9 exporting manifest list sha256:1ea62aae783252e566c15a6cc3878a2f48e1399b8cf3a16ad8bf6a107d39fbff 0.0s done
+#9 naming to docker.io/library/iot-ci-stream-tests:stream-online-jenkins-2 done
+#9 unpacking to docker.io/library/iot-ci-stream-tests:stream-online-jenkins-2 done
+#9 DONE 0.1s

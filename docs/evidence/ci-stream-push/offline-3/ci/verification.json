@@ -1,0 +1,111 @@
+{
+  "passed": true,
+  "commit": "49115d5a7dcb8c331e8169e8a37df462743d921f",
+  "release": "stream-offline-jenkins-3",
+  "destination": "offline",
+  "checked_utc": "2026-10-28T19:32:18.463125+00:00",
+  "offline_release": null,
+  "reports": {
+    "write": {
+      "destination": "offline",
+      "fixture_parent_sha256": "8c4a41b37d8b46fbba2e38c3f8f85120ad442932e96fadaabf718f958037732c",
+      "historical_rows": 3,
+      "machines": 2,
+      "modes": [
+        "native_offline_only",
+        "native_offline_only",
+        "native_offline_only"
+      ],
+      "offline_rows": 3,
+      "offline_sha256": "4ba48fd59afb7578a30625238ed5bfc3cc2cb4ddb96547368823cf4dc5bcd971",
+      "online_all_missing": true,
+      "operation": "write",
+      "passed": true,
+      "project": "iot_windows_13588bdd4f42",
+      "registry_sha256": "c4aaa687f8dabad6c635ca4482bf8a2138470395e3f0bd98a258100fcbbad9ee",
+      "rows": [
+        {
+          "created": "2026-10-27T07:03:14.736748Z",
+          "event_timestamp": "2026-10-01T00:10:00.000000Z",
+          "machine_id": "P-001",
+          "reading_count": 3,
+          "temperature_mean": 20.0,
+          "temperature_sum": 60.0,
+          "vibration_max": 3.0
+        },
+        {
+          "created": "2026-10-27T07:04:13.017254Z",
+          "event_timestamp": "2026-10-01T00:20:00.000000Z",
+          "machine_id": "P-001",
+          "reading_count": 1,
+          "temperature_mean": 40.0,
+          "temperature_sum": 40.0,
+          "vibration_max": 4.0
+        },
+        {
+          "created": "2026-10-27T07:03:14.737225Z",
+          "event_timestamp": "2026-10-01T00:10:00.000000Z",
+          "machine_id": "P-002",
+          "reading_count": 1,
+          "temperature_mean": 100.0,
+          "temperature_sum": 100.0,
+          "vibration_max": 10.0
+        }
+      ],
+      "scope": "Separately deployed native offline job; three exact retained Kafka/Flink windows, not a fresh live source run or model rolling features.",
+      "source_id": "staged-ci-stream-offline-jenkins-3",
+      "verified_utc": "2026-10-28T19:32:06.815826+00:00"
+    },
+    "replay": {
+      "destination": "offline",
+      "fixture_parent_sha256": "8c4a41b37d8b46fbba2e38c3f8f85120ad442932e96fadaabf718f958037732c",
+      "historical_rows": 3,
+      "machines": 2,
+      "modes": [
+        "completed_offline_replay_noop",
+        "completed_offline_replay_noop",
+        "completed_offline_replay_noop"
+      ],
+      "offline_rows": 3,
+      "offline_sha256": "4ba48fd59afb7578a30625238ed5bfc3cc2cb4ddb96547368823cf4dc5bcd971",
+      "online_all_missing": true,
+      "operation": "replay",
+      "passed": true,
+      "project": "iot_windows_13588bdd4f42",
+      "registry_sha256": "4f1bfdc097102c5e1d5209b7e878a264f13a94c4e3d6af2564acdd5354478525",
+      "rows": [
+        {
+          "created": "2026-10-27T07:03:14.736748Z",
+          "event_timestamp": "2026-10-01T00:10:00.000000Z",
+          "machine_id": "P-001",
+          "reading_count": 3,
+          "temperature_mean": 20.0,
+          "temperature_sum": 60.0,
+          "vibration_max": 3.0
+        },
+        {
+          "created": "2026-10-27T07:04:13.017254Z",
+          "event_timestamp": "2026-10-01T00:20:00.000000Z",
+          "machine_id": "P-001",
+          "reading_count": 1,
+          "temperature_mean": 40.0,
+          "temperature_sum": 40.0,
+          "vibration_max": 4.0
+        },
+        {
+          "created": "2026-10-27T07:03:14.737225Z",
+          "event_timestamp": "2026-10-01T00:10:00.000000Z",
+          "machine_id": "P-002",
+          "reading_count": 1,
+          "temperature_mean": 100.0,
+          "temperature_sum": 100.0,
+          "vibration_max": 10.0
+        }
+      ],
+      "scope": "Separately deployed native offline job; three exact retained Kafka/Flink windows, not a fresh live source run or model rolling features.",
+      "source_id": "staged-ci-stream-offline-jenkins-3",
+      "verified_utc": "2026-10-28T19:32:16.061464+00:00"
+    }
+  },
+  "scope": "Jenkins test/build/auto-deploy and actual Airflow native offline job plus replay. Exact retained three-window Kafka/Flink source; no fresh live source run or model rolling-feature claim."
+}

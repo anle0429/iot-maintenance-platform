@@ -1,0 +1,74 @@
+{
+  "_class": "org.jenkinsci.plugins.workflow.job.WorkflowRun",
+  "actions": [
+    {
+      "_class": "hudson.model.ParametersAction",
+      "parameters": [
+        {
+          "_class": "hudson.model.StringParameterValue",
+          "name": "SOURCE_COMMIT",
+          "value": "839528574f95bccebb48d44d65bfd152ddcf61ac"
+        },
+        {
+          "_class": "hudson.model.StringParameterValue",
+          "name": "OFFLINE_RELEASE",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "_class": "hudson.model.CauseAction"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.workflow.libs.LibrariesAction"
+    },
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.workflow.cps.EnvActionImpl"
+    },
+    {},
+    {},
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.displayurlapi.actions.RunDisplayAction"
+    },
+    {
+      "_class": "org.jenkinsci.plugins.pipeline.modeldefinition.actions.RestartDeclarativePipelineAction"
+    },
+    {},
+    {
+      "_class": "org.jenkinsci.plugins.workflow.job.views.FlowGraphAction"
+    },
+    {},
+    {}
+  ],
+  "artifacts": [
+    {
+      "relativePath": "build-1/outputs/ci-stream-push/native/admission.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-stream-push/native/contracts.txt"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-stream-push/native/controller-build.txt"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-stream-push/native/controller.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-stream-push/native/discover-container.json"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-stream-push/native/discover.txt"
+    },
+    {
+      "relativePath": "build-1/outputs/ci-stream-push/native/test.attempt"
+    }
+  ],
+  "building": false,
+  "duration": 5648,
+  "number": 1,
+  "result": "FAILURE",
+  "timestamp": 1793213998802,
+  "url": "http://127.0.0.1:18787/job/iot-stream-offline/1/"
+}

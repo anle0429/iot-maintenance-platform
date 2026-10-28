@@ -1,0 +1,64 @@
+{
+  "acknowledged_windows": 3,
+  "checks": {
+    "conflicting_source_rejected": true,
+    "latest_values_40_and_100": true,
+    "replay_all_noop": true,
+    "replay_offline_bytes_unchanged": true,
+    "three_acknowledged_windows": true,
+    "two_machines": true
+  },
+  "destination": "online",
+  "expected_latest_rows": [
+    {
+      "created": "2026-10-27T07:04:13.017254Z",
+      "event_timestamp": "2026-10-01T00:20:00.000000Z",
+      "machine_id": "P-001",
+      "reading_count": 1,
+      "temperature_mean": 40.0,
+      "temperature_sum": 40.0,
+      "vibration_max": 4.0
+    },
+    {
+      "created": "2026-10-27T07:03:14.737225Z",
+      "event_timestamp": "2026-10-01T00:10:00.000000Z",
+      "machine_id": "P-002",
+      "reading_count": 1,
+      "temperature_mean": 100.0,
+      "temperature_sum": 100.0,
+      "vibration_max": 10.0
+    }
+  ],
+  "machines": 2,
+  "modes": [
+    "native_online_only",
+    "native_online_only",
+    "native_online_only"
+  ],
+  "offline_sha256_unchanged": "4ba48fd59afb7578a30625238ed5bfc3cc2cb4ddb96547368823cf4dc5bcd971",
+  "online_rows": [
+    {
+      "machine_id": "P-001",
+      "reading_count": 1,
+      "temperature_mean": 40.0,
+      "temperature_sum": 40.0,
+      "vibration_max": 4.0
+    },
+    {
+      "machine_id": "P-002",
+      "reading_count": 1,
+      "temperature_mean": 100.0,
+      "temperature_sum": 100.0,
+      "vibration_max": 10.0
+    }
+  ],
+  "operation": "online-finish",
+  "passed": true,
+  "project": "iot_windows_89f7f73f3dec",
+  "replay_modes": [
+    "completed_online_replay_noop",
+    "completed_online_replay_noop",
+    "completed_online_replay_noop"
+  ],
+  "verified_utc": "2026-10-28T19:31:45.943255+00:00"
+}

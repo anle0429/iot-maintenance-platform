@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/src/scripts/ci-stream-push.py", line 139, in <module>
+    if __name__=='__main__':run(sys.argv[1])
+                            ^^^^^^^^^^^^^^^^
+  File "/src/scripts/ci-stream-push.py", line 82, in run
+    c=Context()
+      ^^^^^^^^^
+  File "/src/scripts/ci-stream-push.py", line 19, in __init__
+    super().__init__();self.destination=os.environ['IOT_STREAM_DESTINATION'];self.release=release(self.destination,os.environ['BUILD_NUMBER'])
+                                        ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 715, in __getitem__
+KeyError: 'IOT_STREAM_DESTINATION'
