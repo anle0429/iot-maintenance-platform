@@ -51,7 +51,7 @@ class OfflineStage(WindowPusher):
         online=self.online_values(history.machine_id.unique().tolist())
         return {'passed':True,'destination':'offline','source_id':self.source_id,'project':self.project,'offline_rows':len(history),'historical_rows':len(native),
             'machines':int(history.machine_id.nunique()),'online_all_missing':bool(online[FIELDS].isna().all().all()),'offline_sha256':digest(self.offline),'registry_sha256':digest(self.state/'registry/registry.db'),
-            'rows':json.loads(history.to_json(orient='records',date_format='iso')),'verified_utc':utc_now()}
+            'rows':json.loads(history.to_json(orient='records',date_format='iso',date_unit='us')),'verified_utc':utc_now()}
 
 
 class OnlineStage:
@@ -107,7 +107,7 @@ class OnlineStage:
         if digest(self.offline)!=self.receipt['offline_sha256']:raise ValueError('Online push changed offline Parquet')
         return {'passed':True,'destination':'online','project':self.receipt['project'],'acknowledged_windows':len(records),'machines':len(actual),
             'offline_sha256_unchanged':digest(self.offline),'online_rows':json.loads(actual.to_json(orient='records')),
-            'expected_latest_rows':json.loads(self.latest.to_json(orient='records',date_format='iso')),'verified_utc':utc_now()}
+            'expected_latest_rows':json.loads(self.latest.to_json(orient='records',date_format='iso',date_unit='us')),'verified_utc':utc_now()}
 
     def __exit__(self,*_):
         """Preserve the independent journal and shared upstream artifact for checked retries."""

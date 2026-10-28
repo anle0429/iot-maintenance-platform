@@ -46,7 +46,7 @@ def package(commit,output):
         names+=['feature_store/'+n+'.py' for n in ['outbox','push','staged_push','staging_contract','staged_checks','staged_job']]
         names+=['pipelines/'+n+'.py' for n in ['stream_job','stream_contract','stream_verification']]
         names+=['tests/fixtures/stream-finalized-native.json','docs/evidence/stream-push/warm/feast/source-report.json',
-            'tests/test_stream_staging_contract.py','scripts/ci-stream-push.py','infra/ci/StreamPush.Jenkinsfile','infra/ci/iot_ci_stream_push.py',
+            'tests/test_stream_staging_contract.py','tests/test_stream_runtime_contract.py','scripts/ci-stream-push.py','infra/ci/StreamPush.Jenkinsfile','infra/ci/iot_ci_stream_push.py',
             'infra/ci/StreamPush.Dockerfile','infra/ci/StreamPush.Dockerfile.dockerignore']
     if set(names)-available:raise ValueError('Serving source commit lacks required files: '+','.join(sorted(set(names)-available)))
     manifest_path=output.with_suffix('.manifest.json')

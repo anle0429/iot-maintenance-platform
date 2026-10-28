@@ -41,6 +41,14 @@ def probe(image):
     return json.loads(subprocess.check_output(['docker','run','--rm','--network','none','--memory','1g','--cpus','1','--entrypoint','python',image,'-c',code]))
 
 
+def require_same_runtime(tested,deployed):
+    """Compare immutable filesystem layers and execution configuration; image IDs may include different build metadata."""
+    keys=['Architecture','Os','RootFS','Config']
+    if any(k not in tested or k not in deployed or tested[k]!=deployed[k] for k in keys):raise ValueError('Tested and deployed runtime differ')
+    return {'tested_image_id':tested['Id'],'deployed_image_id':deployed['Id'],
+            'tested':{k:tested[k] for k in keys},'deployed':{k:deployed[k] for k in keys}}
+
+
 def verify(c):
     """Require two actual successful native task containers and exact source/stores/replay before Jenkins succeeds."""
     token=api('/auth/token',body={'username':os.environ['IOT_AIRFLOW_USER'],'password':os.environ['IOT_AIRFLOW_PASSWORD']})['access_token']
@@ -86,7 +94,7 @@ def run(phase):
         with (c.out/(phase+'.attempt')).open('x') as f:f.write(datetime.now(timezone.utc).isoformat())
         if not phase.endswith('-host'):SHARED.real_admission(c)
     if phase=='test':
-        fixture(ROOT);c.log('contracts',[sys.executable,'-m','unittest','tests.test_stream_staging_contract','-q'])
+        fixture(ROOT);c.log('contracts',[sys.executable,'-m','unittest','tests.test_stream_staging_contract','tests.test_stream_runtime_contract','-q'])
         c.log('controller-build',['docker','build','-f',str(ROOT/'infra/ci/ServingController.Dockerfile'),'-t','iot-ci-stream-controller:'+c.release,str(ROOT)])
         save(c,'controller.json',{'id':subprocess.check_output(['docker','image','inspect','iot-ci-stream-controller:'+c.release,'--format','{{.Id}}'],text=True).strip()})
         c.control('discover-host',cluster=True,extra=['--env','IOT_STREAM_DESTINATION'])
@@ -110,6 +118,9 @@ def run(phase):
         c.log('image-build',['docker','build','-f',str(ROOT/'infra/ci/StreamPush.Dockerfile'),'-t',tag,str(ROOT)])
         if probe(tag)!=read(c.out/'test.json')['packaged_sha256'] or subprocess.check_output(['docker','image','inspect',base,'--format','{{.Id}}'],text=True).strip()!=base_id:raise ValueError('Production image/parent changed after tests')
         image={'id':subprocess.check_output(['docker','image','inspect',tag,'--format','{{.Id}}'],text=True).strip(),'tag':tag,'parent_id':base_id,'packaged_sha256':probe(tag)}
+        tested=json.loads(subprocess.check_output(['docker','image','inspect',read(c.out/'tests-container.json')['image']]))[0]
+        deployed=json.loads(subprocess.check_output(['docker','image','inspect',image['id']]))[0]
+        save(c,'runtime-parity.json',require_same_runtime(tested,deployed))
         c.log('image-pip-check',['docker','run','--rm','--network','none','--entrypoint','python',tag,'-m','pip','check'])
         inventory=read(c.out/'inventory.json');parent=os.environ.get('IOT_OFFLINE_RELEASE','');source_id='staged-ci-'+c.release
         config={'release':c.release,'commit':c.commit,'destination':c.destination,'image':image,'redis_url':inventory['redis_url'],'redis_service_uid':inventory['redis_service_uid'],
