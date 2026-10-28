@@ -21,7 +21,7 @@ def run(args):
     assert subprocess.run(k+['get','namespace','iot-mesh'],capture_output=True).returncode!=0
     original=get('get','inferenceservice','iot-pump-serve-jenkins-8','-n','iot-serving');active=get('get','deployment','iot-feature-api','-n','iot-features');save('original-serving.json',original);save('original-feature.json',active)
     image=json.loads(subprocess.check_output(['docker','image','inspect',IMAGE]))[0];save('image.json',{key:image[key] for key in ['Id','RepoTags','Architecture','Os']})
-    code="import os,json,pathlib,hashlib;p=pathlib.Path(os.environ['IOT_MODEL_BUNDLE']);print(json.dumps({'pin':json.loads((p/'model-pin.json').read_bytes()),'portable_sha256':hashlib.sha256((p/'portable.json').read_bytes()).hexdigest()}))"
+    code="import os,json,pathlib,hashlib;from services.predictor.runtime import PumpPredictor;p=pathlib.Path(os.environ['IOT_MODEL_BUNDLE']);m=PumpPredictor(p);print(json.dumps({'pin':m.pin,'portable_sha256':hashlib.sha256((p/'portable.json').read_bytes()).hexdigest()}))"
     baked=json.loads(call(['docker','run','--rm','--network','none','--memory','256m','--cpus','.5','--entrypoint','python',image['Id'],'-c',code],'baked-model'))
     assert baked['pin']['version']=='6' and baked['pin']['production'] is True and baked['portable_sha256']==baked['pin']['portable_sha256'];save('baked-model.json',baked)
     manifest={'apiVersion':'v1','kind':'List','items':resources()};save('workloads.json',manifest)
