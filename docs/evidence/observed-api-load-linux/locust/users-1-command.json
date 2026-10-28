@@ -1,0 +1,21 @@
+[
+  "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/locust-venv/bin/locust",
+  "-f",
+  "/srv/iot-data/workspace/iot-maintenance-platform/outputs/observed-load-28c/locust/source/tests/load/feature_api.py",
+  "--headless",
+  "--host",
+  "http://10.53.26.245",
+  "--users",
+  "1",
+  "--spawn-rate",
+  "2",
+  "--run-time",
+  "60s",
+  "--stop-timeout",
+  "10",
+  "--only-summary",
+  "--html",
+  "/srv/iot-data/workspace/iot-maintenance-platform/outputs/observed-load-28c/locust/users-1.html",
+  "--csv",
+  "/srv/iot-data/workspace/iot-maintenance-platform/outputs/observed-load-28c/locust/users-1"
+]

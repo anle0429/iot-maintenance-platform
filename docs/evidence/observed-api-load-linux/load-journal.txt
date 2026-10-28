@@ -1,0 +1,11 @@
+Started iot-observed-load-28c.service - /usr/bin/python3 /tmp/run-load-28c.py.
+{"users": 1, "result": {"passed": true, "sla": {"minimum_requests": 100, "maximum_failures": 0, "p95_ms": 500, "clock_mode": "simulation"}, "requests": 598, "failures": 0, "requests_per_second": 10.01558385899173, "p50_ms": 5, "p95_ms": 6, "p99_ms": 7, "scope": "Feature retrieval only, paced clients on same shared VM; not max capacity, external network latency, RAG/LLM or prediction throughput."}}
+{"users": 10, "result": {"passed": true, "sla": {"minimum_requests": 100, "maximum_failures": 0, "p95_ms": 500, "clock_mode": "simulation"}, "requests": 5772, "failures": 0, "requests_per_second": 96.61989057479887, "p50_ms": 13, "p95_ms": 24, "p99_ms": 30, "scope": "Feature retrieval only, paced clients on same shared VM; not max capacity, external network latency, RAG/LLM or prediction throughput."}}
+Traceback (most recent call last):
+  File "/tmp/run-load-28c.py", line 40, in <module>
+    assert identities(before)==identities(after) and http(endpoint+'/health/ready')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+iot-observed-load-28c.service: Main process exited, code=exited, status=1/FAILURE
+iot-observed-load-28c.service: Failed with result 'exit-code'.
+iot-observed-load-28c.service: Consumed 13.071s CPU time.

@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "sla": {
+    "minimum_requests": 100,
+    "maximum_failures": 0,
+    "p95_ms": 500,
+    "clock_mode": "simulation"
+  },
+  "requests": 598,
+  "failures": 0,
+  "requests_per_second": 10.01558385899173,
+  "p50_ms": 5,
+  "p95_ms": 6,
+  "p99_ms": 7,
+  "scope": "Feature retrieval only, paced clients on same shared VM; not max capacity, external network latency, RAG/LLM or prediction throughput."
+}

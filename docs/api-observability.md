@@ -27,7 +27,7 @@ SDK1.45.1/instrumentation0.66b1/[dependency lock](../infra/observability/require
 
 Baseline materialize thật07:41:43UTC, Redis0→200key/minTTL3.576.943ms, seed ConfigMap mới bất biến. Rollout07:48:11 và workload08:06:09 còn trong lease1giờ. Không chỉnh timestamp/TTL hoặc ghi đè state cũ. Lease hết08:41:43UTC; demo cần prepare mới.
 
-Gate chạy container2CPU/4GiB/hai workers/không mạng, đủ250mutant module mới; mutation serving cũ giữ scope riêng. **Rollout vận hành riêng sau gate, chưa phải Jenkins serving build mới.** CI8 chỉ chứng minh source99; cần tích hợp overlay/dependencies vào CI. Locust1/10users của CI8 là số đo source cũ; **chưa chạy lại Locust trên wrapper**. Workload hiện tại kiểm counter/trace/replay, không thay SLA/load test.
+Gate chạy container2CPU/4GiB/hai workers/không mạng, đủ250mutant module mới; mutation serving cũ giữ scope riêng. **Rollout vận hành riêng sau gate, chưa phải Jenkins serving build mới.** CI8 chỉ chứng minh source99; cần tích hợp overlay/dependencies vào CI. Locust1/10users của CI8 là số đo source cũ; [Locust trên wrapper đã kiểm riêng](observed-api-load.md):598/5767requests,0fail,P95 6/28ms. Workload hiện tại kiểm counter/trace/replay, không thay SLA/load test.
 
 ## Metrics và privacy
 
@@ -63,4 +63,4 @@ Verifier kiểm199payload/submanifests, Git source, mutation meta/inventory, JUn
 python -m pytest tests/api/test_observed.py tests/test_api_observability_gate.py -q
 ```
 
-Kiểm live cần phiên VM được duyệt, token/CA còn hạn và seed mới. Không rerun helper đã tạo state/receipt cũ. Tiếp: Locust mới, CI overlay, rồi gateway/security/streamCI trong tracker final.
+Kiểm live cần phiên VM được duyệt, token/CA còn hạn và seed mới. Không rerun helper đã tạo state/receipt cũ. Tiếp: CI overlay đang chạy riêng, rồi gateway/security/streamCI trong tracker final.
