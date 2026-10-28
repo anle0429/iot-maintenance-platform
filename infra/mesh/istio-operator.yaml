@@ -1,0 +1,42 @@
+# Revision-scoped minimal mesh on the existing cluster; no gateways or namespace-wide production injection.
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: iot-mesh-minimal
+  namespace: iot-mesh-system
+spec:
+  profile: minimal
+  revision: iot-1313
+  meshConfig:
+    rootNamespace: iot-mesh-system
+    accessLogFile: /dev/stdout
+    accessLogEncoding: JSON
+    accessLogFormat: |
+      {"timestamp":"%START_TIME%","source_principal":"%DOWNSTREAM_PEER_URI_SAN%","status":"%RESPONSE_CODE%","details":"%RESPONSE_CODE_DETAILS%","method":"%REQ(:METHOD)%","path":"%REQ(:PATH)%"}
+    defaultConfig:
+      holdApplicationUntilProxyStarts: true
+  components:
+    pilot:
+      enabled: true
+      k8s:
+        replicaCount: 1
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: "1"
+            memory: 512Mi
+  values:
+    global:
+      istioNamespace: iot-mesh-system
+      proxy:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+    pilot:
+      autoscaleEnabled: false

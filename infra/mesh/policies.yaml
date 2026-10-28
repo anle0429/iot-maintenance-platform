@@ -1,0 +1,30 @@
+# Enforce transport identity and allow only the declared feature caller to use the cloned model6 predictor.
+apiVersion: security.istio.io/v1
+kind: PeerAuthentication
+metadata:
+  name: strict
+  namespace: iot-mesh
+spec:
+  mtls:
+    mode: STRICT
+---
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: feature-caller-only
+  namespace: iot-mesh
+spec:
+  selector:
+    matchLabels:
+      app: mesh-predictor
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/iot-mesh/sa/feature-caller
+      to:
+        - operation:
+            ports: ["8080"]
+            methods: ["POST"]
+            paths: ["/v1/models/iot-pump-failure-v1:predict"]
