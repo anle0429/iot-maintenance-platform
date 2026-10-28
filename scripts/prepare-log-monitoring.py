@@ -8,5 +8,6 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output',type=Path,required=True);parser.add_argument('--project-root',required=True)
     parser.add_argument('--sources',type=Path,required=True);parser.add_argument('--host',default='vm-linux')
-    args=parser.parse_args();write_bundle(args.output,args.project_root,json.loads(args.sources.read_text()),args.host)
+    parser.add_argument('--collection',default='native-28-keep')
+    args=parser.parse_args();write_bundle(args.output,args.project_root,json.loads(args.sources.read_text()),args.host,args.collection)
     print(json.dumps({'prepared':True,'output':str(args.output),'services_started':False}))

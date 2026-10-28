@@ -28,6 +28,16 @@ class LogOracleTests(unittest.TestCase):
         for raw in [b'1970-01-01T00:00:00Z stderr P INFO: partial\n',b'1970-01-01T00:00:00Z stderr F INFO: no-newline']:
             with self.assertRaises(ValueError):raw_records(mapping,{'x':raw})
 
+    def test_distinct_messages_with_the_same_original_time_must_keep_that_time(self):
+        mapping=[{'file':'x','kind':'host-file','time_key':'time','labels':{'service':'node-exporter','source':'host-file'}}]
+        raw=b'time=1970-01-01T00:00:01Z level=INFO msg=first\ntime=1970-01-01T00:00:01Z level=INFO msg=second\n'
+        records=raw_records(mapping,{'x':raw});self.assertEqual([r['timestamp_ns'] for r in records],[10**9,10**9])
+        response={'status':'success','data':{'resultType':'streams','result':[{'stream':records[0]['labels'],
+            'values':[[str(10**9),records[0]['line']],[str(10**9+1),records[1]['line']]]}]}}
+        with self.assertRaises(ValueError):compare_logs(records,response,0,2*10**9)
+        response['data']['result'][0]['values'][1][0]=str(10**9)
+        self.assertEqual(compare_logs(records,response,0,2*10**9),2)
+
     def test_count_window_is_left_open_and_right_closed_and_missing_positives_fail(self):
         records=[{'timestamp_ns':n*10**9,'labels':{'service':'predictor','source':'cri','stream':'stderr'}} for n in [0,1,60,61]]
         response={'status':'success','data':{'resultType':'matrix','result':[{'metric':{'service':'predictor'},'values':[[60,'2'],[120,'1']]}]}}

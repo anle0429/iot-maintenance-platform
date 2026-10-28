@@ -4,10 +4,10 @@ import json,re
 
 DATASOURCE_UID='iot-logs-loki'
 HOST_SERVICES=('node-exporter','prometheus','grafana')
-QUERIES=[(1,'Lines by service','sum by (service) (count_over_time({host="$host"}[1m]))'),
-    (2,'Application output streams','sum by (service,stream) (count_over_time({host="$host",source="cri"}[1m]))'),
-    (3,'Host service logs','{host="$host",source="host-file"}'),
-    (4,'Application logs','{host="$host",source="cri"}')]
+QUERIES=[(1,'Lines by service','sum by (service) (count_over_time({host="$host",collection="$collection"}[1m]))'),
+    (2,'Application output streams','sum by (service,stream) (count_over_time({host="$host",collection="$collection",source="cri"}[1m]))'),
+    (3,'Host service logs','{host="$host",collection="$collection",source="host-file"}'),
+    (4,'Application logs','{host="$host",collection="$collection",source="cri"}')]
 
 
 def host_alias(value):
@@ -24,9 +24,9 @@ def absolute(value):
     return result
 
 
-def targets(project_root,observed,host):
+def targets(project_root,observed,host,collection='native-28-keep'):
     """Derive each source path from its observed service or Pod identity; never accept arbitrary file reads."""
-    root=absolute(project_root);host_alias(host)
+    root=absolute(project_root);host_alias(host);host_alias(collection)
     sources=observed['sources'];pods=observed['pods']
     if len(sources)!=3 or {s['service'] for s in sources}!=set(HOST_SERVICES):raise ValueError('Require the three observed host services')
     files=[]
@@ -35,7 +35,7 @@ def targets(project_root,observed,host):
         if path!=root/'outputs/linux-monitoring-28'/(service+'.txt') or source['time_key'] not in ['time','ts','t']:
             raise ValueError('Host log path or timestamp key differs from the observed profile')
         files.append({'path':str(path),'service':service,'time_key':source['time_key'],
-            'labels':{'host':host,'service':service,'source':'host-file'}})
+            'labels':{'host':host,'collection':collection,'service':service,'source':'host-file'}})
     if not 2<=len(pods)<=8 or not {'predictor','feature-api'}<={p['service'] for p in pods}:raise ValueError('Require the two application services with a bounded Pod list')
     paths=set();cri=[]
     for pod in pods:
@@ -46,14 +46,14 @@ def targets(project_root,observed,host):
                 or type(pod['rotation']) is not int or not 0<=pod['rotation']<=999):raise ValueError('Invalid observed Pod log identity')
         path=PurePosixPath('/var/log/pods')/(pod['namespace']+'_'+pod['pod']+'_'+pod['uid'])/pod['container']/(str(pod['rotation'])+'.log')
         if pod['path']!=str(path) or str(path) in paths:raise ValueError('Pod path differs from its unique identity')
-        paths.add(str(path));cri.append({'path':str(path),'labels':{'host':host,'source':'cri',
+        paths.add(str(path));cri.append({'path':str(path),'labels':{'host':host,'collection':collection,'source':'cri',
             **{n:pod[n] for n in ['service','namespace','pod','container']}}})
     return {'host_files':files,'cri_files':cri}
 
 
-def dashboard(host):
+def dashboard(host,collection='native-28-keep'):
     """Keep four real LogQL panels separate from model accuracy, metrics and distributed traces."""
-    host_alias(host);panels=[]
+    host_alias(host);host_alias(collection);panels=[]
     for identifier,title,expression in QUERIES:
         logs=identifier>2
         panels.append({'id':identifier,'title':title,'type':'logs' if logs else 'timeseries',
@@ -64,12 +64,12 @@ def dashboard(host):
     return {'uid':'iot-linux-logs','title':'IoT logs / Linux host and APIs','schemaVersion':41,'version':1,'editable':False,
         'description':'Observed host stdout files and explicitly named Kubernetes CRI files. Original log timestamps when parseable; otherwise arrival time. No model-quality or trace claims.',
         'timezone':'utc','refresh':'5s','time':{'from':'now-3h','to':'now'},'tags':['iot','logs','linux'],
-        'templating':{'list':[{'name':'host','type':'constant','query':host,'current':{'text':host,'value':host},'hide':0}]},'panels':panels}
+        'templating':{'list':[{'name':name,'type':'constant','query':value,'current':{'text':value,'value':value},'hide':0} for name,value in [('host',host),('collection',collection)]]},'panels':panels}
 
 
-def render(runtime_root,project_root,observed,host='vm-linux'):
+def render(runtime_root,project_root,observed,host='vm-linux',collection='native-28-keep'):
     """Use single-node filesystem storage and fixed loopback endpoints with explicit small caches and retention."""
-    root=absolute(runtime_root);selected=targets(project_root,observed,host)
+    root=absolute(runtime_root);selected=targets(project_root,observed,host,collection)
     q=lambda value:json.dumps(value,ensure_ascii=True)
     mapping=lambda values:'{'+', '.join(k+' = '+q(v) for k,v in values.items())+'}'
     config=['logging { level = "info" }','loki.write "local" {\n  endpoint { url = "http://127.0.0.1:13100/loki/api/v1/push" }\n}']
@@ -86,6 +86,7 @@ loki.process "{name}" {{
     source = "event_time"
     format = "RFC3339Nano"
     action_on_failure = "skip"
+    action_on_duplicate_timestamp = "keep"
   }}
   stage.labels {{ values = {{ level = "" }} }}
 }}''')
@@ -118,12 +119,12 @@ loki.relabel "paths" {{
         'analytics':{'reporting_enabled':False}}
     datasource={'apiVersion':1,'datasources':[{'uid':DATASOURCE_UID,'name':'IoT private Loki','type':'loki','access':'proxy',
         'url':'http://127.0.0.1:13100','isDefault':False,'editable':False,'jsonData':{'maxLines':1000,'timeout':30}}]}
-    return {'loki':loki,'alloy':'\n\n'.join(config)+'\n','datasource':datasource,'dashboard':dashboard(host),'sources':selected}
+    return {'loki':loki,'alloy':'\n\n'.join(config)+'\n','datasource':datasource,'dashboard':dashboard(host,collection),'sources':selected}
 
 
-def write_bundle(output,project_root,observed,host='vm-linux'):
+def write_bundle(output,project_root,observed,host='vm-linux',collection='native-28-keep'):
     """Write a new runtime bundle; preserving older positions and log stores is an operator responsibility."""
-    root=Path(output).resolve();documents=render(root.as_posix(),project_root,observed,host);root.mkdir(parents=True,exist_ok=False)
+    root=Path(output).resolve();documents=render(root.as_posix(),project_root,observed,host,collection);root.mkdir(parents=True,exist_ok=False)
     for name,key in [('loki.yaml','loki'),('grafana-datasource.yaml','datasource'),('dashboard.json','dashboard'),('sources.json','sources')]:
         (root/name).write_text(json.dumps(documents[key],indent=2)+'\n',encoding='utf-8')
     (root/'config.alloy').write_text(documents['alloy'],encoding='utf-8')

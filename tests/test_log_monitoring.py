@@ -40,8 +40,8 @@ class LogMonitoringTests(unittest.TestCase):
     def test_known_log_queries_preserve_host_and_separate_log_formats(self):
         result=dashboard('vm-linux');panels=result['panels']
         self.assertEqual([p['type'] for p in panels],['timeseries','timeseries','logs','logs'])
-        self.assertEqual(panels[2]['targets'][0]['expr'],'{host="$host",source="host-file"}')
-        self.assertEqual(panels[3]['targets'][0]['expr'],'{host="$host",source="cri"}')
+        self.assertEqual(panels[2]['targets'][0]['expr'],'{host="$host",collection="$collection",source="host-file"}')
+        self.assertEqual(panels[3]['targets'][0]['expr'],'{host="$host",collection="$collection",source="cri"}')
         self.assertTrue(all(p['datasource']['uid']=='iot-logs-loki' for p in panels))
         with self.assertRaises(ValueError):dashboard('vm"} |= "all')
 
@@ -53,6 +53,8 @@ class LogMonitoringTests(unittest.TestCase):
         self.assertEqual(value['loki']['query_range']['results_cache']['cache']['embedded_cache']['max_size_mb'],32)
         self.assertFalse(value['loki']['analytics']['reporting_enabled'])
         self.assertEqual(value['alloy'].count('action_on_failure = "skip"'),3)
+        self.assertEqual(value['alloy'].count('action_on_duplicate_timestamp = "keep"'),3)
+        self.assertEqual({s['labels']['collection'] for s in value['sources']['host_files']},{'native-28-keep'})
         self.assertIn('stage.cri {}',value['alloy']);self.assertIn('http://127.0.0.1:13100/loki/api/v1/push',value['alloy'])
         self.assertNotIn('/etc/',value['alloy']);self.assertNotIn('password',value['alloy'])
 
