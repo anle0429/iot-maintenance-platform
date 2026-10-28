@@ -1,0 +1,77 @@
+{
+  "approved": {
+    "machine_type": "e2-highmem-8",
+    "max_run_seconds": 28800,
+    "ssh_source_ranges": [
+      "35.235.240.0/20"
+    ],
+    "disk_sizes_gib": {
+      "iot-cw-data": 500,
+      "iot-cw-scratch": 150
+    },
+    "model_version": "6",
+    "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "portable_sha256": "60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981",
+    "application_cpu_limits": [
+      "100m",
+      "500m",
+      "1",
+      "2"
+    ],
+    "application_memory_limits": [
+      "128Mi",
+      "256Mi",
+      "512Mi",
+      "1Gi",
+      "2Gi",
+      "4Gi"
+    ],
+    "boot_disk": {
+      "size_gib": 50,
+      "type": "pd-balanced"
+    },
+    "resource_addresses": [
+      "google_compute_disk.data",
+      "google_compute_disk.scratch[0]",
+      "google_compute_firewall.iap_ssh",
+      "google_compute_instance.coursework",
+      "google_compute_network.coursework",
+      "google_compute_subnetwork.coursework",
+      "google_project_iam_member.operator[\"roles/compute.osAdminLogin\"]",
+      "google_project_iam_member.operator[\"roles/iap.tunnelResourceAccessor\"]",
+      "google_project_service.required[\"compute.googleapis.com\"]",
+      "google_project_service.required[\"iam.googleapis.com\"]",
+      "google_project_service.required[\"iap.googleapis.com\"]",
+      "google_project_service.required[\"oslogin.googleapis.com\"]",
+      "google_service_account.workload",
+      "google_service_account_iam_member.operator"
+    ],
+    "resource_types": {
+      "google_compute_disk.data": "google_compute_disk",
+      "google_compute_disk.scratch[0]": "google_compute_disk",
+      "google_compute_firewall.iap_ssh": "google_compute_firewall",
+      "google_compute_instance.coursework": "google_compute_instance",
+      "google_compute_network.coursework": "google_compute_network",
+      "google_compute_subnetwork.coursework": "google_compute_subnetwork",
+      "google_project_iam_member.operator[\"roles/compute.osAdminLogin\"]": "google_project_iam_member",
+      "google_project_iam_member.operator[\"roles/iap.tunnelResourceAccessor\"]": "google_project_iam_member",
+      "google_project_service.required[\"compute.googleapis.com\"]": "google_project_service",
+      "google_project_service.required[\"iam.googleapis.com\"]": "google_project_service",
+      "google_project_service.required[\"iap.googleapis.com\"]": "google_project_service",
+      "google_project_service.required[\"oslogin.googleapis.com\"]": "google_project_service",
+      "google_service_account.workload": "google_service_account",
+      "google_service_account_iam_member.operator": "google_service_account_iam_member"
+    },
+    "model_pin": {
+      "name": "iot-pump-failure-v1",
+      "version": "6",
+      "run_id": "be3b27fa0960493d92b45be69b20690e",
+      "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+      "portable_sha256": "60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981",
+      "training_code_commit": "ce510c6bcccd58235fbc78d22cd90570934c50a6",
+      "data_version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
+      "threshold": 0.7,
+      "production": true
+    }
+  }
+}
