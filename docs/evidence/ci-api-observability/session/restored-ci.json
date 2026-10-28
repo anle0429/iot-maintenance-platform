@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T15:42:02.976355+00:00",
+  "services": {
+    "iot-jenkins-ci-27": {
+      "id": "89259d298cf4739469c5e06c997fadf4d3e31f5e7752d0a5dd7c33277c637c6f",
+      "original_id": "ac01afa762d78896553cc517a20cd88da10d9a29c338d01e83e715fe97a7c350",
+      "image": "sha256:1fe2fc571cda23b3a4c9b52bd4cc485f54bfcb15a281c4c14182410c088787ff",
+      "networks": [
+        "iot-metadata-restored-28b"
+      ],
+      "ports": {
+        "50000/tcp": null,
+        "8080/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "18787"
+          }
+        ]
+      },
+      "same_env": true,
+      "same_mounts": true,
+      "same_host_port_bindings": true,
+      "health_status": 200,
+      "health_url": "http://127.0.0.1:18787/login",
+      "scope": "Original stopped container kept under before-session-28c name; data/credentials unchanged. MLflow is reached through its internal bridge; no new published port."
+    },
+    "iot-mlflow-tracking-1": {
+      "id": "204f371bb48797c6dd3cbddadfea22c1926f5afaaad89f7647d8a0965f7faa75",
+      "original_id": "17dbfa8ddcb08c1ac0d520783a8ba6d52f72ca7e2da2f424a3c2ab273de679eb",
+      "image": "sha256:0608a7e04d3eb739549fa721289e00f256aaa59c926c054557649b5f45660cbf",
+      "networks": [
+        "iot-mlflow-restored-28c"
+      ],
+      "ports": {
+        "5000/tcp": null
+      },
+      "same_env": true,
+      "same_mounts": true,
+      "same_host_port_bindings": true,
+      "health_status": 200,
+      "health_url": "http://172.25.0.2:5000/health",
+      "scope": "Original stopped container kept under before-session-28c name; data/credentials unchanged. MLflow is reached through its internal bridge; no new published port."
+    }
+  }
+}

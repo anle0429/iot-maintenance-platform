@@ -1,0 +1,650 @@
+{
+  "apiVersion": "v1",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "annotations": {
+          "iot.coursework/revision-marker": "observe-jenkins-2"
+        },
+        "creationTimestamp": "2026-10-28T16:00:35Z",
+        "generateName": "iot-drift-api-6f4c46dd6c-",
+        "generation": 1,
+        "labels": {
+          "app.kubernetes.io/instance": "iot-drift-api",
+          "app.kubernetes.io/name": "iot-api",
+          "pod-template-hash": "6f4c46dd6c"
+        },
+        "name": "iot-drift-api-6f4c46dd6c-67gwq",
+        "namespace": "iot-features",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "ReplicaSet",
+            "name": "iot-drift-api-6f4c46dd6c",
+            "uid": "7e7ef28f-5302-4335-85c5-2b6a7c4b87df"
+          }
+        ],
+        "resourceVersion": "124824",
+        "uid": "2c37b0c8-ebf7-4c4f-a040-00b9d834250c"
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "IOT_DRIFT_REFERENCE",
+                "value": "/reference/reference.json"
+              },
+              {
+                "name": "IOT_DRIFT_DATABASE",
+                "value": "/state/windows.db"
+              },
+              {
+                "name": "IOT_API_SERVICE",
+                "value": "drift"
+              },
+              {
+                "name": "IOT_TRACE_ENDPOINT",
+                "value": "http://iot-jaeger.iot-observability.svc.cluster.local:4318/v1/traces"
+              }
+            ],
+            "image": "iot-coursework-drift-api:observe-jenkins-2",
+            "imagePullPolicy": "Never",
+            "lifecycle": {
+              "preStop": {
+                "exec": {
+                  "command": [
+                    "python",
+                    "-c",
+                    "import time; time.sleep(5)"
+                  ]
+                }
+              }
+            },
+            "livenessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/health/live",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 2
+            },
+            "name": "api",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "name": "http",
+                "protocol": "TCP"
+              }
+            ],
+            "readinessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/health/ready",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 3,
+              "successThreshold": 1,
+              "timeoutSeconds": 5
+            },
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "startupProbe": {
+              "failureThreshold": 45,
+              "httpGet": {
+                "path": "/health/ready",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 2,
+              "successThreshold": 1,
+              "timeoutSeconds": 5
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/reference",
+                "name": "reference",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/state",
+                "name": "state"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp"
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "iot-cw-vm",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 10001,
+          "runAsGroup": 10001,
+          "runAsNonRoot": true,
+          "runAsUser": 10001,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "default",
+        "serviceAccountName": "default",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "configMap": {
+              "defaultMode": 420,
+              "name": "iot-drift-reference-v1"
+            },
+            "name": "reference"
+          },
+          {
+            "name": "state",
+            "persistentVolumeClaim": {
+              "claimName": "iot-drift-assessments-v1"
+            }
+          },
+          {
+            "emptyDir": {
+              "medium": "Memory",
+              "sizeLimit": "32Mi"
+            },
+            "name": "tmp"
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T16:00:36Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T16:00:35Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T16:00:38Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T16:00:38Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T16:00:35Z",
+            "observedGeneration": 1,
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "100m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://88efe458dd4a32323b9d784fa31aa8e2df21862d375f1d1c5106337a215e43c6",
+            "image": "docker.io/library/iot-coursework-drift-api:observe-jenkins-2",
+            "imageID": "sha256:d9ff4c186f7017b184d6ba1e73436a6576e55650c345421e1cdafb382bd085e4",
+            "lastState": {},
+            "name": "api",
+            "ready": true,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 0,
+            "started": true,
+            "state": {
+              "running": {
+                "startedAt": "2026-10-28T16:00:35Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 10001,
+                "supplementalGroups": [
+                  10001
+                ],
+                "uid": 10001
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/reference",
+                "name": "reference",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/state",
+                "name": "state"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp"
+              }
+            ]
+          }
+        ],
+        "hostIP": "10.42.0.2",
+        "hostIPs": [
+          {
+            "ip": "10.42.0.2"
+          }
+        ],
+        "observedGeneration": 1,
+        "phase": "Running",
+        "podIP": "10.52.0.94",
+        "podIPs": [
+          {
+            "ip": "10.52.0.94"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-28T16:00:35Z"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Pod",
+      "metadata": {
+        "annotations": {
+          "iot.coursework/revision-marker": "observability-28b-v2"
+        },
+        "creationTimestamp": "2026-10-28T07:48:00Z",
+        "deletionGracePeriodSeconds": 30,
+        "deletionTimestamp": "2026-10-28T16:01:08Z",
+        "generateName": "iot-drift-api-74d9bcfdb-",
+        "generation": 2,
+        "labels": {
+          "app.kubernetes.io/instance": "iot-drift-api",
+          "app.kubernetes.io/name": "iot-api",
+          "pod-template-hash": "74d9bcfdb"
+        },
+        "name": "iot-drift-api-74d9bcfdb-zw6c7",
+        "namespace": "iot-features",
+        "ownerReferences": [
+          {
+            "apiVersion": "apps/v1",
+            "blockOwnerDeletion": true,
+            "controller": true,
+            "kind": "ReplicaSet",
+            "name": "iot-drift-api-74d9bcfdb",
+            "uid": "719e5944-7ef3-49cc-903b-46f735006ab6"
+          }
+        ],
+        "resourceVersion": "124859",
+        "uid": "26f3386f-5071-46f1-a8b2-53ae76a3fbcb"
+      },
+      "spec": {
+        "automountServiceAccountToken": false,
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "IOT_DRIFT_REFERENCE",
+                "value": "/reference/reference.json"
+              },
+              {
+                "name": "IOT_DRIFT_DATABASE",
+                "value": "/state/windows.db"
+              },
+              {
+                "name": "IOT_API_SERVICE",
+                "value": "drift"
+              },
+              {
+                "name": "IOT_TRACE_ENDPOINT",
+                "value": "http://iot-jaeger.iot-observability.svc.cluster.local:4318/v1/traces"
+              }
+            ],
+            "image": "iot-coursework-drift-api:observe-28b-v2",
+            "imagePullPolicy": "Never",
+            "lifecycle": {
+              "preStop": {
+                "exec": {
+                  "command": [
+                    "python",
+                    "-c",
+                    "import time; time.sleep(5)"
+                  ]
+                }
+              }
+            },
+            "livenessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/health/live",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 10,
+              "successThreshold": 1,
+              "timeoutSeconds": 2
+            },
+            "name": "api",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "name": "http",
+                "protocol": "TCP"
+              }
+            ],
+            "readinessProbe": {
+              "failureThreshold": 3,
+              "httpGet": {
+                "path": "/health/ready",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 3,
+              "successThreshold": 1,
+              "timeoutSeconds": 5
+            },
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              },
+              "readOnlyRootFilesystem": true
+            },
+            "startupProbe": {
+              "failureThreshold": 45,
+              "httpGet": {
+                "path": "/health/ready",
+                "port": "http",
+                "scheme": "HTTP"
+              },
+              "periodSeconds": 2,
+              "successThreshold": 1,
+              "timeoutSeconds": 5
+            },
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File",
+            "volumeMounts": [
+              {
+                "mountPath": "/reference",
+                "name": "reference",
+                "readOnly": true
+              },
+              {
+                "mountPath": "/state",
+                "name": "state"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp"
+              }
+            ]
+          }
+        ],
+        "dnsPolicy": "ClusterFirst",
+        "enableServiceLinks": true,
+        "nodeName": "iot-cw-vm",
+        "preemptionPolicy": "PreemptLowerPriority",
+        "priority": 0,
+        "restartPolicy": "Always",
+        "schedulerName": "default-scheduler",
+        "securityContext": {
+          "fsGroup": 10001,
+          "runAsGroup": 10001,
+          "runAsNonRoot": true,
+          "runAsUser": 10001,
+          "seccompProfile": {
+            "type": "RuntimeDefault"
+          }
+        },
+        "serviceAccount": "default",
+        "serviceAccountName": "default",
+        "terminationGracePeriodSeconds": 30,
+        "tolerations": [
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/not-ready",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          },
+          {
+            "effect": "NoExecute",
+            "key": "node.kubernetes.io/unreachable",
+            "operator": "Exists",
+            "tolerationSeconds": 300
+          }
+        ],
+        "volumes": [
+          {
+            "configMap": {
+              "defaultMode": 420,
+              "name": "iot-drift-reference-v1"
+            },
+            "name": "reference"
+          },
+          {
+            "name": "state",
+            "persistentVolumeClaim": {
+              "claimName": "iot-drift-assessments-v1"
+            }
+          },
+          {
+            "emptyDir": {
+              "medium": "Memory",
+              "sizeLimit": "32Mi"
+            },
+            "name": "tmp"
+          }
+        ]
+      },
+      "status": {
+        "conditions": [
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T16:00:45Z",
+            "observedGeneration": 2,
+            "status": "False",
+            "type": "PodReadyToStartContainers"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T07:48:00Z",
+            "observedGeneration": 2,
+            "reason": "PodCompleted",
+            "status": "True",
+            "type": "Initialized"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T16:00:45Z",
+            "observedGeneration": 2,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "Ready"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T16:00:45Z",
+            "observedGeneration": 2,
+            "reason": "PodCompleted",
+            "status": "False",
+            "type": "ContainersReady"
+          },
+          {
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-10-28T07:48:00Z",
+            "observedGeneration": 2,
+            "status": "True",
+            "type": "PodScheduled"
+          }
+        ],
+        "containerStatuses": [
+          {
+            "allocatedResources": {
+              "cpu": "100m",
+              "memory": "128Mi"
+            },
+            "containerID": "containerd://f2241be65da1da2128c22c4090ff9e44643e0d2c16672ef06565f3907065b455",
+            "image": "docker.io/library/iot-coursework-drift-api:observe-28b-v2",
+            "imageID": "sha256:e3a0a3ec48f8de7d75b515e3f7de947351a449f280c226fca29879db32edd19e",
+            "lastState": {
+              "terminated": {
+                "containerID": "containerd://a8e0e98b146a084aaf2ee55697ee85c3c8f9b180a84c7f57f4dcf29f533bdb5a",
+                "exitCode": 0,
+                "finishedAt": "2026-10-28T14:50:48Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-28T07:48:01Z"
+              }
+            },
+            "name": "api",
+            "ready": false,
+            "resources": {
+              "limits": {
+                "cpu": "1",
+                "memory": "512Mi"
+              },
+              "requests": {
+                "cpu": "100m",
+                "memory": "128Mi"
+              }
+            },
+            "restartCount": 1,
+            "started": false,
+            "state": {
+              "terminated": {
+                "containerID": "containerd://f2241be65da1da2128c22c4090ff9e44643e0d2c16672ef06565f3907065b455",
+                "exitCode": 0,
+                "finishedAt": "2026-10-28T16:00:44Z",
+                "reason": "Completed",
+                "startedAt": "2026-10-28T15:14:46Z"
+              }
+            },
+            "user": {
+              "linux": {
+                "gid": 10001,
+                "supplementalGroups": [
+                  10001
+                ],
+                "uid": 10001
+              }
+            },
+            "volumeMounts": [
+              {
+                "mountPath": "/reference",
+                "name": "reference",
+                "readOnly": true,
+                "recursiveReadOnly": "Disabled"
+              },
+              {
+                "mountPath": "/state",
+                "name": "state"
+              },
+              {
+                "mountPath": "/tmp",
+                "name": "tmp"
+              }
+            ]
+          }
+        ],
+        "hostIP": "10.42.0.2",
+        "hostIPs": [
+          {
+            "ip": "10.42.0.2"
+          }
+        ],
+        "observedGeneration": 2,
+        "phase": "Succeeded",
+        "podIP": "10.52.0.76",
+        "podIPs": [
+          {
+            "ip": "10.52.0.76"
+          }
+        ],
+        "qosClass": "Burstable",
+        "startTime": "2026-10-28T07:48:00Z"
+      }
+    }
+  ],
+  "kind": "List",
+  "metadata": {
+    "resourceVersion": ""
+  }
+}

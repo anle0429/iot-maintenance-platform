@@ -1,0 +1,91 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T15:15:59.803111+00:00",
+  "session": {
+    "last_start_utc": "2026-10-28T15:13:58.766000+00:00",
+    "auto_stop_utc": "2026-10-28T23:13:58.766000+00:00",
+    "max_run_seconds": 28800,
+    "source": "Actual Compute lastStartTimestamp; user explicitly approved this next sameVM8CPU64GiB/three existing disks max8h/STOP session."
+  },
+  "monitors": [
+    "iot-node-exporter-28.service",
+    "iot-loki-28.service",
+    "iot-pushgateway-28.service",
+    "iot-prometheus-28.service",
+    "iot-grafana-28.service",
+    "iot-alloy-28-keep.service"
+  ],
+  "health": {
+    "prometheus": 200,
+    "grafana": 200,
+    "loki": 200,
+    "pushgateway": 200
+  },
+  "token_expiry_utc": "2026-10-28T23:11:58+00:00",
+  "boot_id": "b0398bc5-3e9c-4400-8e23-26f455d452a0",
+  "ram_available_kib": 60063548,
+  "hdd_free_bytes": 341575585792,
+  "ssd_free_bytes": 98505347072,
+  "docker_services": [
+    {
+      "Names": "iot-orchestration-airflow-dag-processor-1",
+      "Status": "Up About a minute",
+      "Ports": "8080/tcp"
+    },
+    {
+      "Names": "iot-orchestration-airflow-scheduler-1",
+      "Status": "Up About a minute",
+      "Ports": "8080/tcp"
+    },
+    {
+      "Names": "iot-orchestration-airflow-api-1",
+      "Status": "Up About a minute (healthy)",
+      "Ports": "127.0.0.1:18480->8080/tcp"
+    },
+    {
+      "Names": "iot-orchestration-airflow-db-1",
+      "Status": "Up About a minute (healthy)",
+      "Ports": "5432/tcp"
+    },
+    {
+      "Names": "iot-jenkins-ci-27",
+      "Status": "Exited (143) 8 hours ago",
+      "Ports": ""
+    },
+    {
+      "Names": "iot-mlflow-tracking-1",
+      "Status": "Exited (128) 8 hours ago",
+      "Ports": ""
+    },
+    {
+      "Names": "iot-datahub-datahub-frontend-1",
+      "Status": "Exited (143) 8 hours ago",
+      "Ports": ""
+    },
+    {
+      "Names": "iot-datahub-datahub-gms-1",
+      "Status": "Exited (143) 8 hours ago",
+      "Ports": ""
+    },
+    {
+      "Names": "iot-datahub-datahub-upgrade-1",
+      "Status": "Exited (0) 44 hours ago",
+      "Ports": ""
+    },
+    {
+      "Names": "iot-datahub-broker-1",
+      "Status": "Exited (143) 8 hours ago",
+      "Ports": ""
+    },
+    {
+      "Names": "iot-datahub-mysql-1",
+      "Status": "Exited (128) 8 hours ago",
+      "Ports": ""
+    },
+    {
+      "Names": "iot-datahub-search-1",
+      "Status": "Exited (143) 8 hours ago",
+      "Ports": ""
+    }
+  ]
+}

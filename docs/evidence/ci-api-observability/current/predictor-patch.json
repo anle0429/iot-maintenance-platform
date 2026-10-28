@@ -1,0 +1,50 @@
+[
+  {
+    "op": "test",
+    "path": "/metadata/uid",
+    "value": "696452a2-bade-44d9-93ea-e58e3f984a36"
+  },
+  {
+    "op": "test",
+    "path": "/metadata/resourceVersion",
+    "value": "121532"
+  },
+  {
+    "op": "test",
+    "path": "/spec/predictor/containers/0/image",
+    "value": "iot-coursework-predictor:observe-28b-v2"
+  },
+  {
+    "op": "test",
+    "path": "/spec/predictor/containers/0/env",
+    "value": [
+      {
+        "name": "IOT_API_SERVICE",
+        "value": "predictor"
+      },
+      {
+        "name": "IOT_TRACE_ENDPOINT",
+        "value": "http://iot-jaeger.iot-observability.svc.cluster.local:4318/v1/traces"
+      }
+    ]
+  },
+  {
+    "op": "replace",
+    "path": "/spec/predictor/containers/0/image",
+    "value": "iot-coursework-predictor:observe-jenkins-2"
+  },
+  {
+    "op": "add",
+    "path": "/spec/predictor/containers/0/env",
+    "value": [
+      {
+        "name": "IOT_API_SERVICE",
+        "value": "predictor"
+      },
+      {
+        "name": "IOT_TRACE_ENDPOINT",
+        "value": "http://iot-jaeger.iot-observability.svc.cluster.local:4318/v1/traces"
+      }
+    ]
+  }
+]

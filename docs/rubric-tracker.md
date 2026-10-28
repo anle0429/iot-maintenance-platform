@@ -1,5 +1,7 @@
 # Checklist rubric và bằng chứng
 
+Cập nhật28/10: [Jenkins telemetry2](ci-api-observability.md) SUCCESS/source372, native299main+21subtest/74statements16branches100%/221of250mutants88,4%;3images/200HTTPmodel6,96payload/2ảnh/verifier. Cùngmodel, không A/B/promotion mới; giữ93tiêu chí nguồn.
+
 Cập nhật28/10: [Locust cho wrapper telemetry](observed-api-load.md) đã598/5767requests,0fail/P95 6/28ms với1replica; HPA1–2 và Airflow khôi phục. Giữ lỗi guard Pod đầu,75payload/2ảnh/verifier. Không đổi93tiêu chí nguồn hoặc nhận maxcapacity.
 
 Cập nhật28/10: [Metrics/traces native](api-observability.md) đã3API/sáu panel/28giá trị mỗi engine và5trace/15span, verifier199payload PASS, ảnh gốc. Wrapper mới Linux296main/14subtest/coverage74+16=100%/mutation221of250=88,4%; rollout riêng, chưa CI/Locust mới. Không thay93tiêu chí nguồn; finalF46/F49 cập nhật theo proof.

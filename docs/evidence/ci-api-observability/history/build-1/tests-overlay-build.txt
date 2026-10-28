@@ -1,0 +1,24 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Tests.Dockerfile
+#1 transferring dockerfile: 585B done
+#1 WARN: InvalidDefaultArgInFrom: Default value for ARG ${BASE_IMAGE} results in empty or invalid base image name (line 3)
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/sha256:6eed2d800a96829cec864862adba4783432e0684cd94a9b44b1911590fcc5a63
+#2 ERROR: pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+------
+ > [internal] load metadata for docker.io/library/sha256:6eed2d800a96829cec864862adba4783432e0684cd94a9b44b1911590fcc5a63:
+------
+
+ [33m1 warning found (use docker --debug to expand):
+[0m - InvalidDefaultArgInFrom: Default value for ARG ${BASE_IMAGE} results in empty or invalid base image name (line 3)
+Tests.Dockerfile:3
+--------------------
+   1 |     # Reuse the pinned native test dependencies; the sealed source is mounted separately and copied into fresh scratch.
+   2 |     ARG BASE_IMAGE
+   3 | >>> FROM ${BASE_IMAGE}
+   4 |     USER 0
+   5 |     COPY infra/observability/requirements.lock /tmp/observability.lock
+--------------------
+ERROR: failed to build: failed to solve: sha256:6eed2d800a96829cec864862adba4783432e0684cd94a9b44b1911590fcc5a63: failed to resolve source metadata for docker.io/library/sha256:6eed2d800a96829cec864862adba4783432e0684cd94a9b44b1911590fcc5a63: pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed

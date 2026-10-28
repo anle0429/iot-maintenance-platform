@@ -16,7 +16,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [Làm mới feature sau retrain](docs/active-feature-refresh.md) giữ serving model6: materialize200key thật, seed mới bất biến,195prediction tính lại đúng/5stopped409. Receipt06:33UTC ngày28/10 chỉ chứng minh thời điểm kiểm; demo lease hết sau một giờ và cần prepare mới khi trình bày lại.
 
-[Metrics/traces API trên VM](docs/api-observability.md) đã3API/sáu panel/28giá trị mỗi engine và5trace/15span đúng parent;747client/932SDK requests khớp ledger. Wrapper mới296main+14subtest Linux PASS, coverage74statements/16branches100%, mutation221/250=88,4%. Rollout riêng giữ model6; [Locust wrapper](docs/observed-api-load.md)598/5767request0lỗi/P95 6/28ms đã kiểm. Jenkins telemetry theo dõi riêng. Bộ kiểm độc lập199payload và sáu ảnh gốc đã lưu.
+[Metrics/traces API trên VM](docs/api-observability.md) đã3API/sáu panel/28giá trị mỗi engine và5trace/15span đúng parent;747client/932SDK requests khớp ledger. Wrapper mới296main+14subtest Linux PASS, coverage74statements/16branches100%, mutation221/250=88,4%. Rollout riêng giữ model6; [Locust wrapper](docs/observed-api-load.md)598/5767request0lỗi/P95 6/28ms đã kiểm. [Jenkins telemetry2](docs/ci-api-observability.md) SUCCESS/source372:299main+21subtest/coverage100%/mutation88,4%/ba image/200HTTP; giữ model6, không đổi model/A-B mới. Bộ kiểm độc lập199payload và sáu ảnh gốc đã lưu.
 
 ## Mục lục
 
@@ -53,6 +53,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Làm mới feature thật và kiểm lại model6 sau retrain](docs/active-feature-refresh.md)
 - [Metrics/traces API: dashboard và trace native đã kiểm](docs/api-observability.md)
 - [Locust trên wrapper: SLA, replica và bằng chứng gốc](docs/observed-api-load.md)
+- [CI telemetry: test/build/auto-deploy cùng model production](docs/ci-api-observability.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist final-coursework chính](docs/final-rubric-tracker.md)
 - [Checklist hai sheet50% trước đây](docs/rubric-tracker.md)

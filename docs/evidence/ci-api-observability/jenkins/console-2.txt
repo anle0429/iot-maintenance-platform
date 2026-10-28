@@ -1,0 +1,129 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/iot-api-observability
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 1 hr 25 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare sealed telemetry source)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Admit actual VM session)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-api-observability/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-observability.py admission
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Pull production model and bind current APIs)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-api-observability/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-observability.py select
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Fresh coverage mutation and contracts)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-api-observability/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-observability.py test
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build probe import three images)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-api-observability/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-observability.py build
+time="2026-10-28T15:59:18Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T15:59:18Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+docker.io/library/iot coursework feature	saved	
+application/vnd.oci.image.index.v1+json sha256:577bb3a31b53ec67d93fc48e096c530e535483408d6bf241ed47bb8882d8270c
+Importing	elapsed: 9.0 s	total:   0.0 B	(0.0 B/s)	
+time="2026-10-28T15:59:30Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T15:59:30Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+time="2026-10-28T15:59:43Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T15:59:43Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+docker.io/library/iot coursework drift a	saved	
+application/vnd.oci.image.index.v1+json sha256:53006c118d8e5a0797c4d28acd612275f42c36299dc2f989aca7715fbb0c2815
+Importing	elapsed: 2.1 s	total:   0.0 B	(0.0 B/s)	
+time="2026-10-28T15:59:49Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T15:59:49Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+time="2026-10-28T16:00:03Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T16:00:03Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+docker.io/library/iot coursework predict	saved	
+application/vnd.oci.image.index.v1+json sha256:aa0d4fc7ce21a379e098cf5f73d6f86c5d69349f3dc39a26772405bd4b974b4c
+Importing	elapsed: 2.2 s	total:   0.0 B	(0.0 B/s)	
+time="2026-10-28T16:00:09Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T16:00:09Z" level=info msg="Preparing data dir /var/lib/rancher/k3s/data/e2d954601130ef1f32ed5c850b1d3af1ac657a7cc07d042f61f8fa4404a61ea5"
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy private telemetry)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-api-observability/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-observability.py deploy
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Native images metrics and200machine predictions)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-api-observability/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-observability.py verify
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-api-observability/build-2
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-observability.py archive
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

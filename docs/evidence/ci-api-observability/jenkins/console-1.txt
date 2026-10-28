@@ -1,0 +1,115 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/iot-api-observability
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 1 hr 25 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare sealed telemetry source)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Admit actual VM session)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-api-observability/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-observability.py admission
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Pull production model and bind current APIs)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-api-observability/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-observability.py select
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Fresh coverage mutation and contracts)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-api-observability/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-observability.py test
+Traceback (most recent call last):
+  File "/var/jenkins_home/workspace/iot-api-observability/build-1/scripts/ci-observability.py", line 228, in <module>
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('phase');run(parser.parse_args().phase)
+                                                                                     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-api-observability/build-1/scripts/ci-observability.py", line 163, in run
+    c.log('tests-overlay-build',['docker','build','--build-arg','BASE_IMAGE='+base_id,'-f',str(ROOT/'infra/observability/Tests.Dockerfile'),'-t',tag,str(ROOT)])
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/jenkins_home/workspace/iot-api-observability/build-1/scripts/ci-serving.py", line 73, in log
+    with (self.out/(name+'.txt')).open('w') as stream:subprocess.run(command,stdout=stream,stderr=subprocess.STDOUT,check=True,timeout=timeout)
+                                                      ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['docker', 'build', '--build-arg', 'BASE_IMAGE=sha256:6eed2d800a96829cec864862adba4783432e0684cd94a9b44b1911590fcc5a63', '-f', '/var/jenkins_home/workspace/iot-api-observability/build-1/infra/observability/Tests.Dockerfile', '-t', 'iot-ci-observability-tests:observe-jenkins-1', '/var/jenkins_home/workspace/iot-api-observability/build-1']' returned non-zero exit status 1.
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build probe import three images)
+Stage "Build probe import three images" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy private telemetry)
+Stage "Deploy private telemetry" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Native images metrics and200machine predictions)
+Stage "Native images metrics and200machine predictions" skipped due to earlier failure(s)
+[Pipeline] getContext
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-api-observability/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-observability.py rollback
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-api-observability/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-observability.py archive
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE

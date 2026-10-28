@@ -1,0 +1,107 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Tests.Dockerfile
+#1 transferring dockerfile: 585B done
+#1 WARN: InvalidDefaultArgInFrom: Default value for ARG ${BASE_IMAGE} results in empty or invalid base image name (line 3)
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-ci-observability-tests-base:observe-jenkins-2
+#2 DONE 0.0s
+
+#3 [internal] load build context
+#3 transferring context: 123B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/iot-ci-observability-tests-base:observe-jenkins-2@sha256:5d5b14772732453a1d335def0e403bacaabb4995ed4368ced772251668bb7dc6
+#4 resolve docker.io/library/iot-ci-observability-tests-base:observe-jenkins-2@sha256:5d5b14772732453a1d335def0e403bacaabb4995ed4368ced772251668bb7dc6 0.0s done
+#4 DONE 0.1s
+
+#5 [2/3] COPY infra/observability/requirements.lock /tmp/observability.lock
+#5 DONE 0.0s
+
+#6 [3/3] RUN pip install --no-cache-dir --disable-pip-version-check --no-deps -r /tmp/observability.lock && pip check
+#6 2.334 Collecting asgiref==3.13.0 (from -r /tmp/observability.lock (line 2))
+#6 2.421   Downloading asgiref-3.13.0-py3-none-any.whl.metadata (12 kB)
+#6 2.427 Requirement already satisfied: certifi==2026.10.23 in /usr/local/lib/python3.12/site-packages (from -r /tmp/observability.lock (line 3)) (2026.10.23)
+#6 2.630 Collecting charset-normalizer==3.5.2 (from -r /tmp/observability.lock (line 4))
+#6 2.645   Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (46 kB)
+#6 2.691 Collecting googleapis-common-protos==1.76.0 (from -r /tmp/observability.lock (line 5))
+#6 2.705   Downloading googleapis_common_protos-1.76.0-py3-none-any.whl.metadata (8.5 kB)
+#6 2.709 Requirement already satisfied: opentelemetry-api==1.45.1 in /usr/local/lib/python3.12/site-packages (from -r /tmp/observability.lock (line 6)) (1.45.1)
+#6 2.725 Collecting opentelemetry-exporter-http-transport==0.66b1 (from -r /tmp/observability.lock (line 7))
+#6 2.739   Downloading opentelemetry_exporter_http_transport-0.66b1-py3-none-any.whl.metadata (2.3 kB)
+#6 2.758 Collecting opentelemetry-exporter-otlp-common==0.66b1 (from -r /tmp/observability.lock (line 8))
+#6 2.773   Downloading opentelemetry_exporter_otlp_common-0.66b1-py3-none-any.whl.metadata (1.9 kB)
+#6 2.796 Collecting opentelemetry-exporter-otlp-proto-common==1.45.1 (from -r /tmp/observability.lock (line 9))
+#6 2.810   Downloading opentelemetry_exporter_otlp_proto_common-1.45.1-py3-none-any.whl.metadata (1.8 kB)
+#6 2.838 Collecting opentelemetry-exporter-otlp-proto-http==1.45.1 (from -r /tmp/observability.lock (line 10))
+#6 2.853   Downloading opentelemetry_exporter_otlp_proto_http-1.45.1-py3-none-any.whl.metadata (3.0 kB)
+#6 2.883 Collecting opentelemetry-exporter-prometheus==0.66b1 (from -r /tmp/observability.lock (line 11))
+#6 2.898   Downloading opentelemetry_exporter_prometheus-0.66b1-py3-none-any.whl.metadata (2.1 kB)
+#6 2.928 Collecting opentelemetry-instrumentation==0.66b1 (from -r /tmp/observability.lock (line 12))
+#6 2.942   Downloading opentelemetry_instrumentation-0.66b1-py3-none-any.whl.metadata (7.2 kB)
+#6 2.972 Collecting opentelemetry-instrumentation-asgi==0.66b1 (from -r /tmp/observability.lock (line 13))
+#6 2.986   Downloading opentelemetry_instrumentation_asgi-0.66b1-py3-none-any.whl.metadata (2.0 kB)
+#6 3.018 Collecting opentelemetry-instrumentation-fastapi==0.66b1 (from -r /tmp/observability.lock (line 14))
+#6 3.033   Downloading opentelemetry_instrumentation_fastapi-0.66b1-py3-none-any.whl.metadata (2.2 kB)
+#6 3.064 Collecting opentelemetry-instrumentation-urllib==0.66b1 (from -r /tmp/observability.lock (line 15))
+#6 3.078   Downloading opentelemetry_instrumentation_urllib-0.66b1-py3-none-any.whl.metadata (3.4 kB)
+#6 3.107 Collecting opentelemetry-proto==1.45.1 (from -r /tmp/observability.lock (line 16))
+#6 3.121   Downloading opentelemetry_proto-1.45.1-py3-none-any.whl.metadata (2.3 kB)
+#6 3.153 Collecting opentelemetry-sdk==1.45.1 (from -r /tmp/observability.lock (line 17))
+#6 3.167   Downloading opentelemetry_sdk-1.45.1-py3-none-any.whl.metadata (1.6 kB)
+#6 3.195 Collecting opentelemetry-semantic-conventions==0.66b1 (from -r /tmp/observability.lock (line 18))
+#6 3.209   Downloading opentelemetry_semantic_conventions-0.66b1-py3-none-any.whl.metadata (2.4 kB)
+#6 3.238 Collecting opentelemetry-util-http==0.66b1 (from -r /tmp/observability.lock (line 19))
+#6 3.252   Downloading opentelemetry_util_http-0.66b1-py3-none-any.whl.metadata (2.6 kB)
+#6 3.255 Requirement already satisfied: packaging==26.3 in /usr/local/lib/python3.12/site-packages (from -r /tmp/observability.lock (line 20)) (26.3)
+#6 3.448 Collecting protobuf==7.36.2 (from -r /tmp/observability.lock (line 21))
+#6 3.463   Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+#6 3.499 Collecting requests==2.34.2 (from -r /tmp/observability.lock (line 22))
+#6 3.514   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+#6 3.518 Requirement already satisfied: typing-extensions==4.16.0 in /usr/local/lib/python3.12/site-packages (from -r /tmp/observability.lock (line 23)) (4.16.0)
+#6 3.550 Collecting urllib3==2.8.0 (from -r /tmp/observability.lock (line 24))
+#6 3.564   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+#6 4.003 Collecting wrapt==2.5.1 (from -r /tmp/observability.lock (line 25))
+#6 4.017   Downloading wrapt-2.5.1-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (7.6 kB)
+#6 4.048 Downloading asgiref-3.13.0-py3-none-any.whl (27 kB)
+#6 4.063 Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (257 kB)
+#6 4.111 Downloading googleapis_common_protos-1.76.0-py3-none-any.whl (307 kB)
+#6 4.159 Downloading opentelemetry_exporter_http_transport-0.66b1-py3-none-any.whl (12 kB)
+#6 4.173 Downloading opentelemetry_exporter_otlp_common-0.66b1-py3-none-any.whl (12 kB)
+#6 4.188 Downloading opentelemetry_exporter_otlp_proto_common-1.45.1-py3-none-any.whl (15 kB)
+#6 4.203 Downloading opentelemetry_exporter_otlp_proto_http-1.45.1-py3-none-any.whl (22 kB)
+#6 4.217 Downloading opentelemetry_exporter_prometheus-0.66b1-py3-none-any.whl (13 kB)
+#6 4.231 Downloading opentelemetry_instrumentation-0.66b1-py3-none-any.whl (36 kB)
+#6 4.248 Downloading opentelemetry_instrumentation_asgi-0.66b1-py3-none-any.whl (15 kB)
+#6 4.263 Downloading opentelemetry_instrumentation_fastapi-0.66b1-py3-none-any.whl (14 kB)
+#6 4.277 Downloading opentelemetry_instrumentation_urllib-0.66b1-py3-none-any.whl (13 kB)
+#6 4.291 Downloading opentelemetry_proto-1.45.1-py3-none-any.whl (72 kB)
+#6 4.311 Downloading opentelemetry_sdk-1.45.1-py3-none-any.whl (140 kB)
+#6 4.339 Downloading opentelemetry_semantic_conventions-0.66b1-py3-none-any.whl (206 kB)
+#6 4.370 Downloading opentelemetry_util_http-0.66b1-py3-none-any.whl (8.4 kB)
+#6 4.384 Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl (343 kB)
+#6 4.427 Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+#6 4.445 Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+#6 4.467 Downloading wrapt-2.5.1-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (250 kB)
+#6 4.507 Installing collected packages: wrapt, urllib3, requests, protobuf, opentelemetry-util-http, opentelemetry-semantic-conventions, opentelemetry-sdk, opentelemetry-proto, opentelemetry-instrumentation-urllib, opentelemetry-instrumentation-fastapi, opentelemetry-instrumentation-asgi, opentelemetry-instrumentation, opentelemetry-exporter-prometheus, opentelemetry-exporter-otlp-proto-http, opentelemetry-exporter-otlp-proto-common, opentelemetry-exporter-otlp-common, opentelemetry-exporter-http-transport, googleapis-common-protos, charset-normalizer, asgiref
+#6 5.526 Successfully installed asgiref-3.13.0 charset-normalizer-3.5.2 googleapis-common-protos-1.76.0 opentelemetry-exporter-http-transport-0.66b1 opentelemetry-exporter-otlp-common-0.66b1 opentelemetry-exporter-otlp-proto-common-1.45.1 opentelemetry-exporter-otlp-proto-http-1.45.1 opentelemetry-exporter-prometheus-0.66b1 opentelemetry-instrumentation-0.66b1 opentelemetry-instrumentation-asgi-0.66b1 opentelemetry-instrumentation-fastapi-0.66b1 opentelemetry-instrumentation-urllib-0.66b1 opentelemetry-proto-1.45.1 opentelemetry-sdk-1.45.1 opentelemetry-semantic-conventions-0.66b1 opentelemetry-util-http-0.66b1 protobuf-7.36.2 requests-2.34.2 urllib3-2.8.0 wrapt-2.5.1
+#6 5.526 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#6 6.224 No broken requirements found.
+#6 DONE 6.4s
+
+#7 exporting to image
+#7 exporting layers
+#7 exporting layers 0.7s done
+#7 exporting manifest sha256:bfa88eeefdbf478e5a8a2fea894b1de539ce912bcc4ef619a68c92ab5240d6c6 0.0s done
+#7 exporting config sha256:4689d4a62f62815340731bc1753a1a8d6c85b28a2f2fc6d52465652bea39c610 0.0s done
+#7 exporting attestation manifest sha256:31cdb1fffa36b3fff2ac54674c2b8a499f5f77f7dd106a969c105208ffd7ed60 0.0s done
+#7 exporting manifest list sha256:1c02e207b66d959f8701f86526a895860b9f3ecee9f5e466249232d08220dd22
+#7 exporting manifest list sha256:1c02e207b66d959f8701f86526a895860b9f3ecee9f5e466249232d08220dd22 0.0s done
+#7 naming to docker.io/library/iot-ci-observability-tests:observe-jenkins-2 done
+#7 unpacking to docker.io/library/iot-ci-observability-tests:observe-jenkins-2
+#7 unpacking to docker.io/library/iot-ci-observability-tests:observe-jenkins-2 0.4s done
+#7 DONE 1.2s
+
+ [33m1 warning found (use docker --debug to expand):
+[0m - InvalidDefaultArgInFrom: Default value for ARG ${BASE_IMAGE} results in empty or invalid base image name (line 3)
