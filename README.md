@@ -17,6 +17,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Phạm vi và dữ liệu](docs/domain-proposal.md)
 - [Hợp đồng dữ liệu](docs/data-contract.md)
 - [Kiến trúc và trạng thái deployment](docs/architecture.md)
+- [Sơ đồ triển khai hiện có](#sơ-đồ-triển-khai-hiện-có)
 - [Kết quả và giải thích ngày 1](docs/day1-generator.md)
 - [PostgreSQL nguồn, Spark và baseline](docs/day2-batch.md)
 - [Kafka/Flink: event time, late arrival và replay](docs/day3-streaming.md)
@@ -86,14 +87,62 @@ requirements-scale.txt       Codec JSON tùy chọn cho source runner riêng tr�
 
 Nguồn được sinh tại `data/source/`, báo cáo các lần chạy tại `outputs/`; hai thư mục này không đưa vào Git.
 
-## Cấu trúc triển khai dự kiến
-
-Các thư mục sau chỉ được tạo khi bắt đầu phần tương ứng:
+## API và điều phối
 
 ```text
-services/                    API, predictor và MCP server
-agents/                      Agent, prompt, gateway routing và evaluation
+services/predictor/          Predictor tám feature, model bundle và version pin
+services/feature_api/        Đọc Feast, kiểm freshness/trạng thái rồi gọi predictor
+services/drift_api/          So cửa sổ với reference train, lưu kết quả idempotent
+services/ab_api/             Chia cohort, ledger và metric A/B; native CI đang kiểm
+airflow/dags/                DP1–DP3, materialization và offline drift định kỳ
 ```
+
+## Sơ đồ triển khai hiện có
+
+Các hộp là job/container/pod/service có thể triển khai; Feast SDK chạy bên trong job/API. Dữ liệu Parquet/workspace nằm trên volume của cùng VM, không phải một Feast server riêng. Luồng U là dự đoán; D là dữ liệu/metadata; T/C là training/CI; M/L là metrics/logs. Màu phân biệt nhóm, không chấm mức hoàn thành.
+
+```mermaid
+flowchart LR
+    User[Người dùng] -->|U1 machine_id| API[Feature API Deployment]
+    API -->|U2 lookup| Redis[Redis API Deployment]
+    Redis -->|U3 tám feature và timestamp| API
+    API -->|U4 vector hợp lệ| Predictor[KServe predictor Deployment]
+    Predictor -->|U5 risk và model identity| API
+    API -->|U6 prediction và trace| User
+    Generator[Generator Python job] -->|D1 JSONL qua HDD| Spark[Spark batch job containers]
+    Airflow[Airflow scheduler container] -->|D2 chạy DP1-DP3 và validation| Spark
+    Spark -->|D3 validation reports| Metadata[DataHub publisher job container]
+    Metadata -->|D4 schema lineage assertions| DataHub[DataHub GMS service]
+    Airflow -->|D5 chạy materialization| Materialize[Feast materialization job container]
+    Spark -->|D6 Parquet feature qua HDD| Materialize
+    Materialize -->|D7 native online vectors| BatchRedis[Redis batch-stream container]
+    Jenkins[Jenkins controller container] -->|C1 submit training CI| KFP[Kubeflow API Deployment]
+    KFP -->|T1 điều phối năm task| Training[KFP ML task pods]
+    Spark -->|T2 offline feature qua HDD và Feast| Training
+    Training -->|T3 distributed tasks| Executors[Hai Spark executor pods]
+    Executors -->|T4 task results| Training
+    Training -->|T5 data versions và model candidate| MLflow[MLflow tracking container]
+    MLflow -->|C2 model6 production-tag lab bundle| Jenkins
+    Jenkins -.->|C3 chờ serving CI5 qua gates và A-B| Predictor
+    Airflow -->|M1 mỗi năm phút| DriftJob[Offline drift SDK job container]
+    Spark -->|M2 feature Parquet qua Feast| DriftJob
+    DriftJob -->|M3 PSI và freshness gauges| PG[Pushgateway process]
+    PG -->|M4 metric scrape| Prom[Prometheus process]
+    Node[node_exporter process] -->|M5 host metric scrape| Prom
+    Prom -->|M6 PromQL query data| Grafana[Grafana process]
+    API -->|L1 CRI log file| Alloy[Alloy collector process]
+    Predictor -->|L2 CRI log file| Alloy
+    Alloy -->|L3 labeled log records| Loki[Loki process]
+    Loki -->|L4 LogQL query data| Grafana
+    classDef serving fill:#dcecff,stroke:#3265a8,color:#111;
+    classDef data fill:#e1f2df,stroke:#428044,color:#111;
+    classDef monitor fill:#fff0cf,stroke:#a97920,color:#111;
+    class API,Redis,Predictor serving;
+    class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins data;
+    class DriftJob,PG,Prom,Node,Grafana,Alloy,Loki monitor;
+```
+
+Sơ đồ tóm tắt các lượt đã có bằng chứng, không có nghĩa mọi job chạy đồng thời. Spark100GB mới có Bronze/Silver; feature/training dùng nguồn60ngày riêng. Model6 đã được chọn cho bundle lab, còn đường dự đoán active pin model1 đến khi CI/A-B hoàn tất. Mũi tên C3 là bước đang chờ; [tracker](docs/final-rubric-tracker.md) và [kiến trúc chi tiết](docs/architecture.md) ghi rõ phạm vi. Kafka/Flink/push, drift API và metadata dependencies có sơ đồ/receipt riêng trong docs; chúng không được suy ra đã nằm trên luồng dự đoán U.
 
 ## Cách chạy
 
