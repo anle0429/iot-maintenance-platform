@@ -27,7 +27,7 @@ pipeline {
   }
   post {
     unsuccessful { dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-observability.py rollback' } }
-    always {
+    cleanup {
       dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-observability.py archive' }
       archiveArtifacts artifacts: "build-${env.BUILD_NUMBER}/outputs/ci-observability/**", allowEmptyArchive: true, fingerprint: true
     }
