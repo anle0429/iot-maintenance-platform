@@ -102,3 +102,5 @@ Tiếp trên chính VM: **Airflow3.1.7 API/scheduler/dag-processor + PostgreSQL1
 
 
 **Tiếp nối mốc nguồn100 GB (26–27/10/2026):** [Nguồn liên tục trên VM](scale-100gb.md) đã sinh và đọc kiểm toàn bộ **102.447.847.856 byte offline**, 316.800.000 unique readings,14 quality rules; Spark trung gian5,59 GB/13 checks và99 unit qua. Kết quả100 GB thuộc nguồn JSONL không nén, chưa là Spark/Gold/feature/ML hoặc Airflow toàn100 GB. Ngân sách mới tách HDD400 GB/SSD35 GB; trước Spark lớn cần kiểm lại và đặt scratch trên HDD. Các kết quả nhỏ phía trên giữ nguyên scope/thời điểm lịch sử.
+
+Cập nhật28/10: [native fullcohort](window-cohort.md) đã kiểm5.760cửa sổ/57.600reading vào hai store và replay qua256/1024/5760; Airflow/CI giữ scope fixture nhỏ riêng. [Ảnh UI Airflow gốc](final-handover.md#ba-pipeline-feature) và các ảnh Docker RUNNING/success được ghi rõ nguồn. Chuẩn đánh giá là [57dòng final](final-rubric-tracker.md), không cộng tracker93dòng lịch sử.

@@ -1,0 +1,89 @@
+{
+  "Id": "55ef186111bc527407df1bc5f51d75a212303164e2a35bf83b0b270851350be1",
+  "Image": "sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e",
+  "State": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-28T22:41:04.078607357Z",
+    "FinishedAt": "2026-10-28T22:41:35.39711423Z"
+  },
+  "Config": {
+    "User": "10001:10001",
+    "Entrypoint": [
+      "python"
+    ],
+    "Cmd": [
+      "/src/scripts/replay-window-cohort.py",
+      "--parent",
+      "/src/docs/evidence/day3/stream-report.json",
+      "--parent-sha256",
+      "48fca351b74c88a746611b2e103ac9023cd30bbcad321bf933c597eea33db5bf",
+      "--rows",
+      "1024",
+      "--destination",
+      "online",
+      "--operation",
+      "write",
+      "--source-id",
+      "window-cohort-intermediate-28-v3",
+      "--state",
+      "/work/offline",
+      "--output",
+      "/work/online-reports/write.json",
+      "--online-state",
+      "/work/online",
+      "--offline-report",
+      "/work/offline-reports/replay.json"
+    ],
+    "WorkingDir": "/workspace"
+  },
+  "HostConfig": {
+    "Memory": 4294967296,
+    "MemorySwap": 4294967296,
+    "NanoCpus": 2000000000,
+    "NetworkMode": "host",
+    "ReadonlyRootfs": true,
+    "CapDrop": [
+      "ALL"
+    ],
+    "SecurityOpt": [
+      "no-new-privileges"
+    ],
+    "PidsLimit": 256
+  },
+  "Mounts": [
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/window-cohort-source/52ddfb8acb75f1a18a1f905dd7b0ff311840a5e0/tree",
+      "destination": "/src",
+      "rw": false
+    },
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/ci/window-cohort-28-v3/intermediate/offline",
+      "destination": "/work/offline",
+      "rw": false
+    },
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/ci/window-cohort-28-v3/intermediate/offline-reports",
+      "destination": "/work/offline-reports",
+      "rw": false
+    },
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/ci/window-cohort-28-v3/intermediate/online",
+      "destination": "/work/online",
+      "rw": true
+    },
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/ci/window-cohort-28-v3/intermediate/online-reports",
+      "destination": "/work/online-reports",
+      "rw": true
+    }
+  ],
+  "wall_seconds": 31.991301337999175
+}

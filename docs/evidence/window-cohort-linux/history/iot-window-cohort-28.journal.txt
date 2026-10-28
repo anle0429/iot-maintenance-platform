@@ -1,0 +1,13 @@
+Oct 28 22:35:30 iot-cw-vm systemd[1]: Started iot-window-cohort-28.service - /usr/bin/python3 /tmp/run-window-cohort-native.py.
+Oct 28 22:35:52 iot-cw-vm python3[944923]: {"phase": "pilot", "rows": 256, "step": "offline-write", "wall": 21.495488743999886, "push": 13.1560079530027, "passed": true}
+Oct 28 22:36:00 iot-cw-vm python3[944923]: {"phase": "pilot", "rows": 256, "step": "offline-replay", "wall": 8.8047227499992, "push": 0.03179017900038161, "passed": true}
+Oct 28 22:36:16 iot-cw-vm python3[944923]: Traceback (most recent call last):
+Oct 28 22:36:16 iot-cw-vm python3[944923]:   File "/tmp/run-window-cohort-native.py", line 47, in <module>
+Oct 28 22:36:16 iot-cw-vm python3[944923]:     pilot=phase('pilot',256);medium=phase('intermediate',1024);predictions={}
+Oct 28 22:36:16 iot-cw-vm python3[944923]:           ^^^^^^^^^^^^^^^^^^
+Oct 28 22:36:16 iot-cw-vm python3[944923]:   File "/tmp/run-window-cohort-native.py", line 44, in phase
+Oct 28 22:36:16 iot-cw-vm python3[944923]:     receipt={'Id':native['Id'],'Image':native['Image'],'State':native['State'],'Config':{k:native['Config'][k] for k in ['User','Entrypoint','Cmd','WorkingDir']},'HostConfig':{k:native['HostConfig'][k] for k in ['Memory','MemorySwap','NanoCpus','NetworkMode','ReadonlyRootfs','CapDrop','SecurityOpt','PidsLimit']},'Mounts':[{'source':v['Source'],'destination':v['Destination'],'rw':v['RW']} for v in native['Mounts']],'wall_seconds':time.monotonic()-begun};save(name+'/'+label+'-container.json',receipt);assert native['State']['ExitCode']==0 and not native['State']['OOMKilled'],label
+Oct 28 22:36:16 iot-cw-vm python3[944923]:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Oct 28 22:36:16 iot-cw-vm python3[944923]: AssertionError: online-write
+Oct 28 22:36:16 iot-cw-vm systemd[1]: iot-window-cohort-28.service: Main process exited, code=exited, status=1/FAILURE
+Oct 28 22:36:16 iot-cw-vm systemd[1]: iot-window-cohort-28.service: Failed with result 'exit-code'.

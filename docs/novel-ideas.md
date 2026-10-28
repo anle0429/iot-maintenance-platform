@@ -21,3 +21,7 @@ Hai mục novel ideas trong tracker vẫn chưa hoàn tất. MMD đã có proof 
 ## Bằng chứng bổ sung ngày28/10
 
 [MMD native cohort](joint-cohort.md) đã chạy trên64trainreference và64máy trong genuinegatewaycapture, có lineage, directoracle/permutations/replay; đây là diagnostic lịch sử, chưaAPI/autoretrain. [OPA pre-deployment gate](deployment-policy.md) là ứng viên thứ hai: bắt thiếu seccomp/limits, cloud ngoài profile và model/context không cùng lineage. Native48cases2allow46deny; Jenkins3success và5rejection dùng cùng19Gitinputs, không deploy. Cả hai vẫn chờ người dùng xác nhận kỹ thuật cụ thể ngoài nội dung đã học; không nhận sự vắng mặt tên trong lịch là bằng chứng chắc chắn. Các câu “chưa native/cần chọn ý tưởng2” phía trên là trạng thái lịch sử trước bổ sung.
+
+## Xác nhận cuối28/10
+
+Người dùng trả lời rõ **“Chưa học cả hai”** cho MMD và OPA/Rego. [Record xác nhận](evidence/course-scope/learner-confirmation.json) chỉ lưu nội dung kỹ thuật, không credential hoặc thông tin riêng. F58/F59 có thể ghi Có bằng chứng với controlled/native MMD và native OPA/Jenkins đã kiểm; các đoạn chờ xác nhận phía trên là lịch sử lựa chọn. Phạm vi proof vẫn là diagnostic/gate độc lập, không nhận MMD API/autoretrain hoặc admission toànplatform.

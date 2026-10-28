@@ -1,10 +1,10 @@
 # Phát hiện thay đổi quan hệ giữa cảm biến bằng MMD
 
-Cập nhật28/10: [cohort thực trên Linux](joint-cohort.md) đã có train64/capture64, lineage,3directoracles/597permutations và replay. Vẫn là offline diagnostic, chưa API/autoretrain hay xác nhận ngoài lớp.
+Cập nhật28/10: [cohort thực trên Linux](joint-cohort.md) đã có train64/capture64, lineage,3directoracles/597permutations và replay. Vẫn là offline diagnostic, chưa API/autoretrain. Người dùng xác nhận28/10 chưa học MMD.
 
 [Drift API hiện có](drift-detection.md) dùng PSI để kiểm từng feature riêng. Khi phân bố nhiệt độ và phân bố độ rung đều giữ nguyên, PSI có thể bằng0 dù quan hệ nhiệt–rung đã đổi. [JointDriftAudit](../ml/joint_drift.py) bổ sung một phép kiểm chung tám feature bằng Gaussian MMD. Đây là **audit offline nhỏ, chưa nối vào API/Airflow hoặc kích hoạt retraining**.
 
-Ý tưởng này là ứng viên cho F58. Hai lịch lớp đã có drift, thống kê và kernel; không thấy tênMMD. [Đối chiếu nội dung lớp](novel-ideas.md) vẫn giữ điều kiện xác nhận ngoài lớp, không tự nhận đã đáp ứng toàn bộ tiêu chí novel idea.
+Ý tưởng này được chọn cho F58 sau xác nhận28/10 chưa học MMD. Hai lịch lớp đã có drift, thống kê và kernel; không thấy tênMMD. [Đối chiếu và xác nhận của người dùng](novel-ideas.md) tách kỹ thuật MMD cụ thể khỏi drift/kernel nói chung.
 
 ## Phương pháp và lựa chọn trước khi đo
 
@@ -57,4 +57,4 @@ Tail fraction dùng `(1+exceedances)/200`, tính cả ties;0,005 là độ phân
 
 Tín hiệu ở đây phục vụ xem xét thủ công. Nó không chứng minh accuracy giảm, concept drift, nguyên nhân sự cố hay cho phép retraining tự động. Scales/sigma/cohort có thể làm giảm độ nhạy; repeated monitoring/multiple windows và autocorrelation vẫn cần thiết kế calibration/resampling thích hợp trước một cảnh báo vận hành có bảo đảm thống kê.
 
-Chưa deploy native, chưa tích hợp endpoint, chưa thử cohort train/online thật và chưa xác nhận ngoài lớp. Bước sau cần chọn cohort có lineage, kiểm lại phân bố/tài nguyên trên runtime rồi mới quyết định cách đưa vào luồng drift; giữ nguyên những bằng chứng và giới hạn này khi trình bày.
+Bổ sung28/10: [native cohort có lineage](joint-cohort.md) đã kiểm train64/capture64 trên Linux, và người dùng xác nhận chưa học MMD. Chưa tích hợp endpoint/autoretrain; các kết quả controlled PC bên trên giữ scope riêng.

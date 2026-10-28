@@ -1,0 +1,54 @@
+{
+  "Id": "d880c56867466ee704ce76418ee9ff50d864a9cfee1b7b8e8f5e575abd855826",
+  "Image": "sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e",
+  "State": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-28T22:51:12.845099793Z",
+    "FinishedAt": "2026-10-28T22:51:19.496355342Z"
+  },
+  "Config": {
+    "User": "10001:10001"
+  },
+  "HostConfig": {
+    "Memory": 1073741824,
+    "MemorySwap": 1073741824,
+    "NanoCpus": 1000000000,
+    "ReadonlyRootfs": true,
+    "NetworkMode": "host"
+  },
+  "Mounts": [
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/window-inspect-source",
+      "destination": "/inspect",
+      "rw": false
+    },
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/window-cohort-28-v3/full/offline-replay.json",
+      "destination": "/offline.json",
+      "rw": false
+    },
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/window-cohort-28-v3/full/online-replay.json",
+      "destination": "/online.json",
+      "rw": false
+    },
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/window-cohort-28-v3/online-inspection",
+      "destination": "/out",
+      "rw": true
+    },
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/ci/window-cohort-28-v3/full/online",
+      "destination": "/state",
+      "rw": false
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "rows": 5760,
+  "steps": {
+    "offline-write": {
+      "wall_seconds": 355.4985321500026,
+      "setup_seconds": 0.6941975440022361,
+      "push_seconds": 344.9985349739982,
+      "verify_seconds": 0.4998015700002725
+    },
+    "offline-replay": {
+      "wall_seconds": 9.40294570200058,
+      "setup_seconds": 0.6438492060005956,
+      "push_seconds": 0.6110345060005784,
+      "verify_seconds": 0.6280840370018268
+    },
+    "online-write": {
+      "wall_seconds": 147.78875189300015,
+      "setup_seconds": 0.7057284850016003,
+      "push_seconds": 139.28016237200063,
+      "verify_seconds": 0.06600167800206691
+    },
+    "online-replay": {
+      "wall_seconds": 46.29846169300072,
+      "setup_seconds": 0.7045782050008711,
+      "push_seconds": 37.862449510997976,
+      "verify_seconds": 0.0685684179989039
+    }
+  },
+  "checked_utc": "2026-10-28T22:51:08.974840+00:00"
+}

@@ -40,7 +40,7 @@ def repository():
 
 def airflow():
     """Check live API readbacks against prior successful runs and reconstruct edges from actual task definitions."""
-    base=ROOT/'docs/evidence/airflow-final-readback';read=verified(base,12,10);snapshot=read('snapshot.json');assert len(snapshot['runs'])==3
+    base=ROOT/'docs/evidence/airflow-final-readback';read=verified(base,14,10);snapshot=read('snapshot.json');assert len(snapshot['runs'])==3
     expected={'iot_feast_materialization':('feast-incremental-27',{('register_bound_source','materialize_incremental'),('materialize_incremental','validate_online'),('validate_online','publish_to_datahub')}),'iot_ci_stream_offline':('stream-offline-jenkins-3',{('push_finalized_windows','replay_without_new_writes')}),'iot_ci_stream_online':('stream-online-jenkins-2',{('push_finalized_windows','replay_without_new_writes')})}
     for row in snapshot['runs']:
         dag=row['dag'];identity,edges=expected[dag];assert row['run_id']==identity and row['run']==read(dag+'-run.json') and row['instances']==read(dag+'-instances.json') and row['definitions']==read(dag+'-definitions.json')
@@ -50,7 +50,7 @@ def airflow():
         if dag!='iot_feast_materialization':
             directory='offline-3' if dag.endswith('offline') else 'online-2';prior=json.loads((ROOT/'docs/evidence/ci-stream-push'/directory/'ci/airflow.json').read_bytes())
             assert all(row['run'][k]==prior['run'][k] for k in ['dag_id','dag_run_id','start_date','end_date','state'])
-    return {'successful_existing_dags':3,'successful_tasks':8,'image_scope':'Original screenshot of explicitly labeled API reader; completed sequential jobs, not original Airflow UI or simultaneous running proof.'}
+    return {'successful_existing_dags':3,'successful_tasks':8,'image_scope':'Original Airflow UI graph screenshots for both streaming DAGs, plus explicitly labeled API reader; completed sequential jobs, not simultaneous running proof.'}
 
 
 def demo():

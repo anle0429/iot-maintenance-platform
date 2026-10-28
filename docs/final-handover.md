@@ -18,7 +18,7 @@ Từ repo root, `python -S scripts/verify-final-handover.py` dùng standard libr
 |---|---|---|
 | Nguồn lớn |102.447.847.856byte JSONL offline; Spark323,136triệu Bronze/316,8triệu Silver,13checks | Chưa Gold/features/training toàn100GB |
 | Feature/ML |200máy×60ngày,3.456.000snapshots/3.132.184training rows, protocol/split cố định | Không ghép thành full100GBfeature pipeline |
-| Streaming push |Kafka/Flink live nhỏ; CI hai job dùng ba cửa sổ biết đáp án giữ lại từ luồng đó | Không phải nguồn cảm biến chạy liên tục hay distributed exactly-once |
+| Streaming push |Kafka/Flink live; CI hai job dùng ba cửa sổ; native Docker riêng ghi/replay đủ5.760cửa sổ/57.600reading/20máy | Không phải nguồn cảm biến chạy liên tục hay distributed exactly-once; không nhận fullcohort chạy qua Airflow |
 
 [Nguồn100GB](full-scale-ingest.md), [feature60ngày](medium-feature-dataset.md), [CI streaming](ci-stream-push.md) giữ số đo/giới hạn riêng. Không sinh hoặc train lại100GB để chụp ảnh.
 
@@ -28,7 +28,13 @@ Từ repo root, `python -S scripts/verify-final-handover.py` dùng standard libr
 
 ![Readback Airflow API thật](evidence/airflow-final-readback/screenshots/three-pipelines-api.jpg)
 
-Ảnh là trình xem **API chỉ đọc tự tạo**, đọc trực tiếp run/task/graph từ Airflow; không giả giao diện Airflow gốc. [Mười response gốc](evidence/airflow-final-readback/native-manifest.json) và [snapshot](evidence/airflow-final-readback/snapshot.json) giữ nguyên. [Ảnh UI Airflow materialization](feast-materialization.md) và ảnh Jenkins hai job có riêng; ảnh UI Airflow gốc của hai DAG streaming vẫn cần bổ sung nếu yêu cầu hình thức chấm đòi UI đó. Không gọi ảnh run đã hoàn tất là ảnh hai job đang RUNNING đồng thời.
+Ảnh trên là trình xem **API chỉ đọc tự tạo**, đọc trực tiếp run/task/graph từ Airflow. [Mười response gốc](evidence/airflow-final-readback/native-manifest.json) và [snapshot](evidence/airflow-final-readback/snapshot.json) giữ nguyên. Hai ảnh sau được chụp trực tiếp trong **UI Airflow gốc**, sau đăng nhập bằng credential cục bộ đã có; cả hai task/run success và edges đúng API. Không gọi ảnh run đã hoàn tất là ảnh hai job đang RUNNING đồng thời.
+
+![Airflow offline graph gốc](evidence/airflow-final-readback/screenshots/offline-airflow-graph.jpg)
+
+![Airflow online graph gốc](evidence/airflow-final-readback/screenshots/online-airflow-graph.jpg)
+
+[Toàn mini-coursework5.760cửa sổ](window-cohort.md) đã được kiểm riêng bằng12container native qua256/1.024/5.760: đủ offline/historical rows,20online latest vectors,80giá trị+80timestamps thật, hai replay không tăng đếm. Có ảnh từng job khi RUNNING và khi hoàn tất từ Docker reader riêng; lượt đầy đủ không được nhận là Airflow/CI fullsource. Tự kiểm `python -S scripts/verify-window-cohort.py`.
 
 ## Demo feature vừa làm mới
 
@@ -58,10 +64,10 @@ Cầu nối/tunnel review là trạng thái tạm cục bộ, không có khi clo
 - Feature/ML: event time khác availability; split theo thời gian và purge cửa sổ nhãn; Feast SDK trong job/API, offline Parquet/online Redis. Model6 có lineage tới data/protocol/run, không tự promote candidate7.
 - API: từ machine ID tới native feature và KServe; máy dừng409, feature stale503, schema lỗi422. Trình bày boundary/partition, Hypothesis, coverage/mutation/load bằng đúng scope từng evidence.
 - Vận hành: Airflow chặn validation lỗi, DataHub lineage/assertions, CI gates/A-B/rollback, metrics/logs/traces, gateway/Vault/mesh có phép thử từ chối thật.
-- Hai ứng viên bổ sung: [MMD](joint-cohort.md) kiểm quan hệ giữa cảm biến; [OPA](deployment-policy.md) chặn cấu hình/model envelope sai trước deploy. Ngoài nội dung lớp vẫn chờ người dùng xác nhận.
+- Hai ý tưởng bổ sung: [MMD](joint-cohort.md) kiểm quan hệ giữa cảm biến; [OPA](deployment-policy.md) chặn cấu hình/model envelope sai trước deploy. Người dùng xác nhận28/10 chưa học cả hai kỹ thuật cụ thể.
 
 ## Phần còn cần chốt
 
-Hai ý tưởng ngoài lớp chưa được tự nhận hoàn tất chỉ vì tên không có trong lịch học. Ảnh UI Airflow gốc của hai DAG streaming chưa bổ sung; trình xem API ghi rõ nguồn và không được gọi là UI gốc. Laptop chưa được kiểm thực tế. Chứng chỉ lab/Vault/gateway có hạn ngắn; kiểm và renew thật trước buổi demo sau, không tắt xác minh TLS. Không có claim HA nhiều máy, API MMD/autoretrain hoặc toànplatform đã Ansible hóa.
+[Xác nhận ngoài lớp](evidence/course-scope/learner-confirmation.json) đã có cho MMD và OPA/Rego; sự vắng mặt trong lịch học không phải căn cứ duy nhất. Ảnh UI Airflow gốc và fullcohort native đã có, hai phạm vi được ghi riêng. Laptop chưa được kiểm thực tế. Chứng chỉ lab/Vault/gateway có hạn ngắn; kiểm và renew thật trước buổi demo sau, không tắt xác minh TLS. Không có claim HA nhiều máy, API MMD/autoretrain hoặc toànplatform đã Ansible hóa.
 
 Code/config mẫu/tài liệu kỹ thuật/evidence cần thiết lên GitHub private. Dataset lớn, venv, Docker volumes, khóa/token, helper review và file điều khiển chat/handoff vẫn cục bộ. Tài liệu kỹ thuật và verifier trong repo dùng trực tiếp từ clone.

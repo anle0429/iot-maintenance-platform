@@ -1,6 +1,6 @@
 # Policy trước khi triển khai bằng OPA
 
-OPA là ứng viên ý tưởng bổ sung thứ hai: diễn đạt điều kiện được phép triển khai thành policy có thể chạy trong CI. Mục đích cụ thể là bắt lỗi thiếu seccomp đã xảy ra trong dự án, cấu hình cloud vượt phạm vi đã duyệt và model/context sai lineage trước khi tới bước triển khai. Tính ngoài nội dung lớp vẫn chờ xác nhận; không gọi quản lý ngân sách nói chung là ý tưởng mới.
+OPA là ý tưởng bổ sung thứ hai đã được kiểm chứng: diễn đạt điều kiện được phép triển khai thành policy có thể chạy trong CI. Mục đích cụ thể là bắt lỗi thiếu seccomp đã xảy ra trong dự án, cấu hình cloud vượt phạm vi đã duyệt và model/context sai lineage trước khi tới bước triển khai. Người dùng xác nhận28/10 chưa học OPA/Rego; [xác nhận](evidence/course-scope/learner-confirmation.json) áp dụng cho kỹ thuật policy cụ thể này, không phải quản lý ngân sách nói chung.
 
 [Policy Rego](../infra/policy/deployment.rego), [cấu hình đã duyệt](../infra/policy/approved.json), [runner48cases](../scripts/check-deployment-policy.py) và [Jenkinsfile](../infra/ci/DeploymentPolicy.Jenkinsfile) dùng binary OPA **1.21.4** từ release chính thức, SHA256 `2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630`. Binary không đưa vào Git. [Release](https://github.com/open-policy-agent/opa/releases/tag/v1.21.4), [hướng dẫn CI/CD chính thức](https://www.openpolicyagent.org/docs/cicd).
 

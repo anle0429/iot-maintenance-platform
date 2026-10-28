@@ -32,10 +32,10 @@ Tên task chính xác đối chiếu từ `tasks.task_instances` trong hai JSON 
 
 ![Job online thành công](evidence/ci-stream-push/screenshots/jenkins-online2-success.jpg)
 
-[Luồng Kafka/Flink live trước đó](stream-feast-push.md) chứng minh worker ack khi source còn RUNNING, cùng chính sách late/replay. Lượt CI dùng ba cửa sổ/two machines giữ lại từ luồng thật để kiểm triển khai nhỏ; không thay cho streaming lớn, distributed exactly-once hoặc nguồn chạy liên tục. Ảnh Airflow riêng cho hai DAG streaming vẫn cần bổ sung; API success và ảnh Jenkins không được gọi là ảnh UI Airflow.
+[Luồng Kafka/Flink live trước đó](stream-feast-push.md) chứng minh worker ack khi source còn RUNNING, cùng chính sách late/replay. Lượt CI dùng ba cửa sổ/two machines giữ lại từ luồng thật để kiểm triển khai nhỏ; không thay cho streaming lớn, distributed exactly-once hoặc nguồn chạy liên tục. [Ảnh UI Airflow gốc của hai DAG](final-handover.md#ba-pipeline-feature) đã bổ sung28/10, graph/task success khớp API; ảnh Jenkins/API vẫn được ghi nguồn riêng.
 
 Tự kiểm không cần VM: `python scripts/verify-ci-stream-push.py`; kiểm API biên: `python scripts/verify-focused-api.py`. Chạy native lại theo [hướng dẫn CI](ci-stream-push.md), chọn release mới và kiểm tài nguyên/phiên được duyệt. Nếu snapshot/Redis/lease đã hết hạn, ghi nhận đúng trạng thái hết hạn; không sửa receipt lịch sử.
 
 ## Readback bổ sung28/10
 
-[Ba DAG/tám task và edges từ API thật](final-handover.md#ba-pipeline-feature) đã đọc lại success, có ảnh trình xem API chỉ đọc. Đây không phải UI Airflow gốc và không nhận hai job đồng thời RUNNING. [Full-source stream stage](ci-stream-push.md) hiện vẫn giới hạn fixture ba cửa sổ; mở rộng tới toàn bộ5.760cửa sổ mini-coursework là việc tiếp theo, không lấy3row làm bằng chứng toàn nguồn.
+[Ba DAG/tám task](final-handover.md#ba-pipeline-feature) có API thật và hai ảnh UI Airflow gốc. [Fullcohort native](window-cohort.md) riêng đã ghi/replay5.760cửa sổ từ mini-coursework, với ảnh hai job khi lần lượt RUNNING và output success; không nhận fullcohort đã chạy qua Airflow hoặc hai job chạy đồng thời. CI/Airflow giữ fixture ba cửa sổ đúng scope lịch sử.

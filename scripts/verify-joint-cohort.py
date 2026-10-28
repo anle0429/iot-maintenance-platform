@@ -36,7 +36,7 @@ def main():
         count=sum(v>=observed-policy['tie_tolerance'] for v in values);assert count==report['joint']['permutation_exceedances'] and (1+count)/200==report['joint']['permutation_tail_fraction'] and report['joint']['diagnostic_alert']==((1+count)/200<=.05)
         assert report['joint']['p_value'] is None and report['joint']['exchangeability_verified'] is False and report['resources']['gram_payload_bytes']==131072
     assert proof['reports']['control']=={'mmd_squared':0.0,'tail_fraction':1.0,'diagnostic_alert':False,'psi_alert':False}
-    print('PASS17payload/13Gitbindings;nativeLinux1CPU512MiB/networknone;64explicittrain+64retainednativecohort;3directMMDoracles+597permutationstatistics;canonicalreplay;exactone-stepvibrationcounterfactual;maxdelta='+str(maximum)+'. Historical diagnostic only; outside-class confirmation pending.')
+    print('PASS17payload/13Gitbindings;nativeLinux1CPU512MiB/networknone;64explicittrain+64retainednativecohort;3directMMDoracles+597permutationstatistics;canonicalreplay;exactone-stepvibrationcounterfactual;maxdelta='+str(maximum)+'. Historical diagnostic only; learner confirmed MMD was not taught28Oct2026.')
 
 
 if __name__=='__main__':main()

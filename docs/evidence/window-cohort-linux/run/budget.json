@@ -1,0 +1,33 @@
+{
+  "checked_utc": "2026-10-28T22:41:49.475143+00:00",
+  "pilot_rows": 256,
+  "intermediate_rows": 1024,
+  "target_rows": 5760,
+  "steps": {
+    "offline-write": {
+      "linear_seconds_per_window": 0.04708424952929491,
+      "quadratic_seconds_per_window_squared": 0,
+      "estimated_seconds_with_margin": 486.97342614929437
+    },
+    "offline-replay": {
+      "linear_seconds_per_window": 0.0001015022539050392,
+      "quadratic_seconds_per_window_squared": 0,
+      "estimated_seconds_with_margin": 14.414343746633449
+    },
+    "online-write": {
+      "linear_seconds_per_window": 0.02366307615722718,
+      "quadratic_seconds_per_window_squared": 0,
+      "estimated_seconds_with_margin": 246.71230587881996
+    },
+    "online-replay": {
+      "linear_seconds_per_window": 0.005935989102539452,
+      "quadratic_seconds_per_window_squared": 0,
+      "estimated_seconds_with_margin": 68.17227676363018
+    }
+  },
+  "estimated_seconds": 816.272352538378,
+  "reserve_seconds": 600,
+  "remaining_seconds": 1929.290765,
+  "fits": true,
+  "scope": "Estimate from measured same-image/profile jobs with nonnegative linear/quadratic push fit,1.75push margin/2xlinear verification and measured imports. Not proof of completed full run; deadline/container guards remain active."
+}

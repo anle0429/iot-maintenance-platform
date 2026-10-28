@@ -30,7 +30,7 @@ def main():
     safe=(BASE/'build-3/console.txt').read_text();assert 'Policy accepted this candidate.' in safe and 'Finished: SUCCESS' in safe
     # Jenkins wfapi inherits FAILED for the skipped downstream stage; preserve it and use the original console to establish non-execution.
     stages=read('negative5/build-5/stages.json');assert next(s for s in stages['stages'] if s['name']=='Candidate decision gate')['status']=='FAILED'
-    print('PASS565payload/550native+10supplement;48knowninputs/2allow46deny;19Gitbindingsperfinalbuild;Jenkins3SUCCESSgate0/5FAILUREgate1/downstreamskipped;history1/2failuresand4earliersource retained;nodeploymentcommands. Outside-class confirmation pending.')
+    print('PASS565payload/550native+10supplement;48knowninputs/2allow46deny;19Gitbindingsperfinalbuild;Jenkins3SUCCESSgate0/5FAILUREgate1/downstreamskipped;history1/2failuresand4earliersource retained;nodeploymentcommands. Learner confirmed OPA/Rego was not taught28Oct2026.')
 
 
 if __name__=='__main__':main()

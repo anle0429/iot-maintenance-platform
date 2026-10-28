@@ -170,3 +170,5 @@ Security28/10: [Mesh native](private-mesh.md) theo final F55: STRICT mTLS/identi
 Đối chiếu bổ sung28Oct: [TTL từng view và ba job](feature-jobs-and-ttl.md), [IaC14no-op/Ansible recap/ảnh](iac-verification.md), [API71JUnit/220Hypothesis](api-validation.md). Giữ trạng thái lịch sử93dòng; final57 là chuẩn chính, không cộng hai bảng.
 
 28Oct bổ sung [repoquality](repository-quality.md), [Airflow API graph/freshmodel6/demo](final-handover.md); whole-source streaming push5.760windows còn triển khai, không thay bằng3windowfixture.
+
+Cập nhật28/10: [native fullcohort](window-cohort.md) đã kiểm5.760cửa sổ/57.600reading vào hai store và replay qua256/1024/5760; Airflow/CI giữ scope fixture nhỏ riêng. [Ảnh UI Airflow gốc](final-handover.md#ba-pipeline-feature) và các ảnh Docker RUNNING/success được ghi rõ nguồn. Chuẩn đánh giá là [57dòng final](final-rubric-tracker.md), không cộng tracker93dòng lịch sử.
