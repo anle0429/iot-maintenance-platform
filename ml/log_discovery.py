@@ -19,7 +19,7 @@ def application_discovery(token_file,ca_file,node,host='vm-linux',collection='na
     rule(source_labels=['service'],regex='feature-api|drift-api|ab-api|predictor|log-probe',action='keep')
     rule(source_labels=['__meta_kubernetes_pod_container_name'],regex='api|kserve-container|probe',action='keep')
     for source,target in [('namespace','namespace'),('pod_name','pod'),('pod_uid','pod_uid'),('pod_container_name','container')]:rule(source_labels=['__meta_kubernetes_'+source],target_label=target)
-    rule(source_labels=['namespace','pod','pod_uid','container'],separator=';',regex='(.+);(.+);(.+);(.+)',target_label='__path__',replacement='/var/log/pods/$1_$2_$3/$4/*.log')
+    rule(source_labels=['namespace','pod','pod_uid','container'],separator=';',regex='(.+);(.+);(.+);(.+)',target_label='__path__',replacement='/var/log/pods/${1}_${2}_${3}/${4}/*.log')
     for label,value in [('host',host),('collection',collection),('source','cri')]:rule(target_label=label,replacement=value)
     rule(action='labelkeep',regex='__path__|host|collection|source|service|namespace|pod|pod_uid|container')
     return f'''discovery.kubernetes "applications" {{

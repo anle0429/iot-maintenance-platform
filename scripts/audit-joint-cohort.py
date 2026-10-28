@@ -21,7 +21,7 @@ def audit(reference_path,current_path,output):
     reference={'format':parent['format'],'policy':parent['policy'],'lineage':{'parent_training_reference':parent['lineage'],**parents,'selection':policy['reference']},'samples':parent['samples'][:64]}
     detector=JointDriftAudit(reference);start=min(datetime.fromisoformat(r['feature_event_ts']) for r in rows);end=max(datetime.fromisoformat(r['as_of']) for r in rows)+timedelta(microseconds=1)
     observations=[{'id':sha256((r['machine_id']+'|'+r['feature_event_ts']).encode()).hexdigest(),'event_timestamp':r['feature_event_ts'],'available_at':r['as_of'],'features':r['features']} for r in rows]
-    current={'reference_id':detector.reference_id,'window_id':'retained-gateway-cohort-28','start':start.isoformat(),'end':end.isoformat(),'observations':observations}
+    current={'reference_id':detector.detector.reference_id,'window_id':'retained-gateway-cohort-28','start':start.isoformat(),'end':end.isoformat(),'observations':observations}
     identical=deepcopy(current);identical['window_id']='identical-reference-control';identical['observations']=[{**v,'features':vector} for v,vector in zip(identical['observations'],reference['samples'],strict=True)]
     rotated=deepcopy(current);rotated['window_id']='current-with-vibration-rotated-left-one';values=[v['features']['vibration_max_10m'] for v in current['observations']]
     for index,row in enumerate(rotated['observations']):row['features']['vibration_max_10m']=values[(index+1)%64]
@@ -33,7 +33,7 @@ def audit(reference_path,current_path,output):
     assert reports['control']['joint']['mmd_squared']==0 and not reports['control']['joint']['diagnostic_alert']
     replay=deepcopy(current);replay['observations']=list(reversed(replay['observations']))+[replay['observations'][0]];assert detector.compare(CompareRequest.model_validate(replay))==reports['current']
     (output/'reference.json').write_text(json.dumps(reference,indent=2)+'\n');(output/'replay-window.json').write_text(json.dumps(replay,indent=2)+'\n')
-    result={'passed':True,'parent_inputs':parents,'parent_reference_lineage':parent['lineage'],'selected_machine_ids':[r['machine_id'] for r in rows],'rows_per_group':64,'canonical_replay_equal':True,'all_counterfactual_marginals_preserved':True,'reports':{n:{'mmd_squared':v['joint']['mmd_squared'],'tail_fraction':v['joint']['tail_fraction'],'diagnostic_alert':v['joint']['diagnostic_alert'],'psi_alert':v['psi']['drift_detected']} for n,v in reports.items()},'scope':policy['scope']}
+    result={'passed':True,'parent_inputs':parents,'parent_reference_lineage':parent['lineage'],'selected_machine_ids':[r['machine_id'] for r in rows],'rows_per_group':64,'canonical_replay_equal':True,'all_counterfactual_marginals_preserved':True,'reports':{n:{'mmd_squared':v['joint']['mmd_squared'],'tail_fraction':v['joint']['permutation_tail_fraction'],'diagnostic_alert':v['joint']['diagnostic_alert'],'psi_alert':v['psi']['drift_detected']} for n,v in reports.items()},'scope':policy['scope']}
     (output/'verification.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))
 
 

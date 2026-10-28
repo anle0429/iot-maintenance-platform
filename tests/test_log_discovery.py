@@ -8,7 +8,7 @@ class LogDiscoveryTests(unittest.TestCase):
     def test_explicit_namespace_node_tls_and_no_secret_discovery(self):
         config=application_discovery('/srv/private/token','/srv/private/ca.crt','iot-cw-vm')
         self.assertIn('names = ["iot-features", "iot-serving"]',config);self.assertIn('spec.nodeName=iot-cw-vm',config)
-        self.assertNotIn('insecure_skip_verify',config);self.assertNotIn('kubeconfig',config);self.assertIn('/var/log/pods/$1_$2_$3/$4/*.log',config)
+        self.assertNotIn('insecure_skip_verify',config);self.assertNotIn('kubeconfig',config);self.assertIn('/var/log/pods/${1}_${2}_${3}/${4}/*.log',config)
         self.assertIn('regex = "api|kserve-container|probe"',config);self.assertNotIn('role = "secret"',config)
 
     def test_untrusted_paths_or_node_are_rejected(self):
