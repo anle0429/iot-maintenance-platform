@@ -41,11 +41,11 @@ def run(args):
     with context as writer:
         if not bound.exists():
             with bound.open('x') as stream:stream.write(json.dumps(identity,indent=2)+'\n')
-        before=digest(writer.offline);modes=[]
+        before=digest(writer.offline);modes=[];setup_seconds=time.monotonic()-started;push_started=time.monotonic()
         for index,row in enumerate(rows,1):
             modes.append(writer.push(row))
             if index%128==0:print(json.dumps({'destination':args.destination,'operation':args.operation,'processed':index,'elapsed_seconds':time.monotonic()-started}),flush=True)
-        proof=writer.verify()
+        push_seconds=time.monotonic()-push_started;verify_started=time.monotonic();proof=writer.verify();verify_seconds=time.monotonic()-verify_started
         if args.destination=='offline' and (proof['offline_rows']!=len(rows) or proof['historical_rows']!=len(rows)):raise ValueError('Offline cohort count differs')
         if args.destination=='online' and (proof['acknowledged_windows']!=len(rows) or proof['machines']!=binding['selected_machines']):raise ValueError('Online cohort count differs')
         if args.operation=='replay' and (modes!=['completed_'+args.destination+'_replay_noop']*len(rows) or digest(writer.offline)!=before):raise ValueError('Replay changed the acknowledged store')
@@ -57,7 +57,7 @@ def run(args):
                 if p['machine_id'] not in expected or p['event_timestamp']>expected[p['machine_id']]['event_timestamp']:expected[p['machine_id']]=p
             actual={r['machine_id']:r for r in proof['online_rows']}
             if actual.keys()!=expected.keys() or any(any(actual[m][f]!=expected[m][f] for f in FIELDS) for m in expected):raise ValueError('Latest native vectors differ from the retained source oracle')
-        save(args.output,{**proof,'source_binding':binding,'operation':args.operation,'mode_counts':{m:modes.count(m) for m in sorted(set(modes))},'elapsed_seconds':time.monotonic()-started,'completed_utc':datetime.now(timezone.utc).isoformat()})
+        save(args.output,{**proof,'source_binding':binding,'operation':args.operation,'mode_counts':{m:modes.count(m) for m in sorted(set(modes))},'setup_seconds':setup_seconds,'push_seconds':push_seconds,'verify_seconds':verify_seconds,'elapsed_seconds':time.monotonic()-started,'completed_utc':datetime.now(timezone.utc).isoformat()})
     print(json.dumps({'passed':True,'destination':args.destination,'operation':args.operation,'windows':len(rows),'elapsed_seconds':time.monotonic()-started}),flush=True)
 
 
