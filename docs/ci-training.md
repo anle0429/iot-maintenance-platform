@@ -92,6 +92,8 @@ python -S scripts/verify-ci-training.py
 
 Chỉ cần Python chuẩn và Git history có commit nguồn. Tool không khởi động cloud, không train lại: kiểm47payload SHA,93source từ Git và tar byte-exact,78source/image/mount,44MLguard,5main/executor/task evidence, tự tính content-version từ180file và metric từ confusion counts, rồi đối chiếu data/model REST receipts. File dưới `docs/evidence/ci-training/` là bản chọn lọc605.158B kèm manifest; operational helpers, credentials, packet/image/data và rawSpark log2.802.459B giữ ngoài Git. `pod-main-bindings.json` là projection ghi rõ trường của5application pods được chọn từ11pod; các response/file/ảnh còn lại giữ byte gốc.
 
+Đã kiểm từ clone sạch ở commit tài liệu`49defc6` trên cùng PC Windows: verifier chuẩn PASS,22unit tests PASS/0,183s và audit47file byte-exact, link tài liệu,57+93dòng rubric nguồn PASS. Unit tests dùng môi trường Python của PC; verifier chạy với `-S`, không cần dependency ngoài thư viện chuẩn. Đây là kiểm tra khả năng đọc/tái lập packet và logic từ clone; luồng KFP/Spark/MLflow nặng là lượt Linux VM ở trên, không nhận đã train lại trên clone/laptop.
+
 Giới hạn: source PVC của5main có mount read-write theo package hiện tại; không nhận đây là hardening read-only. KFP drivers/init không tính vào5MLtask. Raw evaluation có câu giới hạn kế thừa về lúc khai báo protocol; timestamp/backend/main containers chứng minh lượt thực thi hiện tại. Không diễn giải câu đó thành “chưa train”. Chưa webhook, production promotion, serving CI/A-B native hoặc ML trên100GB.
 
 ## Chuẩn bị lịch sử trước build thành công
