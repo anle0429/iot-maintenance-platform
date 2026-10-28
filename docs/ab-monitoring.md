@@ -74,4 +74,6 @@ CLI chỉ tạo cấu hình và `launch.json`, không khởi động dịch vụ
 
 ## Phần còn lại
 
-F53 vẫn **Đang làm** vì cần dashboard gắn với hai model và A/B release thật trên VM qua CI. F46 vẫn thiếu phạm vi metrics của các API khác; F47 chưa có dashboard CPU/RAM/disk/network. Điểm đo RAM bằng công cụ hệ điều hành không thay cho F47. Loopback viewer phục vụ kiểm cục bộ, chưa đáp ứng Vault hoặc service authentication của final. Native Jenkins training/serving, Linux API gates, model promotion và healthy rollback vẫn theo [bàn giao CI](ci-ab-deployment.md).
+F53 vẫn **Đang làm** vì cần dashboard gắn với hai model và A/B release thật trên VM qua CI. F46 vẫn thiếu phạm vi metrics của các API khác; F47 đã có [bằng chứng host PC và Linux VM](host-monitoring.md) riêng. Loopback viewer phục vụ kiểm cục bộ, chưa đáp ứng Vault hoặc service authentication của final. Serving CI, Linux API gates và healthy rollback vẫn theo [bàn giao CI](ci-ab-deployment.md).
+
+Verifier giữ77hash nguồn lịch sử và toàn bộ số đo của lượt PC. Bộ test A/B hiện tại đã tăng kiểm tra native wiring/ledger/metric consumer contract; kết quả test lịch sử không được gắn cho bộ test mới. Các API và hàm HTTP thực dùng trong lượt đo cũ vẫn phải khớp nguồn, dù metadata CI và phần test được nêu rõ là đã thay thế.

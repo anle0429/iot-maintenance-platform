@@ -1,10 +1,11 @@
 """Verify actual model arithmetic, persistent concurrent replay, drift oracles and the two-model HTTP boundary."""
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import closing
 from copy import deepcopy
 from datetime import datetime,timedelta,timezone
 from pathlib import Path
 from tempfile import TemporaryDirectory
-import asyncio,json,math,threading
+import asyncio,json,math,sqlite3,threading
 from unittest.mock import patch
 import httpx,pytest
 from fastapi.testclient import TestClient
@@ -264,9 +265,81 @@ def test_native_startup_uses_existing_sdk_state_and_two_fixed_urls(runtime,tmp_p
     for key,value in {'IOT_AB_CONFIG':str(source),'IOT_SERVING_STATE':'/fixture-state','IOT_DRIFT_REFERENCE':str(reference),'IOT_AB_DATABASE':str(tmp_path/'native.sqlite')}.items():monkeypatch.setenv(key,value)
     def backend(state,url):
         assert state=='/fixture-state';return runtime.runtimes[url.split('//')[1].split('.')[0]].backend
-    with patch.object(api,'FeastKServeBackend',side_effect=backend) as called:
-        with TestClient(api.create_app()) as client:assert client.get('/v1/experiment').json()['experiment']=='native-fixture'
+    def feature(context,backend,model_pin):
+        return FeatureRuntime(context,backend,clock=lambda:NOW,model_pin=model_pin)
+    with patch.object(api,'FeastKServeBackend',side_effect=backend) as called,patch.object(api,'FeatureRuntime',side_effect=feature):
+        with TestClient(api.create_app()) as client:
+            assert client.get('/v1/experiment').json()['experiment']=='native-fixture'
+            assert client.get('/health/ready').status_code==200
+            reply=client.post('/v1/machines/P-001:predict',json={},headers={'X-Request-ID':'native-wiring'})
+            assert reply.status_code==200 and reply.json()['prediction']['risk_score']==pytest.approx(GOLDEN['samples'][0]['expected_risk_score'],abs=1e-12)
     assert called.call_count==2
+
+
+@pytest.mark.parametrize('machine,expected',[('P-0277','baseline'),('P-0192','candidate')])
+def test_assignment_matches_published_half_split_vectors(machine,expected):
+    """The published vectors start with7f and80, exercising both sides of the byte128 boundary."""
+    assert cohort('Serve_1:x',machine)==expected
+
+
+def test_readiness_exposes_the_complete_pair_without_creating_trials(runtime):
+    """Deployment consumers need both immutable pins and the exact drift reference, not just a boolean."""
+    with TestClient(api.create_app(runtime)) as client:
+        assert client.get('/health/ready').json()=={'ready':True,'experiment':runtime.experiment,
+            'reference_id':runtime.detector.reference_id,'pins':runtime.pins}
+    assert runtime.snapshot()['observations']==[]
+    assert [r.backend.calls for r in runtime.runtimes.values()]==[1,1]
+
+
+def test_nested_persistent_ledger_preserves_its_external_identity_schema(runtime,tmp_path):
+    """A read-only forensic consumer must recover the release/context/capacity binding after restart."""
+    path=tmp_path/'new-volume'/'experiment'/'trials.sqlite'
+    reference={'format':'iot-drift-reference-v1','lineage':runtime.detector.lineage,
+        'policy':runtime.detector.policy,'samples':[deepcopy(GOLDEN['samples'][0]['features']) for _ in range(64)]}
+    first=ABRuntime(runtime.experiment,runtime.runtimes,reference,path,32)
+    response=first.predict('P-001','durable-once')
+    with closing(sqlite3.connect(path.as_uri()+'?mode=ro',uri=True)) as database:
+        identity=json.loads(database.execute('SELECT seal FROM identity WHERE id=1').fetchone()[0])
+        assert identity=={'experiment':runtime.experiment,'pins':runtime.pins,'context':runtime.context,
+            'reference_id':runtime.detector.reference_id,'max_requests':32}
+        assert database.execute('SELECT id,machine,variant FROM trials').fetchall()==[
+            ('durable-once','P-001',response['variant'])]
+    restarted=ABRuntime(runtime.experiment,runtime.runtimes,reference,path,32)
+    assert restarted.predict('P-001','durable-once')==response
+    assert sum(r.backend.calls for r in runtime.runtimes.values())==1
+
+
+def test_metric_values_labels_and_histogram_boundaries_from_known_ledger():
+    """Different cohorts, errors, means and exact bucket edges must remain consumable by PromQL."""
+    durations=[0,5,10,25,50,100,250,500,1000,5000,5001]
+    rows=[{'variant':'baseline','latency_ms':value,'status':200 if i<9 else 503,
+        **({'prediction':{'risk_score':.9 if i==8 else 0.}} if i<9 else {})} for i,value in enumerate(durations)]
+    rows+=[{'variant':'candidate','latency_ms':20,'status':200,'prediction':{'risk_score':.8}},
+        {'variant':'candidate','latency_ms':8000,'status':409}]
+    snapshot={'experiment':'metric-oracle','baseline_pin':{'version':'1'},'candidate_pin':{'version':'6'},
+        'observations':rows,'metrics':{'baseline':{'requests':11,'failures':2},'candidate':{'requests':2,'failures':1}},
+        'drift':{'baseline':{'unique_rows':9,'ready':True,'features':{'temperature_mean_10m':{'psi':.125}}},
+            'candidate':{'unique_rows':1,'ready':False}}}
+    families=list(text_string_to_metric_families(exposition(snapshot).decode()))
+    assert {f.name:f.type for f in families}=={'iot_ab_requests':'counter','iot_ab_failures':'counter',
+        'iot_ab_request_seconds':'histogram','iot_ab_mean_risk_score':'gauge','iot_ab_unique_snapshots':'gauge','iot_ab_feature_psi':'gauge'}
+    samples=[s for f in families for s in f.samples]
+    expected={'baseline':{'iot_ab_requests_total':11,'iot_ab_failures_total':2,'iot_ab_mean_risk_score':.1,
+        'iot_ab_unique_snapshots':9,'iot_ab_request_seconds_count':11,'iot_ab_request_seconds_sum':11.941},
+        'candidate':{'iot_ab_requests_total':2,'iot_ab_failures_total':1,'iot_ab_mean_risk_score':.8,
+        'iot_ab_unique_snapshots':1,'iot_ab_request_seconds_count':2,'iot_ab_request_seconds_sum':8.02}}
+    buckets={'baseline':[2,3,4,5,6,7,8,9,10,11],'candidate':[0,0,1,1,1,1,1,1,1,2]}
+    edges=['0.005','0.01','0.025','0.05','0.1','0.25','0.5','1','5','+Inf']
+    for variant,version in [('baseline','1'),('candidate','6')]:
+        labels={'experiment':'metric-oracle','variant':variant,'version':version}
+        ordinary={s.name:s.value for s in samples if s.labels==labels}
+        assert ordinary==pytest.approx(expected[variant],abs=1e-12)
+        actual={s.labels['le']:s.value for s in samples if s.name=='iot_ab_request_seconds_bucket' and s.labels.get('variant')==variant}
+        assert actual==dict(zip(edges,buckets[variant],strict=True))
+        assert all(s.labels=={**labels,'le':s.labels['le']} for s in samples if s.name=='iot_ab_request_seconds_bucket' and s.labels.get('variant')==variant)
+    drift=[s for s in samples if s.name=='iot_ab_feature_psi']
+    assert len(drift)==1 and drift[0].value==.125 and drift[0].labels=={
+        'experiment':'metric-oracle','variant':'baseline','version':'1','feature':'temperature_mean_10m'}
 
 
 def test_health_remains_async_while_model_read_blocks(runtime):
