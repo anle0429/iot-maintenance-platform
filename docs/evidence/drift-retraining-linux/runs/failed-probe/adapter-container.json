@@ -1,0 +1,30 @@
+{
+  "run_id": "manual-retrain-probe-28",
+  "try_number": 1,
+  "source_commit": "eba2187e2ee595c1fe647ed46b03c911e316a729",
+  "manual_probe": true,
+  "monitoring_output": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/offline-drift/bab3abcd3e98d0e949b5a8bc-try1/result",
+  "container_id": "7b116414bbfa90a46aa54772a4aa67d568582b2015a9026dd30fd42968ffe292",
+  "image_id": "sha256:afbf3fed00d1ef249b3d61096dddc8f531cff60a34b6e5b95122300cae12f4b0",
+  "state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 1,
+    "Error": "",
+    "StartedAt": "2026-10-28T05:40:54.146888031Z",
+    "FinishedAt": "2026-10-28T05:41:01.288892812Z"
+  },
+  "exit_code": 1,
+  "host_config": {
+    "Memory": 2147483648,
+    "MemorySwap": 2147483648,
+    "NanoCpus": 1000000000,
+    "ReadonlyRootfs": true,
+    "NetworkMode": "host"
+  }
+}

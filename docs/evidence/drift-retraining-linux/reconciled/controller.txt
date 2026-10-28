@@ -1,0 +1,14 @@
+time="2026-10-28T05:41:01Z" level=info msg="Acquiring lock file /var/lib/rancher/k3s/data/.lock"
+time="2026-10-28T05:41:01Z" level=fatal msg="Error: extracting data: no such file or directory"
+Traceback (most recent call last):
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/run-versioned-training.py", line 92, in <module>
+    run(parser.parse_args())
+  File "/srv/iot-data/workspace/iot-maintenance-platform/scripts/run-versioned-training.py", line 50, in run
+    k=['/usr/local/bin/k3s','kubectl'];service=json.loads(subprocess.check_output(k+['get','service','ml-pipeline','-n','kubeflow','-o','json'],text=True))
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/usr/local/bin/k3s', 'kubectl', 'get', 'service', 'ml-pipeline', '-n', 'kubeflow', '-o', 'json']' returned non-zero exit status 1.

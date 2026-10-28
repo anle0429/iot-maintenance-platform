@@ -10,6 +10,7 @@
 | Serving U | Feature API Deployment → Redis API Deployment → KServe predictor Deployment | [Serving CI8](ci-serving.md), active model6/lab production tag;200máy195prediction+5stopped409; Redis batch/stream tách riêng |
 | Training T | KFP API → năm task pods → hai Spark executor pods; load qua Feast SDK, đăng ký dữ liệu/model ở MLflow | [Distributed training](distributed-training.md), [CI training](ci-training.md) build2 SUCCESS/model6candidate; cùng một VM, giữ protocol/split đã seal |
 | Serving CI C | Jenkins pull bundle production-tag6 → test/build/stage → A/B router Deployment → model1/6 → Helm cutover | [CI8 SUCCESS](ci-serving.md),780trial/40replay; UID/PV/PVC/SQLite trênHDD đối chiếu thật; controlled rollback6→1→6 PASS |
+| Retrain R | Airflow sau monitoring → controller container → private KFP API → năm task → model/data MLflow | [Native F51](drift-retraining.md):manual probe giữ drift=false,5task SUCCEEDED/model7candidate; no-drift/replay/cooldown chặn training trùng. RecipeCE cố định, chưa học từ cửa sổ drift chưa nhãn hoặc tự promote |
 | Metrics M | node_exporter/Pushgateway/A-B router → Prometheus → Grafana | [Host VM](host-monitoring.md), [scheduled offline drift](offline-drift-monitoring.md), [A/B native6panel/26giá trị mỗi engine](ab-monitoring.md); reference train cố định, không accuracy |
 | Logs L | Năm file quan sát từ host/API → Alloy → Loki → Grafana | [Log proof](log-monitoring.md), timestamp/message/label exact, chưa auto-discovery Pod hoặc traces |
 

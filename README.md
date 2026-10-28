@@ -12,6 +12,8 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 
 [CI training](docs/ci-training.md) đã Jenkins build2 SUCCESS:22tests, hai image đúng78file, tự triển khai44file ML và chạy KFP đủ5task/hai executor/model6; dữ liệu không đổi tái sử dụng180file/740MB. Sau đó [serving CI8](docs/ci-serving.md) **SUCCESS trênVM/source99d6dcc**:104contracts/208API tests,425statements100%/125of128branches97,66%; mutation hoàn chỉnh parent5 dùng lại có kiểm nguồn1.309/1.582=82,74%. Model6 được export theo production tag của lab, ba image build/probe/import và full cutover200máy PASS. [A/B native1/6](docs/ci-ab-deployment.md) có780trial/40replay không tăng đếm và [Grafana6panel/26giá trị mỗi engine](docs/ab-monitoring.md) có ảnh gốc. Controlled rollback6→1→6 PASS; Locust1/10users598/5.780requests,0fail,P95 7/28ms. Các số đo này là lab mô phỏng trên cùngVM; PSI/mean risk không chứng minh model tốt hơn. Traces, retrain từ Airflow và security/gateway cùng các mục còn thiếu vẫn ở [tracker final](docs/final-rubric-tracker.md).
 
+[Airflow→Kubeflow retrain](docs/drift-retraining.md) đã chạy5task thật/model7candidate,13unit tests, replay/cooldown không tạo thêm training. Manual probe giữ drift=false; reference model3, recipe/split giữ nguyên và chưa tự đổi serving model6. Bộ kiểm độc lập đọc118payload,24PSI từ raw samples,79SparkTaskEnd/0failed, data/model registry và ảnh KFP gốc.
+
 ## Mục lục
 
 - [Phạm vi và dữ liệu](docs/domain-proposal.md)
@@ -43,6 +45,7 @@ Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cả
 - [Feature API: freshness, operating state, mutation và Locust](docs/feature-api.md)
 - [Serving CI: native gates, A/B, cutover, rollback và Locust](docs/ci-serving.md)
 - [A/B dashboard native và cách tự kiểm bằng chứng](docs/ab-monitoring.md)
+- [Airflow gọi KFP: retrain có admission, replay và cooldown](docs/drift-retraining.md)
 - [Cách chạy](#cách-chạy)
 - [Checklist final-coursework chính](docs/final-rubric-tracker.md)
 - [Checklist hai sheet50% trước đây](docs/rubric-tracker.md)
@@ -101,7 +104,7 @@ airflow/dags/                DP1–DP3, materialization và offline drift địn
 
 ## Sơ đồ triển khai hiện có
 
-Các hộp là job/container/pod/service có thể triển khai; Feast SDK chạy bên trong job/API. Dữ liệu Parquet/workspace nằm trên volume của cùng VM, không phải một Feast server riêng. Luồng U là dự đoán; D là dữ liệu/metadata; T/C là training/CI; M/L là metrics/logs. Màu phân biệt nhóm, không chấm mức hoàn thành.
+Các hộp là job/container/pod/service có thể triển khai; Feast SDK chạy bên trong job/API. Dữ liệu Parquet/workspace nằm trên volume của cùng VM, không phải một Feast server riêng. Luồng U là dự đoán; D là dữ liệu/metadata; T/C là training/CI; R là lệnh retrain/trạng thái; M/L là metrics/logs. Màu phân biệt nhóm, không chấm mức hoàn thành.
 
 ```mermaid
 flowchart LR
@@ -130,7 +133,10 @@ flowchart LR
     AB -->|C5 cohort baseline| Old[KServe model1 Deployment]
     AB -->|C6 cohort candidate6| Predictor
     Jenkins -->|C7 Helm switch sau A-B và recheck| API
-    Airflow -->|M1 mỗi năm phút| DriftJob[Offline drift SDK job container]
+    Airflow -->|M1 lịch năm phút| DriftJob[Offline drift SDK job container]
+    Airflow -->|R1 report path và policy retrain| Retrain[Retrain controller container]
+    Retrain -->|R2 package và run parameters qua API| KFP
+    KFP -->|R3 backend run state| Retrain
     Spark -->|M2 feature Parquet qua Feast| DriftJob
     DriftJob -->|M3 PSI và freshness gauges| PG[Pushgateway process]
     PG -->|M4 metric scrape| Prom[Prometheus process]
@@ -145,7 +151,7 @@ flowchart LR
     classDef data fill:#e1f2df,stroke:#428044,color:#111;
     classDef monitor fill:#fff0cf,stroke:#a97920,color:#111;
     class API,Redis,Predictor,AB,Old serving;
-    class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins data;
+    class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins,Retrain data;
     class DriftJob,PG,Prom,Node,Grafana,Alloy,Loki monitor;
 ```
 

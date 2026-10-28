@@ -1,0 +1,943 @@
+{
+  "checked_utc": "2026-10-28T06:11:03.760271+00:00",
+  "files": {
+    "source/current.json": {
+      "bytes": 861,
+      "sha256": "c56f39826dc9a36fbcb0a2c311745c6db2524d82d656a893260de9f37b8bd40c"
+    },
+    "source/initial.json": {
+      "bytes": 861,
+      "sha256": "97a25d61ee417e58ebd63ac1d038467678640ee3240aa5cc578edd3851ea1d6c"
+    },
+    "source/monitoring.json": {
+      "bytes": 2256,
+      "sha256": "cb7777466123860aeba40cc152782f1a960621629523119d304117becfb1a643"
+    },
+    "source/training.json": {
+      "bytes": 9723,
+      "sha256": "0ac802f5c39a84462e874d94faaef2ed610875ab6cdce6d7004568ceb441df3e"
+    },
+    "training/source-snapshot.json": {
+      "bytes": 4866,
+      "sha256": "0addf0c385026a80ce944ae3e08cfcfaaaea92f8ac08dde7f43cdb09e2976c3e"
+    },
+    "training/deployment.json": {
+      "bytes": 6376,
+      "sha256": "4c9b22af45e5b0ed4f44424f5d0868db5571ab9d75b2335436b722cd7eb6de28"
+    },
+    "training/build.json": {
+      "bytes": 13762,
+      "sha256": "bf3008f8c4dd102982272ef0c8e39a95477e39e41bc5d61808c3d04744da3cf3"
+    },
+    "training/oracle.json": {
+      "bytes": 1511,
+      "sha256": "4bd4311b627dce83f0e3150623817eddf851917b5787829eeb87f8f17871ffca"
+    },
+    "runtime/config.json": {
+      "bytes": 216,
+      "sha256": "4f780d21d5d22a6e270f6390b38b57e461a0b5d5f387fee3bde3e272d3b3e642"
+    },
+    "runtime/policy.json": {
+      "bytes": 5472,
+      "sha256": "89b52433b2028d497d93e44160e7cf350b1f4fa48f9e5009b9955b3eb3fdc1d4"
+    },
+    "runtime/clock.json": {
+      "bytes": 481,
+      "sha256": "cb1d489a69009c00b84f45d824786da25c8e525a6fced34aedcfc3178b4e9051"
+    },
+    "runtime/session.json": {
+      "bytes": 260,
+      "sha256": "aa28897e9c43d310e828add7ed942a96e6367b86a746b75e853e5d6efdd15c1d"
+    },
+    "runtime/reference.json": {
+      "bytes": 256846,
+      "sha256": "b102b670e58aca8876125a631cb9b44219bba5f07b63754d0bf8ce1da2e3001b"
+    },
+    "checks/deployment-eba2187/verification.json": {
+      "bytes": 792,
+      "sha256": "baec4b626dfa3973099984a13baa2affe1c2f5ebb2a1b6b7dfed595f836865d9"
+    },
+    "checks/deployment-eba2187/directory-repair.json": {
+      "bytes": 471,
+      "sha256": "6631827006ff378d2788bc96445b94f39b0a90a36edcd74dfc3e4d7248a32403"
+    },
+    "checks/deployment-eba2187/failed-scheduled-0535/airflow-task.txt": {
+      "bytes": 2501,
+      "sha256": "1e4396667521cad630d2318e799f9a76ba74400f624a8ca359c41d5897c73712"
+    },
+    "checks/deployment-eba2187/readonly-k3s-preflight.txt": {
+      "bytes": 939,
+      "sha256": "53eadda156d935724dfe114aa59f7e26a78f963a91a6a3d058bfaaea93afe65f"
+    },
+    "checks/deployment-eba2187/k3s-preflight-diagnostic.txt": {
+      "bytes": 16004,
+      "sha256": "4c77d792b2fe5f0459a919cd124ba5372773275d87dd66c3c7bf0f5914a54b4d"
+    },
+    "checks/upgrade-b41d654/verification.json": {
+      "bytes": 523,
+      "sha256": "7e01f4490aba84cff5c08ab567e4fec83b8998edac153cf40665c56c1624affc"
+    },
+    "checks/upgrade-b41d654/native-unit-tests.txt": {
+      "bytes": 2293,
+      "sha256": "a8b2c0ec1c2371e5501a75b87559f1bef262b7c6b2d6c41ce8dd9226d03f3cad"
+    },
+    "checks/upgrade-b41d654/dag-parse.txt": {
+      "bytes": 219,
+      "sha256": "f65e9e95626620d24fbb447786d4f699dcf9349d24e60801e6090bf7eaa9b897"
+    },
+    "checks/upgrade-b41d654/config-before.json": {
+      "bytes": 216,
+      "sha256": "8d85b2f9d43134c6e3bffa9247a714ceffb0a4ad161b54aee4f5719b11a13ea7"
+    },
+    "checks/inflight-probe/verification.json": {
+      "bytes": 797,
+      "sha256": "72a48b16037092dc30dc4be170c06a1d4334efb48977ea25a479be5c8fd5d986"
+    },
+    "checks/inflight-probe/controller.txt": {
+      "bytes": 526,
+      "sha256": "7bd20481580e2d7e1076a049871da52b189e47dd720cd9174f540c636d9b00eb"
+    },
+    "checks/completed-replay/verification.json": {
+      "bytes": 871,
+      "sha256": "5bc487b882b8c723911ddc1494593361802a91eb76f54da3f0f479b93007c257"
+    },
+    "checks/completed-replay/decision.json": {
+      "bytes": 1310,
+      "sha256": "ebd4468f7b72c73223625312692e5588a51c6ab979f549d95c23c228d6d9fe15"
+    },
+    "checks/completed-replay/controller.txt": {
+      "bytes": 1262,
+      "sha256": "3bda0ee2fa49b3818f2ae315c6b5fba852bad56e4bb264645738753b6d972427"
+    },
+    "checks/completed-replay/backend-before.json": {
+      "bytes": 872171,
+      "sha256": "79fc592af0f450b2221ad653b22e4e8b3981a3323c3a2835cec89f60f5395702"
+    },
+    "checks/completed-replay/backend-after.json": {
+      "bytes": 872171,
+      "sha256": "79fc592af0f450b2221ad653b22e4e8b3981a3323c3a2835cec89f60f5395702"
+    },
+    "checks/cooldown-proof/verification.json": {
+      "bytes": 2563,
+      "sha256": "2353c11ca3d64488ba0533c578bd3f94d3d6526b986a895b5cf35c976e4e14e8"
+    },
+    "checks/cooldown-proof/decision.json": {
+      "bytes": 614,
+      "sha256": "e9209fbae6a0b31e1ba9d3213663d110853a55859e31d1160c56c78ed1efec94"
+    },
+    "checks/cooldown-proof/backend-readback.json": {
+      "bytes": 799997,
+      "sha256": "9a28bef0593eb3675921561795787707fc9a89d8e79ae5a9be62580eff3e9169"
+    },
+    "airflow/natural-skip-proof.json": {
+      "bytes": 5412,
+      "sha256": "edb353f1466f463552f1e8283ed231f4d2c89600dcb957d34ca0ea4e8259bad2"
+    },
+    "airflow/natural-skip-proof-v2.json": {
+      "bytes": 5414,
+      "sha256": "887a72992562fd48fd6d9771e3f83bc2caca61735c2f556e59d968d1aed796a1"
+    },
+    "airflow/probe-trigger-attempt.json": {
+      "bytes": 352,
+      "sha256": "70703c89383308ad26bcec3f1d87832decdd5ba1bc54aaf8b1820f9175536358"
+    },
+    "airflow/probe-trigger-response.json": {
+      "bytes": 1070,
+      "sha256": "006d3a457d08084d4b82c4c662968935285e14ac9286de9715e2be52adbb0adb"
+    },
+    "airflow/probe-v2-trigger-attempt.json": {
+      "bytes": 355,
+      "sha256": "1717a6c8a257d4ca6ee322e4ec1d352eedd789f6ff77f158481e74b30a33ded0"
+    },
+    "airflow/probe-v2-trigger-response.json": {
+      "bytes": 1073,
+      "sha256": "3a07673b723e23c460d9bfb70c1bc97048eb3b2fb1a3359ad2819d76a7e67ea2"
+    },
+    "airflow/cooldown-trigger-attempt.json": {
+      "bytes": 1532,
+      "sha256": "cc44bb9ffb664f0d2b901f117f8a59f8a8b4fea0b0185a6e2f6e0a59647821c3"
+    },
+    "airflow/cooldown-trigger-response.json": {
+      "bytes": 1073,
+      "sha256": "a1b20032bb5f98120b96b8227f93877e64da2868bd2d1339bd14399f33d15b50"
+    },
+    "admission/intent.json": {
+      "bytes": 634,
+      "sha256": "10df34a04b90dcff9a2b40c6ebba96aaa2f34955300e7d15f480fc17459cab66"
+    },
+    "admission/result.json": {
+      "bytes": 1251,
+      "sha256": "812a3f6f67fcaaed823145b266bade3fa6f5c94a3b438e6a3908a75a684de2fb"
+    },
+    "admission/backend-run.json": {
+      "bytes": 67800,
+      "sha256": "be689567ac2c55b8a25b484c5b83c409e8e17f22d5fc49e42b01a53a01f24c61"
+    },
+    "admission/runner-command.json": {
+      "bytes": 751,
+      "sha256": "6cce2b7f77bea8ee9ae7f174894e4f3f5aeff80ad1718138e0997ed920022966"
+    },
+    "admission/controller.txt": {
+      "bytes": 629,
+      "sha256": "182f2f2407871787bb7246c1a15a7fc9c83ef53226a714d8adabb70457332d28"
+    },
+    "reconciled/intent.json": {
+      "bytes": 634,
+      "sha256": "68b0feef19900b20d48e0fc45f1e1ba7b8a6256232d554b9eca76842a2f1ff57"
+    },
+    "reconciled/runner-command.json": {
+      "bytes": 751,
+      "sha256": "4a79a56869efcc2400d0192ade9f4b8e70d2eb8c1ce33de0ea8f19d2b5afa01b"
+    },
+    "reconciled/controller.txt": {
+      "bytes": 1297,
+      "sha256": "a2e1e87fce30613571bd58081132b2e9fb4ab0016e74cc07d9e69486e351b630"
+    },
+    "reconciled/reconciliation-backend.json": {
+      "bytes": 752434,
+      "sha256": "c619a99ae6bfac4ad84ecedbf7a7c270abaf10f5bfa1314aa34da9c1b995c8e7"
+    },
+    "reconciled/reconciled-no-submission.json": {
+      "bytes": 667,
+      "sha256": "dff8de6bd88d0d6937b65a76c3b9efd8fceef894a6030e4d790c34fd25f051a8"
+    },
+    "airflow/permission-failure-run.json": {
+      "bytes": 886,
+      "sha256": "bc98010cfe3cb4db978d39a428c458b068b738b079b3803e8f2ea43910db409b"
+    },
+    "airflow/permission-failure-tasks.json": {
+      "bytes": 2346,
+      "sha256": "741a45a577e34bfbd06d770733cb17f7dbccbbcb44d27eded54436550fc6b65a"
+    },
+    "airflow/natural-run.json": {
+      "bytes": 887,
+      "sha256": "68ff325d2ee9a148e8918e073671831ef3abf771fea7b96b04533d822fa5aa0a"
+    },
+    "airflow/natural-tasks.json": {
+      "bytes": 2347,
+      "sha256": "bfaf9ebff19096db46c30994455c6820056b228d877c093056c088940f955ee9"
+    },
+    "runs/natural/adapter-container.json": {
+      "bytes": 955,
+      "sha256": "4c864f8d315324b82219aa26a1efc10524c5076a36f6cf2ae7494ab93b2bb921"
+    },
+    "runs/natural/adapter-container.txt": {
+      "bytes": 600,
+      "sha256": "bde45f2067a7f3cfb95b8770d2631fb923676b9185a1f3a3324ab67ff0470f43"
+    },
+    "runs/natural/adapter-decision.json": {
+      "bytes": 624,
+      "sha256": "fcdaae2894f719df11b45c95716a6daf2bf4d8dcc8859f7ed0937171188e6b02"
+    },
+    "runs/natural/window.json": {
+      "bytes": 566859,
+      "sha256": "3c0eb6ab03f79a459bb3ab260daa3710593d257f2aa4daaaffc7a32847aad837"
+    },
+    "runs/natural/report.json": {
+      "bytes": 5804,
+      "sha256": "596ad0be11333eca51fbc870e1d2eba80fd685124d32687bb2302041992a47f5"
+    },
+    "runs/natural/retrieval.json": {
+      "bytes": 1820,
+      "sha256": "95944f952be409ed67fb901e48bc2c808848aa94c3ea0f5923c7a6b930e970ce"
+    },
+    "runs/natural/completion.json": {
+      "bytes": 364,
+      "sha256": "d4d0b27c5f7ba0767d28f5168057f9979a49532a6576fd8e331ef9734b7b4b69"
+    },
+    "runs/natural/metrics.prom": {
+      "bytes": 2651,
+      "sha256": "6e7635547a9d4b35f1edb7f7a0266591032797482de38bde09c507fdc861fd33"
+    },
+    "airflow/failed-probe-run.json": {
+      "bytes": 976,
+      "sha256": "d35d06c21909efe55d4727d47197190a5b63d05a53bd82e645c56c3c6d816884"
+    },
+    "airflow/failed-probe-tasks.json": {
+      "bytes": 2350,
+      "sha256": "3f40146b55dda2e0b31df7c07f92b8157f1a37fc294a8f11a4cbd4e4ea159b14"
+    },
+    "runs/failed-probe/adapter-container.json": {
+      "bytes": 942,
+      "sha256": "e91d85e5cd652160808c1aa2a5d0e1e198c2c76008e01654fc35809902240527"
+    },
+    "runs/failed-probe/adapter-container.txt": {
+      "bytes": 1606,
+      "sha256": "ecd29dba3c91a62bb3c07f1d134c2db70f4181d41842de5b9f9671ba77205f15"
+    },
+    "airflow/trained-run.json": {
+      "bytes": 982,
+      "sha256": "352fc25d777a4d396c5b586a06a027b806a2e5214f137c0253b860d380bae7ac"
+    },
+    "airflow/trained-tasks.json": {
+      "bytes": 2360,
+      "sha256": "a31d0607d6dd1b277de19c6cb89a3937e86d7fedd1a3b7eb1cde7f7a99c56de0"
+    },
+    "runs/trained/adapter-container.json": {
+      "bytes": 945,
+      "sha256": "cf8b11ed38c238dea9b44f82982001584c19d93dec5bf5f1297b44f216059eea"
+    },
+    "runs/trained/adapter-container.txt": {
+      "bytes": 1386,
+      "sha256": "162c8f7837141b2394b41487d9a064f41f72f044ec13bebbf3f7ea5bf45c0da9"
+    },
+    "runs/trained/adapter-decision.json": {
+      "bytes": 1251,
+      "sha256": "812a3f6f67fcaaed823145b266bade3fa6f5c94a3b438e6a3908a75a684de2fb"
+    },
+    "runs/trained/window.json": {
+      "bytes": 565989,
+      "sha256": "f773291c0cabc7ed51286e9bc07a310b515d52424da4576fb5abe89d5563bc65"
+    },
+    "runs/trained/report.json": {
+      "bytes": 5812,
+      "sha256": "8c4decdeb4132061bde0fa933a5c07619a02d65810b6bfaf5a689b701f2b3771"
+    },
+    "runs/trained/retrieval.json": {
+      "bytes": 1827,
+      "sha256": "a5711373a39071f08d12bde57762d4fff734b1a69887c289c1af058e9e6e07d7"
+    },
+    "runs/trained/completion.json": {
+      "bytes": 364,
+      "sha256": "581f1c65d68568a352cac1c9fa7d70efc6121a490694fb9c279ae0b7d4d5a900"
+    },
+    "runs/trained/metrics.prom": {
+      "bytes": 2660,
+      "sha256": "33dd655f8b044226e16d7b5b673276cc33e9b1b611f174da9a4196ead119b59e"
+    },
+    "airflow/cooldown-run.json": {
+      "bytes": 980,
+      "sha256": "7a29f7401bb8b54692cbbf53b50860c6052f064f89bc82557ba9bc2aaab23496"
+    },
+    "airflow/cooldown-tasks.json": {
+      "bytes": 2357,
+      "sha256": "4f1ad3c8dd5c490745b876a6b446e2895580cdd9f4ebe751b36b2d6699617255"
+    },
+    "runs/cooldown/adapter-container.json": {
+      "bytes": 945,
+      "sha256": "a6cecb602a49479fb8a299ac4139bf2a548194525731db68a2510267da917b96"
+    },
+    "runs/cooldown/adapter-container.txt": {
+      "bytes": 590,
+      "sha256": "03f55b3e2bde7729a29755fb85c756304414207dbc7f16e080ba92cd5229cc2b"
+    },
+    "runs/cooldown/adapter-decision.json": {
+      "bytes": 614,
+      "sha256": "e9209fbae6a0b31e1ba9d3213663d110853a55859e31d1160c56c78ed1efec94"
+    },
+    "runs/cooldown/window.json": {
+      "bytes": 566387,
+      "sha256": "eeeb48d9e8b0b17ef5f5f747dfb1505bf2b8b06566fb210c7f80f0159f7fa8ab"
+    },
+    "runs/cooldown/report.json": {
+      "bytes": 5818,
+      "sha256": "dc174a41d914378e3d18c8c14ed928006a5139aef837c35f6dfd9b6a99f540d3"
+    },
+    "runs/cooldown/retrieval.json": {
+      "bytes": 1827,
+      "sha256": "14d5718a7a48cb009a3098175c82e37b14ca014f150939e941f4297a855d3f91"
+    },
+    "runs/cooldown/completion.json": {
+      "bytes": 364,
+      "sha256": "1bebef03c357671e546032d33195bc8ff40263a2f1b2c6b4f582cdd6807a57f0"
+    },
+    "runs/cooldown/metrics.prom": {
+      "bytes": 2660,
+      "sha256": "90b27bace829782423d6434aaf3d7a0cf819b227c1ad82a865b1060bffc53a9a"
+    },
+    "training/native/preflight.json": {
+      "bytes": 5081,
+      "sha256": "bc2b50fba813c7265476727d1e4ea6bfb478ea2b4910e2ea3f24f22066d35932"
+    },
+    "training/native/submission.json": {
+      "bytes": 55,
+      "sha256": "3a46349459110b808507da4f7ab00ae36e323dbf2b5a5b0678a1073b9290dd29"
+    },
+    "training/native/verification.json": {
+      "bytes": 852,
+      "sha256": "8ed94aed22b0c646d3ffca254ce5c16ce376ebf8290ea439d1d4de6938980826"
+    },
+    "training/native/distributed-verification.json": {
+      "bytes": 3742,
+      "sha256": "3148282c752040f20007816caf948e4142e79bdfb0c07395cef18ed093ffc5ce"
+    },
+    "training/native/ci-deployment.json": {
+      "bytes": 1347,
+      "sha256": "e53941c9fa64778cb156f7de470e5c618984bcf830958dc20a6cddbcafefcda0"
+    },
+    "training/native/pipeline.yaml": {
+      "bytes": 16667,
+      "sha256": "825b181087cc806266fb12fd78be754746ade2b78e50300a9b964a8d6bb55d15"
+    },
+    "training/native/pipeline-pods.json": {
+      "bytes": 475989,
+      "sha256": "b0202d604d9f68ba7195c0a407346bbed62d613e5c4ab8a57fa39a1eec65860a"
+    },
+    "training/native/two-executors-running.json": {
+      "bytes": 26283,
+      "sha256": "29e7d9c74206cca686df72bde454ac3516511d6f3dc9eec8599b00026aa8b780"
+    },
+    "training/native/run.json": {
+      "bytes": 67800,
+      "sha256": "be689567ac2c55b8a25b484c5b83c409e8e17f22d5fc49e42b01a53a01f24c61"
+    },
+    "training/lineage/automatic-data.json": {
+      "bytes": 805,
+      "sha256": "ef7524d21546970d1d7002ced0c6071bf47bb2d477cc1c98eb903b74a5588054"
+    },
+    "training/lineage/registration.json": {
+      "bytes": 1349,
+      "sha256": "46381bfd1cd9edeeec8150de83bb4d38afff6f5af3bfdd49c7f5cc1a64bb2a81"
+    },
+    "training/lineage/canonical.json": {
+      "bytes": 36302,
+      "sha256": "a47d1afda32ec963e05507626ba7a5c4043d619fe6000ac00be2196a38e23bf7"
+    },
+    "training/lineage/cohort.json": {
+      "bytes": 20502,
+      "sha256": "4d73ee9ea738a521ce0751b6f003f2ffffa173b4584f34220e3da70ee935b8a4"
+    },
+    "training/lineage/evaluation.json": {
+      "bytes": 3508,
+      "sha256": "d5ae912c765178b81f5bb2286a146e3521c082f3340bd0b6f68c7988ab025449"
+    },
+    "training/lineage/local-version.json": {
+      "bytes": 22712,
+      "sha256": "ada773365ced6f917cb76b1d9e3bf319b9036355c0a91eca1eee41246db6eea2"
+    },
+    "training/lineage/remote-version.json": {
+      "bytes": 43397,
+      "sha256": "ee8f9063f9e6b3788f11e7953a2784a663cf2ab994fae527a0616ec6aac34942"
+    },
+    "training/lineage/validation-reload.json": {
+      "bytes": 1087,
+      "sha256": "f8a4f86b40f60066b981750013bf4e96a854a576736ad48f9573ab967d259dcb"
+    },
+    "registry/model-version.json": {
+      "bytes": 704,
+      "sha256": "8c0e476a5b05debf6b0e8000afd5a52f417bc3731174fb9ab4b832ee83083db4"
+    },
+    "registry/model-run.json": {
+      "bytes": 7624,
+      "sha256": "79ea0a5443888755ab4f826bc06f15c49a03b4a67f0a7f5f65adba8de6e6ee1e"
+    },
+    "registry/data-run.json": {
+      "bytes": 2257,
+      "sha256": "41e5fe964a9ed571cd1d5fc20a6792d939fd4df2d5d02cba07b7f32b1fe29acb"
+    },
+    "registry/model-artifacts.json": {
+      "bytes": 288,
+      "sha256": "af83c31cbffb3754a33c49bdf1cbe06542256810c73174f6c52b324fa399ba47"
+    },
+    "training/spark-selected.jsonl": {
+      "bytes": 1700370,
+      "sha256": "9f14d922dfd9de6c421ef8e5f1c16114a5b10d58f74193314fffcab49682447d"
+    },
+    "training/event-summary.json": {
+      "bytes": 3105,
+      "sha256": "85ff7536b0a7c4509fd458421915b913a89dc949b0a16be5775840e4c850c457"
+    },
+    "source/training-readback.json": {
+      "bytes": 4644,
+      "sha256": "0a6e48ff73137a6aa6b52cf773842daa1ec12bdd2bfd65380e56e51f8944c2f3"
+    },
+    "serving/feature-deployment.json": {
+      "bytes": 10609,
+      "sha256": "ba72a1fd2148176f8e021e0da1288b5be5b1284a7cf09624a0022813baab7da9"
+    },
+    "serving/model6-isvc.json": {
+      "bytes": 5597,
+      "sha256": "47e3eb020d140328655dcdc221799bb51367b210a158757236f876f3813a7309"
+    },
+    "resources-after.json": {
+      "bytes": 190,
+      "sha256": "142593d23ff1d1e8aaad80cbd5925dd7794aa50ed020c648ea1f2ea78fa566dd"
+    }
+  },
+  "origins": {
+    "source/current.json": {
+      "native_path": "data/drift-retrain-source-b41d654/manifest.json",
+      "transformation": "none; original bytes"
+    },
+    "source/initial.json": {
+      "native_path": "data/drift-retrain-source-eba2187/manifest.json",
+      "transformation": "none; original bytes"
+    },
+    "source/monitoring.json": {
+      "native_path": "data/offline-drift-source-0bca67c/manifest.json",
+      "transformation": "none; original bytes"
+    },
+    "source/training.json": {
+      "native_path": "data/ci/source/ce510c6bcccd58235fbc78d22cd90570934c50a6/manifest.json",
+      "transformation": "none; original bytes"
+    },
+    "training/source-snapshot.json": {
+      "native_path": "data/ci/releases/train-jenkins-2/source-snapshot.json",
+      "transformation": "none; original bytes"
+    },
+    "training/deployment.json": {
+      "native_path": "data/ci/releases/train-jenkins-2/deployment.json",
+      "transformation": "none; original bytes"
+    },
+    "training/build.json": {
+      "native_path": "data/ci/releases/train-jenkins-2/build.json",
+      "transformation": "none; original bytes"
+    },
+    "training/oracle.json": {
+      "native_path": "outputs/distributed-oracle/distributed-smoke-27-v2/verification.json",
+      "transformation": "none; original bytes"
+    },
+    "runtime/config.json": {
+      "native_path": "data/runtime/drift-retrain/config.json",
+      "transformation": "none; original bytes"
+    },
+    "runtime/policy.json": {
+      "native_path": "data/runtime/drift-retrain/policy.json",
+      "transformation": "none; original bytes"
+    },
+    "runtime/clock.json": {
+      "native_path": "data/runtime/drift-monitoring/clock.json",
+      "transformation": "none; original bytes"
+    },
+    "runtime/session.json": {
+      "native_path": "data/runtime/ci/session.json",
+      "transformation": "none; original bytes"
+    },
+    "runtime/reference.json": {
+      "native_path": "data/drift/reference-27/reference.json",
+      "transformation": "none; original bytes"
+    },
+    "checks/deployment-eba2187/verification.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/deployment-eba2187/verification.json",
+      "transformation": "none; original bytes"
+    },
+    "checks/deployment-eba2187/directory-repair.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/deployment-eba2187/directory-repair.json",
+      "transformation": "none; original bytes"
+    },
+    "checks/deployment-eba2187/failed-scheduled-0535/airflow-task.txt": {
+      "native_path": "outputs/drift-retrain-preparation-28/deployment-eba2187/failed-scheduled-0535/airflow-task.txt",
+      "transformation": "none; original bytes"
+    },
+    "checks/deployment-eba2187/readonly-k3s-preflight.txt": {
+      "native_path": "outputs/drift-retrain-preparation-28/deployment-eba2187/readonly-k3s-preflight.txt",
+      "transformation": "none; original bytes"
+    },
+    "checks/deployment-eba2187/k3s-preflight-diagnostic.txt": {
+      "native_path": "outputs/drift-retrain-preparation-28/deployment-eba2187/k3s-preflight-diagnostic.txt",
+      "transformation": "none; original bytes"
+    },
+    "checks/upgrade-b41d654/verification.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/upgrade-b41d654/verification.json",
+      "transformation": "none; original bytes"
+    },
+    "checks/upgrade-b41d654/native-unit-tests.txt": {
+      "native_path": "outputs/drift-retrain-preparation-28/upgrade-b41d654/native-unit-tests.txt",
+      "transformation": "none; original bytes"
+    },
+    "checks/upgrade-b41d654/dag-parse.txt": {
+      "native_path": "outputs/drift-retrain-preparation-28/upgrade-b41d654/dag-parse.txt",
+      "transformation": "none; original bytes"
+    },
+    "checks/upgrade-b41d654/config-before.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/upgrade-b41d654/config-before.json",
+      "transformation": "none; original bytes"
+    },
+    "checks/inflight-probe/verification.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/inflight-probe/verification.json",
+      "transformation": "none; original bytes"
+    },
+    "checks/inflight-probe/controller.txt": {
+      "native_path": "outputs/drift-retrain-preparation-28/inflight-probe/controller.txt",
+      "transformation": "none; original bytes"
+    },
+    "checks/completed-replay/verification.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/completed-replay/verification.json",
+      "transformation": "none; original bytes"
+    },
+    "checks/completed-replay/decision.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/completed-replay/decision.json",
+      "transformation": "none; original bytes"
+    },
+    "checks/completed-replay/controller.txt": {
+      "native_path": "outputs/drift-retrain-preparation-28/completed-replay/controller.txt",
+      "transformation": "none; original bytes"
+    },
+    "checks/completed-replay/backend-before.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/completed-replay/backend-before.json",
+      "transformation": "none; original bytes"
+    },
+    "checks/completed-replay/backend-after.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/completed-replay/backend-after.json",
+      "transformation": "none; original bytes"
+    },
+    "checks/cooldown-proof/verification.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/cooldown-proof/verification.json",
+      "transformation": "none; original bytes"
+    },
+    "checks/cooldown-proof/decision.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/cooldown-proof/decision.json",
+      "transformation": "none; original bytes"
+    },
+    "checks/cooldown-proof/backend-readback.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/cooldown-proof/backend-readback.json",
+      "transformation": "none; original bytes"
+    },
+    "airflow/natural-skip-proof.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/natural-skip-proof.json",
+      "transformation": "none; original bytes"
+    },
+    "airflow/natural-skip-proof-v2.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/natural-skip-proof-v2.json",
+      "transformation": "none; original bytes"
+    },
+    "airflow/probe-trigger-attempt.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/probe-trigger-attempt.json",
+      "transformation": "none; original bytes"
+    },
+    "airflow/probe-trigger-response.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/probe-trigger-response.json",
+      "transformation": "none; original bytes"
+    },
+    "airflow/probe-v2-trigger-attempt.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/probe-v2-trigger-attempt.json",
+      "transformation": "none; original bytes"
+    },
+    "airflow/probe-v2-trigger-response.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/probe-v2-trigger-response.json",
+      "transformation": "none; original bytes"
+    },
+    "airflow/cooldown-trigger-attempt.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/cooldown-trigger-attempt.json",
+      "transformation": "none; original bytes"
+    },
+    "airflow/cooldown-trigger-response.json": {
+      "native_path": "outputs/drift-retrain-preparation-28/cooldown-trigger-response.json",
+      "transformation": "none; original bytes"
+    },
+    "admission/intent.json": {
+      "native_path": "data/runtime/drift-retrain-state/drift-f48fc15fd07b639121198636/intent.json",
+      "transformation": "none; original bytes"
+    },
+    "admission/result.json": {
+      "native_path": "data/runtime/drift-retrain-state/drift-f48fc15fd07b639121198636/result.json",
+      "transformation": "none; original bytes"
+    },
+    "admission/backend-run.json": {
+      "native_path": "data/runtime/drift-retrain-state/drift-f48fc15fd07b639121198636/backend-run.json",
+      "transformation": "none; original bytes"
+    },
+    "admission/runner-command.json": {
+      "native_path": "data/runtime/drift-retrain-state/drift-f48fc15fd07b639121198636/runner-command.json",
+      "transformation": "none; original bytes"
+    },
+    "admission/controller.txt": {
+      "native_path": "data/runtime/drift-retrain-state/drift-f48fc15fd07b639121198636/controller.txt",
+      "transformation": "none; original bytes"
+    },
+    "reconciled/intent.json": {
+      "native_path": "data/runtime/drift-retrain-state/drift-0885cbcd4a413710ace53c39/intent.json",
+      "transformation": "none; original bytes"
+    },
+    "reconciled/runner-command.json": {
+      "native_path": "data/runtime/drift-retrain-state/drift-0885cbcd4a413710ace53c39/runner-command.json",
+      "transformation": "none; original bytes"
+    },
+    "reconciled/controller.txt": {
+      "native_path": "data/runtime/drift-retrain-state/drift-0885cbcd4a413710ace53c39/controller.txt",
+      "transformation": "none; original bytes"
+    },
+    "reconciled/reconciliation-backend.json": {
+      "native_path": "data/runtime/drift-retrain-state/drift-0885cbcd4a413710ace53c39/reconciliation-backend.json",
+      "transformation": "none; original bytes"
+    },
+    "reconciled/reconciled-no-submission.json": {
+      "native_path": "data/runtime/drift-retrain-state/drift-0885cbcd4a413710ace53c39/reconciled-no-submission.json",
+      "transformation": "none; original bytes"
+    },
+    "airflow/permission-failure-run.json": {
+      "http_get": "http://127.0.0.1:18480/api/v2/dags/iot_offline_drift/dagRuns/scheduled__2026-10-28T05%3A35%3A00%2B00%3A00",
+      "transformation": "none; HTTP response bytes, auth header omitted"
+    },
+    "airflow/permission-failure-tasks.json": {
+      "http_get": "http://127.0.0.1:18480/api/v2/dags/iot_offline_drift/dagRuns/scheduled__2026-10-28T05%3A35%3A00%2B00%3A00/taskInstances",
+      "transformation": "none; HTTP response bytes, auth header omitted"
+    },
+    "airflow/natural-run.json": {
+      "http_get": "http://127.0.0.1:18480/api/v2/dags/iot_offline_drift/dagRuns/scheduled__2026-10-28T05%3A40%3A00%2B00%3A00",
+      "transformation": "none; HTTP response bytes, auth header omitted"
+    },
+    "airflow/natural-tasks.json": {
+      "http_get": "http://127.0.0.1:18480/api/v2/dags/iot_offline_drift/dagRuns/scheduled__2026-10-28T05%3A40%3A00%2B00%3A00/taskInstances",
+      "transformation": "none; HTTP response bytes, auth header omitted"
+    },
+    "runs/natural/adapter-container.json": {
+      "native_path": "outputs/drift-retrain/86cf64be1c6f5e271be55b7f-try1/container.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/natural/adapter-container.txt": {
+      "native_path": "outputs/drift-retrain/86cf64be1c6f5e271be55b7f-try1/container.txt",
+      "transformation": "none; original bytes"
+    },
+    "runs/natural/adapter-decision.json": {
+      "native_path": "outputs/drift-retrain/86cf64be1c6f5e271be55b7f-try1/decision.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/natural/window.json": {
+      "native_path": "outputs/offline-drift/86cf64be1c6f5e271be55b7f-try1/result/window.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/natural/report.json": {
+      "native_path": "outputs/offline-drift/86cf64be1c6f5e271be55b7f-try1/result/report.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/natural/retrieval.json": {
+      "native_path": "outputs/offline-drift/86cf64be1c6f5e271be55b7f-try1/result/retrieval.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/natural/completion.json": {
+      "native_path": "outputs/offline-drift/86cf64be1c6f5e271be55b7f-try1/result/completion.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/natural/metrics.prom": {
+      "native_path": "outputs/offline-drift/86cf64be1c6f5e271be55b7f-try1/result/metrics.prom",
+      "transformation": "none; original bytes"
+    },
+    "airflow/failed-probe-run.json": {
+      "http_get": "http://127.0.0.1:18480/api/v2/dags/iot_offline_drift/dagRuns/manual-retrain-probe-28",
+      "transformation": "none; HTTP response bytes, auth header omitted"
+    },
+    "airflow/failed-probe-tasks.json": {
+      "http_get": "http://127.0.0.1:18480/api/v2/dags/iot_offline_drift/dagRuns/manual-retrain-probe-28/taskInstances",
+      "transformation": "none; HTTP response bytes, auth header omitted"
+    },
+    "runs/failed-probe/adapter-container.json": {
+      "native_path": "outputs/drift-retrain/bab3abcd3e98d0e949b5a8bc-try1/container.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/failed-probe/adapter-container.txt": {
+      "native_path": "outputs/drift-retrain/bab3abcd3e98d0e949b5a8bc-try1/container.txt",
+      "transformation": "none; original bytes"
+    },
+    "airflow/trained-run.json": {
+      "http_get": "http://127.0.0.1:18480/api/v2/dags/iot_offline_drift/dagRuns/manual-retrain-probe-28-v2",
+      "transformation": "none; HTTP response bytes, auth header omitted"
+    },
+    "airflow/trained-tasks.json": {
+      "http_get": "http://127.0.0.1:18480/api/v2/dags/iot_offline_drift/dagRuns/manual-retrain-probe-28-v2/taskInstances",
+      "transformation": "none; HTTP response bytes, auth header omitted"
+    },
+    "runs/trained/adapter-container.json": {
+      "native_path": "outputs/drift-retrain/c4ffd5a57a0acb7dec9a3570-try1/container.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/trained/adapter-container.txt": {
+      "native_path": "outputs/drift-retrain/c4ffd5a57a0acb7dec9a3570-try1/container.txt",
+      "transformation": "none; original bytes"
+    },
+    "runs/trained/adapter-decision.json": {
+      "native_path": "outputs/drift-retrain/c4ffd5a57a0acb7dec9a3570-try1/decision.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/trained/window.json": {
+      "native_path": "outputs/offline-drift/c4ffd5a57a0acb7dec9a3570-try1/result/window.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/trained/report.json": {
+      "native_path": "outputs/offline-drift/c4ffd5a57a0acb7dec9a3570-try1/result/report.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/trained/retrieval.json": {
+      "native_path": "outputs/offline-drift/c4ffd5a57a0acb7dec9a3570-try1/result/retrieval.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/trained/completion.json": {
+      "native_path": "outputs/offline-drift/c4ffd5a57a0acb7dec9a3570-try1/result/completion.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/trained/metrics.prom": {
+      "native_path": "outputs/offline-drift/c4ffd5a57a0acb7dec9a3570-try1/result/metrics.prom",
+      "transformation": "none; original bytes"
+    },
+    "airflow/cooldown-run.json": {
+      "http_get": "http://127.0.0.1:18480/api/v2/dags/iot_offline_drift/dagRuns/manual-retrain-cooldown-28",
+      "transformation": "none; HTTP response bytes, auth header omitted"
+    },
+    "airflow/cooldown-tasks.json": {
+      "http_get": "http://127.0.0.1:18480/api/v2/dags/iot_offline_drift/dagRuns/manual-retrain-cooldown-28/taskInstances",
+      "transformation": "none; HTTP response bytes, auth header omitted"
+    },
+    "runs/cooldown/adapter-container.json": {
+      "native_path": "outputs/drift-retrain/333dc60464eb8981d781e549-try1/container.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/cooldown/adapter-container.txt": {
+      "native_path": "outputs/drift-retrain/333dc60464eb8981d781e549-try1/container.txt",
+      "transformation": "none; original bytes"
+    },
+    "runs/cooldown/adapter-decision.json": {
+      "native_path": "outputs/drift-retrain/333dc60464eb8981d781e549-try1/decision.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/cooldown/window.json": {
+      "native_path": "outputs/offline-drift/333dc60464eb8981d781e549-try1/result/window.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/cooldown/report.json": {
+      "native_path": "outputs/offline-drift/333dc60464eb8981d781e549-try1/result/report.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/cooldown/retrieval.json": {
+      "native_path": "outputs/offline-drift/333dc60464eb8981d781e549-try1/result/retrieval.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/cooldown/completion.json": {
+      "native_path": "outputs/offline-drift/333dc60464eb8981d781e549-try1/result/completion.json",
+      "transformation": "none; original bytes"
+    },
+    "runs/cooldown/metrics.prom": {
+      "native_path": "outputs/offline-drift/333dc60464eb8981d781e549-try1/result/metrics.prom",
+      "transformation": "none; original bytes"
+    },
+    "training/native/preflight.json": {
+      "native_path": "outputs/versioned-training/drift-f48fc15fd07b639121198636/preflight.json",
+      "transformation": "none; original bytes"
+    },
+    "training/native/submission.json": {
+      "native_path": "outputs/versioned-training/drift-f48fc15fd07b639121198636/submission.json",
+      "transformation": "none; original bytes"
+    },
+    "training/native/verification.json": {
+      "native_path": "outputs/versioned-training/drift-f48fc15fd07b639121198636/verification.json",
+      "transformation": "none; original bytes"
+    },
+    "training/native/distributed-verification.json": {
+      "native_path": "outputs/versioned-training/drift-f48fc15fd07b639121198636/distributed-verification.json",
+      "transformation": "none; original bytes"
+    },
+    "training/native/ci-deployment.json": {
+      "native_path": "outputs/versioned-training/drift-f48fc15fd07b639121198636/ci-deployment.json",
+      "transformation": "none; original bytes"
+    },
+    "training/native/pipeline.yaml": {
+      "native_path": "outputs/versioned-training/drift-f48fc15fd07b639121198636/pipeline.yaml",
+      "transformation": "none; original bytes"
+    },
+    "training/native/pipeline-pods.json": {
+      "native_path": "outputs/versioned-training/drift-f48fc15fd07b639121198636/pipeline-pods.json",
+      "transformation": "none; original bytes"
+    },
+    "training/native/two-executors-running.json": {
+      "native_path": "outputs/versioned-training/drift-f48fc15fd07b639121198636/two-executors-running.json",
+      "transformation": "none; original bytes"
+    },
+    "training/native/run.json": {
+      "native_path": "outputs/versioned-training/drift-f48fc15fd07b639121198636/run.json",
+      "transformation": "none; original bytes"
+    },
+    "training/lineage/automatic-data.json": {
+      "native_path": "data/ml-workspaces/training-cluster-27/drift-f48fc15fd07b639121198636/lineage/automatic-data.json",
+      "transformation": "none; original bytes"
+    },
+    "training/lineage/registration.json": {
+      "native_path": "data/ml-workspaces/training-cluster-27/drift-f48fc15fd07b639121198636/lineage/registration.json",
+      "transformation": "none; original bytes"
+    },
+    "training/lineage/canonical.json": {
+      "native_path": "data/ml-workspaces/training-cluster-27/drift-f48fc15fd07b639121198636/lineage/canonical.json",
+      "transformation": "none; original bytes"
+    },
+    "training/lineage/cohort.json": {
+      "native_path": "data/ml-workspaces/training-cluster-27/drift-f48fc15fd07b639121198636/lineage/cohort.json",
+      "transformation": "none; original bytes"
+    },
+    "training/lineage/evaluation.json": {
+      "native_path": "data/ml-workspaces/training-cluster-27/drift-f48fc15fd07b639121198636/lineage/evaluation.json",
+      "transformation": "none; original bytes"
+    },
+    "training/lineage/local-version.json": {
+      "native_path": "data/ml-workspaces/training-cluster-27/drift-f48fc15fd07b639121198636/lineage/local-version.json",
+      "transformation": "none; original bytes"
+    },
+    "training/lineage/remote-version.json": {
+      "native_path": "data/ml-workspaces/training-cluster-27/drift-f48fc15fd07b639121198636/lineage/remote-version.json",
+      "transformation": "none; original bytes"
+    },
+    "training/lineage/validation-reload.json": {
+      "native_path": "data/ml-workspaces/training-cluster-27/drift-f48fc15fd07b639121198636/lineage/validation-reload.json",
+      "transformation": "none; original bytes"
+    },
+    "registry/model-version.json": {
+      "http_get": "http://172.22.0.2:5000/api/2.0/mlflow/model-versions/get?name=iot-pump-failure-v1&version=7",
+      "transformation": "none; HTTP response bytes"
+    },
+    "registry/model-run.json": {
+      "http_get": "http://172.22.0.2:5000/api/2.0/mlflow/runs/get?run_id=ae599077b711443b856c1c9c588ad5fa",
+      "transformation": "none; HTTP response bytes"
+    },
+    "registry/data-run.json": {
+      "http_get": "http://172.22.0.2:5000/api/2.0/mlflow/runs/get?run_id=49ea21884b9048efb051db5150cff842",
+      "transformation": "none; HTTP response bytes"
+    },
+    "registry/model-artifacts.json": {
+      "http_get": "http://172.22.0.2:5000/api/2.0/mlflow/artifacts/list?run_id=ae599077b711443b856c1c9c588ad5fa",
+      "transformation": "none; HTTP response bytes"
+    },
+    "training/spark-selected.jsonl": {
+      "transformation": "Original complete raw lines for all selected event types; omit EnvironmentUpdate/SQL/internal events. No TaskEnd/JobStart/Stage event of a selected type removed.",
+      "selected_types": [
+        "SparkListenerApplicationEnd",
+        "SparkListenerApplicationStart",
+        "SparkListenerExecutorAdded",
+        "SparkListenerJobStart",
+        "SparkListenerStageCompleted",
+        "SparkListenerStageSubmitted",
+        "SparkListenerTaskEnd"
+      ],
+      "raw_event_logs": {
+        "spark-37d6348e9f5a400ca5b89094924394cf": {
+          "bytes": 2812240,
+          "sha256": "3d4846c5bd650b03b1ce7e0ede33ef01f9060a6769ae9f10875813b08827ddcb"
+        }
+      },
+      "all_event_counts": {
+        "SparkListenerLogStart": 1,
+        "SparkListenerResourceProfileAdded": 1,
+        "SparkListenerBlockManagerAdded": 3,
+        "SparkListenerEnvironmentUpdate": 1,
+        "SparkListenerApplicationStart": 1,
+        "SparkListenerExecutorAdded": 2,
+        "SparkListenerJobStart": 48,
+        "SparkListenerStageSubmitted": 50,
+        "SparkListenerTaskStart": 79,
+        "SparkListenerTaskEnd": 79,
+        "SparkListenerStageCompleted": 50,
+        "SparkListenerJobEnd": 48,
+        "org.apache.spark.sql.execution.ui.SparkListenerSQLExecutionStart": 12,
+        "org.apache.spark.sql.execution.ui.SparkListenerSQLAdaptiveExecutionUpdate": 34,
+        "org.apache.spark.sql.execution.ui.SparkListenerDriverAccumUpdates": 16,
+        "org.apache.spark.sql.execution.ui.SparkListenerSQLExecutionEnd": 12,
+        "SparkListenerUnpersistRDD": 6,
+        "SparkListenerApplicationEnd": 1
+      }
+    },
+    "training/event-summary.json": {
+      "transformation": "Independent full raw Spark event-log read; all TaskEnd records also published unchanged"
+    },
+    "source/training-readback.json": {
+      "transformation": "Actual unchanged mounted VM source hash readback after this run"
+    },
+    "serving/feature-deployment.json": {
+      "command": "kubectl get deployment iot-feature-api",
+      "transformation": "none; original kubectl JSON bytes"
+    },
+    "serving/model6-isvc.json": {
+      "command": "kubectl get inferenceservice iot-pump-serve-jenkins-8",
+      "transformation": "none; original kubectl JSON bytes"
+    },
+    "resources-after.json": {
+      "transformation": "Actual post-run reserves, not peak"
+    }
+  },
+  "scope": "Completed real Airflow manual probe/KFP and truthful no-drift/cooldown branches, original failures, sealed operator reconciliation, original selected Spark lines. No credentials, helpers, database or dataset payload."
+}

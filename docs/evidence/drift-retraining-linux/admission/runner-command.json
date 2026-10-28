@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/opt/kfp-venv/bin/python",
+    "/srv/iot-data/workspace/iot-maintenance-platform/scripts/run-versioned-training.py",
+    "--run",
+    "drift-f48fc15fd07b639121198636",
+    "--deadline-utc",
+    "2026-10-28T08:05:05.721000+00:00",
+    "--source-binding",
+    "/srv/iot-data/workspace/iot-maintenance-platform/data/ci/releases/train-jenkins-2/source-snapshot.json",
+    "--deployment-manifest",
+    "/srv/iot-data/workspace/iot-maintenance-platform/data/ci/releases/train-jenkins-2/deployment.json",
+    "--oracle",
+    "outputs/distributed-oracle/distributed-smoke-27-v2/verification.json"
+  ],
+  "scope": "Unchanged five-task KFP recipe; fixed labelled medium cohort, not unlabelled drift observations or automatic promotion."
+}

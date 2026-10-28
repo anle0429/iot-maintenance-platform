@@ -1,0 +1,18 @@
+{
+  "checked_utc": "2026-10-28T05:36:27.861878+00:00",
+  "directories": [
+    {
+      "path": "outputs/drift-retrain",
+      "uid": 50000,
+      "gid": 0,
+      "mode": "0o755"
+    },
+    {
+      "path": "data/runtime/drift-retrain-state",
+      "uid": 50000,
+      "gid": 0,
+      "mode": "0o755"
+    }
+  ],
+  "scope": "Provision only new task output/state roots for existing Airflow UID50000; no broad chmod/chown, run replay, source rewrite or training submission."
+}

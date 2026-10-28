@@ -1,0 +1,291 @@
+{
+  "run": {
+    "info": {
+      "run_uuid": "ae599077b711443b856c1c9c588ad5fa",
+      "experiment_id": "1",
+      "run_name": "drift-f48fc15fd07b639121198636",
+      "user_id": "spark",
+      "status": "FINISHED",
+      "start_time": 1793167557409,
+      "end_time": 1793167561464,
+      "artifact_uri": "mlflow-artifacts:/1/ae599077b711443b856c1c9c588ad5fa/artifacts",
+      "lifecycle_stage": "active",
+      "run_id": "ae599077b711443b856c1c9c588ad5fa"
+    },
+    "data": {
+      "metrics": [
+        {
+          "key": "validation.tp",
+          "value": 12748.0,
+          "timestamp": 1793167557668,
+          "step": 0
+        },
+        {
+          "key": "validation.fp",
+          "value": 15222.0,
+          "timestamp": 1793167557668,
+          "step": 0
+        },
+        {
+          "key": "validation.fn",
+          "value": 7080.0,
+          "timestamp": 1793167557668,
+          "step": 0
+        },
+        {
+          "key": "validation.tn",
+          "value": 433082.0,
+          "timestamp": 1793167557668,
+          "step": 0
+        },
+        {
+          "key": "validation.threshold",
+          "value": 0.7,
+          "timestamp": 1793167557668,
+          "step": 0
+        },
+        {
+          "key": "validation.precision",
+          "value": 0.4557740436181623,
+          "timestamp": 1793167557668,
+          "step": 0
+        },
+        {
+          "key": "validation.recall",
+          "value": 0.6429291910429695,
+          "timestamp": 1793167557668,
+          "step": 0
+        },
+        {
+          "key": "validation.f1",
+          "value": 0.533411439809197,
+          "timestamp": 1793167557668,
+          "step": 0
+        },
+        {
+          "key": "validation.area_under_pr",
+          "value": 0.5957776550421778,
+          "timestamp": 1793167557668,
+          "step": 0
+        },
+        {
+          "key": "test.tp",
+          "value": 13115.0,
+          "timestamp": 1793167557810,
+          "step": 0
+        },
+        {
+          "key": "test.fp",
+          "value": 14536.0,
+          "timestamp": 1793167557810,
+          "step": 0
+        },
+        {
+          "key": "test.fn",
+          "value": 6842.0,
+          "timestamp": 1793167557810,
+          "step": 0
+        },
+        {
+          "key": "test.tn",
+          "value": 433891.0,
+          "timestamp": 1793167557810,
+          "step": 0
+        },
+        {
+          "key": "test.threshold",
+          "value": 0.7,
+          "timestamp": 1793167557810,
+          "step": 0
+        },
+        {
+          "key": "test.precision",
+          "value": 0.47430472677299196,
+          "timestamp": 1793167557810,
+          "step": 0
+        },
+        {
+          "key": "test.recall",
+          "value": 0.6571629002355064,
+          "timestamp": 1793167557810,
+          "step": 0
+        },
+        {
+          "key": "test.f1",
+          "value": 0.5509578222147539,
+          "timestamp": 1793167557810,
+          "step": 0
+        },
+        {
+          "key": "test.area_under_pr",
+          "value": 0.6151480584811881,
+          "timestamp": 1793167557810,
+          "step": 0
+        },
+        {
+          "key": "constant_training_prevalence_comparator.tp",
+          "value": 0.0,
+          "timestamp": 1793167557836,
+          "step": 0
+        },
+        {
+          "key": "constant_training_prevalence_comparator.fp",
+          "value": 0.0,
+          "timestamp": 1793167557836,
+          "step": 0
+        },
+        {
+          "key": "constant_training_prevalence_comparator.fn",
+          "value": 19957.0,
+          "timestamp": 1793167557836,
+          "step": 0
+        },
+        {
+          "key": "constant_training_prevalence_comparator.tn",
+          "value": 448427.0,
+          "timestamp": 1793167557836,
+          "step": 0
+        },
+        {
+          "key": "constant_training_prevalence_comparator.threshold",
+          "value": 0.7,
+          "timestamp": 1793167557836,
+          "step": 0
+        },
+        {
+          "key": "constant_training_prevalence_comparator.precision",
+          "value": 0.0,
+          "timestamp": 1793167557836,
+          "step": 0
+        },
+        {
+          "key": "constant_training_prevalence_comparator.recall",
+          "value": 0.0,
+          "timestamp": 1793167557836,
+          "step": 0
+        },
+        {
+          "key": "constant_training_prevalence_comparator.f1",
+          "value": 0.0,
+          "timestamp": 1793167557836,
+          "step": 0
+        },
+        {
+          "key": "constant_training_prevalence_comparator.area_under_pr",
+          "value": 0.04260820181731229,
+          "timestamp": 1793167557836,
+          "step": 0
+        }
+      ],
+      "params": [
+        {
+          "key": "algorithm",
+          "value": "Spark MLlib logistic regression"
+        },
+        {
+          "key": "max_iter",
+          "value": "40"
+        },
+        {
+          "key": "reg_param",
+          "value": "0.1"
+        },
+        {
+          "key": "fixed_threshold",
+          "value": "0.7"
+        },
+        {
+          "key": "features",
+          "value": "temperature_mean_10m,vibration_max_10m,current_mean_10m,current_std_10m,rpm_mean_10m,reading_count_10m,machine_age_days,prior_failures_24h"
+        },
+        {
+          "key": "scaler_fit_partition",
+          "value": "train"
+        },
+        {
+          "key": "threshold_selection_partition",
+          "value": "validation"
+        },
+        {
+          "key": "data_storage",
+          "value": "incremental-content-addressed"
+        },
+        {
+          "key": "class_weights",
+          "value": "{\"negative\": 0.5222645351119019, \"positive\": 11.72861980919415}"
+        },
+        {
+          "key": "scaler_with_mean",
+          "value": "True"
+        },
+        {
+          "key": "scaler_with_std",
+          "value": "True"
+        }
+      ],
+      "tags": [
+        {
+          "key": "mlflow.user",
+          "value": "spark"
+        },
+        {
+          "key": "mlflow.source.name",
+          "value": "/workspace/ml/register_incremental_model.py"
+        },
+        {
+          "key": "mlflow.source.type",
+          "value": "LOCAL"
+        },
+        {
+          "key": "mlflow.runName",
+          "value": "drift-f48fc15fd07b639121198636"
+        },
+        {
+          "key": "protocol_sha256",
+          "value": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96"
+        },
+        {
+          "key": "evaluation_sha256",
+          "value": "d5ae912c765178b81f5bb2286a146e3521c082f3340bd0b6f68c7988ab025449"
+        },
+        {
+          "key": "selection_sha256",
+          "value": "1d37889bac269c1931a49f81b8379d9f224ea2ab3ac9e7f6c866752dcd2e210d"
+        },
+        {
+          "key": "training_data_version",
+          "value": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e"
+        },
+        {
+          "key": "dataset_run_id",
+          "value": "49ea21884b9048efb051db5150cff842"
+        },
+        {
+          "key": "source_snapshot_commit",
+          "value": "ce510c6bcccd58235fbc78d22cd90570934c50a6"
+        },
+        {
+          "key": "native_report_sha256",
+          "value": "a3477fced38176e2c88c6f24021d4f24e24d960fafcc4cdc6e405b61871a77ca"
+        },
+        {
+          "key": "deployment_status",
+          "value": "evaluation_passed_not_production"
+        },
+        {
+          "key": "synthetic_data",
+          "value": "true"
+        }
+      ]
+    },
+    "inputs": {},
+    "outputs": {
+      "model_outputs": [
+        {
+          "model_id": "m-be50d51d25fa4de8b81b63df2277080f",
+          "step": 0
+        }
+      ]
+    }
+  }
+}

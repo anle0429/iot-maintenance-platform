@@ -1,0 +1,41 @@
+# HELP iot_offline_drift_psi Marginal PSI; not accuracy or a p-value.
+# TYPE iot_offline_drift_psi gauge
+iot_offline_drift_psi{feature="temperature_mean_10m"} 0.02348715302884283
+iot_offline_drift_psi{feature="vibration_max_10m"} 0.02409171771459132
+iot_offline_drift_psi{feature="current_mean_10m"} 0.012085981545710233
+iot_offline_drift_psi{feature="current_std_10m"} 0.020771041849664048
+iot_offline_drift_psi{feature="rpm_mean_10m"} 0.014492421896974814
+iot_offline_drift_psi{feature="reading_count_10m"} 0.014147468170905474
+iot_offline_drift_psi{feature="machine_age_days"} 0.028890939033523133
+iot_offline_drift_psi{feature="prior_failures_24h"} 0.03730886834140404
+# HELP iot_offline_drift_feature_alert Declared PSI policy flag.
+# TYPE iot_offline_drift_feature_alert gauge
+iot_offline_drift_feature_alert{feature="temperature_mean_10m"} 0
+iot_offline_drift_feature_alert{feature="vibration_max_10m"} 0
+iot_offline_drift_feature_alert{feature="current_mean_10m"} 0
+iot_offline_drift_feature_alert{feature="current_std_10m"} 0
+iot_offline_drift_feature_alert{feature="rpm_mean_10m"} 0
+iot_offline_drift_feature_alert{feature="reading_count_10m"} 0
+iot_offline_drift_feature_alert{feature="machine_age_days"} 0
+iot_offline_drift_feature_alert{feature="prior_failures_24h"} 0
+# HELP iot_offline_drift_detected Declared fraction-of-features policy decision.
+# TYPE iot_offline_drift_detected gauge
+iot_offline_drift_detected 0
+# HELP iot_offline_drift_feature_fraction Fraction of eight features above the fixed PSI threshold.
+# TYPE iot_offline_drift_feature_fraction gauge
+iot_offline_drift_feature_fraction 0.0
+# HELP iot_offline_drift_sample_rows Unique sampled feature snapshots, not independent requests.
+# TYPE iot_offline_drift_sample_rows gauge
+iot_offline_drift_sample_rows 1024
+# HELP iot_offline_drift_window_start_seconds Start of simulated event-time window inclusive.
+# TYPE iot_offline_drift_window_start_seconds gauge
+iot_offline_drift_window_start_seconds 1795315200.0
+# HELP iot_offline_drift_window_end_seconds End of simulated event-time window exclusive.
+# TYPE iot_offline_drift_window_end_seconds gauge
+iot_offline_drift_window_end_seconds 1795318800.0
+# HELP iot_offline_drift_last_success_seconds Actual wall-clock completion of a successful offline comparison.
+# TYPE iot_offline_drift_last_success_seconds gauge
+iot_offline_drift_last_success_seconds 1793166009.841875
+# HELP iot_offline_drift_reference_info Pinned label-free training reference identity.
+# TYPE iot_offline_drift_reference_info gauge
+iot_offline_drift_reference_info{reference_id="ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93"} 1

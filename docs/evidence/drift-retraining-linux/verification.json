@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "control_source_commit": "b41d6549cba09daad7bf377c6ed6c8fd9c549c51",
+  "training_source_commit": "ce510c6bcccd58235fbc78d22cd90570934c50a6",
+  "run_id": "7780560d-f944-4303-9e4e-792f35d742ad",
+  "run_name": "drift-f48fc15fd07b639121198636",
+  "model_version": "7",
+  "model_run_id": "ae599077b711443b856c1c9c588ad5fa",
+  "manual_probe": true,
+  "actual_drift_detected": false,
+  "production": false,
+  "training_seconds": 1128.6800625789983,
+  "native_capture_files": 113,
+  "native_payload_bytes": 7943861,
+  "raw_archive_bytes": 8192000,
+  "raw_archive_sha256": "aca38071d6a394d3f1f7d4ab6d72c709ee70fe41baab38c61246a746e2f5b489",
+  "lossless_gzip": {
+    "checks/completed-replay/backend-before.json": {
+      "published_name": "checks/completed-replay/backend-before.json.gz",
+      "original_bytes": 872171,
+      "original_sha256": "79fc592af0f450b2221ad653b22e4e8b3981a3323c3a2835cec89f60f5395702",
+      "published_bytes": 53399,
+      "published_sha256": "5056942172940cc6b9cc93638600e2a86d544b9c9ef5dde6e58248d4cd460a8e",
+      "transformation": "Lossless gzip only; original receipt/hash/pagination/run identities unchanged."
+    },
+    "checks/completed-replay/backend-after.json": {
+      "published_name": "checks/completed-replay/backend-after.json.gz",
+      "original_bytes": 872171,
+      "original_sha256": "79fc592af0f450b2221ad653b22e4e8b3981a3323c3a2835cec89f60f5395702",
+      "published_bytes": 53399,
+      "published_sha256": "5056942172940cc6b9cc93638600e2a86d544b9c9ef5dde6e58248d4cd460a8e",
+      "transformation": "Lossless gzip only; original receipt/hash/pagination/run identities unchanged."
+    },
+    "checks/cooldown-proof/backend-readback.json": {
+      "published_name": "checks/cooldown-proof/backend-readback.json.gz",
+      "original_bytes": 799997,
+      "original_sha256": "9a28bef0593eb3675921561795787707fc9a89d8e79ae5a9be62580eff3e9169",
+      "published_bytes": 48702,
+      "published_sha256": "391da34370cc5ac5a7020ffdd281c881ec1b1574b09b5e50b00d826ee009a8c8",
+      "transformation": "Lossless gzip only; original receipt/hash/pagination/run identities unchanged."
+    },
+    "reconciled/reconciliation-backend.json": {
+      "published_name": "reconciled/reconciliation-backend.json.gz",
+      "original_bytes": 752434,
+      "original_sha256": "c619a99ae6bfac4ad84ecedbf7a7c270abaf10f5bfa1314aa34da9c1b995c8e7",
+      "published_bytes": 44433,
+      "published_sha256": "62047782f58e95caf0f947ec3b8e639ed941cd4515044c39edca829fcc85de5c",
+      "transformation": "Lossless gzip only; original receipt/hash/pagination/run identities unchanged."
+    }
+  },
+  "screenshots": 2,
+  "scope": "Measured successful native manual-probe KFP workflow and independent live/replay/cooldown/registry checks. Not an observed drift alarm, quality improvement or automatic production promotion."
+}

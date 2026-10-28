@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T06:09:33.972674+00:00",
+  "backend_runs_before": {
+    "a3a7105b-99b4-421d-b6a1-c0975aac78f2": "training-cluster-27-oracle",
+    "c49e6012-d174-427e-a705-08e4442bf73b": "training-cluster-27-training",
+    "38c602cf-0b80-4a47-a775-15f9aca6b291": "training-cluster-27-v2-oracle",
+    "88ea67f7-c3cb-43e1-b478-c7005d332e34": "training-cluster-27-v2-training",
+    "a960a40f-9076-4fb4-91e4-bb55818604c7": "notebook-distributed-27",
+    "eb570e68-ca5a-4eb9-a69c-7b01b885538a": "notebook-distributed-27-v2",
+    "0f262f28-8d86-4f54-aa89-4c9f6a90d125": "notebook-distributed-27-v3",
+    "ac613a59-6157-4853-b289-608e9fbc65f6": "notebook-distributed-27-v4",
+    "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43": "notebook-distributed-27-v5",
+    "a9298a17-3866-4680-b221-c009b64e4b2a": "versioned-distributed-27",
+    "ee38ce06-622d-42a9-84e6-89aa20447e9a": "train-jenkins-2",
+    "7780560d-f944-4303-9e4e-792f35d742ad": "drift-f48fc15fd07b639121198636"
+  },
+  "backend_runs_after": {
+    "a3a7105b-99b4-421d-b6a1-c0975aac78f2": "training-cluster-27-oracle",
+    "c49e6012-d174-427e-a705-08e4442bf73b": "training-cluster-27-training",
+    "38c602cf-0b80-4a47-a775-15f9aca6b291": "training-cluster-27-v2-oracle",
+    "88ea67f7-c3cb-43e1-b478-c7005d332e34": "training-cluster-27-v2-training",
+    "a960a40f-9076-4fb4-91e4-bb55818604c7": "notebook-distributed-27",
+    "eb570e68-ca5a-4eb9-a69c-7b01b885538a": "notebook-distributed-27-v2",
+    "0f262f28-8d86-4f54-aa89-4c9f6a90d125": "notebook-distributed-27-v3",
+    "ac613a59-6157-4853-b289-608e9fbc65f6": "notebook-distributed-27-v4",
+    "bfb3e4d0-1473-42f7-a732-94ce8d7fdc43": "notebook-distributed-27-v5",
+    "a9298a17-3866-4680-b221-c009b64e4b2a": "versioned-distributed-27",
+    "ee38ce06-622d-42a9-84e6-89aa20447e9a": "train-jenkins-2",
+    "7780560d-f944-4303-9e4e-792f35d742ad": "drift-f48fc15fd07b639121198636"
+  },
+  "intents_before": {
+    "drift-0885cbcd4a413710ace53c39": "68b0feef19900b20d48e0fc45f1e1ba7b8a6256232d554b9eca76842a2f1ff57",
+    "drift-f48fc15fd07b639121198636": "10df34a04b90dcff9a2b40c6ebba96aaa2f34955300e7d15f480fc17459cab66"
+  },
+  "intents_after": {
+    "drift-0885cbcd4a413710ace53c39": "68b0feef19900b20d48e0fc45f1e1ba7b8a6256232d554b9eca76842a2f1ff57",
+    "drift-f48fc15fd07b639121198636": "10df34a04b90dcff9a2b40c6ebba96aaa2f34955300e7d15f480fc17459cab66"
+  },
+  "reason": "cooldown",
+  "scope": "Actual new native offline window/manual probe stopped by cooldown. Full KFP namespace and intent identities unchanged; no additional training."
+}

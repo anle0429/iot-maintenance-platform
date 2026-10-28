@@ -1,6 +1,6 @@
 # Airflow theo dõi drift từ Feast offline
 
-Pipeline này đọc tám feature qua SDK Feast, so với mẫu train đã cố định bằng PSI, rồi PUT metric vào Pushgateway để Prometheus/Grafana đọc. Nó không đọc nhãn và không suy ra accuracy. Reference hiện thuộc model3 và tập train đã seal; kết quả mô tả thay đổi so với reference đó, chưa phải giám sát chất lượng model6 đang chuẩn bị deploy.
+Pipeline này đọc tám feature qua SDK Feast, so với mẫu train đã cố định bằng PSI, rồi PUT metric vào Pushgateway để Prometheus/Grafana đọc. Nó không đọc nhãn và không suy ra accuracy. Reference thuộc model3 và tập train đã seal; kết quả mô tả thay đổi so với reference đó, chưa phải giám sát chất lượng model6 đã deploy qua servingCI.
 
 ## Đồng hồ và phạm vi
 
@@ -61,4 +61,6 @@ python -m feature_store.drift_monitor \
   --output /output/new-attempt --interval-end 2026-10-28T03:20:00Z
 ```
 
-Đây là lệnh bên trong image/mount đã ghi ở[adapter](../feature_store/drift_airflow.py), không chạy từ host nếu chưa cấu hình đúng. Cổng Pushgateway chỉ loopback. DAG mặc định pause khi mới tạo; chỉ unpause sau input bindings/gateway/scrape đã kiểm. Khi không cần theo dõi, pause riêng DAG này, giữ thư mục bằng chứng và dữ liệu; Pushgateway vẫn giữ metric cuối nên phải đọc tuổi kết quả. F51 gọi Kubeflow/retraining và traces vẫn là mốc tiếp theo; mốc này không tự promote hay huấn luyện.
+Đây là lệnh bên trong image/mount đã ghi ở[adapter](../feature_store/drift_airflow.py), không chạy từ host nếu chưa cấu hình đúng. Cổng Pushgateway chỉ loopback. DAG mặc định pause khi mới tạo; chỉ unpause sau input bindings/gateway/scrape đã kiểm. Khi không cần theo dõi, pause riêng DAG này, giữ thư mục bằng chứng và dữ liệu; Pushgateway vẫn giữ metric cuối nên phải đọc tuổi kết quả.
+
+Cập nhậtF51: [Airflow→KFP retrain](drift-retraining.md) đã có task thứ hai, native5task SUCCEEDED/model7candidate, no-drift skip/replay/cooldown và proof riêng. Lượt huấn luyện là manual probe giữ drift=false; không nhận là có cảnh báo tự động hoặc quality improvement. Với `max_active_runs=1`, lúc chờ training dài thì monitoring kế tiếp phải chờ; tuổi metric vẫn hiển thị thật. Hai scheduled runs/source0bca và dashboard ở mốcF50 phía trên giữ nguyên; traces còn thiếu.
