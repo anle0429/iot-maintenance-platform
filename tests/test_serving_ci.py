@@ -87,6 +87,22 @@ class ServingCITests(unittest.TestCase):
                 actual.replace('services.feature_api.app','services.drift_api.app')]:
             with self.subTest(inventory=bad[:100]),self.assertRaises(ValueError):ci.test_gate(coverage,stats,bad)
 
+    def test_partial_mutation_diagnostics_survive_without_becoming_gate_evidence(self):
+        """Export failures must retain raw diagnostic bytes, while an incomplete run has no passed receipt."""
+        spec=importlib.util.spec_from_file_location('serving_ci_test_runner',ROOT/'scripts/test-serving-ci.py')
+        module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        with TemporaryDirectory() as folder:
+            root=Path(folder);raw=b'{"exit_code_by_key":{"pending":null,"completed":1}}\n'
+            source=root/'mutants/services/feature_api/app.py.meta';source.parent.mkdir(parents=True);source.write_bytes(raw)
+            unrelated=root/'mutants/unrelated.py.meta';unrelated.write_bytes(b'not part of the API scope')
+            output=root/'results';output.mkdir()
+            with patch.object(module,'ROOT',root):module.checkpoint_mutation_metadata(output)
+            saved=output/'mutation-metadata/services/feature_api/app.py.meta'
+            self.assertEqual(saved.read_bytes(),raw);self.assertEqual(source.read_bytes(),raw)
+            manifest=json.loads((output/'mutation-metadata-manifest.json').read_text())
+            self.assertEqual(manifest['files'],{'services/feature_api/app.py':{'bytes':len(raw),'sha256':sha256(raw).hexdigest()}})
+            self.assertFalse((output/'verification.json').exists());self.assertFalse((output/'mutation-metadata/unrelated.py.meta').exists())
+
     def test_model_and_feature_routes_switch_as_a_pair(self):
         value=plan();self.assertEqual(value,plan())
         self.assertEqual(value['isvc']['metadata']['name'],'iot-pump-serve-jenkins-7')

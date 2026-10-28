@@ -4,7 +4,20 @@ from hashlib import sha256
 from pathlib import Path
 from xml.etree import ElementTree
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
-from ml.serving_ci import test_gate
+from ml.serving_ci import MUTATION_FILES,test_gate
+
+
+def checkpoint_mutation_metadata(output):
+    """Preserve raw native statuses for diagnosis even if a later CLI export fails; never use a partial cache as a gate."""
+    inventory={}
+    for name in sorted(MUTATION_FILES):
+        source=ROOT/'mutants'/(name+'.meta')
+        if source.is_file():
+            target=output/'mutation-metadata'/(name+'.meta');target.parent.mkdir(parents=True,exist_ok=True)
+            shutil.copyfile(source,target);raw=target.read_bytes()
+            inventory[name]={'bytes':len(raw),'sha256':sha256(raw).hexdigest()}
+    (output/'mutation-metadata-manifest.json').write_text(json.dumps({'files':inventory,
+        'scope':'Raw diagnostic checkpoint only; incomplete/interrupted statuses never satisfy the native gate.'},indent=2)+'\n')
 
 
 def run(output):
@@ -24,8 +37,9 @@ def run(output):
     if not suites or sum(int(s.attrib.get('tests',0)) for s in suites)<1 or any(
             int(s.attrib.get(k,0)) for s in suites for k in ['errors','failures','skipped']):
         raise ValueError('Every native serving API test must actually execute and pass')
-    call(['mutmut','run','--max-children','2'],'mutmut-console.txt',2400)
-    call(['mutmut','results','--all'],'mutmut-all-results.txt',60)
+    try:call(['mutmut','run','--max-children','2'],'mutmut-console.txt',2400)
+    finally:checkpoint_mutation_metadata(output)
+    call(['mutmut','results','--all','true'],'mutmut-all-results.txt',60)
     call(['mutmut','export-cicd-stats'],'mutmut-export.txt',60)
     stats=ROOT/'mutants/mutmut-cicd-stats.json';shutil.copyfile(stats,output/'mutmut-cicd-stats.json')
     proof=test_gate(json.loads((output/'coverage.json').read_text()),json.loads(stats.read_text()),(output/'mutmut-all-results.txt').read_text())

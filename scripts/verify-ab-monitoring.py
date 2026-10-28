@@ -40,11 +40,19 @@ def main():
                 assert all(old[n]==new[n] for n in old if n!='test_native_startup_uses_existing_sdk_state_and_two_fixed_urls')
             elif name in ['ml/serving_ci.py','tests/test_serving_ci.py']:
                 # The old PC HTTP experiment did not invoke the later native mutation inventory parser.
-                omitted={'test_gate'} if name=='ml/serving_ci.py' else {'gate','test_native_mutmut_class_and_function_names_bind_to_the_same_seven_files'}
+                omitted={'test_gate'} if name=='ml/serving_ci.py' else {'gate','test_native_mutmut_class_and_function_names_bind_to_the_same_seven_files','test_partial_mutation_diagnostics_survive_without_becoming_gate_evidence'}
                 old,new=ast.parse(git.decode()),ast.parse(raw.decode())
                 for tree in [old,new]:
                     for parent in [tree]+[n for n in ast.walk(tree) if isinstance(n,ast.ClassDef)]:
                         parent.body=[n for n in parent.body if not isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) or n.name not in omitted]
+                assert ast.dump(old,include_attributes=False)==ast.dump(new,include_attributes=False)
+            elif name=='scripts/test-serving-ci.py':
+                # This executable native test runner was never invoked by the saved PC HTTP experiment.
+                old,new=ast.parse(git.decode()),ast.parse(raw.decode())
+                for tree in [old,new]:
+                    tree.body=[n for n in tree.body if not isinstance(n,ast.FunctionDef) or n.name not in ['run','checkpoint_mutation_metadata']]
+                    for node in tree.body:
+                        if isinstance(node,ast.ImportFrom) and node.module=='ml.serving_ci':node.names=[n for n in node.names if n.name!='MUTATION_FILES']
                 assert ast.dump(old,include_attributes=False)==ast.dump(new,include_attributes=False)
             else:raise AssertionError('PC experiment runtime source changed: '+name)
             superseded.append(name)
@@ -126,7 +134,7 @@ def main():
                 height,width=struct.unpack('>HH',raw[offset+3:offset+7]);dimensions=(width,height);break
             offset+=size
         assert dimensions==(1280,720)
-    print('PASS20payload hashes /77historical source bindings /800trial assignments+scores /26values per query engine /6panels /actual scrape loss+recovery /loopback+cleanup. Superseded CI/test metadata only:',superseded,'; used HTTP helpers/API/monitoring unchanged. Historical tests are not the expanded current suite. No native deployment claim.')
+    print('PASS20payload hashes /77historical source bindings /800trial assignments+scores /26values per query engine /6panels /actual scrape loss+recovery /loopback+cleanup. Superseded CI/test code only:',superseded,'; used HTTP helpers/API/monitoring unchanged. Historical tests are not the expanded current suite. No native deployment claim.')
 
 
 if __name__=='__main__':main()
