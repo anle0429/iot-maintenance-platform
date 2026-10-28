@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "family": "windows",
+  "host_alias": "pc-windows",
+  "exporter_version": "0.32.0",
+  "prometheus_version": "3.13.5",
+  "grafana_version": "13.3.0",
+  "dashboard_uid": "iot-host-windows",
+  "panels": 9,
+  "queries_per_engine": 11,
+  "evaluation_time": 1793145345.287,
+  "same_time_raw_sample_oracle": true,
+  "native_cpu_memory_disk_sanity_passed": true,
+  "disk_free_sanity_tolerance_bytes": 67108864,
+  "mac_and_ip_info_metrics_discarded": true,
+  "all_four_collectors_success": true,
+  "host_samples_are_real": true,
+  "cloud_or_kubernetes_contacted": false,
+  "scope": "Actual Windows PC host-wide exporter metrics, Prometheus and Grafana; includes other applications. No VM deployment, job attribution, peak-resource benchmark, authentication or service-mesh claim.",
+  "source_commit": "658183995ce28c6ca71aa75104a478a4948305d3",
+  "source_files": {
+    "infra/monitoring/host-profiles.json": "ba294d988ded461a231e6865cccb9f797a57044da1cf1c135cea1e25cfc3a9af",
+    "ml/host_monitoring.py": "213c37c49112676cd712d439aef764c53e495fb826060145c44ab6f5ff0530c3",
+    "ml/ab_monitoring.py": "abc5ed563f86cadf0752a424526476c18063c5074dc85a786a0cd3fa7142bb09",
+    "ml/__init__.py": "f72c7b8641a6376aa7bac523df071c3205a7c21276534aeb6aa9b32412890e98",
+    "scripts/prepare-host-monitoring.py": "9f568ec84f6ada90d4fd3b0288fc7f2abdd8e48490894c75b3b2c72ba9ae1880",
+    "tests/__init__.py": "b9286bc9f14709c0c5dbce4e5d1d2fb586e43df7e69e5452068b6d8393aafd77",
+    "tests/test_host_monitoring.py": "074befe0440a9ebe14dd09e94b4998992e21d543f71cb9c91874f7703c527c86",
+    "tests/monitoring_oracle.py": "e1b2cff8cf26a420ea6f0a95906ed6631577b81838e6cfea95989831b8814bc9",
+    "tests/integration/test_host_monitoring_http.py": "0f4c481803bebd2de10640d0b05ca5e23659a01bcca44f09624f06d4d6dc2678",
+    "tests/fixtures/host-monitoring-promql.json": "ee25262a46e77e54392f07e3dcda886bc0c469fbc340c1abec6337143f936aee"
+  },
+  "execution_bytes_equal_git": true,
+  "tests_passed": 22,
+  "promtool_groups": 5,
+  "promtool_known_answer_expressions": 35,
+  "actual_cold_start_queries_hidden": 5,
+  "linux_profile_has_fixture_queries_only": true,
+  "linux_exporter_launched": false,
+  "actual_grafana_ui_observed": true,
+  "screenshots_are_unedited_browser_captures": true,
+  "all_owned_services_stopped": true,
+  "redactions": {
+    "raw-samples.json": {
+      "raw_sha256": "4f06917af6496ef5eed576c08b0a9027dd92481d344fb64ecea0fbcab51dfd58",
+      "published_sha256": "12ce8c1cdf8fc90b88230a8a6b64d6fae60c747bb4ab679ea7b1827a3c536639",
+      "nic_label_replacements": 4,
+      "unique_anonymous_nics": 2,
+      "scope": "Only NIC label strings replaced; all numeric values, sample timestamps and series identities retained one-to-one. Not original exporter wire bytes."
+    },
+    "test-console.txt": {
+      "raw_sha256": "8306a99b97f132129c278c265cf8367e03e9133de763de7005288a8ab4553757",
+      "published_sha256": "8306a99b97f132129c278c265cf8367e03e9133de763de7005288a8ab4553757",
+      "workspace_path_replacements": 0
+    },
+    "test-junit.xml": {
+      "raw_sha256": "34afdba382b7672ba2743ba5b7e398ec258d16f6c0e945f6564fd0413dee3e5f",
+      "published_sha256": "34afdba382b7672ba2743ba5b7e398ec258d16f6c0e945f6564fd0413dee3e5f",
+      "workspace_path_replacements": 0
+    },
+    "promtool-config.txt": {
+      "raw_sha256": "dc5184d0f6af52c0b8225d6993ea7ff8b2e2ef0c1083be53dbf5f50694d73429",
+      "published_sha256": "d2fc6c9c7bac4cfc1b5b0b4abddb9ea43354d517d5e4047ff348cb333d25789e",
+      "workspace_path_replacements": 2
+    },
+    "promtool-rules.txt": {
+      "raw_sha256": "97155500dfaeb03dbcded24ae1575a3347e64600777edd46154817c2a56ae07b",
+      "published_sha256": "97155500dfaeb03dbcded24ae1575a3347e64600777edd46154817c2a56ae07b",
+      "workspace_path_replacements": 0
+    }
+  },
+  "api_bodies_changed": false,
+  "api_coverage_or_mutation_rerun": false,
+  "timing_scope": "107.52s includes interactive browser QA hold; not a performance benchmark. Screenshots taken after fixed-time query readbacks show later changing host values."
+}

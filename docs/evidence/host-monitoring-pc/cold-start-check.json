@@ -1,0 +1,74 @@
+{
+  "scope": "Retrospective actual Windows exporter/Prometheus startup check on the same run, at the third scrape. Not a fixture or current CPU load estimate.",
+  "evaluation_time": 1793145321.108,
+  "samples_per_cpu_series": 3,
+  "unguarded_cpu_rate_has_series": 12,
+  "full_window_guarded_queries": [
+    {
+      "panel": 1,
+      "refId": "A",
+      "expr": "(100 * (1 - avg by (host) (rate(windows_cpu_time_seconds_total{job=\"iot-host\",host=\"pc-windows\",mode=\"idle\"}[30s])))) and on (host) (min by (host) (count_over_time(windows_cpu_time_seconds_total{job=\"iot-host\",host=\"pc-windows\",mode=\"idle\"}[30s])) >= 15)",
+      "legendFormat": "{{host}} busy",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "vector",
+          "result": []
+        }
+      }
+    },
+    {
+      "panel": 6,
+      "refId": "A",
+      "expr": "(sum by (host) (rate(windows_logical_disk_read_bytes_total{job=\"iot-host\",host=\"pc-windows\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_logical_disk_read_bytes_total{job=\"iot-host\",host=\"pc-windows\"}[30s])) >= 15)",
+      "legendFormat": "Read B/s",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "vector",
+          "result": []
+        }
+      }
+    },
+    {
+      "panel": 6,
+      "refId": "B",
+      "expr": "(sum by (host) (rate(windows_logical_disk_write_bytes_total{job=\"iot-host\",host=\"pc-windows\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_logical_disk_write_bytes_total{job=\"iot-host\",host=\"pc-windows\"}[30s])) >= 15)",
+      "legendFormat": "Write B/s",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "vector",
+          "result": []
+        }
+      }
+    },
+    {
+      "panel": 7,
+      "refId": "A",
+      "expr": "(sum by (host) (rate(windows_net_bytes_received_total{job=\"iot-host\",host=\"pc-windows\",nic!~\"(?i).*loopback.*\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_net_bytes_received_total{job=\"iot-host\",host=\"pc-windows\",nic!~\"(?i).*loopback.*\"}[30s])) >= 15)",
+      "legendFormat": "RX B/s",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "vector",
+          "result": []
+        }
+      }
+    },
+    {
+      "panel": 7,
+      "refId": "B",
+      "expr": "(sum by (host) (rate(windows_net_bytes_sent_total{job=\"iot-host\",host=\"pc-windows\",nic!~\"(?i).*loopback.*\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_net_bytes_sent_total{job=\"iot-host\",host=\"pc-windows\",nic!~\"(?i).*loopback.*\"}[30s])) >= 15)",
+      "legendFormat": "TX B/s",
+      "response": {
+        "status": "success",
+        "data": {
+          "resultType": "vector",
+          "result": []
+        }
+      }
+    }
+  ],
+  "passed": true
+}

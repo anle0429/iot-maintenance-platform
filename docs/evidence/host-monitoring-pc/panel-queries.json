@@ -1,0 +1,978 @@
+[
+  {
+    "panel": 1,
+    "refId": "A",
+    "expr": "(100 * (1 - avg by (host) (rate(windows_cpu_time_seconds_total{job=\"iot-host\",host=\"pc-windows\",mode=\"idle\"}[30s])))) and on (host) (min by (host) (count_over_time(windows_cpu_time_seconds_total{job=\"iot-host\",host=\"pc-windows\",mode=\"idle\"}[30s])) >= 15)",
+    "legendFormat": "{{host}} busy",
+    "evaluation_time": 1793145345.287,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "pc-windows"
+            },
+            "value": [
+              1793145345.287,
+              "18.661644345238095"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: (100 * (1 - avg by (host) (rate(windows_cpu_time_seconds_total{job=\"iot-host\",host=\"pc-windows\",mode=\"idle\"}[30s])))) and on (host) (min by (host) (count_over_time(windows_cpu_time_seconds_total{job=\"iot-host\",host=\"pc-windows\",mode=\"idle\"}[30s])) >= 15)\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "pc-windows"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"pc-windows\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793145345287
+                  ],
+                  [
+                    18.661644345238095
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "same_time_oracle_passed": true
+  },
+  {
+    "panel": 2,
+    "refId": "A",
+    "expr": "100 * (1 - windows_memory_available_bytes{job=\"iot-host\",host=\"pc-windows\"} / windows_memory_physical_total_bytes{job=\"iot-host\",host=\"pc-windows\"})",
+    "legendFormat": "{{host}} RAM",
+    "evaluation_time": 1793145345.287,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "pc-windows",
+              "instance": "127.0.0.1:63399",
+              "job": "iot-host"
+            },
+            "value": [
+              1793145345.287,
+              "89.78606339782567"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: 100 * (1 - windows_memory_available_bytes{job=\"iot-host\",host=\"pc-windows\"} / windows_memory_physical_total_bytes{job=\"iot-host\",host=\"pc-windows\"})\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "pc-windows",
+                      "instance": "127.0.0.1:63399",
+                      "job": "iot-host"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"pc-windows\", instance=\"127.0.0.1:63399\", job=\"iot-host\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793145345287
+                  ],
+                  [
+                    89.78606339782567
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "same_time_oracle_passed": true
+  },
+  {
+    "panel": 3,
+    "refId": "A",
+    "expr": "windows_memory_available_bytes{job=\"iot-host\",host=\"pc-windows\"}",
+    "legendFormat": "{{host}} available",
+    "evaluation_time": 1793145345.287,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "windows_memory_available_bytes",
+              "host": "pc-windows",
+              "instance": "127.0.0.1:63399",
+              "job": "iot-host"
+            },
+            "value": [
+              1793145345.287,
+              "1740963840"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: windows_memory_available_bytes{job=\"iot-host\",host=\"pc-windows\"}\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "windows_memory_available_bytes",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "windows_memory_available_bytes",
+                      "host": "pc-windows",
+                      "instance": "127.0.0.1:63399",
+                      "job": "iot-host"
+                    },
+                    "config": {
+                      "displayNameFromDS": "windows_memory_available_bytes{host=\"pc-windows\", instance=\"127.0.0.1:63399\", job=\"iot-host\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793145345287
+                  ],
+                  [
+                    1740963840
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "same_time_oracle_passed": true
+  },
+  {
+    "panel": 4,
+    "refId": "A",
+    "expr": "100 * (1 - windows_logical_disk_free_bytes{job=\"iot-host\",host=\"pc-windows\"} / windows_logical_disk_size_bytes{job=\"iot-host\",host=\"pc-windows\"})",
+    "legendFormat": "{{host}} / {{volume}}",
+    "evaluation_time": 1793145345.287,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "pc-windows",
+              "instance": "127.0.0.1:63399",
+              "job": "iot-host",
+              "volume": "C:"
+            },
+            "value": [
+              1793145345.287,
+              "66.70973419780326"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: 100 * (1 - windows_logical_disk_free_bytes{job=\"iot-host\",host=\"pc-windows\"} / windows_logical_disk_size_bytes{job=\"iot-host\",host=\"pc-windows\"})\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "pc-windows",
+                      "instance": "127.0.0.1:63399",
+                      "job": "iot-host",
+                      "volume": "C:"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"pc-windows\", instance=\"127.0.0.1:63399\", job=\"iot-host\", volume=\"C:\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793145345287
+                  ],
+                  [
+                    66.70973419780326
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "same_time_oracle_passed": true
+  },
+  {
+    "panel": 5,
+    "refId": "A",
+    "expr": "windows_logical_disk_free_bytes{job=\"iot-host\",host=\"pc-windows\"}",
+    "legendFormat": "{{host}} / {{volume}}",
+    "evaluation_time": 1793145345.287,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "windows_logical_disk_free_bytes",
+              "host": "pc-windows",
+              "instance": "127.0.0.1:63399",
+              "job": "iot-host",
+              "volume": "C:"
+            },
+            "value": [
+              1793145345.287,
+              "332574416896"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: windows_logical_disk_free_bytes{job=\"iot-host\",host=\"pc-windows\"}\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "windows_logical_disk_free_bytes",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "windows_logical_disk_free_bytes",
+                      "host": "pc-windows",
+                      "instance": "127.0.0.1:63399",
+                      "job": "iot-host",
+                      "volume": "C:"
+                    },
+                    "config": {
+                      "displayNameFromDS": "windows_logical_disk_free_bytes{host=\"pc-windows\", instance=\"127.0.0.1:63399\", job=\"iot-host\", volume=\"C:\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793145345287
+                  ],
+                  [
+                    332574416896
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "same_time_oracle_passed": true
+  },
+  {
+    "panel": 6,
+    "refId": "A",
+    "expr": "(sum by (host) (rate(windows_logical_disk_read_bytes_total{job=\"iot-host\",host=\"pc-windows\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_logical_disk_read_bytes_total{job=\"iot-host\",host=\"pc-windows\"}[30s])) >= 15)",
+    "legendFormat": "Read B/s",
+    "evaluation_time": 1793145345.287,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "pc-windows"
+            },
+            "value": [
+              1793145345.287,
+              "55460.57142857143"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: (sum by (host) (rate(windows_logical_disk_read_bytes_total{job=\"iot-host\",host=\"pc-windows\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_logical_disk_read_bytes_total{job=\"iot-host\",host=\"pc-windows\"}[30s])) >= 15)\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "pc-windows"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"pc-windows\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793145345287
+                  ],
+                  [
+                    55460.57142857143
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "same_time_oracle_passed": true
+  },
+  {
+    "panel": 6,
+    "refId": "B",
+    "expr": "(sum by (host) (rate(windows_logical_disk_write_bytes_total{job=\"iot-host\",host=\"pc-windows\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_logical_disk_write_bytes_total{job=\"iot-host\",host=\"pc-windows\"}[30s])) >= 15)",
+    "legendFormat": "Write B/s",
+    "evaluation_time": 1793145345.287,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "pc-windows"
+            },
+            "value": [
+              1793145345.287,
+              "673371.4285714285"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "B": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "B",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: (sum by (host) (rate(windows_logical_disk_write_bytes_total{job=\"iot-host\",host=\"pc-windows\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_logical_disk_write_bytes_total{job=\"iot-host\",host=\"pc-windows\"}[30s])) >= 15)\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "pc-windows"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"pc-windows\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793145345287
+                  ],
+                  [
+                    673371.4285714285
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "same_time_oracle_passed": true
+  },
+  {
+    "panel": 7,
+    "refId": "A",
+    "expr": "(sum by (host) (rate(windows_net_bytes_received_total{job=\"iot-host\",host=\"pc-windows\",nic!~\"(?i).*loopback.*\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_net_bytes_received_total{job=\"iot-host\",host=\"pc-windows\",nic!~\"(?i).*loopback.*\"}[30s])) >= 15)",
+    "legendFormat": "RX B/s",
+    "evaluation_time": 1793145345.287,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "pc-windows"
+            },
+            "value": [
+              1793145345.287,
+              "197172.35714285713"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: (sum by (host) (rate(windows_net_bytes_received_total{job=\"iot-host\",host=\"pc-windows\",nic!~\"(?i).*loopback.*\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_net_bytes_received_total{job=\"iot-host\",host=\"pc-windows\",nic!~\"(?i).*loopback.*\"}[30s])) >= 15)\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "pc-windows"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"pc-windows\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793145345287
+                  ],
+                  [
+                    197172.35714285713
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "same_time_oracle_passed": true
+  },
+  {
+    "panel": 7,
+    "refId": "B",
+    "expr": "(sum by (host) (rate(windows_net_bytes_sent_total{job=\"iot-host\",host=\"pc-windows\",nic!~\"(?i).*loopback.*\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_net_bytes_sent_total{job=\"iot-host\",host=\"pc-windows\",nic!~\"(?i).*loopback.*\"}[30s])) >= 15)",
+    "legendFormat": "TX B/s",
+    "evaluation_time": 1793145345.287,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "pc-windows"
+            },
+            "value": [
+              1793145345.287,
+              "12156.964285714284"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "B": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "B",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: (sum by (host) (rate(windows_net_bytes_sent_total{job=\"iot-host\",host=\"pc-windows\",nic!~\"(?i).*loopback.*\"}[30s]))) and on (host) (min by (host) (count_over_time(windows_net_bytes_sent_total{job=\"iot-host\",host=\"pc-windows\",nic!~\"(?i).*loopback.*\"}[30s])) >= 15)\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "pc-windows"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"pc-windows\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793145345287
+                  ],
+                  [
+                    12156.964285714284
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "same_time_oracle_passed": true
+  },
+  {
+    "panel": 8,
+    "refId": "A",
+    "expr": "up{job=\"iot-host\",host=\"pc-windows\"}",
+    "legendFormat": "{{host}} up",
+    "evaluation_time": 1793145345.287,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "up",
+              "host": "pc-windows",
+              "instance": "127.0.0.1:63399",
+              "job": "iot-host"
+            },
+            "value": [
+              1793145345.287,
+              "1"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: up{job=\"iot-host\",host=\"pc-windows\"}\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "up",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "up",
+                      "host": "pc-windows",
+                      "instance": "127.0.0.1:63399",
+                      "job": "iot-host"
+                    },
+                    "config": {
+                      "displayNameFromDS": "up{host=\"pc-windows\", instance=\"127.0.0.1:63399\", job=\"iot-host\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793145345287
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "same_time_oracle_passed": true
+  },
+  {
+    "panel": 9,
+    "refId": "A",
+    "expr": "min by (host) (windows_exporter_collector_success{job=\"iot-host\",host=\"pc-windows\"})",
+    "legendFormat": "{{host}} collector success",
+    "evaluation_time": 1793145345.287,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "pc-windows"
+            },
+            "value": [
+              1793145345.287,
+              "1"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: min by (host) (windows_exporter_collector_success{job=\"iot-host\",host=\"pc-windows\"})\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "pc-windows"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"pc-windows\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793145345287
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "same_time_oracle_passed": true
+  }
+]

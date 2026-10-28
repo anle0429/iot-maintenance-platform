@@ -168,3 +168,5 @@ Get-Content outputs/practice-chunks/chunked-report.json
 - [CI materialization](docs/ci-materialization.md): Jenkins SUCCESS,8task Airflow,200máy incremental/replay và indexed DataHub.
 - [CI training đang chuẩn bị](docs/ci-training.md):21nativeunits/SDK/compile/privatecontroloracle đã kiểm, chưa Jenkins training build hoặc freshKFP run quaCI.
 - [Gói model cho serving CI](docs/serving-release.md) và [version pin giữa hai API](docs/versioned-serving.md):220PCtests/2POSIXskips, coverage100%,128HTTPfixturepredictions/0fail. Chưa mutation/imagebuild/nativeCIrollout cho mã mới.
+
+- [Theo dõi tài nguyên host](docs/host-monitoring.md): Windows exporter/Prometheus/Grafana thật trênPC,9panel/11querymỗiengine/22tests và ảnh. Query Linux đã kiểm bằngfixture; chưa exporter/dashboard VM.
