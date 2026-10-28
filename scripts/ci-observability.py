@@ -4,7 +4,7 @@ from hashlib import sha256
 from pathlib import Path
 import argparse,importlib.util,json,math,os,re,shutil,subprocess,sys,time
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
-from ml.observability_ci import release,environment,same_model,application_paths,patch_predictor,KINDS
+from ml.observability_ci import release,environment,same_model,application_paths,patch_predictor,registry_address,KINDS
 from ml.serving_ci import docker_config_digest,check_pods
 SPEC=importlib.util.spec_from_file_location('serving_driver',ROOT/'scripts/ci-serving.py')
 SHARED=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(SHARED)
@@ -142,7 +142,7 @@ def run(phase):
         c.log('controller-build',['docker','build','-f',str(ROOT/'infra/ci/ServingController.Dockerfile'),'-t','iot-ci-observability-controller:'+c.release,str(ROOT)])
         image=subprocess.check_output(['docker','image','inspect','iot-ci-observability-controller:'+c.release,'--format','{{.Id}}'],text=True).strip();save(c,'controller.json',{'id':image})
         server=json.loads(subprocess.check_output(['docker','inspect','iot-mlflow-tracking-1']))[0]
-        address=server['NetworkSettings']['Networks']['iot-mlflow_default']['IPAddress']
+        address=registry_address(server)
         c.control('select-host',cluster=True,extra=['--add-host','tracking:'+address])
         c.bundle.mkdir(parents=True,exist_ok=False)
         for n in ['portable.json','lineage.json','model-pin.json']:shutil.copyfile(c.directory/'bundle'/n,c.bundle/n)

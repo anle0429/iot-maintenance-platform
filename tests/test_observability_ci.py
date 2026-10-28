@@ -3,7 +3,7 @@ from copy import deepcopy
 from hashlib import sha256
 from pathlib import Path
 import importlib.util,json,unittest,tempfile
-from ml.observability_ci import release,environment,same_model,application_paths,patch_predictor,ENDPOINT
+from ml.observability_ci import release,environment,same_model,application_paths,patch_predictor,registry_address,ENDPOINT
 
 
 class ObservabilityCITests(unittest.TestCase):
@@ -12,6 +12,16 @@ class ObservabilityCITests(unittest.TestCase):
         self.assertEqual(release('9'),'observe-jenkins-9')
         for n in ['0','01','../1','1;id',1,'1'*11]:
             with self.subTest(n=n),self.assertRaises(ValueError):release(n)
+
+    def test_registry_network_is_discovered_without_assuming_a_stale_bridge_name(self):
+        for mode in ['iot-mlflow_default','iot-mlflow-restored-28c']:
+            value={'HostConfig':{'NetworkMode':mode},'NetworkSettings':{'Networks':{mode:{'IPAddress':'172.25.0.2'}}}}
+            self.assertEqual(registry_address(value),'172.25.0.2')
+            for address in ['8.8.8.8','127.0.0.1','0.0.0.0','169.254.1.1','::1']:
+                bad=deepcopy(value);bad['NetworkSettings']['Networks'][mode]['IPAddress']=address
+                with self.subTest(address=address),self.assertRaises(ValueError):registry_address(bad)
+        value['NetworkSettings']['Networks']['another']={'IPAddress':'172.25.0.3'}
+        with self.assertRaises(ValueError):registry_address(value)
 
     def test_environment_preserves_store_model_and_fixed_endpoint(self):
         original=[{'name':'IOT_MODEL_BUNDLE','value':'/app/model'}];frozen=deepcopy(original)

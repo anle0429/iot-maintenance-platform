@@ -272,7 +272,8 @@ def run(phase):
         image=subprocess.check_output(['docker','image','inspect','iot-ci-serving-controller:'+c.release,'--format','{{.Id}}'],text=True).strip();save(c.out/'controller.json',{'id':image})
         ids=subprocess.check_output(['docker','ps','-q','--filter','label=com.docker.compose.project=iot-mlflow','--filter','label=com.docker.compose.service=tracking'],text=True).split()
         if len(ids)!=1:raise ValueError('Find exactly one existing private registry')
-        net=json.loads(subprocess.check_output(['docker','inspect',ids[0]],text=True))[0]['NetworkSettings']['Networks'];address=net['iot-mlflow_default']['IPAddress']
+        from ml.observability_ci import registry_address
+        address=registry_address(json.loads(subprocess.check_output(['docker','inspect',ids[0]],text=True))[0])
         if not ipaddress.ip_address(address).is_private:raise ValueError('Registry must remain private')
         c.control('select-host',extra=['--add-host','tracking:'+address])
         c.bundle.mkdir(parents=True,exist_ok=False)

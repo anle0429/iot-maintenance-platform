@@ -1,11 +1,22 @@
 """Constrain a telemetry-only CI release to the existing production model, private receiver and exact application bytes."""
 from copy import deepcopy
 from hashlib import sha256
-import re
+import ipaddress,re
 from services.predictor.binding import FIELDS,validate_pin
 
 ENDPOINT='http://iot-jaeger.iot-observability.svc.cluster.local:4318/v1/traces'
 KINDS=('feature','drift','predictor')
+
+
+def registry_address(container):
+    """Discover exactly one existing owned private registry network, including a restored bridge after VM restart."""
+    networks=container['NetworkSettings']['Networks'];mode=container['HostConfig']['NetworkMode']
+    if (len(networks)!=1 or mode not in networks or (mode!='iot-mlflow_default' and re.fullmatch(r'iot-mlflow-restored-[a-z0-9-]+',mode) is None)):
+        raise ValueError('Require one observed coursework registry network')
+    address=ipaddress.ip_address(networks[mode]['IPAddress'])
+    if address.version!=4 or not address.is_private or address.is_loopback or address.is_link_local or address.is_unspecified or address.is_multicast:
+        raise ValueError('Registry must remain private')
+    return str(address)
 
 
 def release(build):
