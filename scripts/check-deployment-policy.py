@@ -70,7 +70,7 @@ def run(opa,output,source_manifest=None):
     def call(name,arguments):
         """Save the real compiler/evaluator bytes before any status assertion."""
         p=subprocess.run([str(opa),*arguments],capture_output=True);(output/(name+'.stdout')).write_bytes(p.stdout);(output/(name+'.stderr')).write_bytes(p.stderr);return p
-    version=call('version',['version','--format=json']);assert version.returncode==0
+    version=call('version',['version']);assert version.returncode==0
     compile=call('strict-check',['check','--strict',str(ROOT/'infra/policy/deployment.rego')]);assert compile.returncode==0
     rows=[]
     for name,candidate,want in cases():
