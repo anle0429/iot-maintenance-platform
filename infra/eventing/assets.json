@@ -1,0 +1,34 @@
+{
+  "version": "knative-v1.24.0",
+  "published_at": "2026-10-27T10:06:06Z",
+  "release_url": "https://github.com/knative/eventing/releases/tag/knative-v1.24.0",
+  "minimum_kubernetes_version": "1.35",
+  "assets": {
+    "checksums.txt": {
+      "url": "https://github.com/knative/eventing/releases/download/knative-v1.24.0/checksums.txt",
+      "bytes": 1035,
+      "sha256": "de22db28841bd3826ccf51be3654faadc18f2b31091547e3368a1a3dd1df4150"
+    },
+    "eventing-core.yaml": {
+      "url": "https://github.com/knative/eventing/releases/download/knative-v1.24.0/eventing-core.yaml",
+      "bytes": 389523,
+      "sha256": "a91066e58de9104b81e58c41409ab3a504a748aff983781144aa94a0a42d5c2b"
+    },
+    "eventing-crds.yaml": {
+      "url": "https://github.com/knative/eventing/releases/download/knative-v1.24.0/eventing-crds.yaml",
+      "bytes": 288710,
+      "sha256": "77a83bda10228be5e3cea6c7d066f92b9bb8530f5cbce4f09cdb06488cab6dd6"
+    },
+    "in-memory-channel.yaml": {
+      "url": "https://github.com/knative/eventing/releases/download/knative-v1.24.0/in-memory-channel.yaml",
+      "bytes": 46208,
+      "sha256": "ee826858636525db2bb4a9ec61ebfbe27053586d680c4e02a56fb9bba5129c8e"
+    },
+    "mt-channel-broker.yaml": {
+      "url": "https://github.com/knative/eventing/releases/download/knative-v1.24.0/mt-channel-broker.yaml",
+      "bytes": 26676,
+      "sha256": "80d80700f3c7f91890851bcb113bf5ef535ec69582fd5e240fcd2899e7700060"
+    }
+  },
+  "scope": "Official Apache-2.0 Eventing manifests, pinned by release API asset digest and checksums; private existingVM installation, no cloud resource."
+}
