@@ -3,5 +3,5 @@
 source_paths = ["services/"]
 only_mutate = ["services/observed.py"]
 pytest_add_cli_args_test_selection = ["tests/api/test_observed.py"]
-also_copy = ["ml/", "models/", "tests/fixtures/", "tests/__init__.py", "tests/api/test_feature_api.py", "tests/api/test_drift_api.py", "tests/api/test_predictor.py", "tests/api/test_model_binding.py", "tests/api/test_ab_api.py"]
+also_copy = ["ml/", "models/", "tests/fixtures/", "tests/api/", "tests/__init__.py"]
 process_isolation = "forkserver"
