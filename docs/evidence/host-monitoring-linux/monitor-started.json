@@ -1,0 +1,76 @@
+{
+  "checked_utc": "2026-10-28T01:21:28.923527+00:00",
+  "source": {
+    "commit": "9f7e7e6aa3ad0187da1947b011bb5dd5b3f10182",
+    "files": {
+      "ml/__init__.py": "f72c7b8641a6376aa7bac523df071c3205a7c21276534aeb6aa9b32412890e98",
+      "ml/ab_monitoring.py": "abc5ed563f86cadf0752a424526476c18063c5074dc85a786a0cd3fa7142bb09",
+      "ml/host_monitoring.py": "213c37c49112676cd712d439aef764c53e495fb826060145c44ab6f5ff0530c3",
+      "infra/ab-api/grafana-dashboard.json": "54e5c23b7093ec4378659c70b51f214f01445ddf721cbe55980ee23958da8507",
+      "infra/monitoring/host-profiles.json": "ba294d988ded461a231e6865cccb9f797a57044da1cf1c135cea1e25cfc3a9af"
+    },
+    "archive_sha256": "8f299dfe719ad15492975165aaf4da7d4bef6bb9a69586cd7d420f596af4f026"
+  },
+  "units": {
+    "node-exporter": {
+      "unit": "iot-node-exporter-28.service",
+      "requested_memory": "64M",
+      "requested_cpu": "10%",
+      "command": [
+        "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/monitoring-assets-28/node_exporter/node_exporter-1.12.1.linux-amd64/node_exporter",
+        "--web.listen-address=127.0.0.1:19100",
+        "--collector.disable-defaults",
+        "--collector.cpu",
+        "--collector.meminfo",
+        "--collector.filesystem",
+        "--collector.diskstats",
+        "--collector.netdev",
+        "--collector.filesystem.mount-points-include=^(/|/srv/iot-data|/srv/iot-fast)$"
+      ]
+    },
+    "prometheus": {
+      "unit": "iot-prometheus-28.service",
+      "requested_memory": "512M",
+      "requested_cpu": "50%",
+      "command": [
+        "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/monitoring-assets-28/prometheus/prometheus-3.13.5.linux-amd64/prometheus",
+        "--config.file=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/monitoring-28/prometheus.json",
+        "--storage.tsdb.path=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/monitoring-28/prometheus-data",
+        "--storage.tsdb.retention.time=24h",
+        "--storage.tsdb.retention.size=256MB",
+        "--web.listen-address=127.0.0.1:19091"
+      ]
+    },
+    "grafana": {
+      "unit": "iot-grafana-28.service",
+      "requested_memory": "768M",
+      "requested_cpu": "75%",
+      "command": [
+        "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/monitoring-assets-28/grafana/grafana-13.3.0/bin/grafana",
+        "server",
+        "--homepath=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/monitoring-assets-28/grafana/grafana-13.3.0",
+        "--config=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/monitoring-28/grafana.ini"
+      ]
+    }
+  },
+  "launch": {
+    "prometheus_arguments": [
+      "--config.file=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/monitoring-28/prometheus.json",
+      "--storage.tsdb.path=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/monitoring-28/prometheus-data",
+      "--storage.tsdb.retention.time=24h",
+      "--storage.tsdb.retention.size=256MB",
+      "--web.listen-address=127.0.0.1:19091"
+    ],
+    "grafana_arguments": [
+      "server",
+      "--config=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/monitoring-28/grafana.ini"
+    ],
+    "prometheus_url": "http://127.0.0.1:19091",
+    "grafana_url": "http://127.0.0.1:13001",
+    "family": "linux",
+    "host_alias": "vm-linux",
+    "datasource_uid": "iot-host-prometheus",
+    "dashboard_uid": "iot-host-linux"
+  },
+  "scope": "Three new unprivileged bounded loopback-only processes; host job only, AB dashboard currently has no scrape target. No cloud scheduling/public port changes. Generated admin credentials stay in an existing private secrets directory; anonymous loopback viewer only."
+}

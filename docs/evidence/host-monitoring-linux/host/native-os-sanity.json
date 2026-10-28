@@ -1,0 +1,26 @@
+{
+  "checked_utc": "2026-10-28T01:23:49.374705+00:00",
+  "logical_processors": 8,
+  "meminfo_bytes": {
+    "MemTotal": 67419455488,
+    "MemAvailable": 55787053056
+  },
+  "filesystems": {
+    "/": {
+      "total": 50884108288,
+      "used": 4150812672,
+      "free": 46716518400
+    },
+    "/srv/iot-data": {
+      "total": 527295578112,
+      "used": 175588720640,
+      "free": 346321371136
+    },
+    "/srv/iot-fast": {
+      "total": 157396975616,
+      "used": 56423505920,
+      "free": 99346079744
+    }
+  },
+  "free_memory_disk_scope": "Asynchronous live OS snapshot; only CPU count/MemTotal/filesystem total sizes are asserted exact. Free/available values may change during CI and are retained without claiming exact equality."
+}

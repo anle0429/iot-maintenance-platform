@@ -2,7 +2,7 @@
 
 [Exporter](../ml/serving_release.py) chọn một phiên bản cụ thể của `iot-pump-failure-v1`, kiểm quyền triển khai và các file đã đánh giá, rồi tạo hai file `portable.json`/`lineage.json` làm đầu vào build image. [CLI](../scripts/export-production-model.py) dùng MLflow client; [12 kiểm thử](../tests/test_serving_release.py) dùng registry fixtures nhỏ và portable weights thật của model1.
 
-Đây là **phần chuẩn bị F33/F34**. [Cấu hình version pin giữa predictor và feature API](versioned-serving.md) đã nối với bundle exporter qua kiểm thử trên PC. Dockerfile đã nhận bundle/pin tùy chọn; chưa build image mới hoặc có serving CI/KServe rollout thành công. Model registry và phiên bản đã triển khai trước đó được giữ nguyên.
+F33/F34 vẫn cần hoàn tất serving CI. [Cấu hình version pin giữa predictor và feature API](versioned-serving.md) đã nối với bundle exporter; Dockerfile nhận bundle/pin tùy chọn. SDK export thật của version6 được ghi ở phần release28/10 bên dưới; chưa có runtime image/serving CI/KServe rollout mới thành công. Model đang phục vụ vẫn version1.
 
 ## Chọn đúng phiên bản và kiểm artifact
 
@@ -30,6 +30,12 @@ Trên PC, replay chính metadata đã thu qua exporter làm **5/5 version bị t
 
 [Cloud API đọc trên PC](evidence/serving-release-preparation/pc-cloud/vm-state.json) xác nhận VM **TERMINATED**, lastStopTimestamp tương ứng20:51:55UTC, `maxRunDuration=28800s`, actionSTOP. Phiên mới vẫn cần quyền đã hỏi trước đó; không start/extend VM trong bước này. Native registry JSON được chép qua encrypted SCP trước STOP; [manifest](evidence/serving-release-preparation/manifest.json) ghi hash file nhận ở PC, chưa có capsule checksum độc lập đo trên VM cho ba file GET này.
 
+## Release lab28/10 và giới hạn quyền triển khai
+
+Trong phạm vi yêu cầu tiếp tục serving CI trên VM, đã chọn rõ **version6** từ Jenkins training2 mới thành công; giữ source/weights/protocol, không tuning từ holdout. Marker`production` của riêng version6 chuyển false→true để cấp quyền tải artifact cho môi trường `synthetic-coursework-private-environment`; aliascandidate/source/nhãn khác giữ nguyên. Đây là quyết định triển khai lab, không phải xác nhận dùng cho máy bơm thật hoặc tự đổi traffic.
+
+SDK MLflow thật đã tải và kiểm đầy đủ evaluation→selection→temporal split→incremental data manifest→portable inventory, source/model run FINISHED và pin9trường; portableSHA`60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981`. Pipeline serving chỉ tải phiên bản đã được cấp marker; test/mutation/image/stage/A-B vẫn chặn trước cutover. [Trạng thái native CI](ci-serving.md) chưa SUCCESS; baseline hiện vẫn version1. Snapshot27/10 phía trên là lịch sử và không bị sửa thành metadata mới.
+
 ## Tự chạy khi registry đã sẵn sàng
 
 Trong môi trường SDK MLflow3.17.2 riêng đã chuẩn bị, pin version được đánh dấu triển khai và chọn output mới. HTTP registry address dưới đây là service riêng trong Docker network:
@@ -41,7 +47,7 @@ python scripts/export-production-model.py \
   --output "outputs/serving-bundles/version-$MODEL_VERSION"
 ```
 
-Credentials dùng môi trường/credential manager của CI; URL có user/password hoặc query token bị từ chối. Với snapshot hiện tại chưa có version production, exporter sẽ chặn. Cần quyết định release của môi trường lab, rồi mới gắn nhãn và đọc lại; exporter không thực hiện promotion.
+Credentials dùng môi trường/credential manager của CI; URL có user/password hoặc query token bị từ chối. Với snapshot27/10 mọi version đều bị chặn; tới release28/10, version6 có marker lab như phần trên. Pin version được chọn và output mới; exporter vẫn không tự thực hiện promotion.
 
 [Mã Jenkins serving và kiểm PC](ci-serving.md) đã có packet nguồn, API gates, paired stage/switch và chốt A/B; chưa cài job/build images hoặc chạy native. [A/B router và monitoring](ab-testing.md) đã chạyHTTPthật trênPC với fixtures; [phaseCI đã nối mã](ci-ab-deployment.md), nhưng fullcutover vẫn cần bằng chứngA/B native. Tiếp theo cần production SDK export, Linux mutation/load, image/HTTP/rollout/rollback trên VM; F33/F34 vẫn chưa hoàn tất.
 

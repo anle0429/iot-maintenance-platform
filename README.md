@@ -169,4 +169,4 @@ Get-Content outputs/practice-chunks/chunked-report.json
 - [CI training đã chạy thật](docs/ci-training.md): Jenkins build2 SUCCESS, KFP mới đủ5task/hai executor/model candidate6;22tests và47file bằng chứng có hash/ảnh thật. Giữ build1 bị guard chặn và lịch sử chuẩn bị. Tự kiểm bằng `python -S scripts/verify-ci-training.py`.
 - [Gói model cho serving CI](docs/serving-release.md) và [version pin giữa hai API](docs/versioned-serving.md):220PCtests/2POSIXskips, coverage100%,128HTTPfixturepredictions/0fail. Chưa mutation/imagebuild/nativeCIrollout cho mã mới.
 
-- [Theo dõi tài nguyên host](docs/host-monitoring.md): Windows exporter/Prometheus/Grafana thật trênPC,9panel/11querymỗiengine/22tests và ảnh. Query Linux đã kiểm bằngfixture; chưa exporter/dashboard VM.
+- [Theo dõi tài nguyên host](docs/host-monitoring.md): Windows PC và Linux VM đều có exporter/Prometheus/Grafana thật,9panel/11query mỗi engine, phép tính độc lập từ mẫu gốc và ảnh. Linux có21file proof/9source bindings,8CPU và ba filesystem khớp OS; không quy toàn bộ tải host cho một job.

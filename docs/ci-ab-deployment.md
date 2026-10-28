@@ -1,6 +1,6 @@
 # Phase A/B trong serving CI
 
-**Mã đã nối vào Jenkins; chưa có build/deploy native thành công.** Source `da1b180880f8069f6eb3ed2be71f5bc94737c789`. VM hiện đã dừng; các kết quả dưới đây thuộc PC, HTTP loopback và Kubernetes protocol fixtures. Chưa cài job `iot-serving`, build/import image mới hoặc chạy Grafana trên VM. F33/F34/F52/F53 vẫn đang làm.
+**Mã đã nối vào Jenkins; chưa có serving build/deploy native thành công.** Source chuẩn bị `da1b180880f8069f6eb3ed2be71f5bc94737c789`. Phiên VM28/10 đã có job `iot-serving`/Linux test image và đang kiểm mutation. Grafana host đã chạy trên VM; runtime image cho hai model, native A/B và dashboard A/B vẫn cần bằng chứng riêng. Các kết quả chi tiết bên dưới thuộc PC, HTTP loopback và Kubernetes protocol fixtures. F33/F34/F52/F53 vẫn đang làm.
 
 [Jenkinsfile](../infra/ci/Serving.Jenkinsfile) gọi `ab` sau khi stage model/Feast và trước full cutover. [Driver](../scripts/ci-serving.py) build/probe/import thêm image A/B, rồi dùng [native adapter](../ml/ab_native.py) triển khai và đọc lại tài nguyên. [Bộ kiểm giao thức](../ml/ab_ci.py) độc lập với Kubernetes để kiểm response, offline trace, metrics và retry. Nó không tự tạo UID hoặc nhận report PC thành bằng chứng native.
 
@@ -55,6 +55,6 @@ finally { Remove-Item Env:IOT_AB_CI_PROOF_DIR }
 
 Output directory phải chưa tồn tại. Test chỉ mở loopback và tự đóng server/thread; không chạm Kubernetes/cloud. Lệnh `ci-serving.py ab` dành cho trusted Jenkins với source seal, session, dataset và controller SDK có sẵn trên VM; không chạy trực tiếp từ PC để thay một lượt native.
 
-Khi có phiên VM hợp lệ: kiểm state/job thật; chuyển [gói training đã sửa d811](ci-training.md) trước first build F29. Sau đó còn cần production model theo policy cố định, live SDK export, native Linux gates/image probes, A/B SQL/volume/pod readbacks, Jenkins SUCCESS và ảnh thật. [Grafana6panel](ab-monitoring.md) đã được kiểm bằng Prometheus/Grafana thật trênPC:26seriesmỗiengine/800trial/40retry và ảnh gốc. Dashboard trênVM vẫn chưa chạy. Template màu hiển thị hiện ở9fa1326; packet73file ởda1 vẫn là bằng chứng nguồn lịch sử. Không suy đoán approval mới từ thời gian chờ.
+[Training CI đã SUCCESS](ci-training.md) và model6 đã qua SDK export trong lab; serving build3 đang kiểm Linux mutation theo [trạng thái CI](ci-serving.md). Vẫn còn các gate image, A/B SQL/volume/pod readbacks, Jenkins SUCCESS và ảnh thật trước khi nhận F33/F34/F52 hoàn tất. [Grafana6panel](ab-monitoring.md) đã được kiểm bằng Prometheus/Grafana thật trênPC:26seriesmỗiengine/800trial/40retry và ảnh gốc. Dashboard trênVM vẫn chưa chạy. Template màu hiển thị hiện ở9fa1326; packet73file ởda1 vẫn là bằng chứng nguồn lịch sử. Không suy đoán approval mới từ thời gian chờ.
 
 Tham chiếu: [ConfigMap immutable](https://kubernetes.io/docs/concepts/configuration/configmap/#immutable-configmaps), [storage classes và volume binding](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode). Tài liệu dự án và kết quả PC ở trên giữ phạm vi riêng với API documentation.

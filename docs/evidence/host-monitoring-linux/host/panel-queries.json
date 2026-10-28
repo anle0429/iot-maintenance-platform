@@ -1,0 +1,1255 @@
+[
+  {
+    "panel": 1,
+    "refId": "A",
+    "expr": "(100 * (1 - avg by (host) (rate(node_cpu_seconds_total{job=\"iot-host\",host=\"vm-linux\",mode=\"idle\"}[30s])))) and on (host) (min by (host) (count_over_time(node_cpu_seconds_total{job=\"iot-host\",host=\"vm-linux\",mode=\"idle\"}[30s])) >= 15)",
+    "legendFormat": "{{host}} busy",
+    "evaluation_time": 1793150628.085,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "vm-linux"
+            },
+            "value": [
+              1793150628.085,
+              "36.303571428571104"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: (100 * (1 - avg by (host) (rate(node_cpu_seconds_total{job=\"iot-host\",host=\"vm-linux\",mode=\"idle\"}[30s])))) and on (host) (min by (host) (count_over_time(node_cpu_seconds_total{job=\"iot-host\",host=\"vm-linux\",mode=\"idle\"}[30s])) >= 15)\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "vm-linux"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"vm-linux\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    36.303571428571104
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "panel": 2,
+    "refId": "A",
+    "expr": "100 * (1 - node_memory_MemAvailable_bytes{job=\"iot-host\",host=\"vm-linux\"} / node_memory_MemTotal_bytes{job=\"iot-host\",host=\"vm-linux\"})",
+    "legendFormat": "{{host}} RAM",
+    "evaluation_time": 1793150628.085,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "vm-linux",
+              "instance": "127.0.0.1:19100",
+              "job": "iot-host"
+            },
+            "value": [
+              1793150628.085,
+              "17.214651331715014"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: 100 * (1 - node_memory_MemAvailable_bytes{job=\"iot-host\",host=\"vm-linux\"} / node_memory_MemTotal_bytes{job=\"iot-host\",host=\"vm-linux\"})\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "vm-linux",
+                      "instance": "127.0.0.1:19100",
+                      "job": "iot-host"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"vm-linux\", instance=\"127.0.0.1:19100\", job=\"iot-host\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    17.214651331715014
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "panel": 3,
+    "refId": "A",
+    "expr": "node_memory_MemAvailable_bytes{job=\"iot-host\",host=\"vm-linux\"}",
+    "legendFormat": "{{host}} available",
+    "evaluation_time": 1793150628.085,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "node_memory_MemAvailable_bytes",
+              "host": "vm-linux",
+              "instance": "127.0.0.1:19100",
+              "job": "iot-host"
+            },
+            "value": [
+              1793150628.085,
+              "55813431296"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: node_memory_MemAvailable_bytes{job=\"iot-host\",host=\"vm-linux\"}\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "node_memory_MemAvailable_bytes",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "node_memory_MemAvailable_bytes",
+                      "host": "vm-linux",
+                      "instance": "127.0.0.1:19100",
+                      "job": "iot-host"
+                    },
+                    "config": {
+                      "displayNameFromDS": "node_memory_MemAvailable_bytes{host=\"vm-linux\", instance=\"127.0.0.1:19100\", job=\"iot-host\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    55813431296
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "panel": 4,
+    "refId": "A",
+    "expr": "100 * (1 - node_filesystem_avail_bytes{job=\"iot-host\",host=\"vm-linux\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"} / node_filesystem_size_bytes{job=\"iot-host\",host=\"vm-linux\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"})",
+    "legendFormat": "{{host}} / {{mountpoint}}",
+    "evaluation_time": 1793150628.085,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "device": "/dev/root",
+              "fstype": "ext4",
+              "host": "vm-linux",
+              "instance": "127.0.0.1:19100",
+              "job": "iot-host",
+              "mountpoint": "/"
+            },
+            "value": [
+              1793150628.085,
+              "8.190356534130016"
+            ]
+          },
+          {
+            "metric": {
+              "device": "/dev/sdb",
+              "fstype": "ext4",
+              "host": "vm-linux",
+              "instance": "127.0.0.1:19100",
+              "job": "iot-host",
+              "mountpoint": "/srv/iot-data"
+            },
+            "value": [
+              1793150628.085,
+              "34.321161190083096"
+            ]
+          },
+          {
+            "metric": {
+              "device": "/dev/sdc",
+              "fstype": "ext4",
+              "host": "vm-linux",
+              "instance": "127.0.0.1:19100",
+              "job": "iot-host",
+              "mountpoint": "/srv/iot-fast"
+            },
+            "value": [
+              1793150628.085,
+              "36.88150122377508"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: 100 * (1 - node_filesystem_avail_bytes{job=\"iot-host\",host=\"vm-linux\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"} / node_filesystem_size_bytes{job=\"iot-host\",host=\"vm-linux\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"})\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "device": "/dev/root",
+                      "fstype": "ext4",
+                      "host": "vm-linux",
+                      "instance": "127.0.0.1:19100",
+                      "job": "iot-host",
+                      "mountpoint": "/"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{device=\"/dev/root\", fstype=\"ext4\", host=\"vm-linux\", instance=\"127.0.0.1:19100\", job=\"iot-host\", mountpoint=\"/\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    8.190356534130016
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "device": "/dev/sdb",
+                      "fstype": "ext4",
+                      "host": "vm-linux",
+                      "instance": "127.0.0.1:19100",
+                      "job": "iot-host",
+                      "mountpoint": "/srv/iot-data"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{device=\"/dev/sdb\", fstype=\"ext4\", host=\"vm-linux\", instance=\"127.0.0.1:19100\", job=\"iot-host\", mountpoint=\"/srv/iot-data\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    34.321161190083096
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "device": "/dev/sdc",
+                      "fstype": "ext4",
+                      "host": "vm-linux",
+                      "instance": "127.0.0.1:19100",
+                      "job": "iot-host",
+                      "mountpoint": "/srv/iot-fast"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{device=\"/dev/sdc\", fstype=\"ext4\", host=\"vm-linux\", instance=\"127.0.0.1:19100\", job=\"iot-host\", mountpoint=\"/srv/iot-fast\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    36.88150122377508
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "panel": 5,
+    "refId": "A",
+    "expr": "node_filesystem_avail_bytes{job=\"iot-host\",host=\"vm-linux\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"}",
+    "legendFormat": "{{host}} / {{mountpoint}}",
+    "evaluation_time": 1793150628.085,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "node_filesystem_avail_bytes",
+              "device": "/dev/root",
+              "fstype": "ext4",
+              "host": "vm-linux",
+              "instance": "127.0.0.1:19100",
+              "job": "iot-host",
+              "mountpoint": "/"
+            },
+            "value": [
+              1793150628.085,
+              "46716518400"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "node_filesystem_avail_bytes",
+              "device": "/dev/sdb",
+              "fstype": "ext4",
+              "host": "vm-linux",
+              "instance": "127.0.0.1:19100",
+              "job": "iot-host",
+              "mountpoint": "/srv/iot-data"
+            },
+            "value": [
+              1793150628.085,
+              "346321612800"
+            ]
+          },
+          {
+            "metric": {
+              "__name__": "node_filesystem_avail_bytes",
+              "device": "/dev/sdc",
+              "fstype": "ext4",
+              "host": "vm-linux",
+              "instance": "127.0.0.1:19100",
+              "job": "iot-host",
+              "mountpoint": "/srv/iot-fast"
+            },
+            "value": [
+              1793150628.085,
+              "99346608128"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: node_filesystem_avail_bytes{job=\"iot-host\",host=\"vm-linux\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"}\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "node_filesystem_avail_bytes",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "node_filesystem_avail_bytes",
+                      "device": "/dev/root",
+                      "fstype": "ext4",
+                      "host": "vm-linux",
+                      "instance": "127.0.0.1:19100",
+                      "job": "iot-host",
+                      "mountpoint": "/"
+                    },
+                    "config": {
+                      "displayNameFromDS": "node_filesystem_avail_bytes{device=\"/dev/root\", fstype=\"ext4\", host=\"vm-linux\", instance=\"127.0.0.1:19100\", job=\"iot-host\", mountpoint=\"/\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    46716518400
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "node_filesystem_avail_bytes",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "node_filesystem_avail_bytes",
+                      "device": "/dev/sdb",
+                      "fstype": "ext4",
+                      "host": "vm-linux",
+                      "instance": "127.0.0.1:19100",
+                      "job": "iot-host",
+                      "mountpoint": "/srv/iot-data"
+                    },
+                    "config": {
+                      "displayNameFromDS": "node_filesystem_avail_bytes{device=\"/dev/sdb\", fstype=\"ext4\", host=\"vm-linux\", instance=\"127.0.0.1:19100\", job=\"iot-host\", mountpoint=\"/srv/iot-data\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    346321612800
+                  ]
+                ]
+              }
+            },
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "resultType": "vector"
+                  }
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "node_filesystem_avail_bytes",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "node_filesystem_avail_bytes",
+                      "device": "/dev/sdc",
+                      "fstype": "ext4",
+                      "host": "vm-linux",
+                      "instance": "127.0.0.1:19100",
+                      "job": "iot-host",
+                      "mountpoint": "/srv/iot-fast"
+                    },
+                    "config": {
+                      "displayNameFromDS": "node_filesystem_avail_bytes{device=\"/dev/sdc\", fstype=\"ext4\", host=\"vm-linux\", instance=\"127.0.0.1:19100\", job=\"iot-host\", mountpoint=\"/srv/iot-fast\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    99346608128
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "panel": 6,
+    "refId": "A",
+    "expr": "(sum by (host) (rate(node_disk_read_bytes_total{job=\"iot-host\",host=\"vm-linux\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s]))) and on (host) (min by (host) (count_over_time(node_disk_read_bytes_total{job=\"iot-host\",host=\"vm-linux\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s])) >= 15)",
+    "legendFormat": "Read B/s",
+    "evaluation_time": 1793150628.085,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "vm-linux"
+            },
+            "value": [
+              1793150628.085,
+              "0"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: (sum by (host) (rate(node_disk_read_bytes_total{job=\"iot-host\",host=\"vm-linux\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s]))) and on (host) (min by (host) (count_over_time(node_disk_read_bytes_total{job=\"iot-host\",host=\"vm-linux\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s])) >= 15)\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "vm-linux"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"vm-linux\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    0
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "panel": 6,
+    "refId": "B",
+    "expr": "(sum by (host) (rate(node_disk_written_bytes_total{job=\"iot-host\",host=\"vm-linux\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s]))) and on (host) (min by (host) (count_over_time(node_disk_written_bytes_total{job=\"iot-host\",host=\"vm-linux\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s])) >= 15)",
+    "legendFormat": "Write B/s",
+    "evaluation_time": 1793150628.085,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "vm-linux"
+            },
+            "value": [
+              1793150628.085,
+              "17590418.285714284"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "B": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "B",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: (sum by (host) (rate(node_disk_written_bytes_total{job=\"iot-host\",host=\"vm-linux\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s]))) and on (host) (min by (host) (count_over_time(node_disk_written_bytes_total{job=\"iot-host\",host=\"vm-linux\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s])) >= 15)\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "vm-linux"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"vm-linux\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    17590418.285714284
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "panel": 7,
+    "refId": "A",
+    "expr": "(sum by (host) (rate(node_network_receive_bytes_total{job=\"iot-host\",host=\"vm-linux\",device!=\"lo\"}[30s]))) and on (host) (min by (host) (count_over_time(node_network_receive_bytes_total{job=\"iot-host\",host=\"vm-linux\",device!=\"lo\"}[30s])) >= 15)",
+    "legendFormat": "RX B/s",
+    "evaluation_time": 1793150628.085,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "vm-linux"
+            },
+            "value": [
+              1793150628.085,
+              "58755.21428571428"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: (sum by (host) (rate(node_network_receive_bytes_total{job=\"iot-host\",host=\"vm-linux\",device!=\"lo\"}[30s]))) and on (host) (min by (host) (count_over_time(node_network_receive_bytes_total{job=\"iot-host\",host=\"vm-linux\",device!=\"lo\"}[30s])) >= 15)\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "vm-linux"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"vm-linux\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    58755.21428571428
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "panel": 7,
+    "refId": "B",
+    "expr": "(sum by (host) (rate(node_network_transmit_bytes_total{job=\"iot-host\",host=\"vm-linux\",device!=\"lo\"}[30s]))) and on (host) (min by (host) (count_over_time(node_network_transmit_bytes_total{job=\"iot-host\",host=\"vm-linux\",device!=\"lo\"}[30s])) >= 15)",
+    "legendFormat": "TX B/s",
+    "evaluation_time": 1793150628.085,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "vm-linux"
+            },
+            "value": [
+              1793150628.085,
+              "84507.39285714286"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "B": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "B",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: (sum by (host) (rate(node_network_transmit_bytes_total{job=\"iot-host\",host=\"vm-linux\",device!=\"lo\"}[30s]))) and on (host) (min by (host) (count_over_time(node_network_transmit_bytes_total{job=\"iot-host\",host=\"vm-linux\",device!=\"lo\"}[30s])) >= 15)\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "vm-linux"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"vm-linux\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    84507.39285714286
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "panel": 8,
+    "refId": "A",
+    "expr": "up{job=\"iot-host\",host=\"vm-linux\"}",
+    "legendFormat": "{{host}} up",
+    "evaluation_time": 1793150628.085,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "up",
+              "host": "vm-linux",
+              "instance": "127.0.0.1:19100",
+              "job": "iot-host"
+            },
+            "value": [
+              1793150628.085,
+              "1"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: up{job=\"iot-host\",host=\"vm-linux\"}\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "up",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "__name__": "up",
+                      "host": "vm-linux",
+                      "instance": "127.0.0.1:19100",
+                      "job": "iot-host"
+                    },
+                    "config": {
+                      "displayNameFromDS": "up{host=\"vm-linux\", instance=\"127.0.0.1:19100\", job=\"iot-host\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "panel": 9,
+    "refId": "A",
+    "expr": "min by (host) (node_scrape_collector_success{job=\"iot-host\",host=\"vm-linux\"})",
+    "legendFormat": "{{host}} collector success",
+    "evaluation_time": 1793150628.085,
+    "prometheus": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "host": "vm-linux"
+            },
+            "value": [
+              1793150628.085,
+              "1"
+            ]
+          }
+        ]
+      }
+    },
+    "grafana": {
+      "results": {
+        "A": {
+          "status": 200,
+          "frames": [
+            {
+              "schema": {
+                "refId": "A",
+                "meta": {
+                  "type": "numeric-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ],
+                  "custom": {
+                    "calculatedMinStep": 2000,
+                    "resultType": "vector"
+                  },
+                  "executedQueryString": "Expr: min by (host) (node_scrape_collector_success{job=\"iot-host\",host=\"vm-linux\"})\nStep: 2s"
+                },
+                "fields": [
+                  {
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    },
+                    "config": {
+                      "interval": 2000
+                    }
+                  },
+                  {
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    },
+                    "labels": {
+                      "host": "vm-linux"
+                    },
+                    "config": {
+                      "displayNameFromDS": "{host=\"vm-linux\"}"
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "values": [
+                  [
+                    1793150628085
+                  ],
+                  [
+                    1
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+]

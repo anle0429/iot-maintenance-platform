@@ -81,7 +81,7 @@ def main():
     assert proof['host_samples_are_real'] and proof['linux_profile_has_fixture_queries_only'] and not proof['linux_exporter_launched'] and not proof['cloud_or_kubernetes_contacted']
     for name,item in proof['redactions'].items():assert digest((base/name).read_bytes())==item['published_sha256']
     for name in ['host-overview.jpg','host-network.jpg']:assert (base/name).read_bytes()[:2]==b'\xff\xd8'
-    print('PASS20payload hashes/10source bindings/22tests/35known-answer PromQL expressions/11same-time queries per engine/real OS sanity/5actual cold-start guards/loopback+cleanup. Windows PC evidence; Linux runtime still pending.')
+    print('PASS20payload hashes/10source bindings/22tests/35known-answer PromQL expressions/11same-time queries per engine/real OS sanity/5actual cold-start guards/loopback+cleanup. Windows PC snapshot; Linux VM evidence uses verify-linux-host.py separately.')
 
 
 if __name__=='__main__':main()

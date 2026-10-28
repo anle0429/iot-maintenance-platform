@@ -2,7 +2,7 @@
 from collections import Counter
 from hashlib import sha256
 from pathlib import Path,PurePosixPath
-import json,math,re,struct,subprocess,sys
+import ast,json,math,re,struct,subprocess,sys,tomllib
 
 
 def main():
@@ -16,11 +16,23 @@ def main():
         raw=(base/name).read_bytes();assert len(raw)==item['bytes']<1_000_000 and digest(raw)==item['sha256'],name
     assert sum(x['bytes'] for x in manifest['files'].values())==manifest['payload_bytes']
     assert len(proof['source_files'])==len(proof['executed_worktree_sha256'])==77
-    changed=[]
+    changed=[];superseded=[]
     for name,expected in proof['source_files'].items():
         assert not PurePosixPath(name).is_absolute() and '..' not in PurePosixPath(name).parts
         git=subprocess.check_output(['git','show',commit+':'+name],cwd=root);assert digest(git)==expected,name
-        raw=(root/name).read_bytes();assert raw==git or raw.replace(b'\r\n',b'\n')==git,name
+        raw=(root/name).read_bytes()
+        if raw!=git and raw.replace(b'\r\n',b'\n')!=git:
+            # Native CI later changed export permissions and mutation workspace copying, outside this PC HTTP experiment.
+            if name=='scripts/ci-serving.py':
+                functions=lambda text:{n.name:ast.dump(n,include_attributes=False) for n in ast.parse(text).body if isinstance(n,ast.FunctionDef)}
+                old,new=functions(git.decode()),functions(raw.decode())
+                for used in ['http','http_text','json_response']:assert old[used]==new[used],used
+            elif name=='pyproject.toml':
+                old,new=tomllib.loads(git.decode()),tomllib.loads(raw.decode())
+                old['tool']['mutmut']['also_copy']=[('scripts/' if n=='scripts/write-model-pin.py' else n) for n in old['tool']['mutmut']['also_copy']]
+                assert old==new
+            else:raise AssertionError('PC experiment runtime source changed: '+name)
+            superseded.append(name)
         execution=proof['executed_worktree_sha256'][name]
         if execution!=expected:
             assert digest(git.replace(b'\n',b'\r\n'))==execution;changed.append(name)
@@ -99,7 +111,7 @@ def main():
                 height,width=struct.unpack('>HH',raw[offset+3:offset+7]);dimensions=(width,height);break
             offset+=size
         assert dimensions==(1280,720)
-    print('PASS20payload hashes /77source bindings /800trial assignments+scores /26values per query engine /6panels /actual scrape loss+recovery /loopback+cleanup. Evidence audit only; no native deployment claim.')
+    print('PASS20payload hashes /77historical source bindings /800trial assignments+scores /26values per query engine /6panels /actual scrape loss+recovery /loopback+cleanup. Superseded CI metadata only:',superseded,'; used HTTP helpers/API/monitoring unchanged. No native deployment claim.')
 
 
 if __name__=='__main__':main()

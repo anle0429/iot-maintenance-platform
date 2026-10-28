@@ -2,6 +2,8 @@
 
 **Đã chạy thật trên PC Windows ngày 27/10/2026; chưa chạy trên VM.** Prometheus **3.13.5 LTS** lấy metrics từ A/B API; Grafana OSS **13.3.0** đọc Prometheus và hiển thị sáu biểu đồ. Code chạy ở commit `9fa1326d68615c4120aa99dee65387766a9a9ea9`. Registry và feature Feast là fixture; hai version pin dùng cùng weights legacy. Kết quả chứng minh đường monitoring, chưa chứng minh model mới tốt hơn hoặc A/B đã triển khai qua Jenkins/Kubernetes.
 
+Sau mốc PC, native serving CI sửa quyền đọc bundle và cấu hình thư mục mutation. Verifier giữ77source bindings **lịch sử**; hai file CI mới được đối chiếu riêng: ba HTTP helper đã dùng không đổi AST, cấu hình mutation chỉ thay copy script đơn thành thư mục.75file runtime/API/monitoring còn lại vẫn khớp. Không nhận các số đo PC này thành proof cho native CI hoặc cấu hình mutation mới. [Host monitoring trên Linux VM](host-monitoring.md#linux-vm-kết-quả-chạy-thật-ngày2810) đã có proof riêng; không đồng nghĩa đã có dashboard A/B native.
+
 ## Thành phần và số đo
 
 [Bộ tạo cấu hình](../ml/ab_monitoring.py) viết một thư mục runtime mới, gồm Prometheus file discovery, datasource và dashboard provision của Grafana. Mỗi lần chạy dùng state riêng; trùng thư mục sẽ bị từ chối. Hai dịch vụ chỉ nghe `127.0.0.1`. Target A/B phải là IPv4 loopback hoặc RFC1918 cụ thể; không nhận public URL, DNS, metadata endpoint hoặc URL chứa credentials. Các file sinh ra, database, password và binary không vào Git.

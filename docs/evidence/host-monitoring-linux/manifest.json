@@ -1,0 +1,94 @@
+{
+  "format": "iot-native-linux-host-evidence-v1",
+  "runtime_source_commit": "9f7e7e6aa3ad0187da1947b011bb5dd5b3f10182",
+  "oracle_source_commit": "82c70f206d1c46fc030f8fb4f770c296a0f130d8",
+  "native_archive_sha256": "65feadd04c9499db770019bbc528f12cc0f7f279287fed8203270ce26968de4c",
+  "files": {
+    "capture.json": {
+      "bytes": 4328,
+      "sha256": "77fa230d0c9343c19351efd9e36e7429390f4efe3c2b8906854cc4a56047f54a"
+    },
+    "downloads.json": {
+      "bytes": 1304,
+      "sha256": "3aa5cb2390aab6a5fdab9cdd3ed0b40d552b738e03ba6ac131bae06aae600136"
+    },
+    "host/dashboard-readback.json": {
+      "bytes": 12751,
+      "sha256": "0c1292b7f651ce36a50d119446c0238d58ddfe906984f97f7aedacd8c59a8a3e"
+    },
+    "host/grafana-health.json": {
+      "bytes": 102,
+      "sha256": "8bd956d3ba131db5a3f02c78502e8573b2c1feb480e3348a33c442861604bd85"
+    },
+    "host/ingested-names.json": {
+      "bytes": 577,
+      "sha256": "bae2c59f174dcd0fb858913bdff79717d08299843b026f37afa174860a12492a"
+    },
+    "host/native-os-sanity.json": {
+      "bytes": 739,
+      "sha256": "41ddef09fc3bc77bfad57b5e77a0a9a2cf79a9568c0dbe1ffb4d7b9abdc813fa"
+    },
+    "host/oracle-source.json": {
+      "bytes": 580,
+      "sha256": "e6c9b3b2f012be046cced750ad00edf6ee3e077cd91f0eb3f829c45f99f1a488"
+    },
+    "host/panel-queries.json": {
+      "bytes": 38420,
+      "sha256": "1cf70ee4f1a112227c4f7a7a7610bfd7b84c8cc1561c852b1eca013b0993b817"
+    },
+    "host/prometheus-build.json": {
+      "bytes": 255,
+      "sha256": "bc9b2c6a7390fce5b5264590d6e1ff441582b77d87f2e823e97a5be9ed7df91f"
+    },
+    "host/prometheus-targets.json": {
+      "bytes": 1245,
+      "sha256": "ef23cf26230524ead8db2100c790a4001157a0bce66347baead46c4c6218f9b5"
+    },
+    "host/raw-samples.json": {
+      "bytes": 178301,
+      "sha256": "994606459c6348c8ceef34f5e712af3cae8e8e9b7cf8e52f2a2634413bad03fa"
+    },
+    "host/units-live.json": {
+      "bytes": 855,
+      "sha256": "e5900c27a3a1e1d7864475aae9caf2c186940ffc389144f54aed8724e38fe127"
+    },
+    "host/verification.json": {
+      "bytes": 830,
+      "sha256": "8781a86bead77469dbe9a3b49857a1c619306513f958d5f92880a89c44129d7a"
+    },
+    "host-network.jpg": {
+      "bytes": 78732,
+      "sha256": "7750c304a75cd9668b72c9664a2a9c70495bfeebe0e0e7414ecef1d951e4a7da"
+    },
+    "host-overview.jpg": {
+      "bytes": 85406,
+      "sha256": "c3ff9fae2a69c204e075867051038ed16ee9a979c0027604160a04deaf15d611"
+    },
+    "listeners.json": {
+      "bytes": 769,
+      "sha256": "078e26cdd2d11ae0884dd0c2434526ca75945bc1a521084744d0135638ab7812"
+    },
+    "monitor-started.json": {
+      "bytes": 3736,
+      "sha256": "b389c0595fbfb9625f0e1521fe41a2da02a8ec6f7df736a6b13cee60bf06af9d"
+    },
+    "runtime/dashboards/host.json": {
+      "bytes": 10954,
+      "sha256": "672496f9da93a18aa2c6047fa8121148647522d257c616ed9a4dbbd9c1bdb1cf"
+    },
+    "runtime/prometheus.json": {
+      "bytes": 932,
+      "sha256": "1ae87f737dea9b2ac921c1a4b2a19bc0b0e95249c4ceec3d3d401da0b11a6868"
+    },
+    "runtime/provisioning/datasources/prometheus.yaml": {
+      "bytes": 360,
+      "sha256": "d409e880c959c4aeac8bc81c5bce97b393dd3ededc5c6f42efc0c5053fb00b09"
+    },
+    "runtime/targets/host.json": {
+      "bytes": 107,
+      "sha256": "721cbd83158be3c2567ec7b555d518c1a9eb8392bd594884848d89555886f4ac"
+    }
+  },
+  "payload_bytes": 421283,
+  "scope": "18VM-side hash-bound native receipt/config files, original native capture manifest and two genuine unedited browser JPEGs. No raw data edits/redactions; no helper/credential/binary/TSDB/model/dataset included. Socket response explicitly selects only three owned loopback listeners. Captured before any AB scrape target was added."
+}

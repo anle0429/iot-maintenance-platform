@@ -1,0 +1,434 @@
+{
+  "id": null,
+  "uid": "iot-host-linux",
+  "title": "IoT host / Linux VM actual metrics",
+  "schemaVersion": 39,
+  "version": 1,
+  "editable": false,
+  "timezone": "utc",
+  "refresh": "5s",
+  "description": "Actual host-wide metrics, including other applications.30s rates require15samples at2s intervals; they use boundary extrapolation. Virtual NICs can double-count traffic. No per-job attribution, benchmark, VM deployment or model-quality claim.",
+  "time": {
+    "from": "now-5m",
+    "to": "now"
+  },
+  "tags": [
+    "iot",
+    "host",
+    "linux"
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "host",
+        "label": "Host alias",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "iot-host-prometheus"
+        },
+        "query": "label_values(up{job=\"iot-host\"}, host)",
+        "refresh": 1,
+        "multi": false,
+        "includeAll": false,
+        "current": {
+          "text": "vm-linux",
+          "value": "vm-linux"
+        }
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "CPU non-idle / all logical cores",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "expr": "(100 * (1 - avg by (host) (rate(node_cpu_seconds_total{job=\"iot-host\",host=\"$host\",mode=\"idle\"}[30s])))) and on (host) (min by (host) (count_over_time(node_cpu_seconds_total{job=\"iot-host\",host=\"$host\",mode=\"idle\"}[30s])) >= 15)",
+          "legendFormat": "{{host}} busy",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 8,
+        "h": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          },
+          "max": 100
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "title": "RAM unavailable / total",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "expr": "100 * (1 - node_memory_MemAvailable_bytes{job=\"iot-host\",host=\"$host\"} / node_memory_MemTotal_bytes{job=\"iot-host\",host=\"$host\"})",
+          "legendFormat": "{{host}} RAM",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 8,
+        "y": 0,
+        "w": 8,
+        "h": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          },
+          "max": 100
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "RAM available",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "expr": "node_memory_MemAvailable_bytes{job=\"iot-host\",host=\"$host\"}",
+          "legendFormat": "{{host}} available",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 16,
+        "y": 0,
+        "w": 8,
+        "h": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "values": false
+        }
+      }
+    },
+    {
+      "id": 4,
+      "title": "Disk unavailable / total",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "expr": "100 * (1 - node_filesystem_avail_bytes{job=\"iot-host\",host=\"$host\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"} / node_filesystem_size_bytes{job=\"iot-host\",host=\"$host\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"})",
+          "legendFormat": "{{host}} / {{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 7,
+        "w": 8,
+        "h": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          },
+          "max": 100
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "title": "Disk available",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "expr": "node_filesystem_avail_bytes{job=\"iot-host\",host=\"$host\",mountpoint=~\"/|/srv/iot-data|/srv/iot-fast\",fstype!~\"tmpfs|overlay\"}",
+          "legendFormat": "{{host}} / {{mountpoint}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 8,
+        "y": 7,
+        "w": 8,
+        "h": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "values": false
+        }
+      }
+    },
+    {
+      "id": 6,
+      "title": "Disk I/O / selected volumes or whole disks",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "expr": "(sum by (host) (rate(node_disk_read_bytes_total{job=\"iot-host\",host=\"$host\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s]))) and on (host) (min by (host) (count_over_time(node_disk_read_bytes_total{job=\"iot-host\",host=\"$host\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s])) >= 15)",
+          "legendFormat": "Read B/s",
+          "refId": "A"
+        },
+        {
+          "expr": "(sum by (host) (rate(node_disk_written_bytes_total{job=\"iot-host\",host=\"$host\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s]))) and on (host) (min by (host) (count_over_time(node_disk_written_bytes_total{job=\"iot-host\",host=\"$host\",device=~\"sd[a-z]+|vd[a-z]+|nvme[0-9]+n[0-9]+\"}[30s])) >= 15)",
+          "legendFormat": "Write B/s",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 16,
+        "y": 7,
+        "w": 8,
+        "h": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "title": "Network I/O / all non-loopback interfaces",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "expr": "(sum by (host) (rate(node_network_receive_bytes_total{job=\"iot-host\",host=\"$host\",device!=\"lo\"}[30s]))) and on (host) (min by (host) (count_over_time(node_network_receive_bytes_total{job=\"iot-host\",host=\"$host\",device!=\"lo\"}[30s])) >= 15)",
+          "legendFormat": "RX B/s",
+          "refId": "A"
+        },
+        {
+          "expr": "(sum by (host) (rate(node_network_transmit_bytes_total{job=\"iot-host\",host=\"$host\",device!=\"lo\"}[30s]))) and on (host) (min by (host) (count_over_time(node_network_transmit_bytes_total{job=\"iot-host\",host=\"$host\",device!=\"lo\"}[30s])) >= 15)",
+          "legendFormat": "TX B/s",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 14,
+        "w": 8,
+        "h": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "title": "Exporter reachable",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "expr": "up{job=\"iot-host\",host=\"$host\"}",
+          "legendFormat": "{{host}} up",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 8,
+        "y": 14,
+        "w": 8,
+        "h": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "max": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "values": false
+        }
+      }
+    },
+    {
+      "id": 9,
+      "title": "Minimum success / enabled collectors",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "expr": "min by (host) (node_scrape_collector_success{job=\"iot-host\",host=\"$host\"})",
+          "legendFormat": "{{host}} collector success",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 16,
+        "y": 14,
+        "w": 8,
+        "h": 7
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "thresholds"
+          },
+          "max": 1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "values": false
+        }
+      }
+    }
+  ]
+}
