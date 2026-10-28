@@ -24,7 +24,7 @@ pipeline {
       steps {
         withCredentials([string(credentialsId: 'iot-vault-approle', variable: 'IOT_VAULT_APPROLE')]) {
           sh '''set +x
-            docker run --rm --read-only --tmpfs /tmp:rw,noexec,nosuid --cap-drop ALL --security-opt no-new-privileges --user 10001:10001 --memory 256m --memory-swap 256m --cpus 1 --network host --env IOT_VAULT_APPROLE --env PYTHONPATH=/src --mount "type=bind,src=$IOT_DEPLOY_ROOT/data/ci/source/$IOT_CI_COMMIT/tree,dst=/src,readonly" --mount "type=bind,src=$IOT_DEPLOY_ROOT/data/runtime/jenkins-home-27/workspace/$JOB_NAME/build-$BUILD_NUMBER/out,dst=/out" --mount "type=bind,src=$IOT_DEPLOY_ROOT/outputs/vault-28/resume/ca.crt,dst=/ca.crt,readonly" --entrypoint python iot-coursework-feast-versioned:0.67.0-3.17.2 /src/scripts/vault-ci-consumer.py --address https://10.52.0.1:18200 --ca /ca.crt --output /out/verification.json
+            docker run --rm --read-only --tmpfs /tmp:rw,noexec,nosuid --cap-drop ALL --security-opt no-new-privileges --user 10001:10001 --memory 256m --memory-swap 256m --cpus 1 --network host --env IOT_VAULT_APPROLE --env PYTHONPATH=/src --mount "type=bind,src=$IOT_DEPLOY_ROOT/data/ci/source/$IOT_CI_COMMIT/tree,dst=/src,readonly" --mount "type=bind,src=$IOT_DEPLOY_ROOT/data/runtime/jenkins-home-27/workspace/$JOB_NAME/build-$BUILD_NUMBER/out,dst=/out" --mount "type=bind,src=$IOT_DEPLOY_ROOT/outputs/vault-28/resume-active/ca.crt,dst=/ca.crt,readonly" --entrypoint python iot-coursework-feast-versioned:0.67.0-3.17.2 /src/scripts/vault-ci-consumer.py --address https://10.52.0.1:18200 --ca /ca.crt --output /out/verification.json
           '''
         }
       }
