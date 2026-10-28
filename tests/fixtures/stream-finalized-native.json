@@ -1,0 +1,52 @@
+{
+  "format": "iot-native-finalized-window-fixture-v1",
+  "parent": "docs/evidence/stream-push/warm/feast/source-report.json",
+  "parent_sha256": "8c4a41b37d8b46fbba2e38c3f8f85120ad442932e96fadaabf718f958037732c",
+  "code_sha256": {
+    "pipelines/stream_job.py": "478c4c9c7b38e56a93e53fd5236c432016e7fe2c3ee829202a4dc7979a9c46db",
+    "pipelines/stream_contract.py": "cd2a85c2bd8dda070ac0e174d12ac787201412425f75899a63c4580d69f9de06",
+    "pipelines/stream_verification.py": "7f959636c6ef74c4330a5ca8a9f480696762ecf34ecb506eef69afc947c6f3ae"
+  },
+  "windows": [
+    {
+      "closing_watermark_ms": 1790813459999,
+      "created": "2026-10-27T07:03:14.736748+00:00",
+      "event_timestamp": "2026-10-01T00:10:00Z",
+      "kind": "window",
+      "machine_id": "P-001",
+      "max_input_published_ts": "2026-10-01T00:16:00Z",
+      "reading_count": 3,
+      "temperature_mean": 20.0,
+      "temperature_sum": 60.0,
+      "vibration_max": 3.0,
+      "window_start": "2026-10-01T00:00:00Z"
+    },
+    {
+      "closing_watermark_ms": 9223372036854775807,
+      "created": "2026-10-27T07:04:13.017254+00:00",
+      "event_timestamp": "2026-10-01T00:20:00Z",
+      "kind": "window",
+      "machine_id": "P-001",
+      "max_input_published_ts": "2026-10-01T00:10:00Z",
+      "reading_count": 1,
+      "temperature_mean": 40.0,
+      "temperature_sum": 40.0,
+      "vibration_max": 4.0,
+      "window_start": "2026-10-01T00:10:00Z"
+    },
+    {
+      "closing_watermark_ms": 1790813459999,
+      "created": "2026-10-27T07:03:14.737225+00:00",
+      "event_timestamp": "2026-10-01T00:10:00Z",
+      "kind": "window",
+      "machine_id": "P-002",
+      "max_input_published_ts": "2026-10-01T00:02:00Z",
+      "reading_count": 1,
+      "temperature_mean": 100.0,
+      "temperature_sum": 100.0,
+      "vibration_max": 10.0,
+      "window_start": "2026-10-01T00:00:00Z"
+    }
+  ],
+  "scope": "Exact projection of three actual Kafka/Flink finalized windows from the retained27Oct run. New downstream CI replays this immutable source; it does not claim a fresh live Kafka/Flink run."
+}
