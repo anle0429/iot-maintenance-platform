@@ -12,6 +12,10 @@ Thêm một kiểm tra chính sách: tag registry `production=false` phải ch�
 
 Runner sửa thành `mutmut results --all true`; đã kiểm bằng CLI3.8 thực trong chính image Linux cũ, với **hai trạng thái fixture được khai báo rõ**, xuất được cả tên hàm/class và file stats đúng chỗ. Đây chỉ là kiểm tương thích CLI. Runner còn giữ raw metadata của7module ngay sau mutation, kể cả khi bước sau lỗi; metadata chưa hoàn tất không được dùng để vượt gate. **63contract tests/41subtests PASS trên PC** sau bổ sung kiểm bảo toàn metadata. Các bản gói chuẩn bị trước sửa CLI chưa được submit; lượt native mới phải lấy source mới, môi trường mới và đo lại toàn bộ1.582mutants.
 
+**Build4/source9465857 kết thúc FAILURE sau41phút25,623giây.**63contracts/208APItests Linux PASS; mutation bị `TimeoutExpired` ở2400giây. Metadata thô được giữ đủ1.582ID:1.193killed/254survived/**135chưa hoàn tất**. Không tính score từ tập chưa xong và không nhận chúng là killed. Đã xác nhận container terminal/không OOM; chưa build/stage/A-B/cutover.
+
+Số đo này cho thấy ngân sách mutation40phút chưa đủ cho bộ test đã tăng kiểm tra. Lượt kế tiếp dùng **3000giây cho mutation và3300giây cho riêng container test**; các container control khác vẫn3000giây, Jenkins85phút/admission90phút/VMautoSTOP8giờ không đổi. Giữ nguyên2worker/2CPU/4GiB,7module, mọi test, ngưỡng>90%/>80% và yêu cầu mọi mutant hoàn tất. Đây là điều chỉnh deadline bên trong pipeline theo đo thật; phải chạy lại từ workspace mới, không resume metadata của build4.
+
 CI này nhằm tránh tình huống feature API gọi model mới nhưng vẫn đọc Redis, metadata hoặc ảnh chạy của bản cũ. [Jenkinsfile](../infra/ci/Serving.Jenkinsfile) và [driver](../scripts/ci-serving.py) chuẩn bị từng release độc lập, rồi mới đổi API chính sau các chốt kiểm. Đây là mã ứng dụng/vận hành cần cho coursework; secrets và trạng thái chạy riêng không nằm trong Git.
 
 ## Luồng và các điều kiện

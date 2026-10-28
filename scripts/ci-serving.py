@@ -95,7 +95,7 @@ class Context:
 
     def container(self,name,command,memory='2g',cpus='1'):
         """Keep exact native limits/exit/OOM receipts and remove only this release's completed container."""
-        try:self.log(name,command,3000)
+        try:self.log(name,command,3300 if name=='tests' else 3000)
         finally:
             inspected=subprocess.run(['docker','inspect',self.release+'-'+name],capture_output=True,text=True)
             if inspected.returncode==0:

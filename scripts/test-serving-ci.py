@@ -37,7 +37,7 @@ def run(output):
     if not suites or sum(int(s.attrib.get('tests',0)) for s in suites)<1 or any(
             int(s.attrib.get(k,0)) for s in suites for k in ['errors','failures','skipped']):
         raise ValueError('Every native serving API test must actually execute and pass')
-    try:call(['mutmut','run','--max-children','2'],'mutmut-console.txt',2400)
+    try:call(['mutmut','run','--max-children','2'],'mutmut-console.txt',3000)
     finally:checkpoint_mutation_metadata(output)
     call(['mutmut','results','--all','true'],'mutmut-all-results.txt',60)
     call(['mutmut','export-cicd-stats'],'mutmut-export.txt',60)
