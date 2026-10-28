@@ -1,6 +1,6 @@
 # Phase A/B trong serving CI
 
-**Mã đã nối vào Jenkins; chưa có serving build/deploy native thành công.** Source chuẩn bị `da1b180880f8069f6eb3ed2be71f5bc94737c789`. Phiên VM28/10 đã có job `iot-serving`/Linux test image và đang kiểm mutation. Grafana host đã chạy trên VM; runtime image cho hai model, native A/B và dashboard A/B vẫn cần bằng chứng riêng. Các kết quả chi tiết bên dưới thuộc PC, HTTP loopback và Kubernetes protocol fixtures. F33/F34/F52/F53 vẫn đang làm.
+**Chưa có serving Jenkins SUCCESS/cutover native.** Build5 có mutation hoàn chỉnh82,74336%, ba image thật và private stage. Build6/source`314cfc9` qua test/build/stage, thực chạy A/B rồi bị guard chặn vì HPA thêm pod giữa phép đo; retained ledger và terminal83payload được giữ. [Sửa cửa sổ replica](ci-serving.md) tạm pin hai predictor1replica, giữ guard và restore bounds sau verify/rollback;95contracts trênPC PASS, còn lượt native mới. Dashboard A/B trênVM vẫn cần bằng chứng riêng. Các kết quả chi tiết PC bên dưới giữ nguyên nguồn cũ; F33/F34/F52/F53 vẫn đang làm.
 
 [Jenkinsfile](../infra/ci/Serving.Jenkinsfile) gọi `ab` sau khi stage model/Feast và trước full cutover. [Driver](../scripts/ci-serving.py) build/probe/import thêm image A/B, rồi dùng [native adapter](../ml/ab_native.py) triển khai và đọc lại tài nguyên. [Bộ kiểm giao thức](../ml/ab_ci.py) độc lập với Kubernetes để kiểm response, offline trace, metrics và retry. Nó không tự tạo UID hoặc nhận report PC thành bằng chứng native.
 

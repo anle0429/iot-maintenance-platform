@@ -32,9 +32,14 @@ pipeline {
   }
   post {
     unsuccessful { dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-serving.py cleanup' } }
-    always {
-      dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-serving.py archive' }
-      archiveArtifacts artifacts: "build-${env.BUILD_NUMBER}/outputs/ci-serving/**", allowEmptyArchive: true, fingerprint: true
+    cleanup {
+      script {
+        try { dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-serving.py restore-scaling' } }
+        finally {
+          dir("build-${env.BUILD_NUMBER}") { sh 'python3 scripts/ci-serving.py archive' }
+          archiveArtifacts artifacts: "build-${env.BUILD_NUMBER}/outputs/ci-serving/**", allowEmptyArchive: true, fingerprint: true
+        }
+      }
     }
   }
 }

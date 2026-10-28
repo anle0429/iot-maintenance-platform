@@ -1,5 +1,13 @@
 # Chuẩn bị CI phục vụ model: Jenkins → KServe và feature API
 
+## Build6 và cửa sổ đo ổn định
+
+Build6/source`314cfc9` kết thúc FAILURE sau255,424giây:84contracts/41subtests và208API tests Linux PASS; dependency/model pin/67file bảo vệ khớp build5 nên mutation hoàn chỉnh82,74336% được dùng lại với provenance riêng. Ba image build/probe/import và stage model6 thành công. Trong thử A/B thật, HPA thêm pod candidate lúc04:12:23UTC; guard phát hiện tập pod thay đổi và chặn cutover. API chính vẫnmodel1. Snapshot terminal83payload được giữ nguyên, không gọi đây là A/B đạt.
+
+Adapter hiện ghi journal trước khi tạm đặt cả baseline/candidate về`minReplicas=maxReplicas=1`, chờ ISVC/HPA/Deployment thực tế hội tụ rồi mới lấy identities/counters. Guard ổn định giữ nguyên; initial/final identities được lưu cả khi guard lỗi. Sau verify hoặc rollback, CI phục hồi đúng bounds ban đầu bằng JSON patch kiểm UID/bounds, từ chối ghi đè thay đổi của người vận hành. Việc này tạo điều kiện đo kiểm soát, không chứng minh autoscale hay HA. [KServe HPA](https://kserve.github.io/website/docs/model-serving/predictive-inference/autoscaling/hpa-autoscaler) giải thích quan hệ ISVC/HPA; [Jenkins `post cleanup`](https://www.jenkins.io/doc/book/pipeline/syntax/#post) được dùng để restore sau các post-condition khác, rồi archive trong`finally`.
+
+95contract tests/41subtests PASS trênPC sau sửa, gồm partial patch failure, replica chưa hội tụ, timeout, UID/policy conflict và journal không bị thay. Còn cần lượt native mới để nhận Jenkins SUCCESS và full cutover; không dùng lại ledger của build6.
+
 ## Native build5 và sửa adapter sau gate thành công
 
 Build5/source`914d494` kết thúc FAILURE sau44phút56,068giây ở bước A/B, trước full cutover. Phần kiểm thử đã hoàn tất thật:63contracts/41subtests và208API tests PASS;425/425statements,125/128branches; **1.309/1.582mutants=82,74336%**,273survivor,0timeout/skip/no-test/interruption. Inventory/stats/hashes đã qua strict gate; không nhận135mutant chưa xong của build4 vào kết quả này.

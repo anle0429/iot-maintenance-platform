@@ -291,11 +291,13 @@ def test_native_adapter_command_sequence_and_recheck_with_mocked_control_plane(t
         return result
     build={'images':{'predictor':{'config_digest':'sha256:'+'f'*64}}};stage={'isvc_uid':'candidate-fixture'}
     with patch.object(ab_native,'model_state',side_effect=models),patch.object(ab_native,'feature_identity',return_value=active),\
+            patch.object(ab_native,'pin_scaling') as pinned,\
             patch.object(ab_native,'workload_state',return_value={'url':'http://10.53.0.12','uid':'ab-fixture'}),\
             patch.object(ab_native,'offline_lookup',return_value=fixture.offline),patch.object(ab_ci,'deployment_plan',side_effect=planned),\
             patch.object(ab_ci,'probe',side_effect=probed),patch.object(ab_native.subprocess,'check_output',side_effect=output),\
             patch.object(ab_native.os,'chown',create=True) as ownership:
         report=ab_native.run(context,ROOT,pair,stage,build,None,None)
+        pinned.assert_called_once_with(context,['old',pair['isvc']['metadata']['name']])
         assert report['staged_isvc_uid']=='candidate-fixture' and report['baseline_pin']==LEGACY
         ownership.assert_called_once_with(source/'runtime/ab-ledger',10001,10001)
         assert [name for name,_ in logs]==['ab-create','ab-lint','ab-deploy']
@@ -318,6 +320,91 @@ def test_native_adapter_command_sequence_and_recheck_with_mocked_control_plane(t
         state=context.directory/'runtime/state';state.mkdir(parents=True);(state/'context.json').write_text(json.dumps(fixture.runtime.context))
         with patch.object(ab_native,'workload_state',side_effect=[{'url':'http://10.53.0.12','uid':'initial'},{'url':'http://10.53.0.12','uid':'replaced'}]):
             with pytest.raises(ValueError,match='changed during'):ab_native.run(context,ROOT,pair,stage,build,None,None)
+        assert json.loads((context.out/'ab-initial-identities.json').read_text())['workload']['uid']=='initial'
+        assert json.loads((context.out/'ab-final-identities.json').read_text())['workload']['uid']=='replaced'
+
+
+class ScalingFixture:
+    """Model an asynchronous Kubernetes reconciliation boundary without calling a live cluster."""
+    def __init__(self,path):
+        self.out=path;self.commit='a'*40;self.release='serve-jenkins-7';self.k=['kubectl-fixture'];self.logs=[]
+        self.models={n:{'metadata':{'uid':n+'-uid'},'spec':{'predictor':{'minReplicas':1,'maxReplicas':2}}} for n in ['old','new']}
+        self.pending=False;self.fail_patch=None
+    def get(self,*args):
+        """Expose policy reconciliation separately from ready and observed replica counts."""
+        _,kind,name,*_=args;model=name.removesuffix('-predictor')
+        if kind=='inferenceservice':return deepcopy(self.models[model])
+        policy=self.models[model]['spec']['predictor'];replicas=2 if self.pending else 1
+        if kind=='hpa':return {'metadata':{'uid':model+'-hpa'},'spec':{**policy,'scaleTargetRef':{'kind':'Deployment','name':name}},
+            'status':{'currentReplicas':replicas,'desiredReplicas':replicas}}
+        assert kind=='deployment'
+        return {'metadata':{'uid':model+'-deployment','name':name,'generation':2},'spec':{'replicas':replicas},
+            'status':{'observedGeneration':2,'replicas':replicas,'readyReplicas':replicas,'updatedReplicas':replicas}}
+    def log(self,label,command):
+        """Enforce JSON-patch tests against the original UID and fail one declared patch if requested."""
+        assert (self.out/'ab-scaling-original.json').exists(),'Journal must precede the first policy mutation'
+        self.logs.append((label,command));name=command[3]
+        if self.fail_patch==name:raise RuntimeError('Declared patch failure')
+        obj=self.models[name]
+        for op in json.loads(command[-1]):
+            if op['path']=='/metadata/uid':assert op['op']=='test' and obj['metadata']['uid']==op['value'];continue
+            key=op['path'].split('/')[-1]
+            if op['op']=='test':assert obj['spec']['predictor'][key]==op['value']
+            else:assert op['op']=='replace';obj['spec']['predictor'][key]=op['value']
+
+
+def test_two_model_scaling_waits_for_observed_replicas_and_restores_original_policy(tmp_path):
+    c=ScalingFixture(tmp_path);original=deepcopy(c.models);c.pending=True
+    def reconciled(_):c.pending=False
+    with patch.object(ab_native.time,'sleep',side_effect=reconciled) as waited:
+        ab_native.pin_scaling(c,['old','new']);waited.assert_called_once_with(2)
+    assert all(x['spec']['predictor']=={'minReplicas':1,'maxReplicas':1} for x in c.models.values())
+    journal=(tmp_path/'ab-scaling-original.json').read_bytes()
+    with pytest.raises(ValueError,match='Preserve'):ab_native.pin_scaling(c,['old','new'])
+    ab_native.restore_scaling(c)
+    assert c.models==original and (tmp_path/'ab-scaling-original.json').read_bytes()==journal
+    restored=json.loads((tmp_path/'ab-scaling-restored.json').read_text());assert restored['passed']
+    assert all(s['hpa']['spec']['maxReplicas']==2 for s in restored['states'].values())
+
+
+def test_partially_applied_scaling_is_recoverable_without_replacing_original_journal(tmp_path):
+    c=ScalingFixture(tmp_path);original=deepcopy(c.models);c.fail_patch='new'
+    with pytest.raises(RuntimeError):ab_native.pin_scaling(c,['old','new'])
+    assert c.models['old']!=original['old'] and c.models['new']==original['new']
+    c.fail_patch=None;ab_native.restore_scaling(c);assert c.models==original
+    assert [n for n,_ in c.logs if n.startswith('ab-scale-restore')]==['ab-scale-restore-old']
+
+
+@pytest.mark.parametrize('conflict',['uid','policy','journal'])
+def test_scaling_restore_refuses_operator_changes_before_mutating_either_model(tmp_path,conflict):
+    c=ScalingFixture(tmp_path);ab_native.pin_scaling(c,['old','new']);before=len(c.logs)
+    if conflict=='uid':c.models['new']['metadata']['uid']='replacement-uid'
+    elif conflict=='policy':c.models['new']['spec']['predictor']={'minReplicas':2,'maxReplicas':2}
+    else:
+        path=tmp_path/'ab-scaling-original.json';value=json.loads(path.read_text());value['release']='serve-jenkins-8';path.write_text(json.dumps(value))
+    with pytest.raises(ValueError):ab_native.restore_scaling(c)
+    assert len(c.logs)==before and not (tmp_path/'ab-scaling-restored.json').exists()
+
+
+def test_scaling_timeout_keeps_diagnostics_and_restore_is_available(tmp_path):
+    c=ScalingFixture(tmp_path);original=deepcopy(c.models);c.pending=True
+    with patch.object(ab_native.time,'monotonic',side_effect=[0,181]),patch.object(ab_native.time,'sleep') as slept:
+        with pytest.raises(ValueError,match='180seconds'):ab_native.pin_scaling(c,['old','new'])
+        slept.assert_not_called()
+    assert (tmp_path/'ab-scaling-timeout.json').exists() and not (tmp_path/'ab-scaling-pinned.json').exists()
+    ab_native.restore_scaling(c);assert c.models==original
+
+
+@pytest.mark.parametrize('policy',[{'minReplicas':0,'maxReplicas':2},{'minReplicas':2,'maxReplicas':1},
+    {'minReplicas':1,'maxReplicas':3},{'minReplicas':True,'maxReplicas':2}])
+def test_scaling_never_expands_the_existing_single_node_replica_budget(tmp_path,policy):
+    c=ScalingFixture(tmp_path);c.models['new']['spec']['predictor']=policy
+    with pytest.raises(ValueError,match='Unexpected'):ab_native.pin_scaling(c,['old','new'])
+    assert not c.logs and not (tmp_path/'ab-scaling-original.json').exists()
+
+
+def test_restore_without_a_scaling_journal_does_not_query_or_change_cluster(tmp_path):
+    c=NS(out=tmp_path);ab_native.restore_scaling(c)
 
 
 def test_controller_json_and_metrics_transport_has_an_actual_body_bound():

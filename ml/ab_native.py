@@ -2,7 +2,7 @@
 from datetime import datetime,timezone
 from hashlib import sha256
 from contextlib import closing
-import json,os,re,sqlite3,subprocess
+import json,os,re,sqlite3,subprocess,time
 from ml import ab_ci
 from ml.serving_ci import check_pods,check_seed_configmap,ab_gate
 from services.predictor.binding import FIELDS,validate_pin
@@ -74,6 +74,87 @@ def feature_identity(c):
     return {'uid':deployment['metadata']['uid'],'generation':deployment['metadata']['generation'],'isvc_name':target[0]}
 
 
+def scaling_policy(obj):
+    """Limit this single-node experiment to the existing one-or-two replica budget."""
+    policy={n:obj['spec']['predictor'][n] for n in ['minReplicas','maxReplicas']}
+    if any(type(v) is not int for v in policy.values()) or not 1<=policy['minReplicas']<=policy['maxReplicas']<=2:
+        raise ValueError('Unexpected predictor replica policy')
+    return policy
+
+
+def patch_scaling(c,name,uid,before,after,label):
+    """Change only replica bounds, atomically testing the original UID and current bounds first."""
+    patch=[{'op':'test','path':'/metadata/uid','value':uid}]
+    patch += [{'op':'test','path':'/spec/predictor/'+n,'value':v} for n,v in before.items()]
+    patch += [{'op':'replace','path':'/spec/predictor/'+n,'value':v} for n,v in after.items()]
+    c.log(label+'-'+name,c.k+['patch','inferenceservice',name,'-n','iot-serving','--type=json','-p',json.dumps(patch)])
+
+
+def scaling_state(c,name,uid,policy,settled=False):
+    """Read the controlling ISVC, actual HPA and deployment; a declared limit alone is insufficient."""
+    obj=c.get('get','inferenceservice',name,'-n','iot-serving')
+    if obj['metadata']['uid']!=uid or scaling_policy(obj)!=policy:raise ValueError('Predictor replica policy changed outside this experiment')
+    hpa=c.get('get','hpa',name+'-predictor','-n','iot-serving')
+    deployment=c.get('get','deployment',name+'-predictor','-n','iot-serving')
+    hs=hpa['spec'];ds=deployment['status']
+    matched=({n:hs.get(n) for n in policy}==policy and hs['scaleTargetRef']['kind']=='Deployment'
+        and hs['scaleTargetRef']['name']==deployment['metadata']['name'])
+    if settled:
+        matched=matched and (hpa['status'].get('currentReplicas')==1 and hpa['status'].get('desiredReplicas')==1
+            and ds.get('observedGeneration')==deployment['metadata']['generation']
+            and deployment['spec']['replicas']==1 and ds.get('replicas')==1 and ds.get('readyReplicas')==1
+            and ds.get('updatedReplicas')==1 and ds.get('unavailableReplicas',0)==0)
+    return {'matched':matched,'isvc':obj,'hpa':hpa,'deployment':deployment}
+
+
+def wait_scaling(c,original,policies,settled=False):
+    """Bound reconciliation time while retaining the final observed state on failure."""
+    deadline=time.monotonic()+180
+    while True:
+        states={n:scaling_state(c,n,item['uid'],policies[n],settled) for n,item in original.items()}
+        if all(s['matched'] for s in states.values()):return states
+        if time.monotonic()>=deadline:
+            save(c.out/'ab-scaling-timeout.json',states);raise ValueError('Predictor replica policies did not reconcile in180seconds')
+        time.sleep(2)
+
+
+def pin_scaling(c,names):
+    """Journal original policies before fixing two models to one replica for stable process counters."""
+    journal=c.out/'ab-scaling-original.json'
+    if journal.exists() or len(set(names))!=2:raise ValueError('Preserve the original two-model scaling journal')
+    original={}
+    for name in names:
+        obj=c.get('get','inferenceservice',name,'-n','iot-serving')
+        original[name]={'uid':obj['metadata']['uid'],'policy':scaling_policy(obj)}
+    save(journal,{'commit':c.commit,'release':c.release,'models':original,'observed_utc':datetime.now(timezone.utc).isoformat()})
+    pinned={'minReplicas':1,'maxReplicas':1}
+    for name,item in original.items():patch_scaling(c,name,item['uid'],item['policy'],pinned,'ab-scale-pin')
+    states=wait_scaling(c,original,{n:pinned for n in original},settled=True)
+    save(c.out/'ab-scaling-pinned.json',{'commit':c.commit,'release':c.release,'states':states})
+
+
+def restore_scaling(c):
+    """Restore only journaled UIDs and bounds after verify or rollback; refuse concurrent policy changes."""
+    path=c.out/'ab-scaling-original.json'
+    if not path.exists():return
+    journal=json.loads(path.read_text())
+    if journal.get('commit')!=c.commit or journal.get('release')!=c.release or len(journal['models'])!=2:
+        raise ValueError('Scaling journal belongs to another release')
+    original=journal['models'];pinned={'minReplicas':1,'maxReplicas':1};current={}
+    # Preflight both models before restoring either; partially applied pinning is also recoverable.
+    for name,item in original.items():
+        scaling_policy({'spec':{'predictor':item['policy']}})
+        obj=c.get('get','inferenceservice',name,'-n','iot-serving');policy=scaling_policy(obj)
+        if obj['metadata']['uid']!=item['uid'] or policy not in [pinned,item['policy']]:
+            raise ValueError('Refuse to overwrite another operator replica policy or model UID')
+        current[name]=policy
+    for name,item in original.items():
+        if current[name]!=item['policy']:patch_scaling(c,name,item['uid'],current[name],item['policy'],'ab-scale-restore')
+    states=wait_scaling(c,original,{n:item['policy'] for n,item in original.items()})
+    save(c.out/'ab-scaling-restored.json',{'passed':True,'commit':c.commit,'release':c.release,
+        'restored_utc':datetime.now(timezone.utc).isoformat(),'states':states})
+
+
 def workload_state(c,plan,build):
     """Read back AB rollout, immutable inputs and the exact static HDD volume bound to its claim."""
     name=plan['helm_release'];deployment=c.get('get','deployment',name,'-n','iot-features');status=deployment['status'];spec=deployment['spec']
@@ -133,7 +214,8 @@ def run(c,root,pair,stage,build,http,text):
     """Create one isolated experiment, verify native inputs and actual traffic, then return a candidate cutover receipt."""
     import yaml
     from services.drift_api.detector import DriftDetector
-    active=feature_identity(c);baseline=model_state(c,active['isvc_name']);candidate=model_state(c,pair['isvc']['metadata']['name'])
+    active=feature_identity(c);pin_scaling(c,[active['isvc_name'],pair['isvc']['metadata']['name']])
+    baseline=model_state(c,active['isvc_name']);candidate=model_state(c,pair['isvc']['metadata']['name'])
     if candidate['pin']!=pair['pin'] or candidate['isvc_uid']!=stage['isvc_uid'] or candidate['config_digest']!=build['images']['predictor']['config_digest']:
         raise ValueError('Staged candidate identity differs from the selected build')
     reference_source=c.get('get','configmap','iot-drift-reference-v1','-n','iot-features');reference_raw=reference_source['data']['reference.json']
@@ -157,10 +239,15 @@ def run(c,root,pair,stage,build,http,text):
     c.log('ab-deploy',[c.helm,'upgrade','--install',plan['helm_release'],str(root/'infra/charts/iot-api'),'-n','iot-features',
         '-f',str(c.out/'ab-values.json'),'--atomic','--wait','--timeout','240s'],600)
     initial=workload_state(c,plan,build);url=initial['url'];offline=offline_lookup(root,c,context)
+    identities={'workload':initial,'baseline':baseline,'candidate':candidate,'active_feature':active}
+    save(c.out/'ab-initial-identities.json',identities)
     result=ab_ci.probe(lambda path,body=None,headers=None:http(url,path,body,headers),lambda path:text(url,path),
         lambda variant:text({'baseline':baseline['url'],'candidate':candidate['url']}[variant],'/metrics'),context,c.release,
         {'baseline':baseline['pin'],'candidate':candidate['pin']},detector.reference_id,offline)
-    if workload_state(c,plan,build)!=initial or model_state(c,baseline['name'])!=baseline or model_state(c,candidate['name'])!=candidate or feature_identity(c)!=active:
+    final={'workload':workload_state(c,plan,build),'baseline':model_state(c,baseline['name']),
+        'candidate':model_state(c,candidate['name']),'active_feature':feature_identity(c)}
+    save(c.out/'ab-final-identities.json',final)
+    if final!=identities:
         raise ValueError('A/B or active workload changed during the experiment')
     retained=ledger_state(ledger/'trials.sqlite',result['readback'],context)
     for name,raw in [('ab-metrics.txt',result['metrics'])]+[(f'ab-{variant}-predictor-{when}.txt',result['predictor_metrics_'+when][variant]) for variant in ab_ci.VARIANTS for when in ['before','after']]:

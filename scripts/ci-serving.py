@@ -264,7 +264,7 @@ def run(phase):
     c=Context()
     if phase=='admission':
         proof=real_admission(c,5400);c.directory.mkdir(parents=True,exist_ok=False);c.out.mkdir();c.out.chmod(0o1777);save(c.out/'admission.json',proof);return
-    if phase not in ['cleanup','archive']:
+    if phase not in ['cleanup','archive','restore-scaling','restore-scaling-host']:
         with (c.out/(phase+'.attempt')).open('x') as stream:stream.write(datetime.now(timezone.utc).isoformat())
         if not phase.endswith('-host'):save(c.out/(phase+'-admission.json'),real_admission(c))
     if phase=='select':
@@ -371,6 +371,11 @@ def run(phase):
         save(c.out/'switched.json',{'commit':c.commit,'release':c.release,'completed_utc':datetime.now(timezone.utc).isoformat()})
     elif phase=='verify':c.selected();c.control('verify-host',cluster=True,memory='4g')
     elif phase=='verify-host':verify_host(c)
+    elif phase=='restore-scaling':
+        if (c.out/'ab-scaling-original.json').exists():c.control('restore-scaling-host',cluster=True)
+    elif phase=='restore-scaling-host':
+        from ml.ab_native import restore_scaling
+        restore_scaling(c)
     elif phase=='cleanup':
         for suffix in ['tests','select','stage','ab','switch','verify']:
             ids=subprocess.check_output(['docker','ps','-q','--filter','name=^/'+c.release+'-'+suffix+'$'],text=True).split()
@@ -391,5 +396,5 @@ def run(phase):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('phase',choices=['admission','select','select-host','test','build','stage','stage-host','ab','ab-host','switch','switch-host','verify','verify-host','cleanup','rollback-host','archive'])
+    parser.add_argument('phase',choices=['admission','select','select-host','test','build','stage','stage-host','ab','ab-host','switch','switch-host','verify','verify-host','cleanup','rollback-host','restore-scaling','restore-scaling-host','archive'])
     run(parser.parse_args().phase)
