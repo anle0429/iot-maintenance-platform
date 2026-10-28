@@ -18,10 +18,10 @@ Pushgateway giữ metric cũ cho đến khi bị thay/xóa; vì vậy dashboard 
 
 ## Kiểm tra hiện có
 
-Code mới đã qua6unit kiểm clock mapping, train/data boundary, kích thước mẫu, từ chối timestamp thiếu timezone/public publisher, số liệu gauge biết đáp án và hai loại đồng hồ trên dashboard:
+Code mới đã qua7unit kiểm clock mapping, train/data boundary, kích thước mẫu, từ chối timestamp thiếu timezone/public publisher, số liệu gauge biết đáp án và hai loại đồng hồ trên dashboard. Oracle PSI riêng dùng fixture hai bin tính tay và cố tình sửa score/count/decision để xác nhận bộ kiểm phát hiện sai:
 
 ```powershell
-python -m unittest tests.test_drift_monitoring -v
+python -m unittest tests.test_drift_monitoring tests.test_offline_drift_oracle -v
 ```
 
 Native Airflow/Feast/Pushgateway/Grafana đang được chuẩn bị; chưa có bằng chứng thành công từ mốc này. Manual probe phải gửi `interval_end_utc` rõ ràng; không dùng manual run làm bằng chứng scheduler tự chạy. Khoảng dữ liệu của một run do timetable xác định, không mặc định bằng thời điểm người dùng bấm chạy ([Airflow](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dag-run.html)).
