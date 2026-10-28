@@ -15,11 +15,13 @@ def events(second_task=True,group=True):
 class DistributedEvidenceTest(unittest.TestCase):
     """Require actual successful work, correct training attribution and a completed application."""
     def test_two_active_executors_are_required(self):
+        'Verify two active executors are required.'
         self.assertTrue(summarize(events())['passed'])
         for trace in [events(False),events(group=False),events()[:-1]]:
             self.assertFalse(summarize(trace)['passed'])
 
     def test_failed_attempt_and_local_driver_are_not_success(self):
+        'Verify failed attempt and local driver are not success.'
         trace=events();trace[0]['Executor ID']='driver'
         for item in trace:
             if item.get('Task Info',{}).get('Executor ID')=='1':item['Task Info']['Executor ID']='driver'

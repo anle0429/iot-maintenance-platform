@@ -41,6 +41,7 @@ def gate(killed=81):
 class ServingCITests(unittest.TestCase):
     """Check observable failure boundaries, independent identities and compatible existing deployment templates."""
     def test_canonical_identities_and_daemon_workspace_mapping(self):
+        'Verify canonical identities and daemon workspace mapping.'
         self.assertEqual(ci.identity('7','a'*40,'2'),'serve-jenkins-7')
         for build,commit,version in [('0','a'*40,'2'),('01','a'*40,'2'),('../1','a'*40,'2'),('1','A'*40,'2'),('1','a'*40,'latest'),('1','a'*40,'02')]:
             with self.subTest(build=build,version=version),self.assertRaises(ValueError):ci.identity(build,commit,version)
@@ -51,6 +52,7 @@ class ServingCITests(unittest.TestCase):
             with self.assertRaises(ValueError):ci.host_source_path(source,deploy)
 
     def test_real_session_resource_boundaries(self):
+        'Verify real session resource boundaries.'
         now=datetime(2026,10,27,10,tzinfo=timezone.utc)
         self.assertTrue(ci.admission('2026-10-27T11:30:00Z',now,12*1024**3,[20_000_000_000]*2)['passed'])
         for stop,ram,disks in [('2026-10-27T11:29:59Z',12*1024**3,[20_000_000_000]*2),
@@ -61,6 +63,7 @@ class ServingCITests(unittest.TestCase):
             with self.subTest(stop=stop,ram=ram),self.assertRaises(ValueError):ci.admission(stop,now,ram,disks)
 
     def test_strict_thresholds_and_every_mutant_are_required(self):
+        'Verify strict thresholds and every mutant are required.'
         self.assertEqual(ci.test_gate(*gate())['mutation_score_percent'],81)
         for value in [80,79]:
             with self.assertRaises(ValueError):ci.test_gate(*gate(value))
@@ -104,6 +107,7 @@ class ServingCITests(unittest.TestCase):
             self.assertFalse((output/'verification.json').exists());self.assertFalse((output/'mutation-metadata/unrelated.py.meta').exists())
 
     def test_model_and_feature_routes_switch_as_a_pair(self):
+        'Verify model and feature routes switch as a pair.'
         value=plan();self.assertEqual(value,plan())
         self.assertEqual(value['isvc']['metadata']['name'],'iot-pump-serve-jenkins-7')
         self.assertNotEqual(value['isvc']['metadata']['name'],'iot-pump-failure-v1')
@@ -118,6 +122,7 @@ class ServingCITests(unittest.TestCase):
         self.assertEqual(value['feature_values']['volumes'][0]['configMap']['name'],value['seed_configmap'])
 
     def test_nonproduction_or_unexpected_resource_cannot_form_a_plan(self):
+        'Verify nonproduction or unexpected resource cannot form a plan.'
         value=plan();model=value['isvc'];redis=value['redis'];feature=value['feature_values']
         with self.assertRaises(ValueError):ci.deployment_plan('7','a'*40,LEGACY,model,redis,feature)
         bad=deepcopy(redis);bad[0]['kind']='Secret'
@@ -126,6 +131,7 @@ class ServingCITests(unittest.TestCase):
         self.assertEqual((model,redis,feature),before)
 
     def test_http_identity_and_exact_score_boundary(self):
+        'Verify http identity and exact score boundary.'
         expected=pin();ci.check_prediction({'risk_score':.7,'predicted_failure':1},expected,expected)
         ci.check_prediction({'risk_score':.699,'predicted_failure':0},expected,expected)
         for name in expected:
@@ -135,6 +141,7 @@ class ServingCITests(unittest.TestCase):
             with self.subTest(score=score),self.assertRaises(ValueError):ci.check_prediction({'risk_score':score,'predicted_failure':decision},expected,expected)
 
     def test_imported_config_and_real_ready_containers_are_required(self):
+        'Verify imported config and real ready containers are required.'
         digest='sha256:'+'a'*64;pod={'metadata':{'uid':'new-uid'},'spec':{'containers':[{'name':'api','image':'release:7'}]},
             'status':{'containerStatuses':[{'name':'api','ready':True,'imageID':'containerd://'+digest,'state':{'running':{}}}]}}
         self.assertEqual(ci.check_pods([pod],'release:7',digest,'api'),['new-uid'])
@@ -147,6 +154,7 @@ class ServingCITests(unittest.TestCase):
         with self.assertRaises(ValueError):ci.check_pods([terminated],'release:7',digest,'api')
 
     def test_immutable_seed_hashes_and_native_uid_cannot_be_swapped(self):
+        'Verify immutable seed hashes and native uid cannot be swapped.'
         raw=b'\x00SQLite fixture';hashes={'context.json':sha256(b'{}').hexdigest(),'registry.db':sha256(raw).hexdigest()}
         value={'metadata':{'uid':'seed-uid'},'immutable':True,'data':{'context.json':'{}'},'binaryData':{'registry.db':base64.b64encode(raw).decode()}}
         self.assertEqual(ci.check_seed_configmap(value,hashes),'seed-uid')
@@ -175,6 +183,7 @@ class ServingCITests(unittest.TestCase):
             with self.assertRaises(ValueError):ci.ab_gate(bad,pin(),'new-model-uid')
 
     def test_rollout_requires_paired_images_env_seed_and_complete_generation(self):
+        'Verify rollout requires paired images env seed and complete generation.'
         value=plan();f=value['feature_values']
         deployment={'metadata':{'generation':3},'status':{'observedGeneration':3,'replicas':1,'updatedReplicas':1,'readyReplicas':1},
             'spec':{'template':{'spec':{'containers':[{'name':'api','image':value['feature_image'],'env':deepcopy(f['env'])}],
@@ -190,6 +199,7 @@ class ServingCITests(unittest.TestCase):
             with self.assertRaises(ValueError):ci.check_deployment(bad,value)
 
     def test_docker_save_config_is_checked_instead_of_an_unrelated_manifest_id(self):
+        'Verify docker save config is checked instead of an unrelated manifest id.'
         raw=b'{"architecture":"amd64","config":{"source":"release"}}';expected='sha256:'+sha256(raw).hexdigest()
         for path in ['config.json','blobs/sha256/'+sha256(raw).hexdigest()]:
             stream=io.BytesIO()
@@ -205,6 +215,7 @@ class ServingCITests(unittest.TestCase):
         with self.assertRaises(ValueError):ci.docker_config_digest(stream)
 
     def test_native_jenkins_driver_imports_with_stdlib_only(self):
+        'Verify native jenkins driver imports with stdlib only.'
         completed=subprocess.run([sys.executable,'-S',str(ROOT/'scripts/ci-serving.py'),'--help'],capture_output=True,text=True)
         self.assertEqual(completed.returncode,0,completed.stderr)
         self.assertIn('select-host',completed.stdout)

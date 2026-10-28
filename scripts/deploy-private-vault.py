@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 
 class NoRedirect(HTTPRedirectHandler):
     """Never send the bootstrap root token through a redirect."""
-    def redirect_request(self,*args):return None
+    def redirect_request(self,*args):'Refuse redirect-based forwarding of Vault initialization or authentication requests.';return None
 
 
 def run(args):
@@ -31,8 +31,9 @@ def run(args):
         for path in [private,server,state]:path.mkdir(parents=True,exist_ok=False)
         for path in [server,state]:os.chown(path,65534,65534);path.chmod(0o700)
         (state/'raft').mkdir(mode=0o700);os.chown(state/'raft',65534,65534)
-    def save(n,v):(out/n).write_text(json.dumps(v,indent=2,allow_nan=False)+'\n')
+    def save(n,v):'Write strict JSON deployment evidence into the new output directory.';(out/n).write_text(json.dumps(v,indent=2,allow_nan=False)+'\n')
     def command(values,stdin=None,log=None):
+        'Run a bounded Vault command with optional input and original console retention.'
         p=subprocess.run(values,input=stdin,capture_output=True,timeout=60)
         if log:(out/log).write_bytes(p.stdout+p.stderr)
         if p.returncode:raise RuntimeError('Vault command failed; retained log '+str(log))
@@ -64,6 +65,7 @@ def run(args):
     command(['systemctl','daemon-reload']);command(['systemctl','start','iot-vault-28'])
     context=ssl.create_default_context(cafile=str(ca));opener=build_opener(HTTPSHandler(context=context),NoRedirect());base='https://'+address+':18200/v1/'
     def api(path,body=None,token=None,method=None,allowed=()):
+        'Call the CA-verified Vault API and permit only explicitly expected HTTP statuses.'
         headers={'Content-Type':'application/json'}
         if token:headers['X-Vault-Token']=token
         request=Request(base+path,data=json.dumps(body).encode() if body is not None else None,headers=headers,method=method)

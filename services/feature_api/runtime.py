@@ -28,6 +28,7 @@ def aware(value):
 class FeatureRuntime:
     """Keep eligibility independent of the numeric model and future failure labels."""
     def __init__(self,context,backend,clock=None,model_pin=None):
+        'Bind eligibility context, backend, clock and validated model lineage before serving requests.'
         self.context=context;self.backend=backend;self.clock=clock or (lambda:datetime.now(timezone.utc))
         if context['clock_mode']!='simulation' or not context['machines']:raise Unavailable('Explicit simulation context required')
         self.as_of=aware(context['as_of']);self.prepared=aware(context['prepared_wall_utc'])
@@ -70,6 +71,7 @@ class FeatureRuntime:
 class FeastKServeBackend:
     """Use native Feast online reads and a fixed private KServe endpoint; no write/materialize HTTP tools."""
     def __init__(self,state,predictor):
+        'Verify the sealed serving state and configure native Feast reads plus a fixed KServe endpoint.'
         from feast import FeatureStore
         from feast.repo_config import RepoConfig
         state=Path(state);seal=json.loads((state/'_READY.json').read_text());verification=json.loads((state/'verification.json').read_text())

@@ -11,7 +11,7 @@ def application_discovery(token_file,ca_file,node,host='vm-linux',collection='na
     if token==ca:raise ValueError('Token and public CA require separate files')
     q=json.dumps
     rules=[]
-    def rule(**fields):rules.append('  rule {\n'+''.join('    '+n+' = '+q(v)+'\n' for n,v in fields.items())+'  }')
+    def rule(**fields):'Append one relabel rule with safely quoted field values.';rules.append('  rule {\n'+''.join('    '+n+' = '+q(v)+'\n' for n,v in fields.items())+'  }')
     rule(source_labels=['__meta_kubernetes_pod_container_init'],regex='false',action='keep')
     rule(source_labels=['__meta_kubernetes_pod_phase'],regex='Running',action='keep')
     for label,value,service in [('app_kubernetes_io_instance','iot-feature-api','feature-api'),('app_kubernetes_io_instance','iot-drift-api','drift-api'),('app_kubernetes_io_instance','iot-ab-serve-jenkins-8','ab-api'),('serving_kserve_io_inferenceservice','iot-pump-serve-jenkins-8','predictor'),('app','iot-log-discovery-probe','log-probe')]:

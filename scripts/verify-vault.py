@@ -1,5 +1,6 @@
 """Audit real Vault AppRole consumers, HMAC audit records, credential rotation and Raft restart without secrets or network."""
 from collections import defaultdict
+from evidence_integrity import current_source_bindings
 from hashlib import sha256
 from pathlib import Path
 import json,re,ssl,subprocess
@@ -29,7 +30,7 @@ def main():
         after=read('ci-'+str(number)+'/source-after.json');assert after['commit']==commit and after['files']==seal['files']
         job=read('ci-'+str(number)+'/job.json');assert job['number']==number and job['building'] is False and job['result']==result and job['duration']==duration
         params={p['name']:p['value'] for a in job['actions'] for p in a.get('parameters',[])};assert params=={'SOURCE_COMMIT':commit}
-    for n,h in read('sources/ci-2.json')['files'].items():assert sha256((ROOT/n).read_bytes()).hexdigest()==h,n
+    current_source_bindings(read('sources/ci-2.json'))
     stages=read('ci-2/stages.json');assert stages['status']=='SUCCESS' and len(stages['stages'])==4 and all(s['status']=='SUCCESS' for s in stages['stages'])
     text=(BASE/'ci-2/console.txt').read_text();assert 'Ran 3 tests' in text and 'Finished: SUCCESS' in text and 'Masking supported pattern matches of $IOT_VAULT_APPROLE' in text
     proof=read('ci-2/verification.json');assert proof['passed'] and proof['consumer']=='Jenkins' and proof['authentication']=='AppRole' and proof['lease']=={'lease_duration':300,'renewable':True,'token_policies':['iot-ci']}

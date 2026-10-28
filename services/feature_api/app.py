@@ -12,6 +12,7 @@ def create_app(runtime=None):
     """Use dependency injection for tests while production constructs the actual native backend at startup."""
     @asynccontextmanager
     async def lifespan(app):
+        'Create or inject the validated feature runtime and its semaphore during application startup.'
         if runtime is None:
             pin=os.environ.get('IOT_MODEL_PIN')
             value=validate_pin(json.loads(FilePath(pin).read_text())) if pin is not None else None

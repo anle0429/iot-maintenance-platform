@@ -9,9 +9,10 @@ SLA={'minimum_requests':100,'maximum_failures':0,'p95_ms':500,'clock_mode':'simu
 class FeatureReader(HttpUser):
     """Cycle through all real machine IDs; model prediction is a separate workload."""
     wait_time=constant_pacing(.1)
-    def on_start(self):self.number=0
+    def on_start(self):'Start the load user at the first machine in the bounded cohort.';self.number=0
     @task
     def features(self):
+        'Cycle through the200 machines and exercise the feature endpoint with Locust.'
         self.number=self.number%200+1;machine=f'P-{self.number:03d}'
         with self.client.get('/v1/machines/'+machine+'/features',name='/v1/machines/{machine_id}/features',catch_response=True) as response:
             if response.status_code!=200:return

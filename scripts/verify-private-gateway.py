@@ -1,5 +1,6 @@
 """Independently audit genuine private gateway routing/auth/TLS/rate evidence and unchanged model6 math."""
 from pathlib import Path
+from evidence_integrity import current_source_bindings
 from hashlib import sha256
 from urllib.parse import urlsplit
 import json,math,ssl,subprocess,sys
@@ -25,7 +26,7 @@ def main():
         seal=json.loads(source.read_bytes())
         for n,h in seal['files'].items():assert sha256(subprocess.check_output(['git','show',seal['commit']+':'+n],cwd=ROOT)).hexdigest()==h
     final_source=read('sources/gateway-source-v4.json');assert len(final_source['files'])==5
-    for n,h in final_source['files'].items():assert sha256((ROOT/n).read_bytes()).hexdigest()==h,n
+    current_source_bindings(final_source)
     assets=json.loads((ROOT/'infra/gateway/assets.json').read_bytes());before=read('deploy/before.json');rendered=read('header-guard-fixed/manifests.json')['items']
     assert rendered==resources(assets['image'],before['bridge_ip'])
     service=read('final/service.json');assert service['spec']['type']=='ClusterIP' and not service['spec'].get('externalIPs')

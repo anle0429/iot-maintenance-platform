@@ -50,11 +50,14 @@ def runtime(bundle):
     """Use native golden feature values and a separate manual simulation clock at the API boundary."""
     model=PumpPredictor(bundle)
     class Backend:
-        def __init__(self):self.calls=0
+        'Provide golden feature and predictor operations with a measurable call count.'
+        def __init__(self):'Initialize the prediction call counter for the backend fixture.';self.calls=0
         def fetch(self,machine):
+            'Return the golden vector and matching simulated event timestamps.'
             return {'values':deepcopy(GOLDEN['samples'][0]['features']),
                 'timestamps':{n:ASOF.isoformat() for n in GOLDEN['samples'][0]['features']}}
         def predict(self,features):
+            'Count calls and evaluate the supplied features with the selected real model.'
             self.calls+=1
             return {'model':model.metadata(),'predictions':model.predict([FeatureVector.model_validate(features)])}
     backend=Backend();context={'clock_mode':'simulation','as_of':ASOF.isoformat(),'prepared_wall_utc':NOW.isoformat(),
@@ -64,10 +67,12 @@ def runtime(bundle):
 
 
 def test_legacy_pin_asset_matches_loaded_model():
+    'Verify legacy pin asset matches loaded model.'
     assert json.loads((BUNDLE/'model-pin.json').read_text())==LEGACY==PumpPredictor(BUNDLE).pin
 
 
 def test_versioned_predictor_http_preserves_native_goldens(release):
+    'Verify versioned predictor http preserves native goldens.'
     with TestClient(predictor_app(release)) as client:
         assert client.get('/health/ready').json()=={'ready':True,'version':'2'}
         response=client.post('/v1/models/iot-pump-failure-v1:predict',json={'instances':[x['features'] for x in GOLDEN['samples']]})
@@ -79,6 +84,7 @@ def test_versioned_predictor_http_preserves_native_goldens(release):
 
 
 def test_feature_http_accepts_the_explicit_release_and_keeps_trace(release):
+    'Verify feature http accepts the explicit release and keeps trace.'
     r=runtime(release)
     with TestClient(feature_app(r)) as client:
         reply=client.post('/v1/machines/P-001:predict')
@@ -88,6 +94,7 @@ def test_feature_http_accepts_the_explicit_release_and_keeps_trace(release):
 
 
 def test_release_threshold_is_used_at_the_exact_boundary(release):
+    'Verify release threshold is used at the exact boundary.'
     path=release/'portable.json';model=json.loads(path.read_text());model.update(coefficients=[0.0]*8,intercept=0.0,threshold=0.5)
     raw=json.dumps(model).encode();path.write_bytes(raw)
     set_lineage(release,lambda v:v.update(portable_sha256=sha256(raw).hexdigest()))
@@ -98,8 +105,10 @@ def test_release_threshold_is_used_at_the_exact_boundary(release):
 @pytest.mark.parametrize('field,value',[(n,'changed') for n in FIELDS if n not in ['production','threshold']]
     +[('production',False),('production',1),('threshold',0.6)])
 def test_any_wrong_downstream_identity_is_blocked(release,field,value):
+    'Verify any wrong downstream identity is blocked.'
     r=runtime(release);original=r.backend.predict
     def altered(features):
+        'Change one response pin field to verify end-to-end lineage rejection.'
         reply=original(features);reply['model'][field]=value;return reply
     r.backend.predict=altered
     with TestClient(feature_app(r)) as client:
@@ -113,11 +122,13 @@ def test_any_wrong_downstream_identity_is_blocked(release,field,value):
     lambda v:v['registry_selection'].update(run_id='b'*32),lambda v:v['registry_selection'].update(registry_stage='Archived'),
     lambda v:v['registry_selection'].update(production_tag='false'),lambda v:v.update(registry_uri='models:/other/2')])
 def test_new_model_cannot_start_with_unverified_registry_claim(release,change):
+    'Verify new model cannot start with unverified registry claim.'
     set_lineage(release,change)
     with pytest.raises(ValueError):PumpPredictor(release)
 
 
 def test_legacy_stage_production_claim_can_be_loaded(release):
+    'Verify legacy stage production claim can be loaded.'
     set_lineage(release,lambda v:v['registry_selection'].update(production_tag=None,registry_stage='Production'))
     assert PumpPredictor(release).metadata()['production'] is True
 
@@ -131,26 +142,31 @@ def test_explicit_false_tag_cannot_fall_back_to_production_stage(release):
 @pytest.mark.parametrize('field,value',[(n,'invalid') for n in ['name','version','run_id','protocol_sha256','portable_sha256','training_code_commit','data_version']]
     +[('version',1),('threshold',0),('threshold',1),('threshold',float('nan')),('threshold',True),('production','false')])
 def test_pin_schema_rejects_invalid_identity_and_boundaries(field,value):
+    'Verify pin schema rejects invalid identity and boundaries.'
     pin=deepcopy(LEGACY);pin[field]=value
     with pytest.raises(ValueError):validate_pin(pin)
 
 
 @pytest.mark.parametrize('pin',[{},[],None,{'version':'2'},{**LEGACY,'extra':'unsupported'}])
 def test_explicit_pin_file_cannot_silently_fall_back(tmp_path,monkeypatch,pin):
+    'Verify explicit pin file cannot silently fall back.'
     path=tmp_path/'pin.json';path.write_text(json.dumps(pin));monkeypatch.setenv('IOT_MODEL_PIN',str(path))
-    def forbidden(*args):raise AssertionError('Invalid pin must fail before native SDK construction')
+    def forbidden(*args):'Fail if native SDK construction occurs before an invalid pin is rejected.';raise AssertionError('Invalid pin must fail before native SDK construction')
     monkeypatch.setattr('services.feature_api.app.FeastKServeBackend',forbidden)
     with pytest.raises(ValueError):
         with TestClient(feature_app()):pass
 
 
 def test_feature_startup_reads_the_configured_pin_file(release,tmp_path,monkeypatch):
+    'Verify feature startup reads the configured pin file.'
     fixture=runtime(release);pin=fixture.model_pin
     path=tmp_path/'pin.json';path.write_text(json.dumps(pin));monkeypatch.setenv('IOT_MODEL_PIN',str(path))
     monkeypatch.setenv('IOT_SERVING_STATE','/state');monkeypatch.setenv('IOT_KSERVE_URL','http://private')
     def backend(state,url):
+        'Verify native backend configuration and return the bound feature fixture.'
         assert state=='/state' and url=='http://private';fixture.backend.context=fixture.context;return fixture.backend
     def create(context,b,model_pin):
+        'Verify context/backend/pin injection and return the prepared runtime.'
         assert context==fixture.context and b is fixture.backend and model_pin==pin;return fixture
     monkeypatch.setattr('services.feature_api.app.FeastKServeBackend',backend)
     monkeypatch.setattr('services.feature_api.app.FeatureRuntime',create)
@@ -158,6 +174,7 @@ def test_feature_startup_reads_the_configured_pin_file(release,tmp_path,monkeypa
 
 
 def test_feature_pin_copy_and_runtime_protocol_changes_are_guarded(release):
+    'Verify feature pin copy and runtime protocol changes are guarded.'
     r=runtime(release);pin=deepcopy(r.model_pin)
     other=FeatureRuntime(r.context,r.backend,clock=lambda:NOW,model_pin=pin)
     pin['version']='3';assert other.model_pin['version']=='2'
@@ -170,12 +187,14 @@ def test_feature_pin_copy_and_runtime_protocol_changes_are_guarded(release):
 @pytest.mark.parametrize('change',[lambda r:r.context['machines']['P-001'].update(status='maintenance'),
     lambda r:setattr(r,'clock',lambda:NOW+timedelta(hours=1))])
 def test_new_release_does_not_bypass_stopped_or_expired_feature_checks(release,change):
+    'Verify new release does not bypass stopped or expired feature checks.'
     r=runtime(release);change(r)
     with TestClient(feature_app(r)) as client:assert client.post('/v1/machines/P-001:predict').status_code in [409,503]
     assert r.backend.calls==0
 
 
 def test_pin_writer_uses_validated_bundle_and_preserves_existing_output(release,tmp_path):
+    'Verify pin writer uses validated bundle and preserves existing output.'
     spec=importlib.util.spec_from_file_location('pin_writer_test',ROOT/'scripts/write-model-pin.py')
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     args=NS(bundle=release,output=tmp_path/'release-pin.json');module.run(args)
@@ -187,6 +206,7 @@ def test_pin_writer_uses_validated_bundle_and_preserves_existing_output(release,
 
 @pytest.mark.parametrize('field,value',[('intercept',True),('intercept','0'),('mean',None),('std','bad')])
 def test_nonfinite_or_wrong_numeric_types_never_start(release,field,value):
+    'Verify nonfinite or wrong numeric types never start.'
     path=release/'portable.json';model=json.loads(path.read_text());model[field]=value;raw=json.dumps(model).encode();path.write_bytes(raw)
     set_lineage(release,lambda v:v.update(portable_sha256=sha256(raw).hexdigest()))
     with pytest.raises(ValueError):PumpPredictor(release)
@@ -214,12 +234,14 @@ def test_version_pin_across_two_real_http_servers_under_bounded_load(release):
     expected_model=PumpPredictor(release).metadata()
     with local_http(predictor_app(release)) as predictor_url:
         def predict(features):
+            'Forward a fixture vector to the actual local predictor HTTP endpoint.'
             request=Request(predictor_url+'/v1/models/iot-pump-failure-v1:predict',
                 data=json.dumps({'instances':[features]}).encode(),headers={'content-type':'application/json'})
             with urlopen(request,timeout=5) as response:return json.load(response)
         r.backend.predict=predict
         with local_http(feature_app(r)) as feature_url:
             def request(index):
+                'Time a real feature prediction request and require the expected model metadata.'
                 started=time.perf_counter()
                 with urlopen(Request(feature_url+'/v1/machines/P-001:predict',data=b'',method='POST'),timeout=10) as response:
                     value=json.load(response);assert response.status==200 and value['model']==expected_model

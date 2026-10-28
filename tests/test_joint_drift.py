@@ -34,12 +34,14 @@ def cohorts(size=64,reverse=False):
 
 
 def test_scalar_kernel_and_statistic_match_analytic_two_point_answer():
+    'Verify scalar kernel and statistic match analytic two point answer.'
     gram=gaussian_gram([(0.0,),(1.0,)],[1.0],1.0);k=math.exp(-.5)
     assert list(gram)==pytest.approx([1,k,k,1])
     assert partition_mmd_squared(gram,[1+k,1+k],2+2*k,[0])==pytest.approx(2-2*k)
 
 
 def test_unequal_groups_match_independent_direct_summation():
+    'Verify unequal groups match independent direct summation.'
     points=[(0.0,),(1.0,),(3.0,),(4.0,),(5.0,)];left=[0,3];right=[1,2,4]
     kernel=lambda a,b:math.exp(-((points[a][0]-points[b][0])**2)/2)
     expected=sum(kernel(i,j) for i in left for j in left)/4+sum(kernel(i,j) for i in right for j in right)/9-2*sum(kernel(i,j) for i in left for j in right)/6
@@ -48,6 +50,7 @@ def test_unequal_groups_match_independent_direct_summation():
 
 
 def test_joint_shift_alerts_while_all_eight_marginal_psis_are_exactly_zero():
+    'Verify joint shift alerts while all eight marginal psis are exactly zero.'
     bundle,window=cohorts(reverse=True)
     for name in bundle['samples'][0]:assert sorted(row[name] for row in bundle['samples'])==sorted(row['features'][name] for row in window['observations'])
     result=JointDriftAudit(bundle).compare(CompareRequest.model_validate(window))
@@ -58,6 +61,7 @@ def test_joint_shift_alerts_while_all_eight_marginal_psis_are_exactly_zero():
 
 
 def test_identical_group_reordering_and_exact_id_replay_keep_the_assessment():
+    'Verify identical group reordering and exact id replay keep the assessment.'
     bundle,window=cohorts();audit=JointDriftAudit(bundle);normal=audit.compare(CompareRequest.model_validate(window))
     assert normal['joint']['mmd_squared']==pytest.approx(0,abs=1e-12)
     assert normal['joint']['permutation_tail_fraction']==1 and not normal['joint']['diagnostic_alert']
@@ -66,6 +70,7 @@ def test_identical_group_reordering_and_exact_id_replay_keep_the_assessment():
 
 
 def test_identical_constant_groups_keep_all_permutation_ties():
+    'Verify identical constant groups keep all permutation ties.'
     bundle,window=cohorts(32)
     for row in bundle['samples']:row.update(deepcopy(bundle['samples'][0]))
     for row in window['observations']:row['features']=deepcopy(bundle['samples'][0])
@@ -76,6 +81,7 @@ def test_identical_constant_groups_keep_all_permutation_ties():
 
 
 def test_clear_marginal_sensor_offset_is_seen_by_both_detectors():
+    'Verify clear marginal sensor offset is seen by both detectors.'
     bundle,window=cohorts()
     for row in window['observations']:row['features']['temperature_mean_10m']+=80;row['features']['vibration_max_10m']+=8
     result=JointDriftAudit(bundle).compare(CompareRequest.model_validate(window))
@@ -91,6 +97,7 @@ def test_nonlinear_relation_shift_can_keep_both_marginals_and_zero_covariance():
         current['vibration_max_10m']=1.0 if level!=0 and i%32<16 else 5.0
     window['reference_id']=sha256(canonical_bytes(bundle)).hexdigest()
     def covariance(rows):
+        'Compute population covariance directly for the nonlinear counterexample oracle.'
         x=[r['temperature_mean_10m'] for r in rows];y=[r['vibration_max_10m'] for r in rows]
         return sum((a-sum(x)/len(x))*(b-sum(y)/len(y)) for a,b in zip(x,y))/len(x)
     current=[r['features'] for r in window['observations']]
@@ -101,6 +108,7 @@ def test_nonlinear_relation_shift_can_keep_both_marginals_and_zero_covariance():
 
 
 def test_maximum_declared_group_uses_exact_bounded_float64_payload():
+    'Verify maximum declared group uses exact bounded float64 payload.'
     bundle,window=cohorts(128);result=JointDriftAudit(bundle).compare(CompareRequest.model_validate(window))
     assert result['resources']=={'matrix_rows':256,'gram_payload_bytes':524288,'gram_payload_cap_bytes':524288}
     assert not result['joint']['diagnostic_alert']
@@ -108,12 +116,14 @@ def test_maximum_declared_group_uses_exact_bounded_float64_payload():
 
 @pytest.mark.parametrize('size',[31,129])
 def test_reference_bounds_reject_before_allocating_gram(size):
+    'Verify reference bounds reject before allocating gram.'
     bundle,_=cohorts(size)
     with patch('ml.joint_drift.gaussian_gram',side_effect=AssertionError('Must not allocate')):
         with pytest.raises(ValueError,match='32..128'):JointDriftAudit(bundle)
 
 
 def test_oversized_window_and_wrong_reference_never_allocate_gram():
+    'Verify oversized window and wrong reference never allocate gram.'
     bundle,window=cohorts(129);bundle['samples']=bundle['samples'][:128];audit=JointDriftAudit(bundle)
     window['reference_id']=audit.detector.reference_id
     with patch('ml.joint_drift.gaussian_gram',side_effect=AssertionError('Must not allocate')):
@@ -129,11 +139,13 @@ def test_oversized_window_and_wrong_reference_never_allocate_gram():
     lambda w:w['observations'][0]['features'].update(current_mean_10m=float('nan')),
     lambda w:w['observations'].append({**w['observations'][0],'available_at':'2026-10-01T00:32:00Z'})])
 def test_existing_window_contract_rejects_invalid_time_label_and_conflicting_replay(change):
+    'Verify existing window contract rejects invalid time label and conflicting replay.'
     _,window=cohorts();change(window)
     with pytest.raises(ValueError):CompareRequest.model_validate(window)
 
 
 def test_policy_and_reference_cannot_change_by_input_or_output_alias(tmp_path):
+    'Verify policy and reference cannot change by input or output alias.'
     path=tmp_path/'policy.json';path.write_bytes(b'{}')
     with pytest.raises(ValueError,match='frozen'):load_policy(path)
     bundle,window=cohorts(32);audit=JointDriftAudit(bundle);bundle['samples'][0]['current_mean_10m']=99
@@ -145,6 +157,7 @@ def test_policy_and_reference_cannot_change_by_input_or_output_alias(tmp_path):
 @settings(max_examples=10,deadline=None)
 @given(st.lists(st.floats(min_value=-100,max_value=100,allow_nan=False,allow_infinity=False),min_size=2,max_size=8))
 def test_gaussian_symmetry_and_equal_multiset_statistic(values):
+    'Verify gaussian symmetry and equal multiset statistic.'
     points=[(x,) for x in values];gram=gaussian_gram(points,[20.0],1.0);size=len(points)
     assert all(gram[i*size+i]==1 and 0<=gram[i*size+j]<=1 and gram[i*size+j]==gram[j*size+i] for i in range(size) for j in range(size))
     doubled=points+points;gram=gaussian_gram(doubled,[20.0],1);count=len(doubled)
@@ -153,6 +166,7 @@ def test_gaussian_symmetry_and_equal_multiset_statistic(values):
 
 
 def test_public_cli_preserves_inputs_and_existing_output(tmp_path,capsys):
+    'Verify public cli preserves inputs and existing output.'
     spec=importlib.util.spec_from_file_location('joint_cli_test',ROOT/'scripts/audit-joint-drift.py');module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     bundle,window=cohorts(32,reverse=True);ref=tmp_path/'reference.json';win=tmp_path/'window.json';out=tmp_path/'result.json'
     ref.write_bytes(canonical_bytes(bundle));win.write_bytes(canonical_bytes(window));before=[ref.read_bytes(),win.read_bytes()]

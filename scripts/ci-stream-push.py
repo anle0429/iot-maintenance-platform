@@ -16,6 +16,7 @@ class Context(SHARED.Context):
     """Reuse trusted native transports without invoking model selection or altering serving releases."""
     driver='/src/scripts/ci-stream-push.py'
     def __init__(self):
+        'Bind the selected store destination to a separate release, output directory and DAG.'
         super().__init__();self.destination=os.environ['IOT_STREAM_DESTINATION'];self.release=release(self.destination,os.environ['BUILD_NUMBER'])
         self.directory=self.deploy/'data/ci/releases'/self.release;self.out=self.directory/'outputs';self.dag='iot_ci_stream_'+self.destination
 

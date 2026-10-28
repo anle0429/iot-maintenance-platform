@@ -21,6 +21,7 @@ def compare(reference, payload, report):
     assert 32 <= report['unique_rows'] <= 2048
     assert report['reference_rows'] == len(reference['samples'])
     def clock(value):
+        'Require a timezone-aware timestamp and normalize it to UTC.'
         parsed = datetime.fromisoformat(value.replace('Z','+00:00'))
         assert parsed.tzinfo is not None
         return parsed.astimezone(timezone.utc)
@@ -37,6 +38,7 @@ def compare(reference, payload, report):
         values=sorted(r[name] for r in reference['samples'])
         cuts=sorted({values[min(len(values)-1,(len(values)*i)//10)] for i in range(1,10)})
         def counts(sample):
+            'Count finite observations into the independently defined histogram bins.'
             bins=[0]*(len(cuts)+1)
             for value in sample:
                 assert math.isfinite(value)

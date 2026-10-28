@@ -38,6 +38,7 @@ def run(source,manifest,workspace,output):
     shutil.copyfile(workspace/'infra/eventing/mutmut.toml',workspace/'pyproject.toml')
     env={**os.environ,'PYTHONPATH':str(workspace),'HOME':'/tmp'}
     def call(args,name,timeout):
+        'Run one bounded test command with the selected workspace/environment and preserve its console.'
         with (output/name).open('x') as stream:subprocess.run(args,cwd=workspace,env=env,stdout=stream,stderr=subprocess.STDOUT,check=True,timeout=timeout)
     (output/'requirements-installed.lock').write_text(subprocess.check_output([sys.executable,'-m','pip','freeze'],text=True))
     call([sys.executable,'-m','pytest','tests/api/test_drift_api.py','tests/api/test_drift_events.py','tests/api/test_observed.py','tests/test_drift_eventing.py','tests/test_drift_eventing_gate.py',

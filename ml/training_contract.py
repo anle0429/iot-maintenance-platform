@@ -56,6 +56,7 @@ def verify_descriptor(path,kind):
 def split_for_timestamp(event_ts,label_available_ts,protocol):
     """Implement the declared half-open partitions and label-availability purge on aware times."""
     def utc(value):
+        'Require timezone-aware training timestamps and normalize them to UTC.'
         result=datetime.fromisoformat(value.replace('Z','+00:00')) if isinstance(value,str) else value
         if result.tzinfo is None:raise ValueError('ML timestamps must have an explicit timezone')
         return result.astimezone(timezone.utc)

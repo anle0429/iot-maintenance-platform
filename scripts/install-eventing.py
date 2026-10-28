@@ -15,12 +15,12 @@ def install(root,assets,output):
     ram=int(next(line.split()[1] for line in Path('/proc/meminfo').read_text().splitlines() if line.startswith('MemAvailable:')))*1024
     if ram<24*1024**3 or min(shutil.disk_usage(root).free,shutil.disk_usage('/srv/iot-fast').free)<20_000_000_000:raise ValueError('Reserve24GiB RAM and20GB free on both data disks')
     k=['/usr/local/bin/k3s','kubectl']
-    def get(*args):return json.loads(subprocess.check_output(k+list(args)+['-o','json']))
+    def get(*args):'Read one Kubernetes resource selection as native JSON.';return json.loads(subprocess.check_output(k+list(args)+['-o','json']))
     version=get('version')['serverVersion']['gitVersion'];major,minor=version.lstrip('v').split('.')[:2]
     if (int(major),int(minor))<(1,35):raise ValueError('This pinned release requires Kubernetes1.35 or newer')
     if subprocess.check_output(k+['get','namespace','knative-eventing','--ignore-not-found','-o','name'],text=True).strip():raise ValueError('Preserve an existing Eventing installation; inspect its version first')
     output.mkdir(parents=True,exist_ok=False);folder=output/'assets';folder.mkdir()
-    def save(n,v):(output/n).write_text(json.dumps(v,indent=2)+'\n')
+    def save(n,v):'Save the original Eventing installation readback as JSON.';(output/n).write_text(json.dumps(v,indent=2)+'\n')
     save('preflight.json',{'checked_utc':now.isoformat(),'session':session,'ram_available_bytes':ram,'kubernetes_version':version,'hdd_free_bytes':shutil.disk_usage(root).free,'ssd_free_bytes':shutil.disk_usage('/srv/iot-fast').free,'source_sha256':sha256(Path(__file__).read_bytes()).hexdigest(),'declaration_sha256':sha256(assets.read_bytes()).hexdigest()})
     for name,entry in declaration['assets'].items():
         if Path(name).name!=name or not entry['url'].startswith('https://github.com/knative/eventing/releases/download/'+declaration['version']+'/'):raise ValueError('Unsafe asset path or source')
@@ -31,6 +31,7 @@ def install(root,assets,output):
     for name,entry in declaration['assets'].items():
         if name!='checksums.txt' and entry['sha256'] not in checksums:raise ValueError('Official checksum inventory differs')
     def command(args,name,timeout=240):
+        'Retain each bounded kubectl command in a fresh console file.'
         with (output/name).open('x') as stream:subprocess.run(k+args,stdout=stream,stderr=subprocess.STDOUT,check=True,timeout=timeout)
     command(['apply','--server-side','--field-manager=iot-eventing-coursework','-f',str(folder/'eventing-crds.yaml')],'crds-apply.txt')
     command(['wait','--for=condition=Established','crd/brokers.eventing.knative.dev','crd/triggers.eventing.knative.dev','--timeout=120s'],'crds-ready.txt',130)

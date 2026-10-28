@@ -16,9 +16,11 @@ class GateTests(unittest.TestCase):
         return coverage,stats,text
 
     def test_complete_known_inventory_is_accepted(self):
+        'Verify complete known inventory is accepted.'
         self.assertEqual(GATE.validate(*self.fixture()),100)
 
     def test_timeout_wrong_scope_duplicate_and_threshold_cannot_pass(self):
+        'Verify timeout wrong scope duplicate and threshold cannot pass.'
         c,s,t=self.fixture()
         for change in ['timeout','coverage','excluded','scope','duplicate','identity','score']:
             cc,ss,tt=deepcopy(c),deepcopy(s),t

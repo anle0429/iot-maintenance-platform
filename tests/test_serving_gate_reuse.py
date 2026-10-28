@@ -21,6 +21,7 @@ def sources():
 
 
 def test_only_the_explicit_control_repair_is_exempt_from_api_identity():
+    'Verify only the explicit control repair is exempt from api identity.'
     parent,current=sources();scope=unchanged_scope(parent,current)
     assert scope['changed_control_files']==['ml/ab_native.py']
     assert REQUIRED<=scope['protected_files'].keys()
@@ -31,6 +32,7 @@ def test_only_the_explicit_control_repair_is_exempt_from_api_identity():
 
 @pytest.mark.parametrize('edit',['missing','extra','format','commit'])
 def test_partial_or_unexpected_source_inventories_fail(edit):
+    'Verify partial or unexpected source inventories fail.'
     parent,current=sources()
     if edit=='missing':del current['files']['services/predictor/runtime.py']
     elif edit=='extra':current['files']['services/predictor/unreviewed.py']='f'*64
@@ -59,6 +61,7 @@ def artifact_fixture(tmp_path):
 
 
 def test_complete_artifacts_are_checked_against_original_hashes_and_installed_dependencies(tmp_path):
+    'Verify complete artifacts are checked against original hashes and installed dependencies.'
     args=artifact_fixture(tmp_path);receipt=completed_mutation(*args)
     assert receipt['parent_release']=='serve-jenkins-5' and receipt['mutation']['total']==7
     (args[2]/'tests/mutmut-all-results.txt').write_text('incomplete')
@@ -67,6 +70,7 @@ def test_complete_artifacts_are_checked_against_original_hashes_and_installed_de
 
 @pytest.mark.parametrize('fault',['failed','chain','deps','pin','partial'])
 def test_failed_chained_mismatched_or_partial_gate_never_gets_reuse_credit(tmp_path,fault):
+    'Verify failed chained mismatched or partial gate never gets reuse credit.'
     args=list(artifact_fixture(tmp_path));path=args[2]/'tests/verification.json';proof=json.loads(path.read_bytes())
     if fault=='failed':proof['passed']=False
     elif fault=='chain':proof['mutation_provenance']={'parent':'older'}
@@ -101,6 +105,7 @@ def test_driver_mounts_only_an_earlier_gate_readonly_in_a_fresh_bounded_test_con
 
 @pytest.mark.parametrize('parent',['0','6','7','../5','5;touch x'])
 def test_driver_rejects_a_current_future_or_noncanonical_parent(tmp_path,monkeypatch,parent):
+    'Verify driver rejects a current future or noncanonical parent.'
     root=Path(__file__).resolve().parents[1];driver=runpy.run_path(str(root/'scripts/ci-serving.py'));out=tmp_path/'out';out.mkdir()
     context=SimpleNamespace(release='serve-jenkins-6',out=out,deploy=tmp_path,commit='b'*40,
         directory=tmp_path/'release',selected=lambda:None,log=lambda *args:None)

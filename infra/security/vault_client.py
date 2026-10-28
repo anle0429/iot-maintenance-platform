@@ -10,12 +10,14 @@ import json,re,ssl
 class _NoRedirect(HTTPRedirectHandler):
     """Never forward Vault tokens to a redirect target, including another private host."""
     def redirect_request(self,request,fp,code,msg,headers,newurl):
+        'Refuse redirects so Vault authentication cannot be forwarded to another endpoint.'
         return None
 
 
 class VaultRequestError(RuntimeError):
     """Expose only the HTTP status; Vault response bodies may contain sensitive values."""
     def __init__(self,status):
+        'Expose only the HTTP status while keeping private response details out of errors.'
         self.status=status
         super().__init__('Private Vault request failed with HTTP '+str(status))
 
@@ -23,6 +25,7 @@ class VaultRequestError(RuntimeError):
 class VaultClient:
     """Exchange an AppRole identity for a short-lived token and read KV2 values under server-enforced policy."""
     def __init__(self,address,ca,role):
+        'Validate the private HTTPS endpoint and build a CA-verified, role-scoped client.'
         parsed=urlsplit(address)
         try:ip=ip_address(parsed.hostname or '')
         except ValueError:raise ValueError('Use an explicit private Vault IP with certificate SAN') from None

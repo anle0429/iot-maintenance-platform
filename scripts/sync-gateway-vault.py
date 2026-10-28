@@ -42,6 +42,7 @@ def run(args):
             value=json.loads(subprocess.check_output(k+['get','secret','gateway-auth','-n',ns,'-o','json']));uids[ns]=value['metadata']['uid']
     gateway=json.loads(subprocess.check_output(k+['get','service','iot-gateway','-n','iot-gateway','-o','json']))['spec']['clusterIP'];context=ssl.create_default_context(cafile=str(args.ca))
     def probe(value):
+        'Probe gateway authentication with CA/SNI validation without recording the credential value.'
         c=http.client.HTTPSConnection(gateway,443,context=context,timeout=10);c.connect=lambda:setattr(c,'sock',context.wrap_socket(socket.create_connection((gateway,443),timeout=10),server_hostname='metrics.iot.test'))
         auth='Basic '+base64.b64encode((value['username']+':'+value['password']).encode()).decode();c.request('GET','/api/health',headers={'Host':'metrics.iot.test','Authorization':auth});response=c.getresponse();status=response.status;response.read();c.close();return status
     attempts=[]

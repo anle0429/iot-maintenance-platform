@@ -54,9 +54,11 @@ def exposition(report, completed_at):
     if set(report['features']) != set(FIELDS) or report['unique_rows'] < 32:
         raise ValueError('Incomplete drift assessment')
     def label(value):
+        'Escape a Prometheus label value as an ASCII JSON string.'
         return json.dumps(str(value), ensure_ascii=True)
     rows = []
     def gauge(name, help_text, values):
+        'Append HELP, TYPE and the supplied gauge samples to the exposition.'
         rows.extend(['# HELP ' + name + ' ' + help_text, '# TYPE ' + name + ' gauge'])
         rows.extend(name + labels + ' ' + str(value) for labels, value in values)
     gauge('iot_offline_drift_psi', 'Marginal PSI; not accuracy or a p-value.',

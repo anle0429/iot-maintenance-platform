@@ -15,8 +15,9 @@ def nanos(value):
 def main(args):
     """Run two known twenty-line batches from different Pod UIDs and demand exact Loki content before/after restart."""
     r=args.runtime_root.resolve();out=args.output;out.mkdir(parents=True,exist_ok=False);os.environ['KUBECONFIG']='/etc/rancher/k3s/k3s.yaml';k=['/usr/local/bin/k3s','kubectl']
-    def save(n,v):(out/n).write_text(json.dumps(v,indent=2,allow_nan=False)+'\n')
+    def save(n,v):'Preserve a JSON readback in the current native check directory.';(out/n).write_text(json.dumps(v,indent=2,allow_nan=False)+'\n')
     def call(n,cmd):
+        'Retain original command streams and stop on a failed native step.'
         p=subprocess.run(cmd,capture_output=True,timeout=190);(out/(n+'.stdout')).write_bytes(p.stdout);(out/(n+'.stderr')).write_bytes(p.stderr)
         if p.returncode:raise RuntimeError('Native log-discovery step failed: '+n)
         return p.stdout
@@ -38,11 +39,13 @@ def main(args):
     else:assert subprocess.run(k+['get','deployment','iot-log-discovery-probe','-n','iot-features'],capture_output=True).returncode!=0
     begun=int(nanos((previous/'first.cri').read_text().split(' ',1)[0])) if retain_first else time.time_ns();expected=[];uids=[]
     def query(label):
+        'Read and preserve bounded Loki probe rows with Pod UID and exact timestamp.'
         expression='{host="vm-linux",collection="native-28-auto",service="log-probe"} |= "iot-log-discovery-28"'
         url='http://127.0.0.1:13100/loki/api/v1/query_range?'+urllib.parse.urlencode({'query':expression,'start':str(begun-10**9),'end':str(time.time_ns()),'limit':1000,'direction':'forward'})
         with urllib.request.urlopen(url,timeout=30) as response:payload=json.load(response)
         save(label+'.json',payload);assert payload['status']=='success';return [(s['stream']['pod_uid'],ts,message) for s in payload['data']['result'] for ts,message in s['values']]
     def wait_for(count,label):
+        'Poll until every expected probe row is visible and compare the full multiset.'
         deadline=time.monotonic()+100
         for attempt in range(25):
             rows=query(label+'-'+str(attempt))

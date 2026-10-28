@@ -22,7 +22,7 @@ def run(args):
     k=['/usr/local/bin/k3s','kubectl']
     service=json.loads(subprocess.check_output(k+['get','service','ml-pipeline','-n','kubeflow','-o','json'],text=True))
     client=kfp.Client(host='http://'+service['spec']['clusterIP']+':8888',namespace='kubeflow')
-    def save(name,value):(out/name).write_text(json.dumps(value,indent=2,default=str)+'\n')
+    def save(name,value):'Persist cluster pipeline evidence with explicit JSON serialization.';(out/name).write_text(json.dumps(value,indent=2,default=str)+'\n')
     sources={p.relative_to(root).as_posix():sha256(p.read_bytes()).hexdigest() for p in [*sorted((root/'ml').glob('*.py')),Path(__file__)]}
     save('preflight.json',{'checked_utc':datetime.now(timezone.utc).isoformat(),'code_sha256':sources,'prepared_verification_sha256':sha256((prepared/'verification.json').read_bytes()).hexdigest(),'sdk_version':kfp.__version__,'deadline_utc':args.deadline_utc,'workspace':str(workspace),'ram_available_bytes':ram(),'scope':'Real standalone backend submission, frozen protocol reproduction, not a new protocol/model selection.'})
     active=None;started=time.monotonic()

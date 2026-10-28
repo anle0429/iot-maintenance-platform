@@ -54,32 +54,38 @@ class DriftRetrainTests(unittest.TestCase):
         self.report['drifted_feature_fraction']=count/8;self.report['drift_detected']=count>=2;self.seal()
 
     def test_no_drift_skips_without_an_intent_or_api_call(self):
+        'Verify no drift skips without an intent or api call.'
         self.assertEqual(self.call()['reason'],'no_detected_drift');self.assertEqual(self.calls,[])
         self.assertFalse(self.state.exists())
 
     def test_two_of_eight_at_exact_threshold_trigger_and_one_does_not(self):
+        'Verify two of eight at exact threshold trigger and one does not.'
         self.drift(1);self.assertEqual(self.call()['action'],'skipped')
         self.drift(2);self.assertEqual(self.call()['reason'],'detected_drift');self.assertEqual(len(self.calls),1)
 
     def test_manual_probe_preserves_false_drift_and_completed_replay_after_expiry(self):
+        'Verify manual probe preserves false drift and completed replay after expiry.'
         first=self.call(True);second=self.call(True,now=self.now+timedelta(minutes=30))
         self.assertFalse(first['drift_detected']);self.assertTrue(first['manual_probe'])
         self.assertEqual(first['reason'],'explicit_manual_probe');self.assertEqual(second['action'],'reused_completed_submission')
         self.assertEqual(first['run_id'],second['run_id']);self.assertEqual(len(self.calls),1)
 
     def test_disabled_or_unapproved_manual_probe_never_calls_training(self):
+        'Verify disabled or unapproved manual probe never calls training.'
         self.policy['allow_manual_probe']=False;self.write(self.policy_path,self.policy)
         with self.assertRaisesRegex(ValueError,'Manual probe disabled'):self.call(True)
         self.policy['enabled']=False;self.write(self.policy_path,self.policy);self.drift(8)
         self.assertEqual(self.call()['reason'],'policy_disabled');self.assertEqual(self.calls,[])
 
     def test_age_boundary_and_future_rejected_before_intent(self):
+        'Verify age boundary and future rejected before intent.'
         for delta in [-1,601]:
             with self.subTest(delta=delta),self.assertRaisesRegex(ValueError,'Stale or future'):
                 self.call(True,now=self.now+timedelta(seconds=delta))
         self.assertEqual(self.call(True,now=self.now+timedelta(seconds=600))['action'],'submitted_and_verified')
 
     def test_changed_recipe_or_report_is_rejected_before_training(self):
+        'Verify changed recipe or report is rejected before training.'
         self.recipe.write_text('{"changed":true}')
         with self.assertRaisesRegex(ValueError,'recipe changed'):self.call(True)
         self.recipe.write_text('{}');self.report['drift_detected']=True;self.seal()
@@ -87,19 +93,23 @@ class DriftRetrainTests(unittest.TestCase):
         self.assertEqual(self.calls,[])
 
     def test_bad_completion_and_non_native_receipt_rejected(self):
+        'Verify bad completion and non native receipt rejected.'
         for key,value in [('passed',False),('push_status',500),('report_sha256','0'*64)]:
             self.seal();p=self.directory/'completion.json';v=json.loads(p.read_bytes());v[key]=value;self.write(p,v)
             with self.subTest(key=key),self.assertRaisesRegex(ValueError,'completion'):self.call(True)
         self.assertEqual(self.calls,[])
 
     def test_unknown_fields_scores_or_policy_are_not_silent_no_drift(self):
+        'Verify unknown fields scores or policy are not silent no drift.'
         self.report['features'][FIELDS[0]]={'psi':-.1,'drifted':False};self.seal()
         with self.assertRaisesRegex(ValueError,'drift decision'):self.call(True)
         self.report['features'][FIELDS[0]]={'psi':.1,'drifted':False};self.policy['cooldown_seconds']=0;self.write(self.policy_path,self.policy)
         with self.assertRaisesRegex(ValueError,'cooldown'):self.call(True)
 
     def test_failed_or_ambiguous_call_blocks_retries_and_other_windows(self):
+        'Verify failed or ambiguous call blocks retries and other windows.'
         def failed(run,attempt):
+            'Simulate a lost response after possible server acceptance to test uncertain-intent handling.'
             self.calls.append(run);raise TimeoutError('Response lost after possible server acceptance')
         with self.assertRaises(TimeoutError):self.call(True,train=failed)
         for window in ['known-window','another-window']:
@@ -108,14 +118,17 @@ class DriftRetrainTests(unittest.TestCase):
         self.assertEqual(len(self.calls),1)
 
     def test_new_window_cooldown_and_replay_conflict(self):
+        'Verify new window cooldown and replay conflict.'
         self.call(True);self.report['features'][FIELDS[0]]={'psi':.11,'drifted':False};self.seal()
         with self.assertRaisesRegex(ValueError,'Replay conflicts'):self.call(True)
         self.report['window_id']='later-window';self.seal()
         self.assertEqual(self.call(True)['reason'],'cooldown');self.assertEqual(len(self.calls),1)
 
     def test_two_concurrent_attempts_cannot_submit_twice(self):
+        'Verify two concurrent attempts cannot submit twice.'
         entered,release=Event(),Event()
         def held(run,attempt):
+            'Hold the training callback so a concurrent controller attempt sees the active lock.'
             entered.set();release.wait(5);return self.train(run,attempt)
         with ThreadPoolExecutor(2) as pool:
             first=pool.submit(self.call,True,None,held);self.assertTrue(entered.wait(3))
@@ -126,7 +139,9 @@ class DriftRetrainTests(unittest.TestCase):
         self.assertEqual(len(self.calls),1);self.assertEqual(self.call(True)['action'],'reused_completed_submission')
 
     def test_operator_reconciliation_requires_sealed_zero_match_evidence(self):
+        'Verify operator reconciliation requires sealed zero match evidence.'
         def failed(run,attempt):
+            'Preserve a known pre-submission failure before raising the controlled error.'
             (attempt/'controller.txt').write_text('Known fixture failure before API');raise RuntimeError('pre-submission')
         with self.assertRaises(RuntimeError):self.call(True,train=failed)
         attempt=next(self.state.glob('drift-*'))
@@ -140,7 +155,9 @@ class DriftRetrainTests(unittest.TestCase):
         self.assertEqual(self.call(True)['action'],'submitted_and_verified');self.assertEqual(len(self.calls),1)
 
     def test_reconciliation_cannot_hide_an_existing_run_or_changed_intent(self):
+        'Verify reconciliation cannot hide an existing run or changed intent.'
         def failed(run,attempt):
+            'Preserve an uncertain training failure without pretending the intent was not submitted.'
             (attempt/'controller.txt').write_text('Known fixture failure');raise RuntimeError('uncertain')
         with self.assertRaises(RuntimeError):self.call(True,train=failed)
         attempt=next(self.state.glob('drift-*'))

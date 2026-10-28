@@ -43,6 +43,7 @@ def run(source,manifest,workspace,output):
     shutil.copyfile(workspace/'infra/observability/mutmut.toml',workspace/'pyproject.toml')
     env={**os.environ,'PYTHONPATH':str(workspace),'PYTHONUNBUFFERED':'1','HOME':'/tmp'}
     def call(args,name,timeout):
+        'Run one bounded test command with the selected workspace/environment and preserve its console.'
         with (output/name).open('x') as stream:subprocess.run(args,cwd=workspace,env=env,stdout=stream,stderr=subprocess.STDOUT,check=True,timeout=timeout)
     (output/'requirements-installed.lock').write_text(subprocess.check_output([sys.executable,'-m','pip','freeze'],text=True))
     call([sys.executable,'-m','pytest','tests/test_api_observability_gate.py',*[str(Path('tests/api')/('test_'+n+'.py')) for n in ['observed','feature_api','predictor','model_binding','ab_api','drift_api']],

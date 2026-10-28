@@ -58,7 +58,7 @@ def write_bundle(destination,endpoint,family,host,label,prometheus_port=19091,gr
     if any(c in str(root) for c in '\r\n\x00'):raise ValueError('Invalid runtime path')
     root.mkdir(parents=True,exist_ok=False)
     for name in ['targets','dashboards','provisioning/datasources','provisioning/dashboards','provisioning/plugins','provisioning/alerting','grafana-data','grafana-logs','prometheus-data']:(root/name).mkdir(parents=True)
-    def dump(name,value):(root/name).write_bytes(json.dumps(value,indent=2,allow_nan=False).encode()+b'\n')
+    def dump(name,value):'Persist a host dashboard asset as strict UTF-8 JSON.';(root/name).write_bytes(json.dumps(value,indent=2,allow_nan=False).encode()+b'\n')
     dump('targets/host.json',[{'targets':[target],'labels':{'host':host}}])
     dump('prometheus.json',{'global':{'scrape_interval':'2s','scrape_timeout':'1s','evaluation_interval':'2s'},'scrape_configs':[{'job_name':'iot-host','sample_limit':5000,
         'file_sd_configs':[{'files':[(root/'targets/host.json').as_posix()],'refresh_interval':'2s'}],

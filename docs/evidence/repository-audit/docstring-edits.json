@@ -1,0 +1,685 @@
+{
+  "base_commit": "442894441710d50a2813cababcd9f442d9fbcdc9",
+  "added_docstrings": 419,
+  "files": [
+    {
+      "path": "feature_store/drift_airflow.py",
+      "added_docstrings": 1,
+      "after_sha256": "0b1f3ffd419a1acc17fe5a76d589f76a007dedae000124997c23fd9528197717",
+      "executable_ast_sha256": "2c23ecc1a93108cec1fabe88408b1af04a6e62811ff8e66eb1c9c0fe4ab2d4c2",
+      "before_working_sha256": "74a5ce5895d61cd8a7900f2722c84304b1d1746a65414e4ed4dcbeeb65075a50",
+      "before_git_sha256": "74a5ce5895d61cd8a7900f2722c84304b1d1746a65414e4ed4dcbeeb65075a50",
+      "documentation_only": true
+    },
+    {
+      "path": "feature_store/drift_retrain.py",
+      "added_docstrings": 1,
+      "after_sha256": "d5079bd143ee01397bb0f8769adb0095d04d066b9230d96cda9e9fb3bfff0cd9",
+      "executable_ast_sha256": "2af628c62dbd16da7cb987861c67b2c341d7d892a00439d1080fd31d9ed2fff8",
+      "before_working_sha256": "95536b6651596d499de95da7d6f4d9ff3ea149a7bc28a6ad022164306aa1f5fd",
+      "before_git_sha256": "95536b6651596d499de95da7d6f4d9ff3ea149a7bc28a6ad022164306aa1f5fd",
+      "documentation_only": true
+    },
+    {
+      "path": "infra/security/vault_client.py",
+      "added_docstrings": 3,
+      "after_sha256": "7920a2db09380398a3eba4eb07ca6dbb96fe34239c1164115701d35e8b32ab32",
+      "executable_ast_sha256": "7cec5621f79c285f3046e7a554d193a57bd8881b2120831c6e901c4001f26f9f",
+      "before_working_sha256": "5146ae3d51d22f831fbda42c82b99184f3b86aec7701ec2d54975d012d25b91c",
+      "before_git_sha256": "5146ae3d51d22f831fbda42c82b99184f3b86aec7701ec2d54975d012d25b91c",
+      "documentation_only": true
+    },
+    {
+      "path": "ml/ab_monitoring.py",
+      "added_docstrings": 2,
+      "after_sha256": "75d3d7eb145b5b883ebc9c6d6fa2fd7539484a7c98885d62c6f419d45143a709",
+      "executable_ast_sha256": "ab2d2d8967b56c5e0a2ad8601fcaa55d627aee49fb276b433d54284b77e84866",
+      "before_working_sha256": "abc5ed563f86cadf0752a424526476c18063c5074dc85a786a0cd3fa7142bb09",
+      "before_git_sha256": "abc5ed563f86cadf0752a424526476c18063c5074dc85a786a0cd3fa7142bb09",
+      "documentation_only": true
+    },
+    {
+      "path": "ml/drift_monitoring.py",
+      "added_docstrings": 2,
+      "after_sha256": "dcb188912caae4d2deee5c6284791da96752b774e8a85f9a592e57feb889cd8d",
+      "executable_ast_sha256": "18a6699cb567f0d4ba4bb3a1885ebcef642cd50cf1c2483888250c5eb1c372fa",
+      "before_working_sha256": "0218497c430dd2c81c2e628d45fcaec3cc4d20ccde47cd035836bc216888dfe8",
+      "before_git_sha256": "0218497c430dd2c81c2e628d45fcaec3cc4d20ccde47cd035836bc216888dfe8",
+      "documentation_only": true
+    },
+    {
+      "path": "ml/host_monitoring.py",
+      "added_docstrings": 1,
+      "after_sha256": "640aaf72f257d8468bb14ec0fe0ccf142a5ed504f2af86c9dc539c0f5a612c0d",
+      "executable_ast_sha256": "914d512397c8ba88279d2e2f4a6e74f8f1b7b59401b7a1541603c6ae2f739b2e",
+      "before_working_sha256": "213c37c49112676cd712d439aef764c53e495fb826060145c44ab6f5ff0530c3",
+      "before_git_sha256": "213c37c49112676cd712d439aef764c53e495fb826060145c44ab6f5ff0530c3",
+      "documentation_only": true
+    },
+    {
+      "path": "ml/log_discovery.py",
+      "added_docstrings": 1,
+      "after_sha256": "bcefe51956d75b427e9f51c1d027eac99025c195ba94bef7c6790567f733ec82",
+      "executable_ast_sha256": "092f7e3cc799bf18647b9b0ab0d361b3bbd836a517c1bce9cbdefee4e749f593",
+      "before_working_sha256": "1e1a1015989399f2054cc17816069251fe96f333bd68f94b682eaa688bea1b2f",
+      "before_git_sha256": "4b8420845d721d34852c2209f397ba308b5a320e499738424729ea96461184c7",
+      "documentation_only": true
+    },
+    {
+      "path": "ml/training_contract.py",
+      "added_docstrings": 1,
+      "after_sha256": "50d0c1562f4f64614cf5e35c3cf1c39793db2da492df5cc8839962306b60c2a4",
+      "executable_ast_sha256": "09c4fb73919cc1a48cc8bd5913e933b03d6eb6e21255d133bf30f1d950073039",
+      "before_working_sha256": "bab648fe1a06425393d5093847e59b978186d3ababf419dcd52f8dae3cab6186",
+      "before_git_sha256": "bab648fe1a06425393d5093847e59b978186d3ababf419dcd52f8dae3cab6186",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/check-log-discovery.py",
+      "added_docstrings": 4,
+      "after_sha256": "376d68686deb571c3a5c56c1bc13f1055bfef43f48e3ac8b0bf956fb0aba31e1",
+      "executable_ast_sha256": "0c4874f1797234defe3baf5f1802e07750109dd5c50f8ef78fdad60a7af5c5bd",
+      "before_working_sha256": "b69c517c270c757634070a9e53135d4e91a7cd8b25c4d5e12e39dd7fd0ff46f9",
+      "before_git_sha256": "b69c517c270c757634070a9e53135d4e91a7cd8b25c4d5e12e39dd7fd0ff46f9",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/check-private-gateway.py",
+      "added_docstrings": 2,
+      "after_sha256": "dfa1fe5d4f15e47b373204089513e81a4b0a1721146094e079c6eb76118739b3",
+      "executable_ast_sha256": "5a3580a8665865484ca0a6bf7bdd3314f9fd0d0f258e8c1049b2c27ddc5e6fbc",
+      "before_working_sha256": "ad6359e191fe5ce662a899d42bf7678dfe1c62b6e91dd74ea34d1816f9882830",
+      "before_git_sha256": "ad6359e191fe5ce662a899d42bf7678dfe1c62b6e91dd74ea34d1816f9882830",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/check-private-mesh.py",
+      "added_docstrings": 3,
+      "after_sha256": "e6d3551050233d59a2bd551f969dedd27039f24335a7dea9e7ccb619d1fb4455",
+      "executable_ast_sha256": "9d491b08cac1cd873757991c15e13960fe025c4d8329d2392d4a7118a7f4dac0",
+      "before_working_sha256": "621ad2394e12f429405520479b2417605abb0deefe7da005004683556b28c975",
+      "before_git_sha256": "621ad2394e12f429405520479b2417605abb0deefe7da005004683556b28c975",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/ci-drift-eventing.py",
+      "added_docstrings": 5,
+      "after_sha256": "690d3d40a90e0c6e2fc57499c080b8e24e2b36b0678e84f6bab5e9772d6912e6",
+      "executable_ast_sha256": "842a3ee4de506ebfd08a1062385c9d2a2cde4a4d6ce316ea1d9ab93ff0f230c1",
+      "before_working_sha256": "099aeb2490b5c483b9aa9107d50a2a9e23684ef4ffa1d51d30b9a36462befaf6",
+      "before_git_sha256": "099aeb2490b5c483b9aa9107d50a2a9e23684ef4ffa1d51d30b9a36462befaf6",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/ci-observability.py",
+      "added_docstrings": 1,
+      "after_sha256": "03320c57c966d4ef69a19fb337dfe06f68070ab40d28e22f1d5a601530ffdab9",
+      "executable_ast_sha256": "ef5780487b08072fc9e084c864dd5f6f51b9dc505dfbf989a202c7efb3fc0565",
+      "before_working_sha256": "ac459979596a3a46fadac0fac0ca68d3d64445a802313782b1d4d1b4b5ab0fc0",
+      "before_git_sha256": "ac459979596a3a46fadac0fac0ca68d3d64445a802313782b1d4d1b4b5ab0fc0",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/ci-serving.py",
+      "added_docstrings": 1,
+      "after_sha256": "d16d68440925f0cfb243c78365491229e24d6ed594ad407c204b637cb3a507ff",
+      "executable_ast_sha256": "b7a0045f4fb91b53694d6f9410d9f9712a016d95b636d8465a116fb831a534c6",
+      "before_working_sha256": "aa32bc17082739ba89c2bf872ed0f577eafb4c4792ca27bd396084c52fb2a518",
+      "before_git_sha256": "aa32bc17082739ba89c2bf872ed0f577eafb4c4792ca27bd396084c52fb2a518",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/ci-stream-push.py",
+      "added_docstrings": 1,
+      "after_sha256": "622ef60f8d7449b316e5b0063046094444e17286d64e35329a9586b7dc980414",
+      "executable_ast_sha256": "308299a9a28d7b9918ddcea11d7f9c161216d4f6b9a2ee9dc890865442139b63",
+      "before_working_sha256": "fce025aae2c647a5c393fcf9e6d62441d6e6d41a6313f9718f155f5cd9d0d3b3",
+      "before_git_sha256": "fce025aae2c647a5c393fcf9e6d62441d6e6d41a6313f9718f155f5cd9d0d3b3",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/configure-kfp-registry.py",
+      "added_docstrings": 1,
+      "after_sha256": "4fcec97c7efa391acf40ff795954f87c682c7ca7b7070fc264f908eea610570f",
+      "executable_ast_sha256": "5ebe7a89aeef691983634f66145be54dd01e092f6d46699d4564f5e1b05667fe",
+      "before_working_sha256": "cb8253fbaf1b68b5ccdb3d92bfd4a6c2d67a4412b359e1c4dcf6c179782f2d98",
+      "before_git_sha256": "cb8253fbaf1b68b5ccdb3d92bfd4a6c2d67a4412b359e1c4dcf6c179782f2d98",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/deploy-private-gateway.py",
+      "added_docstrings": 3,
+      "after_sha256": "7454b632ba3cf48374c574e037dcf5cd43c82458d890b9202fe4a290df827def",
+      "executable_ast_sha256": "0cb58cd4e1012381a854152379827ad1d9981e51ba2ea59b16edb9b01f5a424f",
+      "before_working_sha256": "9bf8cc6e2332eac3ced7a8a53c59ea75f167366ef010b5c7e3a734137a73de4a",
+      "before_git_sha256": "9bf8cc6e2332eac3ced7a8a53c59ea75f167366ef010b5c7e3a734137a73de4a",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/deploy-private-vault.py",
+      "added_docstrings": 4,
+      "after_sha256": "a8abda94e8afc96cab59543ec554ec6395949ecc9240b16abe8799a3b6733ea6",
+      "executable_ast_sha256": "09f0ebcd981c48fc2df664dae0ed712d61ed3e662c5b2905e32f06aaa975587d",
+      "before_working_sha256": "d6e8c0877da69dfa4cc6086cc05c85f6795226f207490d5c5fa6d61f13c7dd3d",
+      "before_git_sha256": "d6e8c0877da69dfa4cc6086cc05c85f6795226f207490d5c5fa6d61f13c7dd3d",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/install-eventing.py",
+      "added_docstrings": 3,
+      "after_sha256": "11cc40155bdd2e2b74e8302a10813884398f303ab76c8c892284c9c6244b95e1",
+      "executable_ast_sha256": "f7fee96489128d897d4ad074f2eb7c7e918b7e02b4149da931bd1cb2375e284d",
+      "before_working_sha256": "9865f03e805f83598edc3ca5632209a4d95599a2961ee3372ab74e6457180cc3",
+      "before_git_sha256": "9865f03e805f83598edc3ca5632209a4d95599a2961ee3372ab74e6457180cc3",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/install-private-mesh.py",
+      "added_docstrings": 1,
+      "after_sha256": "7cf2d325d2ea4939a6de937870e5980198ddce694b918768ce64c7ea5ec5c7e5",
+      "executable_ast_sha256": "041f47734b43227f44122cb96f9caeef7943f952b8c5b4ec9d39b81ce5850686",
+      "before_working_sha256": "4e0e6843b772107ce8d43c6a6b6a928b80051c5ab3f92af4b399219c8a0b24f4",
+      "before_git_sha256": "4e0e6843b772107ce8d43c6a6b6a928b80051c5ab3f92af4b399219c8a0b24f4",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/run-kfp-cluster.py",
+      "added_docstrings": 1,
+      "after_sha256": "ef1c8cb6ac76d28a9a865867fe94a869e5bc834d397c6b47f3dd09c12afb127c",
+      "executable_ast_sha256": "86aee8146209a307061863d30bc4881003373866a718ae0e8550cddcc17d6904",
+      "before_working_sha256": "e3aa9a850c76b2cc54561f369013fb9a2323ec751d91a44e905e677477f8fdb8",
+      "before_git_sha256": "e3aa9a850c76b2cc54561f369013fb9a2323ec751d91a44e905e677477f8fdb8",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/run-stream-push.py",
+      "added_docstrings": 1,
+      "after_sha256": "7e14a3e3d74bed04d3657294ffd0c04f6dde04d5af53378d8ea5f59c4bc1c299",
+      "executable_ast_sha256": "8825ea02e74573447ba2c8d1d3ec8737b9c3a0518d110da0a6b0c801b80fa43f",
+      "before_working_sha256": "9b9be8b6f798227e2a0017070d6aa24d7d5f3c15af4fc3f8b2853a139a66112e",
+      "before_git_sha256": "9b9be8b6f798227e2a0017070d6aa24d7d5f3c15af4fc3f8b2853a139a66112e",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/sync-gateway-vault.py",
+      "added_docstrings": 1,
+      "after_sha256": "68aa3c751cdd967aa8b5029ac31b22a2dfba80acc33b94ac37ed5e016bff3070",
+      "executable_ast_sha256": "23be1d7410342dcb5882d3ea2c5fc4faa5aa84ad55b3244cf138369dc85c6d67",
+      "before_working_sha256": "e7cd5426a16766b4896926115f96e1d166d050009878304aafb7c2f6cfd4c611",
+      "before_git_sha256": "e7cd5426a16766b4896926115f96e1d166d050009878304aafb7c2f6cfd4c611",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/test-api-observability.py",
+      "added_docstrings": 1,
+      "after_sha256": "3aecf50fe09d1537712b299d54f1eb22159a6632ca33a44197cbb330abe38fa1",
+      "executable_ast_sha256": "8aa3eaea1802528b0ac63bf17b6406604708394b0f092bbe1e0f7e332d6f82f5",
+      "before_working_sha256": "6118930b0c3e683176edc19f134ed82de418e8dabd402459cf6a720fccdbc21e",
+      "before_git_sha256": "6118930b0c3e683176edc19f134ed82de418e8dabd402459cf6a720fccdbc21e",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/test-drift-eventing.py",
+      "added_docstrings": 1,
+      "after_sha256": "f4e799b7c85c7571939a081b40f336ce226c0ad70535ca2366adaa8a4c29285f",
+      "executable_ast_sha256": "e7b739475ae3f3c3ed1c18e39999a1f0f7e029c71c27652f2a1b960e0265590a",
+      "before_working_sha256": "dd8ea2cb9736c02b2c936bf1ce57390ff8bf31cea0eabd6232ae5f2279f93636",
+      "before_git_sha256": "dd8ea2cb9736c02b2c936bf1ce57390ff8bf31cea0eabd6232ae5f2279f93636",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/test-serving-ci.py",
+      "added_docstrings": 1,
+      "after_sha256": "790ed704edabbe6f097025ea7d2b4e9fef4842bad504e9d70836af499a9568a5",
+      "executable_ast_sha256": "f9cb8dc4767924f0637433372e701f2fe6ea100037d401916a371736964ce244",
+      "before_working_sha256": "4aceef265262e390f7400ddc42e5efb4b20a90edfaebf62adb5d48e254f3b21d",
+      "before_git_sha256": "4aceef265262e390f7400ddc42e5efb4b20a90edfaebf62adb5d48e254f3b21d",
+      "documentation_only": true
+    },
+    {
+      "path": "scripts/verify-ab-monitoring.py",
+      "added_docstrings": 1,
+      "after_sha256": "c2f3e42f6ad31df8cba102081a221e966e92d3fbbe698054d2053b0b4b065f35",
+      "executable_ast_sha256": "c6ac56442356e80673326113f1deeb300a932512814c37b294b5dbb79c91f173",
+      "before_working_sha256": "27a08f81085df3a503d7446d81e354433910b7537bbfd9352eef4bd5a3ef9584",
+      "before_git_sha256": "27a08f81085df3a503d7446d81e354433910b7537bbfd9352eef4bd5a3ef9584",
+      "documentation_only": false,
+      "review_note": "Also updates historical comparison to ignore documentation, retaining all explicit executable-change exceptions and immutable Git byte hashes."
+    },
+    {
+      "path": "scripts/verify-offline-drift.py",
+      "added_docstrings": 3,
+      "after_sha256": "5b568441a2db795f3fcacb5b5f1bc0d98184b6c7c299913a33a3a149451c379f",
+      "executable_ast_sha256": "dbbc0ed6931d81455c2447c1e5d2bdbcf55e972a0d91e8d76063452d863a6f95",
+      "before_working_sha256": "57f92bcf078417381fb4c54d65cdbe6f453cf96364adedff2971b1943bd61de3",
+      "before_git_sha256": "57f92bcf078417381fb4c54d65cdbe6f453cf96364adedff2971b1943bd61de3",
+      "documentation_only": true
+    },
+    {
+      "path": "services/ab_api/app.py",
+      "added_docstrings": 1,
+      "after_sha256": "51ca6c736563bd9cd88943e97d6ad1b4676a8256a23da6e65cfeff6c12557e9d",
+      "executable_ast_sha256": "54099d8a32d066defab0f763feef5286cd406f374fe03c0f78c087d0ba19a170",
+      "before_working_sha256": "566037a8be1fa67105b4532b0438bbb8d1936d6925ddf46a0d6c9daa546d53ae",
+      "before_git_sha256": "566037a8be1fa67105b4532b0438bbb8d1936d6925ddf46a0d6c9daa546d53ae",
+      "documentation_only": true
+    },
+    {
+      "path": "services/ab_api/metrics.py",
+      "added_docstrings": 1,
+      "after_sha256": "124ddfc8153a952fe673c7c04ee1c5202dc800c2222e19cf84b1a5ad046565b6",
+      "executable_ast_sha256": "480718f1add865e45cf714ad454c2223f3306168212283f2214765f8cc86f5f5",
+      "before_working_sha256": "0c430c52752a47b20c708a571ac22ab61fa69868a8c7bee7695de62ab0cc365f",
+      "before_git_sha256": "0c430c52752a47b20c708a571ac22ab61fa69868a8c7bee7695de62ab0cc365f",
+      "documentation_only": true
+    },
+    {
+      "path": "services/drift_api/app.py",
+      "added_docstrings": 1,
+      "after_sha256": "7687d506c97a825930a52050628f32a5fdb6654fc10f06bdc5a6b1342cef3324",
+      "executable_ast_sha256": "cdc177cdb5e0a754328847d95ed6a47793bd25d4aecb260738d03e2ea5148e36",
+      "before_working_sha256": "2ca9bef89846dd4f3e1cc6c12ab759384f541c8378dfe254532fe46ed0c96126",
+      "before_git_sha256": "2ca9bef89846dd4f3e1cc6c12ab759384f541c8378dfe254532fe46ed0c96126",
+      "documentation_only": true
+    },
+    {
+      "path": "services/feature_api/app.py",
+      "added_docstrings": 1,
+      "after_sha256": "d8e81d77cd64f0599df1620a4d32f580011d834eccb39f4d10f6ff58189e5653",
+      "executable_ast_sha256": "6c273623bd127d16a7cdb026d5cbde858412e06855b155fd84d8ea730ef8b735",
+      "before_working_sha256": "e25c5d3c5d0ef91e6f84c4cc00b288b030e7232bc0ca0bd68b0df958d88add7b",
+      "before_git_sha256": "e25c5d3c5d0ef91e6f84c4cc00b288b030e7232bc0ca0bd68b0df958d88add7b",
+      "documentation_only": true
+    },
+    {
+      "path": "services/feature_api/runtime.py",
+      "added_docstrings": 2,
+      "after_sha256": "7d0f8419bcdf31500ad0aa652e631a94f8a2dcfbc322af06883cae44ef42c185",
+      "executable_ast_sha256": "f8bb289dc0623bb67eb9637b6ce639d4b962e7ca8bf9937860751919d839bba9",
+      "before_working_sha256": "c1d1820f994b098346dacb2dd85556ed92f45f9c18e4ff552317bfc6b0a720b6",
+      "before_git_sha256": "c1d1820f994b098346dacb2dd85556ed92f45f9c18e4ff552317bfc6b0a720b6",
+      "documentation_only": true
+    },
+    {
+      "path": "services/predictor/app.py",
+      "added_docstrings": 1,
+      "after_sha256": "c7f856b01e52356f7218c910967741d84784b928c9c15bcf5435e6f66165bda6",
+      "executable_ast_sha256": "d5b35acd42633fe1274599142e4338755efc267e7e8960dd198df2c9edfb293c",
+      "before_working_sha256": "ec707e19d83f0b7331d167cca6b3c33ff00ca3a074827f3c2edfdef46bdf4c6a",
+      "before_git_sha256": "ec707e19d83f0b7331d167cca6b3c33ff00ca3a074827f3c2edfdef46bdf4c6a",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/api/test_ab_api.py",
+      "added_docstrings": 28,
+      "after_sha256": "70b82dc8739de02c353faaa6519b012f01ef4e4782d10fd1668fbfdd568d8476",
+      "executable_ast_sha256": "24fcee03189c2a1319924989eae480cedfe19ef7a7cc7b25510a288f0041c4cd",
+      "before_working_sha256": "047343b3987c7a5eac04b13b4e9f78eb16e5b377b7ac97b42e0ad30adeb14a03",
+      "before_git_sha256": "047343b3987c7a5eac04b13b4e9f78eb16e5b377b7ac97b42e0ad30adeb14a03",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/api/test_drift_api.py",
+      "added_docstrings": 16,
+      "after_sha256": "4ff2b14dc45e7de790ff9a1b8f7b70679b945ba8f0fff0289698944f73076c7c",
+      "executable_ast_sha256": "663c8ec543137dd34707bf54abe51ae86022ad8288c662c03455335a0cc7838a",
+      "before_working_sha256": "e1d76d42609b5b5355ad456b15f3202c65e7e9441221f4eff511f15c08cdac93",
+      "before_git_sha256": "e1d76d42609b5b5355ad456b15f3202c65e7e9441221f4eff511f15c08cdac93",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/api/test_drift_events.py",
+      "added_docstrings": 4,
+      "after_sha256": "5691c5736d758c7ddc30a153bd7cad715add1768de6c961978d52b2b72d68c4f",
+      "executable_ast_sha256": "5fa731e0a68475a54cab4c6e7c25be85120089ea7d55fe162bfb1c44f36b59cd",
+      "before_working_sha256": "07501d77912d978d0ed2b4ad1afa13ae726d509c54c282ba581b986b94794d18",
+      "before_git_sha256": "07501d77912d978d0ed2b4ad1afa13ae726d509c54c282ba581b986b94794d18",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/api/test_feature_api.py",
+      "added_docstrings": 46,
+      "after_sha256": "f7f2cf9c0b0fc93b4c33284ce29d3ee9377ae0eefdc3c64552bdecc66355db1c",
+      "executable_ast_sha256": "9b9cd471b3e09274770b419fc2aeb4dc0bf048fe07dac9d61e3ac22274f757cd",
+      "before_working_sha256": "2ca8b62d4e99e8ab49cac3e86e2f429d9c6912e23e04c65ee8d60fc482668a30",
+      "before_git_sha256": "2ca8b62d4e99e8ab49cac3e86e2f429d9c6912e23e04c65ee8d60fc482668a30",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/api/test_model_binding.py",
+      "added_docstrings": 24,
+      "after_sha256": "3595c480288e275596541439c3796d6cfe95fc63534309aa6cf52c0f0fb396ab",
+      "executable_ast_sha256": "e4bd979abddfffb7f58af3192cf7718bd6b1b30a01e03ac0bde0f374cac75697",
+      "before_working_sha256": "66312c0a6b4cb6b85e0bc3a2110e65acd236885ba38d7db2f1c0891bf41ed9e4",
+      "before_git_sha256": "66312c0a6b4cb6b85e0bc3a2110e65acd236885ba38d7db2f1c0891bf41ed9e4",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/api/test_observed.py",
+      "added_docstrings": 31,
+      "after_sha256": "a14272a47e6b147e28bb8a93d1246b4091697b39cbe5742c60e8489a93be7ebf",
+      "executable_ast_sha256": "853c0989160944a833fee0217904f7ca1a98edf38d3f7b1edc05a6f623acb527",
+      "before_working_sha256": "d24a5421de016008a3e00236454e3ea4c04e2bb4a254ef499c877fcffa38fded",
+      "before_git_sha256": "d24a5421de016008a3e00236454e3ea4c04e2bb4a254ef499c877fcffa38fded",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/linux_monitoring_oracle.py",
+      "added_docstrings": 4,
+      "after_sha256": "13c1f3d24273fa642e50fcfb0fff35079efb500e457dbb6a8203038353a2b634",
+      "executable_ast_sha256": "7af17bb90b2aea82019d68797a450bc7cd4d7665981180c730ae3487f6412329",
+      "before_working_sha256": "3ae5482d61a57497aca80dfe387fcb64e1e5fadbe3499f7b8250b45a93005e48",
+      "before_git_sha256": "3ae5482d61a57497aca80dfe387fcb64e1e5fadbe3499f7b8250b45a93005e48",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/load/api_observability.py",
+      "added_docstrings": 3,
+      "after_sha256": "01e4422911dd224ee0d736f80248ac78f3d1357df91a62be09818dbd8a31fc2d",
+      "executable_ast_sha256": "686f591f9d1c38a6ee46285ea570257d382ecf49905c0ce407094e185efd0754",
+      "before_working_sha256": "33a5118698aa21cb3208ebe2b4b1d54becd12a2bc9d075120f880029e39bcad6",
+      "before_git_sha256": "33a5118698aa21cb3208ebe2b4b1d54becd12a2bc9d075120f880029e39bcad6",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/load/feature_api.py",
+      "added_docstrings": 2,
+      "after_sha256": "82aa0681d0c7eb93529a69beb607ab7dec08ee2f0667a9b2c5ad3f457299e551",
+      "executable_ast_sha256": "f192c3e4c74f38caf8a795ecbca9f6c998ad995af60c816504707e6739870d18",
+      "before_working_sha256": "1e5a70b7d3c752c87884edba4495c86a06164503d723ef093b3fd5b0efa6c748",
+      "before_git_sha256": "1e5a70b7d3c752c87884edba4495c86a06164503d723ef093b3fd5b0efa6c748",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/monitoring_oracle.py",
+      "added_docstrings": 3,
+      "after_sha256": "f07ebd93ba7824da47c19ee3aafa1d793167a4e75bc6e46f435f3c398f9f78d1",
+      "executable_ast_sha256": "86313424559cbcc879512bd86b84ebef354b1067c9701101d968f3f43ac39e09",
+      "before_working_sha256": "e1b2cff8cf26a420ea6f0a95906ed6631577b81838e6cfea95989831b8814bc9",
+      "before_git_sha256": "e1b2cff8cf26a420ea6f0a95906ed6631577b81838e6cfea95989831b8814bc9",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/offline_drift_oracle.py",
+      "added_docstrings": 2,
+      "after_sha256": "f97c1dc7bad1f1f49566c37935611d138f7261ffd6f744a6055c9dd2572d9793",
+      "executable_ast_sha256": "96365f892ba92f34b1a2149d071f58c0923817208cf59f18270585ef86af8147",
+      "before_working_sha256": "90c987eadf10e68cecf2ecf610b691b4a1d92bc504cc227d57122835e11b6912",
+      "before_git_sha256": "90c987eadf10e68cecf2ecf610b691b4a1d92bc504cc227d57122835e11b6912",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_ab_ci.py",
+      "added_docstrings": 33,
+      "after_sha256": "7581c0ac2241c5512ed3fa2d57c47042819ffd7acb48a93eb4b36989d372b124",
+      "executable_ast_sha256": "dcdb07b26f2b3dc9f869a130dc8d54722cd329c88ffc4a144d704f0db8f16ec7",
+      "before_working_sha256": "3c1d74916d65d87e9829260a1de0b9dafb8db351e4b3b512845d1533fb63b4b2",
+      "before_git_sha256": "3c1d74916d65d87e9829260a1de0b9dafb8db351e4b3b512845d1533fb63b4b2",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_api_observability_gate.py",
+      "added_docstrings": 7,
+      "after_sha256": "e1979a272531a52b9cfe89416ed0ae1ce82f8b0a0ef3c431ef3f193039c6609d",
+      "executable_ast_sha256": "ef0120127f7f500377470fdff149a6151934a6665913537529b2d1af28015cb1",
+      "before_working_sha256": "8793fdb8302f41b8b2fdb4532d5d844277b24c6d502b51f78c581672200f4f11",
+      "before_git_sha256": "2e79b9505fadf14384428cf44227be224da215ae044e2cb757209d8076e79449",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_ci_materialization.py",
+      "added_docstrings": 6,
+      "after_sha256": "d9dbdfd9d3bb5b9165270aa3922a233eea755124ebf019277f72b9d7f92597c2",
+      "executable_ast_sha256": "85bb0e2d551120967fbf77d7d5c28f54bef9dd18651222587f612f5c8c097af5",
+      "before_working_sha256": "278d9aa09dc9f4ebb736dc40ea36b59cab4c21f2cbc844e4ddb2904d868d61b9",
+      "before_git_sha256": "278d9aa09dc9f4ebb736dc40ea36b59cab4c21f2cbc844e4ddb2904d868d61b9",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_ci_training.py",
+      "added_docstrings": 11,
+      "after_sha256": "565f0f28640cbaf4c9ef32df01758d81a6e8a372c274c286c5b4b2473ff0f45d",
+      "executable_ast_sha256": "775a30355b4e334cde62ecc8c149a38e14d29e7af93c84939fd278d461ba1fdf",
+      "before_working_sha256": "5401464e9a28a0d6c5bcb8c4e1c3e3f6d8b1cc9d067598255f1585dec74b5104",
+      "before_git_sha256": "5401464e9a28a0d6c5bcb8c4e1c3e3f6d8b1cc9d067598255f1585dec74b5104",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_cluster_artifacts.py",
+      "added_docstrings": 2,
+      "after_sha256": "7333d3f6a91988a4479cb030fd888232486d767d075312ae396b99e7721ac52a",
+      "executable_ast_sha256": "2b2370b4e7fc3cdeb77afb17755d2fd96408df62a834d8988281f8ea54b3aef5",
+      "before_working_sha256": "e4eb957ad9e29aecf83adc673917b73c9e4bde40c236aac3de418e46ab464058",
+      "before_git_sha256": "e4eb957ad9e29aecf83adc673917b73c9e4bde40c236aac3de418e46ab464058",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_data_versions.py",
+      "added_docstrings": 3,
+      "after_sha256": "314618464b446cbe3a4dff73479d631a012451d6bf14b34e8043adbbffb373be",
+      "executable_ast_sha256": "7a5ea9a321e6516b2e5319413a45cb6491165e5fa207a2428a12207f4fa70371",
+      "before_working_sha256": "db5864cb68025c749c7a2659fe3b70303696cd3e71c147854b037eddc23b73ca",
+      "before_git_sha256": "db5864cb68025c749c7a2659fe3b70303696cd3e71c147854b037eddc23b73ca",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_distributed_evidence.py",
+      "added_docstrings": 2,
+      "after_sha256": "0b3c18db75cee6dac0ef038c5001980691582def3b13aed775db57e93cf077e1",
+      "executable_ast_sha256": "65e7d47de3cb26861c300daeb6d520b69b6119fb79ed2dadab73b4ab52885e3b",
+      "before_working_sha256": "c2c40ad88d6ec235ab047c3083e429f720b74f0a0f31c3ccd53514c406c31783",
+      "before_git_sha256": "c2c40ad88d6ec235ab047c3083e429f720b74f0a0f31c3ccd53514c406c31783",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_distributed_identity.py",
+      "added_docstrings": 1,
+      "after_sha256": "445583264921886ec5f9cac22b65522017ea3a0e3c330f15d35b3ad22090f408",
+      "executable_ast_sha256": "fa1283152fbb136c2d53faec3d2eefc3459efcb5f98a85aaec304ae3f2e9b5aa",
+      "before_working_sha256": "0f57fe723097c09386cc571016bd668cf1227270c83bd207b200f541ffd3af18",
+      "before_git_sha256": "0f57fe723097c09386cc571016bd668cf1227270c83bd207b200f541ffd3af18",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_drift_eventing.py",
+      "added_docstrings": 5,
+      "after_sha256": "c5d03778b3ab093f611b8e8836e1b21ca9fed9a872421451652036b06bcfcc3b",
+      "executable_ast_sha256": "a1a7655be6f701e301a8f46004f829ed502e4d31eb09eb2e3c73b4eaf1e92b57",
+      "before_working_sha256": "fb6d91820a310926443240b791b543b120c9722af9b1450ab6893728fb5a3bac",
+      "before_git_sha256": "fb6d91820a310926443240b791b543b120c9722af9b1450ab6893728fb5a3bac",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_drift_eventing_gate.py",
+      "added_docstrings": 2,
+      "after_sha256": "bc8aaf9710dacaa776f876a473fe2b5b111a08186ceff467fee6d17511556137",
+      "executable_ast_sha256": "525c4fa4566eb6a7988d9b30d1af0fe1bf329023b066b19b064dda751036bbf4",
+      "before_working_sha256": "91b6251bdb3b4d1f3782a4e03c77be497141577491b62f348cba8a41e2c13a14",
+      "before_git_sha256": "91b6251bdb3b4d1f3782a4e03c77be497141577491b62f348cba8a41e2c13a14",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_drift_monitoring.py",
+      "added_docstrings": 7,
+      "after_sha256": "31e6d41283c47ced8368555f07a07af050f5d37038bd6e1e25cff9972f2a4a8c",
+      "executable_ast_sha256": "3870211d695ec3e55b76e2b3b4291dd332ec99bde3523328ce59a42a7ea8fbd4",
+      "before_working_sha256": "eec126d9748b479653468b1aec137964683d1848000a3b8e24c0fe58189dcc11",
+      "before_git_sha256": "eec126d9748b479653468b1aec137964683d1848000a3b8e24c0fe58189dcc11",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_drift_retrain.py",
+      "added_docstrings": 17,
+      "after_sha256": "dd31a78cb38f54def1bb5e67bbf7312a5a9eabcc0cf699d6dfa4103e9a050970",
+      "executable_ast_sha256": "94434269b501c81fb56d922a91d9339843aecc75b00fc80d99386114f5bb2ba8",
+      "before_working_sha256": "dd28fa7d9d23845433e70ed8ab0c3ff67ea6bf95c3cd49b6c873583c27fcdde7",
+      "before_git_sha256": "dd28fa7d9d23845433e70ed8ab0c3ff67ea6bf95c3cd49b6c873583c27fcdde7",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_gateway_contract.py",
+      "added_docstrings": 2,
+      "after_sha256": "73803787204827b193ca223678eab8de6403cce33c2a45e5892a3e2118f6ed4e",
+      "executable_ast_sha256": "3161890c4e64460ce9b2ea1d1be3e35547f1b710c6a22bb9c669d883c16dd6cb",
+      "before_working_sha256": "07c30a3415cf373913a69a937820fb54b1c71362daf025941c3bf5eaea10e284",
+      "before_git_sha256": "07c30a3415cf373913a69a937820fb54b1c71362daf025941c3bf5eaea10e284",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_joint_drift.py",
+      "added_docstrings": 14,
+      "after_sha256": "54de660c0da9c2a11b0d34f4cd62889aa0866a1b9fa924eb8df0f9209887c695",
+      "executable_ast_sha256": "b2afa7a06dde8f1f91b6513ff5c096f8283c4a511e127c773b32a6b52d5e62ca",
+      "before_working_sha256": "d3e86b9dc01a44d00855a08172c7a5bbcf797dad9e001d0786307ed9f3de1eae",
+      "before_git_sha256": "d3e86b9dc01a44d00855a08172c7a5bbcf797dad9e001d0786307ed9f3de1eae",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_linux_monitoring_oracle.py",
+      "added_docstrings": 6,
+      "after_sha256": "e2a9c5adf9f732e3c776cf16fb08877dbce59d9b6df526429c24feb28054dedf",
+      "executable_ast_sha256": "5b2c38d35474b3e5e85821f98afe8183915097a5872ebbda4937da4530171cdf",
+      "before_working_sha256": "fe93e783b7daa75789b8aa035c06c21f6e7094a9adadd5f612fef852d004ffa7",
+      "before_git_sha256": "fe93e783b7daa75789b8aa035c06c21f6e7094a9adadd5f612fef852d004ffa7",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_log_discovery.py",
+      "added_docstrings": 5,
+      "after_sha256": "663d493448aade9a80410875ced4de33f5926fed7dccbfdddad5259883e86cff",
+      "executable_ast_sha256": "b9b000c9427e2a4c8817717423b571265e81106b840dfa42abd53a63d71fc24f",
+      "before_working_sha256": "7b97fb5c8b4dad257d03768c3d584b1036edf201b240843deb0442c80cdbd121",
+      "before_git_sha256": "090a948e093978e09d42f33c15533132700fb4beafc48f2a3de0a280e6b5d040",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_log_monitoring.py",
+      "added_docstrings": 6,
+      "after_sha256": "1357e29d9111aa197d23756f4e78f2ddf26cf6f3e1c33cdf6779ff75cb9a9a0a",
+      "executable_ast_sha256": "833935c1729c0bbf4a1685f4083278579a3521824b20106ef6b5463819ae85f6",
+      "before_working_sha256": "f9f1e949cd5f0eec13a3ff007c05882bc5cd23d672a98278a968d926de4fbfa2",
+      "before_git_sha256": "f9f1e949cd5f0eec13a3ff007c05882bc5cd23d672a98278a968d926de4fbfa2",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_log_monitoring_oracle.py",
+      "added_docstrings": 6,
+      "after_sha256": "adea3b6ce1224a84adeed73136a7f7fb13636c08f93df042c702d9caecfcf758",
+      "executable_ast_sha256": "636397ccd8dbd84905dd227d333c3717d992fd8c6989236e8faf5ee16b4e96a7",
+      "before_working_sha256": "944da7c8b8cce9694600d6e903f43f360464d1fb7a50b93b3db907eb88b503e6",
+      "before_git_sha256": "944da7c8b8cce9694600d6e903f43f360464d1fb7a50b93b3db907eb88b503e6",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_mesh_contract.py",
+      "added_docstrings": 3,
+      "after_sha256": "4267e3fdbc5a107c58c9d693d8318f58a83de49aef6f52f9822be5b5e2c9465b",
+      "executable_ast_sha256": "1e4c051980250ad025e929782855aab09116392191e1a715dd0020ee0a5d3c4a",
+      "before_working_sha256": "1834c50e36ae56330b8e19ce10beae011da7699b6cddc1c9765a4b001166e478",
+      "before_git_sha256": "1834c50e36ae56330b8e19ce10beae011da7699b6cddc1c9765a4b001166e478",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_model_data_link.py",
+      "added_docstrings": 3,
+      "after_sha256": "f45c04e0c7fe83685e1c3dba79be40476c517d5297a5087090aa28427dfa7b71",
+      "executable_ast_sha256": "8d3749fe88d3eceef63b5d0ffb669ceef2bbe02b83fc3da80577fa69ed0d6f94",
+      "before_working_sha256": "7823a738d996d9dad385b35258f079ada52fee46901f49bb9e011383057b908e",
+      "before_git_sha256": "7823a738d996d9dad385b35258f079ada52fee46901f49bb9e011383057b908e",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_observability_ci.py",
+      "added_docstrings": 8,
+      "after_sha256": "e4544cb5ed33359d35394a812600f0a0a7e8b4d6d3eb989d54081cff696a525e",
+      "executable_ast_sha256": "73c0ca5d5e5b495dabb50ba8277ffc1b2f213489e4c946334f2918f0f5ed54d3",
+      "before_working_sha256": "1e3e248f5c83f86e119ba38948d0a8062bb66b4dc81ff2692756f35ac7b71f39",
+      "before_git_sha256": "1e3e248f5c83f86e119ba38948d0a8062bb66b4dc81ff2692756f35ac7b71f39",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_offline_drift_oracle.py",
+      "added_docstrings": 2,
+      "after_sha256": "80a39dc0839a881551d7318cfd3f52583fc133289e5112ac76b6fe263ebc6bcb",
+      "executable_ast_sha256": "7cd61959bb96c2c4544b35498bac5ecb730e0eaf62077f6c64d477c7fdc6ede7",
+      "before_working_sha256": "33ed760e3d6749708f76be46fa71d501ac03bd2b8fdf29d5fa57b0ed992d6e14",
+      "before_git_sha256": "33ed760e3d6749708f76be46fa71d501ac03bd2b8fdf29d5fa57b0ed992d6e14",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_orchestration_contract.py",
+      "added_docstrings": 7,
+      "after_sha256": "61509e850462ae8749d8904a56873df186af00a058971b1182b67068772539c0",
+      "executable_ast_sha256": "91200616233647a6a072f8604aa7d33c2ef17af9b55a91ca74000fb691b9dcfe",
+      "before_working_sha256": "d012fb257e3693afb5a232ef0383a49b34f7d9e371e8e16f40a9a0e2af69d928",
+      "before_git_sha256": "d012fb257e3693afb5a232ef0383a49b34f7d9e371e8e16f40a9a0e2af69d928",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_sensor_drift.py",
+      "added_docstrings": 3,
+      "after_sha256": "81c83bb4ea82433140a5117e632c699a133a82e85deebbf76a0763ba530a081a",
+      "executable_ast_sha256": "e33f1682aef955139ed7f76515d8c0f96dbfb05d9d96770857602119ac88361c",
+      "before_working_sha256": "2fc56e4ec8d8e2bf5ad766d3e6045249fca89bf5724f847135baa0525a377fad",
+      "before_git_sha256": "2fc56e4ec8d8e2bf5ad766d3e6045249fca89bf5724f847135baa0525a377fad",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_serving_ci.py",
+      "added_docstrings": 11,
+      "after_sha256": "ca80954937353126b0aaaae4000b44447c576a5d1d9b965431e09e257f7b62e3",
+      "executable_ast_sha256": "b225fc2d9c9ffe05993697f6aded8b62dc08bcb7895e61aba0a22b533dbdd62c",
+      "before_working_sha256": "192ad24d41267693c195efc2d80340b1a36eb7ea531c1e503a4dbb8f41440f4b",
+      "before_git_sha256": "192ad24d41267693c195efc2d80340b1a36eb7ea531c1e503a4dbb8f41440f4b",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_serving_gate_reuse.py",
+      "added_docstrings": 5,
+      "after_sha256": "068b2188b50dd58f4b9d34fe5980fceccd2a2aefec3d0c63d2b34b128481cc12",
+      "executable_ast_sha256": "f7466f3206940d9ed542187c822062154d9f63a76debafe705c43279133d7ccd",
+      "before_working_sha256": "ade3e194e7180d5453d483bf200f21f53eb817a85222c2516d3eae97cce4a8bf",
+      "before_git_sha256": "ade3e194e7180d5453d483bf200f21f53eb817a85222c2516d3eae97cce4a8bf",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_serving_release.py",
+      "added_docstrings": 13,
+      "after_sha256": "fc957b2c4d4d58e53f45f3075918012df6121ffcb592bd8e8836ad9772d9b634",
+      "executable_ast_sha256": "7fbf71d03e61b349dd81c659d53dddd5858044acbfb9e8ade1edafc32854dad5",
+      "before_working_sha256": "8cd9675d25b738a625b430987f94c51c66535586ab5f7202509fb9b4c3075752",
+      "before_git_sha256": "8cd9675d25b738a625b430987f94c51c66535586ab5f7202509fb9b4c3075752",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_snapshot.py",
+      "added_docstrings": 2,
+      "after_sha256": "66826203c3cc147ec20a39fb4f3c09f48d354c1ce8c8fe584235d2d89155f05f",
+      "executable_ast_sha256": "572ed95cb0da3fdae35c53f0138c0e6b75f89a4420684ad29d78c4ffca7f7160",
+      "before_working_sha256": "9bc1340ca6dd3e52c2b6179b865c7a437a2889f66db3de2b49d5d2a736beb175",
+      "before_git_sha256": "9bc1340ca6dd3e52c2b6179b865c7a437a2889f66db3de2b49d5d2a736beb175",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_stream_staging_contract.py",
+      "added_docstrings": 2,
+      "after_sha256": "7931af1bf27eb5b2aea2e456f4fc550fc4eb06605d4577b8fd07f6f85259a3f3",
+      "executable_ast_sha256": "132dbba35d0aba679f0906ffc9e36ce73bb2c4316fe0a68e68f5da42d39cdcf7",
+      "before_working_sha256": "a995c9127c9dec0ceabe98deee737163eae073b709a3a959af1780a7e94a67d6",
+      "before_git_sha256": "a995c9127c9dec0ceabe98deee737163eae073b709a3a959af1780a7e94a67d6",
+      "documentation_only": true
+    },
+    {
+      "path": "tests/test_vault_client.py",
+      "added_docstrings": 4,
+      "after_sha256": "f17959d0a2a86891d87f204718c2440c56bcc8b4bed5296d0a32304bb4fcd894",
+      "executable_ast_sha256": "e4b3e2e0ec9abff69889d899c532e060ed6fc8b0a09497f3edbf8e6a65bb00e1",
+      "before_working_sha256": "fafa02530d768988cd8c84caf952baaf3e920523b243ebc8547da06230af644c",
+      "before_git_sha256": "fafa02530d768988cd8c84caf952baaf3e920523b243ebc8547da06230af644c",
+      "documentation_only": true
+    }
+  ],
+  "scope": "Current maintainable Python only; immutable evidence snapshots untouched. Executable AST equal after removing docstrings; __doc__ and source line positions intentionally change.",
+  "documentation_only_docstrings": 418,
+  "mixed_verifier_docstrings": 1
+}

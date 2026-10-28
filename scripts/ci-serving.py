@@ -51,6 +51,7 @@ def http_text(base,path):
 class Context:
     """Keep every CI phase tied to its sealed source, selected version and release-owned runtime paths."""
     def __init__(self):
+        'Validate Jenkins identity and bind deployment, source and model version for this build.'
         self.commit=os.environ['IOT_CI_COMMIT'];self.version=os.environ['IOT_MODEL_VERSION']
         self.release=identity(os.environ['BUILD_NUMBER'],self.commit,self.version)
         if os.environ.get('IOT_CI_PROVIDER')!='jenkins' or not os.environ.get('JENKINS_URL'):raise ValueError('Use the existing trusted private Jenkins job')

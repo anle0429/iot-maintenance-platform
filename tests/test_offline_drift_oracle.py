@@ -7,7 +7,9 @@ from ml.drift_monitoring import FIELDS
 
 
 class OfflineDriftOracleTests(unittest.TestCase):
+    'Group known-answer checks for offline drift oracle.'
     def test_constant_reference_and_half_shift_match_two_bin_arithmetic(self):
+        'Verify constant reference and half shift match two bin arithmetic.'
         reference={'samples':[{name:1 for name in FIELDS} for _ in range(32)]}
         rid=sha256(canonical(reference)).hexdigest()
         observations=[{'id':str(i),'event_timestamp':'2026-11-22T00:00:00Z','available_at':'2026-11-22T00:00:00Z',

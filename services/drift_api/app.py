@@ -13,6 +13,7 @@ def create_app(runtime=None):
     """Inject a fixture in tests or load a mounted immutable training reference in deployment."""
     @asynccontextmanager
     async def lifespan(app):
+        'Open the injected or persistent drift runtime and release its application reference on shutdown.'
         app.state.runtime = runtime or DriftRuntime(json.loads(Path(os.environ['IOT_DRIFT_REFERENCE']).read_text()), os.environ['IOT_DRIFT_DATABASE'])
         app.state.slots = asyncio.Semaphore(4)
         yield

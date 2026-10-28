@@ -22,6 +22,7 @@ def create_app(bundle:Path|None=None)->FastAPI:
 
     @asynccontextmanager
     async def lifespan(app):
+        'Load the immutable predictor bundle once and release the application reference on shutdown.'
         app.state.predictor=PumpPredictor(location)
         yield
         app.state.predictor=None

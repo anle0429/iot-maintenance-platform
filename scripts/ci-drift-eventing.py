@@ -16,6 +16,7 @@ class Context(SHARED.Context):
     """Use independent releases while reusing bounded native controller transports."""
     driver='/src/scripts/ci-drift-eventing.py'
     def __init__(self):
+        'Bind this Jenkins build to its isolated eventing release and output directory.'
         super().__init__();self.release='drift-event-jenkins-'+os.environ['BUILD_NUMBER']
         self.directory=self.deploy/'data/ci/releases'/self.release;self.out=self.directory/'outputs'
 
@@ -69,14 +70,17 @@ def verify(c):
     if len(parts)!=5 or parts[2:]!=['svc','cluster','local'] or parts[1]!='knative-eventing':raise ValueError('Unexpected broker address')
     publish=c.service_url(parts[0],parts[1])+url.path
     def http(target,body,headers):
+        'Send a bounded CloudEvent request and retain HTTP error responses for verification.'
         try:r=urllib.request.urlopen(urllib.request.Request(target,data=json.dumps(body,separators=(',',':')).encode(),headers=headers),timeout=20)
         except urllib.error.HTTPError as e:r=e
         with r:return r.status,r.read(1_048_577)
     def ready():
+        'Require the actual drift event receiver to report readiness.'
         code,value=SHARED.http(receiver,'/health/ready')
         if code!=200:raise ValueError('Receiver is not ready')
         return value
     def metric(name):
+        'Save the actual receiver metrics for before-and-after counter checks.'
         raw=SHARED.http_text(receiver,'/telemetry/metrics');(c.out/name).write_text(raw);return raw
     initial=ready();save(c,'ready-before.json',initial)
     if initial['stored_windows']!=0:raise ValueError('Use a fresh build-owned ledger')
@@ -85,6 +89,7 @@ def verify(c):
     window.update(reference_id=initial['reference_id'],window_id=c.release+'-window');save(c,'window.json',window)
     metric('metrics-before.prom');rows=[]
     def send(identity,value,kind=None):
+        'Publish one declared event and preserve its acknowledgement before accepting it.'
         headers={**event_headers(identity),'Host':url.hostname}
         if kind:headers['ce-type']=kind
         code,raw=http(publish,value,headers);rows.append({'event_id':identity,'type':headers['ce-type'],'status':code,'response_utf8':raw.decode(),'window_id':value['window_id'],'sent_utc':datetime.now(timezone.utc).isoformat()});save(c,'publisher.json',rows)

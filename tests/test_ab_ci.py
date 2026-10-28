@@ -27,6 +27,7 @@ def recipe():
 class ProtocolFixture:
     """Use real SQLite/model/drift behavior but explicitly replace HTTP and upstream metrics for unit tests."""
     def __init__(self,path):
+        'Build an isolated real A/B SQLite fixture with controlled faults and counters.'
         self.runtime=fixture_runtime(path);self.seen=set();self.fault=None;self.counter_reads={v:0 for v in ab_ci.VARIANTS}
         self.offline={m:{'features':self.runtime.runtimes['baseline'].backend.fetch(m)['values'],'feature_event_ts':ASOF.isoformat()} for m in self.runtime.context['machines']}
     def call(self,path,body=None,headers=None):
@@ -66,6 +67,7 @@ class ProtocolFixture:
 
 
 def test_baseline_is_discovered_from_active_private_routing():
+    'Verify baseline is discovered from active private routing.'
     deployment={'spec':{'template':{'spec':{'containers':[{'name':'api','env':[{'name':'IOT_KSERVE_URL','value':'http://old-v5-predictor.iot-serving.svc.cluster.local'}]}]}}}}
     assert ab_ci.baseline_target(deployment)==('old-v5','old-v5-predictor')
     for value in ['https://old-v5-predictor.iot-serving.svc.cluster.local','http://external.example','http://127.0.0.1',
@@ -78,6 +80,7 @@ def test_baseline_is_discovered_from_active_private_routing():
 
 
 def test_config_volume_and_template_are_bound_to_release_without_mutating_defaults():
+    'Verify config volume and template are bound to release without mutating defaults.'
     plan=recipe();objects=plan['objects'];values=plan['values']
     assert [o['kind'] for o in objects]==['ConfigMap','ConfigMap','PersistentVolume','PersistentVolumeClaim']
     assert all(o['immutable'] for o in objects[:2]) and objects[2]['spec']['persistentVolumeReclaimPolicy']=='Retain'
@@ -92,10 +95,12 @@ def test_config_volume_and_template_are_bound_to_release_without_mutating_defaul
 @pytest.mark.parametrize('value',['http://8.8.8.8','http://127.0.0.1','http://169.254.169.254','http://0.0.0.0',
     'http://224.1.1.1','http://[::1]','http://10.53.0.1:80','http://user:secret@10.53.0.1','https://10.53.0.1','http://10.53.0.1/x'])
 def test_config_endpoints_cannot_escape_observed_cluster_service(value):
+    'Verify config endpoints cannot escape observed cluster service.'
     with pytest.raises(ValueError):ab_ci.private_endpoint(value)
 
 
 def test_recipe_rejects_same_model_wrong_protocol_or_unscoped_storage():
+    'Verify recipe rejects same model wrong protocol or unscoped storage.'
     pair=pair_plan();template=yaml.safe_load((ROOT/'infra/ab-api/helm-values.yaml').read_text());path='/srv/iot-data/x/releases/serve-jenkins-7/runtime/ab-ledger'
     for kwargs in [{'baseline':pair['pin']},{'baseline_url':'http://10.53.0.11'},
             {'reference_raw':json.dumps({'lineage':{'protocol_sha256':'f'*64}})},{'reference_raw':'x'*700001},
@@ -108,6 +113,7 @@ def test_recipe_rejects_same_model_wrong_protocol_or_unscoped_storage():
 
 
 def test_trial_cohorts_use_only_operating_machines_and_bound_repetitions(tmp_path):
+    'Verify trial cohorts use only operating machines and bound repetitions.'
     fixture=ProtocolFixture(tmp_path);context=deepcopy(fixture.runtime.context);context['machines']['P-001']['status']='maintenance'
     jobs=ab_ci.trial_jobs(context,fixture.runtime.experiment)
     assert len(jobs)==199*4 and len({j['request_id'] for j in jobs})==len(jobs) and all(j['machine_id']!='P-001' for j in jobs)
@@ -119,6 +125,7 @@ def test_trial_cohorts_use_only_operating_machines_and_bound_repetitions(tmp_pat
 
 
 def test_exact_metric_series_validation():
+    'Verify exact metric series validation.'
     assert ab_ci.metric_value('x{variant="baseline"} 3\n','x',{'variant':'baseline'})==3
     assert ab_ci.metric_value('x 1\n','missing',{},True)==0
     for raw in ['x{variant="other"} 3\n','x{variant="baseline"} -1\n','x{variant="baseline"} NaN\n',
@@ -127,6 +134,7 @@ def test_exact_metric_series_validation():
 
 
 def test_actual_ledger_probe_matches_independent_inputs_and_accepts_background_counter_activity(tmp_path):
+    'Verify actual ledger probe matches independent inputs and accepts background counter activity.'
     fixture=ProtocolFixture(tmp_path);fixture.fault='background';result=fixture.probe()
     assert result['cohort_counts']=={'baseline':186,'candidate':214} and result['replay_checks']==40
     assert result['predictor_counter_deltas']=={'baseline':189.,'candidate':217.}
@@ -135,11 +143,13 @@ def test_actual_ledger_probe_matches_independent_inputs_and_accepts_background_c
 
 @pytest.mark.parametrize('fault',['ready','existing','failed','trial','ledger','counter','reference','scrape','upstream','replay'])
 def test_probe_refuses_wrong_identity_receipts_metrics_or_replay(tmp_path,fault):
+    'Verify probe refuses wrong identity receipts metrics or replay.'
     fixture=ProtocolFixture(tmp_path);fixture.fault=fault
     with pytest.raises(ValueError):fixture.probe()
 
 
 def test_probe_refuses_a_feature_trace_that_disagrees_with_offline_data(tmp_path):
+    'Verify probe refuses a feature trace that disagrees with offline data.'
     fixture=ProtocolFixture(tmp_path)
     for values in fixture.offline.values():values['features']['temperature_mean_10m']+=1
     with pytest.raises(ValueError,match='feature trace'):fixture.probe()
@@ -161,12 +171,13 @@ def native_fixture():
     objects['persistentvolume']['spec']['claimRef']={'uid':uid};objects['persistentvolume']['spec'].pop('storageClassName')
     objects['persistentvolumeclaim']=deepcopy(plan['objects'][3]);objects['persistentvolumeclaim']['metadata']['uid']=uid;objects['persistentvolumeclaim']['status']={'phase':'Bound'}
     objects['service']={'metadata':{'uid':'service-fixture'}}
-    def get(*args):return deepcopy(objects[args[2] if args[1]=='configmap' else args[1]])
+    def get(*args):'Return a copied Kubernetes fixture selected by resource name.';return deepcopy(objects[args[2] if args[1]=='configmap' else args[1]])
     context=NS(get=get,service_url=lambda *args:'http://10.53.0.12');build={'images':{'ab':{'config_digest':'sha256:'+'f'*64}}}
     return context,plan,build,objects
 
 
 def test_native_state_accepts_server_defaults_but_rejects_stale_rollout_or_changed_inputs():
+    'Verify native state accepts server defaults but rejects stale rollout or changed inputs.'
     context,plan,build,objects=native_fixture();state=ab_native.workload_state(context,plan,build)
     assert state['pvc_uid']=='pvc-fixture' and state['deployment_uid']=='deployment-fixture'
     original=deepcopy(objects)
@@ -184,6 +195,7 @@ def test_native_state_accepts_server_defaults_but_rejects_stale_rollout_or_chang
 
 
 def test_native_recheck_rejects_old_or_cross_release_receipts_before_querying_cluster(tmp_path):
+    'Verify native recheck rejects old or cross release receipts before querying cluster.'
     context=NS(out=tmp_path,commit='a'*40,release='serve-jenkins-7')
     report={'checked_utc':(datetime.now(timezone.utc)-timedelta(seconds=301)).isoformat(),'capture_kind':'native-kubernetes-http',
         'commit':context.commit,'release':context.release,'ab_plan_sha256':'a'*64}
@@ -193,11 +205,13 @@ def test_native_recheck_rejects_old_or_cross_release_receipts_before_querying_cl
 
 
 def test_empty_native_pod_inventory_cannot_bind_a_counter_process():
+    'Verify empty native pod inventory cannot bind a counter process.'
     with pytest.raises(ValueError):ab_native.pod_identity({'items':[]})
     with pytest.raises(ValueError):ab_native.pod_identity({'items':[{'metadata':{'uid':'terminating','deletionTimestamp':'now'}}]})
 
 
 def test_model_readback_checks_actual_weights_service_selector_and_running_incarnation():
+    'Verify model readback checks actual weights service selector and running incarnation.'
     objects={'inferenceservice':{'metadata':{'uid':'isvc-fixture'},'status':{'conditions':[{'type':'Ready','status':'True'}]},
         'spec':{'predictor':{'containers':[{'image':'model:v1'}]}}},'service':{'metadata':{'uid':'service-fixture'},'spec':{'selector':{'app':'isvc.old-predictor'}}},
         'pods':{'items':[{'metadata':{'uid':'model-pod-fixture','name':'old-predictor-aaa','labels':{'serving.kserve.io/inferenceservice':'old'}},
@@ -205,7 +219,7 @@ def test_model_readback_checks_actual_weights_service_selector_and_running_incar
             'status':{'containerStatuses':[{'name':'kserve-container','imageID':'containerd://sha256:'+'f'*64,'containerID':'containerd://model-fixture',
                 'restartCount':0,'ready':True,'state':{'running':{}}}]}}]}}
     calls=[]
-    def get(*args):calls.append(args);return deepcopy(objects[args[1]])
+    def get(*args):'Record Kubernetes reads and return the selected copied fixture.';calls.append(args);return deepcopy(objects[args[1]])
     context=NS(k=['kubectl-fixture'],get=get,service_url=lambda *args:'http://10.53.0.10')
     result={'metadata':LEGACY,'portable_sha256':LEGACY['portable_sha256'],'bundle_path':'/app/models/pump-failure-v1','bundle_origin':'IOT_MODEL_BUNDLE'}
     with patch.object(ab_native.subprocess,'check_output',return_value=json.dumps(result)) as command:
@@ -255,6 +269,7 @@ def test_native_model_probe_refuses_escaped_or_missing_explicit_bundle(tmp_path,
 
 
 def test_feature_routing_identity_tracks_the_observed_active_generation():
+    'Verify feature routing identity tracks the observed active generation.'
     deployment={'metadata':{'uid':'active-fixture','generation':4},'spec':{'template':{'spec':{'containers':[{'name':'api',
         'env':[{'name':'IOT_KSERVE_URL','value':'http://old-predictor.iot-serving.svc.cluster.local'}]}]}}}}
     context=NS(get=lambda *args:deployment)
@@ -271,6 +286,7 @@ def test_native_adapter_command_sequence_and_recheck_with_mocked_control_plane(t
     logs=[];context=NS(directory=source,out=out,release=pair['release'],commit=pair['commit'],helm='helm-fixture',k=['kubectl-fixture'])
     context.log=lambda name,args,*other:logs.append((name,args))
     def get(*args):
+        'Return only the source-reference ConfigMap or the expected node identity.'
         if args[1]=='configmap':return {'metadata':{'uid':'source-reference-fixture'},'data':{'reference.json':reference}}
         return {'metadata':{'labels':{'kubernetes.io/hostname':'iot-cw-vm'}}}
     context.get=get
@@ -281,15 +297,18 @@ def test_native_adapter_command_sequence_and_recheck_with_mocked_control_plane(t
     models=lambda c,name:baseline if name=='old' else candidate
     original_plan=ab_ci.deployment_plan
     def planned(*args):
+        'Rebind the fixture ledger path to the expected host release path before planning.'
         values=list(args);assert values[-2]==str(context.directory/'runtime/ab-ledger')
         values[-2]='/srv/iot-data/workspace/iot-maintenance-platform/data/ci/releases/'+pair['release']+'/runtime/ab-ledger'
         return original_plan(*values)
-    def output(command,**kwargs):return '[]' if command[0]=='helm-fixture' else ''
+    def output(command,**kwargs):'Return empty Helm history or empty command output for the controlled deployment fixture.';return '[]' if command[0]=='helm-fixture' else ''
     def probed(*args):
         # A real fixture SQLite file exercises read-only retention checks; cluster mounts remain mocked.
+        'Retain a real SQLite ledger while keeping the Kubernetes mounts mocked.'
         shutil.copyfile(fixture.runtime.database,context.directory/'runtime/ab-ledger/trials.sqlite')
         return result
     def healthy(c,pin,machines,http,label):
+        'Record a fixture health receipt for the deployment orchestration test.'
         ab_native.save(c.out/('baseline-health-'+label+'.json'),{'fixture':True});return {'fixture':True}
     build={'images':{'predictor':{'config_digest':'sha256:'+'f'*64}}};stage={'isvc_uid':'candidate-fixture'}
     with patch.object(ab_native,'model_state',side_effect=models),patch.object(ab_native,'feature_identity',return_value=active),\
@@ -330,6 +349,7 @@ def test_native_adapter_command_sequence_and_recheck_with_mocked_control_plane(t
 class ScalingFixture:
     """Model an asynchronous Kubernetes reconciliation boundary without calling a live cluster."""
     def __init__(self,path):
+        'Prepare isolated model replica states and patch-failure controls.'
         self.out=path;self.commit='a'*40;self.release='serve-jenkins-7';self.k=['kubectl-fixture'];self.logs=[]
         self.models={n:{'metadata':{'uid':n+'-uid'},'spec':{'predictor':{'minReplicas':1,'maxReplicas':2}}} for n in ['old','new']}
         self.pending=False;self.fail_patch=None
@@ -357,8 +377,9 @@ class ScalingFixture:
 
 
 def test_two_model_scaling_waits_for_observed_replicas_and_restores_original_policy(tmp_path):
+    'Verify two model scaling waits for observed replicas and restores original policy.'
     c=ScalingFixture(tmp_path);original=deepcopy(c.models);c.pending=True
-    def reconciled(_):c.pending=False
+    def reconciled(_):'Mark the fixture model reconciliation as complete.';c.pending=False
     with patch.object(ab_native.time,'sleep',side_effect=reconciled) as waited:
         ab_native.pin_scaling(c,['old','new']);waited.assert_called_once_with(2)
     assert all(x['spec']['predictor']=={'minReplicas':1,'maxReplicas':1} for x in c.models.values())
@@ -371,6 +392,7 @@ def test_two_model_scaling_waits_for_observed_replicas_and_restores_original_pol
 
 
 def test_partially_applied_scaling_is_recoverable_without_replacing_original_journal(tmp_path):
+    'Verify partially applied scaling is recoverable without replacing original journal.'
     c=ScalingFixture(tmp_path);original=deepcopy(c.models);c.fail_patch='new'
     with pytest.raises(RuntimeError):ab_native.pin_scaling(c,['old','new'])
     assert c.models['old']!=original['old'] and c.models['new']==original['new']
@@ -380,6 +402,7 @@ def test_partially_applied_scaling_is_recoverable_without_replacing_original_jou
 
 @pytest.mark.parametrize('conflict',['uid','policy','journal'])
 def test_scaling_restore_refuses_operator_changes_before_mutating_either_model(tmp_path,conflict):
+    'Verify scaling restore refuses operator changes before mutating either model.'
     c=ScalingFixture(tmp_path);ab_native.pin_scaling(c,['old','new']);before=len(c.logs)
     if conflict=='uid':c.models['new']['metadata']['uid']='replacement-uid'
     elif conflict=='policy':c.models['new']['spec']['predictor']={'minReplicas':2,'maxReplicas':2}
@@ -390,6 +413,7 @@ def test_scaling_restore_refuses_operator_changes_before_mutating_either_model(t
 
 
 def test_scaling_timeout_keeps_diagnostics_and_restore_is_available(tmp_path):
+    'Verify scaling timeout keeps diagnostics and restore is available.'
     c=ScalingFixture(tmp_path);original=deepcopy(c.models);c.pending=True
     with patch.object(ab_native.time,'monotonic',side_effect=[0,181]),patch.object(ab_native.time,'sleep') as slept:
         with pytest.raises(ValueError,match='180seconds'):ab_native.pin_scaling(c,['old','new'])
@@ -401,12 +425,14 @@ def test_scaling_timeout_keeps_diagnostics_and_restore_is_available(tmp_path):
 @pytest.mark.parametrize('policy',[{'minReplicas':0,'maxReplicas':2},{'minReplicas':2,'maxReplicas':1},
     {'minReplicas':1,'maxReplicas':3},{'minReplicas':True,'maxReplicas':2}])
 def test_scaling_never_expands_the_existing_single_node_replica_budget(tmp_path,policy):
+    'Verify scaling never expands the existing single node replica budget.'
     c=ScalingFixture(tmp_path);c.models['new']['spec']['predictor']=policy
     with pytest.raises(ValueError,match='Unexpected'):ab_native.pin_scaling(c,['old','new'])
     assert not c.logs and not (tmp_path/'ab-scaling-original.json').exists()
 
 
 def test_restore_without_a_scaling_journal_does_not_query_or_change_cluster(tmp_path):
+    'Verify restore without a scaling journal does not query or change cluster.'
     c=NS(out=tmp_path);ab_native.restore_scaling(c)
 
 
@@ -424,6 +450,7 @@ def test_fallback_health_requires_both_live_cohort_and_real_physical_cache_reser
     if fault=='pin':reply['model']={**reply['model'],'version':'other'}
     if fault=='trace':reply['feature_trace']={**traces['P-001'],'machine_id':'P-999'}
     def http(url,path,body=None):
+        'Return controlled readiness, prediction and feature responses for health fault partitions.'
         if path=='/health/ready':return (503,{'ready':False}) if fault=='not-ready' else (200,{'ready':True})
         if path.endswith(':predict'):return 200,reply
         return 200,traces[path.split('/')[3]]
@@ -442,6 +469,7 @@ def test_fallback_health_requires_both_live_cohort_and_real_physical_cache_reser
 
 
 def test_controller_json_and_metrics_transport_has_an_actual_body_bound():
+    'Verify controller json and metrics transport has an actual body bound.'
     spec=importlib.util.spec_from_file_location('ab_ci_transport_test',ROOT/'scripts/ci-serving.py');driver=importlib.util.module_from_spec(spec);spec.loader.exec_module(driver)
     limit=4_194_304
     assert driver.json_response(io.BytesIO(b' '*(limit-2)+b'{}'))=={}
@@ -458,6 +486,7 @@ def test_controller_json_and_metrics_transport_has_an_actual_body_bound():
 
 
 def test_readonly_hdd_ledger_verifies_trial_rows_and_identity_without_modifying_database(tmp_path):
+    'Verify readonly hdd ledger verifies trial rows and identity without modifying database.'
     fixture=ProtocolFixture(tmp_path);result=fixture.probe();database=Path(fixture.runtime.database);before=database.read_bytes()
     state=ab_native.ledger_state(database,result['readback'],fixture.runtime.context)
     assert state['rows']==400 and database.read_bytes()==before

@@ -24,6 +24,7 @@ def run(args):
     bundle=r/'data/runtime/istio-assets-28/istio-1.31.3';cli=bundle/'bin/istioctl';archive=bundle.parent/'istio.tar.gz'
     if sha256(archive.read_bytes()).hexdigest()!=pins['archive_sha256']:raise ValueError('Official Istio archive differs')
     def call(command,name,timeout=300):
+        'Preserve stdout and stderr from a bounded Istio installation command.'
         p=subprocess.run(command,capture_output=True,timeout=timeout);(out/(name+'.stdout')).write_bytes(p.stdout);(out/(name+'.stderr')).write_bytes(p.stderr)
         if p.returncode:raise RuntimeError('Native mesh step failed: '+name)
         return p.stdout

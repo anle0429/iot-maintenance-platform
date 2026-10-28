@@ -19,6 +19,7 @@ H=lambda raw:sha256(raw).hexdigest()
 class RegistryFixture:
     """Represent one immutable completed run with real portable model bytes and independent descriptors."""
     def __init__(self,incremental=False):
+        'Prepare an isolated registry/run fixture with measurable lookup and download calls.'
         self.run_id='a'*32;self.get_run_calls=0;self.download_calls=[];self.version_reads=0;self.demote=False
         self.version=NS(name=MODEL,version='1',status='READY',run_id=self.run_id,
             tags={'production':'true'},current_stage='None',source='models:/m-fixture')
@@ -66,6 +67,7 @@ class RegistryFixture:
 class ServingReleaseTests(unittest.TestCase):
     """Keep failed or unapproved exports from publishing even a partial model bundle."""
     def test_export_legacy_exact_model_and_lineage(self):
+        'Verify export legacy exact model and lineage.'
         registry=RegistryFixture()
         with TemporaryDirectory() as temp:
             destination=Path(temp)/'bundle';lineage=export(registry,'1',destination,PROTOCOL)
@@ -74,6 +76,7 @@ class ServingReleaseTests(unittest.TestCase):
             self.assertTrue(lineage['production']);self.assertEqual(lineage['data_version'],'d'*64)
 
     def test_incremental_data_manifest_readback(self):
+        'Verify incremental data manifest readback.'
         registry=RegistryFixture(incremental=True)
         with TemporaryDirectory() as temp:
             result=export(registry,'1',Path(temp)/'bundle',PROTOCOL)
@@ -81,6 +84,7 @@ class ServingReleaseTests(unittest.TestCase):
         self.assertIn('dataset-version/manifest.json',registry.download_calls)
 
     def test_candidates_rejected_before_run_or_artifact_access(self):
+        'Verify candidates rejected before run or artifact access.'
         registry=RegistryFixture();registry.version.tags={'production':'false'}
         with TemporaryDirectory() as temp:
             destination=Path(temp)/'bundle'
@@ -89,6 +93,7 @@ class ServingReleaseTests(unittest.TestCase):
         self.assertEqual(registry.get_run_calls,0);self.assertEqual(registry.download_calls,[])
 
     def test_stage_marker_and_contradictory_or_archived_markers(self):
+        'Verify stage marker and contradictory or archived markers.'
         registry=RegistryFixture();registry.version.tags={};registry.version.current_stage='Production'
         self.assertEqual(authorized_version(registry.version,'1')['version'],'1')
         for tag,stage in [('false','Production'),('true','Archived'),('TRUE','None'),('','None')]:
@@ -96,6 +101,7 @@ class ServingReleaseTests(unittest.TestCase):
             with self.assertRaises(ValueError):authorized_version(value,'1')
 
     def test_wrong_model_version_status_and_unsafe_pin(self):
+        'Verify wrong model version status and unsafe pin.'
         registry=RegistryFixture()
         for field,value in [('name','other-model'),('version','2'),('status','PENDING_REGISTRATION'),('run_id','../run')]:
             model=deepcopy(registry.version);setattr(model,field,value)
@@ -104,6 +110,7 @@ class ServingReleaseTests(unittest.TestCase):
             with self.assertRaises(ValueError):authorized_version(registry.version,pin)
 
     def test_unfinished_protocol_and_source_conflicts_rejected(self):
+        'Verify unfinished protocol and source conflicts rejected.'
         for update in [{'status':'RUNNING'},{'tag':('protocol_sha256','bad')},
                 {'tag':('source_snapshot_commit','f'*40)},{'tag':('code_git_commit','not-a-commit')}]:
             registry=RegistryFixture()
@@ -113,6 +120,7 @@ class ServingReleaseTests(unittest.TestCase):
                 with self.assertRaises(ValueError):export(registry,'1',Path(temp)/'bundle',PROTOCOL)
 
     def test_portable_and_evaluation_corruption_rejected(self):
+        'Verify portable and evaluation corruption rejected.'
         for name in ['portable/portable.json','lineage/evaluation.json','lineage/selection.json','lineage/split.json']:
             registry=RegistryFixture();registry.payloads[name]+=b' '
             with TemporaryDirectory() as temp:
@@ -121,17 +129,20 @@ class ServingReleaseTests(unittest.TestCase):
                 self.assertFalse(destination.exists())
 
     def test_identical_duplicate_split_artifact_is_valid(self):
+        'Verify identical duplicate split artifact is valid.'
         registry=RegistryFixture();registry.payloads['lineage/data-inventory.json']=registry.payloads['lineage/split.json']
         with TemporaryDirectory() as temp:
             result=export(registry,'1',Path(temp)/'bundle',PROTOCOL)
         self.assertEqual(len(result['source_artifacts'][H(registry.payloads['lineage/split.json'])]),2)
 
     def test_incremental_manifest_corruption_rejected(self):
+        'Verify incremental manifest corruption rejected.'
         registry=RegistryFixture(incremental=True);registry.payloads['dataset-version/manifest.json']+=b' '
         with TemporaryDirectory() as temp:
             with self.assertRaisesRegex(ValueError,'manifest'):export(registry,'1',Path(temp)/'bundle',PROTOCOL)
 
     def test_marker_changed_during_export_rejected(self):
+        'Verify marker changed during export rejected.'
         registry=RegistryFixture();registry.demote=True
         with TemporaryDirectory() as temp:
             destination=Path(temp)/'bundle'
@@ -139,12 +150,14 @@ class ServingReleaseTests(unittest.TestCase):
             self.assertFalse(destination.exists())
 
     def test_unsafe_or_oversized_lineage_rejected(self):
+        'Verify unsafe or oversized lineage rejected.'
         for name in ['lineage/../escape.json','lineage/large.json']:
             registry=RegistryFixture();registry.payloads[name]=b'{}' if '..' in name else b' '*(1_000_001)
             with TemporaryDirectory() as temp:
                 with self.assertRaises(ValueError):export(registry,'1',Path(temp)/'bundle',PROTOCOL)
 
     def test_existing_bundle_preserved(self):
+        'Verify existing bundle preserved.'
         registry=RegistryFixture()
         with TemporaryDirectory() as temp:
             destination=Path(temp)/'bundle';destination.mkdir();(destination/'keep.txt').write_text('original')

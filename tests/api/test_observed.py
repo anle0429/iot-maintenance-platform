@@ -30,17 +30,19 @@ def instrumented():
     exporter=InMemorySpanExporter();app=FastAPI()
     @app.get('/v1/machines/{machine_id}')
     async def machine(machine_id:str,fail:bool=False):
+        'Return a synthetic private feature or inject a handled upstream error.'
         if fail:raise HTTPException(503,'secret database exception')
         return {'machine_id':machine_id,'private_feature':99}
     @app.get('/explode')
-    async def explode():raise RuntimeError('private unhandled exception')
+    async def explode():'Raise an unhandled private exception to test response and trace redaction.';raise RuntimeError('private unhandled exception')
     @app.get('/health/live')
-    async def live():return {'live':True}
+    async def live():'Return the minimal liveness response used by middleware tests.';return {'live':True}
     observe(app,'feature',exporter,SimpleSpanProcessor)
     yield app,exporter
 
 
 def test_metrics_actual_counts_route_status_and_scrape_exclusion(instrumented):
+    'Verify metrics actual counts route status and scrape exclusion.'
     app,exporter=instrumented
     with TestClient(app) as client:
         for i in range(30):assert client.get('/v1/machines/P-'+str(i)+'?query=private',headers={'Authorization':'Bearer private-token'}).status_code==200
@@ -63,6 +65,7 @@ def test_metrics_actual_counts_route_status_and_scrape_exclusion(instrumented):
 
 
 def test_unhandled_error_is_counted_and_trace_contains_no_exception_data(instrumented):
+    'Verify unhandled error is counted and trace contains no exception data.'
     app,exporter=instrumented
     with TestClient(app,raise_server_exceptions=False) as client:
         assert client.get('/explode?password=private-secret').status_code==500
@@ -75,6 +78,7 @@ def test_unhandled_error_is_counted_and_trace_contains_no_exception_data(instrum
 
 
 def test_business_suffix_cannot_evade_request_metrics(instrumented):
+    'Verify business suffix cannot evade request metrics.'
     app,exporter=instrumented
     with TestClient(app) as client:
         assert client.get('/v1/machines/metrics').status_code==200
@@ -83,6 +87,7 @@ def test_business_suffix_cannot_evade_request_metrics(instrumented):
 
 
 def test_existing_feature_api_golden_prediction_and_validation_survive_instrumentation():
+    'Verify existing feature api golden prediction and validation survive instrumentation.'
     from tests.api.test_feature_api import fixture_runtime
     from services.feature_api.app import create_app as feature_app
     runtime=fixture_runtime();exporter=InMemorySpanExporter();app=observe(feature_app(runtime),'feature',exporter,SimpleSpanProcessor)
@@ -96,6 +101,7 @@ def test_existing_feature_api_golden_prediction_and_validation_survive_instrumen
 
 
 def test_exporter_failure_does_not_change_http_result(instrumented,monkeypatch):
+    'Verify exporter failure does not change http result.'
     app,exporter=instrumented
     monkeypatch.setattr(exporter,'export',lambda spans:SpanExportResult.FAILURE)
     with TestClient(app) as client:
@@ -104,12 +110,14 @@ def test_exporter_failure_does_not_change_http_result(instrumented,monkeypatch):
 
 @pytest.mark.parametrize('path',['/health/live','/health/live?a=secret','/health/ready','/telemetry/metrics'])
 def test_probes_and_scrapes_do_not_emit_traces(instrumented,path):
+    'Verify probes and scrapes do not emit traces.'
     app,exporter=instrumented
     with TestClient(app) as client:
         client.get(path);assert exporter.get_finished_spans()==()
 
 
 def test_valid_remote_context_and_invalid_context_are_handled(instrumented):
+    'Verify valid remote context and invalid context are handled.'
     app,exporter=instrumented
     with TestClient(app) as client:
         client.get('/v1/machines/P-1',headers={'traceparent':'00-12345678901234567890123456789012-1234567890123456-01','baggage':'password=secret'})
@@ -122,15 +130,20 @@ def test_valid_remote_context_and_invalid_context_are_handled(instrumented):
 
 
 def test_real_urllib_call_from_async_thread_preserves_client_parent_and_remote_header(instrumented):
+    'Verify real urllib call from async thread preserves client parent and remote header.'
     app,exporter=instrumented;received=[]
     class Receiver(BaseHTTPRequestHandler):
+        'Record downstream trace headers without writing access logs.'
         def do_GET(self):
+            'Capture incoming headers and return a bounded successful downstream response.'
             received.append(dict(self.headers));self.send_response(200);self.end_headers();self.wfile.write(b'ok')
-        def log_message(self,*args):pass
+        def log_message(self,*args):'Suppress fixture HTTP access logging so private test URLs are not printed.';pass
     server=ThreadingHTTPServer(('127.0.0.1',0),Receiver);thread=Thread(target=server.serve_forever,daemon=True);thread.start()
     @app.get('/downstream')
     async def downstream():
+        'Call the local downstream fixture through the instrumented async application.'
         def call():
+            'Read the local downstream fixture through the instrumented HTTP client.'
             with urllib.request.urlopen('http://127.0.0.1:'+str(server.server_port)+'/private?token=secret',timeout=2) as response:return response.read().decode()
         return {'result':await asyncio.to_thread(call)}
     instrumentor=URLLibInstrumentor();instrumentor.instrument(tracer_provider=app.state.observability['traces'])
@@ -150,6 +163,7 @@ def test_real_urllib_call_from_async_thread_preserves_client_parent_and_remote_h
 
 
 def test_exporter_projection_preserves_identity_times_kind_and_result_but_not_events():
+    'Verify exporter projection preserves identity times kind and result but not events.'
     memory=InMemorySpanExporter();safe=PrivateSpanExporter(memory)
     provider=TracerProvider(resource=Resource({'service.name':'iot-drift-api'}));provider.add_span_processor(SimpleSpanProcessor(safe))
     tracer=provider.get_tracer('test')
@@ -167,6 +181,7 @@ def test_exporter_projection_preserves_identity_times_kind_and_result_but_not_ev
 
 @pytest.mark.parametrize('method,expected',[(v,v) for v in ['GET','POST','PUT','PATCH','DELETE','HEAD','OPTIONS','HTTP']]+[('BANANA','HTTP'),(None,'HTTP')])
 def test_exporter_names_have_bounded_method_fallback(method,expected):
+    'Verify exporter names have bounded method fallback.'
     memory=InMemorySpanExporter();provider=TracerProvider();provider.add_span_processor(SimpleSpanProcessor(PrivateSpanExporter(memory)))
     with provider.get_tracer('test').start_as_current_span('private path') as span:
         if method is not None:span.set_attribute('http.method',method)
@@ -176,10 +191,12 @@ def test_exporter_names_have_bounded_method_fallback(method,expected):
 
 @pytest.mark.parametrize('value',[ENDPOINT.replace('http:','https:'),ENDPOINT.replace('iot-jaeger','other'),ENDPOINT.replace('4318','4317'),ENDPOINT.replace('4318','4319'),ENDPOINT.replace(':4318',''),ENDPOINT+'?token=secret',ENDPOINT+'#fragment',ENDPOINT.replace('http://','http://u:p@'),ENDPOINT.replace('http://','http://:p@'),ENDPOINT.replace('http://','http://u@'),ENDPOINT.replace('/v1/traces','/'), 'http://localhost:4318/v1/traces'])
 def test_export_cannot_be_redirected_to_public_or_credentialed_endpoint(value):
+    'Verify export cannot be redirected to public or credentialed endpoint.'
     with pytest.raises(ValueError):private_endpoint(value)
 
 
 def test_endpoint_valid_and_unknown_or_duplicate_instrumentation_rejected(instrumented):
+    'Verify endpoint valid and unknown or duplicate instrumentation rejected.'
     assert private_endpoint(ENDPOINT)==ENDPOINT
     app,_=instrumented
     with pytest.raises(ValueError,match='already'):observe(app,'feature')
@@ -187,9 +204,11 @@ def test_endpoint_valid_and_unknown_or_duplicate_instrumentation_rejected(instru
 
 
 def test_original_startup_failure_remains_failure_and_cleans_providers():
+    'Verify original startup failure remains failure and cleans providers.'
     calls=[]
     @asynccontextmanager
     async def lifespan(app):
+        'Fail startup deliberately to verify the wrapper preserves lifespan errors.'
         calls.append('startup');raise ValueError('invalid model seal');yield
     app=FastAPI(lifespan=lifespan);exporter=InMemorySpanExporter();observe(app,'predictor',exporter,SimpleSpanProcessor)
     closed=[]
@@ -201,9 +220,10 @@ def test_original_startup_failure_remains_failure_and_cleans_providers():
 
 
 def test_default_exporter_uses_private_endpoint_bounded_timeout_and_empty_headers(monkeypatch):
+    'Verify default exporter uses private endpoint bounded timeout and empty headers.'
     calls=[]
     monkeypatch.setenv('IOT_TRACE_ENDPOINT',ENDPOINT)
-    def factory(**kwargs):calls.append(kwargs);return InMemorySpanExporter()
+    def factory(**kwargs):'Record exporter factory options and use an in-memory span destination.';calls.append(kwargs);return InMemorySpanExporter()
     monkeypatch.setattr('services.observed.OTLPSpanExporter',factory)
     app=observe(FastAPI(),'drift',processor_factory=SimpleSpanProcessor)
     with TestClient(app) as client:assert client.get('/telemetry/metrics').status_code==200
@@ -212,11 +232,13 @@ def test_default_exporter_uses_private_endpoint_bounded_timeout_and_empty_header
 
 @pytest.mark.parametrize('kind',['feature','drift','predictor'])
 def test_deployed_factory_uses_selected_existing_api_and_instruments_outgoing_calls(monkeypatch,kind):
+    'Verify deployed factory uses selected existing api and instruments outgoing calls.'
     import importlib
     business=FastAPI();calls=[];provider=object()
     module=importlib.import_module('services.'+('feature_api' if kind=='feature' else 'drift_api' if kind=='drift' else 'predictor')+'.app')
     monkeypatch.setattr(module,'create_app',lambda:business)
     def install(app,selected):
+        'Record telemetry installation on the original business application.'
         assert app is business and selected==kind
         app.state.observability={'traces':provider};return app
     monkeypatch.setattr('services.observed.observe',install)
@@ -226,6 +248,7 @@ def test_deployed_factory_uses_selected_existing_api_and_instruments_outgoing_ca
 
 
 def test_factory_requires_explicit_known_service(monkeypatch):
+    'Verify factory requires explicit known service.'
     monkeypatch.setenv('IOT_API_SERVICE','unknown')
     with pytest.raises(ValueError,match='Unknown'):create_app()
     monkeypatch.delenv('IOT_API_SERVICE')
@@ -236,9 +259,10 @@ def test_export_failure_and_flush_deadline_propagate_to_sdk_caller():
     """A caller must observe exporter failure and its own flush deadline, rather than a fabricated success."""
     seen={}
     class Destination:
-        def export(self,spans):seen['batch']=spans;return SpanExportResult.FAILURE
-        def force_flush(self,timeout_millis):seen['timeout']=timeout_millis;return False
-        def shutdown(self):seen['closed']=True
+        'Record exporter lifecycle calls while returning explicit export/flush failures.'
+        def export(self,spans):'Retain the submitted spans and simulate an exporter failure.';seen['batch']=spans;return SpanExportResult.FAILURE
+        def force_flush(self,timeout_millis):'Record the requested flush timeout and simulate an incomplete flush.';seen['timeout']=timeout_millis;return False
+        def shutdown(self):'Record that exporter shutdown was requested.';seen['closed']=True
     memory=InMemorySpanExporter();provider=TracerProvider(resource=Resource({'service.name':'iot-predictor-api'}));provider.add_span_processor(SimpleSpanProcessor(memory))
     with provider.get_tracer('wire-test','1.0').start_as_current_span('private',kind=SpanKind.CLIENT) as span:
         span.set_attribute('http.method','PUT');span.set_attribute('http.status_code',500)

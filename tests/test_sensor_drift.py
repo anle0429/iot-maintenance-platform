@@ -8,6 +8,7 @@ from generator.quality import summarize
 
 
 def test_step_ramp_boundaries_and_retry_consistency():
+    'Verify step ramp boundaries and retry consistency.'
     row={'event_ts':'2026-10-01T01:00:00Z','temperature_c':10.0,'vibration_rms_mm_s':2.0}
     ramp=SensorDrift('2026-10-01T01:00:00Z',3600,20,2)
     assert ramp.transform(row)==row
@@ -32,8 +33,10 @@ def test_step_ramp_boundaries_and_retry_consistency():
     {'temperature_offset_c':float('nan')},{'vibration_multiplier':0},{'vibration_multiplier':'2'},
     {'start_ts':'2026-10-01T00:00:00'}])
 def test_invalid_drift_configuration(kwargs):
+    'Verify invalid drift configuration.'
     with pytest.raises(ValueError):SensorDrift(**{'start_ts':'2026-10-01T01:00:00Z',**kwargs})
 
 
 def test_drift_outside_observation_rejected():
+    'Verify drift outside observation rejected.'
     with pytest.raises(ValueError):generate_drift(Config(machine_count=1,duration_hours=1),SensorDrift('2026-10-02T00:00:00Z'))

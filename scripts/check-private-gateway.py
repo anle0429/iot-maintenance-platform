@@ -11,7 +11,7 @@ HOSTS={'metrics':'metrics.iot.test','logs':'logs.iot.test','traces':'traces.iot.
 def run(args):
     """Use explicit CA/hostname verification, keep auth private, and save actual responses before asserting success."""
     out=args.output;out.mkdir(parents=True,exist_ok=False)
-    def save(name,value):(out/name).write_text(json.dumps(value,indent=2,allow_nan=False)+'\n')
+    def save(name,value):'Persist strict JSON evidence for the gateway check.';(out/name).write_text(json.dumps(value,indent=2,allow_nan=False)+'\n')
     k=['/usr/local/bin/k3s','kubectl'];get=lambda *a:json.loads(subprocess.check_output(k+list(a)+['-o','json']))
     service=get('get','service','iot-gateway','-n','iot-gateway');assert service['spec']['type']=='ClusterIP' and not service['spec'].get('externalIPs')
     address=service['spec']['clusterIP'];credentials=json.loads(args.credentials.read_bytes())
@@ -19,6 +19,7 @@ def run(args):
     context=ssl.create_default_context(cafile=str(args.deployment/'ca.crt'));assert context.check_hostname and context.verify_mode==ssl.CERT_REQUIRED
     responses=[]
     def request(host,path,authorization=auth,tls=True):
+        'Call one reviewed virtual host with CA/SNI validation and bounded timeout.'
         started=time.monotonic();c=http.client.HTTPConnection(address,80,timeout=15)
         if tls:
             c=http.client.HTTPSConnection(address,443,context=context,timeout=15)

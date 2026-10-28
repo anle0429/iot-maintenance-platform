@@ -17,6 +17,7 @@ class DriftEventingTests(unittest.TestCase):
             'ledger':'/srv/iot-data/project/data/eventing/drift-event-pilot-28'}
 
     def test_private_kserve_sink_uses_a_separate_retained_ledger(self):
+        'Verify private kserve sink uses a separate retained ledger.'
         args=self.fixture();before=deepcopy(args);value=plan(**args);self.assertEqual(args,before)
         kinds={o['kind'] for o in value['objects']};self.assertIn('Broker',kinds);self.assertIn('InferenceService',kinds)
         isvc=next(o for o in value['objects'] if o['kind']=='InferenceService');self.assertEqual(isvc['spec']['predictor']['maxReplicas'],1)
@@ -25,6 +26,7 @@ class DriftEventingTests(unittest.TestCase):
         self.assertTrue(trigger['spec']['subscriber']['uri'].endswith('.svc.cluster.local/v1/events/drift'))
 
     def test_other_data_version_or_schema_cannot_silently_reset_the_baseline(self):
+        'Verify other data version or schema cannot silently reset the baseline.'
         for edit in ['data_version','protocol_sha256','samples','production']:
             args=self.fixture();ref=json.loads(args['reference_raw'])
             if edit=='production':args['pin']['production']=False
@@ -34,6 +36,7 @@ class DriftEventingTests(unittest.TestCase):
             with self.subTest(edit=edit),self.assertRaises(ValueError):plan(**args)
 
     def test_reference_size_matches_the_detector_runtime_boundary(self):
+        'Verify reference size matches the detector runtime boundary.'
         args=self.fixture();reference=json.loads(args['reference_raw']);row=reference['samples'][0]
         for size,accepted in [(31,False),(32,True),(2048,True),(2049,False)]:
             args['reference_raw']=json.dumps({**reference,'samples':[row]*size})
@@ -43,6 +46,7 @@ class DriftEventingTests(unittest.TestCase):
                     with self.assertRaises(ValueError):plan(**args)
 
     def test_public_image_arbitrary_ledger_and_header_injection_are_rejected(self):
+        'Verify public image arbitrary ledger and header injection are rejected.'
         for key,value in [('release','../x'),('image','external.example/model:latest'),('ledger','/etc/other'),('node','host;id')]:
             args=self.fixture();args[key]=value
             with self.subTest(key=key),self.assertRaises(ValueError):plan(**args)
@@ -51,6 +55,7 @@ class DriftEventingTests(unittest.TestCase):
         self.assertEqual(event_headers('pilot-1')['ce-type'],EVENT_TYPE)
 
     def test_only_an_internal_alias_to_a_private_clusterip_is_allowed(self):
+        'Verify only an internal alias to a private clusterip is allowed.'
         target={'metadata':{'name':'receiver','namespace':'iot-drift-events'},'spec':{'type':'ClusterIP','clusterIP':'10.53.1.2'}}
         alias={'metadata':{'name':'isvc','namespace':'iot-drift-events'},'spec':{'type':'ExternalName','externalName':'receiver.iot-drift-events.svc.cluster.local'}}
         self.assertEqual(private_services([alias],lambda name,ns:target)['isvc']['cluster_ip'],'10.53.1.2')

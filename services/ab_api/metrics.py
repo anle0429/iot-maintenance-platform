@@ -7,6 +7,7 @@ from services.ab_api.runtime import VARIANTS
 class LedgerCollector:
     """A scrape observes one immutable ledger snapshot; restarts do not reset completed trial counters."""
     def __init__(self,snapshot):
+        'Bind metric exposition to the supplied read-only runtime snapshot callback.'
         self.snapshot=snapshot
 
     def collect(self):

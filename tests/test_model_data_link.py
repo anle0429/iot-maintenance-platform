@@ -25,18 +25,21 @@ def fixture():
 class ModelDataLinkTest(unittest.TestCase):
     """Check externally meaningful identity and completeness gates before model publication."""
     def test_matches_and_wrong_native_pull_is_rejected(self):
+        'Verify matches and wrong native pull is rejected.'
         values=fixture();self.assertEqual(verify_model_data_link(*values)['rows'],2)
         for key in ['native_report_sha256','input_descriptor_sha256','source_manifest_sha256']:
             changed=deepcopy(values);changed[0][key]='another-pull'
             with self.assertRaises(ValueError):verify_model_data_link(*changed)
 
     def test_changed_bytes_partial_snapshot_and_unsealed_remote_are_rejected(self):
+        'Verify changed bytes partial snapshot and unsealed remote are rejected.'
         for mutate in [lambda x:x[1]['files'][0].update(bytes=13),lambda x:x[2].update(rows_in_version=1),
             lambda x:x[3].update(data_run_status='RUNNING'),lambda x:x[3]['remote_restore'].update(all_file_bytes_verified=False)]:
             values=deepcopy(fixture());mutate(values)
             with self.assertRaises(ValueError):verify_model_data_link(*values)
 
     def test_source_snapshot_rejects_changed_code_and_wrong_commit(self):
+        'Verify source snapshot rejects changed code and wrong commit.'
         with TemporaryDirectory() as directory:
             root=Path(directory);code=root/'job.py';code.write_bytes(b'print(1)\n');commit='f'*40
             binding={'format':'iot-source-snapshot-v1','commit':commit,'files':{'job.py':sha256(code.read_bytes()).hexdigest()}}

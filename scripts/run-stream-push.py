@@ -49,6 +49,7 @@ def available_ram():
 def idle_cpu_cores():
     """Sample CPU headroom before admitting two additional bounded service cores."""
     def sample():
+        'Sample total and idle-plus-iowait CPU ticks from the Linux aggregate counter.'
         values=[int(x) for x in Path('/proc/stat').read_text().splitlines()[0].split()[1:9]]
         return sum(values),values[3]+values[4]
     total,idle=sample();time.sleep(1);after,new_idle=sample()

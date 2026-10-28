@@ -5,12 +5,15 @@ from tests.log_monitoring_oracle import timestamp_ns,raw_records,compare_logs,co
 
 
 class LogOracleTests(unittest.TestCase):
+    'Group known-answer checks for log oracle.'
     def test_fraction_and_timezone_are_exact_to_one_nanosecond(self):
+        'Verify fraction and timezone are exact to one nanosecond.'
         self.assertEqual(timestamp_ns('1970-01-01T00:00:00.000000001Z'),1)
         self.assertEqual(timestamp_ns('1970-01-01T01:00:00.123456789+01:00'),123456789)
         with self.assertRaises(ValueError):timestamp_ns('2026-10-28T00:00:00')
 
     def test_raw_host_and_cri_messages_keep_their_original_clocks_and_labels(self):
+        'Verify raw host and cri messages keep their original clocks and labels.'
         mapping=[{'file':'host','kind':'host-file','time_key':'time','labels':{'service':'prometheus','source':'host-file'}},
             {'file':'pod','kind':'cri','labels':{'service':'predictor','source':'cri','pod':'known-pod'}}]
         records=raw_records(mapping,{'host':b'time=1970-01-01T00:00:01Z level=INFO msg="two words"\n',
@@ -24,11 +27,13 @@ class LogOracleTests(unittest.TestCase):
         with self.assertRaises(ValueError):compare_logs(records,wrong,0,3*10**9)
 
     def test_incomplete_source_records_or_partial_cri_are_not_claimed_complete(self):
+        'Verify incomplete source records or partial cri are not claimed complete.'
         mapping=[{'file':'x','kind':'cri','labels':{'service':'predictor','source':'cri'}}]
         for raw in [b'1970-01-01T00:00:00Z stderr P INFO: partial\n',b'1970-01-01T00:00:00Z stderr F INFO: no-newline']:
             with self.assertRaises(ValueError):raw_records(mapping,{'x':raw})
 
     def test_distinct_messages_with_the_same_original_time_must_keep_that_time(self):
+        'Verify distinct messages with the same original time must keep that time.'
         mapping=[{'file':'x','kind':'host-file','time_key':'time','labels':{'service':'node-exporter','source':'host-file'}}]
         raw=b'time=1970-01-01T00:00:01Z level=INFO msg=first\ntime=1970-01-01T00:00:01Z level=INFO msg=second\n'
         records=raw_records(mapping,{'x':raw});self.assertEqual([r['timestamp_ns'] for r in records],[10**9,10**9])
@@ -39,6 +44,7 @@ class LogOracleTests(unittest.TestCase):
         self.assertEqual(compare_logs(records,response,0,2*10**9),2)
 
     def test_count_window_is_left_open_and_right_closed_and_missing_positives_fail(self):
+        'Verify count window is left open and right closed and missing positives fail.'
         records=[{'timestamp_ns':n*10**9,'labels':{'service':'predictor','source':'cri','stream':'stderr'}} for n in [0,1,60,61]]
         response={'status':'success','data':{'resultType':'matrix','result':[{'metric':{'service':'predictor'},'values':[[60,'2'],[120,'1']]}]}}
         proof=compare_counts(records,response,60*10**9,120*10**9,60*10**9)

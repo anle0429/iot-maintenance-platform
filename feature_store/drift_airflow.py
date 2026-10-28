@@ -14,6 +14,7 @@ def execute(run_id, interval_end, try_number):
     root = Path(os.environ['IOT_ROOT']).resolve()
     deployment = json.loads((root / 'data/runtime/drift-monitoring/config.json').read_bytes())
     def local(name):
+        'Resolve a configured monitoring input inside the project root.'
         value = Path(deployment[name])
         if value.is_absolute() or '..' in value.parts:
             raise ValueError('Use project-relative monitoring inputs')

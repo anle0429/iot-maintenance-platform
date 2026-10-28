@@ -15,6 +15,7 @@ class Context(SHARED.Context):
     """Reuse bounded native control transports while isolating this job's paths and driver."""
     driver='/src/scripts/ci-observability.py'
     def __init__(self):
+        'Derive the isolated observability release from the trusted Jenkins build number.'
         super().__init__();self.release=release(os.environ['BUILD_NUMBER'])
         self.directory=self.deploy/'data/ci/releases'/self.release;self.out=self.directory/'outputs'
 

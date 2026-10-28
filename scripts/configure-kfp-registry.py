@@ -12,6 +12,7 @@ def run(args):
     out=ROOT/'outputs/kfp-registry-route'/args.run;out.mkdir(parents=True,exist_ok=False)
     k=['/usr/local/bin/k3s','kubectl']
     def call(name,command):
+        'Run one bounded configuration command while preserving its combined native console.'
         with (out/(name+'.txt')).open('w') as stream:subprocess.run(command,stdout=stream,stderr=subprocess.STDOUT,check=True,timeout=180)
     addresses=json.loads(subprocess.check_output(['ip','-j','-4','address','show','dev','cni0'],text=True))
     pod_address=next(a['local'] for interface in addresses for a in interface['addr_info'] if a['family']=='inet')

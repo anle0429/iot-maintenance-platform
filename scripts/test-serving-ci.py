@@ -29,6 +29,7 @@ def run(output,parent_outputs=None,parent_source=None,current_source=None,expect
     output.mkdir(parents=True,exist_ok=True)
     (output/'requirements-installed.lock').write_text(subprocess.check_output([sys.executable,'-m','pip','freeze'],text=True))
     def call(command,name,timeout):
+        'Run a bounded serving test command from the repository and preserve its combined console.'
         with (output/name).open('w') as stream:
             subprocess.run(command,cwd=ROOT,stdout=stream,stderr=subprocess.STDOUT,check=True,timeout=timeout)
     call([sys.executable,'-m','pytest','tests/test_serving_ci.py','tests/test_serving_release.py','tests/test_ab_ci.py','tests/test_serving_gate_reuse.py','-q'],'contracts.txt',120)

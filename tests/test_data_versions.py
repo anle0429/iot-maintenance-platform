@@ -20,6 +20,7 @@ class DataVersionsTest(unittest.TestCase):
             with waiter.locked():pass
 
     def test_incremental_replay_change_add_delete_and_restore(self):
+        'Verify incremental replay change add delete and restore.'
         with TemporaryDirectory() as temp:
             base=Path(temp);source=base/'input';source.mkdir()
             for n,b in [('a',b'one'),('b',b'two'),('c',b'three')]: (source/n).write_bytes(b)
@@ -38,6 +39,7 @@ class DataVersionsTest(unittest.TestCase):
             with self.assertRaises(FileExistsError):store.restore(first['version'],base/first['version'])
 
     def test_corruption_and_unsafe_names_are_rejected(self):
+        'Verify corruption and unsafe names are rejected.'
         with TemporaryDirectory() as temp:
             base=Path(temp);source=base/'input';source.write_bytes(b'valid')
             store=ContentAddressedDatasetStore(base/'store');first=store.publish({'data.parquet':source},{})
@@ -49,6 +51,7 @@ class DataVersionsTest(unittest.TestCase):
                 with self.assertRaises(ValueError):relative_name(name)
 
     def test_same_content_under_two_names_is_stored_once(self):
+        'Verify same content under two names is stored once.'
         with TemporaryDirectory() as temp:
             base=Path(temp);source=base/'input';source.write_bytes(b'shared')
             receipt=ContentAddressedDatasetStore(base/'store').publish({'a':source,'b':source},{})

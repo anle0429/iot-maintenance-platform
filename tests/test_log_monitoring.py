@@ -15,13 +15,16 @@ def observed():
 
 
 class LogMonitoringTests(unittest.TestCase):
+    'Group known-answer checks for log monitoring.'
     def test_exact_observed_source_paths_and_service_labels(self):
+        'Verify exact observed source paths and service labels.'
         result=targets('/srv/coursework',observed(),'vm-linux')
         self.assertEqual(len(result['host_files']),3);self.assertEqual(len(result['cri_files']),2)
         self.assertEqual({s['labels']['service'] for s in result['cri_files']},{'predictor','feature-api'})
         self.assertEqual({s['labels']['source'] for s in result['host_files']},{'host-file'})
 
     def test_unrelated_files_or_missing_application_service_are_refused(self):
+        'Verify unrelated files or missing application service are refused.'
         for change in [lambda v:v['sources'][0].update(path='/etc/passwd'),
                 lambda v:v['sources'][0].update(path='/srv/coursework/outputs/linux-monitoring-28/../secrets/node-exporter.txt'),
                 lambda v:v['sources'][0].update(time_key='unverified'),
@@ -30,6 +33,7 @@ class LogMonitoringTests(unittest.TestCase):
             with self.subTest(value=value),self.assertRaises(ValueError):targets('/srv/coursework',value,'vm-linux')
 
     def test_pod_path_cannot_outlive_its_identity_or_select_a_glob(self):
+        'Verify pod path cannot outlive its identity or select a glob.'
         for field,value in [('uid','changed'),('namespace','kube-system'),('pod','../other'),('container','api/*'),
                 ('rotation',True),('rotation',-1),('path','/var/log/pods/other/api/0.log')]:
             source=observed();source['pods'][0][field]=value
@@ -38,6 +42,7 @@ class LogMonitoringTests(unittest.TestCase):
         with self.assertRaises(ValueError):targets('/srv/coursework',source,'vm-linux')
 
     def test_known_log_queries_preserve_host_and_separate_log_formats(self):
+        'Verify known log queries preserve host and separate log formats.'
         result=dashboard('vm-linux');panels=result['panels']
         self.assertEqual([p['type'] for p in panels],['timeseries','timeseries','logs','logs'])
         self.assertEqual(panels[2]['targets'][0]['expr'],'{host="$host",collection="$collection",source="host-file"}')
@@ -46,6 +51,7 @@ class LogMonitoringTests(unittest.TestCase):
         with self.assertRaises(ValueError):dashboard('vm"} |= "all')
 
     def test_loopback_small_caches_and_explicit_timestamp_fallback(self):
+        'Verify loopback small caches and explicit timestamp fallback.'
         value=render('/srv/runtime/logs','/srv/coursework',observed())
         server=value['loki']['server'];self.assertEqual(server['http_listen_address'],'127.0.0.1')
         self.assertEqual(server['grpc_listen_address'],'127.0.0.1');self.assertEqual(server['http_listen_port'],13100)

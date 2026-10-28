@@ -26,6 +26,7 @@ def dashboard(template,experiment,label):
     document=deepcopy(template)
     if document.get('uid')!=DASHBOARD_UID or len(document.get('panels',[]))!=6:raise ValueError('Expected the six-panel IoT A/B dashboard')
     def resolve(value):
+        'Recursively bind the dashboard datasource placeholder to its reviewed UID.'
         if isinstance(value,str):return value.replace('${DS_PROMETHEUS}',DATASOURCE_UID)
         if isinstance(value,list):return [resolve(x) for x in value]
         if isinstance(value,dict):return {k:resolve(v) for k,v in value.items()}
@@ -58,6 +59,7 @@ def write_bundle(destination,endpoint,experiment,label,prometheus_port=19090,gra
     root.mkdir(parents=True,exist_ok=False)
     for name in ['targets','dashboards','provisioning/datasources','provisioning/dashboards','provisioning/plugins','provisioning/alerting','grafana-data','grafana-logs','prometheus-data']:(root/name).mkdir(parents=True)
     def dump(name,value):
+        'Write one dashboard asset as strict JSON without nonfinite numbers.'
         (root/name).write_text(json.dumps(value,indent=2,allow_nan=False)+'\n',encoding='utf-8')
     dump('targets/ab.json',[{'targets':[target]}])
     dump('prometheus.json',{'global':{'scrape_interval':'2s','scrape_timeout':'1s','evaluation_interval':'2s'},

@@ -47,6 +47,7 @@ def runtime(tmp_path):
 
 
 def test_histogram_boundary_and_psi_hand_answer():
+    'Verify histogram boundary and psi hand answer.'
     assert histogram([-100, 0, 0.5, 1, 100], [0, 1]) == [1, 2, 2]
     assert population_stability([10, 0], [0, 10]) == pytest.approx(20/11*math.log(21))
     assert population_stability([10, 10], [10, 10]) == 0
@@ -69,6 +70,7 @@ def test_canonical_identity_has_a_stable_external_encoding():
 
 @pytest.mark.parametrize('rows,valid',[(31,False),(32,True),(2048,True),(2049,False)])
 def test_reference_sample_boundaries(rows,valid):
+    'Verify reference sample boundaries.'
     value=bundle();value['samples']=[feature(i) for i in range(rows)]
     if valid:assert DriftDetector(value).rows==rows
     else:
@@ -76,6 +78,7 @@ def test_reference_sample_boundaries(rows,valid):
 
 
 def test_new_nested_state_directory_is_usable(tmp_path):
+    'Verify new nested state directory is usable.'
     value=DriftRuntime(bundle(),tmp_path/'new'/'nested'/'state.db')
     assert value.ready()['stored_windows']==0
     value.compare(CompareRequest.model_validate(window()))
@@ -83,6 +86,7 @@ def test_new_nested_state_directory_is_usable(tmp_path):
 
 
 def test_normal_shift_constant_feature_and_complete_lineage(runtime):
+    'Verify normal shift constant feature and complete lineage.'
     first = runtime.compare(CompareRequest.model_validate(window()))
     assert first['drift_detected'] is False and first['drifted_feature_fraction'] == 0
     assert first['unique_rows'] == first['reference_rows'] == 100 and first['lineage'] == bundle()['lineage']
@@ -107,6 +111,7 @@ def test_normal_shift_constant_feature_and_complete_lineage(runtime):
 
 
 def test_persistent_replay_conflict_capacity_and_concurrent_workers(tmp_path):
+    'Verify persistent replay conflict capacity and concurrent workers.'
     path = tmp_path/'windows.db';r = DriftRuntime(bundle(), path, max_windows=1)
     request = CompareRequest.model_validate(window())
     with ThreadPoolExecutor(max_workers=6) as pool:
@@ -124,6 +129,7 @@ def test_persistent_replay_conflict_capacity_and_concurrent_workers(tmp_path):
 @given(st.permutations(tuple(range(10))), st.integers(min_value=0, max_value=10))
 @settings(max_examples=35, deadline=None)
 def test_property_row_order_duplicate_and_timezone_invariance(order, repeats):
+    'Verify property row order duplicate and timezone invariance.'
     left = window();right = deepcopy(left)
     right['observations'] = [right['observations'][i] for i in order] + right['observations'][10:]
     right['observations'] += deepcopy(right['observations'][:repeats])
@@ -133,6 +139,7 @@ def test_property_row_order_duplicate_and_timezone_invariance(order, repeats):
 
 @pytest.mark.parametrize('size,valid', [(31, False), (32, True), (2048, True), (2049, False)])
 def test_sample_size_partitions(size, valid, runtime):
+    'Verify sample size partitions.'
     body = window();body['observations'] = [{**deepcopy(body['observations'][0]), 'id': f'x-{i}'} for i in range(size)]
     with TestClient(create_app(runtime)) as client:
         assert client.post('/v1/drift:compare', json=body).status_code == (200 if valid else 422)
@@ -153,6 +160,7 @@ def test_sample_size_partitions(size, valid, runtime):
     lambda b: b['observations'].append({**b['observations'][0], 'features': feature(7)}),
 ])
 def test_invalid_window_equivalence_partitions(change, runtime):
+    'Verify invalid window equivalence partitions.'
     body = window();change(body)
     with TestClient(create_app(runtime)) as client:
         assert client.post('/v1/drift:compare', json=body).status_code == 422
@@ -160,6 +168,7 @@ def test_invalid_window_equivalence_partitions(change, runtime):
 
 
 def test_inclusive_start_availability_end_and_http_error_paths(runtime, tmp_path):
+    'Verify inclusive start availability end and http error paths.'
     body = window();body['observations'][0].update(event_timestamp=body['start'], available_at=body['end'])
     with TestClient(create_app(runtime)) as client:
         assert client.get('/health/live').json() == {'live': True}
@@ -183,6 +192,7 @@ def test_inclusive_start_availability_end_and_http_error_paths(runtime, tmp_path
 
 
 def test_unavailable_store_and_default_environment(monkeypatch, tmp_path):
+    'Verify unavailable store and default environment.'
     source=tmp_path/'reference.json';source.write_text(json.dumps(bundle()));db=tmp_path/'db'
     monkeypatch.setenv('IOT_DRIFT_REFERENCE', str(source));monkeypatch.setenv('IOT_DRIFT_DATABASE', str(db))
     with TestClient(create_app()) as client:
@@ -194,6 +204,7 @@ def test_unavailable_store_and_default_environment(monkeypatch, tmp_path):
 
 @pytest.mark.skipif(not hasattr(time,'tzset'),reason='Native POSIX timezone probe; Windows has no tzset')
 def test_canonical_times_ignore_server_timezone(monkeypatch):
+    'Verify canonical times ignore server timezone.'
     import os
     prior=os.environ.get('TZ')
     try:
@@ -208,10 +219,12 @@ def test_canonical_times_ignore_server_timezone(monkeypatch):
 
 
 def test_async_health_remains_available_during_blocking_assessment():
+    'Verify async health remains available during blocking assessment.'
     class Slow:
         """Block a worker briefly to detect accidentally blocking the ASGI event loop."""
-        def compare(self, request):time.sleep(.15);return {'done': True}
+        def compare(self, request):'Simulate a slow synchronous drift backend for the event-loop responsiveness check.';time.sleep(.15);return {'done': True}
     async def check():
+        'Verify that health requests complete while a drift comparison is still running.'
         app = create_app(Slow())
         async with app.router.lifespan_context(app), httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='http://test') as client:
             pending = asyncio.create_task(client.post('/v1/drift:compare', json=window()))
@@ -226,10 +239,12 @@ def test_async_health_remains_available_during_blocking_assessment():
     lambda b:b['policy'].update(psi_threshold=.1),lambda b:b.update(samples=b['samples'][:31]),
     lambda b:b.update(samples=b['samples']*21),lambda b:b['samples'][0].update(current_mean_10m=float('inf'))])
 def test_corrupt_reference_is_rejected(change):
+    'Verify corrupt reference is rejected.'
     value=bundle();change(value)
     with pytest.raises(ValueError):DriftDetector(value)
 
 
 @pytest.mark.parametrize('capacity', [0, -1, True, 1.5])
 def test_invalid_capacity_fails_closed(tmp_path, capacity):
+    'Verify invalid capacity fails closed.'
     with pytest.raises(ValueError):DriftRuntime(bundle(), tmp_path/'db', max_windows=capacity)

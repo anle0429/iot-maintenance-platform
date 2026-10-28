@@ -11,9 +11,9 @@ from tests.offline_drift_oracle import compare
 def verify():
     """Check original bytes, two scheduled runs, independent PSI, raw gauges, every panel and retained failures."""
     evidence=ROOT/'docs/evidence/offline-drift-linux'
-    def read(name):return json.loads((evidence/name).read_bytes())
-    def digest(path):return sha256(path.read_bytes()).hexdigest()
-    def utc(value):return datetime.fromisoformat(value.replace('Z','+00:00')).astimezone(timezone.utc)
+    def read(name):'Read one preserved JSON artifact from the verified evidence directory.';return json.loads((evidence/name).read_bytes())
+    def digest(path):'Compute the SHA-256 of the original artifact bytes.';return sha256(path.read_bytes()).hexdigest()
+    def utc(value):'Normalize a timezone-bearing evidence timestamp to UTC for comparison.';return datetime.fromisoformat(value.replace('Z','+00:00')).astimezone(timezone.utc)
     manifest=read('manifest.json');assert manifest['format']=='iot-offline-drift-evidence-v1'
     files=manifest['files']
     assert set(files)=={p.relative_to(evidence).as_posix() for p in evidence.rglob('*') if p.is_file() and p.name!='manifest.json'}

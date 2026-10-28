@@ -16,6 +16,7 @@ def execute(monitoring, run_id, try_number, manual_probe=False):
         raise ValueError('Explicit probe and positive task attempt required')
     config = json.loads(config_path.read_bytes())
     def local(value):
+        'Reject absolute or escaping retrain paths before resolving local inputs.'
         path = Path(value); resolved = (root / path).resolve()
         if path.is_absolute() or '..' in path.parts or not resolved.is_relative_to(root):
             raise ValueError('Use project-relative retrain configuration')

@@ -1,5 +1,6 @@
 """Verify original native mTLS identity/authorization receipts, math and isolation with stdlib and Git only."""
 from pathlib import Path
+from evidence_integrity import current_source_bindings
 from hashlib import sha256
 from datetime import datetime
 import json, math, subprocess
@@ -24,7 +25,7 @@ def main():
         seal=read('sources/'+label+'.json');assert seal['commit']==commit and len(seal['files'])==count
         for n,h in seal['files'].items():assert sha256(subprocess.check_output(['git','show',commit+':'+n],cwd=ROOT)).hexdigest()==h;total+=1
     assert total==31
-    for n,h in read('sources/resume.json')['files'].items():assert sha256((ROOT/n).read_bytes()).hexdigest()==h,n
+    current_source_bindings(read('sources/resume.json'))
     pins=json.loads((ROOT/'infra/mesh/assets.json').read_bytes());asset=read('preflight/download.json');assert asset['archive_sha256']==pins['archive_sha256'] and asset['archive_bytes']==30393605 and asset['version']['version']=='1.31.3'
     control=read('control-plane/ready.json');assert control['ready'] and control['rendered_resources']==32 and control['private_only'] and control['existing_namespace_labels_unchanged']
     old=read('control-plane/namespaces-before.json');new=read('control-plane/namespaces-after.json')

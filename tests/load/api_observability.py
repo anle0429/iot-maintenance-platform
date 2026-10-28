@@ -11,8 +11,9 @@ def run(plan,rollout,output,duration=60):
     """Keep health/scrapes outside business counts; one drift window may be replayed without adding logical rows."""
     if not 30<=duration<=90:raise ValueError('Use a bounded30–90second observation window')
     output.mkdir(exist_ok=False);expected=Counter();rows=[];examples={}
-    def save(name,value):(output/name).write_text(json.dumps(value,indent=2,allow_nan=False)+'\n')
+    def save(name,value):'Persist strict JSON measurements for the current load-test stage.';(output/name).write_text(json.dumps(value,indent=2,allow_nan=False)+'\n')
     def scrape(stage):
+        'Scrape configured targets and aggregate actual counters for the selected stage.'
         counts=Counter()
         for kind,targets in plan['targets'].items():
             for target in targets:
@@ -35,6 +36,7 @@ def run(plan,rollout,output,duration=60):
     save('drift-window.json',window)
     with (output/'requests.jsonl').open('x') as journal:
         def request(kind,method,path,route,wanted,body=None,headers=None):
+            'Time one HTTP request and preserve its expected route/status contract.'
             started=datetime.now(timezone.utc).isoformat();timer=time.perf_counter()
             call=urllib.request.Request(rollout['urls'][kind]+path,method=method,data=json.dumps(body).encode() if body is not None else None,
                 headers={'Content-Type':'application/json',**(headers or {})})

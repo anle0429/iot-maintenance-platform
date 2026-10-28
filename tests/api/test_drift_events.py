@@ -17,6 +17,7 @@ def headers():
 
 
 def test_empty_ack_after_persist_and_distinct_transport_ids_replay_one_window(tmp_path):
+    'Verify empty ack after persist and distinct transport ids replay one window.'
     runtime=DriftRuntime(bundle(),tmp_path/'windows.db')
     with TestClient(create_app(runtime)) as client:
         for i in range(9):
@@ -34,6 +35,7 @@ def test_empty_ack_after_persist_and_distinct_transport_ids_replay_one_window(tm
     ('ce-id',''),('ce-id','x'*101),('ce-id','bad id'),('content-type','text/plain'),
 ])
 def test_invalid_envelope_cannot_write_the_store(name,value,tmp_path):
+    'Verify invalid envelope cannot write the store.'
     runtime=DriftRuntime(bundle(),tmp_path/'windows.db')
     with TestClient(create_app(runtime)) as client:
         reply=client.post('/v1/events/drift',content=__import__('json').dumps(window()),headers={**headers(),name:value})
@@ -42,6 +44,7 @@ def test_invalid_envelope_cannot_write_the_store(name,value,tmp_path):
 
 
 def test_metadata_boundaries_and_media_type_parameters(tmp_path):
+    'Verify metadata boundaries and media type parameters.'
     runtime=DriftRuntime(bundle(),tmp_path/'windows.db')
     with TestClient(create_app(runtime)) as client:
         for identity in ['x','x'*100,'ABC_123:-']:
@@ -71,7 +74,7 @@ def test_property_event_identity_and_http_media_type_normalization(identity):
 def test_private_store_error_is_redacted_before_event_ack(tmp_path,monkeypatch):
     """A failed durable write must neither acknowledge delivery nor disclose backend diagnostics."""
     runtime=DriftRuntime(bundle(),tmp_path/'windows.db')
-    def broken(*args):raise OSError('SYNTHETIC_PRIVATE_BACKEND_DIAGNOSTIC')
+    def broken(*args):'Inject an upstream failure containing private diagnostics to test response redaction.';raise OSError('SYNTHETIC_PRIVATE_BACKEND_DIAGNOSTIC')
     monkeypatch.setattr(runtime,'compare',broken)
     with TestClient(create_app(runtime)) as client:
         response=client.post('/v1/events/drift',json=window(),headers=headers())

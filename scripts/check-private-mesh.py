@@ -19,6 +19,7 @@ def run(args):
     """Require real successful/denied/plaintext requests, exact model math and unchanged application count for rejected traffic."""
     r=args.runtime_root.resolve();out=args.output;out.mkdir(parents=True,exist_ok=False);os.environ['KUBECONFIG']='/etc/rancher/k3s/k3s.yaml';k=['/usr/local/bin/k3s','kubectl']
     def call(command,name,timeout=180):
+        'Save original command streams before checking the native exit status.'
         p=subprocess.run(command,capture_output=True,timeout=timeout);(out/(name+'.stdout')).write_bytes(p.stdout);(out/(name+'.stderr')).write_bytes(p.stderr)
         if p.returncode:raise RuntimeError('Native mesh workload step failed: '+name)
         return p.stdout
@@ -53,12 +54,14 @@ def run(args):
     endpoint='http://mesh-predictor.iot-mesh.svc.cluster.local:8080/v1/models/iot-pump-failure-v1:predict'
     probe="import json,urllib.request,urllib.error,socket;resolved=socket.gethostbyname('mesh-predictor.iot-mesh.svc.cluster.local');u="+repr(endpoint)+";body="+repr(fixture['body'])+";req=urllib.request.Request(u,data=json.dumps(body).encode(),headers={'Content-Type':'application/json'});\ntry:\n r=urllib.request.urlopen(req,timeout=12);print(json.dumps({'status':r.status,'headers':dict(r.headers),'body':r.read().decode()}))\nexcept urllib.error.HTTPError as e:\n print(json.dumps({'status':e.code,'headers':dict(e.headers),'body':e.read().decode()}))\nexcept (urllib.error.URLError,ConnectionError,TimeoutError,OSError) as e:\n print(json.dumps({'transport_error':type(e).__name__,'reason_type':type(getattr(e,'reason',e)).__name__,'resolved_ip':resolved,'status':None}))"
     def request(name,spoof=False,metadata=False):
+        'Issue a request from a selected client Pod, optionally testing spoofed identity or a forbidden operation.'
         script=probe
         if spoof:script=script.replace("{'Content-Type':'application/json'}",repr({'Content-Type':'application/json','X-Forwarded-Client-Cert':'URI=spiffe://cluster.local/ns/iot-mesh/sa/feature-caller'}))
         if metadata:script=script.replace(repr(endpoint),repr(endpoint.removesuffix(':predict'))).replace("data=json.dumps(body).encode()","data=None")
         label='request-'+name+('-spoof' if spoof else '-metadata' if metadata else '')
         return json.loads(call(k+['exec',pod[name]['metadata']['name'],'-n','iot-mesh','-c','application','--','python','-c',script],label))
     def metrics(name):
+        'Read model-specific metrics from the existing predictor container.'
         script="import urllib.request;print(urllib.request.urlopen('http://127.0.0.1:8080/metrics',timeout=5).read().decode())"
         return call(k+['exec',pod['mesh-predictor']['metadata']['name'],'-n','iot-mesh','-c','application','--','python','-c',script],name).decode()
     before=metrics('metrics-before');assert 'iot_predictor_requests_total{outcome="success"}' not in before or 'iot_predictor_requests_total{outcome="success"} 0.0' in before

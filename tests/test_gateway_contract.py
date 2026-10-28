@@ -5,9 +5,11 @@ from infra.gateway.resources import resources,HOSTS
 class GatewayContractTests(unittest.TestCase):
     """Exercise unsafe input boundaries and the rendered isolation/auth/TLS contract."""
     def test_private_inputs_and_frozen_image_are_required(self):
+        'Verify private inputs and frozen image are required.'
         for image,ip in [('nginx/nginx-ingress:latest','10.52.0.1'),('nginx/nginx-ingress@sha256:'+'a'*64,'8.8.8.8'),('nginx/nginx-ingress@sha256:'+'a'*64,'127.0.0.1'),('nginx/nginx-ingress@sha256:'+'a'*64,'0.0.0.0'),('nginx/nginx-ingress@sha256:'+'a'*64,'::1')]:
             with self.subTest(image=image,ip=ip),self.assertRaises(ValueError):resources(image,ip)
     def test_auth_tls_and_rate_limit_cover_intended_private_routes(self):
+        'Verify auth tls and rate limit cover intended private routes.'
         docs=resources('nginx/nginx-ingress@sha256:'+'a'*64,'10.52.0.1')
         ing=[d for d in docs if d['kind']=='Ingress'];self.assertEqual({d['spec']['rules'][0]['host'] for d in ing},set(HOSTS.values()))
         for d in ing:

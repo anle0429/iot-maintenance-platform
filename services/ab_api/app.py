@@ -32,6 +32,7 @@ def create_app(runtime=None):
     """Inject native-independent fixtures for verification; default startup constructs actual SDK backends."""
     @asynccontextmanager
     async def lifespan(app):
+        'Own the injected or native A/B runtime and its bounded concurrency during application lifespan.'
         app.state.runtime=runtime if runtime is not None else native_runtime();app.state.slots=asyncio.Semaphore(4)
         yield
         app.state.runtime=None

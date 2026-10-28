@@ -21,11 +21,14 @@ def expected_windows(raw,end):
     """Derive eleven plotted values from gauge vectors and unaggregated counter matrices at the same timestamp."""
     expected={}
     def gauge(name):
+        'Require an instant-vector response for the selected metric.'
         data=raw[name]['data'];assert data['resultType']=='vector'
         return data['result']
     def scalar(name):
+        'Read exactly one scalar from a preserved Prometheus vector.'
         rows=gauge(name);assert len(rows)==1;return float(rows[0]['value'][1])
     def rates(name):
+        'Calculate independent counter rates from preserved range-vector samples.'
         data=raw[name]['data'];assert data['resultType']=='matrix' and data['result']
         return [counter_rate(row['values'],end) for row in data['result']]
     expected[(1,'A')]=[100*(1-math.fsum(rates('windows_cpu_time_seconds_total'))/len(raw['windows_cpu_time_seconds_total']['data']['result']))]

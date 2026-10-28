@@ -17,18 +17,22 @@ def fixture(killed=9,survived=1):
 class MutationGateTests(unittest.TestCase):
     """The strict gate must fail even when coverage was perfect or a console looked complete."""
     def test_complete_multiline_unicode_inventory(self):
+        'Verify complete multiline unicode inventory.'
         stats,text=fixture();self.assertEqual(MODULE.validate_mutation(stats,text),90)
 
     def test_exactly_eighty_and_lower_are_rejected(self):
+        'Verify exactly eighty and lower are rejected.'
         for killed in [0,7,8]:
             with self.subTest(killed=killed),self.assertRaisesRegex(ValueError,'exceed80'):MODULE.validate_mutation(*fixture(killed,10-killed))
 
     def test_missing_duplicate_or_foreign_identity_is_rejected(self):
+        'Verify missing duplicate or foreign identity is rejected.'
         stats,text=fixture()
         for altered in [text.split('\n',1)[1],text+text.splitlines()[0]+'\n',text.replace('services.observed','services.other'),text.replace('__mutmut_1:', '__mutmut_0:'),text.replace(': killed',': survived',1)]:
             with self.subTest(text=altered),self.assertRaisesRegex(ValueError,'inventory'):MODULE.validate_mutation(stats,altered)
 
     def test_unfinished_negative_boolean_or_inconsistent_counts_are_rejected(self):
+        'Verify unfinished negative boolean or inconsistent counts are rejected.'
         stats,text=fixture()
         for changed in [{'timeout':1},{'no_tests':1},{'killed':True},{'survived':-1},{'total':11},{'total':0}]:
             with self.subTest(changed=changed),self.assertRaises(ValueError):MODULE.validate_mutation({**stats,**changed},text)
@@ -43,10 +47,12 @@ class RegressionReportTests(unittest.TestCase):
             return MODULE.regression_counts(path)
 
     def test_suite_count_with_subtests_is_not_a_physical_case_count(self):
+        'Verify suite count with subtests is not a physical case count.'
         self.assertEqual(self.report('<testsuites><testsuite tests="3"><testcase name="a"/><testcase name="b"/></testsuite></testsuites>'),
                          {'regression_main_testcase_elements':2,'regression_suite_reported_tests':3})
 
     def test_unexecuted_skipped_or_hidden_case_failure_is_rejected(self):
+        'Verify unexecuted skipped or hidden case failure is rejected.'
         for xml in ['<testsuites/>','<testsuite tests="0"/>','<testsuite tests="2" skipped="1"><testcase/></testsuite>',
                     '<testsuite tests="1"><testcase><failure/></testcase></testsuite>',
                     '<testsuite tests="1"><testcase><error/></testcase></testsuite>',
@@ -55,6 +61,7 @@ class RegressionReportTests(unittest.TestCase):
             with self.subTest(xml=xml),self.assertRaises(ValueError):self.report(xml)
 
     def test_nested_aggregate_suite_cannot_double_count_cases(self):
+        'Verify nested aggregate suite cannot double count cases.'
         with self.assertRaisesRegex(ValueError,'flat'):
             self.report('<testsuite tests="1"><testsuite tests="1"><testcase/></testsuite></testsuite>')
 

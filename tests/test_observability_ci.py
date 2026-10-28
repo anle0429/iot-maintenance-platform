@@ -9,11 +9,13 @@ from ml.observability_ci import release,environment,same_model,application_paths
 class ObservabilityCITests(unittest.TestCase):
     """Exercise deployment trust boundaries with explicit known model and Kubernetes fixtures."""
     def test_release_numbers_have_a_distinct_namespace(self):
+        'Verify release numbers have a distinct namespace.'
         self.assertEqual(release('9'),'observe-jenkins-9')
         for n in ['0','01','../1','1;id',1,'1'*11]:
             with self.subTest(n=n),self.assertRaises(ValueError):release(n)
 
     def test_docker_from_uses_a_local_tag_with_a_separately_checked_image_id(self):
+        'Verify docker from uses a local tag with a separately checked image id.'
         image='sha256:'+'a'*64
         self.assertEqual(local_base('iot-ci-observability-tests-base:observe-jenkins-2',image),'BASE_IMAGE=iot-ci-observability-tests-base:observe-jenkins-2')
         self.assertEqual(local_base('iot-coursework-predictor:observe-28b-v2',image),'BASE_IMAGE=iot-coursework-predictor:observe-28b-v2')
@@ -21,6 +23,7 @@ class ObservabilityCITests(unittest.TestCase):
             with self.subTest(reference=ref),self.assertRaises(ValueError):local_base(ref,digest)
 
     def test_registry_network_is_discovered_without_assuming_a_stale_bridge_name(self):
+        'Verify registry network is discovered without assuming a stale bridge name.'
         for mode in ['iot-mlflow_default','iot-mlflow-restored-28c']:
             value={'HostConfig':{'NetworkMode':mode},'NetworkSettings':{'Networks':{mode:{'IPAddress':'172.25.0.2'}}}}
             self.assertEqual(registry_address(value),'172.25.0.2')
@@ -31,6 +34,7 @@ class ObservabilityCITests(unittest.TestCase):
         with self.assertRaises(ValueError):registry_address(value)
 
     def test_environment_preserves_store_model_and_fixed_endpoint(self):
+        'Verify environment preserves store model and fixed endpoint.'
         original=[{'name':'IOT_MODEL_BUNDLE','value':'/app/model'}];frozen=deepcopy(original)
         for kind in ['feature','predictor','drift']:
             value=environment(original,kind);self.assertEqual(value[0],original[0]);self.assertEqual(value[-1]['value'],ENDPOINT)
@@ -42,6 +46,7 @@ class ObservabilityCITests(unittest.TestCase):
             with self.subTest(env=env,kind=kind),self.assertRaises(ValueError):environment(env,kind)
 
     def test_model_identity_and_exact_weight_bytes_cannot_change(self):
+        'Verify model identity and exact weight bytes cannot change.'
         root=Path(__file__).resolve().parents[1];bundle=root/'models/pump-failure-v1'
         pin=json.loads((bundle/'model-pin.json').read_bytes());pin['production']=True
         raw=(bundle/'portable.json').read_bytes();self.assertEqual(sha256(raw).hexdigest(),pin['portable_sha256'])
@@ -50,6 +55,7 @@ class ObservabilityCITests(unittest.TestCase):
             with self.subTest(actual=actual),self.assertRaises(ValueError):same_model(pin,actual,weights)
 
     def test_application_scope_never_silently_drops_a_shared_module(self):
+        'Verify application scope never silently drops a shared module.'
         names=['services/feature_api/'+n+'.py' for n in ['__init__','app','runtime']]
         names+=['services/predictor/'+n+'.py' for n in ['__init__','contracts','binding']]+['services/__init__.py','ml/__init__.py','ml/protocol.py']
         files={n:'a'*64 for n in names};self.assertEqual(set(application_paths('feature',files)),set(names))
@@ -57,6 +63,7 @@ class ObservabilityCITests(unittest.TestCase):
         with self.assertRaises(ValueError):application_paths('unknown',files)
 
     def test_predictor_patch_tests_concurrent_identity_and_environment(self):
+        'Verify predictor patch tests concurrent identity and environment.'
         obj={'metadata':{'uid':'native-uid','resourceVersion':'39'},'spec':{'predictor':{'containers':[{'image':'iot-coursework-predictor:old','env':[]}]}}}
         frozen=deepcopy(obj);patch=patch_predictor(obj,'iot-coursework-predictor:observe-jenkins-1',[])
         self.assertEqual([p['path'] for p in patch if p['op']=='test'],['/metadata/uid','/metadata/resourceVersion','/spec/predictor/containers/0/image','/spec/predictor/containers/0/env'])
@@ -64,6 +71,7 @@ class ObservabilityCITests(unittest.TestCase):
         with self.assertRaises(ValueError):patch_predictor(obj,'external.example/model:latest',[])
 
     def test_controller_keeps_readonly_source_and_uses_telemetry_driver(self):
+        'Verify controller keeps readonly source and uses telemetry driver.'
         root=Path(__file__).resolve().parents[1]
         spec=importlib.util.spec_from_file_location('observed_driver_test',root/'scripts/ci-observability.py')
         module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)

@@ -15,8 +15,10 @@ def run(args):
     if not root.is_relative_to('/srv/iot-data') or not Path('/srv/iot-fast').is_mount():raise ValueError('Use existing VM data disks')
     out=args.output.resolve();private=args.private.resolve();out.mkdir(parents=True,exist_ok=False);private.mkdir(parents=True,exist_ok=False)
     def save(n,v):
+        'Save strict JSON deployment evidence without nonfinite values.'
         (out/n).write_text(json.dumps(v,indent=2,allow_nan=False)+'\n')
     def call(command,stdin=None,log=None):
+        'Run a bounded gateway command and retain its original streams when requested.'
         p=subprocess.run(command,input=stdin,capture_output=True,timeout=300)
         if log:(out/log).write_bytes(p.stdout+p.stderr)
         if p.returncode:raise RuntimeError('Gateway native command failed; see retained logs: '+str(log or command[0]))
@@ -41,7 +43,7 @@ def run(args):
     call(['systemctl','daemon-reload']);call(['systemctl','start','iot-gateway-grafana-28.socket'])
     save('relay-listener.json',{'listener':bridge+':13002','upstream':'127.0.0.1:13001','public':False,'mechanism':'systemd-socket-proxyd','scope':'CNI-private bridge; backends remain trusted internal; no public listener or new cloud firewall.'})
     # Explicit CA and hostname verification are required; no OS trust-store changes or insecure client flags.
-    def ssl(*a):return call(['openssl',*a],log='tls-generation-last.txt')
+    def ssl(*a):'Run OpenSSL through the checked command path and retain the latest TLS operation log.';return call(['openssl',*a],log='tls-generation-last.txt')
     ssl('req','-x509','-newkey','rsa:3072','-nodes','-keyout',str(private/'ca.key'),'-out',str(out/'ca.crt'),'-days','3','-subj','/CN=IoT coursework private lab CA','-addext','basicConstraints=critical,CA:TRUE','-addext','keyUsage=critical,keyCertSign,cRLSign')
     ssl('req','-new','-newkey','rsa:3072','-nodes','-keyout',str(private/'server.key'),'-out',str(private/'server.csr'),'-subj','/CN=features.iot.test')
     (private/'extensions.cnf').write_text('basicConstraints=critical,CA:FALSE\nkeyUsage=critical,digitalSignature,keyEncipherment\nextendedKeyUsage=serverAuth\nsubjectAltName='+','.join('DNS:'+h for h in HOSTS.values())+'\n')

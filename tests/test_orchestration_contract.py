@@ -29,6 +29,7 @@ class ArtifactGateTests(unittest.TestCase):
         save(self.directory / 'validation.json', {'passed': passed, 'manifest_sha256': digest(self.directory / '_INGESTED.json')})
 
     def test_missing_and_failed_validation_block_consumption(self):
+        'Verify missing and failed validation block consumption.'
         with self.assertRaises(FileNotFoundError):
             verified_manifest(self.directory)
         self.validate(False)
@@ -36,6 +37,7 @@ class ArtifactGateTests(unittest.TestCase):
             verified_manifest(self.directory)
 
     def test_successful_retry_preserves_parts(self):
+        'Verify successful retry preserves parts.'
         self.validate()
         before = inventory(self.directory)
         self.assertEqual(verified_manifest(self.directory), self.manifest)
@@ -43,6 +45,7 @@ class ArtifactGateTests(unittest.TestCase):
         self.assertEqual(inventory(self.directory), before)
 
     def test_equal_length_corruption_is_rejected(self):
+        'Verify equal length corruption is rejected.'
         self.validate()
         content = self.part.read_bytes()
         self.part.write_bytes(b'X' + content[1:])
@@ -50,6 +53,7 @@ class ArtifactGateTests(unittest.TestCase):
             verified_manifest(self.directory)
 
     def test_added_or_missing_part_is_rejected(self):
+        'Verify added or missing part is rejected.'
         self.validate()
         extra = self.part.with_name('extra.parquet')
         extra.write_bytes(b'unexpected-part')
@@ -61,17 +65,20 @@ class ArtifactGateTests(unittest.TestCase):
             verified_manifest(self.directory)
 
     def test_validation_cannot_be_reused_after_manifest_change(self):
+        'Verify validation cannot be reused after manifest change.'
         self.validate()
         save(self.directory / '_INGESTED.json', {**self.manifest, 'batch': 'different-run'})
         with self.assertRaisesRegex(ValueError, 'different bytes'):
             verified_manifest(self.directory)
 
     def test_partial_directory_is_not_a_completed_stage(self):
+        'Verify partial directory is not a completed stage.'
         (self.directory / '_INGESTED.json').unlink()
         with self.assertRaises(FileNotFoundError):
             verified_manifest(self.directory, require_validated=False)
 
     def test_unsafe_run_ids_cannot_escape_project(self):
+        'Verify unsafe run ids cannot escape project.'
         for run in ('../outside', '/tmp/escape', 'Bad Run', '', 'x' * 64, None):
             with self.subTest(run=run), self.assertRaises(ValueError):
                 stage_path(self.root, run, 'dp1')

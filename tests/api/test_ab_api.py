@@ -28,11 +28,14 @@ NOW=datetime(2026,10,27,22,tzinfo=timezone.utc);ASOF=datetime(2026,11,29,23,50,t
 class Backend:
     """Keep genuine portable inference while controlling only native Feast reads and observed context."""
     def __init__(self,model,context):
+        'Initialize a controllable model/backend fixture and its request counters.'
         self.model=model;self.context=context;self.calls=0;self.offset=0.;self.broken=False
     def fetch(self,machine):
+        'Return a copied known feature vector with an optional controlled temperature shift.'
         values=deepcopy(GOLDEN['samples'][0]['features']);values['temperature_mean_10m']+=self.offset
         return {'values':values,'timestamps':{n:ASOF.isoformat() for n in values}}
     def predict(self,features):
+        'Count model calls and optionally inject a private upstream failure.'
         self.calls+=1
         if self.broken:raise RuntimeError('private SDK detail must never reach clients')
         return {'model':self.model.metadata(),'predictions':self.model.predict([FeatureVector.model_validate(features)])}
@@ -55,7 +58,7 @@ def fixture_runtime(path,max_requests=2048,experiment='serve-jenkins-7'):
 
 
 @pytest.fixture
-def runtime(tmp_path):return fixture_runtime(tmp_path)
+def runtime(tmp_path):'Provide an isolated A/B runtime fixture under the temporary test directory.';return fixture_runtime(tmp_path)
 
 
 def populate(runtime,cycles=2):
@@ -64,6 +67,7 @@ def populate(runtime,cycles=2):
 
 
 def test_machine_assignment_is_stable_and_independent_of_request_order(runtime):
+    'Verify machine assignment is stable and independent of request order.'
     machines=list(runtime.context['machines']);groups={cohort(runtime.experiment,m) for m in machines};assert groups=={'baseline','candidate'}
     first=[runtime.predict(m,'initial-'+m) for m in machines[:8]]
     second=[runtime.predict(m,'second-'+m) for m in reversed(machines[:8])]
@@ -74,6 +78,7 @@ def test_machine_assignment_is_stable_and_independent_of_request_order(runtime):
 @given(st.lists(st.tuples(st.integers(min_value=1,max_value=4),st.integers(min_value=1,max_value=6)),min_size=1,max_size=24))
 @settings(max_examples=15,deadline=None)
 def test_arbitrary_request_replays_and_conflicts_obey_set_counting(actions):
+    'Verify arbitrary request replays and conflicts obey set counting.'
     with TemporaryDirectory() as directory:
         runtime=fixture_runtime(Path(directory));seen={}
         for number,identity in actions:
@@ -90,6 +95,7 @@ def test_arbitrary_request_replays_and_conflicts_obey_set_counting(actions):
 
 
 def test_real_portable_prediction_pin_and_trace(runtime):
+    'Verify real portable prediction pin and trace.'
     row=runtime.predict('P-001','known')
     assert row['status']==200 and row['prediction']['risk_score']==pytest.approx(GOLDEN['samples'][0]['expected_risk_score'],abs=1e-12)
     assert all(row['model'][name]==value for name,value in runtime.pins[row['variant']].items()) and row['feature_trace']['machine_id']=='P-001'
@@ -97,6 +103,7 @@ def test_real_portable_prediction_pin_and_trace(runtime):
 
 
 def test_invalid_initial_config_preserves_existing_database(runtime,tmp_path):
+    'Verify invalid initial config preserves existing database.'
     reference={'format':'iot-drift-reference-v1','lineage':{'protocol_sha256':runtime.context['protocol_sha256']},
         'policy':runtime.detector.policy,'samples':[GOLDEN['samples'][0]['features']]*64}
     for bad in ['',None,'a'*65,'../escape','line\nbreak']:
@@ -117,6 +124,7 @@ def test_invalid_initial_config_preserves_existing_database(runtime,tmp_path):
 
 
 def test_database_identity_and_retention_cannot_be_reinterpreted(runtime,tmp_path):
+    'Verify database identity and retention cannot be reinterpreted.'
     first=runtime.predict('P-001','once');restarted=fixture_runtime(tmp_path)
     assert restarted.predict('P-001','once')==first
     with pytest.raises(TrialConflict):fixture_runtime(tmp_path,experiment='different')
@@ -125,6 +133,7 @@ def test_database_identity_and_retention_cannot_be_reinterpreted(runtime,tmp_pat
 
 
 def test_concurrent_replay_across_connections_calls_model_once(runtime,tmp_path):
+    'Verify concurrent replay across connections calls model once.'
     other=fixture_runtime(tmp_path)
     with ThreadPoolExecutor(max_workers=8) as pool:
         results=list(pool.map(lambda i:[runtime,other][i%2].predict('P-001','same-request'),range(24)))
@@ -135,6 +144,7 @@ def test_concurrent_replay_across_connections_calls_model_once(runtime,tmp_path)
 
 
 def test_request_boundaries_unknown_machine_and_capacity(tmp_path):
+    'Verify request boundaries unknown machine and capacity.'
     runtime=fixture_runtime(tmp_path,max_requests=1)
     for bad in ['',None,'a'*101,'../x','a b']:
         with pytest.raises(ValueError):runtime.predict('P-001',bad)
@@ -145,6 +155,7 @@ def test_request_boundaries_unknown_machine_and_capacity(tmp_path):
 
 
 def test_failed_and_stopped_trials_are_persistent_outcomes(runtime):
+    'Verify failed and stopped trials are persistent outcomes.'
     machine='P-001';variant=cohort(runtime.experiment,machine);runtime.runtimes[variant].backend.broken=True
     a=runtime.predict(machine,'failed');assert a['status']==503 and 'private SDK' not in json.dumps(a)
     runtime.runtimes[variant].backend.broken=False;assert runtime.predict(machine,'failed')==a
@@ -155,6 +166,7 @@ def test_failed_and_stopped_trials_are_persistent_outcomes(runtime):
 
 
 def test_pins_do_not_change_when_backend_or_runtime_is_reconfigured(runtime):
+    'Verify pins do not change when backend or runtime is reconfigured.'
     machine='P-001';variant=cohort(runtime.experiment,machine);runtime.runtimes[variant].model_pin['threshold']=.1
     assert runtime.predict(machine,'mismatched')['status']==503
     runtime.runtimes[variant].backend.model.pin['threshold']=.1
@@ -162,6 +174,7 @@ def test_pins_do_not_change_when_backend_or_runtime_is_reconfigured(runtime):
 
 
 def test_readiness_rechecks_the_original_pair_even_if_adapter_pin_changes(runtime):
+    'Verify readiness rechecks the original pair even if adapter pin changes.'
     runtime.runtimes['baseline'].model_pin['threshold']=.1
     runtime.runtimes['baseline'].backend.model.pin['threshold']=.1
     with pytest.raises(ValueError,match='Readiness model identity'):runtime.ready()
@@ -169,6 +182,7 @@ def test_readiness_rechecks_the_original_pair_even_if_adapter_pin_changes(runtim
 
 
 def test_cached_trials_cannot_outlive_real_lease(runtime):
+    'Verify cached trials cannot outlive real lease.'
     runtime.predict('P-001','old')
     for offset in [-1,3600,3601]:
         for r in runtime.runtimes.values():r.clock=lambda:NOW+timedelta(seconds=offset)
@@ -178,6 +192,7 @@ def test_cached_trials_cannot_outlive_real_lease(runtime):
 
 
 def test_drift_uses_unique_snapshots_and_independent_psi_arithmetic(runtime):
+    'Verify drift uses unique snapshots and independent psi arithmetic.'
     populate(runtime);snapshot=runtime.snapshot()
     assert sum(m['requests'] for m in snapshot['metrics'].values())==400
     assert sum(d['unique_rows'] for d in snapshot['drift'].values())==200
@@ -192,12 +207,14 @@ def test_drift_uses_unique_snapshots_and_independent_psi_arithmetic(runtime):
 
 
 def test_conflicting_snapshot_is_rejected_even_before_drift_minimum(runtime):
+    'Verify conflicting snapshot is rejected even before drift minimum.'
     runtime.predict('P-001','original');variant=cohort(runtime.experiment,'P-001');runtime.runtimes[variant].backend.offset=-20
     runtime.predict('P-001','changed')
     with pytest.raises(ValueError,match='Conflicting'):runtime.snapshot()
 
 
 def test_shift_monitor_and_metrics_are_real_ledger_readbacks(runtime):
+    'Verify shift monitor and metrics are real ledger readbacks.'
     for r in runtime.runtimes.values():r.backend.offset=-20
     populate(runtime);data=runtime.snapshot();raw=exposition(data).decode()
     samples={s.name+str(s.labels):s for family in text_string_to_metric_families(raw) for s in family.samples}
@@ -211,12 +228,14 @@ def test_shift_monitor_and_metrics_are_real_ledger_readbacks(runtime):
 
 
 def test_empty_metrics_has_no_fake_drift_or_mean(runtime):
+    'Verify empty metrics has no fake drift or mean.'
     raw=exposition(runtime.snapshot()).decode();samples=[s for f in text_string_to_metric_families(raw) for s in f.samples]
     assert all(s.value==0 for s in samples if s.name.endswith(('_total','_count','_sum','_snapshots')))
     assert not any(s.name in ['iot_ab_feature_psi','iot_ab_mean_risk_score'] for s in samples)
 
 
 def test_http_success_boundary_validation_and_replay(runtime):
+    'Verify http success boundary validation and replay.'
     app=api.create_app(runtime)
     with TestClient(app) as client:
         assert client.get('/health/live').json()=={'live':True}
@@ -238,6 +257,7 @@ def test_http_success_boundary_validation_and_replay(runtime):
 
 
 def test_http_capacity_failures_and_unavailable_monitoring(tmp_path):
+    'Verify http capacity failures and unavailable monitoring.'
     runtime=fixture_runtime(tmp_path,max_requests=1)
     with TestClient(api.create_app(runtime)) as client:
         runtime.runtimes[cohort(runtime.experiment,'P-001')].backend.broken=True
@@ -249,6 +269,7 @@ def test_http_capacity_failures_and_unavailable_monitoring(tmp_path):
 
 
 def test_nonfinite_or_malformed_rejected_input_always_has_safe_json_errors(runtime):
+    'Verify nonfinite or malformed rejected input always has safe json errors.'
     with TestClient(api.create_app(runtime)) as client:
         for body in [b'{"failure_in_next_1h":NaN}',b'{"variant":Infinity}',b'[NaN]',b'{']:
             reply=client.post('/v1/machines/P-001:predict',content=body,headers={'Content-Type':'application/json','X-Request-ID':'invalid'})
@@ -258,14 +279,17 @@ def test_nonfinite_or_malformed_rejected_input_always_has_safe_json_errors(runti
 
 
 def test_native_startup_uses_existing_sdk_state_and_two_fixed_urls(runtime,tmp_path,monkeypatch):
+    'Verify native startup uses existing sdk state and two fixed urls.'
     config={'experiment':'native-fixture',**{name:{'url':'http://'+name+'.svc.cluster.local','pin':runtime.pins[name]} for name in runtime.runtimes}}
     source=tmp_path/'config.json';source.write_text(json.dumps(config));reference=tmp_path/'reference.json'
     reference.write_text(json.dumps({'format':'iot-drift-reference-v1','lineage':runtime.detector.lineage,
         'policy':runtime.detector.policy,'samples':[GOLDEN['samples'][0]['features']]*64}))
     for key,value in {'IOT_AB_CONFIG':str(source),'IOT_SERVING_STATE':'/fixture-state','IOT_DRIFT_REFERENCE':str(reference),'IOT_AB_DATABASE':str(tmp_path/'native.sqlite')}.items():monkeypatch.setenv(key,value)
     def backend(state,url):
+        'Select the prepared baseline or candidate backend for factory injection.'
         assert state=='/fixture-state';return runtime.runtimes[url.split('//')[1].split('.')[0]].backend
     def feature(context,backend,model_pin):
+        'Construct the fixture runtime with a deterministic clock and explicit model pin.'
         return FeatureRuntime(context,backend,clock=lambda:NOW,model_pin=model_pin)
     with patch.object(api,'FeastKServeBackend',side_effect=backend) as called,patch.object(api,'FeatureRuntime',side_effect=feature):
         with TestClient(api.create_app()) as client:
@@ -343,9 +367,11 @@ def test_metric_values_labels_and_histogram_boundaries_from_known_ledger():
 
 
 def test_health_remains_async_while_model_read_blocks(runtime):
+    'Verify health remains async while model read blocks.'
     entered=threading.Event();release=threading.Event()
-    def slow():entered.set();assert release.wait(5);return {'ready':True}
+    def slow():'Block readiness until released so the async health path can be tested.';entered.set();assert release.wait(5);return {'ready':True}
     async def scenario():
+        'Exercise readiness and liveness concurrently through the actual ASGI application.'
         app=api.create_app(runtime)
         async with app.router.lifespan_context(app):
             async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app),base_url='http://test') as client:

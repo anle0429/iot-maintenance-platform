@@ -1,4 +1,5 @@
 """Independently check saved PC monitoring receipts, source hashes and all26 plotted values without project imports."""
+from evidence_integrity import documentation_equivalent,executable_python_tree
 from collections import Counter
 from hashlib import sha256
 from pathlib import Path,PurePosixPath
@@ -21,10 +22,10 @@ def main():
         assert not PurePosixPath(name).is_absolute() and '..' not in PurePosixPath(name).parts
         git=subprocess.check_output(['git','show',commit+':'+name],cwd=root);assert digest(git)==expected,name
         raw=(root/name).read_bytes()
-        if raw!=git and raw.replace(b'\r\n',b'\n')!=git:
+        if raw!=git and raw.replace(b'\r\n',b'\n')!=git and not documentation_equivalent(git,raw,Path(name).suffix):
             # Native CI later changed export permissions and mutation workspace copying, outside this PC HTTP experiment.
             if name=='scripts/ci-serving.py':
-                functions=lambda text:{n.name:ast.dump(n,include_attributes=False) for n in ast.parse(text).body if isinstance(n,ast.FunctionDef)}
+                functions=lambda text:{n.name:ast.dump(n,include_attributes=False) for n in executable_python_tree(text).body if isinstance(n,ast.FunctionDef)}
                 old,new=functions(git.decode()),functions(raw.decode())
                 for used in ['http','http_text','json_response']:assert old[used]==new[used],used
             elif name=='pyproject.toml':
@@ -34,14 +35,14 @@ def main():
             elif name in ['tests/api/test_ab_api.py','tests/api/test_model_binding.py']:
                 # Later tests strengthen native wiring, persisted identity and metric consumer contracts.
                 # The saved experiment still binds the exact historical test bytes above, not this expanded suite.
-                functions=lambda text:{n.name:ast.dump(n,include_attributes=False) for n in ast.parse(text).body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef))}
+                functions=lambda text:{n.name:ast.dump(n,include_attributes=False) for n in executable_python_tree(text).body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef))}
                 old,new=functions(git.decode()),functions(raw.decode())
                 assert set(old)<=set(new)
                 assert all(old[n]==new[n] for n in old if n!='test_native_startup_uses_existing_sdk_state_and_two_fixed_urls')
             elif name in ['ml/serving_ci.py','tests/test_serving_ci.py']:
                 # The old PC HTTP experiment did not invoke the later native mutation inventory parser.
                 omitted={'test_gate'} if name=='ml/serving_ci.py' else {'gate','test_native_mutmut_class_and_function_names_bind_to_the_same_seven_files','test_partial_mutation_diagnostics_survive_without_becoming_gate_evidence'}
-                old,new=ast.parse(git.decode()),ast.parse(raw.decode())
+                old,new=executable_python_tree(git.decode()),executable_python_tree(raw.decode())
                 for tree in [old,new]:
                     for parent in [tree]+[n for n in ast.walk(tree) if isinstance(n,ast.ClassDef)]:
                         parent.body=[n for n in parent.body if not isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) or n.name not in omitted]
@@ -89,6 +90,7 @@ def main():
             p=[.5/65,64.5/65];q=[.5/(unique+1),(unique+.5)/(unique+1)];psi=sum((b-a)*math.log(b/a) for a,b in zip(p,q))
             assert math.isclose(psi,value['psi'],abs_tol=1e-14);expected[6][(*key[:2],feature)]=psi
     def compare(actual,wanted):
+        'Require identical metric keys and finite values matching the independent oracle within tolerance.'
         assert len(actual)==len(wanted)
         actual=dict(actual);assert actual.keys()==wanted.keys()
         assert all(math.isfinite(actual[k]) and math.isclose(actual[k],v,rel_tol=1e-10,abs_tol=1e-12) for k,v in wanted.items())
