@@ -19,7 +19,7 @@ Feature được materialize thật lúc15:18:09UTC: Redis0→200key/minTTL3.578
 
 Lượt đầu có598/5.772request và0lỗi nhưng guard sau tải phát hiện tập Pod trước/sau khác nhau; **lượt đầu không đạt toàn bộ guard**. Snapshot đều có hai Pod được chọn, một UID thay đổi; HPA đang bật và có thay đổi replica, chưa suy riêng nguyên nhân của mọi thay đổi Pod từ các snapshot này. [Unit lỗi](evidence/observed-api-load-linux/load-unit.txt)/[journal](evidence/observed-api-load-linux/load-journal.txt)/HTML cũ giữ nguyên. Lượt mới giữ một Pod cùngUID/image digest trước và sau hai bài đo; không sửa lượt cũ thành thành công.
 
-Chính sách HPA được patch có testUID/spec rồi trả về1–2 trong finally. [Trước](evidence/observed-api-load-linux/fixed1-control/hpa-before.json), [cố định](evidence/observed-api-load-linux/fixed1-control/hpa-fixed.json), [khôi phục](evidence/observed-api-load-linux/locust-fixed1/hpa-restored.json). Lịch drift Airflow đã trả về trạng thái không pause; file gốc và hash được giữ trong77payload/2ảnh. Đây là kiểm tải vận hành, không phải JenkinsCI mới. [CI telemetry](ci-api-observability.md) được theo dõi riêng.
+Chính sách HPA được patch có testUID/spec rồi trả về1–2 trong finally. [Trước](evidence/observed-api-load-linux/fixed1-control/hpa-before.json), [cố định](evidence/observed-api-load-linux/fixed1-control/hpa-fixed.json), [khôi phục](evidence/observed-api-load-linux/locust-fixed1/hpa-restored.json). Lịch drift Airflow đã trả về trạng thái không pause; file gốc và hash được giữ trong75payload/2ảnh. Đây là kiểm tải vận hành, không phải JenkinsCI mới. [CI telemetry](ci-api-observability.md) được theo dõi riêng.
 
 ## Tự kiểm từ clone
 

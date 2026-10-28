@@ -92,10 +92,6 @@
       "sha256": "20aadded275917ff0dcdc5dfc28ddd4468999caeda896db4ff8537b056a55573",
       "bytes": 636
     },
-    "locust/source/tests/load/__pycache__/feature_api.cpython-312.pyc": {
-      "sha256": "e18751f981a0a48dcbd7c43f8b738ef5899d28a13ed31c90f5af655808418466",
-      "bytes": 3923
-    },
     "locust/source/tests/load/feature_api.py": {
       "sha256": "1e5a70b7d3c752c87884edba4495c86a06164503d723ef093b3fd5b0efa6c748",
       "bytes": 1989
@@ -191,10 +187,6 @@
     "locust-fixed1/requirements-installed.lock": {
       "sha256": "20aadded275917ff0dcdc5dfc28ddd4468999caeda896db4ff8537b056a55573",
       "bytes": 636
-    },
-    "locust-fixed1/source/tests/load/__pycache__/feature_api.cpython-312.pyc": {
-      "sha256": "6c536db18addce85e336561b544fbf4efcdfdf9b62979ac16ae2f2431b954500",
-      "bytes": 3930
     },
     "locust-fixed1/source/tests/load/feature_api.py": {
       "sha256": "1e5a70b7d3c752c87884edba4495c86a06164503d723ef093b3fd5b0efa6c748",
@@ -309,5 +301,9 @@
       "bytes": 2026
     }
   },
-  "scope": "Original native reports including first changed-Pod guard failure and fixed-one-replica success, plus original browser screenshots. UI timezone America/Chicago. No pixel or report edits."
+  "scope": "Original native reports including first changed-Pod guard failure and fixed-one-replica success, plus original browser screenshots. UI timezone America/Chicago. No pixel or report edits. Two Python bytecode cache files are omitted from publication; original native manifest and incoming tar retain their hashes.",
+  "omitted_native_bookkeeping": [
+    "locust/source/tests/load/__pycache__/feature_api.cpython-312.pyc",
+    "locust-fixed1/source/tests/load/__pycache__/feature_api.cpython-312.pyc"
+  ]
 }

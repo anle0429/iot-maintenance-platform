@@ -20,7 +20,10 @@ def main():
         assert not Path(name).is_absolute() and '..' not in Path(name).parts
         raw=(BASE/name).read_bytes();assert len(raw)==v['bytes'] and sha256(raw).hexdigest()==v['sha256'],name
     native=read('native-manifest.json')
-    assert len(native['files'])==74 and all(v==seal['files'][n] for n,v in native['files'].items())
+    omitted=set(seal['omitted_native_bookkeeping'])
+    assert omitted=={folder+'/source/tests/load/__pycache__/feature_api.cpython-312.pyc' for folder in ['locust','locust-fixed1']}
+    assert len(native['files'])==74 and all(v==seal['files'][n] for n,v in native['files'].items() if n not in omitted)
+    assert set(native['files'])-omitted<=seal['files'].keys() and len(seal['files'])==75
     source=read('locust-fixed1/source-manifest.json')
     assert set(source['files'])=={'tests/load/feature_api.py','tests/load/requirements.txt'}
     for name,wanted in source['files'].items():
@@ -77,7 +80,7 @@ def main():
     reference=ROOT/'docs/evidence/ci-serving-linux/selected-model6'
     oracle.all_machine_rows(read('baseline-refresh/http-all-machines.json'),json.loads((reference/'portable.json').read_bytes()),json.loads((reference/'model-pin.json').read_bytes()))
     assert all((BASE/'screenshots'/n).read_bytes().startswith(b'\xff\xd8\xff') for n in ['locust-1-user.jpg','locust-10-users.jpg'])
-    print('PASS77payload/2originalJPEG;598+5767requests/0failures/P95 6+28ms; HTML+periodicCSV; native model6/200predictions/freshTTL; fixed1samePod and restoredHPA1..2; original changed-Pod guard failure retained. GETfeatures only, not maximum capacity or predictionTPS.')
+    print('PASS75payload/2originalJPEG;598+5767requests/0failures/P95 6+28ms; HTML+periodicCSV; native model6/200predictions/freshTTL; fixed1samePod and restoredHPA1..2; original changed-Pod guard failure retained. Two bytecode caches omitted explicitly; GETfeatures only, not maximum capacity or predictionTPS.')
 
 
 if __name__=='__main__':main()
