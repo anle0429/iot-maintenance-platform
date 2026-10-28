@@ -1,0 +1,152 @@
+{
+  "expected_count": 219,
+  "actual_count": 219,
+  "missing_by_service": {
+    "node-exporter": 10,
+    "prometheus": 9
+  },
+  "unexpected_by_service": {
+    "node-exporter": 10,
+    "prometheus": 9
+  },
+  "pairs": [
+    {
+      "expected": {
+        "timestamp_ns": 1793150488988000000,
+        "labels": {
+          "host": "vm-linux",
+          "service": "node-exporter",
+          "source": "host-file",
+          "level": "INFO",
+          "service_name": "node-exporter",
+          "detected_level": "info"
+        },
+        "line": "time=2026-10-28T01:21:28.988Z level=INFO source=node_exporter.go:218 msg=\"Build context\" build_context=\"(go=go1.26.5, platform=linux/amd64, user=root@3a6b59999579, date=20260714-12:05:11, tags=unknown)\""
+      },
+      "matching_actual": [
+        {
+          "timestamp_ns": 1793150488988000001,
+          "labels": {
+            "detected_level": "info",
+            "host": "vm-linux",
+            "level": "INFO",
+            "service": "node-exporter",
+            "service_name": "node-exporter",
+            "source": "host-file"
+          },
+          "line": "time=2026-10-28T01:21:28.988Z level=INFO source=node_exporter.go:218 msg=\"Build context\" build_context=\"(go=go1.26.5, platform=linux/amd64, user=root@3a6b59999579, date=20260714-12:05:11, tags=unknown)\""
+        }
+      ]
+    },
+    {
+      "expected": {
+        "timestamp_ns": 1793150488991000000,
+        "labels": {
+          "host": "vm-linux",
+          "service": "node-exporter",
+          "source": "host-file",
+          "level": "INFO",
+          "service_name": "node-exporter",
+          "detected_level": "info"
+        },
+        "line": "time=2026-10-28T01:21:28.991Z level=INFO source=filesystem_common.go:292 msg=\"Parsed flag --collector.filesystem.fs-types-exclude\" collector=filesystem flag=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|erofs|sysfs|tracefs)$"
+      },
+      "matching_actual": [
+        {
+          "timestamp_ns": 1793150488991000001,
+          "labels": {
+            "detected_level": "info",
+            "host": "vm-linux",
+            "level": "INFO",
+            "service": "node-exporter",
+            "service_name": "node-exporter",
+            "source": "host-file"
+          },
+          "line": "time=2026-10-28T01:21:28.991Z level=INFO source=filesystem_common.go:292 msg=\"Parsed flag --collector.filesystem.fs-types-exclude\" collector=filesystem flag=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|erofs|sysfs|tracefs)$"
+        }
+      ]
+    },
+    {
+      "expected": {
+        "timestamp_ns": 1793150488991000000,
+        "labels": {
+          "host": "vm-linux",
+          "service": "node-exporter",
+          "source": "host-file",
+          "level": "INFO",
+          "service_name": "node-exporter",
+          "detected_level": "info"
+        },
+        "line": "time=2026-10-28T01:21:28.991Z level=INFO source=diskstats_common.go:110 msg=\"Parsed flag --collector.diskstats.device-exclude\" collector=diskstats flag=^(z?ram|loop|fd|(h|s|v|xv)d[a-z]|nvme\\d+n\\d+p)\\d+$"
+      },
+      "matching_actual": [
+        {
+          "timestamp_ns": 1793150488991000002,
+          "labels": {
+            "detected_level": "info",
+            "host": "vm-linux",
+            "level": "INFO",
+            "service": "node-exporter",
+            "service_name": "node-exporter",
+            "source": "host-file"
+          },
+          "line": "time=2026-10-28T01:21:28.991Z level=INFO source=diskstats_common.go:110 msg=\"Parsed flag --collector.diskstats.device-exclude\" collector=diskstats flag=^(z?ram|loop|fd|(h|s|v|xv)d[a-z]|nvme\\d+n\\d+p)\\d+$"
+        }
+      ]
+    },
+    {
+      "expected": {
+        "timestamp_ns": 1793150488991000000,
+        "labels": {
+          "host": "vm-linux",
+          "service": "node-exporter",
+          "source": "host-file",
+          "level": "INFO",
+          "service_name": "node-exporter",
+          "detected_level": "info"
+        },
+        "line": "time=2026-10-28T01:21:28.991Z level=INFO source=node_exporter.go:136 msg=\"Enabled collectors\""
+      },
+      "matching_actual": [
+        {
+          "timestamp_ns": 1793150488991000003,
+          "labels": {
+            "detected_level": "info",
+            "host": "vm-linux",
+            "level": "INFO",
+            "service": "node-exporter",
+            "service_name": "node-exporter",
+            "source": "host-file"
+          },
+          "line": "time=2026-10-28T01:21:28.991Z level=INFO source=node_exporter.go:136 msg=\"Enabled collectors\""
+        }
+      ]
+    }
+  ],
+  "first_unmatched_actual": [
+    {
+      "timestamp_ns": 1793150488988000001,
+      "labels": {
+        "detected_level": "info",
+        "host": "vm-linux",
+        "level": "INFO",
+        "service": "node-exporter",
+        "service_name": "node-exporter",
+        "source": "host-file"
+      },
+      "line": "time=2026-10-28T01:21:28.988Z level=INFO source=node_exporter.go:218 msg=\"Build context\" build_context=\"(go=go1.26.5, platform=linux/amd64, user=root@3a6b59999579, date=20260714-12:05:11, tags=unknown)\""
+    },
+    {
+      "timestamp_ns": 1793150488991000001,
+      "labels": {
+        "detected_level": "info",
+        "host": "vm-linux",
+        "level": "INFO",
+        "service": "node-exporter",
+        "service_name": "node-exporter",
+        "source": "host-file"
+      },
+      "line": "time=2026-10-28T01:21:28.991Z level=INFO source=filesystem_common.go:292 msg=\"Parsed flag --collector.filesystem.fs-types-exclude\" collector=filesystem flag=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|erofs|sysfs|tracefs)$"
+    }
+  ]
+}

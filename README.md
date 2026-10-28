@@ -170,3 +170,4 @@ Get-Content outputs/practice-chunks/chunked-report.json
 - [Gói model cho serving CI](docs/serving-release.md) và [version pin giữa hai API](docs/versioned-serving.md):220PCtests/2POSIXskips, coverage100%,128HTTPfixturepredictions/0fail. Chưa mutation/imagebuild/nativeCIrollout cho mã mới.
 
 - [Theo dõi tài nguyên host](docs/host-monitoring.md): Windows PC và Linux VM đều có exporter/Prometheus/Grafana thật,9panel/11query mỗi engine, phép tính độc lập từ mẫu gốc và ảnh. Linux có21file proof/9source bindings,8CPU và ba filesystem khớp OS; không quy toàn bộ tải host cho một job.
+- [Tra cứu log trên VM](docs/log-monitoring.md): Loki/Alloy/Grafana thực,237dòng từ ba dịch vụ host và hai API khớp cả nội dung/nhãn/timestamp;164mẫu đếm theo cửa sổ được tính lại độc lập. Giữ lượt lỗi19timestamp và kiểm lại sau restart collector;58file proof/hai ảnh gốc. Chưa tự theo Pod mới hoặc distributed traces.

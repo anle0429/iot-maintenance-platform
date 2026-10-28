@@ -1,0 +1,18 @@
+{
+  "apiVersion": 1,
+  "datasources": [
+    {
+      "uid": "iot-logs-loki",
+      "name": "IoT private Loki",
+      "type": "loki",
+      "access": "proxy",
+      "url": "http://127.0.0.1:13100",
+      "isDefault": false,
+      "editable": false,
+      "jsonData": {
+        "maxLines": 1000,
+        "timeout": 30
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+logging { level = "info" }
+
+loki.write "local" {
+  endpoint { url = "http://127.0.0.1:13100/loki/api/v1/push" }
+}
+
+loki.source.file "host_0" {
+  targets = [{__path__ = "/srv/iot-data/workspace/iot-maintenance-platform/outputs/linux-monitoring-28/node-exporter.txt", host = "vm-linux", collection = "native-28-keep", service = "node-exporter", source = "host-file"}]
+  forward_to = [loki.process.host_0.receiver]
+}
+loki.process "host_0" {
+  forward_to = [loki.relabel.paths.receiver]
+  stage.logfmt { mapping = { event_time = "time", level = "level" } }
+  stage.timestamp {
+    source = "event_time"
+    format = "RFC3339Nano"
+    action_on_failure = "skip"
+    action_on_duplicate_timestamp = "keep"
+  }
+  stage.labels { values = { level = "" } }
+}
+
+loki.source.file "host_1" {
+  targets = [{__path__ = "/srv/iot-data/workspace/iot-maintenance-platform/outputs/linux-monitoring-28/prometheus.txt", host = "vm-linux", collection = "native-28-keep", service = "prometheus", source = "host-file"}]
+  forward_to = [loki.process.host_1.receiver]
+}
+loki.process "host_1" {
+  forward_to = [loki.relabel.paths.receiver]
+  stage.logfmt { mapping = { event_time = "time", level = "level" } }
+  stage.timestamp {
+    source = "event_time"
+    format = "RFC3339Nano"
+    action_on_failure = "skip"
+    action_on_duplicate_timestamp = "keep"
+  }
+  stage.labels { values = { level = "" } }
+}
+
+loki.source.file "host_2" {
+  targets = [{__path__ = "/srv/iot-data/workspace/iot-maintenance-platform/outputs/linux-monitoring-28/grafana.txt", host = "vm-linux", collection = "native-28-keep", service = "grafana", source = "host-file"}]
+  forward_to = [loki.process.host_2.receiver]
+}
+loki.process "host_2" {
+  forward_to = [loki.relabel.paths.receiver]
+  stage.logfmt { mapping = { event_time = "t", level = "level" } }
+  stage.timestamp {
+    source = "event_time"
+    format = "RFC3339Nano"
+    action_on_failure = "skip"
+    action_on_duplicate_timestamp = "keep"
+  }
+  stage.labels { values = { level = "" } }
+}
+
+loki.source.file "applications" {
+  targets = [{__path__ = "/var/log/pods/iot-serving_iot-pump-failure-v1-predictor-774894bdbb-7zb26_fd798fe2-0ac3-4a94-8426-d5a7fb352592/kserve-container/0.log", host = "vm-linux", collection = "native-28-keep", source = "cri", service = "predictor", namespace = "iot-serving", pod = "iot-pump-failure-v1-predictor-774894bdbb-7zb26", container = "kserve-container"},
+    {__path__ = "/var/log/pods/iot-features_iot-feature-api-59fc84bc69-725jd_3a7dee3e-458e-49d0-84f3-d438c925a604/api/0.log", host = "vm-linux", collection = "native-28-keep", source = "cri", service = "feature-api", namespace = "iot-features", pod = "iot-feature-api-59fc84bc69-725jd", container = "api"}]
+  forward_to = [loki.process.applications.receiver]
+}
+loki.process "applications" {
+  forward_to = [loki.relabel.paths.receiver]
+  stage.cri {}
+}
+loki.relabel "paths" {
+  forward_to = [loki.write.local.receiver]
+  rule {
+    action = "labeldrop"
+    regex = "filename"
+  }
+}

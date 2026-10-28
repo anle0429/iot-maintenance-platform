@@ -1,0 +1,64 @@
+{
+  "started": true,
+  "ready_verified": false,
+  "checked_utc": "2026-10-28T02:24:07.502803+00:00",
+  "units": {
+    "loki": {
+      "unit": "iot-loki-28.service",
+      "user": "nobody",
+      "requested_memory": "1536M",
+      "requested_cpu": "100%",
+      "command": [
+        "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-assets-28/loki-linux-amd64",
+        "-config.file=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-ci4/loki.yaml"
+      ],
+      "write_directory": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-ci4/loki"
+    },
+    "alloy": {
+      "unit": "iot-alloy-28.service",
+      "user": "root",
+      "requested_memory": "768M",
+      "requested_cpu": "50%",
+      "command": [
+        "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-assets-28/alloy-linux-amd64",
+        "run",
+        "--disable-reporting",
+        "--server.http.listen-addr=127.0.0.1:12345",
+        "--storage.path=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-ci4/alloy",
+        "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-ci4/config.alloy"
+      ],
+      "write_directory": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-ci4/alloy"
+    }
+  },
+  "grafana_reload": {
+    "status": 200,
+    "body": {
+      "message": "Datasources config reloaded"
+    }
+  },
+  "datasource": {
+    "id": 3,
+    "uid": "iot-logs-loki",
+    "orgId": 1,
+    "name": "IoT private Loki",
+    "type": "loki",
+    "typeLogoUrl": "public/plugins/loki/img/loki_icon.svg",
+    "access": "proxy",
+    "url": "http://127.0.0.1:13100",
+    "user": "",
+    "database": "",
+    "basicAuth": false,
+    "basicAuthUser": "",
+    "withCredentials": false,
+    "isDefault": false,
+    "jsonData": {
+      "maxLines": 1000,
+      "timeout": 30
+    },
+    "secureJsonFields": {},
+    "version": 1,
+    "readOnly": true,
+    "apiVersion": ""
+  },
+  "scope": "New bounded private Loki/Alloy units and one datasource/dashboard only. Existing CI/monitor units unchanged; raw log readbacks still required. Alloy needs root ownership access to observed CRI files, with no capabilities and a read-only filesystem except its own positions/WAL directory."
+}

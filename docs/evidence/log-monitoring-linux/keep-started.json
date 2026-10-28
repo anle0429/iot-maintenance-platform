@@ -1,0 +1,43 @@
+{
+  "started": true,
+  "readbacks_verified": false,
+  "checked_utc": "2026-10-28T02:36:36.852063+00:00",
+  "source": {
+    "commit": "12d1374e25ab4f69f257c35d627286243d0be29c",
+    "files": {
+      "ml/__init__.py": "f72c7b8641a6376aa7bac523df071c3205a7c21276534aeb6aa9b32412890e98",
+      "ml/log_monitoring.py": "0eb1177f6becfe42b3a622d90f25191f12c9abd816ae8da0d72b00a75adb1f38",
+      "scripts/prepare-log-monitoring.py": "35b8ac38bfab2261614117c48bdc417a0cb7b1908d4b18d70ad5acd19d04d3b3",
+      "infra/monitoring/logging-assets.json": "cfd52541370d5d784c0cf61f5f9477dc584205372624aee558325ea557679f99",
+      "tests/__init__.py": "b9286bc9f14709c0c5dbce4e5d1d2fb586e43df7e69e5452068b6d8393aafd77",
+      "tests/test_log_monitoring.py": "f9f1e949cd5f0eec13a3ff007c05882bc5cd23d672a98278a968d926de4fbfa2",
+      "tests/log_monitoring_oracle.py": "cd1f1eaf93eaf0711a486e4c8b25e4b2a6edb2c329d92cd5da9b8af26ce84256",
+      "tests/test_log_monitoring_oracle.py": "944da7c8b8cce9694600d6e903f43f360464d1fb7a50b93b3db907eb88b503e6"
+    },
+    "archive_sha256": "edc3d3fd7edf1c1696926b4f27cc3aab1a4cc28575350ad7d93c7ccd2a2d9f00"
+  },
+  "runtime": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-keep",
+  "collection": "native-28-keep",
+  "alloy_unit": "iot-alloy-28-keep.service",
+  "alloy_command": [
+    "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-assets-28/alloy-linux-amd64",
+    "run",
+    "--disable-reporting",
+    "--server.http.listen-addr=127.0.0.1:12345",
+    "--storage.path=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-keep/alloy",
+    "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-keep/config.alloy"
+  ],
+  "old_alloy_pid": 390968,
+  "old_alloy_stopped": true,
+  "loki_unit_unchanged": "iot-loki-28.service",
+  "loki_data_unchanged": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-ci4/loki",
+  "loki_config_sha256": "f85a3330f669be38273afbdb4d6f2c10782afc892cd917716008bf6fe18b15e0",
+  "config_sha256": {
+    "grafana-datasource.yaml": "a08d8373d45fe11daeed682aed603433e6902b5f57bc08e6eb9b764bbb9694ca",
+    "sources.json": "74d3eeabdfda0c3f6425b674c81427d59e36999e991372936474269b6c2bd3cc",
+    "dashboard.json": "0e6f5fd949a1a899263f4a0af5f01e1d2d064b3b822b73938c47c46b6db86c53",
+    "loki.yaml": "f85a3330f669be38273afbdb4d6f2c10782afc892cd917716008bf6fe18b15e0",
+    "config.alloy": "d6f0328161a7ceee79f8ff7945469174f6501956697984d354320eda214238eb"
+  },
+  "scope": "Explicit keep policy instead of the observed Alloy default +1ns tie ordering. Fresh positions and a declared collection label preserve earlier data/configuration and the failed strict comparison. No API/CI/VM setting changed."
+}

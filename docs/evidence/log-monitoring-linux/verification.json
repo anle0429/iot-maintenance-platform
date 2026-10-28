@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T02:38:16.869477+00:00",
+  "records_in_raw_sources": 237,
+  "query_counts": {
+    "loki": {
+      "all": 237,
+      "host": 229,
+      "applications": 8,
+      "panel1": {
+        "returned_samples": 80,
+        "positive_samples": 80,
+        "groups": 5
+      },
+      "panel2": {
+        "returned_samples": 2,
+        "positive_samples": 2,
+        "groups": 2
+      },
+      "after_restart": 237
+    },
+    "grafana": {
+      "all": 237,
+      "host": 229,
+      "applications": 8,
+      "panel1": {
+        "returned_samples": 80,
+        "positive_samples": 80,
+        "groups": 5
+      },
+      "panel2": {
+        "returned_samples": 2,
+        "positive_samples": 2,
+        "groups": 2
+      },
+      "after_restart": 237
+    }
+  },
+  "source_services": [
+    "feature-api",
+    "grafana",
+    "node-exporter",
+    "predictor",
+    "prometheus"
+  ],
+  "alloy_pid_before": 427648,
+  "alloy_pid_after": 433358,
+  "collection": "native-28-keep",
+  "scope": "Exact raw timestamped source records/labels/messages and60s arithmetic for five declared files through native Loki and Grafana proxy; same fixed-window readback after own collector restart. No exactly-once ingestion, automatic Pod discovery, retention expiry, distributed traces or full-platform log claim."
+}

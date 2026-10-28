@@ -1,0 +1,56 @@
+[
+  {
+    "file": "source-0.log",
+    "kind": "host-file",
+    "labels": {
+      "host": "vm-linux",
+      "service": "node-exporter",
+      "source": "host-file"
+    },
+    "time_key": "time"
+  },
+  {
+    "file": "source-1.log",
+    "kind": "host-file",
+    "labels": {
+      "host": "vm-linux",
+      "service": "prometheus",
+      "source": "host-file"
+    },
+    "time_key": "time"
+  },
+  {
+    "file": "source-2.log",
+    "kind": "host-file",
+    "labels": {
+      "host": "vm-linux",
+      "service": "grafana",
+      "source": "host-file"
+    },
+    "time_key": "t"
+  },
+  {
+    "file": "source-3.log",
+    "kind": "cri",
+    "labels": {
+      "host": "vm-linux",
+      "source": "cri",
+      "service": "predictor",
+      "namespace": "iot-serving",
+      "pod": "iot-pump-failure-v1-predictor-774894bdbb-7zb26",
+      "container": "kserve-container"
+    }
+  },
+  {
+    "file": "source-4.log",
+    "kind": "cri",
+    "labels": {
+      "host": "vm-linux",
+      "source": "cri",
+      "service": "feature-api",
+      "namespace": "iot-features",
+      "pod": "iot-feature-api-59fc84bc69-725jd",
+      "container": "api"
+    }
+  }
+]

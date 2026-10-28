@@ -1,0 +1,58 @@
+{
+  "prepared": true,
+  "services_started": false,
+  "checked_utc": "2026-10-28T02:22:39.457546+00:00",
+  "source": {
+    "commit": "3b8496a8856ceb7b4cd0a529b38cd54928513ba8",
+    "files": {
+      "infra/monitoring/logging-assets.json": "cfd52541370d5d784c0cf61f5f9477dc584205372624aee558325ea557679f99",
+      "ml/__init__.py": "f72c7b8641a6376aa7bac523df071c3205a7c21276534aeb6aa9b32412890e98",
+      "ml/log_monitoring.py": "fad770b34dd30175433fbbd30c83e46f6a0213e90a887c625b43bb0b46f91e37",
+      "scripts/prepare-log-monitoring.py": "1fe4ebecc8ec2220b6ce0ec9af1afcf5455aff1b659596ec87d6e385e8ad795a",
+      "tests/__init__.py": "b9286bc9f14709c0c5dbce4e5d1d2fb586e43df7e69e5452068b6d8393aafd77",
+      "tests/test_log_monitoring.py": "59538cbfc22e9af993cd52b2492beb99dc51b8501d0c1a6ed9f0c46b6a9b41cc"
+    },
+    "archive_sha256": "f0feca1feb138f7f5f199fd7861157aba8168dc57cb71f5f8e0ae7cf5572e5a9"
+  },
+  "downloads": [
+    {
+      "project": "loki",
+      "version": "v3.7.9",
+      "name": "loki-linux-amd64.zip",
+      "size": 46293622,
+      "sha256": "17a5fae28ce733b3560c27c76620920b169bd2aea9473947b733b511f92e81dd",
+      "url": "https://github.com/grafana/loki/releases/download/v3.7.9/loki-linux-amd64.zip",
+      "metadata_url": "https://api.github.com/repos/grafana/loki/releases/tags/v3.7.9",
+      "published_at": "2026-10-20T22:53:57Z",
+      "binary": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-assets-28/loki-linux-amd64",
+      "binary_bytes": 156897442,
+      "binary_sha256": "396cd73aa3520f00c874214e97b08a91e84e2e96f48e7153b11aa9b34b4a2ddd",
+      "seconds": 2.905039295000279
+    },
+    {
+      "project": "alloy",
+      "version": "v1.21.2",
+      "name": "alloy-linux-amd64.zip",
+      "size": 169396128,
+      "sha256": "1eadb46a0640127184250173acd9b4145e4d590680db37ffe66fa8afd07f04cf",
+      "url": "https://github.com/grafana/alloy/releases/download/v1.21.2/alloy-linux-amd64.zip",
+      "metadata_url": "https://api.github.com/repos/grafana/alloy/releases/tags/v1.21.2",
+      "published_at": "2026-10-22T23:47:12Z",
+      "binary": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-assets-28/alloy-linux-amd64",
+      "binary_bytes": 568969480,
+      "binary_sha256": "8cc367523e0d2777683acf00d84c5556a18ff74f74c137a2f4a87605b8b86db4",
+      "seconds": 12.872216647000641
+    }
+  ],
+  "runtime": "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/logging-28-ci4",
+  "host_files": 3,
+  "application_files": 2,
+  "alloy_requires_root_for_cri": true,
+  "config_sha256": {
+    "grafana-datasource.yaml": "a08d8373d45fe11daeed682aed603433e6902b5f57bc08e6eb9b764bbb9694ca",
+    "sources.json": "c3105f4c346c0f5c04bebcb9f22e1a8f9b1bdfe4196499cf7c1f9bb11f3b3b85",
+    "dashboard.json": "090e0f34b99e0ab93bc8a6ddeb1df56561c37638462e08dce5d973548cddb6f3",
+    "loki.yaml": "f85a3330f669be38273afbdb4d6f2c10782afc892cd917716008bf6fe18b15e0",
+    "config.alloy": "7fc35eea4911454e3b347492994ce31adbf0674373674522af587dbaa78529c7"
+  }
+}
