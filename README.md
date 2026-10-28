@@ -26,6 +26,8 @@ S1–S4 là hai job độc lập được CI triển khai; cửa sổ nguồn l�
 
 [Gateway private NGINX](docs/private-gateway.md) đã4tuyến metrics/logs/trace/features, Basic auth/HTTPS/rate limit thực:8lần401,4redirect308,32burst6HTTP200/26HTTP429 rồi phục hồi.86payload/bốn ảnh gốc; domain `.test` trong lab với CA riêng, chưa publicDNS/browsertrust.
 
+[Vault native](docs/vault.md) có hai consumer AppRole thực: Jenkins đăng nhập Airflow từ secret lấy lúc chạy, gateway đổi mật khẩu bản 2. Đọc chéo/token đã thu hồi bị 403, CAS cũ bị 400, restart giữ dữ liệu và quyền. 81 payload/hai ảnh gốc; phạm vi một VM/một operator, chưa migration mọi secret/HA/auto-unseal.
+
 ## Mục lục
 
 - [Phạm vi và dữ liệu](docs/domain-proposal.md)
@@ -62,6 +64,7 @@ S1–S4 là hai job độc lập được CI triển khai; cửa sổ nguồn l�
 - [Làm mới feature thật và kiểm lại model6 sau retrain](docs/active-feature-refresh.md)
 - [Metrics/traces API: dashboard và trace native đã kiểm](docs/api-observability.md)
 - [Locust trên wrapper: SLA, replica và bằng chứng gốc](docs/observed-api-load.md)
+- [Vault: quyền đọc riêng, rotation và dữ liệu bền sau restart](docs/vault.md)
 - [Gateway private: authentication, rate limit và HTTPS](docs/private-gateway.md)
 - [CI hai job stream offline/online](docs/ci-stream-push.md)
 - [CI telemetry: test/build/auto-deploy cùng model production](docs/ci-api-observability.md)
@@ -147,6 +150,11 @@ flowchart LR
     Airflow -->|S2 retained finalized-window snapshot| StreamOffline[Stream offline job container]
     StreamOffline -->|S3 verified release qua HDD read-only| StreamOnline[Stream online job container]
     StreamOnline -->|S4 latest monitoring vectors| Redis
+    Jenkins -->|V1 AppRole và đọc credential CI| Vault[Vault Raft process - HDD state]
+    Vault -->|V2 short token và credential Airflow| Jenkins
+    VaultSync[Gateway credential sync job] -->|V3 AppRole và đọc KV2| Vault
+    Vault -->|V4 gateway credential version| VaultSync
+    VaultSync -->|V5 auth Secret update được controller watch| Gateway
     Jenkins -->|C1 submit training CI| KFP[Kubeflow API Deployment]
     KFP -->|T1 điều phối năm task| Training[KFP ML task pods]
     Spark -->|T2 offline feature qua HDD và Feast| Training
@@ -191,6 +199,8 @@ flowchart LR
     class Gateway,API,Redis,Predictor,AB,Old,Drift,EventDrift,EventIngress,IMC,EventFilter serving;
     class Generator,Spark,Airflow,Materialize,Metadata,DataHub,BatchRedis,Training,Executors,KFP,MLflow,Jenkins,Retrain,EventPub,StreamOffline,StreamOnline data;
     class DriftJob,PG,Prom,Node,Grafana,Alloy,Loki,Jaeger monitor;
+    classDef security fill:#eee0f6,stroke:#75408d,color:#111;
+    class Vault,VaultSync security;
 ```
 
 Sơ đồ tóm tắt các lượt đã có bằng chứng, không có nghĩa mọi job chạy đồng thời. Spark100GB mới có Bronze/Silver; feature/training dùng nguồn60ngày riêng. Đường U hiện pin model6 sauCI8/source99d6dcc; C3–C7 đã chạy thật với gate cache TTL/context và pod identities. A/B tạm giữ mỗi predictor1replica rồi restore1..2; chưa HA nhiều máy. SQLite nằm trong volume HDD của router với PV/PVC Retain. [Tracker](docs/final-rubric-tracker.md) và [kiến trúc chi tiết](docs/architecture.md) ghi phạm vi còn thiếu. Kafka/Flink/push và metadata dependencies có sơ đồ/receipt riêng trong docs; chúng không được suy ra đã nằm trên luồng U.

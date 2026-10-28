@@ -117,3 +117,8 @@ docs/evidence/ci-stream-push/** -text -whitespace
 
 # Preserve native private gateway receipts and original UI images byte-for-byte.
 docs/evidence/private-gateway-linux/** -text -whitespace
+
+# Preserve native Vault reports/audit selections and original screenshots.
+docs/evidence/vault-linux/** -text -whitespace
+infra/security/*.hcl text eol=lf
+infra/ci/VaultAccess.Jenkinsfile text eol=lf

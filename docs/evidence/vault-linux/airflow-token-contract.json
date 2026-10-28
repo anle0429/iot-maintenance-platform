@@ -1,0 +1,56 @@
+{
+  "openapi_url": "http://127.0.0.1:18480/auth/openapi.json",
+  "mounted_route": "/auth/token",
+  "responses": {
+    "201": {
+      "description": "Successful Response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/LoginResponse"
+          }
+        }
+      }
+    },
+    "400": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/HTTPExceptionResponse"
+          }
+        }
+      },
+      "description": "Bad Request"
+    },
+    "401": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/HTTPExceptionResponse"
+          }
+        }
+      },
+      "description": "Unauthorized"
+    },
+    "415": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/HTTPExceptionResponse"
+          }
+        }
+      },
+      "description": "Unsupported Media Type"
+    },
+    "422": {
+      "description": "Validation Error",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/HTTPValidationError"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "request_id": "f6b0a89e-89b3-0d21-7b0a-705d30295b91",
+  "lease_id": "",
+  "renewable": false,
+  "lease_duration": 0,
+  "data": {
+    "name": "iot-ci",
+    "policy": "# Read only the Airflow identity used by Jenkins; no gateway or metadata listing.\npath \"iot/data/ci/airflow\" { capabilities = [\"read\"] }\npath \"auth/token/revoke-self\" { capabilities = [\"update\"] }\n"
+  },
+  "wrap_info": null,
+  "warnings": null,
+  "auth": null,
+  "mount_type": "system"
+}

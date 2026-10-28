@@ -1,0 +1,26 @@
+{
+  "ci": {
+    "policy": "iot-ci",
+    "token_policies": [
+      "iot-ci"
+    ],
+    "token_no_default_policy": true,
+    "token_ttl": 300,
+    "token_max_ttl": 900,
+    "secret_id_ttl": 11495,
+    "secret_id_num_uses": 20,
+    "bind_secret_id": true
+  },
+  "gateway": {
+    "policy": "iot-gateway",
+    "token_policies": [
+      "iot-gateway"
+    ],
+    "token_no_default_policy": true,
+    "token_ttl": 300,
+    "token_max_ttl": 900,
+    "secret_id_ttl": 11495,
+    "secret_id_num_uses": 20,
+    "bind_secret_id": true
+  }
+}

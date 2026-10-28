@@ -1,0 +1,69 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/iot-vault-access
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 10 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare sealed Vault consumer source)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test private transport and redaction contracts)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-vault-access/build-1
+[Pipeline] {
+[Pipeline] sh
++ python3 -m unittest tests.test_vault_client -v
+test_cannot_read_without_login_or_escape_kv_path (tests.test_vault_client.VaultClientTests.test_cannot_read_without_login_or_escape_kv_path) ... ok
+test_secret_bearing_errors_are_redacted (tests.test_vault_client.VaultClientTests.test_secret_bearing_errors_are_redacted) ... ok
+test_unsafe_endpoint_partitions_and_credential_shape (tests.test_vault_client.VaultClientTests.test_unsafe_endpoint_partitions_and_credential_shape) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.024s
+
+OK
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Read narrow Vault secret and authenticate actual Airflow)
+[Pipeline] withCredentials
+Masking supported pattern matches of $IOT_VAULT_APPROLE
+[Pipeline] {
+[Pipeline] sh
++ set +x
+Traceback (most recent call last):
+  File "/src/scripts/vault-ci-consumer.py", line 34, in <module>
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--address',required=True);p.add_argument('--ca',type=Path,required=True);p.add_argument('--output',type=Path,required=True);run(p.parse_args())
+                                                                                                                                                                                               ^^^^^^^^^^^^^^^^^^^
+  File "/src/scripts/vault-ci-consumer.py", line 16, in run
+    assert r.status==200;token=json.load(r)['access_token']
+           ^^^^^^^^^^^^^
+AssertionError
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] archiveArtifacts
+Archiving artifacts
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE

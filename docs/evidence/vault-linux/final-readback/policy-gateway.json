@@ -1,0 +1,14 @@
+{
+  "request_id": "a27fcf2f-b603-da3e-3d56-7d7a3451bdaf",
+  "lease_id": "",
+  "renewable": false,
+  "lease_duration": 0,
+  "data": {
+    "name": "iot-gateway",
+    "policy": "# Read only gateway Basic credentials; no CI credentials or secret modification.\npath \"iot/data/gateway/basic\" { capabilities = [\"read\"] }\npath \"auth/token/revoke-self\" { capabilities = [\"update\"] }\n"
+  },
+  "wrap_info": null,
+  "warnings": null,
+  "auth": null,
+  "mount_type": "system"
+}

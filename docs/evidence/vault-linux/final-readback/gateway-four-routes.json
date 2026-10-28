@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T20:16:21.163578+00:00",
+  "consumer_policy": "iot-gateway",
+  "lease": {
+    "lease_duration": 300,
+    "renewable": true,
+    "token_policies": [
+      "iot-gateway"
+    ]
+  },
+  "secret_version": 2,
+  "routes": [
+    {
+      "host": "metrics.iot.test",
+      "path": "/api/health",
+      "statuses": {
+        "old": 401,
+        "new": 200
+      },
+      "tls": "TLSv1.3",
+      "ca_and_hostname_required": true
+    },
+    {
+      "host": "logs.iot.test",
+      "path": "/api/dashboards/uid/iot-linux-logs",
+      "statuses": {
+        "old": 401,
+        "new": 200
+      },
+      "tls": "TLSv1.3",
+      "ca_and_hostname_required": true
+    },
+    {
+      "host": "traces.iot.test",
+      "path": "/api/v3/services",
+      "statuses": {
+        "old": 401,
+        "new": 200
+      },
+      "tls": "TLSv1.3",
+      "ca_and_hostname_required": true
+    },
+    {
+      "host": "features.iot.test",
+      "path": "/v1/machines/P-001/features",
+      "statuses": {
+        "old": 401,
+        "new": 200
+      },
+      "tls": "TLSv1.3",
+      "ca_and_hostname_required": true
+    }
+  ],
+  "scope": "Read-only post-restart verification, old/new actual passwords on all4hosts; no rewrites, auth bypass or credentials archived."
+}

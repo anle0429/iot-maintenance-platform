@@ -160,3 +160,5 @@ Tổng điểm thô đối chiếu với các ô số: 100; số tiêu chí có 
 Tổng điểm thô đối chiếu với các ô số: 100; số tiêu chí có điểm: 55.
 
 Gateway28/10 theo final F38–F43: [private native proof](private-gateway.md),86payload/4ảnhgốc;4virtualhosts/Basic/rate/CA+SNI. Tracker93dòng giữ nguyên source; không suy publicDNS hoặc browser-trustedTLS từ ảnh qua review bridge.
+
+Security28/10: [Vault native](vault.md) theo final F54, hai consumer AppRole/deny/rotation/restart,81payload/2ảnh gốc. Giữ source93dòng cũ; chưa migration toànrepo.

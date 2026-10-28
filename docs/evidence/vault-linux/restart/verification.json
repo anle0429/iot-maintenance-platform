@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T20:09:22.304110+00:00",
+  "before_http": 200,
+  "after_restart_sealed_http": 503,
+  "after_unseal_http": 200,
+  "same_cluster_id": "63e1d9cc-7eb1-c7a7-a48d-b11a3ac107f9",
+  "ci_version": 1,
+  "gateway_version": 2,
+  "exact_private_values_preserved": true,
+  "audit_selected_records": 22,
+  "scope": "One real controlled service restart, persistent Raft stays initialized, manual one-share lab unseal, original AppRoles and secret versions/values survive. No reinitialization, root consumer or HA/zero-downtime claim."
+}

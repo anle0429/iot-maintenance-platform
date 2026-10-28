@@ -1,0 +1,17 @@
+[Unit]
+Description=IoT private non-dev Vault2.2.1 Raft
+After=network-online.target
+[Service]
+User=nobody
+Group=nogroup
+ExecStart=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/vault-assets-28/vault server -config=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/vault-server-28/vault.hcl
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/vault-state-28
+MemoryMax=768M
+MemorySwapMax=0
+CPUQuota=100%
+Restart=on-failure
+RestartSec=5

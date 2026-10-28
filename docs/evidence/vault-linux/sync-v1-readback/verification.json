@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-28T20:07:10.155178+00:00",
+  "consumer": "Gateway credential sync",
+  "authentication": "AppRole",
+  "policy": "iot-gateway",
+  "lease": {
+    "lease_duration": 300,
+    "renewable": true,
+    "token_policies": [
+      "iot-gateway"
+    ]
+  },
+  "secret_path": "iot/data/gateway/basic",
+  "secret_version": 1,
+  "cross_ci_read_http": 403,
+  "secret_uids": {
+    "iot-gateway": "8db94958-985d-4774-86e4-84047602283f",
+    "iot-features": "4ee35ed0-a10c-4268-bfac-95da5b6a1924",
+    "iot-observability": "d87bfad8-4587-44e8-b4df-d7f5a3ee9d97"
+  },
+  "new_password_http": 200,
+  "old_password_http": 200,
+  "password_changed": false,
+  "reload_attempts_http": [
+    200
+  ],
+  "read_only_resume": true,
+  "scope": "Actual Vault KV2 read by gateway-only identity, Kubernetes Secret sync and authenticated verified HTTPS probe. Root Vault token is never used by this consumer; private values/backups excluded from evidence."
+}
