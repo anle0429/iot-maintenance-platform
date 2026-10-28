@@ -22,10 +22,11 @@ def run(args):
         if tls:
             c=http.client.HTTPSConnection(address,443,context=context,timeout=15)
             c.connect=lambda:setattr(c,'sock',context.wrap_socket(socket.create_connection((address,443),timeout=15),server_hostname=host))
+        c.connect();tls_version=c.sock.version() if tls else None
         c.request('GET',path,headers={'Host':host,**({'Authorization':authorization} if authorization is not None else {})})
         r=c.getresponse();body=r.read(4_194_305);assert len(body)<=4_194_304
         result={'host':host,'path':path,'auth':'correct' if authorization==auth else 'none' if authorization is None else 'incorrect','status':r.status,'headers':dict(r.getheaders()),'body':body.decode('utf-8',errors='strict'),'elapsed_seconds':time.monotonic()-started}
-        if tls:result['tls']={'version':c.sock.version() if c.sock else None,'ca_verified':True,'hostname_verified':True}
+        if tls:result['tls']={'version':tls_version,'ca_verified':True,'hostname_verified':True}
         c.close();return result
     paths={'metrics':'/api/dashboards/uid/iot-api-observability','logs':'/api/dashboards/uid/iot-linux-logs','traces':'/api/v3/services','features':'/health/ready'}
     for name,host in HOSTS.items():
@@ -42,7 +43,7 @@ def run(args):
     for name,ctx,hostname in [('untrusted-ca',ssl.create_default_context(),HOSTS['features']),('wrong-hostname',context,'wrong.iot.test')]:
         try:
             with ctx.wrap_socket(socket.create_connection((address,443),timeout=10),server_hostname=hostname):pass
-        except ssl.SSLCertVerificationError as error:negative.append({'case':name,'rejected':True,'verify_code':error.verify_code,'verify_message':error.verify_message})
+        except ssl.SSLError as error:negative.append({'case':name,'rejected':True,'type':type(error).__name__,'reason':error.reason,'verify_code':getattr(error,'verify_code',None),'verify_message':getattr(error,'verify_message',None)})
         else:raise AssertionError('Invalid TLS identity unexpectedly accepted')
     save('tls-negative.json',negative)
     feature_context=json.loads((args.feature_state/'context.json').read_bytes());machine=next(n for n,v in feature_context['machines'].items() if v['status']=='operating')

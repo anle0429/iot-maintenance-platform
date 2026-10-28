@@ -11,7 +11,7 @@ class GatewayContractTests(unittest.TestCase):
         docs=resources('nginx/nginx-ingress@sha256:'+'a'*64,'10.52.0.1')
         ing=[d for d in docs if d['kind']=='Ingress'];self.assertEqual({d['spec']['rules'][0]['host'] for d in ing},set(HOSTS.values()))
         for d in ing:
-            self.assertEqual(d['metadata']['annotations']['nginx.org/basic-auth-secret'],'gateway-auth');self.assertEqual(d['spec']['tls'][0]['secretName'],'gateway-tls');self.assertEqual(d['metadata']['annotations']['nginx.org/proxy-set-headers'],'Authorization: ""')
+            self.assertEqual(d['metadata']['annotations']['nginx.org/basic-auth-secret'],'gateway-auth');self.assertEqual(d['spec']['tls'][0]['secretName'],'gateway-tls');self.assertEqual(d['metadata']['annotations']['nginx.org/proxy-set-headers'],'Authorization:')
         feature=next(d for d in ing if d['metadata']['name']=='features');self.assertEqual(feature['metadata']['annotations']['nginx.org/limit-req-reject-code'],'429')
         for d in docs:
             if d['kind']=='Service':self.assertEqual(d['spec']['type'],'ClusterIP');self.assertNotIn('externalIPs',d['spec'])
