@@ -20,8 +20,8 @@ pipeline {
 import os,json,hashlib,pathlib
 r=pathlib.Path('build-'+os.environ['BUILD_NUMBER']);seal=json.loads((pathlib.Path(os.environ['IOT_DEPLOY_ROOT'])/'data/ci/source'/os.environ['IOT_CI_COMMIT']/'manifest.json').read_bytes())
 for n,h in seal['files'].items():assert hashlib.sha256((r/n).read_bytes()).hexdigest()==h
-(r/'out/source-before.json').write_text(json.dumps(seal,indent=2)+'\n')
-asset=json.loads((r/'infra/policy/opa-assets.json').read_bytes());binary=pathlib.Path(os.environ['IOT_DEPLOY_ROOT'])/'data/runtime/policy-assets-28/opa';assert hashlib.sha256(binary.read_bytes()).hexdigest()==asset['sha256'];(r/'out/binary.json').write_text(json.dumps(asset,indent=2)+'\n')
+(r/'out/source-before.json').write_text(json.dumps(seal,indent=2)+chr(10))
+asset=json.loads((r/'infra/policy/opa-assets.json').read_bytes());binary=pathlib.Path(os.environ['IOT_DEPLOY_ROOT'])/'data/runtime/policy-assets-28/opa';assert hashlib.sha256(binary.read_bytes()).hexdigest()==asset['sha256'];(r/'out/binary.json').write_text(json.dumps(asset,indent=2)+chr(10))
 PY
         '''
       }
@@ -40,7 +40,7 @@ PY
           set +e
           docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges --user 10001:10001 --cpus 1 --memory 512m --memory-swap 512m --tmpfs /tmp:rw,nosuid,nodev,size=32m --mount "type=bind,src=$IOT_DEPLOY_ROOT/data/ci/source/$IOT_CI_COMMIT/tree,dst=/src,readonly" --mount "type=bind,src=$IOT_DEPLOY_ROOT/data/runtime/policy-assets-28/opa,dst=/opa,readonly" --entrypoint /opa iot-coursework-feast-versioned:0.67.0-3.17.2 eval --data /src/infra/policy/deployment.rego --data /src/infra/policy/approved.json --input "/src/tests/fixtures/$POLICY_INPUT" --fail --format=json 'data.iot.deployment.result.allowed == true' > "build-$BUILD_NUMBER/out/candidate-gate.stdout" 2> "build-$BUILD_NUMBER/out/candidate-gate.stderr"
           policy_exit=$?
-          printf '%s\n' "$policy_exit" > "build-$BUILD_NUMBER/out/candidate-gate.exit"
+          printf '%s' "$policy_exit" > "build-$BUILD_NUMBER/out/candidate-gate.exit"
           exit "$policy_exit"
         '''
       }
@@ -58,7 +58,7 @@ r=pathlib.Path('build-'+os.environ['BUILD_NUMBER']);path=r/'out/source-before.js
 if path.exists():
  seal=json.loads(path.read_bytes())
  for n,h in seal['files'].items():assert hashlib.sha256((r/n).read_bytes()).hexdigest()==h
- (r/'out/source-after.json').write_text(json.dumps(seal,indent=2)+'\n')
+ (r/'out/source-after.json').write_text(json.dumps(seal,indent=2)+chr(10))
 PY
       '''
       archiveArtifacts artifacts: "build-${env.BUILD_NUMBER}/out/**/*", allowEmptyArchive: true, fingerprint: true
