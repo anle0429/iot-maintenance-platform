@@ -63,6 +63,13 @@ class DriftMonitoringTests(unittest.TestCase):
         self.assertIn('time()-',panels[3]['targets'][0]['expr'])
         self.assertIn('SIMULATED',panels[4]['title']);self.assertIn('SIMULATED',panels[5]['title'])
         self.assertTrue(all('or vector(0)' not in p['targets'][0]['expr'] for p in panels))
+        # Grafana date units require milliseconds; source Prometheus metrics remain seconds.
+        for panel in panels[4:]:
+            self.assertTrue(panel['targets'][0]['expr'].endswith(' * 1000'))
+            self.assertEqual(panel['fieldConfig']['defaults']['unit'],'dateTimeAsIso')
+            self.assertEqual(panel['fieldConfig']['defaults']['color'],{'mode':'fixed','fixedColor':'blue'})
+        self.assertEqual(panels[2]['fieldConfig']['defaults']['unit'],'none')
+        self.assertEqual(panels[3]['fieldConfig']['defaults']['thresholds']['steps'][-1]['value'],600)
 
 
 if __name__=='__main__':unittest.main()

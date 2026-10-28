@@ -24,4 +24,6 @@ Code mới đã qua7unit kiểm clock mapping, train/data boundary, kích thư�
 python -m unittest tests.test_drift_monitoring tests.test_offline_drift_oracle -v
 ```
 
-Native Airflow/Feast/Pushgateway/Grafana đang được chuẩn bị; chưa có bằng chứng thành công từ mốc này. Manual probe phải gửi `interval_end_utc` rõ ràng; không dùng manual run làm bằng chứng scheduler tự chạy. Khoảng dữ liệu của một run do timetable xác định, không mặc định bằng thời điểm người dùng bấm chạy ([Airflow](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dag-run.html)).
+Lượt native đầu do scheduler tạo đã success; đang thu readback/ảnh và lượt định kỳ tiếp theo, chưa công bố capsule bằng chứng. Airflow3.1.7 thực tế chọn CronTriggerTimetable nên interval_start=end ở mốc trigger; job chỉ dùng endpoint đó để ánh xạ, không dùng độ dài interval làm cửa sổ feature. Manual probe phải gửi `interval_end_utc` rõ ràng; không dùng manual run làm bằng chứng scheduler tự chạy ([Airflow](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dag-run.html)).
+
+Kiểm UI phát hiện date unit đọc metric seconds thành milliseconds nên hiển thị1970. Dashboard đã sửa query nhân1.000 cho đúng [đơn vị ngày của Grafana](https://grafana.com/docs/grafana/latest/visualizations/panels-visualizations/configure-standard-options/); metric gốc giữ seconds. Count và event clocks dùng màu trung tính; chỉ tuổi kết quả≥600giây chuyển đỏ theo cadence5phút và một khoảng dự phòng5phút. Màu không đánh giá chất lượng mô hình.

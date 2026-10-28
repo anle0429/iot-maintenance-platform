@@ -84,18 +84,24 @@ def dashboard():
     expressions = [
         ('PSI by feature (fixed train reference)', 'iot_offline_drift_psi{job="iot_offline_drift"}', 'short'),
         ('Features flagged by declared policy', 'iot_offline_drift_feature_alert{job="iot_offline_drift"}', 'short'),
-        ('Unique snapshots sampled', 'iot_offline_drift_sample_rows{job="iot_offline_drift"}', 'short'),
+        ('Unique snapshots sampled', 'iot_offline_drift_sample_rows{job="iot_offline_drift"}', 'none'),
         ('Seconds since successful comparison', 'time()-iot_offline_drift_last_success_seconds{job="iot_offline_drift"}', 's'),
-        ('SIMULATED window start', 'iot_offline_drift_window_start_seconds{job="iot_offline_drift"}', 'dateTimeAsIso'),
-        ('SIMULATED window end (exclusive)', 'iot_offline_drift_window_end_seconds{job="iot_offline_drift"}', 'dateTimeAsIso')]
+        ('SIMULATED window start', 'iot_offline_drift_window_start_seconds{job="iot_offline_drift"} * 1000', 'dateTimeAsIso'),
+        ('SIMULATED window end (exclusive)', 'iot_offline_drift_window_end_seconds{job="iot_offline_drift"} * 1000', 'dateTimeAsIso')]
     panels = []
     for index, (title, expr, unit) in enumerate(expressions):
+        defaults = {'unit': unit, 'min': 0, 'color': {'mode': 'palette-classic'} if index < 2 else {'mode': 'fixed', 'fixedColor': 'blue'}}
+        if index == 2:
+            defaults['decimals'] = 0
+        if index == 3:
+            defaults.update(color={'mode': 'thresholds'}, thresholds={'mode': 'absolute',
+                'steps': [{'color': 'green', 'value': None}, {'color': 'red', 'value': 600}]})
         panels.append({'id': index + 1, 'title': title, 'type': 'timeseries' if index < 2 else 'stat',
             'datasource': {'type': 'prometheus', 'uid': 'iot-host-prometheus'},
             'gridPos': {'x': index % 2 * 12, 'y': index // 2 * 8, 'w': 12, 'h': 8},
             'targets': [{'refId': 'A', 'expr': expr, 'legendFormat': '{{feature}}'}],
-            'fieldConfig': {'defaults': {'unit': unit, 'min': 0}, 'overrides': []},
-            'options': {'reduceOptions': {'calcs': ['lastNotNull'], 'values': False}} if index >= 2 else {}})
+            'fieldConfig': {'defaults': defaults, 'overrides': []},
+            'options': {'reduceOptions': {'calcs': ['lastNotNull'], 'values': False}, 'graphMode': 'none', 'colorMode': 'value'} if index >= 2 else {}})
     return {'id': None, 'uid': 'iot-offline-drift', 'title': 'IoT offline drift / simulated replay',
         'schemaVersion': 39, 'version': 1, 'editable': False, 'timezone': 'utc', 'refresh': '5s',
         'description': 'Airflow reads immutable Feast offline features. Simulated windows after train; no labels, accuracy or automatic promotion. Pushgateway retains old gauges: inspect wall-clock freshness.',
