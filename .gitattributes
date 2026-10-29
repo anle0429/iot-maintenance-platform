@@ -16,6 +16,7 @@
 *.jsonl text eol=lf
 *.sql text eol=lf
 **/Dockerfile text eol=lf
+infra/mcp/Dockerfile.mutation text eol=lf
 *.Dockerfile text eol=lf
 *.dockerignore text eol=lf
 **/Jenkinsfile text eol=lf
@@ -155,5 +156,6 @@ docs/evidence/llm-inference/** -text -whitespace
 docs/evidence/rag-foundation/** -text -whitespace
 docs/evidence/llm-grounding/** -text -whitespace
 docs/evidence/rag-orchestration/** -text -whitespace
+docs/evidence/mcp-tools/** -text -whitespace
 # The authored source catalog is sealed by its exact uploaded bytes.
 knowledge/catalog.json -text -whitespace

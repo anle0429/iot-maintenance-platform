@@ -2,7 +2,7 @@
 
 This document describes the IoT lab implemented in this repository: the prediction request, the data and training jobs behind it, and the controls around deployment. The [README](../README.md#system-diagram) provides the platform overview; the [demo guide](demo-walkthrough.md) provides the operating commands.
 
-The selected coursework scope includes both final ML and final LLM/agents. This page describes recorded Data/ML behavior; the [LLM workstream](llm-agent-plan.md) is selected but not implemented.
+The selected coursework scope includes both final ML and final LLM/agents. This page describes recorded Data/ML behavior and the staged [LLM workstream](llm-agent-plan.md): inference, RAG and MCP have native evidence; agent integration remains open.
 
 ## Scope and runtime
 
@@ -152,4 +152,4 @@ The supplied rubrics govern scope. [Card Fraud Platform](https://github.com/cvin
 
 ![Staged LLM architecture: verified inference and planned agents](images/platform-llm-plan.png)
 
-The llm-d router and CPU backend have [native inference evidence](llm-inference.md). The [RAG pipeline](rag-orchestration.md) and [source-cited generation](llm-grounding.md) are separately verified; MCP and agent components remain in progress. See the [learning guide](llm-learning-guide.md), [workstream](llm-agent-plan.md), [source rubric](rubric-source.md) and [LLM tracker](final-llm-rubric-tracker.md). Shared ML APIs are integration points. The drawing itself is not runtime evidence.
+The llm-d router and CPU backend have [native inference evidence](llm-inference.md). The [RAG pipeline](rag-orchestration.md), [source-cited generation](llm-grounding.md) and [authenticated MCP services](mcp-tools.md) are separately verified; agent components remain in progress. See the [learning guide](llm-learning-guide.md), [workstream](llm-agent-plan.md), [source rubric](rubric-source.md) and [LLM tracker](final-llm-rubric-tracker.md). The drawing itself is not runtime evidence.

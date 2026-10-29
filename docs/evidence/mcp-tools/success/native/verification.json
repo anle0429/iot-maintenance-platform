@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-29T05:31:36.486210+00:00",
+  "run": "mcp-foundation-29e",
+  "image_id": "sha256:2db876341c06172523c67c7a230dfc888630a085ad7604f93fa2e474aadc4d6d",
+  "source_sha256": "cdec53766c3eb0ce7766de09b941497b4c8bceae8884632daabae78de08c9f6a",
+  "roles": [
+    "retrieval",
+    "drift"
+  ],
+  "replicas_per_role": 2,
+  "reference_id": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93",
+  "actual_native_mcp_probes": 4,
+  "controlled_atomic_rollbacks": 2,
+  "scope": "Native private MCP/REST tools and actual rollout/fallback. Agent runtime/registry/sandbox, mutation, load, CI and full LLM telemetry remain separate."
+}

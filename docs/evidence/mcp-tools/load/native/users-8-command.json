@@ -1,0 +1,21 @@
+[
+  "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/locust-venv/bin/locust",
+  "-f",
+  "/srv/iot-data/workspace/iot-maintenance-platform/data/llm-source/mcp-load-29a/tree/tests/load/mcp_retrieval.py",
+  "--headless",
+  "--host",
+  "http://10.53.42.150:8080",
+  "--users",
+  "8",
+  "--spawn-rate",
+  "8",
+  "--run-time",
+  "30s",
+  "--stop-timeout",
+  "5",
+  "--only-summary",
+  "--html",
+  "/srv/iot-data/workspace/iot-maintenance-platform/outputs/mcp-load-29a/users-8.html",
+  "--csv",
+  "/srv/iot-data/workspace/iot-maintenance-platform/outputs/mcp-load-29a/users-8"
+]

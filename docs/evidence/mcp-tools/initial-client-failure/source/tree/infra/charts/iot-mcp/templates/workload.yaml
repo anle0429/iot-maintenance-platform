@@ -1,0 +1,128 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Release.Name }}
+automountServiceAccountToken: false
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/part-of: iot-mcp
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicas }}
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: {maxSurge: 1, maxUnavailable: 0}
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/part-of: iot-mcp
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        iot.coursework/tool-role: {{ .Values.role }}
+      annotations:
+        iot.coursework/source-sha256: {{ .Values.sourceSha256 | quote }}
+        iot.coursework/revision: {{ .Values.revisionMarker | quote }}
+    spec:
+      serviceAccountName: {{ .Release.Name }}
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 20
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile: {type: RuntimeDefault}
+      {{- if eq .Values.role "retrieval" }}
+      initContainers:
+        - name: copy-verified-snapshot
+          image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+          imagePullPolicy: Never
+          command: [python, -m, services.mcp_tools.snapshot]
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities: {drop: [ALL]}
+          resources:
+            requests: {cpu: 50m, memory: 32Mi}
+            limits: {cpu: 200m, memory: 128Mi}
+          volumeMounts:
+            - {name: snapshot, mountPath: /snapshot, readOnly: true}
+            - {name: snapshot-seal, mountPath: /snapshot-seal, readOnly: true}
+            - {name: state, mountPath: /state}
+      {{- end }}
+      containers:
+        - name: mcp
+          image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+          imagePullPolicy: Never
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities: {drop: [ALL]}
+          ports:
+            - {name: http, containerPort: 8080}
+          env:
+            - {name: IOT_MCP_ROLE, value: {{ .Values.role | quote }}}
+            - {name: IOT_MCP_TOKEN_FILE, value: /credential/token}
+            - {name: IOT_DRIFT_REFERENCE_ID, value: {{ .Values.referenceId | quote }}}
+            - {name: HF_HUB_OFFLINE, value: '1'}
+            - {name: FEAST_USAGE, value: 'False'}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          startupProbe:
+            httpGet: {path: /health/live, port: http}
+            failureThreshold: 30
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: {path: /health/live, port: http}
+            periodSeconds: 10
+            timeoutSeconds: 3
+          readinessProbe:
+            httpGet: {path: /health/ready, port: http}
+            periodSeconds: 5
+            timeoutSeconds: 10
+          volumeMounts:
+            - {name: credential, mountPath: /credential, readOnly: true}
+            - {name: temporary, mountPath: /tmp}
+            {{- if eq .Values.role "retrieval" }}
+            - {name: state, mountPath: /state}
+            - {name: models, mountPath: /models, readOnly: true}
+            {{- end }}
+      volumes:
+        - name: credential
+          secret:
+            secretName: {{ required "A role-scoped secret is required" .Values.tokenSecret }}
+            defaultMode: 0440
+        - name: temporary
+          emptyDir: {medium: Memory, sizeLimit: 512Mi}
+        {{- if eq .Values.role "retrieval" }}
+        - name: state
+          emptyDir: {sizeLimit: 256Mi}
+        - name: snapshot
+          hostPath: {path: {{ required "A sealed snapshot directory is required" .Values.snapshot.directory | quote }}, type: Directory}
+        - name: snapshot-seal
+          configMap:
+            name: {{ required "A sealed inventory is required" .Values.snapshot.sealConfigMap }}
+        - name: models
+          hostPath: {path: {{ .Values.snapshot.modelCache | quote }}, type: Directory}
+        {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/part-of: iot-mcp
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - {name: http, port: 8080, targetPort: http}

@@ -1,0 +1,909 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "iot.coursework/revision": "mcp-foundation-29c",
+                    "iot.coursework/source-sha256": "4dc96c60bc1c8c7ddc18522d839d061711270f92b3da6e5ce00a691d684e43ea"
+                },
+                "creationTimestamp": "2026-10-29T05:07:06Z",
+                "generateName": "iot-retrieval-mcp-56bd5cfb58-",
+                "generation": 1,
+                "labels": {
+                    "app.kubernetes.io/instance": "iot-retrieval-mcp",
+                    "app.kubernetes.io/part-of": "iot-mcp",
+                    "iot.coursework/tool-role": "retrieval",
+                    "pod-template-hash": "56bd5cfb58"
+                },
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv",
+                "namespace": "iot-agents",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "iot-retrieval-mcp-56bd5cfb58",
+                        "uid": "79150ffb-95d4-4d0f-a642-f30626e83397"
+                    }
+                ],
+                "resourceVersion": "334961",
+                "uid": "77d66d49-ed98-4108-8f1c-a2ac5e466b4c"
+            },
+            "spec": {
+                "automountServiceAccountToken": false,
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "IOT_MCP_ROLE",
+                                "value": "retrieval"
+                            },
+                            {
+                                "name": "IOT_MCP_TOKEN_FILE",
+                                "value": "/credential/token"
+                            },
+                            {
+                                "name": "IOT_DRIFT_REFERENCE_ID",
+                                "value": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93"
+                            },
+                            {
+                                "name": "HF_HUB_OFFLINE",
+                                "value": "1"
+                            },
+                            {
+                                "name": "FEAST_USAGE",
+                                "value": "False"
+                            }
+                        ],
+                        "image": "iot-coursework-mcp:mcp-4dc96c60bc1c",
+                        "imagePullPolicy": "Never",
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/health/live",
+                                "port": "http",
+                                "scheme": "HTTP"
+                            },
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 3
+                        },
+                        "name": "mcp",
+                        "ports": [
+                            {
+                                "containerPort": 8080,
+                                "name": "http",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/health/ready",
+                                "port": "http",
+                                "scheme": "HTTP"
+                            },
+                            "periodSeconds": 5,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 10
+                        },
+                        "resources": {
+                            "limits": {
+                                "cpu": "2",
+                                "memory": "3Gi"
+                            },
+                            "requests": {
+                                "cpu": "200m",
+                                "memory": "768Mi"
+                            }
+                        },
+                        "securityContext": {
+                            "allowPrivilegeEscalation": false,
+                            "capabilities": {
+                                "drop": [
+                                    "ALL"
+                                ]
+                            },
+                            "readOnlyRootFilesystem": true
+                        },
+                        "startupProbe": {
+                            "failureThreshold": 30,
+                            "httpGet": {
+                                "path": "/health/live",
+                                "port": "http",
+                                "scheme": "HTTP"
+                            },
+                            "periodSeconds": 5,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/credential",
+                                "name": "credential",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/tmp",
+                                "name": "temporary"
+                            },
+                            {
+                                "mountPath": "/state",
+                                "name": "state"
+                            },
+                            {
+                                "mountPath": "/models",
+                                "name": "models",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "initContainers": [
+                    {
+                        "command": [
+                            "python",
+                            "-m",
+                            "services.mcp_tools.snapshot"
+                        ],
+                        "image": "iot-coursework-mcp:mcp-4dc96c60bc1c",
+                        "imagePullPolicy": "Never",
+                        "name": "copy-verified-snapshot",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "128Mi"
+                            },
+                            "requests": {
+                                "cpu": "50m",
+                                "memory": "32Mi"
+                            }
+                        },
+                        "securityContext": {
+                            "allowPrivilegeEscalation": false,
+                            "capabilities": {
+                                "drop": [
+                                    "ALL"
+                                ]
+                            },
+                            "readOnlyRootFilesystem": true
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/snapshot",
+                                "name": "snapshot",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/snapshot-seal",
+                                "name": "snapshot-seal",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/state",
+                                "name": "state"
+                            }
+                        ]
+                    }
+                ],
+                "nodeName": "iot-cw-vm",
+                "preemptionPolicy": "PreemptLowerPriority",
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {
+                    "fsGroup": 10001,
+                    "runAsGroup": 10001,
+                    "runAsNonRoot": true,
+                    "runAsUser": 10001,
+                    "seccompProfile": {
+                        "type": "RuntimeDefault"
+                    }
+                },
+                "serviceAccount": "iot-retrieval-mcp",
+                "serviceAccountName": "iot-retrieval-mcp",
+                "terminationGracePeriodSeconds": 20,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "credential",
+                        "secret": {
+                            "defaultMode": 288,
+                            "secretName": "iot-retrieval-mcp-auth"
+                        }
+                    },
+                    {
+                        "emptyDir": {
+                            "medium": "Memory",
+                            "sizeLimit": "512Mi"
+                        },
+                        "name": "temporary"
+                    },
+                    {
+                        "emptyDir": {
+                            "sizeLimit": "256Mi"
+                        },
+                        "name": "state"
+                    },
+                    {
+                        "hostPath": {
+                            "path": "/srv/iot-data/workspace/iot-maintenance-platform/data/rag/rag-airflow-29c",
+                            "type": "Directory"
+                        },
+                        "name": "snapshot"
+                    },
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "knowledge-mcp-foundation-29c"
+                        },
+                        "name": "snapshot-seal"
+                    },
+                    {
+                        "hostPath": {
+                            "path": "/srv/iot-fast/models/iot-rag-embeddings",
+                            "type": "Directory"
+                        },
+                        "name": "models"
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-29T05:07:08Z",
+                        "observedGeneration": 1,
+                        "status": "True",
+                        "type": "PodReadyToStartContainers"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-29T05:07:10Z",
+                        "observedGeneration": 1,
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-29T05:07:32Z",
+                        "observedGeneration": 1,
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-29T05:07:32Z",
+                        "observedGeneration": 1,
+                        "status": "True",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-29T05:07:06Z",
+                        "observedGeneration": 1,
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "allocatedResources": {
+                            "cpu": "200m",
+                            "memory": "768Mi"
+                        },
+                        "containerID": "containerd://6a4fd62b012c895248651b889a19815c93ef1a7c1ebc18065d0998cdd0c613ef",
+                        "image": "docker.io/library/iot-coursework-mcp:mcp-4dc96c60bc1c",
+                        "imageID": "sha256:f98654e6e46099906c6c225234910b4a8a3606e1ab605a7b9970fcd1a588fa17",
+                        "lastState": {},
+                        "name": "mcp",
+                        "ready": true,
+                        "resources": {
+                            "limits": {
+                                "cpu": "2",
+                                "memory": "3Gi"
+                            },
+                            "requests": {
+                                "cpu": "200m",
+                                "memory": "768Mi"
+                            }
+                        },
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2026-10-29T05:07:10Z"
+                            }
+                        },
+                        "user": {
+                            "linux": {
+                                "gid": 10001,
+                                "supplementalGroups": [
+                                    10001
+                                ],
+                                "uid": 10001
+                            }
+                        },
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/credential",
+                                "name": "credential",
+                                "readOnly": true,
+                                "recursiveReadOnly": "Disabled"
+                            },
+                            {
+                                "mountPath": "/tmp",
+                                "name": "temporary"
+                            },
+                            {
+                                "mountPath": "/state",
+                                "name": "state"
+                            },
+                            {
+                                "mountPath": "/models",
+                                "name": "models",
+                                "readOnly": true,
+                                "recursiveReadOnly": "Disabled"
+                            }
+                        ]
+                    }
+                ],
+                "hostIP": "10.42.0.2",
+                "hostIPs": [
+                    {
+                        "ip": "10.42.0.2"
+                    }
+                ],
+                "initContainerStatuses": [
+                    {
+                        "allocatedResources": {
+                            "cpu": "50m",
+                            "memory": "32Mi"
+                        },
+                        "containerID": "containerd://10bd9e8c065e3190a04c76c7a9e6009eb8dd32c574df4e354404d01736a95010",
+                        "image": "docker.io/library/iot-coursework-mcp:mcp-4dc96c60bc1c",
+                        "imageID": "sha256:f98654e6e46099906c6c225234910b4a8a3606e1ab605a7b9970fcd1a588fa17",
+                        "lastState": {},
+                        "name": "copy-verified-snapshot",
+                        "ready": true,
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "128Mi"
+                            },
+                            "requests": {
+                                "cpu": "50m",
+                                "memory": "32Mi"
+                            }
+                        },
+                        "restartCount": 0,
+                        "started": false,
+                        "state": {
+                            "terminated": {
+                                "containerID": "containerd://10bd9e8c065e3190a04c76c7a9e6009eb8dd32c574df4e354404d01736a95010",
+                                "exitCode": 0,
+                                "finishedAt": "2026-10-29T05:07:09Z",
+                                "reason": "Completed",
+                                "startedAt": "2026-10-29T05:07:08Z"
+                            }
+                        },
+                        "user": {
+                            "linux": {
+                                "gid": 10001,
+                                "supplementalGroups": [
+                                    10001
+                                ],
+                                "uid": 10001
+                            }
+                        },
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/snapshot",
+                                "name": "snapshot",
+                                "readOnly": true,
+                                "recursiveReadOnly": "Disabled"
+                            },
+                            {
+                                "mountPath": "/snapshot-seal",
+                                "name": "snapshot-seal",
+                                "readOnly": true,
+                                "recursiveReadOnly": "Disabled"
+                            },
+                            {
+                                "mountPath": "/state",
+                                "name": "state"
+                            }
+                        ]
+                    }
+                ],
+                "observedGeneration": 1,
+                "phase": "Running",
+                "podIP": "10.52.0.185",
+                "podIPs": [
+                    {
+                        "ip": "10.52.0.185"
+                    }
+                ],
+                "qosClass": "Burstable",
+                "startTime": "2026-10-29T05:07:06Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "iot.coursework/revision": "mcp-foundation-29c",
+                    "iot.coursework/source-sha256": "4dc96c60bc1c8c7ddc18522d839d061711270f92b3da6e5ce00a691d684e43ea"
+                },
+                "creationTimestamp": "2026-10-29T05:07:06Z",
+                "generateName": "iot-retrieval-mcp-56bd5cfb58-",
+                "generation": 1,
+                "labels": {
+                    "app.kubernetes.io/instance": "iot-retrieval-mcp",
+                    "app.kubernetes.io/part-of": "iot-mcp",
+                    "iot.coursework/tool-role": "retrieval",
+                    "pod-template-hash": "56bd5cfb58"
+                },
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "iot-retrieval-mcp-56bd5cfb58",
+                        "uid": "79150ffb-95d4-4d0f-a642-f30626e83397"
+                    }
+                ],
+                "resourceVersion": "334989",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "spec": {
+                "automountServiceAccountToken": false,
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "IOT_MCP_ROLE",
+                                "value": "retrieval"
+                            },
+                            {
+                                "name": "IOT_MCP_TOKEN_FILE",
+                                "value": "/credential/token"
+                            },
+                            {
+                                "name": "IOT_DRIFT_REFERENCE_ID",
+                                "value": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93"
+                            },
+                            {
+                                "name": "HF_HUB_OFFLINE",
+                                "value": "1"
+                            },
+                            {
+                                "name": "FEAST_USAGE",
+                                "value": "False"
+                            }
+                        ],
+                        "image": "iot-coursework-mcp:mcp-4dc96c60bc1c",
+                        "imagePullPolicy": "Never",
+                        "livenessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/health/live",
+                                "port": "http",
+                                "scheme": "HTTP"
+                            },
+                            "periodSeconds": 10,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 3
+                        },
+                        "name": "mcp",
+                        "ports": [
+                            {
+                                "containerPort": 8080,
+                                "name": "http",
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "readinessProbe": {
+                            "failureThreshold": 3,
+                            "httpGet": {
+                                "path": "/health/ready",
+                                "port": "http",
+                                "scheme": "HTTP"
+                            },
+                            "periodSeconds": 5,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 10
+                        },
+                        "resources": {
+                            "limits": {
+                                "cpu": "2",
+                                "memory": "3Gi"
+                            },
+                            "requests": {
+                                "cpu": "200m",
+                                "memory": "768Mi"
+                            }
+                        },
+                        "securityContext": {
+                            "allowPrivilegeEscalation": false,
+                            "capabilities": {
+                                "drop": [
+                                    "ALL"
+                                ]
+                            },
+                            "readOnlyRootFilesystem": true
+                        },
+                        "startupProbe": {
+                            "failureThreshold": 30,
+                            "httpGet": {
+                                "path": "/health/live",
+                                "port": "http",
+                                "scheme": "HTTP"
+                            },
+                            "periodSeconds": 5,
+                            "successThreshold": 1,
+                            "timeoutSeconds": 1
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/credential",
+                                "name": "credential",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/tmp",
+                                "name": "temporary"
+                            },
+                            {
+                                "mountPath": "/state",
+                                "name": "state"
+                            },
+                            {
+                                "mountPath": "/models",
+                                "name": "models",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "initContainers": [
+                    {
+                        "command": [
+                            "python",
+                            "-m",
+                            "services.mcp_tools.snapshot"
+                        ],
+                        "image": "iot-coursework-mcp:mcp-4dc96c60bc1c",
+                        "imagePullPolicy": "Never",
+                        "name": "copy-verified-snapshot",
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "128Mi"
+                            },
+                            "requests": {
+                                "cpu": "50m",
+                                "memory": "32Mi"
+                            }
+                        },
+                        "securityContext": {
+                            "allowPrivilegeEscalation": false,
+                            "capabilities": {
+                                "drop": [
+                                    "ALL"
+                                ]
+                            },
+                            "readOnlyRootFilesystem": true
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/snapshot",
+                                "name": "snapshot",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/snapshot-seal",
+                                "name": "snapshot-seal",
+                                "readOnly": true
+                            },
+                            {
+                                "mountPath": "/state",
+                                "name": "state"
+                            }
+                        ]
+                    }
+                ],
+                "nodeName": "iot-cw-vm",
+                "preemptionPolicy": "PreemptLowerPriority",
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {
+                    "fsGroup": 10001,
+                    "runAsGroup": 10001,
+                    "runAsNonRoot": true,
+                    "runAsUser": 10001,
+                    "seccompProfile": {
+                        "type": "RuntimeDefault"
+                    }
+                },
+                "serviceAccount": "iot-retrieval-mcp",
+                "serviceAccountName": "iot-retrieval-mcp",
+                "terminationGracePeriodSeconds": 20,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "credential",
+                        "secret": {
+                            "defaultMode": 288,
+                            "secretName": "iot-retrieval-mcp-auth"
+                        }
+                    },
+                    {
+                        "emptyDir": {
+                            "medium": "Memory",
+                            "sizeLimit": "512Mi"
+                        },
+                        "name": "temporary"
+                    },
+                    {
+                        "emptyDir": {
+                            "sizeLimit": "256Mi"
+                        },
+                        "name": "state"
+                    },
+                    {
+                        "hostPath": {
+                            "path": "/srv/iot-data/workspace/iot-maintenance-platform/data/rag/rag-airflow-29c",
+                            "type": "Directory"
+                        },
+                        "name": "snapshot"
+                    },
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "knowledge-mcp-foundation-29c"
+                        },
+                        "name": "snapshot-seal"
+                    },
+                    {
+                        "hostPath": {
+                            "path": "/srv/iot-fast/models/iot-rag-embeddings",
+                            "type": "Directory"
+                        },
+                        "name": "models"
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-29T05:07:11Z",
+                        "observedGeneration": 1,
+                        "status": "True",
+                        "type": "PodReadyToStartContainers"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-29T05:07:13Z",
+                        "observedGeneration": 1,
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-29T05:07:35Z",
+                        "observedGeneration": 1,
+                        "status": "True",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-29T05:07:35Z",
+                        "observedGeneration": 1,
+                        "status": "True",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2026-10-29T05:07:10Z",
+                        "observedGeneration": 1,
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "allocatedResources": {
+                            "cpu": "200m",
+                            "memory": "768Mi"
+                        },
+                        "containerID": "containerd://8b8c7b732e9b668fc86d7b4448c4644396b978cfb30907b6e9176b1ef69a025a",
+                        "image": "docker.io/library/iot-coursework-mcp:mcp-4dc96c60bc1c",
+                        "imageID": "sha256:f98654e6e46099906c6c225234910b4a8a3606e1ab605a7b9970fcd1a588fa17",
+                        "lastState": {},
+                        "name": "mcp",
+                        "ready": true,
+                        "resources": {
+                            "limits": {
+                                "cpu": "2",
+                                "memory": "3Gi"
+                            },
+                            "requests": {
+                                "cpu": "200m",
+                                "memory": "768Mi"
+                            }
+                        },
+                        "restartCount": 0,
+                        "started": true,
+                        "state": {
+                            "running": {
+                                "startedAt": "2026-10-29T05:07:13Z"
+                            }
+                        },
+                        "user": {
+                            "linux": {
+                                "gid": 10001,
+                                "supplementalGroups": [
+                                    10001
+                                ],
+                                "uid": 10001
+                            }
+                        },
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/credential",
+                                "name": "credential",
+                                "readOnly": true,
+                                "recursiveReadOnly": "Disabled"
+                            },
+                            {
+                                "mountPath": "/tmp",
+                                "name": "temporary"
+                            },
+                            {
+                                "mountPath": "/state",
+                                "name": "state"
+                            },
+                            {
+                                "mountPath": "/models",
+                                "name": "models",
+                                "readOnly": true,
+                                "recursiveReadOnly": "Disabled"
+                            }
+                        ]
+                    }
+                ],
+                "hostIP": "10.42.0.2",
+                "hostIPs": [
+                    {
+                        "ip": "10.42.0.2"
+                    }
+                ],
+                "initContainerStatuses": [
+                    {
+                        "allocatedResources": {
+                            "cpu": "50m",
+                            "memory": "32Mi"
+                        },
+                        "containerID": "containerd://523e5b20f1621ed1efdea3e3e530be26ddf95ae443836dc0479638b4001aed45",
+                        "image": "docker.io/library/iot-coursework-mcp:mcp-4dc96c60bc1c",
+                        "imageID": "sha256:f98654e6e46099906c6c225234910b4a8a3606e1ab605a7b9970fcd1a588fa17",
+                        "lastState": {},
+                        "name": "copy-verified-snapshot",
+                        "ready": true,
+                        "resources": {
+                            "limits": {
+                                "cpu": "200m",
+                                "memory": "128Mi"
+                            },
+                            "requests": {
+                                "cpu": "50m",
+                                "memory": "32Mi"
+                            }
+                        },
+                        "restartCount": 0,
+                        "started": false,
+                        "state": {
+                            "terminated": {
+                                "containerID": "containerd://523e5b20f1621ed1efdea3e3e530be26ddf95ae443836dc0479638b4001aed45",
+                                "exitCode": 0,
+                                "finishedAt": "2026-10-29T05:07:12Z",
+                                "reason": "Completed",
+                                "startedAt": "2026-10-29T05:07:11Z"
+                            }
+                        },
+                        "user": {
+                            "linux": {
+                                "gid": 10001,
+                                "supplementalGroups": [
+                                    10001
+                                ],
+                                "uid": 10001
+                            }
+                        },
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/snapshot",
+                                "name": "snapshot",
+                                "readOnly": true,
+                                "recursiveReadOnly": "Disabled"
+                            },
+                            {
+                                "mountPath": "/snapshot-seal",
+                                "name": "snapshot-seal",
+                                "readOnly": true,
+                                "recursiveReadOnly": "Disabled"
+                            },
+                            {
+                                "mountPath": "/state",
+                                "name": "state"
+                            }
+                        ]
+                    }
+                ],
+                "observedGeneration": 1,
+                "phase": "Running",
+                "podIP": "10.52.0.186",
+                "podIPs": [
+                    {
+                        "ip": "10.52.0.186"
+                    }
+                ],
+                "qosClass": "Burstable",
+                "startTime": "2026-10-29T05:07:10Z"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

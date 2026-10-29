@@ -77,15 +77,15 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 | L07 | Agent registry | Deploy an agent registry. | Open: native LLM evidence missing |
 | L08 | RAG pipeline | Build an Airflow RAG pipeline with text retrieval, chunking and chunk-embedding storage in a feature store through Feast. | Recorded native RAG evidence; [report](rag-orchestration.md) |
 | L09 | RAG pipeline | Provide data governance for the RAG pipeline as in the mini-coursework. | Recorded native RAG evidence; [report](rag-orchestration.md) |
-| L10 | Retrieval MCP and agent | Use FastAPI, Pydantic validation and Kubernetes health checks for the entity/chunk retrieval Web API. | Open: native LLM evidence missing |
-| L11 | Retrieval MCP and agent | Use asynchronous request handling in the entity/chunk retrieval API. | Open: native LLM evidence missing |
-| L12 | Retrieval MCP and agent | Deploy the retrieval API as an MCP tool to Kubernetes with Helm, rolling updates and automatic fallback; follow MCP-specific deployment guidance. | Open: native LLM evidence missing |
+| L10 | Retrieval MCP and agent | Use FastAPI, Pydantic validation and Kubernetes health checks for the entity/chunk retrieval Web API. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
+| L11 | Retrieval MCP and agent | Use asynchronous request handling in the entity/chunk retrieval API. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
+| L12 | Retrieval MCP and agent | Deploy the retrieval API as an MCP tool to Kubernetes with Helm, rolling updates and automatic fallback; follow MCP-specific deployment guidance. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L13 | Retrieval MCP and agent | Deploy an agent using that MCP tool with multiple replicas and autoscaling. | Open: native LLM evidence missing |
 | L14 | Retrieval MCP and agent | Configure the retrieval agent to run in a security sandbox. | Open: native LLM evidence missing |
 | L15 | Retrieval MCP and agent | Publish the retrieval agent to the deployed registry for governance. | Open: native LLM evidence missing |
-| L16 | Drift MCP and agent | Use FastAPI, Pydantic validation and Kubernetes health checks for the drift-detection MCP API. | Open: native LLM evidence missing |
-| L17 | Drift MCP and agent | Use asynchronous request handling in the drift-detection MCP API. | Open: native LLM evidence missing |
-| L18 | Drift MCP and agent | Deploy the drift API as an MCP tool to Kubernetes with Helm, rolling updates and automatic fallback; follow MCP-specific deployment guidance. | Open: native LLM evidence missing |
+| L16 | Drift MCP and agent | Use FastAPI, Pydantic validation and Kubernetes health checks for the drift-detection MCP API. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
+| L17 | Drift MCP and agent | Use asynchronous request handling in the drift-detection MCP API. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
+| L18 | Drift MCP and agent | Deploy the drift API as an MCP tool to Kubernetes with Helm, rolling updates and automatic fallback; follow MCP-specific deployment guidance. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L19 | Drift MCP and agent | Deploy a drift agent using its MCP tool with multiple replicas and autoscaling. | Open: native LLM evidence missing |
 | L20 | Drift MCP and agent | Configure the drift agent to run in a security sandbox. | Open: native LLM evidence missing |
 | L21 | Drift MCP and agent | Publish the drift agent to the deployed registry for governance. | Open: native LLM evidence missing |
@@ -94,11 +94,11 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 | L24 | Coordinator agent | Deploy a coordinator agent with multiple replicas and autoscaling to coordinate the two specialist agents. | Open: native LLM evidence missing |
 | L25 | Coordinator agent | Publish the coordinator agent to the deployed registry for governance. | Open: native LLM evidence missing |
 | L26 | Warm-up and worker pool | Configure agent warm-up through Agent Substrate to reduce startup delay/cost; benchmark the result and document HA through worker-pool replicas. | Open: native LLM evidence missing |
-| L27 | Validation and verification | Unit-test the Web APIs with Test Coverage > 90%, demonstrating fixtures and mocks with screenshots. | Open: native LLM evidence missing |
-| L28 | Validation and verification | Use equivalence partitioning and boundary-value analysis to design parameterized test cases. | Open: native LLM evidence missing |
-| L29 | Validation and verification | Use mutation testing on changed code rather than the entire codebase on every commit. Mutation score > 80%. | Open: native LLM evidence missing |
-| L30 | Validation and verification | Use property-based idempotency tests, with Hypothesis/CrossHair suggested for finding inconsistent repeated behavior. | Open: native LLM evidence missing |
-| L31 | Validation and verification | Load-test the data-retrieval Web API for throughput and latency and produce a Locust HTML SLA report. | Open: native LLM evidence missing |
+| L27 | Validation and verification | Unit-test the Web APIs with Test Coverage > 90%, demonstrating fixtures and mocks with screenshots. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
+| L28 | Validation and verification | Use equivalence partitioning and boundary-value analysis to design parameterized test cases. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
+| L29 | Validation and verification | Use mutation testing on changed code rather than the entire codebase on every commit. Mutation score > 80%. | [Open: original mutation gate 56.19%](mcp-tools.md#api-verification) |
+| L30 | Validation and verification | Use property-based idempotency tests, with Hypothesis/CrossHair suggested for finding inconsistent repeated behavior. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
+| L31 | Validation and verification | Load-test the data-retrieval Web API for throughput and latency and produce a Locust HTML SLA report. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L32 | Generator | Simulate data drift. | Open: native LLM evidence missing |
 | L33 | Generator | Control drift through generator configuration. | Open: native LLM evidence missing |
 | L34 | Generator | Create a separate two-column ID/label table for joining with training features. | Open: native LLM evidence missing |
@@ -117,12 +117,12 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 | L47 | Routing and gateway | Configure a domain and HTTPS for the data-retrieval Web API. | Open: native LLM evidence missing |
 | L48 | Infrastructure as code | Use Terraform to provision GKE or other cloud services with a suitable directory layout. | Open: native LLM evidence missing |
 | L49 | Infrastructure as code | Use Ansible roles to configure the VM and deploy services. | Open: native LLM evidence missing |
-| L50 | Observability | Monitor Web API request rate, request counts, failures and related metrics. | Open: native LLM evidence missing |
+| L50 | Observability | Monitor Web API request rate, request counts, failures and related metrics. | [Partial: MCP counters](mcp-tools.md); agent/dashboard export open |
 | L51 | Observability | Collect and visualize CPU, RAM, disk and network metrics through Prometheus/Grafana or equivalent tools. | Open: native LLM evidence missing |
 | L52 | Observability | Collect and visualize logs. | Open: native LLM evidence missing |
 | L53 | Observability | Collect and visualize traces. | Open: native LLM evidence missing |
 | L54 | Observability | Collect at least input/output/total tokens per request, full generation round-trip time, TTFT and counts/frequency of prompts caught by safety or PII controls. | Open: native LLM evidence missing |
-| L55 | Observability | Collect at least per-agent call counts, per-MCP-tool call counts and failures for each tool call. | Open: native LLM evidence missing |
+| L55 | Observability | Collect at least per-agent call counts, per-MCP-tool call counts and failures for each tool call. | [Partial: MCP counters](mcp-tools.md); agent/dashboard export open |
 | L56 | A/B testing | A/B-test agents using different model configurations and monitor both variants. | Open: native LLM evidence missing |
 | L57 | A/B testing | A/B-test different LLM versions on the inference platform. | Open: native LLM evidence missing |
 | L58 | Security | Centralize shared secret management through HashiCorp Vault or an equivalent system. | Open: native LLM evidence missing |

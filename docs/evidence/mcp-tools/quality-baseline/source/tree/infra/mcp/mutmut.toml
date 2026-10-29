@@ -1,0 +1,7 @@
+# Mutate the four new Web API modules; deployment init and acceptance CLI are separate execution artifacts.
+[tool.mutmut]
+source_paths = ["services/"]
+only_mutate = ["services/mcp_tools/auth.py", "services/mcp_tools/contracts.py", "services/mcp_tools/runtime.py", "services/mcp_tools/app.py"]
+pytest_add_cli_args_test_selection = ["tests/mcp/", "--timeout=5", "--timeout_method=thread"]
+also_copy = ["rag/", "knowledge/", "infra/rag/", "tests/mcp/"]
+process_isolation = "forkserver"

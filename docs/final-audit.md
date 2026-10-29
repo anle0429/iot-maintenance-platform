@@ -4,11 +4,11 @@
 
 The selected scope is now final ML plus final LLM/agents. The supplied workbook has 57 weighted ML rows and 60 weighted LLM rows, with 100 source points per sheet. These are source weights, not self-awarded marks. The original source cells and workbook bytes are preserved separately from the pinned English views.
 
-Recorded ML lab evidence covers the linked ML requirements within documented boundaries. CPU inference and llm-d routing have [separate native proof](llm-inference.md). [RAG ingestion/governance](rag-orchestration.md) and [three grounded responses](llm-grounding.md) are also verified. MCP and agent requirements remain incomplete, so the whole selected coursework must not be described as complete. Shared infrastructure or ML API tests are not relabeled as MCP/agent proof.
+Recorded ML lab evidence covers the linked ML requirements within documented boundaries. CPU inference and llm-d routing have [separate native proof](llm-inference.md). [RAG ingestion/governance](rag-orchestration.md) and [three grounded responses](llm-grounding.md) are also verified. [Native MCP deployment and API/load checks](mcp-tools.md) now have separate evidence; the new mutation gate and agent requirements remain incomplete, so the whole selected coursework must not be described as complete. Shared infrastructure or ML API tests are not relabeled as MCP/agent proof.
 
 ## Audit method
 
-The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It now runs 30 read-only artifact verifiers, including inference, RAG core, grounding and orchestration, and checks nine additional native capsules with 685 payloads. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
+The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It now runs 31 read-only artifact verifiers, including inference, RAG core, grounding, orchestration and MCP, and checks nine additional native capsules with 685 payloads. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
 
 The original ML source-language tracker is archived. Translation changes the presentation columns, not the preserved source requirements. A lowered threshold, missing row or changed translation pin fails the checks. The JSON report distinguishes inference, grounding and orchestration verification from the still-incomplete full LLM runtime and `coursework_complete=false`.
 
@@ -24,7 +24,7 @@ The 100 GB workload covers Bronze/Silver, while ML uses 3.132 million rows from 
 
 ## English documentation review
 
-The later LLM/RAG implementation check on this PC passed 770 tests and 333 subtests, with seven documented skips, in 85.57 seconds. All 30 offline artifact verifiers passed. The repository audit found descriptions for 1,824 definitions in 353 maintained Python files. The native integration packages retain 145 grounding and 223 orchestration payloads, including the rejected predecessors and original browser captures. These checks leave the full agent track open.
+The previous LLM/RAG implementation check on this PC passed 770 tests and 333 subtests, with seven documented skips, in 85.57 seconds. All 30 offline artifact verifiers passed. The repository audit found descriptions for 1,824 definitions in 353 maintained Python files. The native integration packages retain 145 grounding and 223 orchestration payloads, including the rejected predecessors and original browser captures. These checks leave the full agent track open.
 
 The presentation review checked 1,823 local links and five generated architecture views. All 26 historical artifact verifiers passed. The PC regression suite passed 752 tests and 314 subtests, with seven documented skips. The repository audit found descriptions for all 1,745 definitions in 323 maintained Python files.
 
@@ -51,3 +51,7 @@ python -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 [Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
 
 [Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/final-audit.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.
+
+The MCP checkpoint adds 774 source/native/UI payloads, 79 native API tests, 97.74% statement coverage, 90.57% branch coverage and two authenticated Locust workloads. Its verifier also checks that the original 945-mutant gate failed at 56.19%; verifying that receipt does not make the mutation requirement pass. The expanded mutation run and full agent integration remain separate.
+
+The current PC regression passed 773 tests and 333 subtests, with nine documented skips, in 87.08 seconds. The dedicated MCP environment separately passed 79 API tests and three evidence-oracle tests. All 31 offline verifiers passed. Documentation checks covered 597 maintained files, 1,949 local links and five diagrams; the current Python audit found descriptions for all 1,952 definitions in 368 maintained files.

@@ -147,13 +147,13 @@ def deployment():
 
 
 def llm_plan():
-    """Distinguish recorded inference/RAG work from the still-planned MCP and agent components."""
-    c=Canvas('platform-llm-plan','LLM / agent extension — staged implementation','Blue: verified inference / RAG. Gray: planned/in progress. Green: existing ML APIs. Illustration, not runtime evidence.',width=2200,height=1400)
-    items=[('ui',60,200,290,145,'Agent chat UI',['PLANNED','Authenticated ingress']),('gw',430,200,290,145,'Agent gateway',['PLANNED','MCP / A2A / model routes']),('coord',800,200,300,145,'Coordinator agent',['PLANNED','Multi-replica / autoscale']),('llmrouter',1370,200,330,145,'llm-d inference router',['VERIFIED: llm-d 1.0','Agent model config pending']),('registry',1800,200,320,145,'Agent registry',['PLANNED','Published agent versions']),('rag',60,500,290,145,'Airflow RAG job',['VERIFIED','Six tasks / DataHub']),('data',800,500,300,145,'Data / RAG agent',['PLANNED','Sandboxed tool access']),('drift',1300,500,300,145,'Drift agent',['PLANNED','Sandboxed tool access']),('warm',1800,500,320,145,'Warm worker pool',['PLANNED','Agent startup benchmark']),('embed',60,800,290,145,'Embedding job',['VERIFIED','MiniLM / 384 dimensions']),('mcpdata',800,800,300,145,'Data / chunk MCP',['PLANNED','Async validated tools']),('mcpdrift',1300,800,300,145,'Drift MCP server',['PLANNED','Async validated tools']),('telemetry',1800,800,320,145,'Agent / LLM telemetry',['PLANNED','Tokens / TTFT / tool calls']),('kb',60,1100,290,145,'Knowledge store',['VERIFIED','Feast / Milvus / 18 chunks'])]
-    for key,x,y,w,h,title,body in items:c.node(key,x,y,w,h,title,body,'serving' if key in {'llmrouter','rag','embed','kb'} else 'planned')
+    """Distinguish recorded inference/RAG/MCP work from the still-planned agent components."""
+    c=Canvas('platform-llm-plan','LLM / agent extension — staged implementation','Blue: verified inference / RAG / MCP. Gray: planned/in progress. Green: existing ML APIs. Illustration, not runtime evidence.',width=2200,height=1400)
+    items=[('ui',60,200,290,145,'Agent chat UI',['PLANNED','Authenticated ingress']),('gw',430,200,290,145,'Agent gateway',['PLANNED','MCP / A2A / model routes']),('coord',800,200,300,145,'Coordinator agent',['PLANNED','Multi-replica / autoscale']),('llmrouter',1370,200,330,145,'llm-d inference router',['VERIFIED: llm-d 1.0','Agent model config pending']),('registry',1800,200,320,145,'Agent registry',['PLANNED','Published agent versions']),('rag',60,500,290,145,'Airflow RAG job',['VERIFIED','Six tasks / DataHub']),('data',800,500,300,145,'Data / RAG agent',['PLANNED','Sandboxed tool access']),('drift',1300,500,300,145,'Drift agent',['PLANNED','Sandboxed tool access']),('warm',1800,500,320,145,'Warm worker pool',['PLANNED','Agent startup benchmark']),('embed',60,800,290,145,'Embedding job',['VERIFIED','MiniLM / 384 dimensions']),('mcpdata',800,800,300,145,'Data / chunk MCP',['VERIFIED: 2 replicas','Features / prediction / RAG']),('mcpdrift',1300,800,300,145,'Drift MCP server',['VERIFIED: 2 replicas','PSI / stable cohort replay']),('telemetry',1800,800,320,145,'Agent / LLM telemetry',['PLANNED','Tokens / TTFT / tool calls']),('kb',60,1100,290,145,'Knowledge store',['VERIFIED','Feast / Milvus / 18 chunks'])]
+    for key,x,y,w,h,title,body in items:c.node(key,x,y,w,h,title,body,'serving' if key in {'llmrouter','rag','embed','kb','mcpdata','mcpdrift'} else 'planned')
     # The platform router and custom backend are distinct deployable units.
     c.node('customserver',1800,1100,320,145,'Custom model server',['VERIFIED: Qwen2.5 7B','1.5B benchmark separate'],'serving')
-    c.node('feature',800,1100,300,145,'Existing Feature API',['ML implementation exists','Agent integration pending'],'store');c.node('driftapi',1300,1100,300,145,'Existing Drift API',['ML implementation exists','Agent integration pending'],'store')
+    c.node('feature',800,1100,300,145,'Existing Feature API',['Native MCP reads verified','Served model version: 6'],'store');c.node('driftapi',1300,1100,300,145,'Existing Drift API',['Native MCP calls verified','Pinned PSI reference'],'store')
     c.edge('A1',[(350,270),(430,270)],'Chat request',(390,170));c.edge('A2',[(720,270),(800,270)],'Dispatch',(760,170))
     c.edge('A3',[(1100,270),(1370,270)],'Generation via gateway',(1235,235))
     c.edge('G1',[(1700,270),(1740,270),(1740,1140),(1800,1140)],'Model request',(1890,980))
@@ -165,7 +165,7 @@ def llm_plan():
     c.edge('K2',[(350,870),(450,870),(450,570),(350,570)],'Vector artifact',(550,710))
     c.edge('K3',[(60,575),(30,575),(30,1170),(60,1170)],'Chunks and vectors via Feast',(230,1010))
     c.edge('K4',[(350,1170),(650,1170),(650,870),(800,870)],'Retrieved chunks',(590,1135))
-    c.text(60,1300,'Remaining proof: MCP/agents, global config, sandbox, registry, warm-up, CI, A/B and full token/tool telemetry.',20)
+    c.text(60,1300,'Remaining proof: agents, global config, sandbox, registry, warm-up, CI, A/B and full token/tool telemetry.',20)
     return c.save()
 
 
@@ -185,7 +185,7 @@ def monitoring():
         for i,label in enumerate(labels):
             if row_index==1 and i==3:continue
             c.edge(('M' if row_index==0 else 'O' if row_index==1 else 'R')+str(i+1),[(335+350*i,y+130),(415+350*i,y+130)],label,(375+350*i,y+40))
-    c.text(45,1020,'Jaeger receives OTLP spans directly from the APIs. LLM tokens, TTFT, safety hits and agent/tool counters are still unimplemented.',17)
+    c.text(45,1020,'Jaeger receives ML API spans. MCP tool counters are separate; full agent/LLM token, TTFT and safety telemetry remains open.',17)
     c.edge('O4',[(200,660),(200,715),(1600,715),(1600,660)],'OTLP spans from API to Jaeger',(900,703))
     return c.save()
 

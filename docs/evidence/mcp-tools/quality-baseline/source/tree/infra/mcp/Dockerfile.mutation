@@ -1,0 +1,7 @@
+# Extend the verified native test image for quality checks without changing the deployed runtime.
+ARG TEST_IMAGE
+FROM ${TEST_IMAGE}
+USER root
+COPY infra/mcp/requirements-mutation.txt /tmp/requirements-mutation.txt
+RUN pip install --no-cache-dir -r /tmp/requirements-mutation.txt
+USER 10001:10001

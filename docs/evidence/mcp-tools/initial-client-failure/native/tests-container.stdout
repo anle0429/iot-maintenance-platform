@@ -1,0 +1,261 @@
+[
+    {
+        "Id": "4b1c25b2e5051a970e256c313916a1d13e556b8c6c2a7e05a58451286c902146",
+        "Created": "2026-10-29T05:04:40.752914028Z",
+        "Path": "python",
+        "Args": [
+            "-m",
+            "coverage",
+            "run",
+            "--branch",
+            "--source=services.mcp_tools",
+            "--omit=*/probe.py",
+            "-m",
+            "pytest",
+            "/tests/mcp",
+            "-q",
+            "-o",
+            "cache_dir=/tmp/pytest-cache"
+        ],
+        "State": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-29T05:04:40.830667224Z",
+            "FinishedAt": "2026-10-29T05:04:50.634443759Z"
+        },
+        "Image": "sha256:237a966de97c14f28dfbdb43d4204a0cc862835d17040da0dd88118b30f92e16",
+        "ResolvConfPath": "/srv/iot-fast/docker/containers/4b1c25b2e5051a970e256c313916a1d13e556b8c6c2a7e05a58451286c902146/resolv.conf",
+        "HostnamePath": "/srv/iot-fast/docker/containers/4b1c25b2e5051a970e256c313916a1d13e556b8c6c2a7e05a58451286c902146/hostname",
+        "HostsPath": "/srv/iot-fast/docker/containers/4b1c25b2e5051a970e256c313916a1d13e556b8c6c2a7e05a58451286c902146/hosts",
+        "LogPath": "",
+        "Name": "/iot-mcp-foundation-29c-tests",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "local",
+                "Config": {
+                    "max-file": "3",
+                    "max-size": "10m"
+                }
+            },
+            "NetworkMode": "none",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": [
+                "ALL"
+            ],
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": true,
+            "SecurityOpt": [
+                "no-new-privileges"
+            ],
+            "Tmpfs": {
+                "/tmp": "rw,nosuid,size=512m"
+            },
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 2147483648,
+            "NanoCpus": 2000000000,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 2147483648,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "Mounts": [
+                {
+                    "Type": "bind",
+                    "Source": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/mcp-foundation-29c/tests",
+                    "Target": "/proof"
+                }
+            ],
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ],
+            "Init": true
+        },
+        "Storage": {
+            "RootFS": {
+                "Snapshot": {
+                    "Name": "overlayfs"
+                }
+            }
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/srv/iot-data/workspace/iot-maintenance-platform/outputs/mcp-foundation-29c/tests",
+                "Destination": "/proof",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "4b1c25b2e505",
+            "Domainname": "",
+            "User": "10001:10001",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305",
+                "PYTHON_VERSION=3.12.16",
+                "PYTHON_SHA256=b5796915dc45ff745cfb4e990a7e7c93d6f546328a102ce31448d69ebc37575c",
+                "PYTHONDONTWRITEBYTECODE=1",
+                "PYTHONUNBUFFERED=1",
+                "FEAST_USAGE=False",
+                "HF_HOME=/models",
+                "HOME=/tmp",
+                "OMP_NUM_THREADS=2",
+                "OPENBLAS_NUM_THREADS=1",
+                "TOKENIZERS_PARALLELISM=false",
+                "HF_HUB_OFFLINE=1",
+                "COVERAGE_FILE=/proof/.coverage",
+                "HYPOTHESIS_STORAGE_DIRECTORY=/tmp/hypothesis"
+            ],
+            "Cmd": [
+                "-m",
+                "coverage",
+                "run",
+                "--branch",
+                "--source=services.mcp_tools",
+                "--omit=*/probe.py",
+                "-m",
+                "pytest",
+                "/tests/mcp",
+                "-q",
+                "-o",
+                "cache_dir=/tmp/pytest-cache"
+            ],
+            "Image": "iot-coursework-mcp-tests:mcp-4dc96c60bc1c",
+            "Volumes": null,
+            "WorkingDir": "/workspace",
+            "Entrypoint": [
+                "python"
+            ],
+            "Labels": {
+                "iot.dependencies.sha256": "c3b696c3955ca2d49f64381cef1850227946bfa5e0728b14c9e7f0abdae4efbe",
+                "iot.source.sha256": "4dc96c60bc1c8c7ddc18522d839d061711270f92b3da6e5ce00a691d684e43ea"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "",
+            "SandboxKey": "",
+            "Ports": {},
+            "Networks": {
+                "none": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "dcb5ada77738adc9d0233ac52a4f6ceb561340eef864ed357c4543a70eec429a",
+                    "EndpointID": "",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "MacAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        },
+        "ImageManifestDescriptor": {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:ce1b9cb965059d032c859c0f1abd6853e40dd98ba5fd0430dbfdf7fb3900e3b8",
+            "size": 4278,
+            "platform": {
+                "architecture": "amd64",
+                "os": "linux"
+            }
+        }
+    }
+]

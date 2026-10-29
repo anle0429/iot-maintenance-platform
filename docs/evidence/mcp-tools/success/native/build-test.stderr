@@ -1,0 +1,67 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.16kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-rag:deps-c3b696c3955c
+#2 DONE 0.0s
+
+#3 [internal] load build context
+#3 transferring context: 30.70kB 0.0s done
+#3 DONE 0.0s
+
+#4 [runtime  1/10] FROM docker.io/library/iot-coursework-rag:deps-c3b696c3955c@sha256:4d65bdfb955f2d459f750fba5f30f381aab0378a4ce95f9047359a5760cd1afd
+#4 resolve docker.io/library/iot-coursework-rag:deps-c3b696c3955c@sha256:4d65bdfb955f2d459f750fba5f30f381aab0378a4ce95f9047359a5760cd1afd 0.0s done
+#4 DONE 0.1s
+
+#5 [runtime  8/10] COPY rag/__init__.py rag/store.py rag/embeddings.py rag/retrieval.py /workspace/rag/
+#5 CACHED
+
+#6 [test 3/4] COPY tests/mcp /tests/mcp
+#6 CACHED
+
+#7 [runtime  4/10] COPY services/__init__.py /workspace/services/__init__.py
+#7 CACHED
+
+#8 [runtime  3/10] RUN pip install --no-cache-dir --disable-pip-version-check -r /tmp/mcp-requirements.txt && pip check
+#8 CACHED
+
+#9 [runtime  9/10] COPY infra/rag/embedding.lock.json /workspace/infra/rag/embedding.lock.json
+#9 CACHED
+
+#10 [test 1/4] COPY infra/mcp/requirements-tests.txt /tmp/mcp-tests.txt
+#10 CACHED
+
+#11 [runtime  5/10] COPY services/mcp_tools /workspace/services/mcp_tools
+#11 CACHED
+
+#12 [runtime  7/10] COPY services/drift_api/__init__.py services/drift_api/contracts.py /workspace/services/drift_api/
+#12 CACHED
+
+#13 [runtime  6/10] COPY services/predictor/__init__.py services/predictor/contracts.py /workspace/services/predictor/
+#13 CACHED
+
+#14 [runtime 10/10] COPY knowledge/catalog.json /workspace/knowledge/catalog.json
+#14 CACHED
+
+#15 [runtime  2/10] COPY infra/mcp/requirements.txt /tmp/mcp-requirements.txt
+#15 CACHED
+
+#16 [test 2/4] RUN pip install --no-cache-dir --disable-pip-version-check -r /tmp/mcp-tests.txt && pip check
+#16 CACHED
+
+#17 [test 4/4] COPY services/drift_api/detector.py services/drift_api/runtime.py /workspace/services/drift_api/
+#17 CACHED
+
+#18 exporting to image
+#18 exporting layers 0.0s done
+#18 exporting manifest sha256:7a36fcf2a9b0a631a1a4d7412573438e6c408d5b0bb514608c53465295e6fcfb done
+#18 exporting config sha256:c177cd8186f8cf7e53d05a9ea675c9de0656bd39e27e42e3ee8b01dc89c3d5c9
+#18 exporting config sha256:c177cd8186f8cf7e53d05a9ea675c9de0656bd39e27e42e3ee8b01dc89c3d5c9 done
+#18 exporting attestation manifest sha256:6b95d7f76f3729371de30673818defbfe8e743bfef72f56d8560ed6cbb6f36f7 0.0s done
+#18 exporting manifest list sha256:fb38088031bcf33d716154977ff1dc92aafe817a07b42cf35c6adcb385cf818f 0.1s done
+#18 naming to docker.io/library/iot-coursework-mcp-tests:mcp-cdec53766c3e
+#18 naming to docker.io/library/iot-coursework-mcp-tests:mcp-cdec53766c3e done
+#18 unpacking to docker.io/library/iot-coursework-mcp-tests:mcp-cdec53766c3e 0.0s done
+#18 DONE 0.3s

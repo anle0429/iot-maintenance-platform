@@ -1,0 +1,54 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.16kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/iot-coursework-rag:deps-c3b696c3955c
+#2 DONE 0.0s
+
+#3 [internal] load build context
+#3 transferring context: 46.68kB done
+#3 DONE 0.0s
+
+#4 [runtime  1/10] FROM docker.io/library/iot-coursework-rag:deps-c3b696c3955c@sha256:4d65bdfb955f2d459f750fba5f30f381aab0378a4ce95f9047359a5760cd1afd
+#4 resolve docker.io/library/iot-coursework-rag:deps-c3b696c3955c@sha256:4d65bdfb955f2d459f750fba5f30f381aab0378a4ce95f9047359a5760cd1afd 0.0s done
+#4 DONE 0.0s
+
+#5 [runtime  3/10] RUN pip install --no-cache-dir --disable-pip-version-check -r /tmp/mcp-requirements.txt && pip check
+#5 CACHED
+
+#6 [runtime  2/10] COPY infra/mcp/requirements.txt /tmp/mcp-requirements.txt
+#6 CACHED
+
+#7 [runtime  8/10] COPY rag/__init__.py rag/store.py rag/embeddings.py rag/retrieval.py /workspace/rag/
+#7 CACHED
+
+#8 [runtime  4/10] COPY services/__init__.py /workspace/services/__init__.py
+#8 CACHED
+
+#9 [runtime  5/10] COPY services/mcp_tools /workspace/services/mcp_tools
+#9 CACHED
+
+#10 [runtime  6/10] COPY services/predictor/__init__.py services/predictor/contracts.py /workspace/services/predictor/
+#10 CACHED
+
+#11 [runtime  7/10] COPY services/drift_api/__init__.py services/drift_api/contracts.py /workspace/services/drift_api/
+#11 CACHED
+
+#12 [runtime  9/10] COPY infra/rag/embedding.lock.json /workspace/infra/rag/embedding.lock.json
+#12 CACHED
+
+#13 [runtime 10/10] COPY knowledge/catalog.json /workspace/knowledge/catalog.json
+#13 CACHED
+
+#14 exporting to image
+#14 exporting layers done
+#14 exporting manifest sha256:74f22c55f353b0ec5559275cd05a96778d805103e671652da28c66d524ffecbf 0.0s done
+#14 exporting config sha256:f98654e6e46099906c6c225234910b4a8a3606e1ab605a7b9970fcd1a588fa17 0.0s done
+#14 exporting attestation manifest sha256:e5481c6622fab155e97b810d49610fa1ca9380422cc4b4af1b3345e00a92552d
+#14 exporting attestation manifest sha256:e5481c6622fab155e97b810d49610fa1ca9380422cc4b4af1b3345e00a92552d 0.0s done
+#14 exporting manifest list sha256:a80400b976dd01a8d219c511c7eda1544e55175f461987a774f23279998d3b67 0.0s done
+#14 naming to docker.io/library/iot-coursework-mcp:mcp-4dc96c60bc1c done
+#14 unpacking to docker.io/library/iot-coursework-mcp:mcp-4dc96c60bc1c 0.0s done
+#14 DONE 0.2s

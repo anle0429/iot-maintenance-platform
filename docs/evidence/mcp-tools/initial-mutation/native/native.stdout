@@ -1,0 +1,25 @@
+{
+  "passed": false,
+  "mutmut_exit": 0,
+  "complete_inventory": true,
+  "terminal_killed_or_survived_only": false,
+  "mutation_score_percent": 56.19047619047619,
+  "stats": {
+    "killed": 531,
+    "survived": 398,
+    "total": 945,
+    "no_tests": 0,
+    "skipped": 0,
+    "suspicious": 0,
+    "timeout": 16,
+    "check_was_interrupted_by_user": 0,
+    "segfault": 0
+  },
+  "mutated_files": [
+    "auth.py",
+    "contracts.py",
+    "runtime.py",
+    "app.py"
+  ],
+  "scope": "All generated mutants in the four changed MCP Web API modules. Acceptance probe and deployment init are not Web API mutation targets."
+}

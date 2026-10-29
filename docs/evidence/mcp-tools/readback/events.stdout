@@ -1,0 +1,4122 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:30:30.592663Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-6dd45b99d8-xngth",
+                "namespace": "iot-agents",
+                "resourceVersion": "343006",
+                "uid": "17bc2773-0219-430d-b073-c062035dbaf1"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-agents/iot-drift-mcp-6dd45b99d8-xngth to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:30Z",
+                "name": "iot-drift-mcp-6dd45b99d8-xngth.18e2e909f34b8ac1",
+                "namespace": "iot-agents",
+                "resourceVersion": "343011",
+                "uid": "038aa40a-e80c-40a3-9d52-2b9960dd79d8"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:31Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-6dd45b99d8-xngth",
+                "namespace": "iot-agents",
+                "resourceVersion": "343008",
+                "uid": "17bc2773-0219-430d-b073-c062035dbaf1"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:31:19Z",
+            "message": "Container image \"iot-coursework-mcp:deliberately-missing-mcp-image\" is not present with pull policy of Never",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:31Z",
+                "name": "iot-drift-mcp-6dd45b99d8-xngth.18e2e90a159ed5d3",
+                "namespace": "iot-agents",
+                "resourceVersion": "343300",
+                "uid": "902e8595-24a2-43e1-88a0-db5596ffaeb4"
+            },
+            "reason": "ErrImageNeverPull",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:31Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-6dd45b99d8-xngth",
+                "namespace": "iot-agents",
+                "resourceVersion": "343008",
+                "uid": "17bc2773-0219-430d-b073-c062035dbaf1"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:31:19Z",
+            "message": "Error: ErrImageNeverPull",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:31Z",
+                "name": "iot-drift-mcp-6dd45b99d8-xngth.18e2e90a159fa4ef",
+                "namespace": "iot-agents",
+                "resourceVersion": "343301",
+                "uid": "ea825b2e-e1c6-42cd-8ff7-4bd184e1d048"
+            },
+            "reason": "Failed",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:30Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-drift-mcp-6dd45b99d8",
+                "namespace": "iot-agents",
+                "resourceVersion": "343003",
+                "uid": "1b395ca7-17df-4b03-99e2-1155304114fb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:30Z",
+            "message": "Created pod: iot-drift-mcp-6dd45b99d8-xngth",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:30Z",
+                "name": "iot-drift-mcp-6dd45b99d8.18e2e909f24fbc53",
+                "namespace": "iot-agents",
+                "resourceVersion": "343007",
+                "uid": "c1a00054-843b-40c6-ad28-0dd772d3f73a"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:31:30Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-drift-mcp-6dd45b99d8",
+                "namespace": "iot-agents",
+                "resourceVersion": "343369",
+                "uid": "1b395ca7-17df-4b03-99e2-1155304114fb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:31:30Z",
+            "message": "Deleted pod: iot-drift-mcp-6dd45b99d8-xngth",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:31:30Z",
+                "name": "iot-drift-mcp-6dd45b99d8.18e2e917faab4565",
+                "namespace": "iot-agents",
+                "resourceVersion": "343373",
+                "uid": "a8705ef2-e1f7-4624-b9bb-64e2d2bf8a03"
+            },
+            "reason": "SuccessfulDelete",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:30:15.168346Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-74c8bc9c58-rmd64",
+                "namespace": "iot-agents",
+                "resourceVersion": "342842",
+                "uid": "ee0c9af0-9f12-46aa-9dbd-77e3ccc6596e"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-agents/iot-drift-mcp-74c8bc9c58-rmd64 to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:15Z",
+                "name": "iot-drift-mcp-74c8bc9c58-rmd64.18e2e9065bef41bf",
+                "namespace": "iot-agents",
+                "resourceVersion": "342848",
+                "uid": "3c5c4b19-1345-42c2-b078-1b409970eda7"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-74c8bc9c58-rmd64",
+                "namespace": "iot-agents",
+                "resourceVersion": "342843",
+                "uid": "ee0c9af0-9f12-46aa-9dbd-77e3ccc6596e"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:15Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-cdec53766c3e\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:15Z",
+                "name": "iot-drift-mcp-74c8bc9c58-rmd64.18e2e9067d4ac189",
+                "namespace": "iot-agents",
+                "resourceVersion": "342851",
+                "uid": "7d1c7105-4e2d-46bb-8323-7d7b7ecc945b"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-74c8bc9c58-rmd64",
+                "namespace": "iot-agents",
+                "resourceVersion": "342843",
+                "uid": "ee0c9af0-9f12-46aa-9dbd-77e3ccc6596e"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:15Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:15Z",
+                "name": "iot-drift-mcp-74c8bc9c58-rmd64.18e2e9067f0600c6",
+                "namespace": "iot-agents",
+                "resourceVersion": "342852",
+                "uid": "823091bc-d4a2-4ea7-8fca-d80ed96d07db"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-74c8bc9c58-rmd64",
+                "namespace": "iot-agents",
+                "resourceVersion": "342843",
+                "uid": "ee0c9af0-9f12-46aa-9dbd-77e3ccc6596e"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:15Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:15Z",
+                "name": "iot-drift-mcp-74c8bc9c58-rmd64.18e2e906859facb5",
+                "namespace": "iot-agents",
+                "resourceVersion": "342853",
+                "uid": "b6cd629e-9bb4-40af-85a8-2f301a808a9f"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:30:21.625895Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-74c8bc9c58-sb7xw",
+                "namespace": "iot-agents",
+                "resourceVersion": "342909",
+                "uid": "084ec315-898e-43a7-9132-944d5b7dcd35"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-agents/iot-drift-mcp-74c8bc9c58-sb7xw to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:21Z",
+                "name": "iot-drift-mcp-74c8bc9c58-sb7xw.18e2e907dcd580b3",
+                "namespace": "iot-agents",
+                "resourceVersion": "342915",
+                "uid": "26350c74-d875-44d5-a53e-7ff7ef4f1cb5"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:22Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-74c8bc9c58-sb7xw",
+                "namespace": "iot-agents",
+                "resourceVersion": "342914",
+                "uid": "084ec315-898e-43a7-9132-944d5b7dcd35"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:22Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-cdec53766c3e\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:22Z",
+                "name": "iot-drift-mcp-74c8bc9c58-sb7xw.18e2e9080107da4b",
+                "namespace": "iot-agents",
+                "resourceVersion": "342923",
+                "uid": "46bf7a7b-abbb-4e7b-8e72-43a8d253cd4b"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:22Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-74c8bc9c58-sb7xw",
+                "namespace": "iot-agents",
+                "resourceVersion": "342914",
+                "uid": "084ec315-898e-43a7-9132-944d5b7dcd35"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:22Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:22Z",
+                "name": "iot-drift-mcp-74c8bc9c58-sb7xw.18e2e908035fbc2b",
+                "namespace": "iot-agents",
+                "resourceVersion": "342925",
+                "uid": "47aecf6f-ca19-4f5b-a8e4-d00ba8106871"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:22Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-74c8bc9c58-sb7xw",
+                "namespace": "iot-agents",
+                "resourceVersion": "342914",
+                "uid": "084ec315-898e-43a7-9132-944d5b7dcd35"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:22Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:22Z",
+                "name": "iot-drift-mcp-74c8bc9c58-sb7xw.18e2e9080b2c6aa2",
+                "namespace": "iot-agents",
+                "resourceVersion": "342930",
+                "uid": "f8de2209-6e54-486b-b6f7-ef3d46243f61"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:15Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-drift-mcp-74c8bc9c58",
+                "namespace": "iot-agents",
+                "resourceVersion": "342839",
+                "uid": "53686404-6940-422a-8451-cf0a83c47009"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:15Z",
+            "message": "Created pod: iot-drift-mcp-74c8bc9c58-rmd64",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:15Z",
+                "name": "iot-drift-mcp-74c8bc9c58.18e2e9065b0840f3",
+                "namespace": "iot-agents",
+                "resourceVersion": "342844",
+                "uid": "18bfc76c-55ae-4bd6-bf2d-fd6731aabb12"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:21Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-drift-mcp-74c8bc9c58",
+                "namespace": "iot-agents",
+                "resourceVersion": "342903",
+                "uid": "53686404-6940-422a-8451-cf0a83c47009"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:21Z",
+            "message": "Created pod: iot-drift-mcp-74c8bc9c58-sb7xw",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:21Z",
+                "name": "iot-drift-mcp-74c8bc9c58.18e2e907d9a6e51c",
+                "namespace": "iot-agents",
+                "resourceVersion": "342910",
+                "uid": "cc0a2e40-ffa4-47d9-87d4-d8d409124396"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:30:02.987352Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-9959c4f7d-6clr8",
+                "namespace": "iot-agents",
+                "resourceVersion": "342737",
+                "uid": "3d77f151-3ce4-40d1-9265-0bd2ec87d063"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-agents/iot-drift-mcp-9959c4f7d-6clr8 to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:03Z",
+                "name": "iot-drift-mcp-9959c4f7d-6clr8.18e2e90385e3f354",
+                "namespace": "iot-agents",
+                "resourceVersion": "342746",
+                "uid": "06797786-76e0-459c-b914-bb4e650d5086"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:03Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-9959c4f7d-6clr8",
+                "namespace": "iot-agents",
+                "resourceVersion": "342739",
+                "uid": "3d77f151-3ce4-40d1-9265-0bd2ec87d063"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:03Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-cdec53766c3e\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:03Z",
+                "name": "iot-drift-mcp-9959c4f7d-6clr8.18e2e903b8c47b03",
+                "namespace": "iot-agents",
+                "resourceVersion": "342752",
+                "uid": "e0e62dbd-7b32-429a-b951-a54e78cceb17"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:03Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-9959c4f7d-6clr8",
+                "namespace": "iot-agents",
+                "resourceVersion": "342739",
+                "uid": "3d77f151-3ce4-40d1-9265-0bd2ec87d063"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:03Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:03Z",
+                "name": "iot-drift-mcp-9959c4f7d-6clr8.18e2e903bda75d3b",
+                "namespace": "iot-agents",
+                "resourceVersion": "342753",
+                "uid": "b207e597-8225-4a9c-b74c-f0d5e4aff7ae"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:04Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-9959c4f7d-6clr8",
+                "namespace": "iot-agents",
+                "resourceVersion": "342739",
+                "uid": "3d77f151-3ce4-40d1-9265-0bd2ec87d063"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:04Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:04Z",
+                "name": "iot-drift-mcp-9959c4f7d-6clr8.18e2e903cadd109e",
+                "namespace": "iot-agents",
+                "resourceVersion": "342756",
+                "uid": "7b89c59b-7a8d-4044-aeee-81d03fe926bb"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:21Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-9959c4f7d-6clr8",
+                "namespace": "iot-agents",
+                "resourceVersion": "342739",
+                "uid": "3d77f151-3ce4-40d1-9265-0bd2ec87d063"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:21Z",
+            "message": "Stopping container mcp",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:21Z",
+                "name": "iot-drift-mcp-9959c4f7d-6clr8.18e2e907d8687268",
+                "namespace": "iot-agents",
+                "resourceVersion": "342904",
+                "uid": "73b53640-383e-47eb-93c1-c44d81dcdfa9"
+            },
+            "reason": "Killing",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:30:03.053411Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-9959c4f7d-njrqb",
+                "namespace": "iot-agents",
+                "resourceVersion": "342738",
+                "uid": "6a7fb2dc-e415-4e71-b00a-d603a86c5d67"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-agents/iot-drift-mcp-9959c4f7d-njrqb to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:03Z",
+                "name": "iot-drift-mcp-9959c4f7d-njrqb.18e2e90389d3f6a9",
+                "namespace": "iot-agents",
+                "resourceVersion": "342748",
+                "uid": "f3eab895-3c45-495e-a56c-4ac9b11efbbf"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:03Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-9959c4f7d-njrqb",
+                "namespace": "iot-agents",
+                "resourceVersion": "342745",
+                "uid": "6a7fb2dc-e415-4e71-b00a-d603a86c5d67"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:03Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-cdec53766c3e\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:03Z",
+                "name": "iot-drift-mcp-9959c4f7d-njrqb.18e2e903be907d50",
+                "namespace": "iot-agents",
+                "resourceVersion": "342754",
+                "uid": "7a4965a2-75eb-4d1d-a33a-b2a7b48a2adb"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:04Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-9959c4f7d-njrqb",
+                "namespace": "iot-agents",
+                "resourceVersion": "342745",
+                "uid": "6a7fb2dc-e415-4e71-b00a-d603a86c5d67"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:04Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:04Z",
+                "name": "iot-drift-mcp-9959c4f7d-njrqb.18e2e903c47b2252",
+                "namespace": "iot-agents",
+                "resourceVersion": "342755",
+                "uid": "b4945962-f2df-49b9-b4a8-8290fa1740ba"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:04Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-9959c4f7d-njrqb",
+                "namespace": "iot-agents",
+                "resourceVersion": "342745",
+                "uid": "6a7fb2dc-e415-4e71-b00a-d603a86c5d67"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:04Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:04Z",
+                "name": "iot-drift-mcp-9959c4f7d-njrqb.18e2e903d010af65",
+                "namespace": "iot-agents",
+                "resourceVersion": "342757",
+                "uid": "1ea32f20-6e7e-4e11-b42b-4f1a5ed55d04"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:27Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-drift-mcp-9959c4f7d-njrqb",
+                "namespace": "iot-agents",
+                "resourceVersion": "342745",
+                "uid": "6a7fb2dc-e415-4e71-b00a-d603a86c5d67"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:27Z",
+            "message": "Stopping container mcp",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:27Z",
+                "name": "iot-drift-mcp-9959c4f7d-njrqb.18e2e90943a43689",
+                "namespace": "iot-agents",
+                "resourceVersion": "342972",
+                "uid": "82f1e9ee-b3ff-4c3b-9c75-66d3217512bd"
+            },
+            "reason": "Killing",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:02Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-drift-mcp-9959c4f7d",
+                "namespace": "iot-agents",
+                "resourceVersion": "342729",
+                "uid": "fb2c4c02-98ab-40ac-b3dc-ff31f879dc62"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:02Z",
+            "message": "Created pod: iot-drift-mcp-9959c4f7d-6clr8",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:02Z",
+                "name": "iot-drift-mcp-9959c4f7d.18e2e90384b6dd8f",
+                "namespace": "iot-agents",
+                "resourceVersion": "342740",
+                "uid": "7e64a2b3-f633-418d-a073-bd881436063c"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:02Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-drift-mcp-9959c4f7d",
+                "namespace": "iot-agents",
+                "resourceVersion": "342729",
+                "uid": "fb2c4c02-98ab-40ac-b3dc-ff31f879dc62"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:02Z",
+            "message": "Created pod: iot-drift-mcp-9959c4f7d-njrqb",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:03Z",
+                "name": "iot-drift-mcp-9959c4f7d.18e2e9038605348c",
+                "namespace": "iot-agents",
+                "resourceVersion": "342742",
+                "uid": "a24db308-0142-4778-abc9-63ea8eb69543"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:21Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-drift-mcp-9959c4f7d",
+                "namespace": "iot-agents",
+                "resourceVersion": "342899",
+                "uid": "fb2c4c02-98ab-40ac-b3dc-ff31f879dc62"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:21Z",
+            "message": "Deleted pod: iot-drift-mcp-9959c4f7d-6clr8",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:21Z",
+                "name": "iot-drift-mcp-9959c4f7d.18e2e907d847294c",
+                "namespace": "iot-agents",
+                "resourceVersion": "342908",
+                "uid": "4bd238ee-777e-4e79-8b26-23c1aa5179d4"
+            },
+            "reason": "SuccessfulDelete",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:27Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-drift-mcp-9959c4f7d",
+                "namespace": "iot-agents",
+                "resourceVersion": "342966",
+                "uid": "fb2c4c02-98ab-40ac-b3dc-ff31f879dc62"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:27Z",
+            "message": "Deleted pod: iot-drift-mcp-9959c4f7d-njrqb",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:27Z",
+                "name": "iot-drift-mcp-9959c4f7d.18e2e909435b294a",
+                "namespace": "iot-agents",
+                "resourceVersion": "342970",
+                "uid": "57302594-ca64-46bc-bfa4-cbb7bb5b516d"
+            },
+            "reason": "SuccessfulDelete",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:02Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-drift-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342727",
+                "uid": "bab4b271-11e1-4da8-b6ed-51238af8ee54"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:02Z",
+            "message": "Scaled up replica set iot-drift-mcp-9959c4f7d from 0 to 2",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:02Z",
+                "name": "iot-drift-mcp.18e2e9037daa3d85",
+                "namespace": "iot-agents",
+                "resourceVersion": "342731",
+                "uid": "b25a2766-8603-40fd-857b-d3129a2ec9ef"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:15Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-drift-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342838",
+                "uid": "bab4b271-11e1-4da8-b6ed-51238af8ee54"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:15Z",
+            "message": "Scaled up replica set iot-drift-mcp-74c8bc9c58 from 0 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:15Z",
+                "name": "iot-drift-mcp.18e2e9065a83a47c",
+                "namespace": "iot-agents",
+                "resourceVersion": "342841",
+                "uid": "788e5732-2b5e-411e-b3ef-cb33b61e317b"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:21Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-drift-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342850",
+                "uid": "bab4b271-11e1-4da8-b6ed-51238af8ee54"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:21Z",
+            "message": "Scaled down replica set iot-drift-mcp-9959c4f7d from 2 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:21Z",
+                "name": "iot-drift-mcp.18e2e907d72c5c97",
+                "namespace": "iot-agents",
+                "resourceVersion": "342901",
+                "uid": "1e4fb4be-a0ce-43e0-914c-8fcb21044263"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:21Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-drift-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342850",
+                "uid": "bab4b271-11e1-4da8-b6ed-51238af8ee54"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:21Z",
+            "message": "Scaled up replica set iot-drift-mcp-74c8bc9c58 from 1 to 2",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:21Z",
+                "name": "iot-drift-mcp.18e2e907d921723a",
+                "namespace": "iot-agents",
+                "resourceVersion": "342913",
+                "uid": "c1eac75f-2a23-4977-a393-f1e742d69971"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:27Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-drift-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342929",
+                "uid": "bab4b271-11e1-4da8-b6ed-51238af8ee54"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:27Z",
+            "message": "Scaled down replica set iot-drift-mcp-9959c4f7d from 1 to 0",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:27Z",
+                "name": "iot-drift-mcp.18e2e9094254e7a8",
+                "namespace": "iot-agents",
+                "resourceVersion": "342968",
+                "uid": "784ebf1c-5473-403f-a878-24885fb29058"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:30:30Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-drift-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "343002",
+                "uid": "bab4b271-11e1-4da8-b6ed-51238af8ee54"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:30:30Z",
+            "message": "Scaled up replica set iot-drift-mcp-6dd45b99d8 from 0 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:30:30Z",
+                "name": "iot-drift-mcp.18e2e909f1653b28",
+                "namespace": "iot-agents",
+                "resourceVersion": "343004",
+                "uid": "e0c594af-88eb-432b-8990-deea31c4c2ae"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:31:30Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-drift-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "343365",
+                "uid": "bab4b271-11e1-4da8-b6ed-51238af8ee54"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:31:30Z",
+            "message": "Scaled down replica set iot-drift-mcp-6dd45b99d8 from 1 to 0",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:31:30Z",
+                "name": "iot-drift-mcp.18e2e917f9ec14f6",
+                "namespace": "iot-agents",
+                "resourceVersion": "343370",
+                "uid": "76824edb-591f-4896-ae0e-1d091ebe07ea"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "action": "Scheduling",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:15:02.216140Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5658f9f8db-l2tw6",
+                "namespace": "iot-agents",
+                "resourceVersion": "337410",
+                "uid": "9bf74d1f-679a-4c7b-b832-880a45f2ceaa"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "0/1 nodes are available: 1 Too many pods. no new claims to deallocate, preemption: 0/1 nodes are available: 1 No preemption victims found for incoming pod.",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:15:02Z",
+                "name": "iot-retrieval-mcp-5658f9f8db-l2tw6.18e2e831cbbdf9ff",
+                "namespace": "iot-agents",
+                "resourceVersion": "337415",
+                "uid": "1e7aee70-b248-4140-8b92-f2e59abab513"
+            },
+            "reason": "FailedScheduling",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Warning"
+        },
+        {
+            "action": "Scheduling",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:20:03.462901Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5658f9f8db-l2tw6",
+                "namespace": "iot-agents",
+                "resourceVersion": "337413",
+                "uid": "9bf74d1f-679a-4c7b-b832-880a45f2ceaa"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "0/1 nodes are available: 1 Too many pods. no new claims to deallocate, preemption: 0/1 nodes are available: 1 No preemption victims found for incoming pod.",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:20:03Z",
+                "name": "iot-retrieval-mcp-5658f9f8db-l2tw6.18e2e877ef72d0aa",
+                "namespace": "iot-agents",
+                "resourceVersion": "339007",
+                "uid": "4704e125-e02f-43f5-a0d0-926081c836f4"
+            },
+            "reason": "FailedScheduling",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:15:02Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-5658f9f8db",
+                "namespace": "iot-agents",
+                "resourceVersion": "337407",
+                "uid": "ffd7da81-ec30-480a-9f15-e2dd5a243c53"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:15:02Z",
+            "message": "Created pod: iot-retrieval-mcp-5658f9f8db-l2tw6",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:15:02Z",
+                "name": "iot-retrieval-mcp-5658f9f8db.18e2e831cb6f428d",
+                "namespace": "iot-agents",
+                "resourceVersion": "337411",
+                "uid": "d15acac8-ccb4-43af-ab48-f08f0593463c"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:23:02Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-5658f9f8db",
+                "namespace": "iot-agents",
+                "resourceVersion": "339957",
+                "uid": "ffd7da81-ec30-480a-9f15-e2dd5a243c53"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:23:02Z",
+            "message": "Deleted pod: iot-retrieval-mcp-5658f9f8db-l2tw6",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:23:02Z",
+                "name": "iot-retrieval-mcp-5658f9f8db.18e2e8a1982bfba2",
+                "namespace": "iot-agents",
+                "resourceVersion": "339961",
+                "uid": "58f77ae6-bea6-4abd-bc05-70e011449f6e"
+            },
+            "reason": "SuccessfulDelete",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:07:06.527260Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv",
+                "namespace": "iot-agents",
+                "resourceVersion": "334767",
+                "uid": "77d66d49-ed98-4108-8f1c-a2ac5e466b4c"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-agents/iot-retrieval-mcp-56bd5cfb58-djvjv to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:06Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv.18e2e7c30a79ce84",
+                "namespace": "iot-agents",
+                "resourceVersion": "334774",
+                "uid": "0ff2b4a0-8cfb-4b89-881d-e90d7b684fb2"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:07Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv",
+                "namespace": "iot-agents",
+                "resourceVersion": "334771",
+                "uid": "77d66d49-ed98-4108-8f1c-a2ac5e466b4c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:07Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-4dc96c60bc1c\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:07Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv.18e2e7c346e87598",
+                "namespace": "iot-agents",
+                "resourceVersion": "334784",
+                "uid": "567623c5-a93e-46fb-879e-fbbd73b88fad"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:07Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv",
+                "namespace": "iot-agents",
+                "resourceVersion": "334771",
+                "uid": "77d66d49-ed98-4108-8f1c-a2ac5e466b4c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:07Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:07Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv.18e2e7c34c0e37d3",
+                "namespace": "iot-agents",
+                "resourceVersion": "334785",
+                "uid": "b021279e-c5cb-4b62-a6a6-b42ce510ae52"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:08Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv",
+                "namespace": "iot-agents",
+                "resourceVersion": "334771",
+                "uid": "77d66d49-ed98-4108-8f1c-a2ac5e466b4c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:08Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:08Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv.18e2e7c3645cd511",
+                "namespace": "iot-agents",
+                "resourceVersion": "334789",
+                "uid": "becbcbeb-25a9-47dc-b769-04aabea01959"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:10Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv",
+                "namespace": "iot-agents",
+                "resourceVersion": "334771",
+                "uid": "77d66d49-ed98-4108-8f1c-a2ac5e466b4c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:10Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-4dc96c60bc1c\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:10Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv.18e2e7c3f9c71815",
+                "namespace": "iot-agents",
+                "resourceVersion": "334814",
+                "uid": "4e922ae5-a924-46ef-a283-3081cd64476e"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:10Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv",
+                "namespace": "iot-agents",
+                "resourceVersion": "334771",
+                "uid": "77d66d49-ed98-4108-8f1c-a2ac5e466b4c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:10Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:10Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv.18e2e7c4050ed892",
+                "namespace": "iot-agents",
+                "resourceVersion": "334819",
+                "uid": "2c90e325-1b65-4b45-ac06-de3612b37614"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:10Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv",
+                "namespace": "iot-agents",
+                "resourceVersion": "334771",
+                "uid": "77d66d49-ed98-4108-8f1c-a2ac5e466b4c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:10Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:10Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv.18e2e7c41201c79b",
+                "namespace": "iot-agents",
+                "resourceVersion": "334822",
+                "uid": "6cbd8885-eb06-492a-bec8-e8f6629f9365"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:11Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv",
+                "namespace": "iot-agents",
+                "resourceVersion": "334771",
+                "uid": "77d66d49-ed98-4108-8f1c-a2ac5e466b4c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:26Z",
+            "message": "Startup probe failed: Get \"http://10.52.0.185:8080/health/live\": dial tcp 10.52.0.185:8080: connect: connection refused",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:11Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv.18e2e7c44e87f7c2",
+                "namespace": "iot-agents",
+                "resourceVersion": "334931",
+                "uid": "7f8a74f8-2fdb-4a79-9309-3a9c8eaa4b70"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:08:51Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv",
+                "namespace": "iot-agents",
+                "resourceVersion": "334771",
+                "uid": "77d66d49-ed98-4108-8f1c-a2ac5e466b4c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:17:21Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:08:51Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv.18e2e7db984ff233",
+                "namespace": "iot-agents",
+                "resourceVersion": "338136",
+                "uid": "3069a97a-4d22-4068-a7d8-75f9bf0ba884"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:43Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv",
+                "namespace": "iot-agents",
+                "resourceVersion": "334961",
+                "uid": "77d66d49-ed98-4108-8f1c-a2ac5e466b4c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:43Z",
+            "message": "Stopping container mcp",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:43Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv.18e2e8e303e7799b",
+                "namespace": "iot-agents",
+                "resourceVersion": "341692",
+                "uid": "9c652deb-93b5-42b4-b96f-703c783c0cfa"
+            },
+            "reason": "Killing",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:44Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv",
+                "namespace": "iot-agents",
+                "resourceVersion": "334961",
+                "uid": "77d66d49-ed98-4108-8f1c-a2ac5e466b4c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:44Z",
+            "message": "Readiness probe failed: Get \"http://10.52.0.185:8080/health/ready\": dial tcp 10.52.0.185:8080: connect: connection refused",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:44Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-djvjv.18e2e8e354ae7f89",
+                "namespace": "iot-agents",
+                "resourceVersion": "341717",
+                "uid": "349a6e8d-b329-4f43-8442-f310f6328f54"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "action": "Scheduling",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:07:06.498693Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334769",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "0/1 nodes are available: 1 Too many pods. no new claims to deallocate, preemption: 0/1 nodes are available: 1 No preemption victims found for incoming pod.",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:06Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e7c308c62bfc",
+                "namespace": "iot-agents",
+                "resourceVersion": "334775",
+                "uid": "37b3bf5a-fe92-486b-8b25-5ff995fb8915"
+            },
+            "reason": "FailedScheduling",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Warning"
+        },
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:07:10.105524Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334776",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-agents/iot-retrieval-mcp-56bd5cfb58-h7gxs to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:10Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e7c3dfc1da5e",
+                "namespace": "iot-agents",
+                "resourceVersion": "334808",
+                "uid": "61838cb9-be0c-4465-a604-966f56ddb9d4"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:11Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334807",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:11Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-4dc96c60bc1c\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:11Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e7c4154547fe",
+                "namespace": "iot-agents",
+                "resourceVersion": "334823",
+                "uid": "592e7c23-ff73-4f34-aab3-bf6a63ebd131"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:11Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334807",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:11Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:11Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e7c418966fe2",
+                "namespace": "iot-agents",
+                "resourceVersion": "334824",
+                "uid": "29ff21bc-3bd2-44de-9e1e-056aee207c2b"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:11Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334807",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:11Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:11Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e7c42c130366",
+                "namespace": "iot-agents",
+                "resourceVersion": "334830",
+                "uid": "9fd53909-a152-4df9-a68d-37153063c820"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:13Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334807",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:13Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-4dc96c60bc1c\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:13Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e7c4b0a0cf0b",
+                "namespace": "iot-agents",
+                "resourceVersion": "334845",
+                "uid": "2998bc19-9449-415a-96af-ad2e39c99642"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:13Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334807",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:13Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:13Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e7c4b3485029",
+                "namespace": "iot-agents",
+                "resourceVersion": "334847",
+                "uid": "59872017-9711-41c8-ba45-b7f6e7ef2ec7"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:13Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334807",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:13Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:13Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e7c4bc5ea844",
+                "namespace": "iot-agents",
+                "resourceVersion": "334848",
+                "uid": "c59217df-af15-49a8-9bb8-466fa75f687f"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334807",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:30Z",
+            "message": "Startup probe failed: Get \"http://10.52.0.186:8080/health/live\": dial tcp 10.52.0.186:8080: connect: connection refused",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:15Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e7c5239c1fc8",
+                "namespace": "iot-agents",
+                "resourceVersion": "334945",
+                "uid": "833c5cc6-595b-43fb-b873-1499e27f2b3d"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:08:45Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334807",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:19:20Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:08:45Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e7da191dfd91",
+                "namespace": "iot-agents",
+                "resourceVersion": "338771",
+                "uid": "4943be6a-6f00-4d12-9864-6d0701fc11d8"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:26:09Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334989",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:26:09Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:26:09Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e8cd37a467c9",
+                "namespace": "iot-agents",
+                "resourceVersion": "341137",
+                "uid": "8f0e015f-428b-4daf-90b3-9b52f9a5922e"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:03Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334989",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:03Z",
+            "message": "Stopping container mcp",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:03Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e8e7cc1e8d8b",
+                "namespace": "iot-agents",
+                "resourceVersion": "341865",
+                "uid": "4463f303-c2b3-471e-ae86-65f16e0f8067"
+            },
+            "reason": "Killing",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:04Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs",
+                "namespace": "iot-agents",
+                "resourceVersion": "334989",
+                "uid": "bf3d01ac-e3cb-4de5-b5f1-3e1025cccd80"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:04Z",
+            "message": "Readiness probe failed: Get \"http://10.52.0.186:8080/health/ready\": dial tcp 10.52.0.186:8080: connect: connection refused",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:04Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58-h7gxs.18e2e8e7fcc9f813",
+                "namespace": "iot-agents",
+                "resourceVersion": "341878",
+                "uid": "db8a170e-6d76-45ea-869b-a03586869419"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:06Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-56bd5cfb58",
+                "namespace": "iot-agents",
+                "resourceVersion": "334764",
+                "uid": "79150ffb-95d4-4d0f-a642-f30626e83397"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:06Z",
+            "message": "Created pod: iot-retrieval-mcp-56bd5cfb58-djvjv",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:06Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58.18e2e7c307a5de71",
+                "namespace": "iot-agents",
+                "resourceVersion": "334770",
+                "uid": "b448ba5c-4c7e-4567-84af-aad4eaff51f5"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:06Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-56bd5cfb58",
+                "namespace": "iot-agents",
+                "resourceVersion": "334764",
+                "uid": "79150ffb-95d4-4d0f-a642-f30626e83397"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:06Z",
+            "message": "Created pod: iot-retrieval-mcp-56bd5cfb58-h7gxs",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:06Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58.18e2e7c308548a10",
+                "namespace": "iot-agents",
+                "resourceVersion": "334772",
+                "uid": "b9cee6f4-0fe6-4d91-b99a-09f95b8679c7"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:43Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-56bd5cfb58",
+                "namespace": "iot-agents",
+                "resourceVersion": "341690",
+                "uid": "79150ffb-95d4-4d0f-a642-f30626e83397"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:43Z",
+            "message": "Deleted pod: iot-retrieval-mcp-56bd5cfb58-djvjv",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:43Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58.18e2e8e304888e40",
+                "namespace": "iot-agents",
+                "resourceVersion": "341697",
+                "uid": "52327fdc-d777-4bf2-b7ed-f814d1b1e99c"
+            },
+            "reason": "SuccessfulDelete",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:03Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-56bd5cfb58",
+                "namespace": "iot-agents",
+                "resourceVersion": "341861",
+                "uid": "79150ffb-95d4-4d0f-a642-f30626e83397"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:03Z",
+            "message": "Deleted pod: iot-retrieval-mcp-56bd5cfb58-h7gxs",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:03Z",
+                "name": "iot-retrieval-mcp-56bd5cfb58.18e2e8e7cc104e95",
+                "namespace": "iot-agents",
+                "resourceVersion": "341867",
+                "uid": "209cb255-1e55-46b8-b9b1-26e319e7a800"
+            },
+            "reason": "SuccessfulDelete",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:27:17.874169Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341518",
+                "uid": "822b7f73-c1d1-47da-8cdb-77b16aba91eb"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-agents/iot-retrieval-mcp-5c495745b4-z6ch4 to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:17Z",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4.18e2e8dd1460bbef",
+                "namespace": "iot-agents",
+                "resourceVersion": "341523",
+                "uid": "0de6487c-e22a-4bdc-8057-38a64edfd12f"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:18Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341519",
+                "uid": "822b7f73-c1d1-47da-8cdb-77b16aba91eb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:18Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-cdec53766c3e\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:18Z",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4.18e2e8dd4429c6e8",
+                "namespace": "iot-agents",
+                "resourceVersion": "341531",
+                "uid": "9125f0d2-bd12-4c25-858c-f720b3832e2c"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:18Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341519",
+                "uid": "822b7f73-c1d1-47da-8cdb-77b16aba91eb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:18Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:18Z",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4.18e2e8dd49904c2d",
+                "namespace": "iot-agents",
+                "resourceVersion": "341532",
+                "uid": "a890f9e3-7dc2-4549-801f-5cb9d10d76c9"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:19Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341519",
+                "uid": "822b7f73-c1d1-47da-8cdb-77b16aba91eb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:19Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:19Z",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4.18e2e8dd5afd8c90",
+                "namespace": "iot-agents",
+                "resourceVersion": "341533",
+                "uid": "a33dddd1-eaf8-4f81-9817-edfbdf626d22"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:21Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341519",
+                "uid": "822b7f73-c1d1-47da-8cdb-77b16aba91eb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:21Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-cdec53766c3e\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:21Z",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4.18e2e8ddfaec68fc",
+                "namespace": "iot-agents",
+                "resourceVersion": "341556",
+                "uid": "124b2eb9-766f-48ca-8bee-381a073e9f20"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:21Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341519",
+                "uid": "822b7f73-c1d1-47da-8cdb-77b16aba91eb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:21Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:21Z",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4.18e2e8ddfd15f78a",
+                "namespace": "iot-agents",
+                "resourceVersion": "341558",
+                "uid": "18be89a5-d1cd-43f9-b18e-4f24c5d259b3"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:21Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341519",
+                "uid": "822b7f73-c1d1-47da-8cdb-77b16aba91eb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:21Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:21Z",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4.18e2e8de05db35b1",
+                "namespace": "iot-agents",
+                "resourceVersion": "341560",
+                "uid": "6d25d824-3469-4c4c-8c1a-fe32ff203ae5"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:23Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341519",
+                "uid": "822b7f73-c1d1-47da-8cdb-77b16aba91eb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:38Z",
+            "message": "Startup probe failed: Get \"http://10.52.0.187:8080/health/live\": dial tcp 10.52.0.187:8080: connect: connection refused",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:23Z",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4.18e2e8de564ba1e4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341648",
+                "uid": "b290d444-67cc-4f99-bc1c-e5a97f87a6b3"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:33Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341519",
+                "uid": "822b7f73-c1d1-47da-8cdb-77b16aba91eb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:33Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:33Z",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4.18e2e8eea3b18e7b",
+                "namespace": "iot-agents",
+                "resourceVersion": "342108",
+                "uid": "907c4fb6-ccb1-4537-9433-a576565fa3ef"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:53Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341519",
+                "uid": "822b7f73-c1d1-47da-8cdb-77b16aba91eb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:53Z",
+            "message": "Stopping container mcp",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:53Z",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4.18e2e8f3407b1ffe",
+                "namespace": "iot-agents",
+                "resourceVersion": "342270",
+                "uid": "c2f51eb1-9fea-4494-a029-74263f812495"
+            },
+            "reason": "Killing",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:53Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341519",
+                "uid": "822b7f73-c1d1-47da-8cdb-77b16aba91eb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:53Z",
+            "message": "Readiness probe failed: Get \"http://10.52.0.187:8080/health/ready\": dial tcp 10.52.0.187:8080: connect: connection refused",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:53Z",
+                "name": "iot-retrieval-mcp-5c495745b4-z6ch4.18e2e8f34aef8797",
+                "namespace": "iot-agents",
+                "resourceVersion": "342278",
+                "uid": "79a4de3f-4374-4cde-afce-012b80ae745e"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:27:43.451198Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97",
+                "namespace": "iot-agents",
+                "resourceVersion": "341702",
+                "uid": "af62e377-ef83-4a17-aa4d-a8b9b5c288d6"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-agents/iot-retrieval-mcp-5c495745b4-zgf97 to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:43Z",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97.18e2e8e308e3258a",
+                "namespace": "iot-agents",
+                "resourceVersion": "341710",
+                "uid": "5eee1927-2336-4635-bdcb-8a133b64146e"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:44Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97",
+                "namespace": "iot-agents",
+                "resourceVersion": "341707",
+                "uid": "af62e377-ef83-4a17-aa4d-a8b9b5c288d6"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:44Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-cdec53766c3e\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:44Z",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97.18e2e8e33116a9eb",
+                "namespace": "iot-agents",
+                "resourceVersion": "341713",
+                "uid": "3fa25b54-7c57-4cb2-bff4-28ae484bbb4f"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:44Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97",
+                "namespace": "iot-agents",
+                "resourceVersion": "341707",
+                "uid": "af62e377-ef83-4a17-aa4d-a8b9b5c288d6"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:44Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:44Z",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97.18e2e8e333334815",
+                "namespace": "iot-agents",
+                "resourceVersion": "341714",
+                "uid": "db00b146-39c5-4e11-b9d0-87be40ce7e48"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:44Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97",
+                "namespace": "iot-agents",
+                "resourceVersion": "341707",
+                "uid": "af62e377-ef83-4a17-aa4d-a8b9b5c288d6"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:44Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:44Z",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97.18e2e8e33bbc8081",
+                "namespace": "iot-agents",
+                "resourceVersion": "341715",
+                "uid": "0c56fab2-d920-475e-9da1-53ca4b5d654b"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:46Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97",
+                "namespace": "iot-agents",
+                "resourceVersion": "341707",
+                "uid": "af62e377-ef83-4a17-aa4d-a8b9b5c288d6"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:46Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-cdec53766c3e\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:46Z",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97.18e2e8e3a28c8e62",
+                "namespace": "iot-agents",
+                "resourceVersion": "341726",
+                "uid": "cf8350ca-79ae-4201-a211-c18029e3ad26"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:46Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97",
+                "namespace": "iot-agents",
+                "resourceVersion": "341707",
+                "uid": "af62e377-ef83-4a17-aa4d-a8b9b5c288d6"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:46Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:46Z",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97.18e2e8e3a47d8e33",
+                "namespace": "iot-agents",
+                "resourceVersion": "341728",
+                "uid": "b3128c6d-cc3b-49c3-ad05-4f2a307be152"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:46Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97",
+                "namespace": "iot-agents",
+                "resourceVersion": "341707",
+                "uid": "af62e377-ef83-4a17-aa4d-a8b9b5c288d6"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:46Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:46Z",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97.18e2e8e3ad2eef62",
+                "namespace": "iot-agents",
+                "resourceVersion": "341729",
+                "uid": "465bd296-826a-44f8-8a5c-adc7e3bdf104"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 3,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:48Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97",
+                "namespace": "iot-agents",
+                "resourceVersion": "341707",
+                "uid": "af62e377-ef83-4a17-aa4d-a8b9b5c288d6"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:58Z",
+            "message": "Startup probe failed: Get \"http://10.52.0.188:8080/health/live\": dial tcp 10.52.0.188:8080: connect: connection refused",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:48Z",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97.18e2e8e448a80c14",
+                "namespace": "iot-agents",
+                "resourceVersion": "341829",
+                "uid": "278c7074-ca0c-4dae-9644-991448a86b96"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:32Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97",
+                "namespace": "iot-agents",
+                "resourceVersion": "341707",
+                "uid": "af62e377-ef83-4a17-aa4d-a8b9b5c288d6"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:32Z",
+            "message": "Stopping container mcp",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:32Z",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97.18e2e8ee79a43119",
+                "namespace": "iot-agents",
+                "resourceVersion": "342086",
+                "uid": "80d5c3e4-9c53-4e7b-be93-2ec98b1df2f8"
+            },
+            "reason": "Killing",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:33Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97",
+                "namespace": "iot-agents",
+                "resourceVersion": "341707",
+                "uid": "af62e377-ef83-4a17-aa4d-a8b9b5c288d6"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:33Z",
+            "message": "Readiness probe failed: Get \"http://10.52.0.188:8080/health/ready\": dial tcp 10.52.0.188:8080: connect: connection refused",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:33Z",
+                "name": "iot-retrieval-mcp-5c495745b4-zgf97.18e2e8eec31289f8",
+                "namespace": "iot-agents",
+                "resourceVersion": "342113",
+                "uid": "49ecf06c-e930-448d-9357-f7404a82c3ce"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:17Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-5c495745b4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341514",
+                "uid": "8fae5c92-9682-4c1a-987e-d6729ec5178f"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:17Z",
+            "message": "Created pod: iot-retrieval-mcp-5c495745b4-z6ch4",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:17Z",
+                "name": "iot-retrieval-mcp-5c495745b4.18e2e8dd130edd27",
+                "namespace": "iot-agents",
+                "resourceVersion": "341520",
+                "uid": "bd2cdf13-239f-4771-8b96-6c3aadb4c8ac"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:43Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-5c495745b4",
+                "namespace": "iot-agents",
+                "resourceVersion": "341700",
+                "uid": "8fae5c92-9682-4c1a-987e-d6729ec5178f"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:43Z",
+            "message": "Created pod: iot-retrieval-mcp-5c495745b4-zgf97",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:43Z",
+                "name": "iot-retrieval-mcp-5c495745b4.18e2e8e307778cd9",
+                "namespace": "iot-agents",
+                "resourceVersion": "341705",
+                "uid": "a429ca23-712a-4647-82f2-7d8d62a94fdd"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:32Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-5c495745b4",
+                "namespace": "iot-agents",
+                "resourceVersion": "342082",
+                "uid": "8fae5c92-9682-4c1a-987e-d6729ec5178f"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:32Z",
+            "message": "Deleted pod: iot-retrieval-mcp-5c495745b4-zgf97",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:32Z",
+                "name": "iot-retrieval-mcp-5c495745b4.18e2e8ee797f3c24",
+                "namespace": "iot-agents",
+                "resourceVersion": "342088",
+                "uid": "056a6ac4-b9fc-40ba-9779-605558129298"
+            },
+            "reason": "SuccessfulDelete",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:53Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-5c495745b4",
+                "namespace": "iot-agents",
+                "resourceVersion": "342266",
+                "uid": "8fae5c92-9682-4c1a-987e-d6729ec5178f"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:53Z",
+            "message": "Deleted pod: iot-retrieval-mcp-5c495745b4-z6ch4",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:53Z",
+                "name": "iot-retrieval-mcp-5c495745b4.18e2e8f34031cd36",
+                "namespace": "iot-agents",
+                "resourceVersion": "342272",
+                "uid": "93a96876-5058-4cc9-91e7-8669bcf4cdb1"
+            },
+            "reason": "SuccessfulDelete",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:28:12.098619Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76",
+                "namespace": "iot-agents",
+                "resourceVersion": "341947",
+                "uid": "a84ad4cc-ed46-4f16-821c-7cfb3a676bda"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-agents/iot-retrieval-mcp-9444d54c6-hcs76 to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:12Z",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76.18e2e8e9b4682517",
+                "namespace": "iot-agents",
+                "resourceVersion": "341951",
+                "uid": "c9f976ee-6f96-4add-9b9d-25ef9d5a3bf5"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:12Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76",
+                "namespace": "iot-agents",
+                "resourceVersion": "341949",
+                "uid": "a84ad4cc-ed46-4f16-821c-7cfb3a676bda"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:12Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-cdec53766c3e\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:12Z",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76.18e2e8e9d886dffb",
+                "namespace": "iot-agents",
+                "resourceVersion": "341964",
+                "uid": "f1ac556a-449a-473a-a029-ec14dae43884"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:12Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76",
+                "namespace": "iot-agents",
+                "resourceVersion": "341949",
+                "uid": "a84ad4cc-ed46-4f16-821c-7cfb3a676bda"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:12Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:12Z",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76.18e2e8e9dac42c23",
+                "namespace": "iot-agents",
+                "resourceVersion": "341965",
+                "uid": "5e16216f-b65c-481d-a020-988138dc4c71"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:12Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76",
+                "namespace": "iot-agents",
+                "resourceVersion": "341949",
+                "uid": "a84ad4cc-ed46-4f16-821c-7cfb3a676bda"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:12Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:12Z",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76.18e2e8e9e7359d82",
+                "namespace": "iot-agents",
+                "resourceVersion": "341970",
+                "uid": "418809d7-5014-46bd-a33f-6c81a4c9ff69"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:14Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76",
+                "namespace": "iot-agents",
+                "resourceVersion": "341949",
+                "uid": "a84ad4cc-ed46-4f16-821c-7cfb3a676bda"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:14Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-cdec53766c3e\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:14Z",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76.18e2e8ea4590be37",
+                "namespace": "iot-agents",
+                "resourceVersion": "341976",
+                "uid": "ed949d9f-eace-489c-9ea7-2984d1374d7f"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:14Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76",
+                "namespace": "iot-agents",
+                "resourceVersion": "341949",
+                "uid": "a84ad4cc-ed46-4f16-821c-7cfb3a676bda"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:14Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:14Z",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76.18e2e8ea47867aa6",
+                "namespace": "iot-agents",
+                "resourceVersion": "341978",
+                "uid": "e1ecddf2-c138-4270-a037-3aa7910d0c3b"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:14Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76",
+                "namespace": "iot-agents",
+                "resourceVersion": "341949",
+                "uid": "a84ad4cc-ed46-4f16-821c-7cfb3a676bda"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:14Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:14Z",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76.18e2e8ea4ea2a996",
+                "namespace": "iot-agents",
+                "resourceVersion": "341980",
+                "uid": "0ffa4ed1-e5e5-4c45-b590-538d151488e5"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 3,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76",
+                "namespace": "iot-agents",
+                "resourceVersion": "341949",
+                "uid": "a84ad4cc-ed46-4f16-821c-7cfb3a676bda"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:27Z",
+            "message": "Startup probe failed: Get \"http://10.52.0.189:8080/health/live\": dial tcp 10.52.0.189:8080: connect: connection refused",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:17Z",
+                "name": "iot-retrieval-mcp-9444d54c6-hcs76.18e2e8eaf4ac819e",
+                "namespace": "iot-agents",
+                "resourceVersion": "342052",
+                "uid": "23830992-f251-4191-931d-f6fda1c9f387"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:28:32.657560Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342094",
+                "uid": "b7ff2da5-9323-4331-9f1b-127909cdac95"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-agents/iot-retrieval-mcp-9444d54c6-rhhdp to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:32Z",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp.18e2e8ee7dd0b496",
+                "namespace": "iot-agents",
+                "resourceVersion": "342099",
+                "uid": "cea40ca0-95dd-490f-bc6b-bfa8c0caa8a8"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:33Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342095",
+                "uid": "b7ff2da5-9323-4331-9f1b-127909cdac95"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:33Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-cdec53766c3e\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:33Z",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp.18e2e8eeac067ade",
+                "namespace": "iot-agents",
+                "resourceVersion": "342110",
+                "uid": "450c2379-d1e1-4f7a-932a-dfd412626a1b"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:33Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342095",
+                "uid": "b7ff2da5-9323-4331-9f1b-127909cdac95"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:33Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:33Z",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp.18e2e8eeae9bd07e",
+                "namespace": "iot-agents",
+                "resourceVersion": "342111",
+                "uid": "a7bdca30-4b4a-4589-8616-f18407db8885"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:33Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342095",
+                "uid": "b7ff2da5-9323-4331-9f1b-127909cdac95"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:33Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:33Z",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp.18e2e8eec1447c4d",
+                "namespace": "iot-agents",
+                "resourceVersion": "342112",
+                "uid": "c6c986a2-2726-43a2-ae5f-2206feb943cf"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:35Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342095",
+                "uid": "b7ff2da5-9323-4331-9f1b-127909cdac95"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:35Z",
+            "message": "Container image \"iot-coursework-mcp:mcp-cdec53766c3e\" already present on machine and can be accessed by the pod",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:35Z",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp.18e2e8ef3cb54a6e",
+                "namespace": "iot-agents",
+                "resourceVersion": "342133",
+                "uid": "4f7d8ea2-99cc-478b-8f5e-5c2d6caa14b2"
+            },
+            "reason": "Pulled",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:35Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342095",
+                "uid": "b7ff2da5-9323-4331-9f1b-127909cdac95"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:35Z",
+            "message": "Container created",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:35Z",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp.18e2e8ef414a879f",
+                "namespace": "iot-agents",
+                "resourceVersion": "342136",
+                "uid": "86ca62a7-220b-41ad-ad28-8a8cbf9e3783"
+            },
+            "reason": "Created",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:36Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342095",
+                "uid": "b7ff2da5-9323-4331-9f1b-127909cdac95"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:36Z",
+            "message": "Container started",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:36Z",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp.18e2e8ef4dd16e98",
+                "namespace": "iot-agents",
+                "resourceVersion": "342138",
+                "uid": "3faeb255-f00d-4085-ad59-a14f41a41f64"
+            },
+            "reason": "Started",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 3,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:38Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mcp}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342095",
+                "uid": "b7ff2da5-9323-4331-9f1b-127909cdac95"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:48Z",
+            "message": "Startup probe failed: Get \"http://10.52.0.190:8080/health/live\": dial tcp 10.52.0.190:8080: connect: connection refused",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:38Z",
+                "name": "iot-retrieval-mcp-9444d54c6-rhhdp.18e2e8efbd49360e",
+                "namespace": "iot-agents",
+                "resourceVersion": "342213",
+                "uid": "73892fcf-9452-4b24-a9c1-2c6de7254cbf"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:12Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-9444d54c6",
+                "namespace": "iot-agents",
+                "resourceVersion": "341941",
+                "uid": "43098ab5-576b-4ce8-9232-dcbe1dc225c0"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:12Z",
+            "message": "Created pod: iot-retrieval-mcp-9444d54c6-hcs76",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:12Z",
+                "name": "iot-retrieval-mcp-9444d54c6.18e2e8e9b3f62067",
+                "namespace": "iot-agents",
+                "resourceVersion": "341950",
+                "uid": "850e421c-cafd-4758-bc1f-35312035314f"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:32Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-9444d54c6",
+                "namespace": "iot-agents",
+                "resourceVersion": "342087",
+                "uid": "43098ab5-576b-4ce8-9232-dcbe1dc225c0"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:32Z",
+            "message": "Created pod: iot-retrieval-mcp-9444d54c6-rhhdp",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:32Z",
+                "name": "iot-retrieval-mcp-9444d54c6.18e2e8ee7d1f8b73",
+                "namespace": "iot-agents",
+                "resourceVersion": "342097",
+                "uid": "ed58b295-f1e3-4201-8a04-d3c2e82d5784"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "action": "Binding",
+            "apiVersion": "v1",
+            "eventTime": "2026-10-29T05:28:55.596429Z",
+            "firstTimestamp": null,
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-f89778b88-vf4x9",
+                "namespace": "iot-agents",
+                "resourceVersion": "342291",
+                "uid": "67614a80-5bf4-40a4-82c7-8b2f9baa002c"
+            },
+            "kind": "Event",
+            "lastTimestamp": null,
+            "message": "Successfully assigned iot-agents/iot-retrieval-mcp-f89778b88-vf4x9 to iot-cw-vm",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:55Z",
+                "name": "iot-retrieval-mcp-f89778b88-vf4x9.18e2e8f3d51401ca",
+                "namespace": "iot-agents",
+                "resourceVersion": "342295",
+                "uid": "974dcb41-7e69-47aa-aeb2-87475c2961b4"
+            },
+            "reason": "Scheduled",
+            "reportingComponent": "default-scheduler",
+            "reportingInstance": "default-scheduler-iot-cw-vm",
+            "source": {},
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:56Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-f89778b88-vf4x9",
+                "namespace": "iot-agents",
+                "resourceVersion": "342292",
+                "uid": "67614a80-5bf4-40a4-82c7-8b2f9baa002c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:29:51Z",
+            "message": "Container image \"iot-coursework-mcp:deliberately-missing-mcp-image\" is not present with pull policy of Never",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:56Z",
+                "name": "iot-retrieval-mcp-f89778b88-vf4x9.18e2e8f400d74ccf",
+                "namespace": "iot-agents",
+                "resourceVersion": "342638",
+                "uid": "3995e131-772c-434d-b90f-acde91b043fc"
+            },
+            "reason": "ErrImageNeverPull",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:56Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.initContainers{copy-verified-snapshot}",
+                "kind": "Pod",
+                "name": "iot-retrieval-mcp-f89778b88-vf4x9",
+                "namespace": "iot-agents",
+                "resourceVersion": "342292",
+                "uid": "67614a80-5bf4-40a4-82c7-8b2f9baa002c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:29:51Z",
+            "message": "Error: ErrImageNeverPull",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:56Z",
+                "name": "iot-retrieval-mcp-f89778b88-vf4x9.18e2e8f400d8b259",
+                "namespace": "iot-agents",
+                "resourceVersion": "342639",
+                "uid": "8cb67752-0015-4f58-b179-c55db68146bf"
+            },
+            "reason": "Failed",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "iot-cw-vm",
+            "source": {
+                "component": "kubelet",
+                "host": "iot-cw-vm"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:55Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-f89778b88",
+                "namespace": "iot-agents",
+                "resourceVersion": "342288",
+                "uid": "bdf00bd2-cc76-4bcf-ac58-8e7db5182209"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:55Z",
+            "message": "Created pod: iot-retrieval-mcp-f89778b88-vf4x9",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:55Z",
+                "name": "iot-retrieval-mcp-f89778b88.18e2e8f3d462eff9",
+                "namespace": "iot-agents",
+                "resourceVersion": "342294",
+                "uid": "fe49b220-20a0-4950-8ea0-c7460153f8fa"
+            },
+            "reason": "SuccessfulCreate",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:29:55Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "ReplicaSet",
+                "name": "iot-retrieval-mcp-f89778b88",
+                "namespace": "iot-agents",
+                "resourceVersion": "342661",
+                "uid": "bdf00bd2-cc76-4bcf-ac58-8e7db5182209"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:29:55Z",
+            "message": "Deleted pod: iot-retrieval-mcp-f89778b88-vf4x9",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:29:55Z",
+                "name": "iot-retrieval-mcp-f89778b88.18e2e901ddacbb8b",
+                "namespace": "iot-agents",
+                "resourceVersion": "342666",
+                "uid": "cae1a4b2-1046-4020-bd77-8fcbab500488"
+            },
+            "reason": "SuccessfulDelete",
+            "reportingComponent": "replicaset-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "replicaset-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:07:06Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "334762",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:07:06Z",
+            "message": "Scaled up replica set iot-retrieval-mcp-56bd5cfb58 from 0 to 2",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:07:06Z",
+                "name": "iot-retrieval-mcp.18e2e7c3006c9e4e",
+                "namespace": "iot-agents",
+                "resourceVersion": "334766",
+                "uid": "7a569592-143a-48c9-a42f-fb655c6441d6"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:15:02Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "337405",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:15:02Z",
+            "message": "Scaled up replica set iot-retrieval-mcp-5658f9f8db from 0 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:15:02Z",
+                "name": "iot-retrieval-mcp.18e2e831ca5e27de",
+                "namespace": "iot-agents",
+                "resourceVersion": "337408",
+                "uid": "c7dcac7f-9b69-43e4-b166-5646aa62c64c"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:23:02Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "339952",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:23:02Z",
+            "message": "Scaled down replica set iot-retrieval-mcp-5658f9f8db from 1 to 0",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:23:02Z",
+                "name": "iot-retrieval-mcp.18e2e8a197a39cbe",
+                "namespace": "iot-agents",
+                "resourceVersion": "339958",
+                "uid": "fea39e44-8dc7-4996-87f1-0e1a7b2ae5de"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:17Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "341513",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:17Z",
+            "message": "Scaled up replica set iot-retrieval-mcp-5c495745b4 from 0 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:17Z",
+                "name": "iot-retrieval-mcp.18e2e8dd10baea8c",
+                "namespace": "iot-agents",
+                "resourceVersion": "341516",
+                "uid": "d98eb737-06bc-4e23-b7cf-b83a58bf4533"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:43Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "341526",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:43Z",
+            "message": "Scaled down replica set iot-retrieval-mcp-56bd5cfb58 from 2 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:43Z",
+                "name": "iot-retrieval-mcp.18e2e8e3037da837",
+                "namespace": "iot-agents",
+                "resourceVersion": "341694",
+                "uid": "6bd0ad67-e44a-4334-b337-7e8b88b95336"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:27:43Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "341693",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:27:43Z",
+            "message": "Scaled up replica set iot-retrieval-mcp-5c495745b4 from 1 to 2",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:27:43Z",
+                "name": "iot-retrieval-mcp.18e2e8e3072cec0b",
+                "namespace": "iot-agents",
+                "resourceVersion": "341704",
+                "uid": "01b7f8bc-eeb0-4b8a-8c4d-3729947f35bf"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:03Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "341737",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:03Z",
+            "message": "Scaled down replica set iot-retrieval-mcp-56bd5cfb58 from 1 to 0",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:03Z",
+                "name": "iot-retrieval-mcp.18e2e8e7cac61a6c",
+                "namespace": "iot-agents",
+                "resourceVersion": "341863",
+                "uid": "0b5fe539-fac1-45d6-8cd5-f49c54595295"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:12Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "341939",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:12Z",
+            "message": "Scaled up replica set iot-retrieval-mcp-9444d54c6 from 0 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:12Z",
+                "name": "iot-retrieval-mcp.18e2e8e9b111c138",
+                "namespace": "iot-agents",
+                "resourceVersion": "341943",
+                "uid": "d5b7cf60-7bc3-4ec4-9667-3424f2774286"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:32Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "341955",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:32Z",
+            "message": "Scaled down replica set iot-retrieval-mcp-5c495745b4 from 2 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:32Z",
+                "name": "iot-retrieval-mcp.18e2e8ee7896b418",
+                "namespace": "iot-agents",
+                "resourceVersion": "342083",
+                "uid": "91396ab6-e9f1-4231-9e3d-ffece52ec2c0"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:32Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342084",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:32Z",
+            "message": "Scaled up replica set iot-retrieval-mcp-9444d54c6 from 1 to 2",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:32Z",
+                "name": "iot-retrieval-mcp.18e2e8ee7bf13139",
+                "namespace": "iot-agents",
+                "resourceVersion": "342093",
+                "uid": "bb5b7731-4172-4c64-a77b-b1e9f7c7688e"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:53Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342134",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:53Z",
+            "message": "Scaled down replica set iot-retrieval-mcp-5c495745b4 from 1 to 0",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:53Z",
+                "name": "iot-retrieval-mcp.18e2e8f33f54ba2d",
+                "namespace": "iot-agents",
+                "resourceVersion": "342269",
+                "uid": "ea4505f1-10a5-439f-a091-b0f771794619"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:28:55Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342287",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:28:55Z",
+            "message": "Scaled up replica set iot-retrieval-mcp-f89778b88 from 0 to 1",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:28:55Z",
+                "name": "iot-retrieval-mcp.18e2e8f3d39cec8b",
+                "namespace": "iot-agents",
+                "resourceVersion": "342289",
+                "uid": "a430a4e2-b7f0-4d40-af3a-a6650457d7ab"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "deployment-controller",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2026-10-29T05:29:55Z",
+            "involvedObject": {
+                "apiVersion": "apps/v1",
+                "kind": "Deployment",
+                "name": "iot-retrieval-mcp",
+                "namespace": "iot-agents",
+                "resourceVersion": "342658",
+                "uid": "f7b53d43-146f-4926-921b-e624e09d0d6d"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2026-10-29T05:29:55Z",
+            "message": "(combined from similar events): Scaled down replica set iot-retrieval-mcp-f89778b88 from 1 to 0",
+            "metadata": {
+                "creationTimestamp": "2026-10-29T05:29:55Z",
+                "name": "iot-retrieval-mcp.18e2e901dcdc9a30",
+                "namespace": "iot-agents",
+                "resourceVersion": "342662",
+                "uid": "824e0d2c-2188-44ab-a7ad-31a2d1c97b89"
+            },
+            "reason": "ScalingReplicaSet",
+            "reportingComponent": "",
+            "reportingInstance": "",
+            "source": {
+                "component": "deployment-controller"
+            },
+            "type": "Normal"
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

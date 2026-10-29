@@ -1,0 +1,47 @@
+{
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+        "annotations": {
+            "meta.helm.sh/release-name": "iot-retrieval-mcp",
+            "meta.helm.sh/release-namespace": "iot-agents"
+        },
+        "creationTimestamp": "2026-10-29T05:07:06Z",
+        "labels": {
+            "app.kubernetes.io/instance": "iot-retrieval-mcp",
+            "app.kubernetes.io/managed-by": "Helm",
+            "app.kubernetes.io/part-of": "iot-mcp"
+        },
+        "name": "iot-retrieval-mcp",
+        "namespace": "iot-agents",
+        "resourceVersion": "334759",
+        "uid": "92d089ee-d534-42fe-821d-adbc8e91c21c"
+    },
+    "spec": {
+        "clusterIP": "10.53.42.150",
+        "clusterIPs": [
+            "10.53.42.150"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+            "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+            {
+                "name": "http",
+                "port": 8080,
+                "protocol": "TCP",
+                "targetPort": "http"
+            }
+        ],
+        "selector": {
+            "app.kubernetes.io/instance": "iot-retrieval-mcp"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+    },
+    "status": {
+        "loadBalancer": {}
+    }
+}

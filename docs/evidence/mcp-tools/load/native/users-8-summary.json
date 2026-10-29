@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "sla": {
+    "minimum_requests": 100,
+    "maximum_failures": 0,
+    "p95_ms": 1000
+  },
+  "requests": 2369,
+  "failures": 0,
+  "requests_per_second": 79.50678709866733,
+  "p50_ms": 21,
+  "p95_ms": 40,
+  "p99_ms": 48,
+  "scope": "Authenticated machine-feature retrieval through MCP service REST adapter; paced clients on the same shared VM. No maximum-capacity, external-network, RAG, LLM or prediction-throughput claim."
+}
