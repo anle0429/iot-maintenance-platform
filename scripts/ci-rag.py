@@ -186,10 +186,16 @@ def run(phase):
         parent=json.loads(subprocess.check_output(['docker','image','inspect','iot-coursework-rag:deps-c3b696c3955c']))[0]
         if parent['Id']!='sha256:4d65bdfb955f2d459f750fba5f30f381aab0378a4ce95f9047359a5760cd1afd':
             raise ValueError('Use the previously verified native RAG dependency image; do not silently rebuild or upgrade it')
+        runtime_tag='iot-ci-rag-runtime:'+parent['Id'].split(':')[1]
+        subprocess.run(['docker','tag',parent['Id'],runtime_tag],check=True)
         c.log('application-build',['docker','build','--label','org.opencontainers.image.revision='+c.commit,
-              '--build-arg','RUNTIME='+parent['Id'],
+              '--pull=false','--build-arg','RUNTIME='+runtime_tag,
               '-f',str(ROOT/'infra/ci/RagApplication.Dockerfile'),'-t',tag,str(ROOT)],1200)
         inspected=json.loads(subprocess.check_output(['docker','image','inspect',tag]))[0];packaged=image_files(inspected['Id'])
+        actual_parent=json.loads(subprocess.check_output(['docker','image','inspect',runtime_tag]))[0]
+        if (actual_parent['Id']!=parent['Id']
+                or inspected['RootFS']['Layers'][:len(parent['RootFS']['Layers'])]!=parent['RootFS']['Layers']):
+            raise ValueError('The built application does not extend the verified native dependency layers')
         if packaged!={name:c.seal['files'][name] for name in PACKAGED}:raise ValueError('Built RAG application/corpus bytes differ')
         c.phase('build',{'image':tag,'image_id':inspected['Id'],'packaged_sha256':packaged,
                          'dependency_image_id':parent['Id'],
