@@ -2,8 +2,8 @@
 from copy import deepcopy
 from datetime import datetime,timezone,timedelta
 from pathlib import Path
-import importlib.util,json,tempfile,unittest,xml.etree.ElementTree as ET
-from agents.release_ci import api_quality,feature_lease,packaged_paths,ready_agents,role_for_job,required_inputs
+import importlib.util,json,sys,tempfile,unittest,xml.etree.ElementTree as ET
+from agents.release_ci import api_quality,feature_lease,packaged_paths,ready_agents,role_for_job,required_inputs,capture_json_command
 
 ROOT=Path(__file__).resolve().parents[1]
 SPEC=importlib.util.spec_from_file_location("agent_release_renderer",ROOT/"scripts/render-agent-responses.py")
@@ -12,6 +12,15 @@ renderer=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(renderer)
 
 class AgentReleaseCiTests(unittest.TestCase):
     """Use fixed known clocks and recorded object shapes, leaving actual deployment proof to Jenkins."""
+    def test_probe_json_and_observed_call_diagnostics_remain_separate(self):
+        """Real processes can emit JSON on both streams; only successful stdout is the command result."""
+        code="import json,sys;print(json.dumps({'passed':True}));print(json.dumps({'observed_call':'diagnostic'}),file=sys.stderr)"
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            self.assertEqual(capture_json_command([sys.executable,"-B","-c",code],root,"probe"),{"passed":True})
+            self.assertEqual(json.loads((root/"probe.stderr.txt").read_bytes()),{"observed_call":"diagnostic"})
+            with self.assertRaises(RuntimeError):capture_json_command([sys.executable,"-B","-c",code+";sys.exit(1)"],root,"failed")
+
     def test_transitive_test_import_must_be_in_the_sealed_packet(self):
         """An otherwise valid declaration cannot omit a module required by its imported tests."""
         with tempfile.TemporaryDirectory() as directory:

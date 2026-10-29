@@ -7,7 +7,7 @@ import importlib.util,json,os,shutil,subprocess,sys,tarfile,time,xml.etree.Eleme
 
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from agents.ci_contract import release_identity,require_receipt,validate_source,validate_agents
-from agents.release_ci import MCP_RUNTIME,MCP_TESTS,api_quality,feature_lease,packaged_paths,ready_agents,role_for_job,unchanged_quality_source,required_inputs
+from agents.release_ci import MCP_RUNTIME,MCP_TESTS,api_quality,feature_lease,packaged_paths,ready_agents,role_for_job,unchanged_quality_source,required_inputs,capture_json_command
 from agents.answer_acceptance import verify_specialist
 from agents.delegation_acceptance import verify_coordinator
 from agents.probe import run as probe
@@ -215,9 +215,10 @@ def verify_host(c):
     """Require a native MCP probe and an actual complete role answer with independently verified tool or child histories."""
     c.prior('deploy');base=c.service_url('kagent-controller','iot-agents')+':8083'
     if c.role!='coordinator':
-        c.log('native-mcp-probe',c.k+['exec','-n','iot-agents','deployment/iot-'+c.role+'-mcp','-c','mcp','--',
-              'python','-B','-m','services.mcp_tools.probe','--role',c.role,'--run',c.release],240)
-        if not json.loads((c.out/'native-mcp-probe.txt').read_bytes())['passed']:raise ValueError('Native MCP business probe failed')
+        actual=capture_json_command(c.k+['exec','-n','iot-agents','deployment/iot-'+c.role+'-mcp','-c','mcp','--',
+              'python','-B','-m','services.mcp_tools.probe','--role',c.role,'--run',c.release],c.out,'native-mcp-probe')
+        if actual.get('passed') is not True or actual.get('role')!=c.role or actual.get('run')!=c.release:
+            raise ValueError('Native MCP business probe failed or belongs to another release')
     requests=c.out/'agent-request';probe(base,requests,[c.role],specialist_timeout=300,coordinator_timeout=600)
     reply=json.loads((requests/(c.role+'-response.json')).read_bytes())
     if c.role=='coordinator':

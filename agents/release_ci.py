@@ -3,11 +3,24 @@ from datetime import datetime,timezone,timedelta
 from hashlib import sha256
 from pathlib import Path
 import json
+import re
+import subprocess
 from agents.ci_contract import validate_agents
 
 JOBS={"iot-llm-retrieval":"retrieval","iot-llm-drift":"drift","iot-llm-coordinator":"coordinator"}
 MCP_RUNTIME="sha256:939c4201356b974bd7754cd274f42dd9b928049820e6f58086ca0a8c2a1c6db2"
 MCP_TESTS="sha256:b8b7c3549378130382de4bbbb39aefeddc81a1b4dce522cee698105522719022"
+
+
+def capture_json_command(command,directory,name,timeout=240):
+    """Keep original JSON stdout separate from diagnostic stderr and require the actual process to succeed."""
+    if not re.fullmatch(r"[a-z][a-z0-9-]{0,60}",name):raise ValueError("Use a bounded CI artifact name")
+    directory=Path(directory)
+    with (directory/(name+".json")).open("xb") as output,(directory/(name+".stderr.txt")).open("xb") as errors:
+        result=subprocess.run(command,stdout=output,stderr=errors,timeout=timeout)
+    (directory/(name+".exit")).write_text(str(result.returncode)+"\n")
+    if result.returncode:raise RuntimeError("Native JSON command failed; preserve both original streams")
+    return json.loads((directory/(name+".json")).read_bytes())
 
 
 def role_for_job(name):
