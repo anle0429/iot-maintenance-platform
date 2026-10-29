@@ -1,0 +1,760 @@
+{
+  "uid": "iot-llm-runtime",
+  "title": "IoT / LLM and agent operations",
+  "description": "Actual observer, per-Pod MCP and llama.cpp series. SDK UNSET remains unset; provider-reported usage is not estimated from characters.",
+  "schemaVersion": 42,
+  "version": 1,
+  "editable": false,
+  "timezone": "utc",
+  "tags": [
+    "iot",
+    "llm",
+    "native"
+  ],
+  "refresh": "5s",
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "text",
+      "title": "Read these measurements correctly",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 4
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "Requests, executor invocations and spans count different things. **UNSET is not success.** MCP counters include their retained earlier history; use rate/increase for a selected interval. Proxy role **unknown** stays unknown. Token and timing facts for each request are in the linked request log. Existing unrelated target failures remain visible."
+      }
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Seven LLM monitoring targets",
+      "description": "Each Pod is discovered independently, including running Pods that are not ready.",
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "up{job=~\"iot-agent-mcp|iot-llm-observer|iot-llm-model|iot-llm-gpu-host\"}",
+          "editorMode": "code",
+          "legendFormat": "{{job}} / {{pod}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "All monitoring targets",
+      "description": "Includes existing unrelated ML failures; no target is hidden to make this view green.",
+      "gridPos": {
+        "x": 12,
+        "y": 4,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "up",
+          "editorMode": "code",
+          "legendFormat": "{{job}} / {{instance}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "Observer HTTP requests / second",
+      "description": "Includes real route/status; health and metrics traffic are visible separately.",
+      "gridPos": {
+        "x": 0,
+        "y": 12,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (route,status) (rate(iot_llm_observer_http_requests_total[1m]))",
+          "editorMode": "code",
+          "legendFormat": "{{route}} HTTP {{status}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Model requests by actual outcome",
+      "description": "Durable observed model requests, including rejected requests.",
+      "gridPos": {
+        "x": 12,
+        "y": 12,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (result,status) (iot_llm_requests_total)",
+          "editorMode": "code",
+          "legendFormat": "{{result}} HTTP {{status}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "Full model round trip: mean",
+      "description": "Observer admission through complete backend consumption; not GPU compute time alone.",
+      "gridPos": {
+        "x": 0,
+        "y": 20,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(iot_llm_request_seconds_sum[5m])) / sum(rate(iot_llm_request_seconds_count[5m]))",
+          "editorMode": "code",
+          "legendFormat": "mean",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": "timeseries",
+      "title": "Streaming first output: mean",
+      "description": "Only observed streaming replies. Idle windows may have no samples; nonstreaming TTFT is null.",
+      "gridPos": {
+        "x": 12,
+        "y": 20,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(rate(iot_llm_first_output_seconds_sum[5m])) / sum(rate(iot_llm_first_output_seconds_count[5m]))",
+          "editorMode": "code",
+          "legendFormat": "mean TTFT",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": "timeseries",
+      "title": "Provider-reported token totals",
+      "description": "Input, output and total are separate series; total already includes input and output.",
+      "gridPos": {
+        "x": 0,
+        "y": 28,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (type) (iot_llm_reported_tokens_total)",
+          "editorMode": "code",
+          "legendFormat": "{{type}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Provider-reported tokens / second",
+      "description": "Counter rate across real model replies; missing usage is not estimated.",
+      "gridPos": {
+        "x": 12,
+        "y": 28,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (type) (rate(iot_llm_reported_tokens_total[1m]))",
+          "editorMode": "code",
+          "legendFormat": "{{type}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": "timeseries",
+      "title": "Executor invocations by role and native status",
+      "description": "One root executor span per agent invocation. Other SDK spans are excluded.",
+      "gridPos": {
+        "x": 0,
+        "y": 36,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (agent,result) (iot_agent_invocations_total)",
+          "editorMode": "code",
+          "legendFormat": "{{agent}} / {{result}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "type": "timeseries",
+      "title": "MCP executions by tool and result",
+      "description": "Actual MCP SDK counters from all four Pods. A2A delegation is not an MCP call.",
+      "gridPos": {
+        "x": 12,
+        "y": 36,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (role,tool,result) (iot_mcp_tool_calls_total)",
+          "editorMode": "code",
+          "legendFormat": "{{role}} / {{tool}} / {{result}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 12,
+      "type": "timeseries",
+      "title": "MCP executions / second",
+      "description": "Sum each Pod rate after reset compensation.",
+      "gridPos": {
+        "x": 0,
+        "y": 44,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (role,tool,result) (rate(iot_mcp_tool_calls_total[1m]))",
+          "editorMode": "code",
+          "legendFormat": "{{role}} / {{tool}} / {{result}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": "timeseries",
+      "title": "MCP failures in selected window",
+      "description": "No manufactured zero series: an absent failure partition is displayed as no data.",
+      "gridPos": {
+        "x": 12,
+        "y": 44,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (role,tool) (increase(iot_mcp_tool_calls_total{result=\"failure\"}[$__range]))",
+          "editorMode": "code",
+          "legendFormat": "{{role}} / {{tool}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 14,
+      "type": "timeseries",
+      "title": "Explicit admission policy checks",
+      "description": "Bounded regex admission patterns, not a general safety classifier.",
+      "gridPos": {
+        "x": 0,
+        "y": 52,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (outcome) (iot_llm_policy_checks_total)",
+          "editorMode": "code",
+          "legendFormat": "{{outcome}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 15,
+      "type": "timeseries",
+      "title": "Policy hits by category",
+      "description": "One prompt can match several categories; category sum need not equal rejected prompt count.",
+      "gridPos": {
+        "x": 12,
+        "y": 52,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (category) (iot_llm_policy_hits_total)",
+          "editorMode": "code",
+          "legendFormat": "{{category}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 16,
+      "type": "timeseries",
+      "title": "llama.cpp active and queued requests",
+      "description": "Actual deployed llama.cpp metrics; no vLLM labels are fabricated.",
+      "gridPos": {
+        "x": 0,
+        "y": 60,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{__name__=~\"llamacpp:requests_processing|llamacpp:requests_deferred\",job=\"iot-llm-model\"}",
+          "editorMode": "code",
+          "legendFormat": "{{__name__}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 17,
+      "type": "timeseries",
+      "title": "llama.cpp generated tokens / second",
+      "description": "Includes all traffic reaching the model server, so its scope differs from observer request tokens.",
+      "gridPos": {
+        "x": 12,
+        "y": 60,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(llamacpp:tokens_predicted_total{job=\"iot-llm-model\"}[1m])",
+          "editorMode": "code",
+          "legendFormat": "GPU model",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Model and agents",
+      "type": "link",
+      "url": "/d/iot-llm-runtime",
+      "targetBlank": true
+    },
+    {
+      "title": "GPU host",
+      "type": "link",
+      "url": "/d/iot-llm-gpu-host",
+      "targetBlank": true
+    },
+    {
+      "title": "Request log",
+      "type": "link",
+      "url": "/d/iot-llm-requests",
+      "targetBlank": true
+    }
+  ]
+}

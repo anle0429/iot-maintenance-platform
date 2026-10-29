@@ -1,0 +1,95 @@
+{
+  "uid": "iot-llm-requests",
+  "title": "IoT / LLM request log",
+  "description": "One approved JSON event per observed model request, including provider usage, duration, streaming TTFT and policy categories. Prompt, answer and credentials are excluded by the application schema.",
+  "schemaVersion": 42,
+  "version": 1,
+  "editable": false,
+  "timezone": "utc",
+  "tags": [
+    "iot",
+    "llm",
+    "native"
+  ],
+  "refresh": "5s",
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "text",
+      "title": "Inspect a single request",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 4
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "Expand a JSON row to read **request_id**, **usage.prompt_tokens**, **usage.completion_tokens**, **usage.total_tokens**, **duration_seconds**, **ttft_seconds**, **policy_categories** and the actual HTTP result. Nonstreaming TTFT is null. Request and trace IDs remain fields, never Loki labels. This log contains approved model events only; it is not a full transcript."
+      }
+    },
+    {
+      "id": 2,
+      "type": "logs",
+      "title": "Observed model requests",
+      "description": "Native CRI timestamps and original approved JSON; expand a row for all fields.",
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 24,
+        "h": 10
+      },
+      "datasource": {
+        "type": "loki",
+        "uid": "iot-logs-loki"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "{collection=\"llm-native-29\",event=\"model_request\"}",
+          "editorMode": "code",
+          "legendFormat": "{{agent}} {{result}}",
+          "queryType": "range"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "showTime": true,
+        "showLabels": false,
+        "wrapLogMessage": true,
+        "enableLogDetails": true,
+        "sortOrder": "Descending"
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Model and agents",
+      "type": "link",
+      "url": "/d/iot-llm-runtime",
+      "targetBlank": true
+    },
+    {
+      "title": "GPU host",
+      "type": "link",
+      "url": "/d/iot-llm-gpu-host",
+      "targetBlank": true
+    },
+    {
+      "title": "Request log",
+      "type": "link",
+      "url": "/d/iot-llm-requests",
+      "targetBlank": true
+    }
+  ]
+}

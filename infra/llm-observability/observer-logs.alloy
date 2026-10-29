@@ -1,0 +1,76 @@
+// Append to the retained collector. Read only the approved observer's CPU-node CRI logs.
+discovery.kubernetes "llm_observer" {
+  role = "pod"
+  api_server = "https://10.53.0.1:443"
+  bearer_token_file = "@AUTH@/token"
+  tls_config { ca_file = "@AUTH@/ca.crt" }
+  namespaces { names = ["iot-llm"] }
+  selectors {
+    role = "pod"
+    label = "app.kubernetes.io/instance=iot-llm-observer"
+    field = "spec.nodeName=iot-cw-vm"
+  }
+}
+discovery.relabel "llm_observer" {
+  targets = discovery.kubernetes.llm_observer.targets
+  rule {
+    source_labels = ["__meta_kubernetes_pod_phase", "__meta_kubernetes_pod_container_init", "__meta_kubernetes_pod_container_name"]
+    separator = ";"
+    regex = "Running;false;observer"
+    action = "keep"
+  }
+  rule {
+    source_labels = ["__meta_kubernetes_namespace"]
+    target_label = "namespace"
+  }
+  rule {
+    source_labels = ["__meta_kubernetes_pod_name"]
+    target_label = "pod"
+  }
+  rule {
+    source_labels = ["__meta_kubernetes_pod_uid"]
+    target_label = "pod_uid"
+  }
+  rule {
+    source_labels = ["__meta_kubernetes_pod_container_name"]
+    target_label = "container"
+  }
+  rule {
+    source_labels = ["namespace", "pod", "pod_uid", "container"]
+    separator = ";"
+    regex = "(.+);(.+);(.+);(.+)"
+    target_label = "__path__"
+    replacement = "/var/log/pods/${1}_${2}_${3}/${4}/*.log"
+  }
+  rule {
+    target_label = "service"
+    replacement = "iot-llm-observer"
+  }
+  rule {
+    target_label = "collection"
+    replacement = "llm-native-29"
+  }
+  rule {
+    action = "labelkeep"
+    regex = "__path__|service|collection|namespace|pod|pod_uid|container"
+  }
+}
+local.file_match "llm_observer" {
+  path_targets = discovery.relabel.llm_observer.output
+  sync_period = "5s"
+}
+loki.source.file "llm_observer" {
+  targets = local.file_match.llm_observer.targets
+  forward_to = [loki.process.llm_observer.receiver]
+}
+loki.process "llm_observer" {
+  forward_to = [loki.relabel.paths.receiver]
+  stage.cri {}
+  stage.json { expressions = { event = "event", result = "result" } }
+  stage.labels { values = { event = "", result = "" } }
+  stage.match {
+    selector = "{event!=\"model_request\"}"
+    action = "drop"
+    drop_counter_reason = "not_approved_model_event"
+  }
+}

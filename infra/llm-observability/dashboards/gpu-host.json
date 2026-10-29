@@ -1,0 +1,408 @@
+{
+  "uid": "iot-llm-gpu-host",
+  "title": "IoT / GPU worker host",
+  "description": "CPU, host RAM, root filesystem and physical NIC of the existing V100 worker. Host metrics are not GPU VRAM or utilization.",
+  "schemaVersion": 42,
+  "version": 1,
+  "editable": false,
+  "timezone": "utc",
+  "tags": [
+    "iot",
+    "llm",
+    "native"
+  ],
+  "refresh": "5s",
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "text",
+      "title": "Measured on the GPU VM",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 4
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "These metrics come from **iot-cw-gpu**, independently checked against its Linux host files. RAM means host RAM. Root filesystem capacity excludes other disks. Physical network interface **ens5** was identified by the VM private IP. GPU VRAM and GPU utilization are not collected by this exporter."
+      }
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Host CPU busy",
+      "description": "Read from the GPU VM host, not the collector Pod namespace.",
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "1 - avg(rate(node_cpu_seconds_total{job=\"iot-llm-gpu-host\",mode=\"idle\"}[1m]))",
+          "editorMode": "code",
+          "legendFormat": "{{device}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "Host memory used",
+      "description": "Read from the GPU VM host, not the collector Pod namespace.",
+      "gridPos": {
+        "x": 12,
+        "y": 4,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "1 - node_memory_MemAvailable_bytes{job=\"iot-llm-gpu-host\"} / node_memory_MemTotal_bytes{job=\"iot-llm-gpu-host\"}",
+          "editorMode": "code",
+          "legendFormat": "{{device}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "Root filesystem available",
+      "description": "Read from the GPU VM host, not the collector Pod namespace.",
+      "gridPos": {
+        "x": 0,
+        "y": 12,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "node_filesystem_avail_bytes{job=\"iot-llm-gpu-host\",mountpoint=\"/\"}",
+          "editorMode": "code",
+          "legendFormat": "{{device}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Root filesystem capacity",
+      "description": "Read from the GPU VM host, not the collector Pod namespace.",
+      "gridPos": {
+        "x": 12,
+        "y": 12,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "node_filesystem_size_bytes{job=\"iot-llm-gpu-host\",mountpoint=\"/\"}",
+          "editorMode": "code",
+          "legendFormat": "{{device}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "Root disk read / second",
+      "description": "Read from the GPU VM host, not the collector Pod namespace.",
+      "gridPos": {
+        "x": 0,
+        "y": 20,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(node_disk_read_bytes_total{job=\"iot-llm-gpu-host\"}[1m])",
+          "editorMode": "code",
+          "legendFormat": "{{device}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": "timeseries",
+      "title": "Root disk write / second",
+      "description": "Read from the GPU VM host, not the collector Pod namespace.",
+      "gridPos": {
+        "x": 12,
+        "y": 20,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(node_disk_written_bytes_total{job=\"iot-llm-gpu-host\"}[1m])",
+          "editorMode": "code",
+          "legendFormat": "{{device}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": "timeseries",
+      "title": "Physical NIC receive / second",
+      "description": "Read from the GPU VM host, not the collector Pod namespace.",
+      "gridPos": {
+        "x": 0,
+        "y": 28,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(node_network_receive_bytes_total{job=\"iot-llm-gpu-host\",device=\"ens5\"}[1m])",
+          "editorMode": "code",
+          "legendFormat": "{{device}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Physical NIC transmit / second",
+      "description": "Read from the GPU VM host, not the collector Pod namespace.",
+      "gridPos": {
+        "x": 12,
+        "y": 28,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(node_network_transmit_bytes_total{job=\"iot-llm-gpu-host\",device=\"ens5\"}[1m])",
+          "editorMode": "code",
+          "legendFormat": "{{device}}",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Model and agents",
+      "type": "link",
+      "url": "/d/iot-llm-runtime",
+      "targetBlank": true
+    },
+    {
+      "title": "GPU host",
+      "type": "link",
+      "url": "/d/iot-llm-gpu-host",
+      "targetBlank": true
+    },
+    {
+      "title": "Request log",
+      "type": "link",
+      "url": "/d/iot-llm-requests",
+      "targetBlank": true
+    }
+  ]
+}
