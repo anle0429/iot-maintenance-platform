@@ -21,6 +21,10 @@ def run(args):
     for n,digest in accepted['packaged_files'].items():assert sha256((ROOT/n).read_bytes()).hexdigest()==digest
     session=json.loads((root/'data/runtime/ci/session.json').read_bytes())
     assert datetime.fromisoformat(session['auto_stop_utc'])>datetime.now(timezone.utc)+timedelta(minutes=30)
+    gpu_session=json.loads((root/'data/runtime/ci/gpu-session.json').read_bytes())
+    assert datetime.fromisoformat(gpu_session['last_start_utc'])+timedelta(seconds=28800)>datetime.now(timezone.utc)+timedelta(minutes=30)
+    available=next(int(line.split()[1])*1024 for line in Path('/proc/meminfo').read_text().splitlines() if line.startswith('MemAvailable:'))
+    assert available>2*1024**3 and os.statvfs(root).f_bavail*os.statvfs(root).f_frsize>1_000_000_000
     assert not subprocess.check_output(['systemctl','list-units','--state=running','--no-legend','iot-agent-chat-*']).strip()
     out.mkdir(exist_ok=False);k=['/usr/local/bin/k3s','kubectl'];changed=[];opener=build_opener(ProxyHandler({}))
     def save(name,value):
@@ -111,7 +115,7 @@ def run(args):
         pool['targetPorts']=[{'number':8081}]
         patch('pool-patch','inferencepool.inference.networking.k8s.io','iot-router','iot-llm',objects['pool'],pool)
         time.sleep(3)
-        body={'model':'iot-qwen2.5-7b','stream':False,'max_tokens':48,'temperature':0,'seed':7,
+        body={'model':'iot-qwen2.5-7b','stream':False,'max_tokens':96,'temperature':0,'seed':7,
             'messages':[{'role':'user','content':'In one sentence, why should a pump prediction identify its feature timestamp?'}]}
         reply=json.loads(request('routed-generation','/v1/chat/completions',json.dumps(body).encode()))
         assert reply['choices'][0]['finish_reason']=='stop' and reply['usage']['total_tokens']>0
