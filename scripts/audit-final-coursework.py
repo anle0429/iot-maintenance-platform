@@ -23,7 +23,7 @@ VERIFIERS = (
     'joint-cohort', 'linux-host', 'linux-logs', 'log-discovery', 'native-serving',
     'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort', 'final-review', 'llm-inference',
     'rag-foundation', 'llm-grounding', 'rag-orchestration', 'mcp-tools', 'agent-platform', 'agent-response-baseline',
-    'mcp-quality', 'mcp-quality-native', 'gpu-inference', 'gpu-agents', 'agent-network', 'agent-scaling', 'agent-notebook',
+    'mcp-quality', 'mcp-quality-native', 'gpu-inference', 'gpu-agents', 'agent-network', 'agent-scaling', 'agent-notebook', 'agent-warmup',
 )
 CAPSULES = (
     'drift-api', 'api-autoscale', 'notebook', 'notebook-parity', 'distributed-training',
@@ -187,6 +187,7 @@ def audit(output, workers):
               'direct_specialist_mcp_egress_verified': results['agent-network']['exit'] == 0,
               'agent_worker_autoscaling_verified': results['agent-scaling']['exit'] == 0,
               'native_agent_notebook_verified': results['agent-notebook']['exit'] == 0,
+              'native_agent_startup_comparison_verified': results['agent-warmup']['exit'] == 0,
               'llm_runtime_verified': False, 'coursework_complete': False,
               'local_evidence_links': links, 'additional_capsule_payloads': capsules, 'verifiers': results,
               'live_readiness_checked': False, 'scope': 'Recorded ML, inference/RAG/MCP, GPU routing, strict mutation audits and real specialist/coordinator conversations plus both rubric presentations. The full agent track remains incomplete. This is not a grade, current live readiness, full100GB ML or laptop verification.'}

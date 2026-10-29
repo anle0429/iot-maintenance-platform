@@ -4,7 +4,7 @@ The subsequent [GPU agent checkpoint](gpu-agent-routing.md) records complete spe
 
 The deployment recorded on 29 October uses kagent 0.10.3, Agent Substrate 0.0.9 and agentregistry 0.4.0 on the retained VM. Three sandbox agents reached Ready with golden snapshots and separate two-worker pools. Their versioned catalog entries identify the actual runtime image, Kubernetes resource UID and agent-specification hash. Current availability depends on an active VM session and fresh feature data.
 
-This page retains the original platform foundation. Later checkpoints verify [GPU specialist/coordinator conversations](gpu-agent-routing.md), [MCP isolation](agent-network-isolation.md) and [automatic worker scaling with original UI captures](agent-scaling.md). A later [executed agent notebook](agent-notebook.md) verifies Feast-backed features, RAG and drift. A measured cold/warm comparison remains separate acceptance work.
+This page retains the original platform foundation. Later checkpoints verify [GPU specialist/coordinator conversations](gpu-agent-routing.md), [MCP isolation](agent-network-isolation.md) and [automatic worker scaling with original UI captures](agent-scaling.md). A later [executed agent notebook](agent-notebook.md) verifies Feast-backed features, RAG and drift. A later [matched cold/golden comparison](agent-warmup.md) measured all three roles; its mixed timing results and single-host HA limits are explicit.
 
 ![Three sandbox agents using the same local model](evidence/agent-platform/ui/native-ready-agents.jpg)
 
@@ -46,11 +46,11 @@ Two retained retrieval attempts contain six actual MCP tool results in total. Fe
 
 The CPU response timeout was increased from 180 to 600 seconds. The output cap is 384 tokens. The same model's context was then increased to 8,192 tokens, confirmed through `/props` and Kubernetes arguments. Weights, image and resource limits stayed the same. The one-node model rollout used Recreate because a simultaneous second model reservation would not fit the scheduling budget. This causes a brief lab interruption.
 
-Initial operator diagnostics did not establish the required isolation boundary. Their unsuccessful results remain visible. Ready gVisor snapshots alone are not substituted for an exercised allow/deny test. Startup latency and the effect of warm-up have not yet been benchmarked.
+Initial operator diagnostics did not establish the required isolation boundary. Their unsuccessful results remain visible. Ready gVisor snapshots alone are not substituted for an exercised allow/deny test. The later [startup benchmark](agent-warmup.md) records 24 fresh actors and retains the mixed results.
 
 ## Verify the recorded checkpoint
 
-The later [response baseline and candidate policy](agent-response-contract.md) adds a complete native drift answer and preserves the overall timeout. Retrieval and coordinator acceptance remain open. Policy 0.2 is prepared locally; it does not replace the recorded 0.1 deployment described here.
+The historical [response baseline](agent-response-contract.md) adds a complete drift answer and preserves the earlier timeout. The later [GPU checkpoint](gpu-agent-routing.md) verifies complete policy 0.2.2 specialist/coordinator answers. Those subsequent results do not replace the original 0.1 receipts checked by this page's historical verifier.
 
 ```powershell
 python -S scripts/verify-agent-platform.py

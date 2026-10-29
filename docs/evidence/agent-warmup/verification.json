@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-29T16:41:10.259114+00:00",
+  "measurements": 24,
+  "roles": {
+    "coordinator": {
+      "pairs": 4,
+      "cold_median_seconds": 0.683960994500012,
+      "warm_median_seconds": 0.635134875001313,
+      "cold_over_warm_ratio": 1.0768751983562515,
+      "warm_median_lower": true
+    },
+    "drift": {
+      "pairs": 4,
+      "cold_median_seconds": 0.6798530540017964,
+      "warm_median_seconds": 0.7631112820017734,
+      "cold_over_warm_ratio": 0.8908963476708454,
+      "warm_median_lower": false
+    },
+    "retrieval": {
+      "pairs": 4,
+      "cold_median_seconds": 0.6964858434985217,
+      "warm_median_seconds": 0.7197453630014934,
+      "cold_over_warm_ratio": 0.9676836827319395,
+      "warm_median_lower": false
+    }
+  },
+  "manual_replica_changes": false,
+  "coursework_complete": false,
+  "scope": "Matched fresh actors: boot from the same current template versus its golden snapshot, with native readiness and actual HTTP card. Includes CLI/TLS/HTTP overhead. Cached images and warm worker Pods retained; excludes model download, LLM generation/TTFT, first-ever host start and cross-node HA. Owned test actors retained suspended."
+}

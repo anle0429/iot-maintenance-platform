@@ -8,7 +8,7 @@ Recorded ML lab evidence covers the linked ML requirements within documented bou
 
 ## Audit method
 
-The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It now includes 40 read-only artifact verifiers, including GPU conversations, [direct MCP network isolation](agent-network-isolation.md) and [automatic worker scaling](agent-scaling.md), and checks nine additional native capsules with 685 payloads. The scaling package preserves 1,300 original native payloads and ten original UI captures. The [executed agent notebook](agent-notebook.md) adds 58 original native payloads and four unedited captures of its HTML export. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
+The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It now includes 41 read-only artifact verifiers, including GPU conversations, [direct MCP network isolation](agent-network-isolation.md) and [automatic worker scaling](agent-scaling.md), and checks nine additional native capsules with 685 payloads. The scaling package preserves 1,300 original native payloads and ten original UI captures. The [executed agent notebook](agent-notebook.md) adds 58 original native payloads and four unedited captures of its HTML export. The [matched actor-startup comparison](agent-warmup.md) retains 740 original payloads and its mixed performance results. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
 
 The original ML source-language tracker is archived. Translation changes the presentation columns, not the preserved source requirements. A lowered threshold, missing row or changed translation pin fails the checks. The JSON report distinguishes inference, grounding and orchestration verification from the still-incomplete full LLM runtime and `coursework_complete=false`.
 
@@ -23,6 +23,8 @@ The after-restart package verifies native materialization of 200 machines, nine 
 The 100 GB workload covers Bronze/Silver, while ML uses 3.132 million rows from a separate 60-day source. Two executor Pods share one physical VM. Gateway domains/CA are private. Vault has two lab consumers; the mesh test is isolated. Stream CI uses a small fixture and full retained-window checks run separately. Original images and logs remain in their capture language. Laptop execution, production HA, full 100 GB ML and a complete LLM/agent system are not established.
 
 ## English documentation review
+
+The actor-startup review passed 869 tests and 542 subtests, with 11 skips, in 75.48 seconds. All 41 offline artifact verifiers passed. The native benchmark separately measured 24 fresh actors; mixed results remain visible rather than being counted as a general startup improvement.
 
 The subsequent agent-notebook review passed 865 tests and 529 subtests, with 11 skips, in 79.17 seconds. All 40 offline artifact verifiers passed. The live notebook run separately completed seven code cells and four actual MCP calls; the offline test count does not substitute for that execution.
 
