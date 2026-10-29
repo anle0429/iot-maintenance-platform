@@ -63,6 +63,9 @@ def run(args):
         try:
             with ctx.wrap_socket(socket.create_connection((address,443),timeout=10),server_hostname=host):pass
         except ssl.SSLCertVerificationError as error:negatives.append({'case':name,'rejected':True,'verify_code':error.verify_code,'verify_message':error.verify_message})
+        except ssl.SSLError as error:
+            if name!='wrong-hostname' or error.reason!='TLSV1_UNRECOGNIZED_NAME':raise
+            negatives.append({'case':name,'rejected':True,'reason':error.reason,'stage':'server rejected unknown SNI before presenting a certificate'})
         else:raise AssertionError('Invalid TLS identity unexpectedly accepted')
     save('tls-negative.json',negatives)
     time.sleep(4);started=datetime.now(timezone.utc).isoformat();begin=time.monotonic()
