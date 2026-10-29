@@ -48,5 +48,18 @@ class ObservationProperties(unittest.TestCase):
         result=PrivateTraceProcessor().project(raw);self.assertNotIn(b'SENSITIVE_TEST_',result['payload'])
         self.assertEqual(result['spans'][0][1]['trace_id'],span.trace_id.hex());self.assertEqual(result['spans'][0][1]['span_id'],span.span_id.hex())
 
+    @settings(max_examples=36,deadline=None,derandomize=True)
+    @given(st.sampled_from(['gen_ai.operation.name','gen_ai.agent.name','kagent.app_name','gen_ai.tool.name','gen_ai.request.model','gen_ai.usage.input_tokens','gen_ai.task.id']),
+           st.sampled_from(['array','map','bytes']))
+    def test_composite_metadata_cannot_escape_projection_or_crash_classification(self,key,kind):
+        """A valid protobuf envelope with an unapproved value type is safely projected onto bounded unknown identities."""
+        request,span=batch();span.name='HTTP request';del span.attributes[:];value=span.attributes.add(key=key).value
+        if kind=='array':value.array_value.values.add().string_value='PRIVATE_TYPED_VALUE'
+        elif kind=='map':value.kvlist_value.values.add(key='private').value.string_value='PRIVATE_TYPED_VALUE'
+        else:value.bytes_value=b'PRIVATE_TYPED_VALUE'
+        result=PrivateTraceProcessor().project(request.SerializeToString())
+        self.assertNotIn(b'PRIVATE_TYPED_VALUE',result['payload']);self.assertEqual(result['received_spans'],1)
+        self.assertEqual(result['spans'][0][1]['trace_id'],span.trace_id.hex())
+
 
 if __name__=='__main__':unittest.main()

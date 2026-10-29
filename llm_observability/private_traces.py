@@ -49,6 +49,7 @@ def span_fact(span,resource):
     if isinstance(resource.get('service.name'),str) and resource['service.name'] in AGENTS:agents.add(AGENTS[resource['service.name']])
     if len(agents)>1:raise ValueError('Conflicting native agent identities')
     agent=next(iter(agents),'unknown');operation=values.get('gen_ai.operation.name');name=span.name
+    if not isinstance(operation,str):operation=None
     # In pinned Go ADK0.10.3, Executor.Execute creates exactly one root named invocation.
     # SDK invoke_agent spans are nested execution detail; remote target names need not equal the emitting service.
     if name=='invocation':kind='agent'

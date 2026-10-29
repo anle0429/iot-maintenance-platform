@@ -52,7 +52,7 @@ class PromptPolicy:
         if not isinstance(messages,list) or not 1<=len(messages)<=256:raise ValueError('Require bounded conversation messages')
         found=set()
         for message in messages:
-            if not isinstance(message,dict) or message.get('role') not in {'system','developer','user','assistant','tool'}:
+            if not isinstance(message,dict) or not isinstance(message.get('role'),str) or message['role'] not in {'system','developer','user','assistant','tool'}:
                 raise ValueError('Invalid message role')
             if message['role']!='user':continue
             content=message.get('content')

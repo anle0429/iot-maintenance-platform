@@ -113,6 +113,11 @@ class LedgerBoundaryTests(unittest.TestCase):
                 with self.subTest(identity=identity),self.assertRaises(ValueError):store.put('request',identity,fact())
             self.assertEqual(store.size(),2);store.close();store=TelemetryLedger(p);self.assertEqual(store.size(),2);store.close()
 
+    def test_default_admission_capacity_is_the_documented_resource_budget(self):
+        """Operators can rely on the default 100000-event budget without allocating or writing that many rows."""
+        with TemporaryDirectory() as directory:
+            store=TelemetryLedger(Path(directory)/'events.sqlite');self.assertEqual(store.limit,100000);self.assertEqual(store.size(),0);store.close()
+
     def test_span_vocabulary_and_status_match_original_graph_facts(self):
         """Keep actual roots, all supported operations/tools and each real OTLP status without inventing success."""
         base={'agent':'unknown','model':'unknown','duration_seconds':0,'usage':None,'operation':'other','tool':'none','error':False,'status_code':0,

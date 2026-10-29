@@ -11,7 +11,8 @@ from fastapi.testclient import TestClient
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter
 from hypothesis import given,settings,strategies as st
 from prometheus_client.parser import text_string_to_metric_families
-from llm_observability.app import create_app
+from prometheus_client import CollectorRegistry,Counter,Histogram
+from llm_observability.app import create_app,bounded_body,HttpMetricsMiddleware,HttpObservation,ModelExchange
 import llm_observability.app as observer
 from llm_observability.ledger import TelemetryLedger
 from tests.test_llm_observation_contracts import event,question
@@ -56,7 +57,7 @@ class ObserverApiTests(unittest.TestCase):
             if str(request.url)==EXPECTED_HEALTH:return httpx.Response(self.status,json={'ready':self.status==200})
             if self.mode=='json':
                 raw=json.dumps({'choices':[{'message':{'content':'Synthetic answer'},'finish_reason':'stop'}],'usage':USAGE}).encode()
-                return httpx.Response(self.status,headers={'Content-Type':'application/json'},stream=Chunks([raw]))
+                return httpx.Response(self.status,headers={'Content-Type':'application/json'},stream=Chunks([getattr(self,'json_response',raw)]))
             return httpx.Response(self.status,headers={'Content-Type':'text/event-stream','X-Iot-Tool-Control':'serial-close-v1'},stream=Chunks(self.chunks,self.delay,self.stream_error))
         self.upstream=httpx.AsyncClient(transport=httpx.MockTransport(backend),trust_env=False)
         self.app=create_app(ledger=self.store,client=self.upstream,token=TOKEN,span_exporter=self.exporter,emit=self.logs.append)
@@ -207,6 +208,7 @@ class ObserverApiTests(unittest.TestCase):
         """Return precise machine-readable causes and a request correlation ID without executing any backend request."""
         cases=[({},b'bad','/v1/chat/completions',401,'model_authentication_required'),
             ({'Authorization':'Bearer '+TOKEN},b'bad','/v1/chat/completions',400,'invalid_model_request'),
+            ({'Authorization':'Bearer '+TOKEN},json.dumps({'model':'iot-qwen2.5-7b','messages':[{'role':{},'content':'x'}]}).encode(),'/v1/chat/completions',400,'invalid_model_request'),
             ({'Authorization':'Bearer '+TOKEN},json.dumps(question('Explain timestamps.')).encode(),'/v1/chat/completions?x=1',400,'unexpected_query'),
             ({'Authorization':'Bearer '+TOKEN},json.dumps(question('Contact fictional@example.com')).encode(),'/v1/chat/completions',422,'prompt_policy_rejected')]
         for headers,wire,path,status,code in cases:
@@ -215,7 +217,7 @@ class ObserverApiTests(unittest.TestCase):
             self.assertEqual(response.json()['error']['type'],'invalid_request_error');self.assertEqual(len(response.headers['X-Iot-Request-Id']),32)
             prefix='Remove personal identifiers' if status==422 else 'The model request'
             self.assertTrue(response.json()['error']['message'].startswith(prefix))
-        self.assertEqual(self.requests,[]);self.assertEqual(self.store.size(),4)
+        self.assertEqual(self.requests,[]);self.assertEqual(self.store.size(),5)
 
     def test_real_parent_context_and_safe_logs_agree_with_the_exported_model_span(self):
         """Preserve actual trace parentage but discard baggage, trace-state and unrelated request headers."""
@@ -278,6 +280,58 @@ class ObserverApiTests(unittest.TestCase):
         self.assertTrue(own_client.is_closed)
         with self.assertRaises(sqlite3.ProgrammingError):own_store.rows()
 
+    def test_json_outcomes_cover_success_boundary_and_malformed_provider_metadata(self):
+        """Treat 299 as success and 300 as an upstream outcome; malformed successful JSON must remain visibly invalid."""
+        self.mode='json'
+        for status,wanted in [(200,'ok'),(299,'ok'),(300,'upstream_error'),(503,'upstream_error')]:
+            self.status=status;response=self.post(question('Explain timestamps.')|{'stream':False})
+            self.assertEqual(response.status_code,status);identity=response.headers['x-iot-request-id']
+            fact=next(r['facts'] for r in self.store.rows() if r['event_id']==identity)
+            self.assertEqual(fact['result'],wanted);self.assertEqual(fact['usage'],USAGE if wanted=='ok' else None)
+        self.status=200
+        values=[b'not json',b'null',b'[]',b'{}',json.dumps({'usage':USAGE,'choices':[]}).encode(),
+            json.dumps({'usage':USAGE,'choices':[None]}).encode(),
+            json.dumps({'usage':{'prompt_tokens':True,'completion_tokens':2,'total_tokens':3},'choices':[{'finish_reason':'stop'}]}).encode()]
+        for raw in values:
+            self.json_response=raw;response=self.post(question('Explain timestamps.')|{'stream':False})
+            self.assertEqual(response.content,raw);identity=response.headers['x-iot-request-id']
+            fact=next(r['facts'] for r in self.store.rows() if r['event_id']==identity)
+            self.assertEqual(fact['result'],'invalid_response');self.assertIsNone(fact['ttft_seconds'])
+        for reason,wanted in [('length','length'),('tool_calls','tool_calls'),('content_filter','content_filter'),('future_reason','other')]:
+            self.json_response=json.dumps({'usage':USAGE,'choices':[{'finish_reason':reason}]}).encode()
+            response=self.post(question('Explain timestamps.')|{'stream':False})
+            self.assertEqual(next(r['facts']['finish_reason'] for r in self.store.rows() if r['event_id']==response.headers['x-iot-request-id']),wanted)
+
+    def exchange(self,error=None):
+        """Create one real request lifecycle with a controlled response transport for cancellation/cleanup assertions."""
+        exchange=ModelExchange(self.app.state.runtime,None)
+        exchange.fact.update(agent='direct',model='iot-qwen2.5-7b',streaming=True,status=200,result='ok')
+        exchange.upstream=httpx.Response(200,stream=Chunks(self.chunks,error=error));exchange.observer=observer.StreamObservation()
+        exchange.span=self.app.state.runtime.tracer.start_span('synthetic lifecycle validation')
+        return exchange
+
+    def test_cancellation_signal_closes_the_backend_and_ends_the_failed_span(self):
+        """A controlled cancellation must preserve chunks already emitted and persist a cancelled outcome exactly once."""
+        exchange=self.exchange(asyncio.CancelledError());received=[]
+        async def consume():
+            """Observe the cancellation raised by the actual lifecycle rather than hiding it in an HTTP adapter."""
+            with self.assertRaises(asyncio.CancelledError):
+                async for chunk in exchange.stream():received.append(chunk)
+        asyncio.run(consume());self.assertEqual(received,self.chunks);self.assertTrue(exchange.upstream.is_closed)
+        self.assertEqual(self.store.size(),1);self.assertEqual(self.store.rows()[0]['facts']['result'],'cancelled')
+        self.app.state.provider.force_flush();spans=self.exporter.get_finished_spans();self.assertEqual(len(spans),1)
+        self.assertEqual(spans[0].status.status_code.value,2)
+
+    def test_failed_final_telemetry_commit_still_closes_the_response_and_ends_its_span(self):
+        """A real closed SQLite connection cannot strand a backend response or an unfinished model span."""
+        exchange=self.exchange();self.store.close()
+        async def consume():
+            """Keep the actual failed commit visible to the caller of this lifecycle."""
+            with self.assertRaises(sqlite3.ProgrammingError):
+                async for _ in exchange.stream():pass
+        asyncio.run(consume());self.assertTrue(exchange.upstream.is_closed);self.app.state.provider.force_flush()
+        spans=self.exporter.get_finished_spans();self.assertEqual(len(spans),1);self.assertEqual(spans[0].status.status_code.value,2)
+
     @settings(max_examples=24,deadline=None,derandomize=True)
     @given(st.from_regex(r'[a-z]{1,12}',fullmatch=True))
     def test_generated_email_prompts_are_blocked_without_backend_execution(self,local_part):
@@ -286,6 +340,77 @@ class ObserverApiTests(unittest.TestCase):
         self.assertEqual(response.status_code,422);self.assertNotIn(address,response.text);self.assertEqual(self.requests,[])
         record=next(row for row in self.store.rows() if row['event_id']==response.headers['X-Iot-Request-Id'])
         self.assertEqual(record['facts']['policy_categories'],['pii_email'])
+
+
+class DeclaredBody:
+    """Model a bounded ASGI body independently of HTTPX's own earlier header validation."""
+    def __init__(self,parts,length=None):
+        """Retain controlled wire chunks and count how many were requested by the application."""
+        self.parts=parts;self.reads=0;self.headers={} if length is None else {'content-length':length}
+    async def stream(self):
+        """Yield the declared chunks without adding or normalizing bytes."""
+        for part in self.parts:self.reads+=1;yield part
+
+
+class ObserverTransportTests(unittest.TestCase):
+    """Check wire-length partitions and actual ASGI forwarding/metrics, including failures before response headers."""
+    def test_body_limits_accept_exact_bytes_and_reject_declared_or_received_overflow(self):
+        """The final permitted byte is accepted; an already oversized declaration is refused before reading any chunk."""
+        for parts,length in [([b'a',b'b'],'2'),([b'ab'],None),([b'a',b'b'],'00000002'),([], '0')]:
+            request=DeclaredBody(parts,length)
+            self.assertEqual(asyncio.run(bounded_body(request,2)),b''.join(parts))
+        request=DeclaredBody([b'abc'],'3')
+        with self.assertRaises(OverflowError):asyncio.run(bounded_body(request,2))
+        self.assertEqual(request.reads,0)
+        with self.assertRaises(OverflowError):asyncio.run(bounded_body(DeclaredBody([b'a',b'b',b'c']),2))
+
+    def test_invalid_and_mismatched_lengths_cannot_be_silently_normalized(self):
+        """Reject signed, spaced, non-ASCII, noninteger and oversized length strings plus both mismatch directions."""
+        for length in ['-1','+1',' 1','1 ','1.0','x','','000000002','²']:
+            request=DeclaredBody([b'a'],length)
+            with self.subTest(length=length),self.assertRaises(ValueError):asyncio.run(bounded_body(request,2))
+            self.assertEqual(request.reads,0)
+        for length,parts in [('2',[b'a']),('1',[b'ab'])]:
+            with self.subTest(length=length),self.assertRaises(ValueError):asyncio.run(bounded_body(DeclaredBody(parts,length),2))
+
+    def test_status_observation_forwards_each_original_asgi_message(self):
+        """A body message cannot fabricate response status; the original start message updates it without rewriting bytes."""
+        received=[]
+        async def send(message):
+            """Retain the exact object passed to the downstream ASGI sender."""
+            received.append(message)
+        observation=HttpObservation(send);body={'type':'http.response.body','body':b'original','more_body':False}
+        asyncio.run(observation(body));self.assertEqual(observation.status,500);self.assertIs(received[0],body)
+        start={'type':'http.response.start','status':429,'headers':[(b'x-demo',b'original')]}
+        asyncio.run(observation(start));self.assertEqual(observation.status,429);self.assertIs(received[1],start)
+
+    def collectors(self):
+        """Create independent real Prometheus collectors for the public route/status and duration contracts."""
+        registry=CollectorRegistry();calls=Counter('validation_http_requests_total','Validation calls',['route','status'],registry=registry)
+        durations=Histogram('validation_http_seconds','Validation duration',['route'],registry=registry)
+        return registry,calls,durations
+
+    def test_non_http_scopes_reach_the_application_without_http_samples(self):
+        """Lifespan and websocket work must not be mislabeled as HTTP generation requests."""
+        registry,calls,durations=self.collectors();scopes=[]
+        async def application(scope,receive,send):
+            """Retain the original non-HTTP scope without sending an HTTP response."""
+            scopes.append(scope)
+        middleware=HttpMetricsMiddleware(application,calls,durations)
+        for scope in [{'type':'lifespan'},{'type':'websocket','path':'/socket'}]:
+            asyncio.run(middleware(scope,None,None));self.assertIs(scopes[-1],scope)
+        self.assertIsNone(registry.get_sample_value('validation_http_requests_total',{'route':'other','status':'500'}))
+
+    def test_failure_before_headers_still_records_a_failed_http_exchange(self):
+        """A raised application error cannot disappear from request counts or lifetime samples."""
+        registry,calls,durations=self.collectors()
+        async def application(scope,receive,send):
+            """Fail before the server can emit any response headers."""
+            raise RuntimeError('synthetic pre-header failure')
+        middleware=HttpMetricsMiddleware(application,calls,durations)
+        with self.assertRaisesRegex(RuntimeError,'pre-header'):asyncio.run(middleware({'type':'http','path':'/v1/chat/completions'},None,None))
+        self.assertEqual(registry.get_sample_value('validation_http_requests_total',{'route':'model','status':'500'}),1)
+        self.assertEqual(registry.get_sample_value('validation_http_seconds_count',{'route':'model'}),1)
 
 
 if __name__=='__main__':unittest.main()

@@ -161,5 +161,29 @@ class TraceSchemaTests(unittest.TestCase):
         request,span=batch();span.attributes.add(key='gcp.vertex.agent.tool_name').value.string_value='search_knowledge'
         with self.assertRaises(ValueError):PrivateTraceProcessor().project(request.SerializeToString())
 
+    def test_unknown_origin_and_unapproved_typed_metadata_remain_bounded(self):
+        """Unsupported native metadata is removed without crashing or fabricating a known agent/model/tool identity."""
+        request,span=batch();resource=request.resource_spans[0].resource
+        next(a for a in resource.attributes if a.key=='service.name').value.string_value='private service name'
+        span.name='HTTP request';del span.attributes[:]
+        span.attributes.add(key='gen_ai.operation.name').value.array_value.values.add().string_value='SECRET_VALUE'
+        result=PrivateTraceProcessor().project(request.SerializeToString());fact=result['spans'][0][1]
+        self.assertEqual((fact['agent'],fact['model'],fact['tool'],fact['operation'],fact['usage']),('unknown','unknown','none','other',None))
+        self.assertNotIn(b'SECRET_VALUE',result['payload']);self.assertNotIn(b'private service',result['payload'])
+
+    def test_batch_and_duration_limits_accept_the_boundary_and_reject_the_next_value(self):
+        """Check the 1024-span admission limit and exact one-hour duration independently of payload byte limits."""
+        request,span=batch();span.end_time_unix_nano=span.start_time_unix_nano+3600*1000000000
+        self.assertEqual(PrivateTraceProcessor().project(request.SerializeToString())['spans'][0][1]['duration_seconds'],3600)
+        span.end_time_unix_nano+=1
+        with self.assertRaises(ValueError):PrivateTraceProcessor().project(request.SerializeToString())
+        request,span=batch();scope=request.resource_spans[0].scope_spans[0]
+        for _ in range(1023):scope.spans.add().CopyFrom(span)
+        self.assertEqual(PrivateTraceProcessor().project(request.SerializeToString())['received_spans'],1024)
+        scope.spans.add().CopyFrom(span)
+        with self.assertRaises(ValueError):PrivateTraceProcessor().project(request.SerializeToString())
+        request,span=batch();span.status.code=3
+        with self.assertRaises(ValueError):PrivateTraceProcessor().project(request.SerializeToString())
+
 
 if __name__=='__main__':unittest.main()

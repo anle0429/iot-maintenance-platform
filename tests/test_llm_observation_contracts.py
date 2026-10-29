@@ -201,5 +201,23 @@ class ObservationBoundaryTests(unittest.TestCase):
         for choice in choices:
             with self.subTest(choice=choice),self.assertRaises(ValueError):StreamObservation().feed(event({'choices':[choice]}),0)
 
+    def test_nontext_roles_and_text_parts_fail_as_validation_errors(self):
+        """Malformed JSON roles/content must never cause an incidental set/hash or regular-expression exception."""
+        for role in [None,{},[],True,1]:
+            value=question('x');value['messages'][0]['role']=role
+            with self.subTest(role=role),self.assertRaises(ValueError):PromptPolicy().inspect(value)
+        for text in [None,{},[],True,1]:
+            value=question('x');value['messages'][0]['content']=[{'type':'text','text':text}]
+            with self.subTest(text=text),self.assertRaises(ValueError):PromptPolicy().inspect(value)
+
+    def test_terminal_marker_alone_does_not_supply_missing_finish_or_generated_output(self):
+        """Keep individually missing terminal metadata distinct, including valid zero-duration observations."""
+        for choices in [[{'delta':{'content':'x'}}],[{'delta':{'content':'','refusal':'','tool_calls':[{'function':{'name':'','arguments':''}}]},'finish_reason':'stop'}]]:
+            stream=StreamObservation();stream.feed(event({'choices':choices})+event({'usage':{'prompt_tokens':0,'completion_tokens':0,'total_tokens':0}})+b'data: [DONE]\n\n',0)
+            self.assertFalse(stream.finish(0)['complete'])
+        stream=StreamObservation();stream.feed(event({'choices':[{'delta':{'content':'x'},'finish_reason':'stop'}]})+event({'usage':{'prompt_tokens':0,'completion_tokens':1,'total_tokens':1}})+b'data: [DONE]\n\n',0)
+        self.assertTrue(stream.finish(0)['complete'])
+        with self.assertRaises(ValueError):StreamObservation().feed(b'data: {"choices":[{"delta":{"content":"a\ndata: b"}}]}\n\n',0)
+
 
 if __name__=='__main__':unittest.main()
