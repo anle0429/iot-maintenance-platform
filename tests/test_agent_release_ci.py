@@ -2,8 +2,8 @@
 from copy import deepcopy
 from datetime import datetime,timezone,timedelta
 from pathlib import Path
-import importlib.util,json,unittest,xml.etree.ElementTree as ET
-from agents.release_ci import api_quality,feature_lease,packaged_paths,ready_agents,role_for_job
+import importlib.util,json,tempfile,unittest,xml.etree.ElementTree as ET
+from agents.release_ci import api_quality,feature_lease,packaged_paths,ready_agents,role_for_job,required_inputs
 
 ROOT=Path(__file__).resolve().parents[1]
 SPEC=importlib.util.spec_from_file_location("agent_release_renderer",ROOT/"scripts/render-agent-responses.py")
@@ -12,6 +12,16 @@ renderer=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(renderer)
 
 class AgentReleaseCiTests(unittest.TestCase):
     """Use fixed known clocks and recorded object shapes, leaving actual deployment proof to Jenkins."""
+    def test_transitive_test_import_must_be_in_the_sealed_packet(self):
+        """An otherwise valid declaration cannot omit a module required by its imported tests."""
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);path=root/"infra/ci/agents-source.json";path.parent.mkdir(parents=True)
+            path.write_text(json.dumps({"schema_version":1,"required":["rag/ci_metadata.py"],"quality_manifests":[]}))
+            seal={"files":{"infra/ci/agents-source.json":"configuration"}}
+            with self.assertRaises(ValueError):required_inputs(root,seal)
+            seal["files"]["rag/ci_metadata.py"]="module"
+            self.assertEqual(required_inputs(root,seal),2)
+
     def test_only_three_owned_jobs_are_allowed(self):
         """A job name cannot select an arbitrary workload or share another component's release."""
         for role in ["retrieval","drift","coordinator"]:self.assertEqual(role_for_job("iot-llm-"+role),role)

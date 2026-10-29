@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "required": [
+    "agents/__init__.py", "agents/release_ci.py", "agents/ci_contract.py", "agents/response-policy.json",
+    "scripts/ci-agents.py", "scripts/ci-serving.py", "scripts/render-agent-responses.py", "scripts/integration_evidence.py",
+    "scripts/verify-mcp-quality.py", "scripts/verify-mcp-quality-native.py", "scripts/summarize-mcp-mutations.py",
+    "infra/ci/ServingController.Dockerfile", "infra/ci/ServingController.Dockerfile.dockerignore", "infra/ci/Agents.Jenkinsfile",
+    "infra/ci/AgentsApplication.Dockerfile", "infra/ci/AgentsApplication.Dockerfile.dockerignore",
+    "infra/ci/AgentsTests.Dockerfile", "infra/ci/AgentsTests.Dockerfile.dockerignore",
+    "ml/__init__.py", "ml/protocol.py", "ml/serving_ci.py", "rag/ci_metadata.py",
+    "tests/__init__.py", "tests/test_llm_ci_contract.py", "tests/test_agent_release_ci.py",
+    "docs/evidence/agent-platform/readback/agents.stdout", "docs/evidence/mcp-tools/success/native/snapshot.json"
+  ],
+  "quality_manifests": [
+    "docs/evidence/mcp-quality/source/manifest.json",
+    "docs/evidence/mcp-quality-native/source/manifest.json"
+  ],
+  "source_prefixes": [
+    "agents/", "infra/charts/iot-agents/", "infra/charts/iot-mcp/",
+    "docs/evidence/mcp-quality/", "docs/evidence/mcp-quality-native/", "docs/evidence/mcp-quality-process/"
+  ]
+}

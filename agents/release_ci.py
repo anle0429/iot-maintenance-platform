@@ -16,6 +16,19 @@ def role_for_job(name):
     return JOBS[name]
 
 
+def required_inputs(root,seal):
+    """Refuse partial CI input sets, including transitive test imports and the complete cached quality source."""
+    root=Path(root);name="infra/ci/agents-source.json";configuration=json.loads((root/name).read_bytes())
+    if configuration.get("schema_version")!=1:raise ValueError("Unknown agent CI source declaration")
+    required={name,*configuration["required"],*configuration["quality_manifests"]}
+    if not required.issubset(seal["files"]):raise ValueError("The source packet omits a required CI or test input")
+    for relative in configuration["quality_manifests"]:
+        baseline=json.loads((root/relative).read_bytes())
+        required.update(baseline["files"])
+    if not required.issubset(seal["files"]):raise ValueError("The source packet omits frozen API/test inputs")
+    return len(required)
+
+
 def packaged_paths(seal,tests=False):
     """Name every application file copied into the runtime overlay and, optionally, its test overlay."""
     paths={"services/mcp_tools/"+name+".py" for name in ["__init__","app","auth","contracts","probe","runtime","snapshot"]}

@@ -7,7 +7,7 @@ import importlib.util,json,os,shutil,subprocess,sys,tarfile,time,xml.etree.Eleme
 
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from agents.ci_contract import release_identity,require_receipt,validate_source,validate_agents
-from agents.release_ci import MCP_RUNTIME,MCP_TESTS,api_quality,feature_lease,packaged_paths,ready_agents,role_for_job,unchanged_quality_source
+from agents.release_ci import MCP_RUNTIME,MCP_TESTS,api_quality,feature_lease,packaged_paths,ready_agents,role_for_job,unchanged_quality_source,required_inputs
 from agents.answer_acceptance import verify_specialist
 from agents.delegation_acceptance import verify_coordinator
 from agents.probe import run as probe
@@ -44,6 +44,7 @@ class Context(SHARED.Context):
     def source_check(self):
         """Refuse changed source in every outer and native phase."""
         self.source_digest=validate_source(ROOT,self.seal,self.commit)
+        self.required_inputs=required_inputs(ROOT,self.seal)
 
     def phase(self,name,details):
         """Bind a native stage to this exact job/build/source."""
