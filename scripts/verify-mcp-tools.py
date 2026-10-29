@@ -7,7 +7,7 @@ import math
 import xml.etree.ElementTree as ET
 from integration_evidence import ROOT, capsule, read, sources, exited
 
-MANIFEST_SHA256 = 'f6fdd3de2a7bff42aa06a24584eb1c2f37a3cd9142695ee407bf7b99973cf906'
+MANIFEST_SHA256 = '919cf2715f0416a3a4fcfa368485612108f69a19632d8cd92f616f5e848385b9'
 
 
 def payload(call):
@@ -19,6 +19,14 @@ def payload(call):
 def verify():
     """Reconcile raw SDK responses, native process states, exact source identities and independent report totals."""
     base, count = capsule('mcp-tools', MANIFEST_SHA256)
+    curation = read(base, 'curation.json')
+    excluded = curation['excluded_nonessential']
+    assert len(excluded) == 56
+    assert sum(name.startswith('capacity/source/.kube/cache/discovery/') for name in excluded) == 53
+    assert sum(name.startswith('capacity/source/.kube/cache/http/') for name in excluded) == 2
+    assert 'initial-mutation/native/proof/.coverage' in excluded
+    assert curation['previous_manifest_sha256'] == 'f6fdd3de2a7bff42aa06a24584eb1c2f37a3cd9142695ee407bf7b99973cf906'
+    assert curation['native_archive_sha256'] == '6d8aa7d3ade8a727df360b274042cf55db0a77b56b4444bec16935e379197b56'
     seal = sources(base, 'success', current=True)
     sources(base, 'load', current=True)
     sources(base, 'quality-baseline', current=True)

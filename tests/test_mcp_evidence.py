@@ -46,6 +46,6 @@ class McpEvidenceTests(unittest.TestCase):
                 data = json.loads(response['text']); data['feature_trace']['machine_id'] = 'P-002'
                 response['text'] = json.dumps(data)
             path.write_text(json.dumps(value), encoding='utf-8')
-            with patch.object(CHECKER, 'capsule', return_value=(copied, 774)):
+            with patch.object(CHECKER, 'capsule', return_value=(copied, 719)):
                 with self.assertRaises(AssertionError):
                     CHECKER.verify()

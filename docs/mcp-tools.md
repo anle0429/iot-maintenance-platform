@@ -72,6 +72,8 @@ The earlier rollout reached the node's configured 60-Pod ceiling even though CPU
 
 The archive also retains four earlier deployment failures: an absent-namespace response parser, an unavailable Feature API, an SDK field-name mismatch in the acceptance client, and the scheduling ceiling. The Feature API was refreshed through real native materialization, preserving model 6. Timestamps and TTLs were not edited. Knowledge snapshot originals remained unchanged.
 
+The committed capsule contains 719 curated source, command, report and image files. It excludes 55 generated Kubernetes discovery-cache files and one optional binary coverage-state file. [Curation receipt](evidence/mcp-tools/curation.json) records their original hashes and the retained native archive identity. All execution reports, source bindings, coverage HTML/JSON/XML, JUnit and eight original screenshots remain included.
+
 ## Repeat the checks
 
 Offline verification needs only Python and the committed evidence:

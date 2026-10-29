@@ -1,0 +1,288 @@
+{
+  "previous_commit": "50138469f69307b99b5bf42ac33cfa28b9fd5bc0",
+  "previous_manifest_sha256": "f6fdd3de2a7bff42aa06a24584eb1c2f37a3cd9142695ee407bf7b99973cf906",
+  "native_archive_sha256": "6d8aa7d3ade8a727df360b274042cf55db0a77b56b4444bec16935e379197b56",
+  "scope": "Remove only generated discovery cache and optional binary coverage state. Preserve all source, API/deployment/task logs, reports, tests and unmodified screenshots. The original native archive remains retained outside Git.",
+  "excluded_nonessential": {
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/acme.cert-manager.io/v1/serverresources.json": {
+      "bytes": 954,
+      "sha256": "b32f5a4e991669f7ad3c64ea820af39b90e9746b99918e82b8d092afa89dfb45",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/admissionregistration.k8s.io/v1/serverresources.json": {
+      "bytes": 1338,
+      "sha256": "e4abc669579a8a3aef657c237e9327f4a828af65c9ea9e9773d56aba11fdbacd",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/apiextensions.k8s.io/v1/serverresources.json": {
+      "bytes": 549,
+      "sha256": "ea5c8e9650d3e6b97c15164fe15f51f8e082a03d4acd8d4c4a2d372b28a32caf",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/apiregistration.k8s.io/v1/serverresources.json": {
+      "bytes": 439,
+      "sha256": "271fbd29ff2ba7b456005dc6bdfb6070cea916d9c9422728c0c5accf94115612",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/app.k8s.io/v1beta1/serverresources.json": {
+      "bytes": 528,
+      "sha256": "2ca30b4d362f325d33e850324adf966257c658361e9049eea19d6cedd1eca83c",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/apps/v1/serverresources.json": {
+      "bytes": 2145,
+      "sha256": "f8814847ee5d02576142377674a50c76088e02461a29fbd909f2482adcb5400e",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/argoproj.io/v1alpha1/serverresources.json": {
+      "bytes": 2569,
+      "sha256": "c75f0cd9b01e1ab8333858468bfeefeeb41bd5ebe7965f779240b9864492b6b0",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/authentication.k8s.io/v1/serverresources.json": {
+      "bytes": 343,
+      "sha256": "72736880a3f6d0c2e0e1153c3ef24c59dbb2153c0d3826775b6dc8772cee2a03",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/authorization.k8s.io/v1/serverresources.json": {
+      "bytes": 679,
+      "sha256": "647384f357001afea619938e53a8dadb6369c77ddad3df8da3953409187caff9",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/autoscaling/v1/serverresources.json": {
+      "bytes": 514,
+      "sha256": "035fe0e0e83e0e3684b44a56b306eb48084fc609dddd6f0fc3f2d33e0e5d4f23",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/autoscaling/v2/serverresources.json": {
+      "bytes": 514,
+      "sha256": "d7e046ce2e0b04d5acc129372363dafe555e6e3b903453e8ad9f8a534a5b591b",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/batch/v1/serverresources.json": {
+      "bytes": 693,
+      "sha256": "401699ab870bb2d5053a517dc8c54a31f919e4440ea24121d14f4e4b46ba7fc5",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/cert-manager.io/v1/serverresources.json": {
+      "bytes": 1904,
+      "sha256": "0d7e83bfb9239f7e624598e7199cf03e4d744eda3102b65979d1b2f3a69c9baa",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/certificates.k8s.io/v1/serverresources.json": {
+      "bytes": 692,
+      "sha256": "ba322a4650fa0bff33cab367cba22917ada43bac7c7c33a8224d8e245ebe230d",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/coordination.k8s.io/v1/serverresources.json": {
+      "bytes": 258,
+      "sha256": "0fc2f0857481554ed702901b1b27a9cf1bb5d77c0dfd0f53b1dc6eaa241ad0c0",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/discovery.k8s.io/v1/serverresources.json": {
+      "bytes": 279,
+      "sha256": "124bb4f18e45acf739692c452ac88ebf7cce1b78b7fd7d676defaada79c66df5",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/eventing.knative.dev/v1/serverresources.json": {
+      "bytes": 932,
+      "sha256": "ef1c20d6bd53b950a014bcf071994ba68780ecfdcc0b0114e2131ef34f1b310f",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/eventing.knative.dev/v1alpha1/serverresources.json": {
+      "bytes": 1519,
+      "sha256": "617c21249ecbfbcf9ce74231c8f30e1a97a2c6b5908f65b9a18c92e49d35d00d",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/eventing.knative.dev/v1beta1/serverresources.json": {
+      "bytes": 546,
+      "sha256": "cea7bbfdb6f953e0f12f048d6c0a9a49701ac8ecbcf87a811fc9dcc91f0cb814",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/eventing.knative.dev/v1beta2/serverresources.json": {
+      "bytes": 546,
+      "sha256": "a93e4b79690c35e039632395f5342d4ec5c27b2ce3a66c286d1c96aca16a269a",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/eventing.knative.dev/v1beta3/serverresources.json": {
+      "bytes": 546,
+      "sha256": "35d7b976b00f0d0a044cd382c715ba076db753b5fdfeaf0c05fd834460248134",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/events.k8s.io/v1/serverresources.json": {
+      "bytes": 272,
+      "sha256": "748c135105199b69df81840784a0d35e520ac116f31cb86298432988a1920362",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/extensions.istio.io/v1alpha1/serverresources.json": {
+      "bytes": 1047,
+      "sha256": "eb606781331adc1a2d6baaf5839beec517726d85c6d9fb70ec38265398cc47b7",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/flowcontrol.apiserver.k8s.io/v1/serverresources.json": {
+      "bytes": 814,
+      "sha256": "921fa40d815a56e2e1a6f0bf285adc68579e35a97700474aabd6455fc42dbd25",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/flows.knative.dev/v1/serverresources.json": {
+      "bytes": 929,
+      "sha256": "6be9abfeaaa3ec5eca7172be4079c503782ff4776cc347f77c901ce25d781ba6",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/helm.cattle.io/v1/serverresources.json": {
+      "bytes": 741,
+      "sha256": "1e02e72c43f33d3319d41f96503f3d65621ecadab76274f7a8ef21224188af95",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/inference.networking.k8s.io/v1/serverresources.json": {
+      "bytes": 559,
+      "sha256": "d654b72696c040edad30d741389714520706b6f3ef6bb0ae53e6e0ce2e3a679c",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/k3s.cattle.io/v1/serverresources.json": {
+      "bytes": 523,
+      "sha256": "3d690650b903cb4c72747c952da72bbd7a1b09c67f53946c5e93cdcdaa02f415",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/kubeflow.org/v1beta1/serverresources.json": {
+      "bytes": 581,
+      "sha256": "77043c9e6ddf7c3540bd6c027a1a57dc0529383e96c5ede5390cce2b2da43b52",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/messaging.knative.dev/v1/serverresources.json": {
+      "bytes": 1527,
+      "sha256": "58044b36ad14f65c4f1af2307dbc374b4cf7114d4176a9cfc0d0aea2a1f46e36",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/metrics.k8s.io/v1beta1/serverresources.json": {
+      "bytes": 292,
+      "sha256": "023bca87c187d661f1ae1f4a7ef836372f0db733459ffd411bfa242fa08bd861",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/networking.istio.io/v1/serverresources.json": {
+      "bytes": 3376,
+      "sha256": "6b6eaad72dc9a06dd57f0585cc493ca74a9e3dc48b4e5d74ab29773ecf7bb74b",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/networking.istio.io/v1alpha3/serverresources.json": {
+      "bytes": 3925,
+      "sha256": "5871c38e533d71c76ba0ee3bfd454006a61a1ef6ea501ca1fcf71731e7adc719",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/networking.istio.io/v1beta1/serverresources.json": {
+      "bytes": 3908,
+      "sha256": "d4b9e3e7ef7fce9393c42836a78bebd609a6ae0b77c514ecfa1ebee1b8a7666f",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/networking.k8s.io/v1/serverresources.json": {
+      "bytes": 1299,
+      "sha256": "f93e2f2f5f45852ef7ca56ed20cc99ef31440c7f1fec4d7b4477cc43901e73c3",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/node.k8s.io/v1/serverresources.json": {
+      "bytes": 273,
+      "sha256": "e24c5bba68383176ab624a175b51efc93a4d98f267686f005c055e2a212b61df",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/policy/v1/serverresources.json": {
+      "bytes": 464,
+      "sha256": "79342ac62f39986fcea23b48bfb9a1861a7d7fde3b51e053625c37da0097b4f1",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/rbac.authorization.k8s.io/v1/serverresources.json": {
+      "bytes": 815,
+      "sha256": "4f64e2c32ca75b3f27725a708a1369ae20c0f837f2fff811f9c53acca320cdb9",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/resource.k8s.io/v1/serverresources.json": {
+      "bytes": 986,
+      "sha256": "e59b21bbd024418f174c2928ec4f0f1d3f5fb1ae09369bd25c331c955a177405",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/scheduling.k8s.io/v1/serverresources.json": {
+      "bytes": 302,
+      "sha256": "21703d8fd64a7b9c0118663d10768e237985a3a806ba0f1f2fc09e11ef4b9dff",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/security.istio.io/v1/serverresources.json": {
+      "bytes": 1632,
+      "sha256": "3e7a4524a3e564990628916b99bef7e9973ce94209b1741166c7c8d5d9e49cff",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/security.istio.io/v1beta1/serverresources.json": {
+      "bytes": 1667,
+      "sha256": "77d567d2f826d68d90a34da2cfaeae15876c24e51d147fc4e8e50ceb048264b2",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/servergroups.json": {
+      "bytes": 7751,
+      "sha256": "9fe76ed72a17b59771bbd13b1b58624d942138e0612a62d1a245fbd7162af22a",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/serving.kserve.io/v1alpha1/serverresources.json": {
+      "bytes": 1736,
+      "sha256": "ef314731911dede03f0fec384efa7eb02872ecdf4de49ab0a59b0e3fc2fd3830",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/serving.kserve.io/v1beta1/serverresources.json": {
+      "bytes": 559,
+      "sha256": "758128ce4590bbded98dd2c191a07e13838af5678b67ea8c6491c96dbc63bf44",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/sinks.knative.dev/v1alpha1/serverresources.json": {
+      "bytes": 1015,
+      "sha256": "90fc73af4993944b4a3985b8c8eb8ababb658bcb2be5c4a7070dbd633d1c7f2e",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/sources.knative.dev/v1/serverresources.json": {
+      "bytes": 1912,
+      "sha256": "73227cf2ad7f4a5011f2c478199bf277bf8c9510875f344c303157edc5810fb4",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/sources.knative.dev/v1alpha1/serverresources.json": {
+      "bytes": 593,
+      "sha256": "2aa514d2f88119fe4def9a5e7d0d543c2954ecf869803a3dbf4ff6683bda8a64",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/sources.knative.dev/v1beta2/serverresources.json": {
+      "bytes": 548,
+      "sha256": "6bfa69e8c4c2512ad4eba6a853a0914ffb433e2224025677627b7842f600fda9",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/storage.k8s.io/v1/serverresources.json": {
+      "bytes": 1404,
+      "sha256": "668aabc7f8f37662dc4a69fc03f5bcc25b346d91c2114f1b515880517c7d91e3",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/telemetry.istio.io/v1/serverresources.json": {
+      "bytes": 559,
+      "sha256": "32f13ca4052a5ad8c3e7669a9d3e1840fbb8f08d39a3c1a1753e29f3dbe3e76f",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/telemetry.istio.io/v1alpha1/serverresources.json": {
+      "bytes": 577,
+      "sha256": "4d593a0b842cabcbc8965308af9d3e726e648d87e1bed34e0a57578ae3cb0bdb",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/discovery/0.0.0.0_6443/v1/serverresources.json": {
+      "bytes": 6142,
+      "sha256": "0e22da643d125723f6fbabcf3fcc6be02af4ae8588a51d08a2c65fb3b8b5d1da",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/http/49709f22b71b12b5c5a8940049864a5e34edee922fbcbbb679bf4252d3c8165c": {
+      "bytes": 57183,
+      "sha256": "bdd209ff50097ba3ba19f115e5cacf3455bf3871e1970aee76ab9e720f7a7fe6",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "capacity/source/.kube/cache/http/5e17d49f1744bd57214db7f2f8ebae1b5c8a0ae720017dd598368e778b1c0d02": {
+      "bytes": 7787,
+      "sha256": "6bd29c69b08e63a66b4d4ba190bd8113946d60ad45a67b1e87b95f1bb3da75c6",
+      "reason": "Generated Kubernetes API discovery cache"
+    },
+    "initial-mutation/native/proof/.coverage": {
+      "bytes": 69632,
+      "sha256": "ba58d4777d82754835a08d62c4487560f61b6d672713f6b338d3bcd55f09f5cd",
+      "reason": "Intermediate coverage measurement database; HTML/JSON/XML/JUnit retained"
+    }
+  }
+}

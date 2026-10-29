@@ -52,6 +52,6 @@ python -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 
 [Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/final-audit.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.
 
-The MCP checkpoint adds 774 source/native/UI payloads, 79 native API tests, 97.74% statement coverage, 90.57% branch coverage and two authenticated Locust workloads. Its verifier also checks that the original 945-mutant gate failed at 56.19%; verifying that receipt does not make the mutation requirement pass. The expanded mutation run and full agent integration remain separate.
+The MCP checkpoint adds 719 curated source/native/UI payloads, 79 native API tests, 97.74% statement coverage, 90.57% branch coverage and two authenticated Locust workloads. Its verifier also checks that the original 945-mutant gate failed at 56.19%; verifying that receipt does not make the mutation requirement pass. The expanded mutation run and full agent integration remain separate.
 
 The current PC regression passed 773 tests and 333 subtests, with nine documented skips, in 87.08 seconds. The dedicated MCP environment separately passed 79 API tests and three evidence-oracle tests. All 31 offline verifiers passed. Documentation checks covered 597 maintained files, 1,949 local links and five diagrams; the current Python audit found descriptions for all 1,952 definitions in 368 maintained files.
