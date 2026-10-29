@@ -1,106 +1,145 @@
-# Kiến trúc và trạng thái triển khai
+# Architecture
 
-## Cập nhật28/10/2026
+This document describes the IoT lab implemented in this repository: the prediction request, the data and training jobs behind it, and the controls around deployment. The [README](../README.md#system-diagram) provides the platform overview; the [demo guide](demo-walkthrough.md) provides the operating commands.
 
-[Sơ đồ tổng thể trong README](../README.md#system-diagram) phản ánh mốc hiện tại; các sơ đồ theo ngày bên dưới giữ làm lịch sử. Core vẫn là một VM8CPU/64GiB, k3s và các Compose/systemd services; chưa nhận là cluster nhiều máy hoặc đã đủ mọi yêu cầu final.
+## Scope and runtime
 
-| Luồng | Đơn vị thực thi và dữ liệu | Bằng chứng/phạm vi |
+The lab runs on one Google Cloud VM with 8 vCPU and 64 GiB RAM. K3s hosts Kubernetes workloads; Docker containers and host services provide the remaining components. Shared data and scratch volumes hold datasets, model artifacts and service state. Administration uses loopback ports and IAP.
+
+Three workloads have different boundaries:
+
+| Workload | Recorded scope | Evidence |
 |---|---|---|
-| Offline DE | Generator job → Spark containers → Parquet HDD; Airflow điều phối validation, SDK job gửi DataHub | [Full102,45GB](full-scale-ingest.md) Bronze/Silver; [DP1–DP3](orchestration.md) pilot riêng, không nhận feature100GB |
-| Serving U | Feature API Deployment → Redis API Deployment → KServe predictor Deployment | [Serving CI8](ci-serving.md), active model6/lab production tag;200máy195prediction+5stopped409; Redis batch/stream tách riêng |
-| Training T | KFP API → năm task pods → hai Spark executor pods; load qua Feast SDK, đăng ký dữ liệu/model ở MLflow | [Distributed training](distributed-training.md), [CI training](ci-training.md) build2 SUCCESS/model6candidate; cùng một VM, giữ protocol/split đã seal |
-| Serving CI C | Jenkins pull bundle production-tag6 → test/build/stage → A/B router Deployment → model1/6 → Helm cutover | [CI8 SUCCESS](ci-serving.md),780trial/40replay; UID/PV/PVC/SQLite trênHDD đối chiếu thật; controlled rollback6→1→6 PASS |
-| Retrain R | Airflow sau monitoring → controller container → private KFP API → năm task → model/data MLflow | [Native F51](drift-retraining.md):manual probe giữ drift=false,5task SUCCEEDED/model7candidate; no-drift/replay/cooldown chặn training trùng. RecipeCE cố định, chưa học từ cửa sổ drift chưa nhãn hoặc tự promote |
-| Metrics M | node_exporter/Pushgateway/A-B router → Prometheus → Grafana | [Host VM](host-monitoring.md), [scheduled offline drift](offline-drift-monitoring.md), [A/B native6panel/26giá trị mỗi engine](ab-monitoring.md); reference train cố định, không accuracy |
-| Stream CI S | Jenkins → Airflow hai DAG → offline job → online job → Redis theo project riêng | [Offline3/online2SUCCESS](ci-stream-push.md),124Gitinputs;3cửa sổ Kafka/Flink27Oct replay, source read-only, latest40/100; không live source mới hoặc model rolling feature |
-| Secret V | Vault non-dev Raft process trên HDD → Jenkins consumer/gateway sync job qua TLS/AppRole | [Native Vault](vault.md): hai role, đường đọc riêng, token 300 giây; rotation/deny/revoke/restart thực. Root chỉ bootstrap/operator; chưa HA/auto-unseal/migration mọi secret |
-| Gateway G | NGINX Ingress Controller Pod → Grafana relay/Jaeger/feature Service | [Private HTTPS/auth/rate native](private-gateway.md):4virtualhosts/CA+SNI; hostmapping trong lab, chưa publicDNS/browsertrust/cluster-wide isolation |
-| Logs L | Host files và Kubernetes Pod discovery → Alloy → Loki → Grafana | [Dynamic discovery](log-discovery.md):40CRI rows/twoPodUID/restart/multisetkhớp; bốnAPI readbacks; chưa exactly-once mọi crash/rotation |
-| Mesh H | Istiod Deployment và các probe/model Deployments trong namespace riêng, Envoy sidecar nằm trong Pod | [mTLS/authz thật](private-mesh.md): allowed200/math,identity/spoof/operation403/plaintextreset; chưa migration production |
-| Policy P | Jenkins → OPA job container → gate0/1 | [48ca/2allow46deny](deployment-policy.md), positive3/negative5 cùngsource; standalone gate không deploy/admission webhook |
-| Joint diagnostic J | Docker audit job đọc trainreference và retained featurecapture | [MMD cohort](joint-cohort.md):64+64/lineage/permutations; historical diagnostic, chưaAPI/autoretrain; outsideclasspending |
+| Large-source processing | 102,447,847,856 bytes of uncompressed JSONL through Spark Bronze/Silver | [Full-scale ingest](full-scale-ingest.md) |
+| Feature engineering and ML | A separate 60-day dataset, 3,456,000 snapshots and 3,132,184 training rows | [Feature dataset](medium-feature-dataset.md), [training protocol](ml-evaluation-protocol.md) |
+| Streaming store checks | Retained Kafka/Flink output: 5,760 finalized windows across 20 machines; separate small CI/Airflow fixtures | [Window cohort](window-cohort.md), [stream CI](ci-stream-push.md) |
 
-Feast SDK, Parquet/SQLite và volume là thư viện/trạng thái trong các đơn vị thực thi, không vẽ thành service có HTTP endpoint giả. DataHub còn MySQL/OpenSearch và MLflow có backend/artifact volumes; [Compose](../infra/orchestration.compose.yaml)/[DataHub](../infra/datahub.compose.yaml)/[MLflow](../infra/mlflow.compose.yaml) là cấu hình chi tiết. Kubernetes API/Redis/KFP/MLflow nội bộ và UI loopback qua IAP. Vault/gateway/mesh có bằng chứng riêng trong các hàng trên; mesh giới hạn namespace thử và gateway chưa publicDNS/browsertrust. VM có một external egress config STANDARD hiện có; firewall của network chỉ cho IAP SSH22.
+The 100 GB result does not cover feature engineering or model training at that scale. Diagrams summarize recorded workflows; they do not assert that all jobs run concurrently or that endpoints are currently ready.
 
-## Luồng đã chạy trên VM ngày27/10/2026
+## Inference request
 
-Mỗi hộp dưới đây là service/container/job có thể triển khai độc lập. Feast SDK nằm trong materialization/training/API, không được vẽ thành một service riêng. Các file Parquet/workspace ở volume HDD/SSD của cùng VM; Git chỉ chuyển code/config/bằng chứng nhỏ.
+The API accepts a machine ID, retrieves its features through Feast, checks whether they can support the prediction, and calls the pinned KServe model. Failed or maintenance-state machines can still have monitoring features, but the one-hour failure target is undefined for them.
 
 ```mermaid
 flowchart LR
-    User[Người dùng] -->|U1 machine_id| API[Feature API Deployment]
-    API -->|U2 lookup theo machine_id| Redis[Redis Deployment iot-features]
-    Redis -->|U3 tám features và timestamps| API
-    API -->|U4 feature vector hợp lệ| Predictor[KServe predictor Deployment]
-    Predictor -->|U5 score và model lineage| API
-    API -->|U6 prediction và feature trace| User
-    Airflow[Airflow scheduler container] -->|D1 submit DP1-DP3 và validation| Spark[Spark batch job containers]
-    Spark -->|D2 lineage và assertions| DataHub[DataHub GMS service]
-    Spark -->|D3 Parquet features qua shared volumes| Materializer[Feast materialization job container]
-    Materializer -->|D4 online feature vectors| BatchRedis[Redis batch-stream container]
-    Spark -->|T1 feature-label Parquet qua volumes| Training[KFP training task pods]
-    KFP[KFP API server Deployment] -->|T2 submit bốn task nối tiếp| Training
-    Training -->|T3 model và dataset artifacts| Registry[MLflow tracking container]
-    Registry -->|T4 model bundle cho build job| Builder[Model image build job]
-    Builder -->|T5 image chứa model| Predictor
-    Kafka[Kafka broker container] -->|S1 telemetry theo arrival time| Flink[Flink stream job containers]
-    Flink -->|S2 finalized window output| Push[Feast push job container]
-    Push -->|S3 native online features| BatchRedis
+    Client["Client"] -->|U1 HTTPS machine request| Gateway["NGINX Ingress Controller"]
+    Gateway -->|U2 Authenticated and rate-limited request| API["Feature API Deployment"]
+    API -->|U3 Machine feature lookup| Redis["Redis API Deployment"]
+    Redis -->|U4 Values and native timestamps| API
+    API -->|U5 Validated eight-feature vector| Predictor["KServe predictor Deployment"]
+    Predictor -->|U6 Score and model identity| API
+    API -->|U7 Prediction and feature trace| Client
 ```
 
-U là luồng người dùng; D/T/S là các luồng dữ liệu/training/stream. [KFP](kfp-cluster.md), [KServe](kubernetes-serving.md), [feature API](feature-api.md), [Airflow/DataHub](orchestration.md) và [stream push](stream-feast-push.md) có phạm vi kiểm chứng riêng. Redis API demo tách khỏi batch/stream Redis. Modelversion2 đã vào registry; predictor hiện pin version1. Bốn training task nối tiếp vẫn dùng Spark local[2], chưa distributed training.
+Feast SDK runs inside the API process. The [runtime](../services/feature_api/runtime.py) validates the schema, event time, arrival context, protocol and one-hour demo lease. Before returning a prediction, it also checks the model version, run, data version and threshold against the selected pin.
 
-[Final tracker](final-rubric-tracker.md) là chuẩn chính. Drift API, notebook, distributed training, incremental data versioning và các phần CI/gateway/observability/security chưa đủ bằng chứng; không diễn giải sơ đồ này thành hoàn tất toàn final.
+### Follow the request in code
 
-## Thiết kế lịch sử ngày22/10
+| Step | Entry point | What to inspect |
+|---|---|---|
+| HTTP routing | [feature API app](../services/feature_api/app.py) | Machine-ID validation, readiness, async dispatch and HTTP error mapping |
+| Feature eligibility | [FeatureRuntime](../services/feature_api/runtime.py) | `features()` checks both clocks and native feature timestamps; `predict()` checks operating state |
+| Store and model calls | [FeastKServeBackend](../services/feature_api/runtime.py) | Read the sealed serving state, use Feast online retrieval and call the fixed KServe endpoint |
+| Model identity | [binding](../services/predictor/binding.py) | Validate the model pin and required lineage fields |
+| Numeric inference | [PumpPredictor](../services/predictor/runtime.py) | Validate the portable model, compute a score and apply the recorded threshold |
+| Independent HTTP check | [demo CLI](../scripts/demo-feature-api.py) | Recompute the score, compare repeated responses and check rejected requests |
 
-Ngày 22/10/2026: generator, [PostgreSQL/Spark → feature → baseline dự đoán](day2-batch.md) và [Kafka/Flink → cửa sổ/late output/snapshot SQLite](day3-streaming.md) đã chạy ở quy mô nhỏ. Chưa có Feast, model serving hoặc agent. Sơ đồ sau là **đích triển khai theo đề**, không phải bằng chứng toàn platform đã deploy. Mỗi hộp là một service/job có thể chạy độc lập; số trên mũi tên chỉ luồng dữ liệu/call.
+With a valid runtime and an unexpired lease, the demonstration covers:
+
+| Request | Expected result | Reason |
+|---|---|---|
+| `GET /health/live` | 200 | The process is running |
+| `GET /health/ready` | 200 | A real online lookup passes the eligibility checks |
+| `POST /v1/machines/P-001:predict` | 200 | An operating machine has eligible features |
+| `POST /v1/machines/P-006:predict` | 409 | The machine is stopped |
+| `GET /v1/machines/P-9999/features` | 404 | The ID is valid but absent |
+| `GET /v1/machines/invalid/features` | 422 | The ID does not match the API contract |
+| Feature lookup with an expired lease or invalid upstream data | 503 | Inference cannot safely proceed |
+
+The response retains feature timestamps, source/protocol hashes and model provenance. The risk score is not a calibrated real-world failure probability. See [API validation](api-validation.md), [serving CI](ci-serving.md) and the [after-restart checks](final-audit.md).
+
+## Batch data and feature stores
+
+Airflow coordinates DP1 ingestion, DP2 cleaning/aggregation and DP3 feature/label preparation. Each stage validates outputs and publishes metadata before the next stage proceeds. A publisher job sends schemas, lineage and assertions to DataHub.
+
+Spark writes persisted Parquet datasets; downstream jobs read those files from shared volumes. File transfers in the overview diagram are not direct network calls between Spark and the consumer jobs. The full-source Bronze/Silver run and the smaller Airflow DP1-DP3 runs have separate receipts.
+
+The two feature views serve different purposes:
+
+| View | Contents | Use |
+|---|---|---|
+| `machine_rolling_10m` | Eight inputs computed over the past ten minutes | Historical training and online failure-risk inference |
+| `machine_tumbling_final_10m` | Four aggregates from finalized non-overlapping Flink windows | Streaming monitoring and replay checks |
+
+Batch/stream Redis and API Redis are configured separately. Materialization and serving-preparation jobs populate the appropriate store. Finalized stream aggregates are not substituted for the predictor's eight inputs.
+
+There are also separate time limits: a feature's event-time age, Redis key expiry and the demo's wall-clock lease. A Redis key can exist while its event-time data is too old. Offline Parquet history does not expire with the Redis key. See [Feast](feast-feature-store.md), [materialization](feast-materialization.md) and [TTL policy](feature-jobs-and-ttl.md).
+
+## Streaming writes and replay
+
+Kafka receives telemetry replayed in arrival order. Flink performs event-time aggregation and retains finalized windows. Separate offline and online jobs consume that retained output:
+
+- The offline job writes validated history to Parquet and registers the feature source.
+- The online job reads the verified windows and pushes the latest eligible monitoring vectors through Feast.
+- Both paths retain state so an acknowledged replay does not increase counts or renew Redis keys.
+
+These are bounded replay checks of real retained Kafka/Flink output. The native 5,760-window run is separate from the three-window CI/Airflow demonstration. They do not establish exactly-once behavior under every crash or a new continuous live source. See [stream pipeline](day3-streaming.md), [CI deployment](ci-stream-push.md) and [full window cohort](window-cohort.md).
+
+## Training and model lifecycle
+
+The notebook and Kubernetes pipeline execute five ML steps. The pipeline is defined in [kfp_notebook.py](../ml/kfp_notebook.py); the executed notebook and parity checks are linked from [training-notebook.md](training-notebook.md).
+
+| Step | Responsibility |
+|---|---|
+| 1. Load cohort | Read labels separately and retrieve historical features through Feast |
+| 2. Split by time | Apply the fixed train/validation/test boundaries and label-window guards |
+| 3. Train | Fit using two Spark executor Pods on the same VM; select using validation data |
+| 4. Validate saved model | Reload the saved weights and reproduce validation behavior |
+| 5. Evaluate holdout | Evaluate the selected model under the unchanged protocol |
+
+Dataset changes are stored incrementally and linked to MLflow runs and model versions. A trained candidate is distinct from a serving release: the recorded retraining run created model7 as a candidate, while the demonstrated serving pin remains model6.
+
+Jenkins serving CI retrieves the selected model bundle, runs gates, builds images and deploys with Helm. The recorded A/B experiment compared versions1 and6; controlled rollback restored the previous version before returning to6. This is separate from model7 training. See [distributed training](distributed-training.md), [automatic versioning](automatic-ml-versioning.md), [serving CI](ci-serving.md) and [A/B deployment](ci-ab-deployment.md).
+
+## Monitoring and retraining
+
+Offline drift monitoring reads a bounded cohort through Feast, compares eight feature distributions with a fixed training reference using PSI, and publishes metrics through Pushgateway. Prometheus scrapes these metrics and Grafana displays them alongside the age of the last successful comparison.
 
 ```mermaid
 flowchart LR
-    Generator[Python generator job] -->|1. Metadata / telemetry| Source[Source PostgreSQL + object storage]
-    Generator -->|2. Delivery by arrival time| Kafka[Kafka]
-    Source -->|3. Ingest DP1| Airflow[Airflow scheduler / workers]
-    Airflow -->|4. Submit DP1-DP3| Spark[Spark batch jobs]
-    Spark -->|5. Bronze / Silver / Gold| Lake[Lakehouse object storage + catalog]
-    Spark -->|6. Dim / fact| Warehouse[SQL warehouse]
-    Kafka -->|7. Telemetry| Flink[Flink stream jobs]
-    Flink -->|8. Realtime features| Online[Feast online Redis store]
-    Flink -->|9. Offline feature history| Lake
-    Airflow -->|10. Incremental materialization job| Online
-    Airflow -->|11. Lineage / assertions| DataHub[DataHub]
-    Lake -->|12. Offline data via Feast| KFP[Kubeflow training jobs]
-    KFP -->|13. Model / data versions| MLflow[MLflow server + registry]
-    MLflow -->|14. Model artifact to image build job| Build[Model image build job]
-    Build -->|15. Model image| KServe[KServe predictor]
-    Online -->|16. Features / chunks| MCP[MCP data and risk tool servers]
-    KServe -->|17. Prediction response| MCP
-    Docs[Python RAG ingestion job] -->|18. Chunks / vectors via Feast| Lake
-    Docs -->|19. Chunks / vectors via Feast| Online
-    User[Chat UI service] -->|20. User question| Gateway[Agentgateway MCP / A2A]
-    Gateway -->|21. Dispatch| Coordinator[Coordinator agent deployment]
-    Coordinator -->|22. Delegate via gateway| Gateway
-    Gateway -->|23. Agent calls| Agents[Data / maintenance agent deployments]
-    Agents -->|24. Tool / model requests| Gateway
-    Gateway -->|25. Tool calls| MCP
-    Gateway -->|26. Generation request| LLM[LLM inference server]
+    Airflow["Airflow scheduler"] -->|M1 Submit comparison window| Drift["Offline drift job"]
+    Drift -->|M2 PSI and freshness gauges| Push["Pushgateway"]
+    Push -->|M3 Scraped metrics| Prom["Prometheus"]
+    Prom -->|M4 PromQL results| Grafana["Grafana"]
+    Airflow -->|R1 Report path and retraining policy| Controller["Retrain controller container"]
+    Controller -->|R2 Admitted package and run parameters| KFP["Kubeflow Pipelines API"]
+    KFP -->|R3 Backend run status| Controller
 ```
 
-Feast SDK xuất hiện trong jobs/services như thư viện, không được vẽ thành một server giả. Diagram chưa biểu diễn hết ingress, registry, sandbox, observability, warm-up và CI/CD; bổ sung cùng bằng chứng khi triển khai. Airflow/KFP/Spark/Flink có thể cần nhiều container/pod, sơ đồ hiện tóm tắt theo nhóm service/job. Sự hiện diện của hộp không chứng minh các tiêu chí rubric đã làm.
+The comparison uses a fixed model3 training reference. Its PSI values are not accuracy measurements for the served model6. The recorded retraining test was a manual probe with `drift=false`; it demonstrated a real KFP run and the admission/replay/cooldown controls. It did not establish a naturally occurring drift alarm or automatic promotion.
 
-Luồng **đã chạy** ở ngày 1: generator Python ghi nguồn riêng → validator Python đọc nguồn → JSON report và log bằng chứng.
+The deployment also has API metrics and OTLP traces, host/Pod logs, and a separate Knative Eventing-to-KServe drift receiver. Those have their own workloads and evidence. MMD is an additional offline diagnostic for joint sensor-distribution changes. See [offline drift](offline-drift-monitoring.md), [retraining](drift-retraining.md), [API observability](api-observability.md), [logs](log-discovery.md), [Eventing](drift-eventing.md) and [MMD](joint-cohort.md).
 
-Ngày 2 đã kiểm chứng run `day2-final`: PostgreSQL department source → JDBC → Spark → Parquet zones/feature/label → MLlib logistic regression → model và 2.060 test predictions. 44 unit test và 19 kiểm tra Spark/data qua; Silver 57.600 unique, dim_machine 21 phiên bản/20 current, feature 11.520 snapshots. Test chưa có positive nên chưa đánh giá được khả năng phát hiện hỏng. Thư mục output chưa có `_RUN_SUCCESS.json` không được coi là run hoàn tất. Compose chỉ gồm source riêng và batch chạy theo yêu cầu; source được dừng sau run, volume giữ nguyên.
+## Deployment and security
 
-Ngày 3 đã kiểm chứng `day3-complete`: producer Python/Kafka CLI → Kafka 3.9.1 → PyFlink 1.20.3 MiniCluster → event-time window 10 phút và audit/late side output → SQLite Linux volume → snapshot cho host. Phát hai lượt nguồn (116.928 messages), giữ 57.600 unique, loại 59.328 duplicates; cả 5.760 cửa sổ khớp oracle độc lập. 55 unittest/10 kiểm tra tích hợp qua. Có fixture late trong/ngoài watermark, replay sau cache expiry và ảnh UI thật. Streaming Compose tách khỏi batch và Kafka tự dừng sau run; đây chưa phải luồng Flink → Feast/lakehouse trong sơ đồ đích, chưa có crash recovery hoặc exactly-once sink.
+| Runtime | Components and state | Configuration or report |
+|---|---|---|
+| Google Cloud VM | One 8-vCPU/64-GiB host; separate boot, data and scratch disks | [Terraform](../infra/gcp/vm/), [IaC verification](iac-verification.md) |
+| K3s | APIs, KServe, Kubeflow Pipelines, ingress and selected security/Eventing workloads | [Helm charts](../infra/charts/), [KServe config](../infra/kserve/pump-failure.yaml) |
+| Docker | Spark jobs, Kafka/Flink, Airflow, DataHub, MLflow and Jenkins | [Orchestration Compose](../infra/orchestration.compose.yaml), [MLflow Compose](../infra/mlflow.compose.yaml) |
+| Host services | Prometheus, Grafana, Loki, Alloy, Pushgateway, exporter and Vault processes | [Host metrics](host-monitoring.md), [recovery](demo-walkthrough.md) |
 
-Generator chunked: iterator vật lý liên tục → exact transport selection/arrival heap → JSONL parts + catalog → validator tuần tự → quality/capacity plan. Mốc26/10 chạy **receipt/catalog adapter → Spark typed JSONL → Snappy Parquet Bronze → dedup Silver → exact readback/metrics/query** trên1.117.608.156byte offline. 84tests/13Sparkchecks tại benchmark, có History UI từ event log gốc. Mốc tiếp theo đã nối một pilot chunked nhỏ qua Gold/feature và Airflow như mô tả dưới; chưa Feast. Parquet là thư mục thông thường, chưa transaction log. [Generator](chunked-generator.md), [ingest và bằng chứng](chunk-ingest.md).
+The gateway provides authentication, rate limiting and private-CA HTTPS. Vault supplies scoped credentials to two real consumers: Jenkins and the gateway credential-sync job. Mesh authorization was tested with workload identities in a separate namespace. OPA checks a deployment plan in CI; it is a policy gate, not a cluster admission webhook.
 
-Cloud26/10: người dùng chọn8vCPU/64GiB, Terraform apply14resources và plan sau apply không drift. Ansible4roles chuẩn bị HDD500GiB/SSD150GiB/Docker và pilot; chạy lại changed0/failed0. Cùng nguồn1,12GB/image/code: baseline local[2]/heap1GiB/HDDscratch223,942s, optimized local[6]/heap20GiB/SSDscratch100,892s, cả hai13checks/84unit và3.456.000unique. Chưa100GB/Kubernetes/serving. [Chuẩn bị/chi phí](gcp-vm.md), [runtime](gcp-runtime.md).
+Database, artifact and registry state stays on VM volumes. A Git clone does not reproduce that state or credentials. The lab has not been validated as a multi-host HA deployment. See [gateway](private-gateway.md), [Vault](vault.md), [mesh](private-mesh.md) and [OPA](deployment-policy.md).
 
-Tiếp trên chính VM: **Airflow3.1.7 API/scheduler/dag-processor + PostgreSQL16.11 → Docker Spark3.5.9 theo pool một slot → DP1 Bronze → DP2 Silver/Gold → DP3 feature/label**, mỗi stage có ingest/validate/publish, chỉ trigger tiếp khi validation và metadata thành công. DataHub1.6.0.3 GMS/frontend dùng Kafka8.0.0 metadata, OpenSearch2.19.3 và MySQL8.0.44 riêng; SDK1.6.0 gửi schema, producing jobs, table lineage và external assertions. Hai batch sạch qua64rules/14outputtables, một lỗi nullmachine ở batch riêng bị chặn DP2/DP3;91unit trênPC/VM,11known-answerSparkfixtures. UI/GMS chỉ loopback/IAP; các DB/broker/search không publish port. [Luồng, lệnh chạy, ảnh thật và giới hạn](orchestration.md). Đây là Parquet Gold, chưa SQL warehouse/indexing hoặc online feature store trong sơ đồ đích.
+## Review and reproduce
 
+1. Follow [one inference request](#inference-request) from the route to the model and inspect its trace.
+2. Use the [demo guide](demo-walkthrough.md) for actual service access, feature refresh and expected HTTP results.
+3. Open the [final audit](final-audit.md) and [rubric matrix](final-audit-matrix.md) to locate the relevant code, reports and screenshots.
+4. Run `python -S scripts/audit-final-coursework.py --output outputs/<new-run>` from the repository root to verify recorded artifacts without starting the platform.
 
-**Tiếp nối mốc nguồn100 GB (26–27/10/2026):** [Nguồn liên tục trên VM](scale-100gb.md) đã sinh và đọc kiểm toàn bộ **102.447.847.856 byte offline**, 316.800.000 unique readings,14 quality rules; Spark trung gian5,59 GB/13 checks và99 unit qua. Kết quả100 GB thuộc nguồn JSONL không nén, chưa là Spark/Gold/feature/ML hoặc Airflow toàn100 GB. Ngân sách mới tách HDD400 GB/SSD35 GB; trước Spark lớn cần kiểm lại và đặt scratch trên HDD. Các kết quả nhỏ phía trên giữ nguyên scope/thời điểm lịch sử.
+Earlier design sketches and model versions are retained in [Git history](https://github.com/anle0429/iot-maintenance-platform/blob/1c9d1932ea652f09b1b2b77caa001b082a2b4be7/docs/architecture.md). They describe earlier milestones, not the current lab design.
 
-Cập nhật28/10: [native fullcohort](window-cohort.md) đã kiểm5.760cửa sổ/57.600reading vào hai store và replay qua256/1024/5760; Airflow/CI giữ scope fixture nhỏ riêng. [Ảnh UI Airflow gốc](final-handover.md#ba-pipeline-feature) và các ảnh Docker RUNNING/success được ghi rõ nguồn. Chuẩn đánh giá là [57dòng final](final-rubric-tracker.md), không cộng tracker93dòng lịch sử.
+The [RecSys-MLops system-design documentation](https://github.com/itsmekhoathekid/RecSys-MLops/blob/main/docs/submission/rubic-final-coursework-%28final-ml%29/high_level_system_design.md) was consulted for separating system views and linking them to implementation. The diagrams here describe this repository's IoT jobs, stores and serving path.

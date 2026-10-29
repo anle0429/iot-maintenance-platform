@@ -109,7 +109,7 @@ flowchart TB
     API -->|O5 OTLP spans| Jaeger["Jaeger"]
 ```
 
-Batch/stream Redis and API Redis are configured separately. The two executor Pods run on the same physical VM. The diagram summarizes flows verified in separate runs; it does not imply that every job runs concurrently. Streaming store checks replay retained Kafka/Flink windows. The [architecture documentation](docs/architecture.md) describes the individual deployments and run boundaries.
+Batch/stream Redis and API Redis are configured separately. The two executor Pods run on the same physical VM. The diagram summarizes flows verified in separate runs; it does not imply that every job runs concurrently. Streaming store checks replay retained Kafka/Flink windows. The [architecture documentation](docs/architecture.md) includes a [request-to-code walkthrough](docs/architecture.md#follow-the-request-in-code) and a separate [monitoring/retraining view](docs/architecture.md#monitoring-and-retraining).
 
 ### Deployment
 
@@ -200,6 +200,8 @@ references/coursework/ Original coursework specification and rubric
 
 ## Documentation
 
+To review the implementation, start with [one inference request](docs/architecture.md#inference-request), follow its code entry points, then use the [demo guide](docs/demo-walkthrough.md) and [rubric matrix](docs/final-audit-matrix.md) to locate the corresponding runtime evidence.
+
 | Topic | Start here |
 |---|---|
 | Data and labeling | [Data contract](docs/data-contract.md) · [Evaluation protocol](docs/ml-evaluation-protocol.md) |
@@ -214,4 +216,4 @@ references/coursework/ Original coursework specification and rubric
 
 Detailed runbooks are currently in Vietnamese. Runtime versions, configurations and screenshots are recorded in the relevant reports. The original specification and workbook are under [`references/coursework/`](references/coursework/).
 
-Documentation reference: [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform/tree/cc34515304815774a5dad6f796683b46c27f93ac), consulted for README organization and deployment-diagram presentation.
+Documentation references: [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform/tree/cc34515304815774a5dad6f796683b46c27f93ac) for README organization, and [RecSys-MLops](https://github.com/itsmekhoathekid/RecSys-MLops) for separating architecture views and connecting them to code and evidence.
