@@ -11,6 +11,15 @@ HOSTS={'agents':'agents.iot.test','registry':'registry.iot.test'}
 PORTS={'agents':18090,'registry':18091}
 
 
+def upstream_headers(incoming,host,authorization):
+    """Preserve application protocol headers, including Next.js segment-prefetch hashes, while replacing trust/routing fields."""
+    blocked={'host','authorization','origin','accept-encoding','content-length','connection','transfer-encoding','keep-alive',
+             'proxy-authenticate','proxy-authorization','upgrade','te','trailer','forwarded','x-real-ip','x-user-id'}
+    result={name:value for name,value in incoming.items() if name.lower() not in blocked and not name.lower().startswith('x-forwarded-')}
+    result.update({'Host':host,'Authorization':authorization,'Origin':'https://'+host})
+    return result
+
+
 def allowed_request(role,host,origin,path,method):
     """Refuse absolute proxy URLs, foreign browser origins and operations outside this bounded administrative view."""
     if role not in HOSTS:return False
@@ -49,10 +58,7 @@ def run(args):
             peer=context.wrap_socket(socket.create_connection((str(address),443),timeout=15),server_hostname=host);peer.settimeout(660)
             leaf=sha256(peer.getpeercert(binary_form=True)).hexdigest();version=peer.version()
             connection=http.client.HTTPSConnection(str(address),443,context=context,timeout=660);connection.sock=peer
-            headers={'Host':host,'Authorization':auth,'Origin':'https://'+host}
-            for name in ['Content-Type','Accept','A2A-Version','Last-Event-ID','If-None-Match','If-Modified-Since','Range',
-                         'Cookie','Next-Action','Next-Router-State-Tree','Next-Router-Prefetch','Next-Url','RSC']:
-                if self.headers.get(name):headers[name]=self.headers[name]
+            headers=upstream_headers(self.headers,host,auth)
             connection.request(self.command,self.path,body=body,headers=headers);response=connection.getresponse()
             self.send_response(response.status)
             for name,value in response.getheaders():

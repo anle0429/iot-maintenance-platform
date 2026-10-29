@@ -24,5 +24,14 @@ class AgentGatewayViewTests(unittest.TestCase):
             ('registry','127.0.0.1:18091',None,'/v0/apply','POST')]:
             with self.subTest(path=path,method=method):self.assertFalse(VIEW.allowed_request(role,host,origin,path,method))
 
+    def test_app_protocol_headers_survive_without_forwarding_client_trust_fields(self):
+        """A missing segment-prefetch header changes Next.js request hashes; preserve it while refusing credential/identity overrides."""
+        original={'Next-Router-Segment-Prefetch':'/_tree','RSC':'1','Next-Action':'action-id','Content-Type':'text/plain',
+                  'Host':'127.0.0.1:18090','Authorization':'client-secret','X-User-Id':'other-user',
+                  'X-Forwarded-Host':'external.example','Connection':'keep-alive'}
+        actual=VIEW.upstream_headers(original,'agents.iot.test','operator-login')
+        self.assertEqual(actual,{'Next-Router-Segment-Prefetch':'/_tree','RSC':'1','Next-Action':'action-id','Content-Type':'text/plain',
+                                 'Host':'agents.iot.test','Authorization':'operator-login','Origin':'https://agents.iot.test'})
+
 
 if __name__=='__main__':unittest.main()
