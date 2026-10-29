@@ -41,7 +41,8 @@ class AgentGatewayTests(unittest.TestCase):
             self.assertEqual(spec['rules'][0]['http']['paths'][0]['path'],'/');a=doc['metadata']['annotations']
             self.assertEqual(a['nginx.org/basic-auth-secret'],'agent-gateway-auth');self.assertEqual(a['nginx.org/limit-req-reject-code'],'429')
             self.assertEqual(a['nginx.org/proxy-buffering'],'false');self.assertIn('Authorization:',a['nginx.org/proxy-set-headers'])
-            self.assertIn('X-User-Id: $remote_user',a['nginx.org/proxy-set-headers'])
+            self.assertIn('X-User-Id: coursework',a['nginx.org/proxy-set-headers'])
+            self.assertNotIn('$',a['nginx.org/proxy-set-headers'])
 
     def test_controller_does_not_get_workload_or_secret_write_permissions(self):
         """Restrict controller access to its reviewed namespace and discovery/status duties."""

@@ -43,7 +43,7 @@ def ingresses():
     result=[]
     for name,(host,service,port) in ROUTES.items():
         annotations={'nginx.org/basic-auth-secret':'agent-gateway-auth','nginx.org/basic-auth-realm':'IoT agent lab',
-            'nginx.org/ssl-redirect':'true','nginx.org/proxy-set-headers':'Authorization:,X-User-Id: $remote_user,X-Forwarded-User: $remote_user',
+            'nginx.org/ssl-redirect':'true','nginx.org/proxy-set-headers':'Authorization:,X-User-Id: coursework,X-Forwarded-User: coursework',
             'nginx.org/proxy-read-timeout':'660s','nginx.org/proxy-send-timeout':'660s','nginx.org/proxy-buffering':'false',
             'nginx.org/limit-req-rate':'30r/s','nginx.org/limit-req-key':'${binary_remote_addr}',
             'nginx.org/limit-req-burst':'90','nginx.org/limit-req-no-delay':'true','nginx.org/limit-req-reject-code':'429'}

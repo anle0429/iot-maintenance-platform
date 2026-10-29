@@ -2,7 +2,7 @@
 from datetime import datetime,timezone,timedelta
 from hashlib import sha256
 from pathlib import Path
-import argparse,base64,json,os,subprocess,sys
+import argparse,base64,json,os,socket,ssl,subprocess,sys,time
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from infra.gateway.agents import controller_patch,access_resources,ingresses,ROUTES
 from infra.security.vault_client import VaultClient
@@ -81,6 +81,20 @@ def run(args):
         else:assert {p['metadata']['uid']:p['spec'] for p in value['items']}=={p['metadata']['uid']:p['spec'] for p in before['items']}
     save('ingresses.json',get('get','ingresses','-n','iot-agents'));save('events.json',get('get','events','-n','iot-agents'))
     save('gateway-service.json',get('get','service','iot-gateway','-n','iot-gateway'));save('gateway-pods.json',get('get','pods','-n','iot-gateway'))
+    address=get('get','service','iot-gateway','-n','iot-gateway')['spec']['clusterIP'];tls_context=ssl.create_default_context(cafile=str(args.ca))
+    expected_leaf=sha256(ssl.PEM_cert_to_DER_cert((out/'server.crt').read_text())).hexdigest();tls_ready={}
+    for host,_,_ in ROUTES.values():
+        deadline=time.monotonic()+60
+        while True:
+            try:
+                with tls_context.wrap_socket(socket.create_connection((address,443),timeout=5),server_hostname=host) as peer:
+                    digest=sha256(peer.getpeercert(binary_form=True)).hexdigest()
+                    if digest!=expected_leaf:raise ValueError('The gateway loaded another leaf certificate')
+                    tls_ready[host]={'ca_verified':True,'hostname_verified':True,'leaf_sha256':digest};break
+            except (OSError,ValueError):
+                if time.monotonic()>=deadline:raise RuntimeError('Gateway Pod Ready does not establish accepted TLS routing') from None
+                time.sleep(.5)
+    save('tls-ready.json',tls_ready)
     source={n:sha256((ROOT/n).read_bytes()).hexdigest() for n in ['scripts/deploy-agent-gateway.py','infra/gateway/agents.py','infra/gateway/assets.json','infra/security/vault_client.py']}
     report={'ready':True,'checked_utc':datetime.now(timezone.utc).isoformat(),'source_sha256':source,'gateway_uid':after['metadata']['uid'],
             'image':image,'routes':list(ROUTES),'vault_policy':'iot-agent-gateway','vault_secret_version':version,'vault_lease':lease,
