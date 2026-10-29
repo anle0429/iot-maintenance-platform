@@ -12,6 +12,7 @@ class AgentGatewayViewTests(unittest.TestCase):
         """Permit real assets, catalog reads and the UI's same-origin API POSTs."""
         self.assertTrue(VIEW.allowed_request('agents','127.0.0.1:18090',None,'/_next/app.js','GET'))
         self.assertTrue(VIEW.allowed_request('agents','127.0.0.1:18090','http://127.0.0.1:18090','/api/sessions','POST'))
+        self.assertTrue(VIEW.allowed_request('agents','127.0.0.1:18090','http://127.0.0.1:18090','/agents/iot-agents/iot-coordinator/chat','POST'))
         self.assertTrue(VIEW.allowed_request('registry','localhost:18091',None,'/v0/agents','GET'))
 
     def test_foreign_origins_absolute_targets_and_write_methods_are_refused(self):

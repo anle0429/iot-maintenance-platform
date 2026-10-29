@@ -5,7 +5,7 @@ from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from ipaddress import ip_address
 from pathlib import Path
 from urllib.parse import urlsplit
-import argparse,base64,http.client,json,socket,ssl,threading
+import argparse,base64,http.client,json,re,socket,ssl,threading
 
 HOSTS={'agents':'agents.iot.test','registry':'registry.iot.test'}
 PORTS={'agents':18090,'registry':18091}
@@ -17,7 +17,8 @@ def allowed_request(role,host,origin,path,method):
     port=PORTS[role];valid_hosts={'127.0.0.1:'+str(port),'localhost:'+str(port)}
     if host not in valid_hosts or origin and origin not in {'http://'+value for value in valid_hosts}:return False
     if not path.startswith('/') or path.startswith('//') or '\\' in path or urlsplit(path).scheme:return False
-    return method in {'GET','HEAD'} or role=='agents' and method=='POST' and path.startswith('/api/')
+    chat_action=re.fullmatch(r'/agents/iot-agents/iot-(retrieval|drift|coordinator)/chat',urlsplit(path).path)
+    return method in {'GET','HEAD'} or role=='agents' and method=='POST' and (path.startswith('/api/') or bool(chat_action))
 
 
 def run(args):
@@ -48,13 +49,14 @@ def run(args):
             peer=context.wrap_socket(socket.create_connection((str(address),443),timeout=15),server_hostname=host);peer.settimeout(660)
             leaf=sha256(peer.getpeercert(binary_form=True)).hexdigest();version=peer.version()
             connection=http.client.HTTPSConnection(str(address),443,context=context,timeout=660);connection.sock=peer
-            headers={'Host':host,'Authorization':auth}
-            for name in ['Content-Type','Accept','A2A-Version','Last-Event-ID','If-None-Match','If-Modified-Since','Range']:
+            headers={'Host':host,'Authorization':auth,'Origin':'https://'+host}
+            for name in ['Content-Type','Accept','A2A-Version','Last-Event-ID','If-None-Match','If-Modified-Since','Range',
+                         'Cookie','Next-Action','Next-Router-State-Tree','Next-Router-Prefetch','Next-Url','RSC']:
                 if self.headers.get(name):headers[name]=self.headers[name]
             connection.request(self.command,self.path,body=body,headers=headers);response=connection.getresponse()
             self.send_response(response.status)
             for name,value in response.getheaders():
-                if name.lower() in {'connection','transfer-encoding','keep-alive','proxy-authenticate','proxy-authorization','upgrade','set-cookie'}:continue
+                if name.lower() in {'connection','transfer-encoding','keep-alive','proxy-authenticate','proxy-authorization','upgrade'}:continue
                 if name.lower()=='location':
                     location=urlsplit(value)
                     if location.scheme and location.hostname==host:value=location.path+('?' + location.query if location.query else '')
