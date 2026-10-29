@@ -4,7 +4,7 @@ The subsequent [GPU agent checkpoint](gpu-agent-routing.md) records complete spe
 
 The deployment recorded on 29 October uses kagent 0.10.3, Agent Substrate 0.0.9 and agentregistry 0.4.0 on the retained VM. Three sandbox agents reached Ready with golden snapshots and separate two-worker pools. Their versioned catalog entries identify the actual runtime image, Kubernetes resource UID and agent-specification hash. Current availability depends on an active VM session and fresh feature data.
 
-This page retains the original platform foundation. Later checkpoints verify [GPU specialist/coordinator conversations](gpu-agent-routing.md), [MCP isolation](agent-network-isolation.md) and [automatic worker scaling with original UI captures](agent-scaling.md). Notebook demonstrations and a measured cold/warm comparison remain separate acceptance work.
+This page retains the original platform foundation. Later checkpoints verify [GPU specialist/coordinator conversations](gpu-agent-routing.md), [MCP isolation](agent-network-isolation.md) and [automatic worker scaling with original UI captures](agent-scaling.md). A later [executed agent notebook](agent-notebook.md) verifies Feast-backed features, RAG and drift. A measured cold/warm comparison remains separate acceptance work.
 
 ![Three sandbox agents using the same local model](evidence/agent-platform/ui/native-ready-agents.jpg)
 

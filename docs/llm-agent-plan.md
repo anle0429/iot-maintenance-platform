@@ -1,6 +1,6 @@
 # LLM and agent workstream
 
-**Status: GPU routing, complete specialist/coordinator answers, RAG governance, private MCP, direct MCP isolation and automatic worker scaling verified; the full workstream remains incomplete.** The [GPU checkpoint](gpu-agent-routing.md), [network controls](agent-network-isolation.md) and [scaling experiment with original UI](agent-scaling.md) have separate acceptance records. [MCP mutation checks](mcp-quality.md) and the [strict adapter audit](gpu-agent-routing.md) exceed their gates. Cold/warm measurements, notebooks, LLM CI, authenticated gateway access, full telemetry and A/B still require their own evidence. Start with the [learning guide](llm-learning-guide.md) to follow the information flow.
+**Status: GPU routing, complete specialist/coordinator answers, RAG governance, private MCP, direct MCP isolation and automatic worker scaling verified; the full workstream remains incomplete.** The [GPU checkpoint](gpu-agent-routing.md), [network controls](agent-network-isolation.md) and [scaling experiment with original UI](agent-scaling.md) have separate acceptance records. [MCP mutation checks](mcp-quality.md) and the [strict adapter audit](gpu-agent-routing.md) exceed their gates. The [executed notebook](agent-notebook.md) now has native Feast/RAG/drift evidence. Cold/warm measurements, LLM CI, authenticated gateway access, full telemetry and A/B still require their own evidence. Start with the [learning guide](llm-learning-guide.md) to follow the information flow.
 
 ![Staged LLM and agent components, with verified inference and existing ML endpoints distinguished](images/platform-llm-plan.png)
 
@@ -20,7 +20,7 @@ A user asks about a machine's recent condition, risk or a relevant technical doc
 | Agents | Retrieval and drift specialists, coordinator, registry publication, multi-replica autoscaling and sandbox | [Complete native conversations](gpu-agent-routing.md), [direct MCP isolation](agent-network-isolation.md), [automatic 2 → 4 → 2 scaling and original UI](agent-scaling.md) |
 | Startup | Agent Substrate warm-up, worker-pool HA explanation and startup benchmark | Native golden snapshots and two workers per role; measured cold/warm comparison and HA explanation open |
 | Delivery | RAG and agent/MCP test-build-auto-deploy pipelines, gateway/UI access and secrets | ML CI/gateway/Vault are reusable baselines |
-| Evaluation | Notebooks, coverage >90%, mutation >80%, boundary/property tests and native load HTML | [79 native MCP tests and load reports](mcp-tools.md); [132 current tests and local mutation gate](mcp-quality.md); notebooks, CI integration and agent checks remain open |
+| Evaluation | Notebooks, coverage >90%, mutation >80%, boundary/property tests and native load HTML | [79 native MCP tests and load reports](mcp-tools.md); [132 current tests and local mutation gate](mcp-quality.md); [executed agent notebook](agent-notebook.md) verified; CI integration and other tracked checks remain open |
 | Operations | Token counts, round-trip time, TTFT, safety/PII hits, agent/tool calls/failures and A/B | Existing metrics/log/trace backends; new telemetry missing |
 | Extensions | Two documented LLM-track ideas with working proof | Selection and acceptance still open |
 

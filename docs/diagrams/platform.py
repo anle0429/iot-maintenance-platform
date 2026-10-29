@@ -165,7 +165,7 @@ def llm_plan():
     c.edge('K2',[(350,870),(450,870),(450,570),(350,570)],'Vector artifact',(550,710))
     c.edge('K3',[(60,575),(30,575),(30,1170),(60,1170)],'Chunks and vectors via Feast',(230,1010))
     c.edge('K4',[(350,1170),(650,1170),(650,870),(800,870)],'Retrieved chunks',(590,1135))
-    c.text(60,1300,'Remaining proof: warm-up, notebooks, CI, authenticated gateway, A/B and full telemetry.',20)
+    c.text(60,1300,'Remaining proof: warm-up, CI, authenticated gateway, A/B and full telemetry.',20)
     return c.save()
 
 

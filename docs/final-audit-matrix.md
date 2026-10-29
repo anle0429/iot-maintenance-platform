@@ -89,8 +89,8 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 | L19 | Drift MCP and agent | [scaler chart](../infra/charts/iot-agent-scaling/templates/scaledobjects.yaml) | [Native drift answer, scaling and original UI](agent-scaling.md) | gpu-agents / agent-scaling |
 | L20 | Drift MCP and agent | [worker policy](../infra/charts/iot-agent-network/templates/network.yaml) | [Native direct MCP boundary](agent-network-isolation.md); [original UI](agent-scaling.md#native-ui-evidence) | agent-network / agent-scaling; wider security limits remain explicit |
 | L21 | Drift MCP and agent | [catalog publication](../scripts/publish-iot-agents.py) | [Native source-bound catalog](gpu-agent-routing.md); [original catalog UI](agent-scaling.md#native-ui-evidence) | gpu-agents / agent-scaling |
-| L22 | Agent notebooks | Execute a Jupyter notebook demonstrating an agent calling MCP servers to retrieve Feast features and perform drift detection. | Open: native LLM evidence missing |
-| L23 | Agent notebooks | Execute a Jupyter notebook demonstrating an agent calling MCP servers to retrieve feature-store data for RAG. | Open: native LLM evidence missing |
+| L22 | Agent notebooks | [Native Jupyter execution, source and original captures](agent-notebook.md) | agent-notebook |
+| L23 | Agent notebooks | [Native Jupyter execution, source and original captures](agent-notebook.md) | agent-notebook |
 | L24 | Coordinator agent | [scaler chart](../infra/charts/iot-agent-scaling/templates/scaledobjects.yaml) | [18 actual parents, 36 child histories and scaling](agent-scaling.md) | gpu-agents / agent-scaling |
 | L25 | Coordinator agent | [catalog publication](../scripts/publish-iot-agents.py) | [Native coordinator catalog](gpu-agent-routing.md); [original catalog and answer UI](agent-scaling.md#native-ui-evidence) | gpu-agents / agent-scaling |
 | L26 | Warm-up and worker pool | [substrate deployment](../scripts/deploy-agent-substrate.py) | [Snapshots](agent-platform.md); [worker capacity and single-host limits](agent-scaling.md#scope) | agent-platform / agent-scaling; cold/warm comparison remains open |

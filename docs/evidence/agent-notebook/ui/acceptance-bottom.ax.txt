@@ -1,0 +1,381 @@
+Browser tab: 105, Title: "Notebook", URL: "http://127.0.0.1:19341/executed.html#6.-State-exactly-what-passed".
+0 AXWebArea Notebook, URL: 127.0.0.1:19341/executed.html#6.-State-exactly-what-passed
+	1 container
+		2 container
+			3 heading Ask the IoT agents: features, drift and RAG, Value: 1, ID: Ask-the-IoT-agents:-features,-drift-and-RAG
+				4 text Ask the IoT agents: features, drift and RAG
+			5 text This notebook sends real questions to the private kagent deployment. The retrieval agent calls three MCP tools: current Feast-backed features, the model prediction, and versioned reference passages. The drift agent calls the cohort-comparison MCP tool. The model decides and invokes these calls inside its native agent runtime; the notebook does not supply a prewritten answer. Run it through 
+			6 text scripts/run-agent-notebook.py
+			7 text  after genuine feature preparation. The runner records the source seal, native service identity, data lease and Jupyter execution. An expired cache should fail rather than silently appear fresh. All machines, measurements and reference documents in this lab are simulated.
+		8 container
+			9 heading 1. Connect to the actual lab, Value: 2, ID: 1.-Connect-to-the-actual-lab
+				10 text 1. Connect to the actual lab
+			11 text The context file contains paths and a private controller address, not MCP credentials. The internal A2A interface is reachable only inside the lab; authenticated product ingress is a separate requirement. Each request gets a new task/context identity, and original request/response bytes are retained.
+		12 container cell-id=agent-02
+			13 container
+				14 text In [1]: from pathlib import Path import json import os import sys context = json . loads ( Path ( os . environ [ 'IOT_AGENT_NOTEBOOK_CONTEXT' ]) . read_bytes ()) source = Path ( context [ 'source_root' ]) . resolve () output = Path ( context [ 'output_root' ]) . resolve () sys . path . insert ( 0 , str ( source )) from agents.probe import QUESTIONS , run from agents.answer_acceptance import final_answer , native_tools , verify_specialist base_url = context [ 'controller_base_url' ] lease = context [ 'feature_lease' ] print ( json . dumps ({ 'source_files' : len ( context [ 'source_files' ]), 'model_version' : lease [ 'model_version' ], 'prepared_wall_utc' : lease [ 'prepared_wall_utc' ], 'lease_expires_utc' : lease [ 'lease_expires_utc' ], 'simulated' : True }, indent = 2 ))
+			15 text {
+  "source_files": 10,
+  "model_version": "6",
+  "prepared_wall_utc": "2026-10-29T16:18:11.417658+00:00",
+  "lease_expires_utc": "2026-10-29T17:18:11.417658+00:00",
+  "simulated": true
+}
+
+		16 container
+			17 heading 2. Ask the retrieval specialist, Value: 2, ID: 2.-Ask-the-retrieval-specialist
+				18 text 2. Ask the retrieval specialist
+			19 text The prompt asks about one pump and requests evidence. A completed HTTP/A2A task alone does not prove a correct answer. We therefore check the final JSON against the actual paired MCP calls and outputs.
+		20 container cell-id=agent-04
+			21 container
+				22 text In [2]: print ( QUESTIONS [ 'retrieval' ]) assert run ( base_url , output / 'retrieval' , [ 'retrieval' ], specialist_timeout = 300 ) == 0 retrieval_reply = json . loads (( output / 'retrieval/retrieval-response.json' ) . read_bytes ()) retrieval_check = verify_specialist ( retrieval_reply , 'retrieval' , knowledge_root = source / 'knowledge' ) retrieval_answer = final_answer ( retrieval_reply [ 'result' ]) print ( json . dumps ( retrieval_answer , indent = 2 )) print ( json . dumps ( retrieval_check , indent = 2 ))
+			23 text For pump P-001, fetch the current machine features and failure prediction. Use the knowledge tool to explain whether high vibration alone proves failure. Include the actual event timestamp, model version and cited document IDs.
+
+			24 text {
+  "passed": true,
+  "calls": [
+    {
+      "role": "retrieval",
+      "http_status": 200,
+      "elapsed_seconds": 5.108350284001062,
+      "a2a_state": "completed",
+      "task_id": "01a18877-5baf-7ad5-b8e4-27772e944d99",
+      "context_id": "b69212e8-d48e-4280-956b-920538c66999",
+      "rpc_error": null
+    }
+  ],
+  "scope": "Actual A2A protocol completion and original text. Tool execution, factual correctness and delegation require independent event/tool receipts."
+}
+{
+  "machine_id": "P-001",
+  "feature_event_ts": "2026-11-29T23:50:00Z",
+  "model_version": "6",
+  "risk_score": 0.103181,
+  "document_ids": [
+    "monitoring"
+  ],
+  "vibration_alone_proves_failure": false,
+  "simulated": true,
+  "score_is_calibrated": false
+}
+{
+  "passed": true,
+  "role": "retrieval",
+  "task_id": "01a18877-5baf-7ad5-b8e4-27772e944d99",
+  "context_id": "b69212e8-d48e-4280-956b-920538c66999",
+  "successful_tool_events": 3,
+  "tool_error_events": 0,
+  "coordinator_delegation_verified": false,
+  "coursework_complete": false,
+  "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+}
+
+		25 container
+			26 heading 3. Follow the feature and prediction provenance, Value: 2, ID: 3.-Follow-the-feature-and-prediction-provenance
+				27 text 3. Follow the feature and prediction provenance
+			28 text get_machine_features
+			29 text  reaches the existing Feature API, which reads the genuinely materialized Feast online store. 
+			30 text predict_failure
+			31 text  returns the feature trace used by model version 6. The checker requires that both refer to the same machine snapshot. Event time is simulated; preparation time is real wall time. The score is not a calibrated real-world probability.
+		32 container cell-id=agent-06
+			33 container
+				34 text In [3]: retrieval_tools , retrieval_counts = native_tools ( retrieval_reply [ 'result' ], 'retrieval' ) feature = retrieval_tools [ 'get_machine_features' ][ 'output' ] prediction = retrieval_tools [ 'predict_failure' ][ 'output' ] assert prediction [ 'feature_trace' ] == feature print ( json . dumps ({ 'native_tool_names' : sorted ( retrieval_tools ), 'feature' : feature , 'model' : prediction [ 'model' ], 'prediction' : prediction [ 'prediction' ], 'actual_event_counts' : retrieval_counts }, indent = 2 ))
+			35 text {
+  "native_tool_names": [
+    "get_machine_features",
+    "predict_failure",
+    "search_knowledge"
+  ],
+  "feature": {
+    "machine_id": "P-001",
+    "features": {
+      "temperature_mean_10m": 56.83822222222222,
+      "vibration_max_10m": 4.352,
+      "current_mean_10m": 13.84911111111111,
+      "current_std_10m": 2.39427587960417,
+      "rpm_mean_10m": 2804.1777777777775,
+      "reading_count_10m": 9,
+      "machine_age_days": 239.99305555555554,
+      "prior_failures_24h": 2
+    },
+    "feature_event_ts": "2026-11-29T23:50:00Z",
+    "feature_age_seconds": 0.0,
+    "operating_context": {
+      "event_id": "E-fbc26e77a7895ed9-P-001-086389",
+      "event_ts": "2026-11-29T23:49:00+00:00",
+      "received_ts": "2026-11-29T23:49:02+00:00",
+      "status": "operating"
+    },
+    "as_of": "2026-11-29T23:50:00Z",
+    "clock_mode": "simulation",
+    "prepared_wall_utc": "2026-10-29T16:18:11.417658Z",
+    "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "source_manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5"
+  },
+  "model": {
+    "name": "iot-pump-failure-v1",
+    "version": "6",
+    "run_id": "be3b27fa0960493d92b45be69b20690e",
+    "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+    "portable_sha256": "60dff76d4d27a9e248bc08a80c4da80a3212701774c00f89f0b16139e1609981",
+    "training_code_commit": "ce510c6bcccd58235fbc78d22cd90570934c50a6",
+    "data_version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
+    "threshold": 0.7,
+    "production": true,
+    "features": [
+      "temperature_mean_10m",
+      "vibration_max_10m",
+      "current_mean_10m",
+      "current_std_10m",
+      "rpm_mean_10m",
+      "reading_count_10m",
+      "machine_age_days",
+      "prior_failures_24h"
+    ],
+    "score_kind": "uncalibrated_class_weighted_logistic",
+    "data_scope": "synthetic-medium-60d"
+  },
+  "prediction": {
+    "risk_score": 0.10318092377929837,
+    "predicted_failure": 0
+  },
+  "actual_event_counts": {
+    "successful_tool_events": 3,
+    "tool_error_events": 0
+  }
+}
+
+		36 container
+			37 heading 4. Inspect the RAG evidence, Value: 2, ID: 4.-Inspect-the-RAG-evidence
+				38 text 4. Inspect the RAG evidence
+			39 text search_knowledge
+			40 text  embeds the question and retrieves versioned passages from the retained Feast/Milvus knowledge snapshot. The answer checker reads the authored source files, hashes them and checks the cited text. This proves the shown answer cites returned source material; the small example does not establish broad retrieval quality or real equipment safety.
+		41 container cell-id=agent-08
+			42 container
+				43 text In [4]: knowledge = retrieval_tools [ 'search_knowledge' ][ 'output' ] matches = knowledge [ 'matches' ] print ( json . dumps ({ 'query' : retrieval_tools [ 'search_knowledge' ][ 'arguments' ], 'snapshot_sha256' : knowledge [ 'snapshot_sha256' ], 'embedding_revision' : knowledge [ 'embedding_revision' ], 'source_type' : knowledge [ 'source_type' ], 'returned_passages' : matches , 'answer_document_ids' : retrieval_answer [ 'document_ids' ]}, indent = 2 )) assert set ( retrieval_answer [ 'document_ids' ]) == { row [ 'document_id' ] for row in matches } assert retrieval_answer [ 'vibration_alone_proves_failure' ] is False
+			44 text {
+  "query": {
+    "question": "Does high vibration alone prove failure for pump P-001?",
+    "top_k": 1
+  },
+  "snapshot_sha256": "3538ac2e5d2a6c8b1cd1e7c4086e0bfd5e23edabffd0d82ed04062224ff899f1",
+  "embedding_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "source_type": "authored-synthetic-reference",
+  "returned_passages": [
+    {
+      "chunk_id": "a2bab1132dd65c3d7aa4850ac06c37007f2868d4b36602e14ca149450db43da4",
+      "document_id": "monitoring",
+      "revision": 1,
+      "source_sha256": "7a080ac6193902cf21bc22e1ff51eb22ce9466980a576a13803fc60ddae51218",
+      "source_file": "monitoring.md",
+      "section": "Vibration and operating load",
+      "text": "## Vibration and operating load\n\nVibration is measured in millimetres per second. In the simulator, vibration responds to wear, operating load and random measurement noise. A high vibration value alone does not prove that a failure has occurred. Compare its recent history with RPM, current, temperature and the operating-state flag. The coursework does not define a certified universal vibration alarm threshold.",
+      "cosine_similarity": 0.4040696514196755
+    }
+  ],
+  "answer_document_ids": [
+    "monitoring"
+  ]
+}
+
+		45 container
+			46 heading 5. Ask the drift specialist, Value: 2, ID: 5.-Ask-the-drift-specialist
+				47 text 5. Ask the drift specialist
+			48 text This question names all 32 unique machines and one stable window. The MCP service retrieves their current features and compares the cohort with a pinned reference. Replaying a window must not increase the number of machines. Input drift alone does not prove a loss of model accuracy or a pump failure.
+		49 container cell-id=agent-10
+			50 container
+				51 text In [5]: print ( QUESTIONS [ 'drift' ]) assert run ( base_url , output / 'drift' , [ 'drift' ], specialist_timeout = 300 ) == 0 drift_reply = json . loads (( output / 'drift/drift-response.json' ) . read_bytes ()) drift_check = verify_specialist ( drift_reply , 'drift' , knowledge_root = source / 'knowledge' ) drift_answer = final_answer ( drift_reply [ 'result' ]) print ( json . dumps ( drift_answer , indent = 2 )) print ( json . dumps ( drift_check , indent = 2 ))
+			52 text Assess feature drift for the standard demo cohort of all 32 unique machines P-001 through P-032 with window_id agent-demo-29. Report actual unique_rows, flagged features, reference_id and assessment_sha256.
+
+			53 text {
+  "passed": true,
+  "calls": [
+    {
+      "role": "drift",
+      "http_status": 200,
+      "elapsed_seconds": 6.749735818000772,
+      "a2a_state": "completed",
+      "task_id": "01a18877-7031-791c-81ed-cbb7f21f1c3b",
+      "context_id": "4493c04c-a76a-4ee3-babe-d802936c9511",
+      "rpc_error": null
+    }
+  ],
+  "scope": "Actual A2A protocol completion and original text. Tool execution, factual correctness and delegation require independent event/tool receipts."
+}
+{
+  "window_id": "agent-demo-29",
+  "unique_rows": 32,
+  "flagged_features": [
+    "current_mean_10m",
+    "current_std_10m",
+    "machine_age_days",
+    "prior_failures_24h",
+    "temperature_mean_10m",
+    "vibration_max_10m"
+  ],
+  "reference_id": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93",
+  "assessment_sha256": "c23698fc9426a3c56e85cbd074e529a5a1158fe392b4882505f569cfa8dcfa9a",
+  "drift_establishes_accuracy_loss": false,
+  "drift_establishes_failure": false
+}
+{
+  "passed": true,
+  "role": "drift",
+  "task_id": "01a18877-7031-791c-81ed-cbb7f21f1c3b",
+  "context_id": "4493c04c-a76a-4ee3-babe-d802936c9511",
+  "successful_tool_events": 1,
+  "tool_error_events": 0,
+  "coordinator_delegation_verified": false,
+  "coursework_complete": false,
+  "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+}
+
+		54 container cell-id=agent-11
+			55 container
+				56 text In [6]: drift_tools , drift_counts = native_tools ( drift_reply [ 'result' ], 'drift' ) native_drift = drift_tools [ 'assess_feature_drift' ] print ( json . dumps ({ 'native_arguments' : native_drift [ 'arguments' ], 'native_assessment' : native_drift [ 'output' ], 'actual_event_counts' : drift_counts }, indent = 2 )) assert len ( native_drift [ 'arguments' ][ 'machine_ids' ]) == len ( set ( native_drift [ 'arguments' ][ 'machine_ids' ])) == 32 assert drift_answer [ 'unique_rows' ] == 32 assert drift_answer [ 'drift_establishes_accuracy_loss' ] is False
+			57 text {
+  "native_arguments": {
+    "machine_ids": [
+      "P-001",
+      "P-002",
+      "P-003",
+      "P-004",
+      "P-005",
+      "P-006",
+      "P-007",
+      "P-008",
+      "P-009",
+      "P-010",
+      "P-011",
+      "P-012",
+      "P-013",
+      "P-014",
+      "P-015",
+      "P-016",
+      "P-017",
+      "P-018",
+      "P-019",
+      "P-020",
+      "P-021",
+      "P-022",
+      "P-023",
+      "P-024",
+      "P-025",
+      "P-026",
+      "P-027",
+      "P-028",
+      "P-029",
+      "P-030",
+      "P-031",
+      "P-032"
+    ],
+    "window_id": "agent-demo-29"
+  },
+  "native_assessment": {
+    "reference_id": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93",
+    "window_id": "agent-demo-29",
+    "unique_rows": 32,
+    "drift_detected": true,
+    "drifted_feature_fraction": 0.75,
+    "features": {
+      "current_mean_10m": {
+        "psi": 0.23418779378191215,
+        "drifted": true
+      },
+      "current_std_10m": {
+        "psi": 0.25812374940011135,
+        "drifted": true
+      },
+      "machine_age_days": {
+        "psi": 2.425304974294579,
+        "drifted": true
+      },
+      "prior_failures_24h": {
+        "psi": 0.4031870450626673,
+        "drifted": true
+      },
+      "reading_count_10m": {
+        "psi": 0.02077996955252383,
+        "drifted": false
+      },
+      "rpm_mean_10m": {
+        "psi": 0.13796453957857488,
+        "drifted": false
+      },
+      "temperature_mean_10m": {
+        "psi": 0.21029701376832777,
+        "drifted": true
+      },
+      "vibration_max_10m": {
+        "psi": 1.0145476304268106,
+        "drifted": true
+      }
+    },
+    "lineage": {
+      "data_version": "5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e",
+      "model_name": "iot-pump-failure-v1",
+      "model_run_id": "0f2fe09b6f974eadb858424a70edc7e6",
+      "model_version": "3",
+      "native_report_sha256": "03b601a4637805be25ef7f762245635f2b6e62d03a89eccd477a7f4fce08ccce",
+      "partition": "train",
+      "partitions_sha256": "6e9861ac04dcc8fa48e76a9d1f50b29c5774334e43a28da0b742f6382e623d6e",
+      "protocol_sha256": "e0bfcea57331b88bb6914f9342a9477eab6687f6a3929b8cb9834251fa9b8a96",
+      "selection": "lowest1024 SHA256(machine_id|event_timestamp); no label selected"
+    },
+    "policy": {
+      "bins": 10,
+      "drifted_feature_fraction": 0.25,
+      "pseudocount": 0.5,
+      "psi_threshold": 0.2
+    },
+    "as_of": "2026-11-29T23:50:00Z",
+    "source_manifest_sha256": "6fb9980bdd739bb3869a5bcb1d2669ee7dd326fcf0f2ba0f2fb6a50f747ba8c5",
+    "assessment_sha256": "c23698fc9426a3c56e85cbd074e529a5a1158fe392b4882505f569cfa8dcfa9a",
+    "scope": "Label-free marginal covariate drift; no ground truth, accuracy or concept-drift claim."
+  },
+  "actual_event_counts": {
+    "successful_tool_events": 1,
+    "tool_error_events": 0
+  }
+}
+
+		58 container
+			59 heading 6. State exactly what passed, Value: 2, ID: 6.-State-exactly-what-passed
+				60 text 6. State exactly what passed
+			61 text We have executed two actual specialist requests and checked their final answers against native tool histories. One request demonstrates both Feast-backed machine retrieval and RAG; the other demonstrates drift. Coordinator delegation, elasticity, network boundaries, model benchmarks and API quality have separate experiments. This notebook does not replace them or complete the full coursework.
+		62 container cell-id=agent-13
+			63 container
+				64 text In [7]: checks = { 'passed' : retrieval_check [ 'passed' ] and drift_check [ 'passed' ], 'retrieval' : retrieval_check , 'drift' : drift_check , 'native_successful_tool_events' : retrieval_counts [ 'successful_tool_events' ] + drift_counts [ 'successful_tool_events' ], 'feature_and_prediction_same_snapshot' : prediction [ 'feature_trace' ] == feature , 'rag_source_citations_verified' : True , 'unique_drift_machines' : drift_answer [ 'unique_rows' ], 'coursework_complete' : False } ( output / 'answer-checks.json' ) . write_text ( json . dumps ( checks , indent = 2 ) + ' \n ' , encoding = 'utf-8' ) print ( json . dumps ( checks , indent = 2 )) assert checks [ 'passed' ]
+			65 text {
+  "passed": true,
+  "retrieval": {
+    "passed": true,
+    "role": "retrieval",
+    "task_id": "01a18877-5baf-7ad5-b8e4-27772e944d99",
+    "context_id": "b69212e8-d48e-4280-956b-920538c66999",
+    "successful_tool_events": 3,
+    "tool_error_events": 0,
+    "coordinator_delegation_verified": false,
+    "coursework_complete": false,
+    "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+  },
+  "drift": {
+    "passed": true,
+    "role": "drift",
+    "task_id": "01a18877-7031-791c-81ed-cbb7f21f1c3b",
+    "context_id": "4493c04c-a76a-4ee3-babe-d802936c9511",
+    "successful_tool_events": 1,
+    "tool_error_events": 0,
+    "coordinator_delegation_verified": false,
+    "coursework_complete": false,
+    "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+  },
+  "native_successful_tool_events": 4,
+  "feature_and_prediction_same_snapshot": true,
+  "rag_source_citations_verified": true,
+  "unique_drift_machines": 32,
+  "coursework_complete": false
+}
+
+
+The focused UI element is 0 AXWebArea Notebook, URL: 127.0.0.1:19341/executed.html#6.-State-exactly-what-passed
