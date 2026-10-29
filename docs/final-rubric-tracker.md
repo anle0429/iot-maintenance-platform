@@ -1,5 +1,7 @@
 # Tracker final-coursework
 
+Rà soát bổ sung28/10: [ma trận57dòng final](final-audit-matrix.md), [kết luận/giới hạn và lỗi đã sửa](final-audit.md), [cách tự demo](demo-walkthrough.md). Các cột nguồn/điểm/deliverable giữ nguyên; trạng thái bằng chứng lịch sử tách khỏi readiness của phiên VM.
+
 Người dùng chốt ngày27/10/2026: áp dụng sheet `rubic final-coursework (final -` trong workbook gốc. Đây là **57dòng có điểm, tổng nguồn100điểm**, cộng yêu cầu README/diagram ởA2 không có điểm riêng. Không phải điểm tự chấm. Hạn tạm31/10/2026 giữ nguyên.
 
 [Snapshot ô/merge/hyperlink gốc](evidence/rubric-final/source.json) gắn workbookSHA`1b0f880124da3cab4e7cca8e24568d89a3d67c119029f1a71ab39f9eb6fa6081`. [Tracker93dòng cũ](rubric-tracker.md) là lịch sử hai sheet50%; không cộng với final. DP1–DP3/mini-coursework được tham chiếu khi chính final yêu cầu.

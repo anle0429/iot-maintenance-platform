@@ -1,5 +1,7 @@
 # Bàn giao kiểm chứng và trình bày
 
+Cập nhật rà soát28/10: [kết luận và phần đã sửa](final-audit.md), [ma trận57dòng](final-audit-matrix.md), [tự chạy demo/trình bày](demo-walkthrough.md). Lệnh tổng hợp: `python -S scripts/audit-final-coursework.py --output outputs/my-final-audit`.
+
 Ngày28/10/2026 tiếp tục trên cùng VM8CPU/64GiB, không khởi động lại coursework/lịch10ngày. Deadline tạm31/10 giữ nguyên. Chuẩn chính là [57dòng final-coursework vàA2](final-rubric-tracker.md); không tự cộng điểm từ tracker93dòng cũ.
 
 ## Tự kiểm kết quả đã lưu

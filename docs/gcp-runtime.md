@@ -1,5 +1,7 @@
 # VM Google Cloud đã chạy và kiểm chứng tăng tốc Spark
 
+Lượt và giới hạn bên dưới là lịch sử có timestamp riêng. Trạng thái hiện tại: [rà soát final](final-audit.md) và [quy trình tự demo sau restart](demo-walkthrough.md), pin model6; xem đúng source/run trước khi dùng số đo.
+
 Ngày26/10/2026 người dùng đã chọn phương án accelerated. Terraform đã apply **14 resources**; lần plan sau apply báo **No changes**. VM `iot-cw-vm` ở `us-central1-a`, **8vCPU/64GiB**, Ubuntu24.04, boot50GiB SSD balanced +data500GiB HDD standard +scratch150GiB SSD balanced. Đây là hạ tầng đã chạy thật, không chỉ YAML/plan. [Deployment](evidence/gcp-runtime/cloud-deployment.json), [apply đã che định danh tài khoản](evidence/gcp-runtime/terraform-apply-redacted.txt), [đối chiếu tổng hợp](evidence/gcp-runtime/verification.json).
 
 SSH qua IAP/OS Login đã gọi thử thành công; firewall riêng chỉ ingress22 từ IAP, không mở UI/API/database public. VM có IPv4 ephemeral cho tải package/image. GCE trả đúng maxRunDuration28800giây và hành động STOP, automaticRestart=false. Đây là **giới hạn8giờ/start được cấu hình**, chưa chờ8giờ để quan sát tự dừng. [Mốc nguồn lớn](scale-100gb.md) đã kiểm STOP/START thủ công khi không có job đang chạy: mount,9 dịch vụ, DAG và nguồn trung gian phục hồi; chưa kiểm crash giữa job. Máy hiện dùng cùng tài khoản/project đã được người dùng cung cấp; các định danh và Terraform state chỉ giữ cục bộ, ngoài Git.

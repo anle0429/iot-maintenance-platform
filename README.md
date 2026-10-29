@@ -1,5 +1,7 @@
 # IoT Maintenance Platform
 
+Cập nhật rà soát28/10: [kết luận và phần đã sửa](docs/final-audit.md), [ma trận57dòng](docs/final-audit-matrix.md), [tự chạy demo/trình bày](docs/demo-walkthrough.md). Lệnh tổng hợp: `python -S scripts/audit-final-coursework.py --output outputs/my-final-audit`.
+
 Coursework EDAI K11: giám sát máy bơm công nghiệp bằng dữ liệu cảm biến mô phỏng và dự đoán sự cố trong một giờ tới. Người dùng đã chọn [rubric final-coursework](docs/final-rubric-tracker.md) làm chuẩn bàn giao; tracker93dòng cũ giữ làm lịch sử.
 
 **Mốc100GB đã kiểm chứng:** [Spark toàn nguồn102.447.847.856byte](docs/full-scale-ingest.md) →323,136triệu Bronze/316,8triệu Silver unique;13checks,45.852tasks/0failed, checksum trước/sau và Spark UI thật. Nguồn đã qua14quy tắc semantic readback. Query JSONL/Parquet cùng workload/ba cặp có median1.740,35/124,69giây; giới hạn cache và máy dùng chung được ghi rõ. Chưa Gold/feature/ML toàn100GB hoặc fullrunner trong Airflow.

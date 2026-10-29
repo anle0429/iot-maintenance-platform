@@ -1,5 +1,7 @@
 # Checklist rubric và bằng chứng
 
+Rà soát bổ sung28/10: [ma trận57dòng final](final-audit-matrix.md), [kết luận/giới hạn và lỗi đã sửa](final-audit.md), [cách tự demo](demo-walkthrough.md). Các cột nguồn/điểm/deliverable giữ nguyên; trạng thái bằng chứng lịch sử tách khỏi readiness của phiên VM.
+
 Cập nhật28/10: [F35 drift EventingCI3](drift-eventing.md) SUCCESS/source869,101main+20subtest/coverage65+10=100%/mutation103of119=86,55%; native9delivery/1window và4865pacedACKkhớp subscriber.270payload/4ảnh/verifier. Giữ nguyên93tiêu chí nguồn, chuẩn chính57final.
 
 Cập nhật28/10: [Jenkins telemetry2](ci-api-observability.md) SUCCESS/source372, native299main+21subtest/74statements16branches100%/221of250mutants88,4%;3images/200HTTPmodel6,96payload/2ảnh/verifier. Cùngmodel, không A/B/promotion mới; giữ93tiêu chí nguồn.

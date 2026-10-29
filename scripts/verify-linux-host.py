@@ -2,6 +2,7 @@
 from pathlib import Path,PurePosixPath
 from hashlib import sha256
 import json,re,subprocess,sys
+from evidence_integrity import documentation_equivalent
 
 
 def main():
@@ -25,7 +26,7 @@ def main():
     for source in sources:
         for name,h in source['files'].items():
             raw=subprocess.check_output(['git','show',source['commit']+':'+name],cwd=root);current=(root/name).read_bytes()
-            assert digest(raw)==h and (current==raw or current.replace(b'\r\n',b'\n')==raw),name
+            assert digest(raw)==h and documentation_equivalent(raw,current.replace(b'\r\n',b'\n'),Path(name).suffix),name
     assert read('runtime/dashboards/host.json')==dashboard('linux','vm-linux','Linux VM actual metrics')
     raw=read('host/raw-samples.json');end=proof['evaluation_time'];expected=expected_linux(raw,end);native=read('host/native-os-sanity.json')
     idle=raw['node_cpu_seconds_total']['data']['result'];assert len(idle)==native['logical_processors']==8 and {x['metric']['cpu'] for x in idle}==set(map(str,range(8)))

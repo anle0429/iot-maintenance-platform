@@ -1,5 +1,7 @@
 # API lấy feature và dự đoán theo mã máy
 
+Lượt và giới hạn bên dưới là lịch sử có timestamp riêng. Trạng thái hiện tại: [rà soát final](final-audit.md) và [quy trình tự demo sau restart](demo-walkthrough.md), pin model6; xem đúng source/run trước khi dùng số đo.
+
 Cập nhật source3b670c6: [version pin serving](versioned-serving.md) đã kiểm trên PC; chưa build/rollout native. Các số đo, images và screenshots bên dưới thuộc mốc source ban đầu, không chứng minh deployment mã mới.
 
 Người gọi gửi `machine_id`; API lấy tám feature qua **Feast SDK/Redis**, kiểm thời gian và trạng thái vận hành rồi gọi KServe. Người gọi không phải tự tạo vector hoặc gửi nhãn. [FeatureRuntime](../services/feature_api/runtime.py) chứa quy tắc nghiệp vụ, `FeastKServeBackend` là adapter và [FastAPI](../services/feature_api/app.py) xử lý HTTP/async.

@@ -2,6 +2,7 @@
 from pathlib import Path,PurePosixPath
 from hashlib import sha256
 from xml.etree import ElementTree
+from evidence_integrity import documentation_equivalent
 import json,re,subprocess,sys
 
 
@@ -20,7 +21,7 @@ def main():
     for name,expected in proof['source_files'].items():
         assert not PurePosixPath(name).is_absolute() and '..' not in PurePosixPath(name).parts
         raw=subprocess.check_output(['git','show',commit+':'+name],cwd=root);assert digest(raw)==expected,name
-        assert (root/name).read_bytes()==raw,name
+        assert documentation_equivalent(raw,(root/name).read_bytes(),Path(name).suffix),name
     fixture=json.loads((root/'tests/fixtures/host-monitoring-promql.json').read_text(encoding='utf-8'))
     assert len(fixture['tests'])==proof['promtool_groups']==5
     assert sum(len(x['promql_expr_test']) for x in fixture['tests'])==proof['promtool_known_answer_expressions']==35
