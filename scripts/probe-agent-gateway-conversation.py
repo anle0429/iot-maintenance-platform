@@ -51,7 +51,7 @@ def run(args):
             'gateway_host':'agents.iot.test','upstream_bypassed':False})
         connection.close();assert response.status==200,(name,response.status)
         return json.loads(body)
-    identity=request('/api/me','identity');assert identity['sub']==credential['username']
+    identity=request('/api/me','identity');assert credential['username']=='coursework' and identity['sub']=='admin@kagent.dev'
     base='/api/a2a-sandboxes/iot-agents/iot-coordinator';card=request(base+'/.well-known/agent-card.json','coordinator-card')
     assert card['name']=='iot_coordinator'
     payload={'jsonrpc':'2.0','id':str(uuid4()),'method':'message/send','params':{

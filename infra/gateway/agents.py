@@ -5,6 +5,7 @@ import re
 NAMESPACE='iot-agents'
 ROUTES={'agents':('agents.iot.test','kagent-ui',8080),'registry':('registry.iot.test','iot-agent-registry',12121)}
 WATCH='-watch-namespace=iot-gateway,iot-features,iot-observability'
+APP_PRINCIPAL='admin@kagent.dev'  # Match the pinned UI's unsecure-mode single-operator identity.
 
 
 def controller_patch(deployment,image):
@@ -43,7 +44,7 @@ def ingresses():
     result=[]
     for name,(host,service,port) in ROUTES.items():
         annotations={'nginx.org/basic-auth-secret':'agent-gateway-auth','nginx.org/basic-auth-realm':'IoT agent lab',
-            'nginx.org/ssl-redirect':'true','nginx.org/proxy-set-headers':'Authorization:,X-User-Id: coursework,X-Forwarded-User: coursework',
+            'nginx.org/ssl-redirect':'true','nginx.org/proxy-set-headers':'Authorization:,X-User-Id: '+APP_PRINCIPAL+',X-Forwarded-User: coursework',
             'nginx.org/proxy-read-timeout':'660s','nginx.org/proxy-send-timeout':'660s','nginx.org/proxy-buffering':'false',
             'nginx.org/limit-req-rate':'30r/s','nginx.org/limit-req-key':'${binary_remote_addr}',
             'nginx.org/limit-req-burst':'90','nginx.org/limit-req-no-delay':'true','nginx.org/limit-req-reject-code':'429'}

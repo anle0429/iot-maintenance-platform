@@ -49,7 +49,7 @@ def run(args):
         asset=request(host,internal[0]);save(role+'-javascript.json',asset);assert asset['status']==200 and asset['body']
     me=request('agents.iot.test','/api/me',extra={'X-User-Id':'untrusted-client-identity','X-Forwarded-User':'untrusted-client-identity'})
     save('identity-override.json',me);assert me['status']==200
-    identity=json.loads(me['body']);assert identity['sub']==credentials['username'],'Gateway identity must come from authenticated Basic user'
+    identity=json.loads(me['body']);assert identity['sub']=='admin@kagent.dev','Map the authenticated operator to the pinned UI lab principal'
     entries={}
     for role in ['retrieval','drift','coordinator']:
         row=request('registry.iot.test','/v0/agents/iot-'+role+'/0.2.2');save('catalog-'+role+'.json',row);assert row['status']==200
@@ -81,7 +81,8 @@ def run(args):
     report={'passed':True,'checked_utc':datetime.now(timezone.utc).isoformat(),'source_sha256':sha256(Path(__file__).read_bytes()).hexdigest(),
         'gateway_ip':address,'new_hosts':['agents.iot.test','registry.iot.test'],'unauthorized_401':8,'redirects_308':2,
         'authenticated_ui_pages':2,'authenticated_javascript_assets':2,'native_catalog_versions':3,'frontend_identity':identity['sub'],
-        'spoofed_identity_header_ignored':True,'preserved_old_routes':4,'tls_negative_cases':2,'burst_requests':320,'burst_statuses':counts,
+        'spoofed_identity_header_ignored':True,'account_model':'One authenticated operator mapped to the existing internal UI lab principal',
+        'preserved_old_routes':4,'tls_negative_cases':2,'burst_requests':320,'burst_statuses':counts,
         'burst_duration_seconds':duration,'recovery_http':200,'scope':'Actual private NGINX TLS/Basic/rate controls and working frontend assets/API/catalog. Single operator lab; not public DNS, browser CA trust, multi-tenant controller authorization or a new LLM conversation.'}
     save('verification.json',report)
     secret_values=[credentials['password'].encode(),authorization.encode(),base64.b64encode((credentials['username']+':'+credentials['password']).encode())]

@@ -16,7 +16,8 @@ def run(args):
         name=expected['metadata']['name'];before=get('get','ingress',name,'-n','iot-agents')
         assert before['spec']==expected['spec']
         previous=before['metadata']['annotations']['nginx.org/proxy-set-headers']
-        assert previous=='Authorization:,X-User-Id: $remote_user,X-Forwarded-User: $remote_user'
+        assert previous in ['Authorization:,X-User-Id: $remote_user,X-Forwarded-User: $remote_user',
+                            'Authorization:,X-User-Id: coursework,X-Forwarded-User: coursework']
         for key,value in expected['metadata']['annotations'].items():
             if key!='nginx.org/proxy-set-headers':assert before['metadata']['annotations'][key]==value
         (out/(name+'-before.json')).write_text(json.dumps(before,indent=2)+'\n')
