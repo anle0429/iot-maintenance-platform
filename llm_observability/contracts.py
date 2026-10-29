@@ -107,6 +107,7 @@ class StreamObservation:
         for choice in choices:
             if not isinstance(choice,dict) or not isinstance(choice.get('delta',{}),dict):raise ValueError('Invalid streamed delta')
             delta=choice.get('delta',{});content=delta.get('content');refusal=delta.get('refusal');calls=delta.get('tool_calls',[])
+            if calls is None:calls=[]
             if content is not None and not isinstance(content,str) or refusal is not None and not isinstance(refusal,str):raise ValueError('Invalid streamed text')
             if not isinstance(calls,list):raise ValueError('Invalid streamed tool fragments')
             output=bool(content or refusal)

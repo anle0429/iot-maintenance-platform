@@ -59,7 +59,7 @@ class StreamObservationTests(unittest.TestCase):
     """Known-answer protocol fixtures distinguish early headers/roles from actual output and terminal usage."""
     def test_role_only_delta_does_not_start_ttft_and_reported_usage_is_exact(self):
         """Start timing at the first text, not a heartbeat, role announcement or final usage frame."""
-        stream=StreamObservation();stream.feed(b': heartbeat\n\n'+event({'choices':[{'delta':{'role':'assistant'}}]}),0.1)
+        stream=StreamObservation();stream.feed(b': heartbeat\n\n'+event({'choices':[{'delta':{'role':'assistant','tool_calls':None}}]}),0.1)
         self.assertIsNone(stream.first_output_seconds)
         stream.feed(event({'choices':[{'delta':{'content':'Pump'},'finish_reason':None}]}),0.75)
         stream.feed(event({'choices':[{'delta':{},'finish_reason':'stop'}]}),1.2)

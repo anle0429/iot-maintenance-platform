@@ -25,6 +25,8 @@ def run(args):
     gpu=json.loads((root/'data/runtime/ci/gpu-session.json').read_bytes())
     assert gpu['status']=='RUNNING' and gpu['termination_action']=='STOP' and gpu['max_duration_seconds']==28800
     assert datetime.fromisoformat(gpu['last_start_utc'])+timedelta(seconds=28800)>datetime.now(timezone.utc)+timedelta(minutes=10)
+    cpu=json.loads((root/'data/runtime/ci/session.json').read_bytes())
+    assert datetime.fromisoformat(cpu['auto_stop_utc'])>datetime.now(timezone.utc)+timedelta(minutes=10)
     out.mkdir(parents=True,exist_ok=False);k=['/usr/local/bin/k3s','kubectl']
     def save(name,value):
         """Write bounded original context and derived measurements without any authentication material."""
@@ -33,7 +35,7 @@ def run(args):
     pods=json.loads(subprocess.check_output(k+['get','pods','-n','iot-llm','-l','app.kubernetes.io/instance=iot-model-gpu','-o','json'],stderr=subprocess.PIPE))
     live=[p for p in pods['items'] if p['status'].get('phase')=='Running' and not p['metadata'].get('deletionTimestamp')]
     assert len(live)==1 and all(c['ready'] and c.get('state',{}).get('running') for c in live[0]['status']['containerStatuses'])
-    save('router-service.json',service);save('gpu-pods-before.json',pods);save('gpu-session.json',gpu);save('source.json',seal)
+    save('router-service.json',service);save('gpu-pods-before.json',pods);save('gpu-session.json',gpu);save('cpu-session.json',cpu);save('source.json',seal)
     secret=json.loads(subprocess.check_output(k+['get','secret','iot-local-model-client','-n','iot-agents','-o','json'],stderr=subprocess.PIPE))
     token=base64.b64decode(secret['data']['API_KEY']).decode();assert len(token)>=32
     authorization='Bearer '+token;store=TelemetryLedger(out/'telemetry.sqlite');measurements=[]
