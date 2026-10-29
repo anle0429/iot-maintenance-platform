@@ -1,0 +1,96 @@
+{
+  "passed": true,
+  "run": "rag-airflow-29c",
+  "flow": "urn:li:dataFlow:(airflow,iot_rag_knowledge,iot-vm)",
+  "datasets": [
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.documents,DEV)",
+      "fields": [
+        "document_id",
+        "file",
+        "revision",
+        "source_type",
+        "sha256",
+        "text"
+      ],
+      "upstreams": []
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.chunks,DEV)",
+      "fields": [
+        "chunk_id",
+        "document_id",
+        "revision",
+        "source_sha256",
+        "source_file",
+        "section",
+        "text"
+      ],
+      "upstreams": [
+        "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.documents,DEV)"
+      ]
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.embeddings,DEV)",
+      "fields": [
+        "chunk_id",
+        "embedding"
+      ],
+      "upstreams": [
+        "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.chunks,DEV)"
+      ]
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.knowledge.offline,DEV)",
+      "fields": [
+        "chunk_id",
+        "document_id",
+        "revision",
+        "source_sha256",
+        "source_file",
+        "section",
+        "text",
+        "embedding",
+        "embedding_revision",
+        "event_timestamp",
+        "created"
+      ],
+      "upstreams": [
+        "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.chunks,DEV)",
+        "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.embeddings,DEV)"
+      ]
+    },
+    {
+      "urn": "urn:li:dataset:(urn:li:dataPlatform:feast,iot.knowledge.online,DEV)",
+      "fields": [
+        "chunk_id",
+        "source_sha256",
+        "source_file",
+        "document_id",
+        "revision",
+        "text",
+        "embedding_revision",
+        "section",
+        "embedding"
+      ],
+      "upstreams": [
+        "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.knowledge.offline,DEV)"
+      ]
+    }
+  ],
+  "assertions": [
+    "urn:li:assertion:iot-rag-a451ae034099a5d3596605599edbe76da8cbc887c36e493f56b13210199a1149",
+    "urn:li:assertion:iot-rag-49e74f02a82de415d10911b3af5ea0a225e0ee392b8818f10a420fe7144962d6",
+    "urn:li:assertion:iot-rag-cecc781bb62c27b127a831636c7b9da0dd93e35306bd2a9f8af74fdc30267c40",
+    "urn:li:assertion:iot-rag-49dc298468712a14fd0fb8aeb3173951962fa500c8d231da7e4c0983c1e833cc",
+    "urn:li:assertion:iot-rag-141cbfe4f104ef27f8b83f19ac67e2770cd9fcebb5a30039e289ca1d45991a0f",
+    "urn:li:assertion:iot-rag-93191e2b759f103b79400fbef8ac34c1446785107e43744059fb283aea3f91ec",
+    "urn:li:assertion:iot-rag-1c211e63ac80a04d20c16210fe6f580063f8fb16f5d8d4483e64ecafdfbfd9f5",
+    "urn:li:assertion:iot-rag-958531ebd34ab1d55b1bd8e3c0587f32c36e25363d6c27f49e16dc52b0317ab3",
+    "urn:li:assertion:iot-rag-2c5ae66f1ee17c8e690001ecf19fab7e4685bd98dc318598e217d37ff420ad64",
+    "urn:li:assertion:iot-rag-25786e3c40301f938d2d50d23c56e81cfa523b62317ccf50ab8ccde159b9f265"
+  ],
+  "acknowledged_aspects": 52,
+  "quality_sha256": "fb45da1ceb4657b602c926e18a08cf9bff8b6216a0c68be190fdb84d92458f8c",
+  "scope": "Native GMS schema/lineage readback and acknowledged assertion events; indexed UI/history verified separately."
+}
