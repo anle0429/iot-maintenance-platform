@@ -24,7 +24,7 @@ class ResponseRendererTests(unittest.TestCase):
         self.assertEqual(before, self.original)
         for old, new in zip(self.original, rendered):
             if old.get('kind') != 'SandboxAgent': self.assertEqual(old, new); continue
-            self.assertEqual(new['spec']['version'], '0.2.0')
+            self.assertEqual(new['spec']['version'], '0.2.2')
             self.assertIn('JSON', new['spec']['declarative']['systemMessage'])
             restored = deepcopy(new); restored['spec']['version'] = old['spec']['version']
             restored['spec']['declarative']['systemMessage'] = old['spec']['declarative']['systemMessage']

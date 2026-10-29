@@ -1,5 +1,7 @@
 # Complete agent answers
 
+The subsequent [GPU agent checkpoint](gpu-agent-routing.md) records complete specialist answers, actual coordinator delegation and catalog version 0.2.2. This page preserves its earlier deployment/failure baseline.
+
 The first native agent conversations exposed two separate limits: a 4,096-token context cut off one answer, and a later 384-token output budget was spent on a feature table before the answer reached the risk score. Increasing context alone did not solve the second problem. A completed A2A task is therefore checked against its actual tool results before it is accepted.
 
 **Current status:** response policy `0.2.0` and its guarded rollout are prepared and tested locally. They have not been deployed or accepted on the VM. The recorded native deployment remains `0.1.0`; its original source and evidence are preserved.

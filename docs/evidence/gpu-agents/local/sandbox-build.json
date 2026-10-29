@@ -1,0 +1,16 @@
+{
+  "compiled": true,
+  "target": "linux/amd64",
+  "static_elf_no_interpreter": true,
+  "binary_bytes": 7045280,
+  "binary_sha256": "d3c2ccda96495a6e33f877bffb3c88be24136cd2f638c2aa625406fa42449f8b",
+  "source_sha256": {
+    "tools/sandbox-probe/go.mod": "a6c7687bc529124742574779a787d90cde25b5077f0a243c1b63e75c4457b1cb",
+    "tools/sandbox-probe/main.go": "2ccd50aae19c5276a09f2dca1c46d0690a3614a9ea7c633f5c267aa094934377",
+    "tools/sandbox-probe/main_test.go": "f244798c5e2ca88c7aae17fcd627f194fdb06d97b4dc13e384f60bb64467649c"
+  },
+  "unit_tests_passed": 5,
+  "native_gvisor_execution_verified": false,
+  "sandbox_boundary_verified": false,
+  "scope": "Prepared static operator diagnostic only; no native actor or isolation acceptance yet."
+}

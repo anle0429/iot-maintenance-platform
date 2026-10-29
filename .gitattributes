@@ -1,4 +1,6 @@
 * text=auto
+*.go text eol=lf
+go.mod text eol=lf
 *.py text eol=lf
 *.sh text eol=lf
 *.ps1 text eol=lf
@@ -168,3 +170,4 @@ docs/images/gpu-inference-latency.svg text eol=lf
 knowledge/catalog.json -text -whitespace
 # This chart lock is pinned to the exact bytes uploaded to the retained agent runtime.
 infra/agents/versions.lock.json -text -whitespace
+docs/evidence/gpu-agents/** -text -whitespace

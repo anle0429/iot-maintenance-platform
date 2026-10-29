@@ -1,0 +1,12 @@
+{
+  "format": "iot-gpu-cluster-v1",
+  "k3s_version": "v1.35.9+k3s1",
+  "k3s_sha256": "897acb21cca57d477a211102251a6591450ce767344a9faaa121a1007ca9fa9a",
+  "k3s_installer_sha256": "8598e002e61d658fed7b7542fc6d2c66d8da6eae69e088830105d2ee1ffb6d91",
+  "device_plugin_version": "v0.20.1",
+  "device_plugin_image": "nvcr.io/nvidia/k8s-device-plugin@sha256:d279ecdb47b252c4cd96f4224650e9808c36012f6979570c9611ddbc5b0749a7",
+  "device_plugin_source": "https://github.com/NVIDIA/k8s-device-plugin/tree/v0.20.1",
+  "runtime_handler": "nvidia",
+  "node": "iot-cw-gpu",
+  "taint": "iot.coursework/inference-gpu=true:NoSchedule"
+}

@@ -76,6 +76,13 @@ def validate_runtime(current, properties):
         raise ValueError('Require at least 8192 actual model context tokens before increasing output allowance')
 
 
+def reviewed_prior_agents(agents, names):
+    """Allow one consistent known prior policy, refusing a partial rollout or an unrelated future version."""
+    return ({a['metadata']['name'] for a in agents} == names
+        and len(agents) == len(names)
+        and {a['spec']['version'] for a in agents} in [{'0.1.0'}, {'0.2.0'}, {'0.2.1'}])
+
+
 def run(root, source, run_name):
     """Apply two separately atomic Helm upgrades and retain applied-object evidence without claiming chat acceptance."""
     root = root.resolve(); source = source.resolve()
@@ -84,7 +91,7 @@ def run(root, source, run_name):
     seal = approved_source(root, source); budget = resources(root, datetime.now(timezone.utc))
     policy_bytes = (source / 'agents/response-policy.json').read_bytes(); policy = json.loads(policy_bytes)
     desired = yaml.safe_load((source / 'infra/agents/conversation-budget.yaml').read_text())
-    if (policy['version'] != '0.2.0' or desired['controller']['a2aClientTimeout'] != '1800s'
+    if (policy['version'] != '0.2.2' or desired['controller']['a2aClientTimeout'] != '1800s'
             or desired['providers']['openAI']['config'] != {'maxTokens': 768, 'timeout': 600}):
         raise ValueError('Use the reviewed response-policy version and budget')
     os.environ['KUBECONFIG'] = '/etc/rancher/k3s/k3s.yaml'
@@ -118,7 +125,7 @@ def run(root, source, run_name):
     try:
         before = json.loads(command('agents-before', k + ['get', 'sandboxagents', '-n', 'iot-agents', '-o', 'json']))['items']
         expected_names = {'iot-' + role for role in policy['prompts']}
-        if {a['metadata']['name'] for a in before} != expected_names or any(a['spec']['version'] != '0.1.0' for a in before):
+        if not reviewed_prior_agents(before, expected_names):
             raise ValueError('Preserve a different live agent set or policy version instead of overwriting it')
         current = json.loads(command('model-before-values', [helm, 'get', 'values', 'kagent', '-n', 'iot-agents', '-o', 'json']))
         service = json.loads(command('model-service', k + ['get', 'service', 'iot-model', '-n', 'iot-llm', '-o', 'json']))

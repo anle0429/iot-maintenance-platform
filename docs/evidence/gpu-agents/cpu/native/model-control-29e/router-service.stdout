@@ -1,0 +1,60 @@
+{
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+        "annotations": {
+            "meta.helm.sh/release-name": "iot-router",
+            "meta.helm.sh/release-namespace": "iot-llm"
+        },
+        "creationTimestamp": "2026-10-29T03:35:32Z",
+        "labels": {
+            "app.kubernetes.io/managed-by": "Helm",
+            "app.kubernetes.io/name": "iot-router-epp",
+            "app.kubernetes.io/version": "v1.0.0"
+        },
+        "name": "iot-router-epp",
+        "namespace": "iot-llm",
+        "resourceVersion": "306573",
+        "uid": "23401f87-0b74-48c1-b172-4bb1ad40dce1"
+    },
+    "spec": {
+        "clusterIP": "10.53.24.66",
+        "clusterIPs": [
+            "10.53.24.66"
+        ],
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+            "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+            {
+                "appProtocol": "kubernetes.io/h2c",
+                "name": "grpc-ext-proc",
+                "port": 9002,
+                "protocol": "TCP",
+                "targetPort": 9002
+            },
+            {
+                "name": "http-metrics",
+                "port": 9090,
+                "protocol": "TCP",
+                "targetPort": 9090
+            },
+            {
+                "name": "http",
+                "port": 8081,
+                "protocol": "TCP",
+                "targetPort": 8081
+            }
+        ],
+        "selector": {
+            "llm-d-router-gateway": "iot-router-epp"
+        },
+        "sessionAffinity": "None",
+        "type": "ClusterIP"
+    },
+    "status": {
+        "loadBalancer": {}
+    }
+}

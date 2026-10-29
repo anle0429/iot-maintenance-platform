@@ -1,0 +1,13 @@
+[
+  "/usr/local/bin/k3s",
+  "kubectl",
+  "exec",
+  "-n",
+  "iot-agents",
+  "iot-retrieval-pool-deployment-677b46cbc-bw2s4",
+  "--",
+  "/var/lib/ateom-gvisor/static-files/iot-sandbox-probe-29a",
+  "--inject",
+  "--state-root=/var/lib/ateom-gvisor/actors/iot-agents:asr-6a85f77bafdc596e734b7bcb/runsc-state",
+  "--role=retrieval"
+]

@@ -1,0 +1,18 @@
+{
+  "format": "iot-gpu-backend-source-v1",
+  "base_commit": "2a5a1759aff218eb93d788d9c02b376b0ee836a6",
+  "files": {
+    "scripts/deploy-gpu-backend.py": "623f4db741e3a57b2ebaf7e2d331d619bed9c98bb8046809bd1cd63c9e652f76",
+    "infra/llm/gpu-device-plugin.yaml": "ba415be8f97c2ed9b86e4a1e3c378225fd950d9a2c77f770381b461678de8c03",
+    "infra/llm/gpu-cluster.lock.json": "c3d34f0c8c1931bd5c26aafc9fbfddd805dc2798df88a1ec4d39f8336aca7cd8",
+    "infra/llm/gpu-runtime.lock.json": "5a3ad37fbd3fd75fb4b8c32884f4bc93e2b4a458eda6fbca89c05bf6e769ea24",
+    "infra/llm/assistant.lock.json": "f789c1e389d5992229cf3deb39ba88870df53cdfe7c1c36a5b6cf96d41c0b6c1",
+    "infra/llm/model.lock.json": "e5e7de1a5a0260a799e5e78fa33353d6e6e69d7c90ae6f01d3625be4d6c1c7f4",
+    "infra/charts/iot-gpu-model/Chart.yaml": "4f80a5e0a7e12371fb7ab40ed4795e2077cc8dcef7a58f50c360bcc6d9e20c8b",
+    "infra/charts/iot-gpu-model/values.yaml": "fe69a5989e9da7c4f25388602bf9540f09db582a57cb29561747416d66e7f2e3",
+    "infra/charts/iot-gpu-model/templates/model.yaml": "1d95bc903d8b527fa03cb8f8240ce84ab5e2ba23d766c59fed46d64ae9b68606",
+    "llm/__init__.py": "beecce3c84da4daf8e2dfbadd6e7564a5654bc31f21e7ab5a7e352f8e29ab098",
+    "llm/benchmark.py": "4c710b2bb7cf7193509128d7af397b82c3600320c3568a54a41715b1397c2692"
+  },
+  "prior_failed_run": "gpu-backend-29a"
+}

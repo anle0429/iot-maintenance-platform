@@ -1,5 +1,7 @@
 # Native agent control plane and catalog
 
+The subsequent [GPU agent checkpoint](gpu-agent-routing.md) records complete specialist answers, actual coordinator delegation and catalog version 0.2.2. This page preserves its earlier deployment/failure baseline.
+
 The deployment recorded on 29 October uses kagent 0.10.3, Agent Substrate 0.0.9 and agentregistry 0.4.0 on the retained VM. Three sandbox agents reached Ready with golden snapshots and separate two-worker pools. Their versioned catalog entries identify the actual runtime image, Kubernetes resource UID and agent-specification hash. Current availability depends on an active VM session and fresh feature data.
 
 This checkpoint verifies the platform foundation. Complete specialist/coordinator conversations, notebook demonstrations, autoscaling, isolation probes and a warm-up comparison remain separate acceptance work.

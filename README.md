@@ -6,7 +6,7 @@ This project follows pump telemetry from ingestion and validation through featur
 
 Built as an individual **Engineering for Data & AI — EDAI K11** coursework project. All equipment records, sensor readings and failure events are simulated.
 
-The selected scope includes **final ML and final LLM/agents**. The Data/ML lab, inference, RAG ingestion/governance and private MCP tools have recorded runtime evidence. Three reference questions also have verified generated citations. The [agent control plane and registry](docs/agent-platform.md) have native deployment evidence, and the [MCP mutation gate](docs/mcp-quality.md) passes. Complete agent conversations, autoscaling, warm-up and LLM CI remain in progress.
+The selected scope includes **final ML and final LLM/agents**. The Data/ML lab, inference, RAG ingestion/governance and private MCP tools have recorded runtime evidence. Three reference questions also have verified generated citations. The [agent control plane and registry](docs/agent-platform.md) have native deployment evidence, and the [MCP mutation gate](docs/mcp-quality.md) passes. The [GPU agent checkpoint](docs/gpu-agent-routing.md) verifies complete specialist answers and actual coordinator delegation. Autoscaling, sandbox egress, warm-up and LLM CI remain in progress.
 
 [Demo guide](docs/demo-walkthrough.md) · [Architecture details](docs/architecture.md) · [Verification report](docs/final-audit.md)
 
@@ -99,17 +99,17 @@ The Data/ML lab runs on a Google Cloud VM with **8 vCPU and 64 GiB RAM**, separa
 
 The gateway uses private lab domains and a private CA. Service-mesh authorization was tested in a separate namespace. Deployment details and recovery procedures are in the [infrastructure report](docs/iac-verification.md) and [demo guide](docs/demo-walkthrough.md).
 
-A separate private **V100 worker** now has [native provisioning, Ansible and inference measurements](docs/gpu-inference.md). It reduced median response time from 18.16 s to 0.56 s on the same-host offload workload. Integration with the agent route remains a separate step.
+A separate private **V100 worker** now has [native provisioning, Ansible and inference measurements](docs/gpu-inference.md). It reduced median response time from 18.16 s to 0.56 s on the same-host offload workload. [Real agent execution](docs/gpu-agent-routing.md) now uses that worker through llm-d and bounded tool-turn control.
 
-![One-VM deployment with K3s, Docker, host services and separate storage](docs/images/platform-deployment.png)
+![Control and data VM deployment with K3s, Docker, host services and separate storage](docs/images/platform-deployment.png)
 
 [Editable SVG](docs/images/platform-deployment.svg)
 
 ### LLM and agent extension
 
-![LLM extension: verified inference and RAG components with planned agent integration](docs/images/platform-llm-plan.png)
+![Recorded GPU inference, RAG, MCP and verified agent delegation](docs/images/platform-llm-plan.png)
 
-llm-d routes requests to a pinned Qwen2.5 CPU backend. The [inference report](docs/llm-inference.md) records a 1-thread/4-thread comparison for the 1.5B prototype; the [GPU experiment](docs/gpu-inference.md) separately measures 7B offload on a V100 worker. The current routed 7B backend answers [three reference questions with verified citations](docs/llm-grounding.md). A [six-task Airflow pipeline](docs/rag-orchestration.md) indexes 18 chunks through Feast, checks persisted data and publishes DataHub lineage/assertions. Two [private MCP services](docs/mcp-tools.md) expose machine features, predictions, reference passages and drift assessments, with native rollout/fallback and load reports. The [agent platform](docs/agent-platform.md) has three Ready gVisor templates, six workers and three published catalog entries. Complete conversations, exercised isolation boundaries, autoscaling, warm-up, CI and full telemetry remain open. [Try the internal agent demo](docs/agent-demo.md). [Learning guide](docs/llm-learning-guide.md) · [LLM tracker](docs/final-llm-rubric-tracker.md) · [SVG](docs/images/platform-llm-plan.svg)
+llm-d routes agent requests through a bounded tool-turn adapter to the pinned Qwen2.5 7B server on a private V100 worker. The [inference report](docs/llm-inference.md) records a 1-thread/4-thread comparison for the 1.5B prototype; the [GPU experiment](docs/gpu-inference.md) separately measures 7B offload on a V100 worker. The earlier routed 7B checkpoint answers [three reference questions with verified citations](docs/llm-grounding.md). A [six-task Airflow pipeline](docs/rag-orchestration.md) indexes 18 chunks through Feast, checks persisted data and publishes DataHub lineage/assertions. Two [private MCP services](docs/mcp-tools.md) expose machine features, predictions, reference passages and drift assessments, with native rollout/fallback and load reports. The [agent platform](docs/agent-platform.md) has three Ready gVisor templates, six workers and three published catalog entries. [Complete conversations and real child delegation](docs/gpu-agent-routing.md) are now verified. Sandbox egress acceptance, autoscaling, warm-up, CI and full telemetry remain open. [Try the internal agent demo](docs/agent-demo.md). [Learning guide](docs/llm-learning-guide.md) · [LLM tracker](docs/final-llm-rubric-tracker.md) · [SVG](docs/images/platform-llm-plan.svg)
 
 ## Recorded results
 
@@ -124,7 +124,7 @@ llm-d routes requests to a pinned Qwen2.5 CPU backend. The [inference report](do
 | Knowledge pipeline | Six actual Airflow tasks, 18 Feast/Milvus chunks, ten persisted quality checks, DataHub lineage and rejected bad-source input | [RAG orchestration](docs/rag-orchestration.md) |
 | Grounded generation | Three actual 7B responses with independently verified rankings and source-bound citations; small acceptance set | [Grounding report](docs/llm-grounding.md) |
 | MCP tools | Two services with two replicas each, 24 native tool responses, two controlled rollbacks and 2,658 authenticated feature reads without failure | [MCP report](docs/mcp-tools.md) |
-| Agent platform foundation | Three Ready gVisor templates, two workers per role and three source-bound catalog entries; full chat acceptance remains open | [Platform checkpoint](docs/agent-platform.md) |
+| Agent platform foundation | Three Ready gVisor templates, two workers per role and three source-bound catalog entries; complete specialist answers and actual coordinator delegation on the GPU route | [GPU agent checkpoint](docs/gpu-agent-routing.md) |
 
 The 100 GB run covers source ingestion through Bronze/Silver. Feature engineering and ML use the separate 60-day dataset. API coverage, mutation scores and load-test measurements are recorded with their workloads in [serving CI](docs/ci-serving.md), [API validation](docs/api-validation.md) and [load testing](docs/observed-api-load.md).
 
@@ -155,7 +155,7 @@ $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-The audit checks both source rubrics, payload hashes and 33 offline verifiers. It writes `verification.json` and the verifier consoles to the output directory. It checks recorded results rather than rerunning the pipelines; successful RAG, inference and MCP checks do not mark the full agent track complete. The [agent response report](docs/agent-response-contract.md) records a complete drift answer alongside the remaining retrieval/coordinator failures.
+The audit checks both source rubrics, payload hashes and 37 offline verifiers. It writes `verification.json` and the verifier consoles to the output directory. It checks recorded results rather than rerunning the pipelines; successful RAG, inference and MCP checks do not mark the full agent track complete. The [GPU agent report](docs/gpu-agent-routing.md) verifies complete specialist answers and actual child delegation. Earlier failed runs remain preserved.
 
 ### Call the lab API
 

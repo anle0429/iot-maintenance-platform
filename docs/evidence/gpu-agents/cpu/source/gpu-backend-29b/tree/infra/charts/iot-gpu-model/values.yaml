@@ -1,0 +1,11 @@
+image: ghcr.io/ggml-org/llama.cpp@sha256:d854233e9f043046f363953047ff518a9792b044cea1d53f86d299e88344cd5f
+imagePullPolicy: IfNotPresent
+modelDirectory: /srv/iot-inference/models/iot-qwen2.5-7b
+modelFile: qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf
+servedModel: iot-qwen2.5-7b
+threads: 3
+contextTokens: 8192
+gpuLayers: 99
+resources:
+  requests: {cpu: '1', memory: 4Gi, nvidia.com/gpu: '1'}
+  limits: {cpu: '3', memory: 10Gi, nvidia.com/gpu: '1'}

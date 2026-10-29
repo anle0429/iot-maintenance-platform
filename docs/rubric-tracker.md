@@ -1,5 +1,7 @@
 # Coursework rubric index
 
+The latest [GPU agent checkpoint](gpu-agent-routing.md) records verified specialist answers, actual coordinator delegation and a strict adapter mutation audit. Final LLM row statuses are maintained in the [final LLM tracker](final-llm-rubric-tracker.md); the historical two-sheet weights below are not combined with final coursework.
+
 The selected submission covers **final ML and final LLM/agents**, as confirmed by the learner. The supplied Tracking workbook is the current source. It has a mini-coursework sheet, a final ML sheet and a separate LLM/agent sheet named `Sheet3`.
 
 | Track | Source rows | Source points | Repository view |

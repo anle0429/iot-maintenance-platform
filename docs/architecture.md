@@ -2,11 +2,11 @@
 
 This document describes the IoT lab implemented in this repository: the prediction request, the data and training jobs behind it, and the controls around deployment. The [README](../README.md#system-diagram) provides the platform overview; the [demo guide](demo-walkthrough.md) provides the operating commands.
 
-The selected coursework scope includes both final ML and final LLM/agents. This page describes recorded Data/ML behavior and the staged [LLM workstream](llm-agent-plan.md): inference, RAG and MCP have native evidence; agent integration remains open.
+The selected coursework scope includes both final ML and final LLM/agents. This page describes recorded Data/ML behavior and the staged [LLM workstream](llm-agent-plan.md): inference, RAG and MCP have native evidence, and the [GPU checkpoint](gpu-agent-routing.md) verifies specialist answers and real coordinator delegation. Other agent-track requirements remain open.
 
 ## Scope and runtime
 
-The lab runs on one Google Cloud VM with 8 vCPU and 64 GiB RAM. K3s hosts Kubernetes workloads; Docker containers and host services provide the remaining components. Shared data and scratch volumes hold datasets, model artifacts and service state. Administration uses loopback ports and IAP.
+The control and data lab runs on an 8-vCPU/64-GiB Google Cloud VM. A separate private 4-vCPU/15-GiB worker with one 16-GiB V100 serves the agent model. K3s hosts Kubernetes workloads; Docker containers and host services provide the remaining components. Shared data and scratch volumes hold datasets, model artifacts and service state. Administration uses loopback ports and IAP.
 
 Three workloads have different boundaries:
 
@@ -150,6 +150,6 @@ The supplied rubrics govern scope. [Card Fraud Platform](https://github.com/cvin
 
 ## Selected LLM workstream
 
-![Staged LLM architecture: verified inference and planned agents](images/platform-llm-plan.png)
+![Recorded GPU routing, MCP tools and verified agent delegation](images/platform-llm-plan.png)
 
-The llm-d router and CPU backend have [native inference evidence](llm-inference.md). The [RAG pipeline](rag-orchestration.md), [source-cited generation](llm-grounding.md) and [authenticated MCP services](mcp-tools.md) are separately verified; the [native controller/catalog and gVisor templates](agent-platform.md) are recorded, while complete agent interaction, isolation acceptance and scaling remain in progress. See the [learning guide](llm-learning-guide.md), [workstream](llm-agent-plan.md), [source rubric](rubric-source.md) and [LLM tracker](final-llm-rubric-tracker.md). The drawing itself is not runtime evidence.
+The llm-d router and CPU backend have [native inference evidence](llm-inference.md). The [RAG pipeline](rag-orchestration.md), [source-cited generation](llm-grounding.md) and [authenticated MCP services](mcp-tools.md) are separately verified; the [native controller/catalog and gVisor templates](agent-platform.md) are recorded, and [complete specialist/coordinator conversations on the GPU route](gpu-agent-routing.md) are verified. Sandbox egress acceptance, scaling, warm-up and other LLM requirements remain open. See the [learning guide](llm-learning-guide.md), [workstream](llm-agent-plan.md), [source rubric](rubric-source.md) and [LLM tracker](final-llm-rubric-tracker.md). The drawing itself is not runtime evidence.

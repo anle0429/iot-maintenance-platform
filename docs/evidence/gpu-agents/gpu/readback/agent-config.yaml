@@ -1,0 +1,14 @@
+server: https://10.42.0.2:6443
+token-file: /srv/iot-inference/private/agent-token
+data-dir: /srv/iot-inference/k3s
+node-name: iot-cw-gpu
+node-ip: 10.42.0.7
+flannel-iface: ens5
+default-runtime: nvidia
+node-label:
+  - iot.coursework/role=inference-gpu
+node-taint:
+  - iot.coursework/inference-gpu=true:NoSchedule
+kubelet-arg:
+  - max-pods=24
+  - eviction-hard=memory.available<1Gi,nodefs.available<10%,imagefs.available<15%

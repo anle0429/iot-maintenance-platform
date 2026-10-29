@@ -91,8 +91,8 @@ Run `--phase prepare` once to download and verify both model shards. After the c
 
 ## Agent limitation
 
-Complete agent conversations remain open. The [recorded response baseline](agent-response-contract.md) distinguishes actual tool calls from a complete final answer. The GPU experiment does not execute MCP tools or change the agent model route.
+The original offload experiment below measures model generation. A subsequent [GPU routing and agent checkpoint](gpu-agent-routing.md) verifies real MCP execution, complete specialist answers and actual coordinator child sessions on the private GPU route. The original [response baseline](agent-response-contract.md) remains available with its failed outcomes.
 
-The next integration must verify genuine MCP execution, a complete source-grounded final answer and actual coordinator delegation. Extra VRAM or higher token throughput does not replace those checks. See the [remaining LLM criteria](final-llm-rubric-tracker.md).
+The integration has its own source-bound evidence and checker. Autoscaling, warm-up, sandbox egress, CI and other remaining criteria continue separately. See the [remaining LLM criteria](final-llm-rubric-tracker.md).
 
 Official references: [GPU machine types](https://docs.cloud.google.com/compute/docs/gpus/), [resource availability errors](https://docs.cloud.google.com/compute/docs/troubleshooting/troubleshooting-resource-availability), [Google driver installation](https://docs.cloud.google.com/compute/docs/gpus/install-drivers-gpu), [llama.cpp CUDA images](https://github.com/ggml-org/llama.cpp/blob/8642541b2/docs/docker.md), [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).

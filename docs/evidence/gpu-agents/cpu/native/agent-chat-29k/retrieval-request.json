@@ -1,0 +1,21 @@
+{
+  "jsonrpc": "2.0",
+  "id": "48eea199-0b74-45dd-a191-ef24a07c5824",
+  "method": "message/send",
+  "params": {
+    "message": {
+      "role": "user",
+      "messageId": "617c193b-b4dc-48df-a6af-457ee0cc0d63",
+      "contextId": "a72713c8-90c8-4f6f-b7d6-936d2ecbeeb5",
+      "parts": [
+        {
+          "kind": "text",
+          "text": "For pump P-001, fetch the current machine features and failure prediction. Use the knowledge tool to explain whether high vibration alone proves failure. Include the actual event timestamp, model version and cited document IDs."
+        }
+      ]
+    },
+    "configuration": {
+      "blocking": true
+    }
+  }
+}

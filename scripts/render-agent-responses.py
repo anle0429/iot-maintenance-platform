@@ -11,7 +11,7 @@ import yaml
 def render(documents, policy_bytes):
     """Preserve tools, networks, pools and other resources; reject an incomplete or unexpected agent set."""
     policy = json.loads(policy_bytes)
-    if policy['version'] != '0.2.0' or set(policy['prompts']) != {'retrieval', 'drift', 'coordinator'}:
+    if policy['version'] != '0.2.2' or set(policy['prompts']) != {'retrieval', 'drift', 'coordinator'}:
         raise ValueError('Use the reviewed three-role response policy')
     if any(not isinstance(p, str) or not 1 <= len(p) <= 3000 for p in policy['prompts'].values()):
         raise ValueError('Each role requires one bounded, nonempty prompt')

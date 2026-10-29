@@ -1,0 +1,2332 @@
+{
+  "format": "iot-gpu-agent-curation-v1",
+  "original_archives": {
+    "cpu": {
+      "sha256": "9768c3ce591f18f1cab5f7f3940249c7285e2d63ca60c5ed1e7d8765cc9d205b",
+      "bytes": 14008320
+    },
+    "gpu": {
+      "sha256": "7d82a23c7adf03f0c2bcb13c6ae437f83ec09b89a76e6abfe980f86d0d95fc4f",
+      "bytes": 133120
+    },
+    "strict": {
+      "bytes": 2140160,
+      "sha256": "307ec2eba615845debf6df8f5f765cedbded4dafcca5a7a62102a26439da7573"
+    }
+  },
+  "excluded_nonessential": [
+    {
+      "path": "cpu/capture-operator.py",
+      "bytes": 5687,
+      "sha256": "36f5aed7be67ac1ee6d7fac1eac872d6bf9b20888bd12f4fbc5c55fb6b82e452",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/coordinator-card.json",
+      "bytes": 868,
+      "sha256": "a76ef44f510b231f55a965203988a6bf3fe213a38e57a9f95534910a0226cef9",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/coordinator-request.json",
+      "bytes": 736,
+      "sha256": "74391d2a45e7958823fcf16113b0743012ef4739d9a4a3bd009d4ba9093cb278",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/coordinator-response.json",
+      "bytes": 7672,
+      "sha256": "6f26256a88f550a41e5bc56c55f7c6c6183625c65c7e24e0318a3ec49443177a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/coordinator-transport.json",
+      "bytes": 183,
+      "sha256": "e7b2689a6736587935d6bec39d83758eb4e10f37dc9943b7bfbb632791908b3a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/drift-card.json",
+      "bytes": 860,
+      "sha256": "a6ecf6608d6c3435bd7c169129c7e88fc2a287670d21e0d0c5bf3cdc5e570296",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/drift-request.json",
+      "bytes": 632,
+      "sha256": "37bddd367ec047f96231184e69d7d408ba77156cd2c9a4619c14bc23d6dcc6f3",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/drift-response.json",
+      "bytes": 6747,
+      "sha256": "34e2c9312434eff04621a59b5ff249622964443d9a32ade2c305d74cd0f71f7a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/drift-transport.json",
+      "bytes": 182,
+      "sha256": "44c6b955debb776b256cab04ca81be80401ef44986d009d4df261181d1644ec5",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/identity.json",
+      "bytes": 26,
+      "sha256": "986acbaf810669b1adfe21f5163d4281ddd6793b3d3301045ad71c9049cc7280",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/results.json",
+      "bytes": 797,
+      "sha256": "5070022218c3dc35c81b38cba30ecacb823325a372db5906ebc5d16c8bdec45d",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/retrieval-card.json",
+      "bytes": 871,
+      "sha256": "692d8902f11f33f76ad5ca7300ad307ef8c73ae367625ff592e6aeba1d41b72b",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/retrieval-request.json",
+      "bytes": 653,
+      "sha256": "a462d7b01d7e44c19ef51c4b7c42e9f002af9cd08abab7a5054d5e110e532332",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/retrieval-response.json",
+      "bytes": 10818,
+      "sha256": "cb4a95347488bd4bef65770ddbc94536627d3ee32b8ebae4bf228976aea08096",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/retrieval-transport.json",
+      "bytes": 183,
+      "sha256": "e3f2bb3f7efee2605405850282acb59f3e1ac730dd5b737bb441f0656d6e9fc9",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-chat-29l/verification.json",
+      "bytes": 1042,
+      "sha256": "e17922cea78757d47defd06984cae40fbcee1dfd19d19fafb41db7467d4cdc8f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-children-29a/drift-session.json",
+      "bytes": 288,
+      "sha256": "0ebdd7d988555f5d2b2ab8435e8b2476e20a0a03d07cb1acb48f1c9d0d05024b",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-children-29a/drift-tasks.json",
+      "bytes": 6630,
+      "sha256": "bf1140e7122848150d9e42a4b65e774fd31ed6ed0ead146a91ce13398c3188fb",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-children-29a/requests.json",
+      "bytes": 871,
+      "sha256": "63d34eaa82bc08a2f9b953046fbeed82b28dedfaa0713e774d938c23e4b90440",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-children-29a/retrieval-session.json",
+      "bytes": 292,
+      "sha256": "7eb284d393db6399e3b4366b8b8fed5fd0d87d509613a569f87335b4e9349c49",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/agent-children-29a/retrieval-tasks.json",
+      "bytes": 10552,
+      "sha256": "8ee3c04aa1432c68b47653407e8f8ac331b2b04360edc18eb1963801c493ad40",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/adapter-upgrade.command.json",
+      "bytes": 441,
+      "sha256": "feea80644ea9ce49390c5e2a7a438cb4c8a02d502f9723f9556892faa42eafb6",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/adapter-upgrade.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/adapter-upgrade.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/adapter-upgrade.stdout",
+      "bytes": 192,
+      "sha256": "ca82485163c70bca6f2459092921a5a92eed11374696f96249461bbb63049237",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/candidate-resources.command.json",
+      "bytes": 116,
+      "sha256": "6aecb8e3085eea0a8e05ac34c8bfd22c0eee44af7a3bf0a72a540b02918f83ec",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/candidate-resources.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/candidate-resources.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/candidate-resources.stdout",
+      "bytes": 102094,
+      "sha256": "87d374d5dd8d2086302ce86d9fa2a58370188db81d89133b8e125f497ffe5f50",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/candidate-service.command.json",
+      "bytes": 124,
+      "sha256": "a20bc14306defc2e27d5b929a2b699187be5eb9242184b43b4ecce988f5e44e6",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/candidate-service.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/candidate-service.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/candidate-service.stdout",
+      "bytes": 1185,
+      "sha256": "3e1b7dffa9129071cff4e19a6f94ff0d14dae02dc9b18bd24c3292736305fea4",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/direct-0-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/direct-0-response.json",
+      "bytes": 813,
+      "sha256": "09f4cbec2439655904169261a2a2b8114fa4f7e668eb7e9a133abc2ed1362228",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/direct-1-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/direct-1-response.json",
+      "bytes": 812,
+      "sha256": "0f13a91d6991c466f72eda7a756aca2be68f064526feb98011fb80b3bcd8e3bf",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/direct-2-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/direct-2-response.json",
+      "bytes": 815,
+      "sha256": "440ca2084646823b4796bb2031c0d0e07395bb5ca6f0ff4a8eee57cedfffa5cf",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/direct-verification.json",
+      "bytes": 1587,
+      "sha256": "f0075523cf1214403e067dbdc92775878dd986619b62b078e750a0c6292ac6bf",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-build.command.json",
+      "bytes": 180,
+      "sha256": "eb458fc076229b35fc490044f2c8d921800f6a8bd8d8a0661ab517325bfa291d",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-build.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-build.stderr",
+      "bytes": 1035,
+      "sha256": "a354ce26fce94e6dddac92e73052f6f3a853d5f19ccbebfe970adf63e8468313",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-build.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-cri.command.json",
+      "bytes": 166,
+      "sha256": "13a2e52b31f25f9d3473d27ee21f5f1af53f92928b607584fc677aa234d7a573",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-cri.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-cri.stderr",
+      "bytes": 134,
+      "sha256": "900c146d2b05639044b3a1fc46900147c2d624feb77e3628a879b594776f8b71",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-cri.stdout",
+      "bytes": 1756,
+      "sha256": "e23ecbbfdb2473dcbe96aac9b9706b94061ff8ae768342956bae84b9d95fa154",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-digest-reference.command.json",
+      "bytes": 228,
+      "sha256": "da30da6937f85531d2c145672fe56d546c77dac32bd35b9bfb964d48fc7e2642",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-digest-reference.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-digest-reference.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-digest-reference.stdout",
+      "bytes": 108,
+      "sha256": "ff4105f4941bccb1a78985aead9e51df7912573f5e2884202b7c4028c141e3cf",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-export.command.json",
+      "bytes": 163,
+      "sha256": "b9df928801e6cdc3ff1900c269e93ad08bc94d6a09d350edc82a245302ace274",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-export.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-export.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-export.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-import.command.json",
+      "bytes": 165,
+      "sha256": "b4ecf0be7a685bc152eb48f309291be2c9dda95c468eb20aab09ef50a42602e4",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-import.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-import.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-import.stdout",
+      "bytes": 211,
+      "sha256": "5c0e828e9562c75434a3899a977b36932ad9f18ac701201926ac99eaed20e32b",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-inspect.command.json",
+      "bytes": 79,
+      "sha256": "cf306e4f4f5a679a8154c5af0f444eec81b12b2b9f4a161b0c91458398d66deb",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-inspect.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-inspect.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/image-inspect.stdout",
+      "bytes": 1536,
+      "sha256": "c5ad9ebc3fc45bc8e6ea871c675133afa001b95bbf665781a5225d8ee95ab01c",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/model-config-after.command.json",
+      "bytes": 134,
+      "sha256": "5edd1eff5a17b984e23841920bf10f3156f60896dc2e4aeb9979c55809a8e5e5",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/model-config-after.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/model-config-after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/model-config-after.stdout",
+      "bytes": 1707,
+      "sha256": "7377545cd03711d172c5f9f7fe9c7721f6603bd95d173297d6ba8ab5a481550f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/model-config-before.command.json",
+      "bytes": 134,
+      "sha256": "5edd1eff5a17b984e23841920bf10f3156f60896dc2e4aeb9979c55809a8e5e5",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/model-config-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/model-config-before.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/model-config-before.stdout",
+      "bytes": 1707,
+      "sha256": "7377545cd03711d172c5f9f7fe9c7721f6603bd95d173297d6ba8ab5a481550f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/routed-0-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/routed-0-response.json",
+      "bytes": 803,
+      "sha256": "e005e607acd8c061d97c4b9494d906b1461ed8b1a5157bfadcef79f450c48d8a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/routed-1-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/routed-1-response.json",
+      "bytes": 814,
+      "sha256": "efec8c84e6ac5a9a8c5af82de46449adef4b3c5431b1fdfe48280bb37c78f7cb",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/routed-2-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/routed-2-response.json",
+      "bytes": 815,
+      "sha256": "82093e46cb62f9014c3be5b2cb33f4f41d83c6aaa0692251579eb91f009bf295",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/routed-verification.json",
+      "bytes": 1734,
+      "sha256": "ba168cdb61c93e77365617158681d4cb914067b8fef3dd8fe585bd739b60bd94",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-history-before.command.json",
+      "bytes": 169,
+      "sha256": "b633ad0b5181b1423ce1b66d9368d2305d5658f6a43179e7987b9cd3f6af17d3",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-history-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-history-before.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-history-before.stdout",
+      "bytes": 531,
+      "sha256": "4aad2a5bfd8288567a5a1574bd7372030d6fedae788b80b18a72de278ad524cd",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-service.command.json",
+      "bytes": 121,
+      "sha256": "bf5130a7865405ad988906492f813bb1530ddcc6531f81255153619aa0562e72",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-service.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-service.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-service.stdout",
+      "bytes": 1658,
+      "sha256": "f024b21893841cc2ce0b007734babea066f66f13889263d2efc24a775c53a4cc",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-upgrade.command.json",
+      "bytes": 385,
+      "sha256": "2916776c5b9065ae3c45be44d31f7d439f4800339c19e546d8759244f98b8b72",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-upgrade.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-upgrade.stderr",
+      "bytes": 140,
+      "sha256": "49f91cf32fa138f5b389bf244c25269471bfc1b0fcd7cdf060e0c6a8e3480c06",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-upgrade.stdout",
+      "bytes": 177,
+      "sha256": "d464c491488ff14b18aeb8406cc1f717764b0f75fd97e4ea6c8a191ab02b3cc8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-values-after.command.json",
+      "bytes": 185,
+      "sha256": "0cfe8dc45f6c8d23d84a2faf7a2dff769efb79a6e81269fa5358dc19f7cb50e8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-values-after.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-values-after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-values-after.stdout",
+      "bytes": 24063,
+      "sha256": "549438b4be16868c5dc94f09ed3957483c89f99beba3fbfbed78e5fb5b727e80",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-values-before.command.json",
+      "bytes": 185,
+      "sha256": "0cfe8dc45f6c8d23d84a2faf7a2dff769efb79a6e81269fa5358dc19f7cb50e8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-values-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-values-before.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-values-before.stdout",
+      "bytes": 24055,
+      "sha256": "c87c4a54b115aeda244f35f22e8f477a816446480968e7d5c12b31b59bb94d0a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/router-values.json",
+      "bytes": 29113,
+      "sha256": "d49cac3dc6c6e2253fb729da6fdb47ea3676348cb3c995de16f94876a3b30a07",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/source.json",
+      "bytes": 1786,
+      "sha256": "8438ba50a08349838d79386247d83f2f63f963acdf132cf4e43a48bfc2a4a77c",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/values.json",
+      "bytes": 125,
+      "sha256": "350685f3e211d3a042c8604800fd786bea3ed8d5ba7ae4730f4c567ff8c35a31",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29b/verification.json",
+      "bytes": 358,
+      "sha256": "e42d8c4e0ac44b649cf7adf15252c0032be86410d788f5627a7af9424e3696e1",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/adapter-upgrade.command.json",
+      "bytes": 441,
+      "sha256": "c8fe1ac9f57e9b474450891ef95dbafeb419980a8ff4ccde836ad9fb7a97f03a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/adapter-upgrade.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/adapter-upgrade.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/adapter-upgrade.stdout",
+      "bytes": 191,
+      "sha256": "6907b4fee297973fc7abef724c36dfa0b763c4c9cde825afdb607db702df59a5",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/adapter-values-before.command.json",
+      "bytes": 192,
+      "sha256": "da16864bb053e671e8e55b94796aead7fa01826f3f559934c2a642fa5ca2567e",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/adapter-values-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/adapter-values-before.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/adapter-values-before.stdout",
+      "bytes": 120,
+      "sha256": "9a84251ba619baa271e797b5603ae9b6051e1450ab1b48bc68cadc9dd3a40cd3",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/candidate-resources.command.json",
+      "bytes": 116,
+      "sha256": "6aecb8e3085eea0a8e05ac34c8bfd22c0eee44af7a3bf0a72a540b02918f83ec",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/candidate-resources.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/candidate-resources.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/candidate-resources.stdout",
+      "bytes": 102094,
+      "sha256": "2749a772da83a2d683513e7fc95b0258064e2854bcba9ec26afca389b8165449",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/candidate-service.command.json",
+      "bytes": 124,
+      "sha256": "a20bc14306defc2e27d5b929a2b699187be5eb9242184b43b4ecce988f5e44e6",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/candidate-service.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/candidate-service.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/candidate-service.stdout",
+      "bytes": 1185,
+      "sha256": "3e1b7dffa9129071cff4e19a6f94ff0d14dae02dc9b18bd24c3292736305fea4",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/direct-0-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/direct-0-response.json",
+      "bytes": 813,
+      "sha256": "78da60c0b09a2d024424d7801b70ba0a5f2365f88a71d425cc01d0febdad3da1",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/direct-1-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/direct-1-response.json",
+      "bytes": 816,
+      "sha256": "331903ecf12b8ab28b7a2ed8e08aa07154d1a2a584e07017f2f87a4fdfcc7a57",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/direct-2-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/direct-2-response.json",
+      "bytes": 803,
+      "sha256": "5eae4d745e306a0bb44330dd9030843933df9f0ed12f34e9a247e80a549b0b71",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/direct-verification.json",
+      "bytes": 1587,
+      "sha256": "e2952b54400a6cd32d00daeb101fd97297fb9b30884c5ebfc19d5852aa599175",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-build.command.json",
+      "bytes": 180,
+      "sha256": "af9e8ffd8f3bf59044d4174b28d8c3b63998de291e0d20e66839cb397c2836fc",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-build.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-build.stderr",
+      "bytes": 1172,
+      "sha256": "1cb04878ce69089dea8db364d1174eadfe0cda357713fc71a6ff6b40b9054580",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-build.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-cri.command.json",
+      "bytes": 166,
+      "sha256": "60a339fade1a4ea61c87fd0f4e755934fb35043e999c3b7d1b79101076c2465c",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-cri.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-cri.stderr",
+      "bytes": 134,
+      "sha256": "c6886d923a31d35af44d0282f4141893a922f4f4d075445332b6458f9e30619d",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-cri.stdout",
+      "bytes": 1756,
+      "sha256": "6262d0e828279bed75ca7ead6d19d246d1dd10d0321d788b22de2e81213f357f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-digest-reference.command.json",
+      "bytes": 228,
+      "sha256": "34b57b82b522d951de8ca672fc192a874de22935bf1f55849bf6767e33c9d55e",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-digest-reference.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-digest-reference.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-digest-reference.stdout",
+      "bytes": 108,
+      "sha256": "b8d7fd17e2789049237333aa93a9eb44294afbcf57f48836c83a03d9ed414edc",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-export.command.json",
+      "bytes": 163,
+      "sha256": "1bf2b451dc8198019930b2fe60e05fd24c32b104a5a92cd0be7c6b3a833eeff9",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-export.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-export.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-export.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-import.command.json",
+      "bytes": 165,
+      "sha256": "d7de6e0625e44b43e52ff4b56f7a998997f40d48d5738b1fc4277648e4083dc7",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-import.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-import.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-import.stdout",
+      "bytes": 211,
+      "sha256": "3b3490f96e269ce8393541aa7ca094b1fc07af380d64bcc05cf57c8db8ddcce2",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-inspect.command.json",
+      "bytes": 79,
+      "sha256": "a90a45d6cfa3b08c66a58406c5816703cb7dff542e986def8c60ff0b3dec3b5e",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-inspect.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-inspect.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/image-inspect.stdout",
+      "bytes": 1535,
+      "sha256": "8923ed0079d1eb45d3120656cd0606d79c8accf4a18b3bb4915d7f47cc1625c6",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/model-config-after.command.json",
+      "bytes": 134,
+      "sha256": "5edd1eff5a17b984e23841920bf10f3156f60896dc2e4aeb9979c55809a8e5e5",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/model-config-after.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/model-config-after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/model-config-after.stdout",
+      "bytes": 1707,
+      "sha256": "7377545cd03711d172c5f9f7fe9c7721f6603bd95d173297d6ba8ab5a481550f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/model-config-before.command.json",
+      "bytes": 134,
+      "sha256": "5edd1eff5a17b984e23841920bf10f3156f60896dc2e4aeb9979c55809a8e5e5",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/model-config-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/model-config-before.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/model-config-before.stdout",
+      "bytes": 1707,
+      "sha256": "7377545cd03711d172c5f9f7fe9c7721f6603bd95d173297d6ba8ab5a481550f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/routed-0-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/routed-0-response.json",
+      "bytes": 814,
+      "sha256": "20ba439b8660eb987c4fd4c2e47a4e890bb3f605eae0d511413339a028e3d107",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/routed-1-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/routed-1-response.json",
+      "bytes": 814,
+      "sha256": "b97d993737b7e88f834c1a6207ac98e1ef92d5b9b3e0095bd984afaf229aa28c",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/routed-2-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/routed-2-response.json",
+      "bytes": 812,
+      "sha256": "e5368f9331db1b96838a225cd54349e877a7a1e6e60d48ef767f7ece2017777f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/routed-verification.json",
+      "bytes": 1734,
+      "sha256": "c3343ee78bd709370f28f87a1dd5f2b08d826c620329d5bb97f4b2419f8d9784",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-history-before.command.json",
+      "bytes": 169,
+      "sha256": "b633ad0b5181b1423ce1b66d9368d2305d5658f6a43179e7987b9cd3f6af17d3",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-history-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-history-before.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-history-before.stdout",
+      "bytes": 708,
+      "sha256": "25296a9f44a4750994f60280dc737281c4af99fb467c53190cf7c355e25fb604",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-service.command.json",
+      "bytes": 121,
+      "sha256": "bf5130a7865405ad988906492f813bb1530ddcc6531f81255153619aa0562e72",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-service.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-service.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-service.stdout",
+      "bytes": 1658,
+      "sha256": "f024b21893841cc2ce0b007734babea066f66f13889263d2efc24a775c53a4cc",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-upgrade.command.json",
+      "bytes": 385,
+      "sha256": "8ae4ef84e970e4d5f21e77e8aa5843e02db0b0ae3bffc9d8449b7f3b4017015a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-upgrade.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-upgrade.stderr",
+      "bytes": 140,
+      "sha256": "49f91cf32fa138f5b389bf244c25269471bfc1b0fcd7cdf060e0c6a8e3480c06",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-upgrade.stdout",
+      "bytes": 177,
+      "sha256": "b2dd9502ed97c147d425b89b62f6db64161f888dbeaa6030bfe6db8664d819b9",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-values-after.command.json",
+      "bytes": 185,
+      "sha256": "0cfe8dc45f6c8d23d84a2faf7a2dff769efb79a6e81269fa5358dc19f7cb50e8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-values-after.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-values-after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-values-after.stdout",
+      "bytes": 24063,
+      "sha256": "549438b4be16868c5dc94f09ed3957483c89f99beba3fbfbed78e5fb5b727e80",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-values-before.command.json",
+      "bytes": 185,
+      "sha256": "0cfe8dc45f6c8d23d84a2faf7a2dff769efb79a6e81269fa5358dc19f7cb50e8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-values-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-values-before.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-values-before.stdout",
+      "bytes": 24063,
+      "sha256": "549438b4be16868c5dc94f09ed3957483c89f99beba3fbfbed78e5fb5b727e80",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/router-values.json",
+      "bytes": 29113,
+      "sha256": "d49cac3dc6c6e2253fb729da6fdb47ea3676348cb3c995de16f94876a3b30a07",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/source.json",
+      "bytes": 1786,
+      "sha256": "1cf38f7fdc26a4f68b8b4bef3bfde1e57577f18ef569c572dd59d024a2a3a8ba",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/values.json",
+      "bytes": 125,
+      "sha256": "6a915f2679e79d5a58be3a9bfa8b74b1f32dccc0a14b98112817e6d883984004",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29c/verification.json",
+      "bytes": 358,
+      "sha256": "2e1eaac9057aa7b401eb56ea10ae9da9645c3883d4ff867fce54c9b8656ae321",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/adapter-upgrade.command.json",
+      "bytes": 441,
+      "sha256": "cc46d22302152f71ebd8b1d31d17cb323267444b43fcaaf69bbeff6328187403",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/adapter-upgrade.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/adapter-upgrade.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/adapter-upgrade.stdout",
+      "bytes": 191,
+      "sha256": "8f74994a799d953669ab73851423a6df663292184b1b3779631e3d911b18b640",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/adapter-values-before.command.json",
+      "bytes": 192,
+      "sha256": "da16864bb053e671e8e55b94796aead7fa01826f3f559934c2a642fa5ca2567e",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/adapter-values-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/adapter-values-before.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/adapter-values-before.stdout",
+      "bytes": 120,
+      "sha256": "7385d90c92d815f0ad1c5e6a08ed9f117826e8f5d5eb4b2a1dc88282e1db99fe",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/candidate-resources.command.json",
+      "bytes": 116,
+      "sha256": "6aecb8e3085eea0a8e05ac34c8bfd22c0eee44af7a3bf0a72a540b02918f83ec",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/candidate-resources.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/candidate-resources.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/candidate-resources.stdout",
+      "bytes": 102094,
+      "sha256": "ac04b1558b15dcd983744ff1374b0ac5e619d36d44fe6d2b23a765f4833efd5b",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/candidate-service.command.json",
+      "bytes": 124,
+      "sha256": "a20bc14306defc2e27d5b929a2b699187be5eb9242184b43b4ecce988f5e44e6",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/candidate-service.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/candidate-service.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/candidate-service.stdout",
+      "bytes": 1185,
+      "sha256": "3e1b7dffa9129071cff4e19a6f94ff0d14dae02dc9b18bd24c3292736305fea4",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/direct-0-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/direct-0-response.json",
+      "bytes": 815,
+      "sha256": "f9604ac83b7a3e02c5d5093458bb899d3b22b4ab6a5032bbfbba9ac21007caf3",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/direct-1-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/direct-1-response.json",
+      "bytes": 812,
+      "sha256": "685f6e06e83d69e52ec15ac31b8b979901ec0ee12292fa675e85b7717671f5b3",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/direct-2-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/direct-2-response.json",
+      "bytes": 816,
+      "sha256": "50e699badedc31c3b57e8fae9f561d729bb56fa178612bd17aaad2098d1c8e08",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/direct-verification.json",
+      "bytes": 1587,
+      "sha256": "341e33195cd3cd477cde72fce384caf067a4f556c77ac4f6fd197a375162e0da",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-build.command.json",
+      "bytes": 180,
+      "sha256": "63e18608eea32d76ea7abbe48ae94e1ff73f772eb45896876a2267ab168e9409",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-build.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-build.stderr",
+      "bytes": 1139,
+      "sha256": "cac4b9a059bfa5709c8ff85bdca17aa96773e65260a511a02ac561fa2638e3ce",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-build.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-cri.command.json",
+      "bytes": 166,
+      "sha256": "d2e2f2bbfb5c6a76e14bed9f31b18c8d8575d9136719fc6a6446dbf98705f2c2",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-cri.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-cri.stderr",
+      "bytes": 134,
+      "sha256": "f58249d66f86f6ef1d28609edb4b6843f73e6eb4554682bee3d92a712bc8e0b7",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-cri.stdout",
+      "bytes": 1756,
+      "sha256": "c2ee4871e3dc2ac8e7cb6607494941464ccbaa2e6dd99ad4e248a5395dc49fc8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-digest-reference.command.json",
+      "bytes": 228,
+      "sha256": "38fe1107e4b8fc57369ec4b835385660b318893bea708bfdbd8b942d1a6b86ba",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-digest-reference.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-digest-reference.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-digest-reference.stdout",
+      "bytes": 108,
+      "sha256": "5c2d580742c6dc9b9befc7666361baa15d033f7d9a946d82b518b16734c37b73",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-export.command.json",
+      "bytes": 163,
+      "sha256": "a45845fadcfb70879dc0a576e01bbcc459aeee0556b251a337168fd3334171fe",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-export.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-export.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-export.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-import.command.json",
+      "bytes": 165,
+      "sha256": "619e0f9162b55ca95ae64a7e16af76a383849b9373e6b701f09782f556289b64",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-import.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-import.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-import.stdout",
+      "bytes": 211,
+      "sha256": "10aa846df24e295712280fc78a5ce50f46d84962007fae16341ff0093163a8f2",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-inspect.command.json",
+      "bytes": 79,
+      "sha256": "e5820c44aa8ca6e52f8331857f2bf272ac520ea958cd52dcf2df4869825fc3c2",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-inspect.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-inspect.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/image-inspect.stdout",
+      "bytes": 1536,
+      "sha256": "d78277b1d173dfa152583ad7f03465b73235cfd018e4e2c007b9e38faabd35aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/model-config-after.command.json",
+      "bytes": 134,
+      "sha256": "5edd1eff5a17b984e23841920bf10f3156f60896dc2e4aeb9979c55809a8e5e5",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/model-config-after.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/model-config-after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/model-config-after.stdout",
+      "bytes": 1707,
+      "sha256": "7377545cd03711d172c5f9f7fe9c7721f6603bd95d173297d6ba8ab5a481550f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/model-config-before.command.json",
+      "bytes": 134,
+      "sha256": "5edd1eff5a17b984e23841920bf10f3156f60896dc2e4aeb9979c55809a8e5e5",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/model-config-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/model-config-before.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/model-config-before.stdout",
+      "bytes": 1707,
+      "sha256": "7377545cd03711d172c5f9f7fe9c7721f6603bd95d173297d6ba8ab5a481550f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/routed-0-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/routed-0-response.json",
+      "bytes": 812,
+      "sha256": "e79d201c0c855faafdf617d49bffb365ff37b2220f8a67f5a96e8c267fa9d343",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/routed-1-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/routed-1-response.json",
+      "bytes": 802,
+      "sha256": "b99432645500ba5647eb0e802fed44d74068818d31e146641692f7999e4f015d",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/routed-2-request.json",
+      "bytes": 4165,
+      "sha256": "41c19f2f0d9f01277ec4f729e89b9f19a5ac60588d2bdf3f8678930cb495ad59",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/routed-2-response.json",
+      "bytes": 814,
+      "sha256": "fdaa0e8354a324d683f2c49df96d0e5f89c2bf0824e98556b1c0a87a2565bade",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/routed-verification.json",
+      "bytes": 1734,
+      "sha256": "ef67cb9a484d1caed2f63df79004559fd95f755d2ffc7e9be1be23e61adaa7bc",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-history-before.command.json",
+      "bytes": 169,
+      "sha256": "b633ad0b5181b1423ce1b66d9368d2305d5658f6a43179e7987b9cd3f6af17d3",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-history-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-history-before.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-history-before.stdout",
+      "bytes": 885,
+      "sha256": "971e0f2d6c3d52140f7cef37f685ea75c931c73a5b0afd8072b22990191d2fb8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-service.command.json",
+      "bytes": 121,
+      "sha256": "bf5130a7865405ad988906492f813bb1530ddcc6531f81255153619aa0562e72",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-service.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-service.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-service.stdout",
+      "bytes": 1658,
+      "sha256": "f024b21893841cc2ce0b007734babea066f66f13889263d2efc24a775c53a4cc",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-upgrade.command.json",
+      "bytes": 385,
+      "sha256": "c3eeec356942bc2a71a19ba318073eaefe81642d9246ed8a3f9ea5ae153fc68d",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-upgrade.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-upgrade.stderr",
+      "bytes": 140,
+      "sha256": "49f91cf32fa138f5b389bf244c25269471bfc1b0fcd7cdf060e0c6a8e3480c06",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-upgrade.stdout",
+      "bytes": 177,
+      "sha256": "d94ae8099c7b81d31733333978b04086803ca3e51efd72b87601feaa78146250",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-values-after.command.json",
+      "bytes": 185,
+      "sha256": "0cfe8dc45f6c8d23d84a2faf7a2dff769efb79a6e81269fa5358dc19f7cb50e8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-values-after.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-values-after.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-values-after.stdout",
+      "bytes": 24063,
+      "sha256": "549438b4be16868c5dc94f09ed3957483c89f99beba3fbfbed78e5fb5b727e80",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-values-before.command.json",
+      "bytes": 185,
+      "sha256": "0cfe8dc45f6c8d23d84a2faf7a2dff769efb79a6e81269fa5358dc19f7cb50e8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-values-before.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-values-before.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-values-before.stdout",
+      "bytes": 24063,
+      "sha256": "549438b4be16868c5dc94f09ed3957483c89f99beba3fbfbed78e5fb5b727e80",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/router-values.json",
+      "bytes": 29113,
+      "sha256": "d49cac3dc6c6e2253fb729da6fdb47ea3676348cb3c995de16f94876a3b30a07",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/source.json",
+      "bytes": 1786,
+      "sha256": "63c7ef191dd689da5bf2d838ee31f8764f2fc3e9f138ef5ae74c637e74544945",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/values.json",
+      "bytes": 125,
+      "sha256": "8717a97acbedaa22e6e72c08d0ea16790e8888c040b03cbfee1a7dca39f94fd1",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-29d/verification.json",
+      "bytes": 358,
+      "sha256": "58f02a5daf050906f73973f69b3c391991de3f6cc94769af624a5e177b82f8d6",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-quality-29a/coverage.out",
+      "bytes": 5400,
+      "sha256": "32673fe8db844696c57e7f99dbdf9119f02b3f9a440fa95435dce405c6cc0066",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-quality-29a/go-mutesting-report.html",
+      "bytes": 142997,
+      "sha256": "327f261b3d83b0e2037350993352ecf001f8bd0b4f35666d99863a69ed6ec932",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-quality-29a/mutation.yaml",
+      "bytes": 108,
+      "sha256": "92fce36f7b4a585060e93536f271a7945499e8f386392255d1b15120eec5d51c",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-quality-29b/tested-source.json",
+      "bytes": 250,
+      "sha256": "0df68d29a40f5e58e9ae342be2a7e232308f2476afc2cbbe0941f57c5a6e2ca9",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-quality-29b/tests.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/native/model-control-quality-29b/tests.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/manifest.json",
+      "bytes": 2373,
+      "sha256": "9fad0a7b105d4459506567a60d3c86565e37a293463b8ab67d1226bebea042ea",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/agents/__init__.py",
+      "bytes": 74,
+      "sha256": "cf0bc030e4bdcf8434d410b6f4288086e103b68349248a50b4fb5c8480b4b86a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/agents/answer_acceptance.py",
+      "bytes": 9466,
+      "sha256": "106788d43b163648426146d47ea2f81d1093b0882c05c481ce34d9cee12fdde4",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/agents/probe.py",
+      "bytes": 7821,
+      "sha256": "43e2751d16e85baf3387ba0eccf7cf08a1939e912a60782fb6571bd3c182288d",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/agents/response-policy.json",
+      "bytes": 3538,
+      "sha256": "9360666ef663888ff775fff1fce13fd9559279ed96163059e312b7d38c41a2ab",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/infra/agents/conversation-budget.yaml",
+      "bytes": 330,
+      "sha256": "36df35ed3f7da8fdb7e0f73e470ef358b12cdc537b441c4965f0294ad63b51a6",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/infra/agents/kagent-values.yaml",
+      "bytes": 1675,
+      "sha256": "da77440f84a6a3efab43b6cf4d4325f7083cc652aa18e79c1264a0eeb12f1d63",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/infra/agents/registry-values.yaml",
+      "bytes": 582,
+      "sha256": "596db2430f709b355cfdf4d19fb4056453727847d10a6ede54b08dfc47814c6d",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/infra/agents/substrate-values.yaml",
+      "bytes": 478,
+      "sha256": "bafe26745d6e0bf49bc22a76fa2cd5b2b734d747457ef8f591c93c7b4ec93adb",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/infra/agents/versions.lock.json",
+      "bytes": 1656,
+      "sha256": "dbddde2ab72b37bfe3b9d7ef948720b5540918707b49ffc4cc92b205484cf5f2",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/infra/charts/iot-agents/Chart.yaml",
+      "bytes": 179,
+      "sha256": "7dc071ebd4661715167d6269d2c1a14c0ed1afabc4db0ee1f8281bf45964c4e7",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/infra/charts/iot-agents/templates/agents.yaml",
+      "bytes": 5190,
+      "sha256": "0f4ea2bb712ba77c6461851409c9e102d8764a5ac1fcfa50c1ee9ebfd8c533c7",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/infra/charts/iot-agents/templates/network.yaml",
+      "bytes": 1056,
+      "sha256": "82d087cef776f33255d06a0917481d3a7f44b71d7edab93dab082d8e5d649cc6",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/infra/charts/iot-agents/templates/pools.yaml",
+      "bytes": 443,
+      "sha256": "b824e4a41c7b6c850df00322b3aaff96f673b92e51b932edb91734546a3a643e",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/infra/charts/iot-agents/templates/tools.yaml",
+      "bytes": 541,
+      "sha256": "4ae42fefce80dd3809a81a2eb6736b3d4beaad0a1f841113f3dc7b436d6df1bf",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/infra/charts/iot-agents/values.yaml",
+      "bytes": 301,
+      "sha256": "1fbf89aa02b310481ec7bc6cb5195fed3059d662f64fce5febefbfb2276842b0",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/scripts/capture-agent-platform.py",
+      "bytes": 10259,
+      "sha256": "352d9badb95ce68ce9bd8564ac5d544c006a44d5a1b3fd71037633791d555b31",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/scripts/check-agent-answer.py",
+      "bytes": 1282,
+      "sha256": "34c7e2e49aa033562358b8f619fc4e5ca3f0f8df99428cd4184cac0b48bf63ee",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/scripts/configure-agent-conversations.py",
+      "bytes": 12830,
+      "sha256": "b69d6b44278549717a62680e9ecaf5018917580b11278d481a5f0df6d1aa3ec3",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/scripts/publish-iot-agents.py",
+      "bytes": 6916,
+      "sha256": "1ead85c37b5babb4b1bfbf381dedd0d539d97d2d824230cb91dc9cb9c69e787f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29c/tree/scripts/render-agent-responses.py",
+      "bytes": 2032,
+      "sha256": "86ffd4ac827dcf17508ebdbd9beb2318d126b09db029e7f221eaf89910db87d6",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/manifest.json",
+      "bytes": 2873,
+      "sha256": "1fb8ee2aff0ee42e27636f4b7b94d59446cb8a215885f98da444a445dc4fe490",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/agents/__init__.py",
+      "bytes": 74,
+      "sha256": "cf0bc030e4bdcf8434d410b6f4288086e103b68349248a50b4fb5c8480b4b86a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/agents/answer_acceptance.py",
+      "bytes": 9466,
+      "sha256": "106788d43b163648426146d47ea2f81d1093b0882c05c481ce34d9cee12fdde4",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/agents/probe.py",
+      "bytes": 7821,
+      "sha256": "43e2751d16e85baf3387ba0eccf7cf08a1939e912a60782fb6571bd3c182288d",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/agents/response-policy.json",
+      "bytes": 3604,
+      "sha256": "98ce8cff8d998d8e516af260d31eeda12f169f09e21918c0243b135c0126a55d",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/infra/agents/conversation-budget.yaml",
+      "bytes": 330,
+      "sha256": "36df35ed3f7da8fdb7e0f73e470ef358b12cdc537b441c4965f0294ad63b51a6",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/infra/agents/kagent-values.yaml",
+      "bytes": 1675,
+      "sha256": "da77440f84a6a3efab43b6cf4d4325f7083cc652aa18e79c1264a0eeb12f1d63",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/infra/agents/registry-values.yaml",
+      "bytes": 582,
+      "sha256": "596db2430f709b355cfdf4d19fb4056453727847d10a6ede54b08dfc47814c6d",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/infra/agents/substrate-values.yaml",
+      "bytes": 478,
+      "sha256": "bafe26745d6e0bf49bc22a76fa2cd5b2b734d747457ef8f591c93c7b4ec93adb",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/infra/agents/versions.lock.json",
+      "bytes": 1656,
+      "sha256": "dbddde2ab72b37bfe3b9d7ef948720b5540918707b49ffc4cc92b205484cf5f2",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/infra/charts/iot-agents/Chart.yaml",
+      "bytes": 179,
+      "sha256": "7dc071ebd4661715167d6269d2c1a14c0ed1afabc4db0ee1f8281bf45964c4e7",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/infra/charts/iot-agents/templates/agents.yaml",
+      "bytes": 5190,
+      "sha256": "0f4ea2bb712ba77c6461851409c9e102d8764a5ac1fcfa50c1ee9ebfd8c533c7",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/infra/charts/iot-agents/templates/network.yaml",
+      "bytes": 1056,
+      "sha256": "82d087cef776f33255d06a0917481d3a7f44b71d7edab93dab082d8e5d649cc6",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/infra/charts/iot-agents/templates/pools.yaml",
+      "bytes": 443,
+      "sha256": "b824e4a41c7b6c850df00322b3aaff96f673b92e51b932edb91734546a3a643e",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/infra/charts/iot-agents/templates/tools.yaml",
+      "bytes": 541,
+      "sha256": "4ae42fefce80dd3809a81a2eb6736b3d4beaad0a1f841113f3dc7b436d6df1bf",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/infra/charts/iot-agents/values.yaml",
+      "bytes": 301,
+      "sha256": "1fbf89aa02b310481ec7bc6cb5195fed3059d662f64fce5febefbfb2276842b0",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/knowledge/assistant-policy.md",
+      "bytes": 1296,
+      "sha256": "1bafddd3595e088840bf9e53b28bd685fbaf20472b77ec40c89cff0c1c17aedb",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/knowledge/catalog.json",
+      "bytes": 1026,
+      "sha256": "78d4a855b32bb2c144e64f0b7d4046eaca885a34892a74df53f4f3a49c0cd63e",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/knowledge/drift.md",
+      "bytes": 1323,
+      "sha256": "8a950957ff5cc5c98b64c99c50531925136bade5dda9f39ec388955fb7cbe723",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/knowledge/monitoring.md",
+      "bytes": 1669,
+      "sha256": "7a080ac6193902cf21bc22e1ff51eb22ce9466980a576a13803fc60ddae51218",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/knowledge/prediction.md",
+      "bytes": 1542,
+      "sha256": "d490874d40fa89aaa7a0669d00ca1f08e4175bff037244dab628682f14b62cea",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/scripts/capture-agent-platform.py",
+      "bytes": 10259,
+      "sha256": "352d9badb95ce68ce9bd8564ac5d544c006a44d5a1b3fd71037633791d555b31",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/scripts/check-agent-answer.py",
+      "bytes": 1282,
+      "sha256": "34c7e2e49aa033562358b8f619fc4e5ca3f0f8df99428cd4184cac0b48bf63ee",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/scripts/configure-agent-conversations.py",
+      "bytes": 13037,
+      "sha256": "fefb41d9646abfaefcb294c107781a1c4d71dd2b499940ff742aeed2b869c949",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/scripts/publish-iot-agents.py",
+      "bytes": 6916,
+      "sha256": "1ead85c37b5babb4b1bfbf381dedd0d539d97d2d824230cb91dc9cb9c69e787f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/agent-conversations-29d/tree/scripts/render-agent-responses.py",
+      "bytes": 2072,
+      "sha256": "e5d24727505ca3548728074b54244a85af0bdc15bb3ca6444bb866d9af901e7a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/gpu-backend-29a/manifest.json",
+      "bytes": 1288,
+      "sha256": "5bde094fa63659ffb64584dad2358cb3b8c4de75cba5c93a6abb3a4ccaff7332",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/gpu-backend-29a/tree/infra/charts/iot-gpu-model/Chart.yaml",
+      "bytes": 168,
+      "sha256": "4f80a5e0a7e12371fb7ab40ed4795e2077cc8dcef7a58f50c360bcc6d9e20c8b",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/gpu-backend-29a/tree/infra/charts/iot-gpu-model/templates/model.yaml",
+      "bytes": 2984,
+      "sha256": "1d95bc903d8b527fa03cb8f8240ce84ab5e2ba23d766c59fed46d64ae9b68606",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/gpu-backend-29a/tree/infra/charts/iot-gpu-model/values.yaml",
+      "bytes": 448,
+      "sha256": "fe69a5989e9da7c4f25388602bf9540f09db582a57cb29561747416d66e7f2e3",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/gpu-backend-29a/tree/infra/llm/assistant.lock.json",
+      "bytes": 758,
+      "sha256": "f789c1e389d5992229cf3deb39ba88870df53cdfe7c1c36a5b6cf96d41c0b6c1",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/gpu-backend-29a/tree/infra/llm/gpu-cluster.lock.json",
+      "bytes": 619,
+      "sha256": "c3d34f0c8c1931bd5c26aafc9fbfddd805dc2798df88a1ec4d39f8336aca7cd8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/gpu-backend-29a/tree/infra/llm/gpu-device-plugin.yaml",
+      "bytes": 2030,
+      "sha256": "ba415be8f97c2ed9b86e4a1e3c378225fd950d9a2c77f770381b461678de8c03",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/gpu-backend-29a/tree/infra/llm/gpu-runtime.lock.json",
+      "bytes": 670,
+      "sha256": "5a3ad37fbd3fd75fb4b8c32884f4bc93e2b4a458eda6fbca89c05bf6e769ea24",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/gpu-backend-29a/tree/infra/llm/model.lock.json",
+      "bytes": 778,
+      "sha256": "e5e7de1a5a0260a799e5e78fa33353d6e6e69d7c90ae6f01d3625be4d6c1c7f4",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/gpu-backend-29a/tree/llm/__init__.py",
+      "bytes": 69,
+      "sha256": "beecce3c84da4daf8e2dfbadd6e7564a5654bc31f21e7ab5a7e352f8e29ab098",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/gpu-backend-29a/tree/llm/benchmark.py",
+      "bytes": 4459,
+      "sha256": "4c710b2bb7cf7193509128d7af397b82c3600320c3568a54a41715b1397c2692",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/gpu-backend-29a/tree/scripts/deploy-gpu-backend.py",
+      "bytes": 14093,
+      "sha256": "97418f08524d96cafeb9f616bad2135ff84ad685184969daf8f5831e0567cde6",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29a/manifest.json",
+      "bytes": 1818,
+      "sha256": "1849f175df5dc4e4d460720952ccd7fd6ce7f33475c18a6c8044cf4b389ce679",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29a/tree/infra/charts/iot-model-control/Chart.yaml",
+      "bytes": 188,
+      "sha256": "065041bafe0774b90bd140ca6d734cd534cdf011a2fd5bacac05aea6dffd202a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29a/tree/infra/charts/iot-model-control/templates/model.yaml",
+      "bytes": 1657,
+      "sha256": "9c3100e8c1c4b3b70ee5252c9dfa8e2c8a6c7e5b71574ac0f055d39efca6dafc",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29a/tree/infra/charts/iot-model-control/values.yaml",
+      "bytes": 108,
+      "sha256": "4a7bfe379ae1a5403c6f670fe803e8bba849ff36e24e2f565703a82147db0f2f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29a/tree/infra/llm/assistant.lock.json",
+      "bytes": 758,
+      "sha256": "f789c1e389d5992229cf3deb39ba88870df53cdfe7c1c36a5b6cf96d41c0b6c1",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29a/tree/infra/llm/model.lock.json",
+      "bytes": 778,
+      "sha256": "e5e7de1a5a0260a799e5e78fa33353d6e6e69d7c90ae6f01d3625be4d6c1c7f4",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29a/tree/scripts/deploy-model-control.py",
+      "bytes": 10421,
+      "sha256": "588e67ba59a4ddcba839ea1352851ab09ebabf2cbc2dd05471d405b9f94906d9",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29a/tree/tools/model-control/Dockerfile",
+      "bytes": 213,
+      "sha256": "92a4c150196a361a1d8b7f0f0f27eab7328486110eacbd8cb20d0fd666c2e6f1",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29a/tree/tools/model-control/go.mod",
+      "bytes": 83,
+      "sha256": "6789e613569f53e57b4ca7cf4f0405761d8cbbedf34e7b10b5b25b0d22f4dfb8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29a/tree/tools/model-control/main.go",
+      "bytes": 4717,
+      "sha256": "559f2b20f9550dc1fa7803489a6240bc816ef559bcc5ae0bd788e9c68ce0b1ea",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29a/tree/tools/model-control/main_test.go",
+      "bytes": 6921,
+      "sha256": "e33fe3d3f587b2b64c8f1ed6f6a19a2f1b20bcf7fb9a4a2365f31eefa16828e2",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29b/manifest.json",
+      "bytes": 1818,
+      "sha256": "1e16a8871fb75cb22a6e54bbf5d8a2164093c4b8087b725575c57fc2e1e690fc",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29b/tree/infra/charts/iot-model-control/Chart.yaml",
+      "bytes": 188,
+      "sha256": "065041bafe0774b90bd140ca6d734cd534cdf011a2fd5bacac05aea6dffd202a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29b/tree/infra/charts/iot-model-control/templates/model.yaml",
+      "bytes": 1657,
+      "sha256": "9c3100e8c1c4b3b70ee5252c9dfa8e2c8a6c7e5b71574ac0f055d39efca6dafc",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29b/tree/infra/charts/iot-model-control/values.yaml",
+      "bytes": 108,
+      "sha256": "4a7bfe379ae1a5403c6f670fe803e8bba849ff36e24e2f565703a82147db0f2f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29b/tree/infra/llm/assistant.lock.json",
+      "bytes": 758,
+      "sha256": "f789c1e389d5992229cf3deb39ba88870df53cdfe7c1c36a5b6cf96d41c0b6c1",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29b/tree/infra/llm/model.lock.json",
+      "bytes": 778,
+      "sha256": "e5e7de1a5a0260a799e5e78fa33353d6e6e69d7c90ae6f01d3625be4d6c1c7f4",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29b/tree/scripts/deploy-model-control.py",
+      "bytes": 11361,
+      "sha256": "11915b50a8ad69e942c9508455105150db43adc24b753057bf428c67f6e7c9bb",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29b/tree/tools/model-control/Dockerfile",
+      "bytes": 213,
+      "sha256": "92a4c150196a361a1d8b7f0f0f27eab7328486110eacbd8cb20d0fd666c2e6f1",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29b/tree/tools/model-control/go.mod",
+      "bytes": 83,
+      "sha256": "6789e613569f53e57b4ca7cf4f0405761d8cbbedf34e7b10b5b25b0d22f4dfb8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29b/tree/tools/model-control/main.go",
+      "bytes": 4717,
+      "sha256": "559f2b20f9550dc1fa7803489a6240bc816ef559bcc5ae0bd788e9c68ce0b1ea",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29b/tree/tools/model-control/main_test.go",
+      "bytes": 6921,
+      "sha256": "e33fe3d3f587b2b64c8f1ed6f6a19a2f1b20bcf7fb9a4a2365f31eefa16828e2",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29c/manifest.json",
+      "bytes": 1818,
+      "sha256": "7de2cee29de210ba6f6cc97acf5111ba2843c9550deeeeace68fc1677219aa33",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29c/tree/infra/charts/iot-model-control/Chart.yaml",
+      "bytes": 188,
+      "sha256": "065041bafe0774b90bd140ca6d734cd534cdf011a2fd5bacac05aea6dffd202a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29c/tree/infra/charts/iot-model-control/templates/model.yaml",
+      "bytes": 1657,
+      "sha256": "9c3100e8c1c4b3b70ee5252c9dfa8e2c8a6c7e5b71574ac0f055d39efca6dafc",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29c/tree/infra/charts/iot-model-control/values.yaml",
+      "bytes": 108,
+      "sha256": "4a7bfe379ae1a5403c6f670fe803e8bba849ff36e24e2f565703a82147db0f2f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29c/tree/infra/llm/assistant.lock.json",
+      "bytes": 758,
+      "sha256": "f789c1e389d5992229cf3deb39ba88870df53cdfe7c1c36a5b6cf96d41c0b6c1",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29c/tree/infra/llm/model.lock.json",
+      "bytes": 778,
+      "sha256": "e5e7de1a5a0260a799e5e78fa33353d6e6e69d7c90ae6f01d3625be4d6c1c7f4",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29c/tree/scripts/deploy-model-control.py",
+      "bytes": 11868,
+      "sha256": "8c15fc28cfac51fa29b90049147a1211dce585f0cf0266ac38a4c64b2d8bb3dc",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29c/tree/tools/model-control/Dockerfile",
+      "bytes": 213,
+      "sha256": "92a4c150196a361a1d8b7f0f0f27eab7328486110eacbd8cb20d0fd666c2e6f1",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29c/tree/tools/model-control/go.mod",
+      "bytes": 83,
+      "sha256": "6789e613569f53e57b4ca7cf4f0405761d8cbbedf34e7b10b5b25b0d22f4dfb8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29c/tree/tools/model-control/main.go",
+      "bytes": 4996,
+      "sha256": "02423e33730faa3b2dbf553bc8d34d9c76d025ed3e0c6c4384b7258f5fd7ca56",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29c/tree/tools/model-control/main_test.go",
+      "bytes": 7569,
+      "sha256": "7c5c7f2c5d9b6e7719a19715c4fbf6e326f36ac9f66ee5b0eb183692cb46dd63",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29d/manifest.json",
+      "bytes": 1818,
+      "sha256": "d0371a65b66409e815dd565f4d2d1909bf76b0f0ecdc749e88bb159f6ad01305",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29d/tree/infra/charts/iot-model-control/Chart.yaml",
+      "bytes": 188,
+      "sha256": "065041bafe0774b90bd140ca6d734cd534cdf011a2fd5bacac05aea6dffd202a",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29d/tree/infra/charts/iot-model-control/templates/model.yaml",
+      "bytes": 1657,
+      "sha256": "9c3100e8c1c4b3b70ee5252c9dfa8e2c8a6c7e5b71574ac0f055d39efca6dafc",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29d/tree/infra/charts/iot-model-control/values.yaml",
+      "bytes": 108,
+      "sha256": "4a7bfe379ae1a5403c6f670fe803e8bba849ff36e24e2f565703a82147db0f2f",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29d/tree/infra/llm/assistant.lock.json",
+      "bytes": 758,
+      "sha256": "f789c1e389d5992229cf3deb39ba88870df53cdfe7c1c36a5b6cf96d41c0b6c1",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29d/tree/infra/llm/model.lock.json",
+      "bytes": 778,
+      "sha256": "e5e7de1a5a0260a799e5e78fa33353d6e6e69d7c90ae6f01d3625be4d6c1c7f4",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29d/tree/scripts/deploy-model-control.py",
+      "bytes": 12170,
+      "sha256": "856178d3a0dc424df7349099e693ab1c17e790e5dc2c2b53e4b8c3b9d3797de0",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29d/tree/tools/model-control/Dockerfile",
+      "bytes": 213,
+      "sha256": "92a4c150196a361a1d8b7f0f0f27eab7328486110eacbd8cb20d0fd666c2e6f1",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29d/tree/tools/model-control/go.mod",
+      "bytes": 83,
+      "sha256": "6789e613569f53e57b4ca7cf4f0405761d8cbbedf34e7b10b5b25b0d22f4dfb8",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29d/tree/tools/model-control/main.go",
+      "bytes": 5539,
+      "sha256": "5a734753c227b0610db77d28416b98c1e2f3f863c4bf0f870e6350d86fba1874",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "cpu/source/model-control-29d/tree/tools/model-control/main_test.go",
+      "bytes": 8405,
+      "sha256": "a3a48290fa3a103c0f846f38f9a2b82b199611734591ea187d418f4ed7d2e208",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    },
+    {
+      "path": "gpu/source/tree/bootstrap.py",
+      "bytes": 2628,
+      "sha256": "b38e137aadc21c72c547baf87819e432567165ac61287fd869b79ab33228f21e",
+      "reason": "Historical intermediate/source duplication or local bootstrap body; original archive retained outside Git."
+    }
+  ],
+  "actual_limited_join_credential_scan_passed": true,
+  "native_capture_also_scanned_actual_cluster_credentials": true,
+  "scope": "Selected original native inputs/outputs and failed cases. Local acceptance is a derived check, never a replacement for native replies. Not full coursework or sandbox-egress acceptance."
+}

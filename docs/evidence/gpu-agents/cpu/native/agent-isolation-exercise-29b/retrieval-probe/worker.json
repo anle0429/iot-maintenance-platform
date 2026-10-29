@@ -1,0 +1,264 @@
+{
+  "apiVersion": "v1",
+  "kind": "Pod",
+  "metadata": {
+    "annotations": {
+      "kubectl.kubernetes.io/restartedAt": "2026-10-29T10:33:45Z"
+    },
+    "creationTimestamp": "2026-10-29T10:33:46Z",
+    "generateName": "iot-retrieval-pool-deployment-677b46cbc-",
+    "generation": 1,
+    "labels": {
+      "ate.dev/worker-pool": "iot-retrieval-pool",
+      "pod-template-hash": "677b46cbc"
+    },
+    "name": "iot-retrieval-pool-deployment-677b46cbc-bw2s4",
+    "namespace": "iot-agents",
+    "ownerReferences": [
+      {
+        "apiVersion": "apps/v1",
+        "blockOwnerDeletion": true,
+        "controller": true,
+        "kind": "ReplicaSet",
+        "name": "iot-retrieval-pool-deployment-677b46cbc",
+        "uid": "08a5fb62-d2b5-44ca-bd2a-4a73a63b109e"
+      }
+    ],
+    "resourceVersion": "411095",
+    "uid": "08b3f0d6-f4dd-47b8-892b-2a590ce7afe2"
+  },
+  "spec": {
+    "affinity": {},
+    "containers": [
+      {
+        "args": [
+          "--pod-uid=$(POD_UID)"
+        ],
+        "env": [
+          {
+            "name": "POD_UID",
+            "valueFrom": {
+              "fieldRef": {
+                "apiVersion": "v1",
+                "fieldPath": "metadata.uid"
+              }
+            }
+          }
+        ],
+        "image": "ghcr.io/kagent-dev/substrate/ateom-gvisor:v0.0.9",
+        "imagePullPolicy": "IfNotPresent",
+        "name": "ateom",
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "3Gi"
+          },
+          "requests": {
+            "cpu": "50m",
+            "memory": "256Mi"
+          }
+        },
+        "securityContext": {
+          "privileged": true,
+          "runAsGroup": 0,
+          "runAsUser": 0
+        },
+        "terminationMessagePath": "/dev/termination-log",
+        "terminationMessagePolicy": "File",
+        "volumeMounts": [
+          {
+            "mountPath": "/var/lib/ateom-gvisor",
+            "name": "run-ateom"
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "kube-api-access-npffj",
+            "readOnly": true
+          }
+        ]
+      }
+    ],
+    "dnsPolicy": "ClusterFirst",
+    "enableServiceLinks": true,
+    "nodeName": "iot-cw-vm",
+    "preemptionPolicy": "PreemptLowerPriority",
+    "priority": 0,
+    "restartPolicy": "Always",
+    "schedulerName": "default-scheduler",
+    "securityContext": {
+      "runAsGroup": 0,
+      "runAsUser": 0
+    },
+    "serviceAccount": "default",
+    "serviceAccountName": "default",
+    "terminationGracePeriodSeconds": 30,
+    "tolerations": [
+      {
+        "effect": "NoExecute",
+        "key": "node.kubernetes.io/not-ready",
+        "operator": "Exists",
+        "tolerationSeconds": 300
+      },
+      {
+        "effect": "NoExecute",
+        "key": "node.kubernetes.io/unreachable",
+        "operator": "Exists",
+        "tolerationSeconds": 300
+      }
+    ],
+    "volumes": [
+      {
+        "hostPath": {
+          "path": "/var/lib/ateom-gvisor",
+          "type": "DirectoryOrCreate"
+        },
+        "name": "run-ateom"
+      },
+      {
+        "name": "kube-api-access-npffj",
+        "projected": {
+          "defaultMode": 420,
+          "sources": [
+            {
+              "serviceAccountToken": {
+                "expirationSeconds": 3607,
+                "path": "token"
+              }
+            },
+            {
+              "configMap": {
+                "items": [
+                  {
+                    "key": "ca.crt",
+                    "path": "ca.crt"
+                  }
+                ],
+                "name": "kube-root-ca.crt"
+              }
+            },
+            {
+              "downwardAPI": {
+                "items": [
+                  {
+                    "fieldRef": {
+                      "apiVersion": "v1",
+                      "fieldPath": "metadata.namespace"
+                    },
+                    "path": "namespace"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "status": {
+    "conditions": [
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-10-29T10:33:47Z",
+        "observedGeneration": 1,
+        "status": "True",
+        "type": "PodReadyToStartContainers"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-10-29T10:33:47Z",
+        "observedGeneration": 1,
+        "status": "True",
+        "type": "Initialized"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-10-29T10:33:47Z",
+        "observedGeneration": 1,
+        "status": "True",
+        "type": "Ready"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-10-29T10:33:47Z",
+        "observedGeneration": 1,
+        "status": "True",
+        "type": "ContainersReady"
+      },
+      {
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-10-29T10:33:46Z",
+        "observedGeneration": 1,
+        "status": "True",
+        "type": "PodScheduled"
+      }
+    ],
+    "containerStatuses": [
+      {
+        "allocatedResources": {
+          "cpu": "50m",
+          "memory": "256Mi"
+        },
+        "containerID": "containerd://1e0e34221df42616fe7f35e401c1696e51e0ccab8619993dfff62a215f2150a1",
+        "image": "ghcr.io/kagent-dev/substrate/ateom-gvisor:v0.0.9",
+        "imageID": "ghcr.io/kagent-dev/substrate/ateom-gvisor@sha256:4aa5631a7e42e247660c12bef21d50c0a6a717fb717752748cc56a1b849a1fbc",
+        "lastState": {},
+        "name": "ateom",
+        "ready": true,
+        "resources": {
+          "limits": {
+            "cpu": "2",
+            "memory": "3Gi"
+          },
+          "requests": {
+            "cpu": "50m",
+            "memory": "256Mi"
+          }
+        },
+        "restartCount": 0,
+        "started": true,
+        "state": {
+          "running": {
+            "startedAt": "2026-10-29T10:33:47Z"
+          }
+        },
+        "user": {
+          "linux": {
+            "gid": 0,
+            "supplementalGroups": [
+              0
+            ],
+            "uid": 0
+          }
+        },
+        "volumeMounts": [
+          {
+            "mountPath": "/var/lib/ateom-gvisor",
+            "name": "run-ateom"
+          },
+          {
+            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "name": "kube-api-access-npffj",
+            "readOnly": true,
+            "recursiveReadOnly": "Disabled"
+          }
+        ]
+      }
+    ],
+    "hostIP": "10.42.0.2",
+    "hostIPs": [
+      {
+        "ip": "10.42.0.2"
+      }
+    ],
+    "observedGeneration": 1,
+    "phase": "Running",
+    "podIP": "10.52.0.84",
+    "podIPs": [
+      {
+        "ip": "10.52.0.84"
+      }
+    ],
+    "qosClass": "Burstable",
+    "startTime": "2026-10-29T10:33:47Z"
+  }
+}

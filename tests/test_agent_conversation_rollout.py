@@ -27,6 +27,20 @@ CATALOG = module('agent_catalog', 'publish-iot-agents.py')
 class ConversationRolloutTests(unittest.TestCase):
     """Require unchanged source, adequate reserves and current readiness before any prepared policy can be promoted."""
 
+    def test_only_consistent_known_prior_versions_can_be_upgraded(self):
+        """A prompt patch cannot overwrite an unrelated version, duplicate name or partially upgraded role set."""
+        names = {'iot-retrieval', 'iot-drift', 'iot-coordinator'}
+        agents = [{'metadata': {'name': n}, 'spec': {'version': '0.2.0'}} for n in sorted(names)]
+        self.assertTrue(ROLLOUT.reviewed_prior_agents(agents, names))
+        for mode in ['mixed', 'future', 'duplicate', 'missing']:
+            changed = deepcopy(agents)
+            if mode == 'mixed': changed[0]['spec']['version'] = '0.1.0'
+            elif mode == 'future':
+                for agent in changed: agent['spec']['version'] = '0.9.0'
+            elif mode == 'duplicate': changed.append(deepcopy(changed[0]))
+            else: changed.pop()
+            with self.subTest(mode=mode): self.assertFalse(ROLLOUT.reviewed_prior_agents(changed, names))
+
     def test_source_seal_rejects_modification_and_escape(self):
         """Even a correctly hashed source member must stay inside the sealed tree."""
         with tempfile.TemporaryDirectory() as directory:

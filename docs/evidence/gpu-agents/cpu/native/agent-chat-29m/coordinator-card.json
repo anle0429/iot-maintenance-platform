@@ -1,0 +1,30 @@
+{
+  "defaultInputModes": [
+    "text"
+  ],
+  "defaultOutputModes": [
+    "text"
+  ],
+  "description": "Delegate pump context and drift questions to the two bounded IoT specialists.",
+  "name": "iot_coordinator",
+  "version": "0.2.2",
+  "skills": [],
+  "capabilities": {
+    "streaming": true
+  },
+  "supportedInterfaces": [
+    {
+      "url": "http://kagent-controller.iot-agents.svc:8083/api/a2a-sandboxes/iot-agents/iot-coordinator/",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "0.3"
+    },
+    {
+      "url": "http://kagent-controller.iot-agents.svc:8083/api/a2a-sandboxes/iot-agents/iot-coordinator/",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "url": "http://kagent-controller.iot-agents.svc:8083/api/a2a-sandboxes/iot-agents/iot-coordinator/",
+  "protocolVersion": "0.3",
+  "preferredTransport": "JSONRPC"
+}

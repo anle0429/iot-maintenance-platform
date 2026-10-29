@@ -1,0 +1,157 @@
+{
+    "apiVersion": "v1",
+    "kind": "Node",
+    "metadata": {
+        "annotations": {
+            "flannel.alpha.coreos.com/backend-data": "{\"VNI\":1,\"VtepMAC\":\"46:2c:10:59:56:49\"}",
+            "flannel.alpha.coreos.com/backend-type": "vxlan",
+            "flannel.alpha.coreos.com/kube-subnet-manager": "true",
+            "flannel.alpha.coreos.com/public-ip": "10.42.0.7",
+            "k3s.io/node-args": "[\"agent\",\"--server\",\"https://10.42.0.2:6443\",\"--token-file\",\"/srv/iot-inference/private/agent-token\",\"--data-dir\",\"/srv/iot-inference/k3s\",\"--node-name\",\"iot-cw-gpu\",\"--node-ip\",\"10.42.0.7\",\"--flannel-iface\",\"ens5\",\"--default-runtime\",\"nvidia\",\"--node-label\",\"iot.coursework/role=inference-gpu\",\"--node-taint\",\"iot.coursework/inference-gpu=true:NoSchedule\",\"--kubelet-arg\",\"max-pods=24\",\"--kubelet-arg\",\"eviction-hard=memory.available\\u003c1Gi,nodefs.available\\u003c10%,imagefs.available\\u003c15%\",\"agent\"]",
+            "k3s.io/node-config-hash": "KFY5Q2CCWFDW6PHLAL37YNLYHF2DNXU56FQVUVHOG2KW3MVJAJ3Q====",
+            "k3s.io/node-env": "{}",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+        },
+        "creationTimestamp": "2026-10-29T12:10:25Z",
+        "finalizers": [
+            "wrangler.cattle.io/node"
+        ],
+        "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/os": "linux",
+            "iot.coursework/role": "inference-gpu",
+            "kubernetes.io/arch": "amd64",
+            "kubernetes.io/hostname": "iot-cw-gpu",
+            "kubernetes.io/os": "linux"
+        },
+        "name": "iot-cw-gpu",
+        "resourceVersion": "444321",
+        "uid": "e33425a3-41a3-4e25-8465-a7fed653bb29"
+    },
+    "spec": {
+        "podCIDR": "10.52.1.0/24",
+        "podCIDRs": [
+            "10.52.1.0/24"
+        ],
+        "taints": [
+            {
+                "effect": "NoSchedule",
+                "key": "iot.coursework/inference-gpu",
+                "value": "true"
+            }
+        ]
+    },
+    "status": {
+        "addresses": [
+            {
+                "address": "10.42.0.7",
+                "type": "InternalIP"
+            },
+            {
+                "address": "iot-cw-gpu",
+                "type": "Hostname"
+            }
+        ],
+        "allocatable": {
+            "cpu": "4",
+            "ephemeral-storage": "45795697384",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "14288500Ki",
+            "pods": "24"
+        },
+        "capacity": {
+            "cpu": "4",
+            "ephemeral-storage": "49691512Ki",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "15337076Ki",
+            "pods": "24"
+        },
+        "conditions": [
+            {
+                "lastHeartbeatTime": "2026-10-29T12:18:20Z",
+                "lastTransitionTime": "2026-10-29T12:10:25Z",
+                "message": "kubelet has sufficient memory available",
+                "reason": "KubeletHasSufficientMemory",
+                "status": "False",
+                "type": "MemoryPressure"
+            },
+            {
+                "lastHeartbeatTime": "2026-10-29T12:18:20Z",
+                "lastTransitionTime": "2026-10-29T12:10:25Z",
+                "message": "kubelet has no disk pressure",
+                "reason": "KubeletHasNoDiskPressure",
+                "status": "False",
+                "type": "DiskPressure"
+            },
+            {
+                "lastHeartbeatTime": "2026-10-29T12:18:20Z",
+                "lastTransitionTime": "2026-10-29T12:10:25Z",
+                "message": "kubelet has sufficient PID available",
+                "reason": "KubeletHasSufficientPID",
+                "status": "False",
+                "type": "PIDPressure"
+            },
+            {
+                "lastHeartbeatTime": "2026-10-29T12:18:20Z",
+                "lastTransitionTime": "2026-10-29T12:10:25Z",
+                "message": "kubelet is posting ready status",
+                "reason": "KubeletReady",
+                "status": "True",
+                "type": "Ready"
+            }
+        ],
+        "daemonEndpoints": {
+            "kubeletEndpoint": {
+                "Port": 10250
+            }
+        },
+        "features": {
+            "supplementalGroupsPolicy": true
+        },
+        "nodeInfo": {
+            "architecture": "amd64",
+            "bootID": "8b3b0a2d-47da-4db6-a8a7-4ee69e27acc6",
+            "containerRuntimeVersion": "containerd://2.2.7-k3s1",
+            "kernelVersion": "7.0.0-1014-gcp",
+            "kubeProxyVersion": "",
+            "kubeletVersion": "v1.35.9+k3s1",
+            "machineID": "29d6227555ed4adfb821e48f345e51a5",
+            "operatingSystem": "linux",
+            "osImage": "Ubuntu 24.04.5 LTS",
+            "systemUUID": "53a489e2-4b4a-74e3-fd74-2e9052a2df7b"
+        },
+        "runtimeHandlers": [
+            {
+                "features": {
+                    "recursiveReadOnlyMounts": true,
+                    "userNamespaces": true
+                },
+                "name": ""
+            },
+            {
+                "features": {
+                    "recursiveReadOnlyMounts": true,
+                    "userNamespaces": true
+                },
+                "name": "nvidia"
+            },
+            {
+                "features": {
+                    "recursiveReadOnlyMounts": true,
+                    "userNamespaces": true
+                },
+                "name": "runc"
+            },
+            {
+                "features": {
+                    "recursiveReadOnlyMounts": false,
+                    "userNamespaces": false
+                },
+                "name": "runhcs-wcow-process"
+            }
+        ]
+    }
+}

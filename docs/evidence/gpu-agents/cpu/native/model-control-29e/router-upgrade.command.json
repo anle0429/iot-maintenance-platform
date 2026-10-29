@@ -1,0 +1,15 @@
+[
+  "/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/kubernetes-assets-27/helm/helm",
+  "upgrade",
+  "iot-router",
+  "oci://ghcr.io/llm-d/charts/llm-d-router-standalone",
+  "--version",
+  "v1.0.0",
+  "-n",
+  "iot-llm",
+  "-f",
+  "/srv/iot-data/workspace/iot-maintenance-platform/outputs/model-control-29e/router-values.json",
+  "--atomic",
+  "--wait",
+  "--timeout=4m"
+]

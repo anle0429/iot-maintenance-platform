@@ -1,0 +1,60 @@
+{
+  "info": {
+    "chainID": "sha256:e6d6957ce185e8b6e1232abb3daa47b51b15b5522ab994d2787ba869d4767ae1",
+    "imageSpec": {
+      "architecture": "amd64",
+      "config": {
+        "Entrypoint": [
+          "/iot-model-control"
+        ],
+        "Env": [
+          "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        ],
+        "User": "10001:10001",
+        "WorkingDir": "/"
+      },
+      "created": "2026-10-29T13:16:46.069510169Z",
+      "history": [
+        {
+          "comment": "buildkit.dockerfile.v0",
+          "created": "2026-10-29T13:16:46.069510169Z",
+          "created_by": "COPY iot-model-control-linux-amd64 /iot-model-control # buildkit"
+        },
+        {
+          "comment": "buildkit.dockerfile.v0",
+          "created": "2026-10-29T13:16:46.069510169Z",
+          "created_by": "USER 10001:10001",
+          "empty_layer": true
+        },
+        {
+          "comment": "buildkit.dockerfile.v0",
+          "created": "2026-10-29T13:16:46.069510169Z",
+          "created_by": "ENTRYPOINT [\"/iot-model-control\"]",
+          "empty_layer": true
+        }
+      ],
+      "os": "linux",
+      "rootfs": {
+        "diff_ids": [
+          "sha256:e6d6957ce185e8b6e1232abb3daa47b51b15b5522ab994d2787ba869d4767ae1"
+        ],
+        "type": "layers"
+      }
+    }
+  },
+  "status": {
+    "id": "sha256:354ef2700d45f3776e86cc62faaf7a4505bd7e06316689e9e2a2224b97865653",
+    "pinned": false,
+    "repoDigests": [
+      "docker.io/library/iot-model-control@sha256:6001ff60ce56e13e9c891279cbc37ee9a899fbf73d856b01e2a9b36655a3f063"
+    ],
+    "repoTags": [
+      "docker.io/library/iot-model-control:3597e977c43923ab"
+    ],
+    "size": "3059672",
+    "uid": {
+      "value": "10001"
+    },
+    "username": ""
+  }
+}

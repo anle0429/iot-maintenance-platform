@@ -1,0 +1,944 @@
+PASS "/tmp/go-mutesting-103606572/main.go.0" with checksum a011a8cf81f630d3f09a760841f2cefd
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -39,7 +39,7 @@
+ 	calls := 0
+ 	for _, message := range messages {
+ 		if message.Role == "assistant" {
+-			calls += len(message.Calls)
++			calls = len(message.Calls)
+ 		}
+ 	}
+ 	if calls > maxToolCalls {
+
+FAIL "/tmp/go-mutesting-103606572/main.go.1" with checksum 5b4c1562cc70cc91c4ad75353c7c63bc
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -159,7 +159,7 @@
+ // main uses a fixed private upstream, an unprivileged port and bounded HTTP deadlines without logging payloads.
+ func main() {
+ 	target, _ := url.Parse(backend)
+-	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
++	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 / time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.2" with checksum 00c1ae3d04abd4f2bb655e9d32953a03
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -159,7 +159,7 @@
+ // main uses a fixed private upstream, an unprivileged port and bounded HTTP deadlines without logging payloads.
+ func main() {
+ 	target, _ := url.Parse(backend)
+-	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
++	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 / time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.3" with checksum e60a76185eaf9b750160b5c37708aa7a
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -161,7 +161,7 @@
+ 	target, _ := url.Parse(backend)
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+-		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
++		ReadHeaderTimeout: 5 / time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.4" with checksum aa11cc0ff88161e47ccb1d63bb6b1280
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -161,7 +161,7 @@
+ 	target, _ := url.Parse(backend)
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+-		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
++		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 / time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.5" with checksum a2b73991e987a184b63e0ef4377640d2
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -161,7 +161,7 @@
+ 	target, _ := url.Parse(backend)
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+-		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
++		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 / time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.6" with checksum e525b71c9505d98890724b285d9fa403
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -162,7 +162,7 @@
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+-		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
++		IdleTimeout: 30 / time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.7" with checksum 6213c3a6a53a04946f0456518bddc8a5
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.8" with checksum b50517dec95f0ccdd17352e755dbb0bf
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -162,7 +162,7 @@
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+-		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
++		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 >> 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.9" with checksum f094ce5abf7caf9e8e85c2384f1314e3
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.10" with checksum d13a47c8ced216cf92e204948e7afbe9
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.11" with checksum b08a8155fae206914edb1f5c5fdfcbe4
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -23,7 +23,7 @@
+ func normalize(body []byte) ([]byte, error) {
+ 	var value map[string]json.RawMessage
+ 	if json.Unmarshal(body, &value) != nil || value == nil {
+-		return nil, errors.New("require a JSON object")
++		_ = errors.New
+ 	}
+ 	var model string
+ 	if json.Unmarshal(value["model"], &model) != nil || model != modelName {
+
+FAIL "/tmp/go-mutesting-103606572/main.go.12" with checksum f9a1cc2d198fdf09579da48398cb4188
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.13" with checksum 60115bf78269227bb490925acd20e0ab
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.14" with checksum 7ce6823da1acf533174fb61e91660fef
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.15" with checksum 33e02f37e639764be58bbee4b5a12358
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.16" with checksum 5eefc82cfd50cc7ca1938ced03a4ad54
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.17" with checksum 3bd2da7d5aa91828a8d6eb9cf546686e
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.18" with checksum a45c3768698802a35e1913edd9139615
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.19" with checksum 1d0059047a6391f7eafeb2a1b2011727
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.20" with checksum 19d4e34e2cca79fefb70767ed2c45b2f
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.21" with checksum e8b63bdff99895fc1f2d9ea4972f0e1d
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.22" with checksum 14fe9fceea6485b85a9063cb9dd3b15b
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.23" with checksum 7d30a5d230403b3cfcf4f654151cf0a6
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.24" with checksum 1c31aaa0443dd2d2d9b7231b8220c815
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.25" with checksum 38a2862c15ce7c0f9c63b6dd05b46173
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.26" with checksum bb1c576a024a9630170130ee87e45447
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.27" with checksum 1443e628e268a21e124c9720f8cb7274
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.28" with checksum c4e7723a4e0887f1de2f55add62e62fe
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.29" with checksum 60535d51944a402d3f8158749aae99cf
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.30" with checksum b8d880493628beebb24eeb2c68823cdb
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.31" with checksum 37cfed9a604f4bee28ac17854094c280
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.32" with checksum 1e38eca7f744b3d86f26376d9a6d1dad
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.33" with checksum 47c3ecf8a134cf01ab136644c870e9c3
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.34" with checksum 690f1a50b3464604963526ec5bee7b5c
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.35" with checksum 9dee5eacd7c81b3b63d75846afa186ac
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.36" with checksum c8282411beb066672fe669c61eba5f91
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -164,6 +164,6 @@
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+-		os.Exit(1)
++		_ = os.Exit
+ 	}
+ }
+
+FAIL "/tmp/go-mutesting-103606572/main.go.37" with checksum 16226a1b00b82cd03f104ee1df7fe417
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.38" with checksum 48c117ad28eeacc4ab7c46fa0954e527
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -61,7 +61,7 @@
+ 		}
+ 	}
+ 	for _, stop := range stops {
+-		if len(stop) == 0 || len(stop) > 128 {
++		if len(stop) == 0 || len(stop) >= 128 {
+ 			return nil, errors.New("invalid stop sequence length")
+ 		}
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.39" with checksum 8685faf381b56ab6e1985b2dd2f77146
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.40" with checksum 5afaf724fc447923d7990559e3c48194
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.41" with checksum b6f556475a5df1b011560c5ed74944c3
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -73,7 +73,7 @@
+ 	} else {
+ 		value["max_tokens"] = json.RawMessage("768")
+ 	}
+-	if len(tools) > 0 {
++	if len(tools) >= 0 {
+ 		// Each declared capability gets at most one selection in the standard specialist/coordinator turn.
+ 		// At the budget, request synthesis from the actual history rather than allowing unbounded retries.
+ 		budget := len(tools)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.42" with checksum fc180cdf111afa03bec7ccee899737c1
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -95,7 +95,7 @@
+ 		if names["assess_feature_drift"] {
+ 			budget = 1
+ 		}
+-		if budget > maxToolCalls {
++		if budget >= maxToolCalls {
+ 			budget = maxToolCalls
+ 		}
+ 		if calls >= budget {
+
+FAIL "/tmp/go-mutesting-103606572/main.go.43" with checksum dc10c51b34d9cc58006d4d65bd38f0a2
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.44" with checksum 84000140d95b888d7ade7c354d376f66
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.45" with checksum 7886a62f9cf8824fbe01f4e99e98f74d
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -22,7 +22,7 @@
+ // normalize preserves message/tool contents; only generation controls change, never facts or model output.
+ func normalize(body []byte) ([]byte, error) {
+ 	var value map[string]json.RawMessage
+-	if json.Unmarshal(body, &value) != nil || value == nil {
++	if json.Unmarshal(body, &value) != nil || false {
+ 		return nil, errors.New("require a JSON object")
+ 	}
+ 	var model string
+
+FAIL "/tmp/go-mutesting-103606572/main.go.46" with checksum c1bb4a1f3e97f6b619e384609eef088c
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.47" with checksum 4a67adf25b5dd1d376bdb4e74cc0d98d
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.48" with checksum 06e479bdeea40770255e46f46e479eb7
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.49" with checksum cc66d63836ee96969633b5c85d6c33a8
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.50" with checksum 80791d03ac36cef4afce7963afe2d191
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.51" with checksum 130c72e6eb4121caddf0bf4e60a21f73
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.52" with checksum db804b24d333adb8de25e09967cf8330
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.53" with checksum 3e1af706ee0c4ccae56de02cd23d64ba
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.54" with checksum 69c7dca961a8a272f9dca214f22d8a41
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.55" with checksum 0d0fc801727979f6a60f4d8c6640c252
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.56" with checksum aaf79925300eef48087055692b174802
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.57" with checksum ec5432c6618022280fed89757711d9eb
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.58" with checksum 5ac854e410000a65977992ae51f47b0b
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.59" with checksum 999d4b5f72dc214dc874755c857fb54e
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.60" with checksum c546f259e415ae2b8da8199b2e49962b
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -89,7 +89,7 @@
+ 			}
+ 		}
+ 		// ADK can append orchestration capabilities; they do not increase the specialist's business-tool budget.
+-		if names["get_machine_features"] && names["predict_failure"] && names["search_knowledge"] {
++		if true && names["search_knowledge"] {
+ 			budget = 3
+ 		}
+ 		if names["assess_feature_drift"] {
+
+FAIL "/tmp/go-mutesting-103606572/main.go.61" with checksum aa4112ea44bf94f3e49dcc8397beedfa
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -89,7 +89,7 @@
+ 			}
+ 		}
+ 		// ADK can append orchestration capabilities; they do not increase the specialist's business-tool budget.
+-		if names["get_machine_features"] && names["predict_failure"] && names["search_knowledge"] {
++		if names["get_machine_features"] && names["predict_failure"] && true {
+ 			budget = 3
+ 		}
+ 		if names["assess_feature_drift"] {
+
+FAIL "/tmp/go-mutesting-103606572/main.go.62" with checksum 0383a9ab79d614eb9776d2d39801963d
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -89,7 +89,7 @@
+ 			}
+ 		}
+ 		// ADK can append orchestration capabilities; they do not increase the specialist's business-tool budget.
+-		if names["get_machine_features"] && names["predict_failure"] && names["search_knowledge"] {
++		if true && names["predict_failure"] && names["search_knowledge"] {
+ 			budget = 3
+ 		}
+ 		if names["assess_feature_drift"] {
+
+FAIL "/tmp/go-mutesting-103606572/main.go.63" with checksum 8d5253ccf35276c6956edfee3bb0f5f4
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -89,7 +89,7 @@
+ 			}
+ 		}
+ 		// ADK can append orchestration capabilities; they do not increase the specialist's business-tool budget.
+-		if names["get_machine_features"] && names["predict_failure"] && names["search_knowledge"] {
++		if names["get_machine_features"] && true && names["search_knowledge"] {
+ 			budget = 3
+ 		}
+ 		if names["assess_feature_drift"] {
+
+FAIL "/tmp/go-mutesting-103606572/main.go.64" with checksum f8ba7bb3be82dc5a2715fb2b28e64b3c
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -129,7 +129,7 @@
+ 		http.Error(w, "model_backend_unavailable", http.StatusBadGateway)
+ 	}
+ 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+-		if r.Method == "GET" && (r.URL.Path == "/health" || r.URL.Path == "/metrics") {
++		if true && (r.URL.Path == "/health" || r.URL.Path == "/metrics") {
+ 			proxy.ServeHTTP(w, r)
+ 			return
+ 		}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.65" with checksum dcadbc4b6e9f6bdc21c16c06ec554e29
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -129,7 +129,7 @@
+ 		http.Error(w, "model_backend_unavailable", http.StatusBadGateway)
+ 	}
+ 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+-		if r.Method == "GET" && (r.URL.Path == "/health" || r.URL.Path == "/metrics") {
++		if r.Method == "GET" && true {
+ 			proxy.ServeHTTP(w, r)
+ 			return
+ 		}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.66" with checksum 5314d9956c1914d9b19e133d3415520d
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.67" with checksum b2c5930ba919534e9a18c56880794d9b
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.68" with checksum 815b3faf4dca71d601f0b1206052ef62
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.69" with checksum 5abc60d5a38375273f97d352498e2a06
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.70" with checksum 777a4ed5ff9e87ef1e07a89a7294e434
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -133,7 +133,7 @@
+ 			proxy.ServeHTTP(w, r)
+ 			return
+ 		}
+-		if r.Method != "POST" || r.URL.Path != "/v1/chat/completions" || r.URL.RawQuery != "" {
++		if false || r.URL.Path != "/v1/chat/completions" || r.URL.RawQuery != "" {
+ 			http.NotFound(w, r)
+ 			return
+ 		}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.71" with checksum f9d4c16ea8c11025702f96d84463e3df
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.72" with checksum 2e555c2eea1bc3de987b043deb250e22
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.73" with checksum 693fc2aaf93bd13c26016642a3724b73
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.74" with checksum 81481a9abbc5d5e330b2b7212d2d0599
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.75" with checksum 637044c7b484b26dd383ee7dd2cadd2f
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.76" with checksum 64f1c03d95eec7b06ad557a81d48e624
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.77" with checksum f9f9c1bfb416270da7da648ee5d0f1a2
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -16,7 +16,7 @@
+ 
+ const modelName = "iot-qwen2.5-7b"
+ const backend = "http://iot-model-gpu.iot-llm.svc.cluster.local:8080"
+-const maxBody = 1 << 20
++const maxBody = 1 << 19
+ const maxToolCalls = 8
+ 
+ // normalize preserves message/tool contents; only generation controls change, never facts or model output.
+
+FAIL "/tmp/go-mutesting-103606572/main.go.78" with checksum 7e02043a8eac4be3d8a2bcc30a4766eb
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.79" with checksum 4c76c36e3503fafd51cea72144585541
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.80" with checksum df7f359f354b6ac6d1b21a47f135e642
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.81" with checksum b24b04c25c8d33c11e74e92b55a013f8
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.82" with checksum 8c9c7092f0de96b9c99cfe2121f6de05
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -61,7 +61,7 @@
+ 		}
+ 	}
+ 	for _, stop := range stops {
+-		if len(stop) == 0 || len(stop) > 128 {
++		if len(stop) == 0 || len(stop) > 127 {
+ 			return nil, errors.New("invalid stop sequence length")
+ 		}
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.83" with checksum af5d1380d84eea33be26f6f3d2ae7af7
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.84" with checksum cbb7a451fb27513b24b8cce947337ba7
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.85" with checksum f5df08a8d999b88373fd931d789415c1
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -73,7 +73,7 @@
+ 	} else {
+ 		value["max_tokens"] = json.RawMessage("768")
+ 	}
+-	if len(tools) > 0 {
++	if len(tools) > -1 {
+ 		// Each declared capability gets at most one selection in the standard specialist/coordinator turn.
+ 		// At the budget, request synthesis from the actual history rather than allowing unbounded retries.
+ 		budget := len(tools)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.86" with checksum 3646b52d5ce030b835eb1e522983adda
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -90,7 +90,7 @@
+ 		}
+ 		// ADK can append orchestration capabilities; they do not increase the specialist's business-tool budget.
+ 		if names["get_machine_features"] && names["predict_failure"] && names["search_knowledge"] {
+-			budget = 3
++			budget = 2
+ 		}
+ 		if names["assess_feature_drift"] {
+ 			budget = 1
+
+FAIL "/tmp/go-mutesting-103606572/main.go.87" with checksum e61778ba88dc639ef376ba78792a0556
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -93,7 +93,7 @@
+ 			budget = 3
+ 		}
+ 		if names["assess_feature_drift"] {
+-			budget = 1
++			budget = 0
+ 		}
+ 		if budget > maxToolCalls {
+ 			budget = maxToolCalls
+
+FAIL "/tmp/go-mutesting-103606572/main.go.88" with checksum 95b72acb2f162bc66737d1eb153b691d
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -123,7 +123,7 @@
+ func handler(target *url.URL, transport http.RoundTripper) http.Handler {
+ 	proxy := httputil.NewSingleHostReverseProxy(target)
+ 	proxy.Transport = transport
+-	proxy.FlushInterval = -1
++	proxy.FlushInterval = -0
+ 	proxy.ErrorLog = log.New(io.Discard, "", 0)
+ 	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
+ 		http.Error(w, "model_backend_unavailable", http.StatusBadGateway)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.89" with checksum 901cbe1e7f84e30d6664b24ae6781887
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -124,7 +124,7 @@
+ 	proxy := httputil.NewSingleHostReverseProxy(target)
+ 	proxy.Transport = transport
+ 	proxy.FlushInterval = -1
+-	proxy.ErrorLog = log.New(io.Discard, "", 0)
++	proxy.ErrorLog = log.New(io.Discard, "", -1)
+ 	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
+ 		http.Error(w, "model_backend_unavailable", http.StatusBadGateway)
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.90" with checksum 73c42ea014936b7d8e170c78bb80ba0e
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -159,7 +159,7 @@
+ // main uses a fixed private upstream, an unprivileged port and bounded HTTP deadlines without logging payloads.
+ func main() {
+ 	target, _ := url.Parse(backend)
+-	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
++	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 149 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.91" with checksum ed20ea094e66a8be4e01c483721d5b6d
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -159,7 +159,7 @@
+ // main uses a fixed private upstream, an unprivileged port and bounded HTTP deadlines without logging payloads.
+ func main() {
+ 	target, _ := url.Parse(backend)
+-	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
++	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 29 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.92" with checksum 8f8f13548c90183d32df37f526ade01c
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -161,7 +161,7 @@
+ 	target, _ := url.Parse(backend)
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+-		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
++		ReadHeaderTimeout: 4 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.93" with checksum f74e9da0a5d622c74d3ca285add43714
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -161,7 +161,7 @@
+ 	target, _ := url.Parse(backend)
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+-		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
++		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 14 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.94" with checksum fe78d0d8123850df8b0d4cb127ac6e77
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -161,7 +161,7 @@
+ 	target, _ := url.Parse(backend)
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+-		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
++		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 179 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.95" with checksum 9ec4ac2e6a191801ff47f7a4d8d7d723
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -162,7 +162,7 @@
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+-		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
++		IdleTimeout: 29 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.96" with checksum dbfcf411de5249a20b4ae8389a819f80
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -162,7 +162,7 @@
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+-		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
++		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 15 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.97" with checksum d6fcfb1fd11294f423776a693ed6156b
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -162,7 +162,7 @@
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+-		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
++		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 9}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.98" with checksum 80ece9245f0083e2964168ee5ea6783b
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -164,6 +164,6 @@
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+-		os.Exit(1)
++		os.Exit(0)
+ 	}
+ }
+
+FAIL "/tmp/go-mutesting-103606572/main.go.99" with checksum 6bccda392c91e08f1989cd56701a5e0d
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -16,7 +16,7 @@
+ 
+ const modelName = "iot-qwen2.5-7b"
+ const backend = "http://iot-model-gpu.iot-llm.svc.cluster.local:8080"
+-const maxBody = 1 << 20
++const maxBody = 2 << 20
+ const maxToolCalls = 8
+ 
+ // normalize preserves message/tool contents; only generation controls change, never facts or model output.
+
+FAIL "/tmp/go-mutesting-103606572/main.go.100" with checksum 8dcd73123ad07ae79331481d9cf19cce
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -16,7 +16,7 @@
+ 
+ const modelName = "iot-qwen2.5-7b"
+ const backend = "http://iot-model-gpu.iot-llm.svc.cluster.local:8080"
+-const maxBody = 1 << 20
++const maxBody = 1 << 21
+ const maxToolCalls = 8
+ 
+ // normalize preserves message/tool contents; only generation controls change, never facts or model output.
+
+FAIL "/tmp/go-mutesting-103606572/main.go.101" with checksum ee23e7ab34bbf86436cb6ebbf9447f4d
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.102" with checksum d246b1926fac91efc3bb82f2198c67e3
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.103" with checksum 87c057234e32a7144d56166c77eeae60
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.104" with checksum 5f8d16102e58405733e69fe1e80ee0fe
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.105" with checksum 7ee73f273b5c4167c77a59a10098ddaa
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.106" with checksum 9336f652f5d2ddd2c1b4b86ad7b77d7b
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.107" with checksum 0b8fce6dfac31ed8a5307bc4f09b0768
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.108" with checksum 3af9275fc9c7f6a9632d7a57f82b579c
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.109" with checksum ce90e504e756f2bc28845b99cde80cec
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.110" with checksum a62b23aa64da2b236f41d6bc01418c7b
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.111" with checksum ccfa9feb9d7e677dccc33e1ce2a41f9c
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -123,7 +123,7 @@
+ func handler(target *url.URL, transport http.RoundTripper) http.Handler {
+ 	proxy := httputil.NewSingleHostReverseProxy(target)
+ 	proxy.Transport = transport
+-	proxy.FlushInterval = -1
++	proxy.FlushInterval = -2
+ 	proxy.ErrorLog = log.New(io.Discard, "", 0)
+ 	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
+ 		http.Error(w, "model_backend_unavailable", http.StatusBadGateway)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.112" with checksum 75f23dd889c484db097b9e9bdbd024cd
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -124,7 +124,7 @@
+ 	proxy := httputil.NewSingleHostReverseProxy(target)
+ 	proxy.Transport = transport
+ 	proxy.FlushInterval = -1
+-	proxy.ErrorLog = log.New(io.Discard, "", 0)
++	proxy.ErrorLog = log.New(io.Discard, "", 1)
+ 	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
+ 		http.Error(w, "model_backend_unavailable", http.StatusBadGateway)
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.113" with checksum 3b403396e9497a69934ec6a76b0b61db
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -159,7 +159,7 @@
+ // main uses a fixed private upstream, an unprivileged port and bounded HTTP deadlines without logging payloads.
+ func main() {
+ 	target, _ := url.Parse(backend)
+-	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
++	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 151 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.114" with checksum aac70467d82bf040d9e12250d079538a
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -159,7 +159,7 @@
+ // main uses a fixed private upstream, an unprivileged port and bounded HTTP deadlines without logging payloads.
+ func main() {
+ 	target, _ := url.Parse(backend)
+-	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
++	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 31 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.115" with checksum e8714d229136d63188695c98b9ff6627
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -161,7 +161,7 @@
+ 	target, _ := url.Parse(backend)
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+-		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
++		ReadHeaderTimeout: 6 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.116" with checksum 36e79371a5f0119a09fccc5dc8be54e9
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -161,7 +161,7 @@
+ 	target, _ := url.Parse(backend)
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+-		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
++		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 16 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.117" with checksum 774bc8e177bcd2f49c20aae7bee812b1
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -161,7 +161,7 @@
+ 	target, _ := url.Parse(backend)
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+-		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
++		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 181 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.118" with checksum 46d6f70792d678863d709b5c4cda0547
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -162,7 +162,7 @@
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+-		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
++		IdleTimeout: 31 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.119" with checksum 35a95f5dbaf45ccaa3f5bcfa7889cb38
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -162,7 +162,7 @@
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+-		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
++		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 17 << 10}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.120" with checksum b36291bda28486ca98747ac4e9622020
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -162,7 +162,7 @@
+ 	transport := &http.Transport{Proxy: nil, ResponseHeaderTimeout: 150 * time.Second, IdleConnTimeout: 30 * time.Second}
+ 	server := &http.Server{Addr: ":8080", Handler: handler(target, transport),
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+-		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
++		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 11}
+ 	if server.ListenAndServe() != nil {
+ 		os.Exit(1)
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.121" with checksum 7991800a09cf328e64ae961c4333c5a9
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -164,6 +164,6 @@
+ 		ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 180 * time.Second,
+ 		IdleTimeout: 30 * time.Second, MaxHeaderBytes: 16 << 10}
+ 	if server.ListenAndServe() != nil {
+-		os.Exit(1)
++		os.Exit(2)
+ 	}
+ }
+
+FAIL "/tmp/go-mutesting-103606572/main.go.122" with checksum 083c3d0afb68c82b077aabe28079c9a2
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.125" with checksum 1da80321b78fca0c765cd788d1a4bbf4
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.130" with checksum bddf496f4f32424c6c1b3797f86fc2b6
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.131" with checksum 536b3bfeb9ddda174e40b8e3cf9b5b5b
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.132" with checksum 8ee93e025de70fe102169d6f2b07006a
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.133" with checksum 865b195d88a2b56498d78616da2bef74
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -122,7 +122,7 @@
+ // handler limits the internal endpoint surface and streams the backend's unmodified response bytes and status.
+ func handler(target *url.URL, transport http.RoundTripper) http.Handler {
+ 	proxy := httputil.NewSingleHostReverseProxy(target)
+-	proxy.Transport = transport
++	_, _ = proxy.Transport, transport
+ 	proxy.FlushInterval = -1
+ 	proxy.ErrorLog = log.New(io.Discard, "", 0)
+ 	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
+
+FAIL "/tmp/go-mutesting-103606572/main.go.136" with checksum 26deb1f9a9912c6af5e884621398ed95
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -123,7 +123,7 @@
+ func handler(target *url.URL, transport http.RoundTripper) http.Handler {
+ 	proxy := httputil.NewSingleHostReverseProxy(target)
+ 	proxy.Transport = transport
+-	proxy.FlushInterval = -1
++	_ = proxy.FlushInterval
+ 	proxy.ErrorLog = log.New(io.Discard, "", 0)
+ 	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
+ 		http.Error(w, "model_backend_unavailable", http.StatusBadGateway)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.137" with checksum 879264fd89eba998d5c0b18919a1ceab
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -124,7 +124,7 @@
+ 	proxy := httputil.NewSingleHostReverseProxy(target)
+ 	proxy.Transport = transport
+ 	proxy.FlushInterval = -1
+-	proxy.ErrorLog = log.New(io.Discard, "", 0)
++	_, _, _ = proxy.ErrorLog, log.New, io.Discard
+ 	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
+ 		http.Error(w, "model_backend_unavailable", http.StatusBadGateway)
+ 	}
+
+FAIL "/tmp/go-mutesting-103606572/main.go.138" with checksum 0f3e2d5fd496d2aa77a5fa4069242bfd
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.139" with checksum d1894b8839227778e8e00b91c6d894ff
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.140" with checksum dce17a0ca1005db76ecb4a99078cd48d
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.141" with checksum 8dc58787c0321a53b33de39b1881ca4c
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.142" with checksum 88667117f3e72cd518e217dfe055d4a9
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -149,7 +149,7 @@
+ 		}
+ 		r.Body = io.NopCloser(bytes.NewReader(normalized))
+ 		r.ContentLength = int64(len(normalized))
+-		r.Header.Set("Content-Type", "application/json")
++		_ = r.Header.Set
+ 		r.Header.Del("Content-Length")
+ 		w.Header().Set("X-Iot-Tool-Control", "serial-close-v1")
+ 		proxy.ServeHTTP(w, r)
+
+FAIL "/tmp/go-mutesting-103606572/main.go.143" with checksum 4d28b865bfdf4fd7f9ff2f0489f52c3d
+------------------------------------------------------------------------------------------------------------------------------------------------------
+--- Original
++++ New
+@@ -150,7 +150,7 @@
+ 		r.Body = io.NopCloser(bytes.NewReader(normalized))
+ 		r.ContentLength = int64(len(normalized))
+ 		r.Header.Set("Content-Type", "application/json")
+-		r.Header.Del("Content-Length")
++		_ = r.Header.Del
+ 		w.Header().Set("X-Iot-Tool-Control", "serial-close-v1")
+ 		proxy.ServeHTTP(w, r)
+ 	})
+
+FAIL "/tmp/go-mutesting-103606572/main.go.144" with checksum 0082f88e476a81c369f7f85ab77dc8cf
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.145" with checksum 155f9c5258c343d200ccf9e615325c1f
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.146" with checksum 4e39bc9025342eb1340518445c1948d1
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.147" with checksum 23b9a6e9718d03b4593a762c0e863bc6
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.148" with checksum d307eaca340cea6bd56f7c365a84adbe
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.149" with checksum a6707663d4fd874387e87338aa97702b
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PASS "/tmp/go-mutesting-103606572/main.go.150" with checksum a0327faf018f2ad9c57d02e93e8ac621
+------------------------------------------------------------------------------------------------------------------------------------------------------
+The mutation score is 0.615385 (88 passed, 55 failed, 9 duplicated, 0 skipped, total is 143)

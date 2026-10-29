@@ -1,0 +1,38 @@
+{
+  "id": "17df533076494916c668d610efe38e58569bb71f5232b17051e9dad0bbd2cf09",
+  "image": "sha256:865c69e1e895be35dd2fc23454d20879699a988327cdc3a5c7df5c3a840a118e",
+  "state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-29T12:22:37.388234816Z",
+    "FinishedAt": "2026-10-29T12:23:03.37179143Z"
+  },
+  "user": "10001:10001",
+  "memory_bytes": 8589934592,
+  "memory_swap_bytes": 8589934592,
+  "cpu_nanos": 1000000000,
+  "mounts": [
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/observability-source-2fceb32/tree",
+      "destination": "/src",
+      "rw": false
+    },
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform",
+      "destination": "/srv/iot-data/workspace/iot-maintenance-platform",
+      "rw": false
+    },
+    {
+      "source": "/srv/iot-data/workspace/iot-maintenance-platform/data/demo/demo-agent-29d",
+      "destination": "/srv/iot-data/workspace/iot-maintenance-platform/data/demo/demo-agent-29d",
+      "rw": true
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+Result=exit-code
+ExecMainStatus=1
+ExecStart={ path=/home/work_anle05_gmail_com/.venvs/iot-control/bin/python ; argv[]=/home/work_anle05_gmail_com/.venvs/iot-control/bin/python /srv/iot-data/workspace/iot-maintenance-platform/data/llm-source/agent-conversations-29c/tree/agents/probe.py --base-url http://10.53.199.190:8083 --output /srv/iot-data/workspace/iot-maintenance-platform/outputs/agent-chat-29i --roles retrieval drift ; ignore_errors=no ; start_time=[Thu 2026-10-29 12:33:12 UTC] ; stop_time=[Thu 2026-10-29 12:33:21 UTC] ; pid=667916 ; code=exited ; status=1 }
+Id=iot-agent-chat-29i.service
+ActiveState=failed
+SubState=failed
+InvocationID=bb0f2f5dc3524a5ebb0ba24829824a3b

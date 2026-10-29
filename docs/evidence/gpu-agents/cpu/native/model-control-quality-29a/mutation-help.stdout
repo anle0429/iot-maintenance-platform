@@ -1,0 +1,44 @@
+Usage:
+  go-mutesting Targets...
+
+General options:
+  --debug                       Debug log output
+  --do-not-remove-tmp-folder    Do not remove the tmp folder where all
+                                mutations are saved to
+  --help                        Show this help message
+  --verbose                     Verbose log output
+  --config=                     Path to config file
+  --html-output                 Generates a go-mutesting-report.html file after
+                                testing is complete
+
+File options:
+  --blacklist=                  List of MD5 checksums of mutations which should
+                                be ignored. Each checksum must end with a new
+                                line character.
+  --list-files                  List found files
+  --print-ast                   Print the ASTs of all given files and exit
+
+Mutator options:
+  --disable=                    Disable mutator by their name or using * as a
+                                suffix pattern (in order to check remaining
+                                enabled mutators use --verbose option)
+  --list-mutators               List all available mutators (including disabled)
+
+Filter options:
+  --match=                      Only functions are mutated that confirm to the
+                                arguments regex
+
+Exec options:
+  --exec=                       Execute this command for every mutation (by
+                                default the built-in exec command is used)
+  --no-exec                     Skip the built-in exec command and just
+                                generate the mutations
+  --exec-timeout=               Sets a timeout for the command execution (in
+                                seconds) (default: 10)
+
+Test options:
+  --test-recursive              Defines if the executer should test recursively
+
+Arguments:
+  Targets:                      Packages, directories and files even with
+                                patterns (by default the current directory)
