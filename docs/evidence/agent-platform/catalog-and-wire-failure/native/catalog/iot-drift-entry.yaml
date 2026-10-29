@@ -1,0 +1,17 @@
+apiVersion: ar.dev/v1alpha1
+kind: Agent
+metadata:
+  name: iot-drift
+  tag: 0.1.0
+  annotations:
+    iot.coursework/resource-uid: 64d6c2d8-bded-4330-bebc-12877cbae566
+    iot.coursework/spec-sha256: 0edc8104f0770300643bfc01b212fe5a0483694d07888c33030186db57c67bb2
+    iot.coursework/actor-template: iot-drift-79c14651ad58ae16
+    iot.coursework/deployment-source: infra/charts/iot-agents
+spec:
+  title: IoT drift agent
+  description: Compare a validated machine cohort with the recorded reference through
+    the drift MCP service.
+  source:
+    image: ghcr.io/kagent-dev/kagent/golang-adk@sha256:5ee9592cb7d959538d0f0fe36acf31ba3a06de084f84048b1459c3bdfafcda1f
+    protocol: A2A

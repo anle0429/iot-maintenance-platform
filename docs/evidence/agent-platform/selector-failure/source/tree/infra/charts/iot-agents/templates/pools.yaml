@@ -1,0 +1,14 @@
+{{- range $role := list "retrieval" "drift" "coordinator" }}
+---
+apiVersion: ate.dev/v1alpha1
+kind: WorkerPool
+metadata:
+  name: iot-{{ $role }}-pool
+spec:
+  replicas: {{ $.Values.workerReplicas }}
+  ateomImage: {{ $.Values.workerImage | quote }}
+  sandboxClass: gvisor
+  sandboxConfigName: gvisor-default
+  template:
+    resources: {{ $.Values.workerResources | toJson }}
+{{- end }}

@@ -1,0 +1,22 @@
+2026-10-29T06:57:53+00:00 iot-cw-vm systemd[1]: Started iot-agent-context-29a.service - /usr/bin/python3 /tmp/iot-agent-context-29a.py.
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]: {
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:   "passed": true,
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:   "checked_utc": "2026-10-29T06:58:22.426145+00:00",
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:   "context_tokens_before": 4096,
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:   "context_tokens_after": 8192,
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:   "model": "iot-qwen2.5-7b",
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:   "model_image": "ghcr.io/ggml-org/llama.cpp@sha256:2dd73958b10a819976be48be87fb6c7aa1d1178654f1ab7ada6ddf800959042b",
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:   "resources": {
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:     "limits": {
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:       "cpu": "4",
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:       "memory": "10Gi"
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:     },
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:     "requests": {
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:       "cpu": "1500m",
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:       "memory": "4Gi"
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:     }
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:   },
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]:   "scope": "Same weights, image, CPU and memory limits; larger context and a documented single-node rollout interruption."
+2026-10-29T06:58:22+00:00 iot-cw-vm python3[1331854]: }
+2026-10-29T06:58:22+00:00 iot-cw-vm systemd[1]: iot-agent-context-29a.service: Deactivated successfully.
+2026-10-29T06:58:22+00:00 iot-cw-vm systemd[1]: iot-agent-context-29a.service: Consumed 2.191s CPU time.

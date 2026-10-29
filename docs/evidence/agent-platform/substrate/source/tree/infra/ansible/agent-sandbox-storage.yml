@@ -1,0 +1,68 @@
+# Keep the runtime's canonical host path on the existing SSD without moving or overwriting existing data.
+- name: Mount retained SSD storage for gVisor actors
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: false
+  vars:
+    iot_actor_source: /srv/iot-fast/ateom-gvisor
+    iot_actor_target: /var/lib/ateom-gvisor
+  tasks:
+    - name: Require the existing SSD mount
+      ansible.builtin.command:
+        argv: [mountpoint, -q, /srv/iot-fast]
+      changed_when: false
+    - name: Inspect the canonical runtime path
+      ansible.builtin.stat:
+        path: "{{ iot_actor_target }}"
+        follow: false
+      register: iot_actor_stat
+    - name: Refuse a symlink or non-directory runtime path
+      ansible.builtin.assert:
+        that:
+          - not iot_actor_stat.stat.exists or (iot_actor_stat.stat.isdir and not iot_actor_stat.stat.islnk)
+    - name: Inspect an existing bind mount
+      ansible.builtin.command:
+        argv: [findmnt, --mountpoint, "{{ iot_actor_target }}", --noheadings, --output, SOURCE]
+      changed_when: false
+      failed_when: iot_actor_mount.rc not in [0, 1]
+      register: iot_actor_mount
+    - name: List existing unmounted runtime content
+      ansible.builtin.find:
+        paths: "{{ iot_actor_target }}"
+        hidden: true
+        file_type: any
+      register: iot_actor_content
+      when: iot_actor_stat.stat.exists and iot_actor_mount.rc == 1
+    - name: Preserve unrelated existing data
+      ansible.builtin.assert:
+        that:
+          - iot_actor_mount.rc == 0 or not iot_actor_stat.stat.exists or iot_actor_content.matched | default(0) == 0
+          - iot_actor_mount.rc != 0 or '/ateom-gvisor]' in iot_actor_mount.stdout
+    - name: Create source and canonical target directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+      loop: ["{{ iot_actor_source }}", "{{ iot_actor_target }}"]
+    - name: Retain the bind mount across restarts
+      ansible.builtin.lineinfile:
+        path: /etc/fstab
+        regexp: '^/srv/iot-fast/ateom-gvisor\s+/var/lib/ateom-gvisor\s+'
+        line: '/srv/iot-fast/ateom-gvisor /var/lib/ateom-gvisor none bind,x-systemd.requires-mounts-for=/srv/iot-fast 0 0'
+    - name: Bind the empty canonical path to the existing SSD
+      ansible.builtin.command:
+        argv: [mount, --bind, "{{ iot_actor_source }}", "{{ iot_actor_target }}"]
+      when: iot_actor_mount.rc == 1
+      changed_when: true
+    - name: Verify both names refer to the same underlying directory
+      ansible.builtin.command:
+        argv: [stat, '--format=%d:%i', "{{ iot_actor_source }}", "{{ iot_actor_target }}"]
+      register: iot_actor_identity
+      changed_when: false
+    - name: Require exact bind identity
+      ansible.builtin.assert:
+        that:
+          - iot_actor_identity.stdout_lines | unique | length == 1

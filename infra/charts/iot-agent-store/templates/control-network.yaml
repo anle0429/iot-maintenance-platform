@@ -1,0 +1,40 @@
+# The catalog and controller stay inside the lab; model traffic can reach only the existing local inference namespace.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: iot-agent-control}
+spec:
+  podSelector:
+    matchLabels: {iot.coursework/agent-control: 'true'}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: iot-agents}
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: iot-gateway}
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: iot-monitoring}
+      ports: [{protocol: TCP, port: 8080}, {protocol: TCP, port: 8083}, {protocol: TCP, port: 31313}]
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: kube-system}
+      ports: [{protocol: UDP, port: 53}, {protocol: TCP, port: 53}]
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: iot-agents}
+      ports: [{protocol: TCP, port: 5432}, {protocol: TCP, port: 8080}, {protocol: TCP, port: 8083}]
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: iot-llm}
+      ports: [{protocol: TCP, port: 8080}, {protocol: TCP, port: 8081}]
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: ate-system}
+      ports: [{protocol: TCP, port: 443}, {protocol: TCP, port: 80}]
+    - to:
+        - ipBlock: {cidr: 10.42.0.2/32}
+      ports: [{protocol: TCP, port: 6443}]
+    - to:
+        - ipBlock: {cidr: 10.53.0.1/32}
+      ports: [{protocol: TCP, port: 443}]

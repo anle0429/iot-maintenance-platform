@@ -73,27 +73,27 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 | L03 | LLM inference platform | Deploy an LLM inference platform. | [Recorded native inference](llm-inference.md) |
 | L04 | LLM inference platform | Configure a custom model server. | [Recorded native inference](llm-inference.md) |
 | L05 | LLM inference platform | Benchmark the model server and optimize the inference platform. | [Recorded native inference](llm-inference.md) |
-| L06 | Global model configuration | Deploy a global model configuration that allows agents to use the custom model. | Open: native LLM evidence missing |
-| L07 | Agent registry | Deploy an agent registry. | Open: native LLM evidence missing |
+| L06 | Global model configuration | [implementation](../infra/agents/kagent-values.yaml) | [Native platform checkpoint](agent-platform.md) | agent-platform; full chat/scale/boundary/benchmark scope remains open |
+| L07 | Agent registry | [implementation](../infra/agents/registry-values.yaml) | [Native platform checkpoint](agent-platform.md) | agent-platform; full chat/scale/boundary/benchmark scope remains open |
 | L08 | RAG pipeline | Build an Airflow RAG pipeline with text retrieval, chunking and chunk-embedding storage in a feature store through Feast. | Recorded native RAG evidence; [report](rag-orchestration.md) |
 | L09 | RAG pipeline | Provide data governance for the RAG pipeline as in the mini-coursework. | Recorded native RAG evidence; [report](rag-orchestration.md) |
 | L10 | Retrieval MCP and agent | Use FastAPI, Pydantic validation and Kubernetes health checks for the entity/chunk retrieval Web API. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L11 | Retrieval MCP and agent | Use asynchronous request handling in the entity/chunk retrieval API. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L12 | Retrieval MCP and agent | Deploy the retrieval API as an MCP tool to Kubernetes with Helm, rolling updates and automatic fallback; follow MCP-specific deployment guidance. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
-| L13 | Retrieval MCP and agent | Deploy an agent using that MCP tool with multiple replicas and autoscaling. | Open: native LLM evidence missing |
-| L14 | Retrieval MCP and agent | Configure the retrieval agent to run in a security sandbox. | Open: native LLM evidence missing |
-| L15 | Retrieval MCP and agent | Publish the retrieval agent to the deployed registry for governance. | Open: native LLM evidence missing |
+| L13 | Retrieval MCP and agent | [implementation](../infra/charts/iot-agents/templates/agents.yaml) | [Native platform checkpoint](agent-platform.md) | agent-platform; full chat/scale/boundary/benchmark scope remains open |
+| L14 | Retrieval MCP and agent | [implementation](../infra/charts/iot-agents/templates/pools.yaml) | [Native platform checkpoint](agent-platform.md) | agent-platform; full chat/scale/boundary/benchmark scope remains open |
+| L15 | Retrieval MCP and agent | [implementation](../scripts/publish-iot-agents.py) | [Native platform checkpoint](agent-platform.md) | agent-platform; full chat/scale/boundary/benchmark scope remains open |
 | L16 | Drift MCP and agent | Use FastAPI, Pydantic validation and Kubernetes health checks for the drift-detection MCP API. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L17 | Drift MCP and agent | Use asynchronous request handling in the drift-detection MCP API. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L18 | Drift MCP and agent | Deploy the drift API as an MCP tool to Kubernetes with Helm, rolling updates and automatic fallback; follow MCP-specific deployment guidance. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
-| L19 | Drift MCP and agent | Deploy a drift agent using its MCP tool with multiple replicas and autoscaling. | Open: native LLM evidence missing |
-| L20 | Drift MCP and agent | Configure the drift agent to run in a security sandbox. | Open: native LLM evidence missing |
-| L21 | Drift MCP and agent | Publish the drift agent to the deployed registry for governance. | Open: native LLM evidence missing |
+| L19 | Drift MCP and agent | [implementation](../infra/charts/iot-agents/templates/agents.yaml) | [Native platform checkpoint](agent-platform.md) | agent-platform; full chat/scale/boundary/benchmark scope remains open |
+| L20 | Drift MCP and agent | [implementation](../infra/charts/iot-agents/templates/pools.yaml) | [Native platform checkpoint](agent-platform.md) | agent-platform; full chat/scale/boundary/benchmark scope remains open |
+| L21 | Drift MCP and agent | [implementation](../scripts/publish-iot-agents.py) | [Native platform checkpoint](agent-platform.md) | agent-platform; full chat/scale/boundary/benchmark scope remains open |
 | L22 | Agent notebooks | Execute a Jupyter notebook demonstrating an agent calling MCP servers to retrieve Feast features and perform drift detection. | Open: native LLM evidence missing |
 | L23 | Agent notebooks | Execute a Jupyter notebook demonstrating an agent calling MCP servers to retrieve feature-store data for RAG. | Open: native LLM evidence missing |
-| L24 | Coordinator agent | Deploy a coordinator agent with multiple replicas and autoscaling to coordinate the two specialist agents. | Open: native LLM evidence missing |
-| L25 | Coordinator agent | Publish the coordinator agent to the deployed registry for governance. | Open: native LLM evidence missing |
-| L26 | Warm-up and worker pool | Configure agent warm-up through Agent Substrate to reduce startup delay/cost; benchmark the result and document HA through worker-pool replicas. | Open: native LLM evidence missing |
+| L24 | Coordinator agent | [implementation](../infra/charts/iot-agents/templates/agents.yaml) | [Native platform checkpoint](agent-platform.md) | agent-platform; full chat/scale/boundary/benchmark scope remains open |
+| L25 | Coordinator agent | [implementation](../scripts/publish-iot-agents.py) | [Native platform checkpoint](agent-platform.md) | agent-platform; full chat/scale/boundary/benchmark scope remains open |
+| L26 | Warm-up and worker pool | [implementation](../scripts/deploy-agent-substrate.py) | [Native platform checkpoint](agent-platform.md) | agent-platform; full chat/scale/boundary/benchmark scope remains open |
 | L27 | Validation and verification | Unit-test the Web APIs with Test Coverage > 90%, demonstrating fixtures and mocks with screenshots. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L28 | Validation and verification | Use equivalence partitioning and boundary-value analysis to design parameterized test cases. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L29 | Validation and verification | Use mutation testing on changed code rather than the entire codebase on every commit. Mutation score > 80%. | [Open: expanded mutation gate 62.86%](mcp-tools.md#api-verification) |

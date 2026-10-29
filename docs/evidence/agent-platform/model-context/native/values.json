@@ -1,0 +1,18 @@
+{
+  "contextTokens": 8192,
+  "image": "ghcr.io/ggml-org/llama.cpp@sha256:2dd73958b10a819976be48be87fb6c7aa1d1178654f1ab7ada6ddf800959042b",
+  "modelDirectory": "/srv/iot-fast/models/iot-qwen2.5-7b",
+  "modelFile": "qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf",
+  "resources": {
+    "limits": {
+      "cpu": "4",
+      "memory": "10Gi"
+    },
+    "requests": {
+      "cpu": "1500m",
+      "memory": "4Gi"
+    }
+  },
+  "servedModel": "iot-qwen2.5-7b",
+  "threads": 4
+}

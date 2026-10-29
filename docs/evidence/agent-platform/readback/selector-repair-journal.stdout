@@ -1,0 +1,15 @@
+2026-10-29T06:31:23+00:00 iot-cw-vm systemd[1]: Started iot-agent-workloads-29c.service - /usr/bin/python3 /tmp/iot-agent-workloads-29c.py.
+2026-10-29T06:32:39+00:00 iot-cw-vm python3[1245262]: {
+2026-10-29T06:32:39+00:00 iot-cw-vm python3[1245262]:   "passed": true,
+2026-10-29T06:32:39+00:00 iot-cw-vm python3[1245262]:   "run": "agent-workloads-29c",
+2026-10-29T06:32:39+00:00 iot-cw-vm python3[1245262]:   "checked_utc": "2026-10-29T06:32:39.107507+00:00",
+2026-10-29T06:32:39+00:00 iot-cw-vm python3[1245262]:   "roles": [
+2026-10-29T06:32:39+00:00 iot-cw-vm python3[1245262]:     "retrieval",
+2026-10-29T06:32:39+00:00 iot-cw-vm python3[1245262]:     "drift",
+2026-10-29T06:32:39+00:00 iot-cw-vm python3[1245262]:     "coordinator"
+2026-10-29T06:32:39+00:00 iot-cw-vm python3[1245262]:   ],
+2026-10-29T06:32:39+00:00 iot-cw-vm python3[1245262]:   "workers_per_role": 2,
+2026-10-29T06:32:39+00:00 iot-cw-vm python3[1245262]:   "scope": "Native Ready conditions and installed per-role worker capacity. Actual chat, tool use, isolation, scale and registry publication require separate checks."
+2026-10-29T06:32:39+00:00 iot-cw-vm python3[1245262]: }
+2026-10-29T06:32:39+00:00 iot-cw-vm systemd[1]: iot-agent-workloads-29c.service: Deactivated successfully.
+2026-10-29T06:32:39+00:00 iot-cw-vm systemd[1]: iot-agent-workloads-29c.service: Consumed 3.750s CPU time, 56.6M memory peak, 0B memory swap peak.

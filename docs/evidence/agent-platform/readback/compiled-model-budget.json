@@ -1,0 +1,34 @@
+{
+  "iot-retrieval": {
+    "secret_uid": "dc99d81c-476e-42cc-a6b3-a63397924bba",
+    "resource_version": "368813",
+    "config_sha256": "2a72fc318392e64276bc7642667f8e1ec4dcd329a12d49e00456743a6e2089ec",
+    "selected_public_settings": {
+      "/model/base_url": "http://iot-router-epp.iot-llm.svc.cluster.local:8081/v1",
+      "/model/max_tokens": 384,
+      "/model/timeout": 600,
+      "/http_tools/0/params/timeout": 30
+    }
+  },
+  "iot-drift": {
+    "secret_uid": "1bfb837e-9d3a-41d9-ae52-bb772918ab54",
+    "resource_version": "368807",
+    "config_sha256": "b12fcb8c340b93f0bab767043f346b27b13d9cef81adb8ec1708b4fc2ec0e262",
+    "selected_public_settings": {
+      "/model/base_url": "http://iot-router-epp.iot-llm.svc.cluster.local:8081/v1",
+      "/model/max_tokens": 384,
+      "/model/timeout": 600,
+      "/http_tools/0/params/timeout": 30
+    }
+  },
+  "iot-coordinator": {
+    "secret_uid": "40c6e706-88d9-4352-9053-97a5d3302bef",
+    "resource_version": "368816",
+    "config_sha256": "f514794333a55b133553abf645ff8d68bd1f2d367d96b8735975bcd908a9d974",
+    "selected_public_settings": {
+      "/model/base_url": "http://iot-router-epp.iot-llm.svc.cluster.local:8081/v1",
+      "/model/max_tokens": 384,
+      "/model/timeout": 600
+    }
+  }
+}

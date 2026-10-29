@@ -47,7 +47,9 @@ class FinalAuditTests(unittest.TestCase):
         self.assertEqual(len(rows), 60)
         self.assertEqual(rows['L06'][1], 'A6; D6; E6')
         self.assertIn('Recorded inference evidence', rows['L03'][6])
-        self.assertIn('Open', rows['L06'][6])
+        self.assertIn('Recorded native configuration', rows['L06'][6])
+        self.assertIn('agent-platform.md', rows['L06'][7])
+        self.assertIn('Partial', rows['L13'][6])
         self.assertIn('TTFT', rows['L54'][3])
 
     def test_snapshot_pin_matches_git_blob_and_checkout(self):

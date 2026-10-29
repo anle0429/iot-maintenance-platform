@@ -1,0 +1,55 @@
+# Private controller/UI and one shared custom model; no bundled administrator agents or public ingress.
+rbac:
+  namespaces: [iot-agents]
+database:
+  postgres:
+    bundled: {enabled: false}
+    urlFile: /credentials/database/url
+    vectorEnabled: false
+controller:
+  watchNamespaces: [iot-agents]
+  podLabels: {iot.coursework/agent-control: 'true'}
+  resources:
+    requests: {cpu: 100m, memory: 128Mi}
+    limits: {cpu: '1', memory: 768Mi}
+  volumes:
+    - name: database-url
+      secret: {secretName: iot-kagent-database, defaultMode: 292}
+  volumeMounts:
+    - {name: database-url, mountPath: /credentials/database, readOnly: true}
+  a2aClientTimeout: 600s
+  substrate: {enabled: false}
+ui:
+  podLabels: {iot.coursework/agent-control: 'true'}
+  resources:
+    requests: {cpu: 50m, memory: 128Mi}
+    limits: {cpu: 500m, memory: 512Mi}
+providers:
+  default: openAI
+  openAI:
+    provider: OpenAI
+    model: iot-qwen2.5-7b
+    apiKeySecretRef: iot-local-model-client
+    apiKeySecretKey: API_KEY
+    config:
+      baseUrl: http://iot-router-epp.iot-llm.svc.cluster.local:8081/v1
+      apiFormat: chatCompletions
+      maxTokens: 384
+      temperature: '0'
+      seed: 7
+      timeout: 600
+kmcp: {enabled: false}
+substrate: {enabled: false}
+kagent-tools: {enabled: false}
+grafana-mcp: {enabled: false}
+k8s-agent: {enabled: false}
+kgateway-agent: {enabled: false}
+istio-agent: {enabled: false}
+promql-agent: {enabled: false}
+observability-agent: {enabled: false}
+argo-rollouts-agent: {enabled: false}
+helm-agent: {enabled: false}
+cilium-policy-agent: {enabled: false}
+cilium-manager-agent: {enabled: false}
+cilium-debug-agent: {enabled: false}
+oauth2-proxy: {enabled: false}

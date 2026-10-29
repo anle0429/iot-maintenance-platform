@@ -6,7 +6,7 @@ This project follows pump telemetry from ingestion and validation through featur
 
 Built as an individual **Engineering for Data & AI — EDAI K11** coursework project. All equipment records, sensor readings and failure events are simulated.
 
-The selected scope includes **final ML and final LLM/agents**. The Data/ML lab, CPU inference, RAG ingestion/governance and private MCP tools have recorded runtime evidence. Three reference questions also have verified generated citations. Agent integration and the new MCP mutation gate remain in progress.
+The selected scope includes **final ML and final LLM/agents**. The Data/ML lab, CPU inference, RAG ingestion/governance and private MCP tools have recorded runtime evidence. Three reference questions also have verified generated citations. The [agent control plane and registry](docs/agent-platform.md) now have native deployment evidence. Complete agent conversations, autoscaling, warm-up and the new MCP mutation gate remain in progress.
 
 [Demo guide](docs/demo-walkthrough.md) · [Architecture details](docs/architecture.md) · [Verification report](docs/final-audit.md)
 
@@ -107,7 +107,7 @@ The gateway uses private lab domains and a private CA. Service-mesh authorizatio
 
 ![LLM extension: verified inference and RAG components with planned agent integration](docs/images/platform-llm-plan.png)
 
-llm-d routes requests to a pinned Qwen2.5 CPU backend. The [inference report](docs/llm-inference.md) records a 1-thread/4-thread comparison for the 1.5B prototype. The current 7B backend answers [three reference questions with verified citations](docs/llm-grounding.md). A [six-task Airflow pipeline](docs/rag-orchestration.md) indexes 18 chunks through Feast, checks persisted data and publishes DataHub lineage/assertions. Two [private MCP services](docs/mcp-tools.md) expose machine features, predictions, reference passages and drift assessments, with native rollout/fallback and load reports. Agents, registry, sandbox, warm-up, CI, the new mutation gate and full telemetry remain open. [Learning guide](docs/llm-learning-guide.md) · [LLM tracker](docs/final-llm-rubric-tracker.md) · [SVG](docs/images/platform-llm-plan.svg)
+llm-d routes requests to a pinned Qwen2.5 CPU backend. The [inference report](docs/llm-inference.md) records a 1-thread/4-thread comparison for the 1.5B prototype. The current 7B backend answers [three reference questions with verified citations](docs/llm-grounding.md). A [six-task Airflow pipeline](docs/rag-orchestration.md) indexes 18 chunks through Feast, checks persisted data and publishes DataHub lineage/assertions. Two [private MCP services](docs/mcp-tools.md) expose machine features, predictions, reference passages and drift assessments, with native rollout/fallback and load reports. The [agent platform](docs/agent-platform.md) now has three Ready gVisor templates, six workers and three published catalog entries. Complete conversations, exercised isolation boundaries, autoscaling, warm-up, CI, the mutation gate and full telemetry remain open. [Try the internal agent demo](docs/agent-demo.md). [Learning guide](docs/llm-learning-guide.md) · [LLM tracker](docs/final-llm-rubric-tracker.md) · [SVG](docs/images/platform-llm-plan.svg)
 
 ## Recorded results
 
@@ -122,6 +122,7 @@ llm-d routes requests to a pinned Qwen2.5 CPU backend. The [inference report](do
 | Knowledge pipeline | Six actual Airflow tasks, 18 Feast/Milvus chunks, ten persisted quality checks, DataHub lineage and rejected bad-source input | [RAG orchestration](docs/rag-orchestration.md) |
 | Grounded generation | Three actual 7B responses with independently verified rankings and source-bound citations; small acceptance set | [Grounding report](docs/llm-grounding.md) |
 | MCP tools | Two services with two replicas each, 24 native tool responses, two controlled rollbacks and 2,658 authenticated feature reads without failure | [MCP report](docs/mcp-tools.md) |
+| Agent platform foundation | Three Ready gVisor templates, two workers per role and three source-bound catalog entries; full chat acceptance remains open | [Platform checkpoint](docs/agent-platform.md) |
 
 The 100 GB run covers source ingestion through Bronze/Silver. Feature engineering and ML use the separate 60-day dataset. API coverage, mutation scores and load-test measurements are recorded with their workloads in [serving CI](docs/ci-serving.md), [API validation](docs/api-validation.md) and [load testing](docs/observed-api-load.md).
 
@@ -152,7 +153,7 @@ $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-The audit checks both source rubrics, payload hashes and 31 offline verifiers. It writes `verification.json` and the verifier consoles to the output directory. It checks recorded results rather than rerunning the pipelines; successful RAG, inference and MCP checks do not mark the full agent track complete.
+The audit checks both source rubrics, payload hashes and 32 offline verifiers. It writes `verification.json` and the verifier consoles to the output directory. It checks recorded results rather than rerunning the pipelines; successful RAG, inference and MCP checks do not mark the full agent track complete.
 
 ### Call the lab API
 

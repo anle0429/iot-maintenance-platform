@@ -22,7 +22,7 @@ VERIFIERS = (
     'drift-retraining', 'final-handover', 'focused-api', 'host-monitoring', 'iac-final',
     'joint-cohort', 'linux-host', 'linux-logs', 'log-discovery', 'native-serving',
     'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort', 'final-review', 'llm-inference',
-    'rag-foundation', 'llm-grounding', 'rag-orchestration', 'mcp-tools',
+    'rag-foundation', 'llm-grounding', 'rag-orchestration', 'mcp-tools', 'agent-platform',
 )
 CAPSULES = (
     'drift-api', 'api-autoscale', 'notebook', 'notebook-parity', 'distributed-training',
@@ -181,6 +181,7 @@ def audit(output, workers):
               'llm_grounding_verified': results['llm-grounding']['exit'] == 0,
               'rag_orchestration_verified': results['rag-orchestration']['exit'] == 0,
               'mcp_tools_verified': results['mcp-tools']['exit'] == 0,
+              'agent_platform_foundation_verified': results['agent-platform']['exit'] == 0,
               'llm_runtime_verified': False, 'coursework_complete': False,
               'local_evidence_links': links, 'additional_capsule_payloads': capsules, 'verifiers': results,
               'live_readiness_checked': False, 'scope': 'Recorded ML, LLM inference/grounding, RAG orchestration and MCP deployment/API baseline artifacts plus both rubric presentations. MCP mutation and the full agent track remain incomplete. Not a grade, current readiness, full100GB ML or laptop verification.'}

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/llm-source/agent-chat-29b/tree/agents/probe.py", line 74, in <module>
+    args = parser.parse_args(); raise SystemExit(run(args.base_url, args.output, args.roles))
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/llm-source/agent-chat-29b/tree/agents/probe.py", line 62, in run
+    raise ValueError('Native A2A request did not complete: ' + role)
+ValueError: Native A2A request did not complete: retrieval

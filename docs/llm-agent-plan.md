@@ -1,6 +1,6 @@
 # LLM and agent workstream
 
-**Status: inference, bounded grounding, RAG governance and private MCP deployment/API checks verified; agent workstream incomplete.** A real llm-d router and CPU model have [native proof](llm-inference.md). The [RAG pipeline](rag-orchestration.md) and [three cited responses](llm-grounding.md) have separate acceptance records. [MCP tools](mcp-tools.md) now call those APIs through the native transport. Agent execution and the new mutation gate remain separate. Start with the [learning guide](llm-learning-guide.md) to follow the information flow.
+**Status: inference, bounded grounding, RAG governance and private MCP deployment/API checks verified; agent workstream incomplete.** A real llm-d router and CPU model have [native proof](llm-inference.md). The [RAG pipeline](rag-orchestration.md) and [three cited responses](llm-grounding.md) have separate acceptance records. [MCP tools](mcp-tools.md) now call those APIs through the native transport. The [agent foundation](agent-platform.md) now has native controller/catalog, Ready gVisor templates and initial tool-history proof. Complete conversations, boundary acceptance, autoscaling, warm-up and the mutation gate remain separate. Start with the [learning guide](llm-learning-guide.md) to follow the information flow.
 
 ![Staged LLM and agent components, with verified inference and existing ML endpoints distinguished](images/platform-llm-plan.png)
 
@@ -14,11 +14,11 @@ A user asks about a machine's recent condition, risk or a relevant technical doc
 
 | Area | Required work | Existing baseline |
 |---|---|---|
-| Inference | llm-d platform, custom server, global model configuration, measured optimization | Router/custom backend and CPU-thread comparison verified; agent-global configuration pending |
+| Inference | llm-d platform, custom server, global model configuration, measured optimization | Router/custom backend and CPU-thread comparison verified; shared agent model config applied |
 | Knowledge | Authored corpus, Airflow text/chunk/embedding pipeline, Feast storage, validation and DataHub lineage | [Six-task Airflow/GMS run, ten checks and invalid-input rejection](rag-orchestration.md); [source-cited generation](llm-grounding.md) verified on three questions |
 | Tools | Async validated data/chunk and drift MCP services, health checks, Helm rollout/fallback | [Two native MCP releases](mcp-tools.md), each with two replicas and verified rollback |
-| Agents | Retrieval and drift specialists, coordinator, registry publication, multi-replica autoscaling and sandbox | None deployed |
-| Startup | Agent Substrate warm-up, worker-pool HA explanation and startup benchmark | Not implemented |
+| Agents | Retrieval and drift specialists, coordinator, registry publication, multi-replica autoscaling and sandbox | [Three Ready sandbox agents and published catalog identities](agent-platform.md); complete chat, boundary and scaling acceptance open |
+| Startup | Agent Substrate warm-up, worker-pool HA explanation and startup benchmark | Native golden snapshots and two workers per role; measured cold/warm comparison and HA explanation open |
 | Delivery | RAG and agent/MCP test-build-auto-deploy pipelines, gateway/UI access and secrets | ML CI/gateway/Vault are reusable baselines |
 | Evaluation | Notebooks, coverage >90%, mutation >80%, boundary/property tests and native load HTML | [79 native MCP tests and load reports](mcp-tools.md); mutation and future agent checks remain open |
 | Operations | Token counts, round-trip time, TTFT, safety/PII hits, agent/tool calls/failures and A/B | Existing metrics/log/trace backends; new telemetry missing |

@@ -1,0 +1,53 @@
+Release "kagent" has been upgraded. Happy Helming!
+NAME: kagent
+LAST DEPLOYED: Thu Oct 29 06:23:26 2026
+NAMESPACE: iot-agents
+STATUS: deployed
+REVISION: 2
+TEST SUITE: None
+NOTES:
+################################################################################
+#                            KAGENT DEPLOYED                                  #
+################################################################################
+
+Kagent has been successfully deployed to namespace: iot-agents
+
+ACCESSING THE UI:
+  1. Forward the UI service port:
+     kubectl -n iot-agents port-forward service/kagent-ui 8080:8080
+
+  2. Open your browser and visit:
+     http://localhost:8080
+
+ACCESSING THE CONTROLLER API:
+  kubectl -n iot-agents port-forward service/kagent-controller 8083:8083
+
+  API endpoint: http://localhost:8083/api
+
+DEPLOYED COMPONENTS:
+  - Controller: kagent-controller (manages Kubernetes resources)
+  - Engine: kagent-engine (AI agent runtime)
+  - UI: kagent-ui (web interface)
+
+ENABLED TOOLS:
+
+ENABLED AGENTS:
+
+USEFUL COMMANDS:
+  # View all kagent resources
+  kubectl -n iot-agents get agents,modelconfigs,toolservers,memories
+
+  # Get agents
+  kubectl -n iot-agents get agents
+
+  # View logs
+  kubectl -n iot-agents logs -l app.kubernetes.io/name=kagent -f
+
+TROUBLESHOOTING:
+  - Check pod status: kubectl -n iot-agents get pods
+  - View events: kubectl -n iot-agents get events --sort-by='.lastTimestamp'
+  - Controller logs: kubectl -n iot-agents logs -l app.kubernetes.io/component=controller -f
+DOCUMENTATION:
+  Visit https://kagent.dev for comprehensive documentation and examples.
+
+################################################################################

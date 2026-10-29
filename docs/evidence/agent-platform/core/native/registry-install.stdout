@@ -1,0 +1,31 @@
+Release "iot-agent-registry" does not exist. Installing it now.
+NAME: iot-agent-registry
+LAST DEPLOYED: Thu Oct 29 06:13:21 2026
+NAMESPACE: iot-agents
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+========================================================================
+  Agent Registry has been deployed!
+========================================================================
+
+Chart:     agentregistry-0.4.0
+Release:   iot-agent-registry
+Namespace: iot-agents
+
+To access the Agent Registry UI and API:
+
+1. Port-forward (quickest):
+
+   kubectl -n iot-agents port-forward svc/iot-agent-registry 12121:12121
+
+   Then open: http://localhost:12121
+
+Useful endpoints (after port-forward):
+  - Interactive docs:    http://localhost:12121/docs
+  - OpenAPI spec (JSON): http://localhost:12121/openapi.json
+  - Deployments list:    http://localhost:12121/v0/deployments?limit=200
+
+Built-in MCP Server (for AI Clients / Chatbots):
+  - kubectl -n iot-agents port-forward svc/iot-agent-registry 31313:31313

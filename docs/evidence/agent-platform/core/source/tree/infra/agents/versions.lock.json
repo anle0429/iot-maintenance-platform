@@ -1,0 +1,44 @@
+{
+  "format": "iot-agent-platform-lock-v1",
+  "charts": [
+    {
+      "name": "kagent",
+      "version": "0.10.3",
+      "repository": "oci://ghcr.io/kagent-dev/kagent/helm/kagent",
+      "bytes": 173525,
+      "sha256": "d8e7f41b27920e92e1929fb7502dae3cda9a2c450abe9db6488f04fe4118e744"
+    },
+    {
+      "name": "kagent-crds",
+      "version": "0.10.3",
+      "repository": "oci://ghcr.io/kagent-dev/kagent/helm/kagent-crds",
+      "bytes": 269092,
+      "sha256": "a591305cf6788e7e3965c7f697e684fb6564822e0352016db4bee295d881ebf5"
+    },
+    {
+      "name": "substrate",
+      "version": "0.0.9",
+      "repository": "oci://ghcr.io/kagent-dev/substrate/helm/substrate",
+      "bytes": 14393,
+      "sha256": "0949ea84e03e6fb3b8c68c0b0f84cc9f87443223e752bb858a7f6c4e073d28e9"
+    },
+    {
+      "name": "substrate-crds",
+      "version": "0.0.9",
+      "repository": "oci://ghcr.io/kagent-dev/substrate/helm/substrate-crds",
+      "bytes": 9970,
+      "sha256": "49e79b329c6abb48aa2b460f4faa243eab005c1fff4c386cc06c619b5990016d"
+    },
+    {
+      "name": "agentregistry",
+      "version": "0.4.0",
+      "repository": "oci://ghcr.io/agentregistry-dev/agentregistry/charts/agentregistry",
+      "bytes": 14205,
+      "sha256": "757da462f72766ab17d3406e04847e53943936c883604a8474b8755f1822578d"
+    }
+  ],
+  "postgres_image": "postgres:18.6-alpine3.23",
+  "postgres_digest_policy": "Pull the official version, verify architecture and UID, then deploy its observed immutable RepoDigest.",
+  "local_model": "iot-qwen2.5-7b",
+  "custom_model_base_url": "http://iot-router-epp.iot-llm.svc.cluster.local:8081/v1"
+}

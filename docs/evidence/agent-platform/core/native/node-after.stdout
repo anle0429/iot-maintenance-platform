@@ -1,0 +1,147 @@
+Name:               iot-cw-vm
+Roles:              control-plane
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=iot-cw-vm
+                    kubernetes.io/os=linux
+                    node-role.kubernetes.io/control-plane=true
+Annotations:        flannel.alpha.coreos.com/backend-data: {"VNI":1,"VtepMAC":"be:26:2b:fe:8d:b7"}
+                    flannel.alpha.coreos.com/backend-type: vxlan
+                    flannel.alpha.coreos.com/kube-subnet-manager: true
+                    flannel.alpha.coreos.com/public-ip: 10.42.0.2
+                    k3s.io/encryption-config-hash: start-9991f24a40b7a68f7ff4677404553e6ef669659f999d1ea5d700a64ee601f9f2
+                    k3s.io/node-args:
+                      ["server","--data-dir","/srv/iot-fast/k3s","--default-local-storage-path","/srv/iot-fast/k3s-storage","--write-kubeconfig-mode","0600","--...
+                    k3s.io/node-config-hash: C37GSMVWC25IE2NGMGUQGMZIU6QGX5ELUVOZNAT2XWXDCOVLV6JQ====
+                    k3s.io/node-env: {}
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Tue, 27 Oct 2026 11:05:54 +0000
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  iot-cw-vm
+  AcquireTime:     <unset>
+  RenewTime:       Thu, 29 Oct 2026 06:13:42 +0000
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Thu, 29 Oct 2026 06:13:33 +0000   Tue, 27 Oct 2026 11:05:54 +0000   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Thu, 29 Oct 2026 06:13:33 +0000   Tue, 27 Oct 2026 11:05:54 +0000   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Thu, 29 Oct 2026 06:13:33 +0000   Tue, 27 Oct 2026 11:05:54 +0000   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            True    Thu, 29 Oct 2026 06:13:33 +0000   Tue, 27 Oct 2026 11:05:54 +0000   KubeletReady                 kubelet is posting ready status
+Addresses:
+  InternalIP:  10.42.0.2
+  Hostname:    iot-cw-vm
+Capacity:
+  cpu:                8
+  ephemeral-storage:  49691512Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             65839316Ki
+  pods:               110
+Allocatable:
+  cpu:                8
+  ephemeral-storage:  45795697384
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             63742164Ki
+  pods:               110
+System Info:
+  Machine ID:                 fba09dadd9b441568bbe8aad3233b8cd
+  System UUID:                3f54627f-6ecd-995a-bee5-0827b1866187
+  Boot ID:                    51698ffe-f189-42bb-876f-79acf0acbd55
+  Kernel Version:             7.0.0-1014-gcp
+  OS Image:                   Ubuntu 24.04.5 LTS
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  containerd://2.2.7-k3s1
+  Kubelet Version:            v1.35.9+k3s1
+  Kube-Proxy Version:         
+PodCIDR:                      10.52.0.0/24
+PodCIDRs:                     10.52.0.0/24
+Non-terminated Pods:          (66 in total)
+  Namespace                   Name                                                   CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                                                   ------------  ----------  ---------------  -------------  ---
+  cert-manager                cert-manager-564c99cc8f-wjlvt                          0 (0%)        0 (0%)      0 (0%)           0 (0%)         42h
+  cert-manager                cert-manager-cainjector-85878d4fb8-4l6pf               0 (0%)        0 (0%)      0 (0%)           0 (0%)         42h
+  cert-manager                cert-manager-webhook-574bc9799f-4kntb                  0 (0%)        0 (0%)      0 (0%)           0 (0%)         42h
+  iot-agents                  iot-agent-database-6b7dffb5df-q57fp                    100m (1%)     500m (6%)   256Mi (0%)       1Gi (1%)       81s
+  iot-agents                  iot-agent-registry-cb4f6d66f-7xtct                     100m (1%)     1 (12%)     128Mi (0%)       768Mi (1%)     24s
+  iot-agents                  iot-drift-mcp-74c8bc9c58-rmd64                         100m (1%)     1 (12%)     128Mi (0%)       512Mi (0%)     43m
+  iot-agents                  iot-drift-mcp-74c8bc9c58-sb7xw                         100m (1%)     1 (12%)     128Mi (0%)       512Mi (0%)     43m
+  iot-agents                  iot-retrieval-mcp-9444d54c6-hcs76                      200m (2%)     2 (25%)     768Mi (1%)       3Gi (4%)       45m
+  iot-agents                  iot-retrieval-mcp-9444d54c6-rhhdp                      200m (2%)     2 (25%)     768Mi (1%)       3Gi (4%)       45m
+  iot-agents                  kagent-controller-7c55cff5cb-m2klc                     100m (1%)     1 (12%)     128Mi (0%)       768Mi (1%)     57s
+  iot-agents                  kagent-ui-6b8dcf774d-7nzf2                             50m (0%)      500m (6%)   128Mi (0%)       512Mi (0%)     57s
+  iot-drift-events            iot-drift-event-jenkins-3-predictor-8459bc757-pzp9l    100m (1%)     500m (6%)   128Mi (0%)       512Mi (0%)     11h
+  iot-drift-events            iot-drift-event-pilot-28-predictor-68877bb77f-pcnml    100m (1%)     500m (6%)   128Mi (0%)       512Mi (0%)     12h
+  iot-features                feature-api-7cbb967c9-8h6pv                            100m (1%)     1 (12%)     256Mi (0%)       1Gi (1%)       42h
+  iot-features                iot-ab-serve-jenkins-6-5b9b45b68b-tmwvs                100m (1%)     1 (12%)     256Mi (0%)       2Gi (3%)       26h
+  iot-features                iot-ab-serve-jenkins-7-6c546b96b5-rvtn4                100m (1%)     1 (12%)     256Mi (0%)       2Gi (3%)       25h
+  iot-features                iot-ab-serve-jenkins-8-64d6bc9c48-kzbrb                100m (1%)     1 (12%)     256Mi (0%)       2Gi (3%)       25h
+  iot-features                iot-drift-api-6f4c46dd6c-67gwq                         100m (1%)     1 (12%)     128Mi (0%)       512Mi (0%)     14h
+  iot-features                iot-feature-api-c85bbb859-2m88p                        100m (1%)     1 (12%)     256Mi (0%)       1Gi (1%)       67m
+  iot-features                iot-log-discovery-probe-d7497bdf-sld8f                 10m (0%)      100m (1%)   32Mi (0%)        128Mi (0%)     9h
+  iot-features                online-67d78d7ccf-ttrhg                                50m (0%)      500m (6%)   64Mi (0%)        256Mi (0%)     37h
+  iot-features                online-serve-jenkins-5-f7499f68f-4tblc                 50m (0%)      500m (6%)   64Mi (0%)        256Mi (0%)     26h
+  iot-features                online-serve-jenkins-6-c8fdbf947-dthk6                 50m (0%)      500m (6%)   64Mi (0%)        256Mi (0%)     26h
+  iot-features                online-serve-jenkins-7-865fc4dfdf-wbbhb                50m (0%)      500m (6%)   64Mi (0%)        256Mi (0%)     25h
+  iot-features                online-serve-jenkins-8-679bf9bcd7-f92kw                50m (0%)      500m (6%)   64Mi (0%)        256Mi (0%)     25h
+  iot-gateway                 iot-gateway-5dcb8485b4-nnvpq                           100m (1%)     1 (12%)     128Mi (0%)       512Mi (0%)     10h
+  iot-llm                     iot-model-54c5f94d96-w8h48                             1500m (18%)   4 (50%)     4Gi (6%)         10Gi (16%)     131m
+  iot-llm                     iot-router-epp-54c86bcb57-qtkk8                        200m (2%)     2 (25%)     384Mi (0%)       1536Mi (2%)    158m
+  iot-mesh-system             istiod-iot-1313-75f66fc98b-mmtdl                       100m (1%)     1 (12%)     256Mi (0%)       512Mi (0%)     9h
+  iot-mesh                    allowed-client-77fff5c98b-l9rn8                        20m (0%)      1 (12%)     128Mi (0%)       384Mi (0%)     9h
+  iot-mesh                    denied-client-6fb8bb579-chzv4                          20m (0%)      1 (12%)     128Mi (0%)       384Mi (0%)     9h
+  iot-mesh                    mesh-predictor-769fdd755c-cdh7h                        20m (0%)      1 (12%)     128Mi (0%)       512Mi (0%)     9h
+  iot-mesh                    plain-client-56b8f85b7-pj89s                           10m (0%)      500m (6%)   64Mi (0%)        128Mi (0%)     9h
+  iot-observability           iot-jaeger-7bb95f754f-855gv                            100m (1%)     1 (12%)     128Mi (0%)       512Mi (0%)     23h
+  iot-serving                 iot-pump-failure-v1-predictor-774894bdbb-7zb26         100m (1%)     500m (6%)   128Mi (0%)       512Mi (0%)     30h
+  iot-serving                 iot-pump-serve-jenkins-5-predictor-7b4d658746-x7mdp    100m (1%)     500m (6%)   128Mi (0%)       512Mi (0%)     14h
+  iot-serving                 iot-pump-serve-jenkins-6-predictor-6f65d56779-skfg8    100m (1%)     500m (6%)   128Mi (0%)       512Mi (0%)     26h
+  iot-serving                 iot-pump-serve-jenkins-7-predictor-5996b59945-m6jt2    100m (1%)     500m (6%)   128Mi (0%)       512Mi (0%)     23h
+  iot-serving                 iot-pump-serve-jenkins-8-predictor-55c6c94b78-vmwvb    100m (1%)     500m (6%)   128Mi (0%)       512Mi (0%)     14h
+  knative-eventing            eventing-controller-67fd66569c-vj9jz                   100m (1%)     0 (0%)      100Mi (0%)       0 (0%)         12h
+  knative-eventing            eventing-webhook-699d67b554-c6qkj                      100m (1%)     200m (2%)   50Mi (0%)        200Mi (0%)     12h
+  knative-eventing            imc-controller-658ff4db54-ngs5h                        0 (0%)        0 (0%)      0 (0%)           0 (0%)         12h
+  knative-eventing            imc-dispatcher-5f7cb4558f-whr4f                        0 (0%)        0 (0%)      0 (0%)           0 (0%)         12h
+  knative-eventing            job-sink-6577ccc65b-tmcnm                              125m (1%)     1 (12%)     64Mi (0%)        2Gi (3%)       12h
+  knative-eventing            mt-broker-controller-6587d6444-nf5zz                   100m (1%)     0 (0%)      100Mi (0%)       0 (0%)         12h
+  knative-eventing            mt-broker-filter-d8f688f9f-5rx68                       100m (1%)     0 (0%)      100Mi (0%)       0 (0%)         12h
+  knative-eventing            mt-broker-ingress-ccf7bfdf-6mtbc                       100m (1%)     0 (0%)      100Mi (0%)       0 (0%)         12h
+  knative-eventing            request-reply-0                                        0 (0%)        0 (0%)      0 (0%)           0 (0%)         12h
+  kserve                      kserve-controller-manager-7bf66bcddc-9cwpl             120m (1%)     600m (7%)   288Mi (0%)       1152Mi (1%)    42h
+  kube-system                 coredns-b644fd95b-5xsss                                100m (1%)     0 (0%)      70Mi (0%)        170Mi (0%)     43h
+  kube-system                 local-path-provisioner-d9d8769b6-9hh7r                 0 (0%)        0 (0%)      0 (0%)           0 (0%)         43h
+  kube-system                 metrics-server-7f4b6d9bd7-cgtxs                        100m (1%)     0 (0%)      70Mi (0%)        0 (0%)         43h
+  kubeflow                    cache-deployer-deployment-64d79fdd44-b4h25             50m (0%)      1 (12%)     128Mi (0%)       2Gi (3%)       42h
+  kubeflow                    cache-server-cbc9884c-ztgtf                            50m (0%)      1 (12%)     128Mi (0%)       2Gi (3%)       42h
+  kubeflow                    metadata-envoy-deployment-b7d648dc8-z5kbp              50m (0%)      1 (12%)     128Mi (0%)       2Gi (3%)       42h
+  kubeflow                    metadata-grpc-deployment-8488465494-bsf5j              50m (0%)      1 (12%)     128Mi (0%)       2Gi (3%)       42h
+  kubeflow                    metadata-writer-6f4744cf58-lqxcq                       50m (0%)      1 (12%)     128Mi (0%)       2Gi (3%)       42h
+  kubeflow                    ml-pipeline-57cc65b764-ndtxz                           250m (3%)     1 (12%)     500Mi (0%)       2Gi (3%)       42h
+  kubeflow                    ml-pipeline-persistenceagent-55578856d8-9mrjk          120m (1%)     1 (12%)     500Mi (0%)       2Gi (3%)       42h
+  kubeflow                    ml-pipeline-scheduledworkflow-6bf66f7b47-d6tgd         50m (0%)      1 (12%)     128Mi (0%)       2Gi (3%)       42h
+  kubeflow                    ml-pipeline-ui-65467df886-h6hmr                        10m (0%)      1 (12%)     70Mi (0%)        2Gi (3%)       42h
+  kubeflow                    ml-pipeline-viewer-crd-5dc4967db6-j9pmv                50m (0%)      1 (12%)     128Mi (0%)       2Gi (3%)       42h
+  kubeflow                    ml-pipeline-visualizationserver-589c8d586c-bz7xt       30m (0%)      1 (12%)     500Mi (0%)       2Gi (3%)       42h
+  kubeflow                    mysql-5d6d5f8584-k7qcm                                 100m (1%)     1 (12%)     800Mi (1%)       2Gi (3%)       42h
+  kubeflow                    seaweedfs-794c445bc6-hzmgx                             64m (0%)      1 (12%)     256Mi (0%)       2Gi (3%)       42h
+  kubeflow                    workflow-controller-6d75c864cf-mnxnq                   100m (1%)     1 (12%)     500Mi (0%)       2Gi (3%)       42h
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests       Limits
+  --------           --------       ------
+  cpu                6549m (81%)    49400m (617%)
+  memory             15492Mi (24%)  70898Mi (113%)
+  ephemeral-storage  0 (0%)         0 (0%)
+  hugepages-1Gi      0 (0%)         0 (0%)
+  hugepages-2Mi      0 (0%)         0 (0%)
+Events:
+  Type    Reason                          Age   From              Message
+  ----    ------                          ----  ----              -------
+  Normal  CertificateExpirationOK         49m   k3s-cert-monitor  Node and Certificate Authority certificates managed by k3s are OK
+  Normal  RegisteredNode                  49m   node-controller   Node iot-cw-vm event: Registered Node iot-cw-vm in Controller
+  Normal  NodePasswordValidationComplete  49m   k3s-supervisor    Deferred node password secret validation complete

@@ -1,0 +1,97 @@
+{
+  "actor_id": "asr-2bf2c943db5918ea48f0a0e9",
+  "checks": {
+    "identity": {
+      "exit": 128,
+      "command": [
+        "/var/lib/ateom-gvisor/static-files/runsc-f18a948bf9c8bbb54eb998549a3a8d719a1c7de2efbe8fdd2ff0ee5fecd06f19",
+        "--root=/var/lib/ateom-gvisor/actors/iot-agents:asr-2bf2c943db5918ea48f0a0e9/runsc-state",
+        "exec",
+        "--user=1001:1001",
+        "kagent",
+        "/usr/bin/id"
+      ]
+    },
+    "kernel": {
+      "exit": 128,
+      "command": [
+        "/var/lib/ateom-gvisor/static-files/runsc-f18a948bf9c8bbb54eb998549a3a8d719a1c7de2efbe8fdd2ff0ee5fecd06f19",
+        "--root=/var/lib/ateom-gvisor/actors/iot-agents:asr-2bf2c943db5918ea48f0a0e9/runsc-state",
+        "exec",
+        "--user=1001:1001",
+        "kagent",
+        "/usr/bin/uname",
+        "-a"
+      ]
+    },
+    "no-kubernetes-token": {
+      "exit": 128,
+      "command": [
+        "/var/lib/ateom-gvisor/static-files/runsc-f18a948bf9c8bbb54eb998549a3a8d719a1c7de2efbe8fdd2ff0ee5fecd06f19",
+        "--root=/var/lib/ateom-gvisor/actors/iot-agents:asr-2bf2c943db5918ea48f0a0e9/runsc-state",
+        "exec",
+        "--user=1001:1001",
+        "kagent",
+        "/bin/sh",
+        "-c",
+        "test ! -e /var/run/secrets/kubernetes.io/serviceaccount/token"
+      ]
+    },
+    "no-host-data": {
+      "exit": 128,
+      "command": [
+        "/var/lib/ateom-gvisor/static-files/runsc-f18a948bf9c8bbb54eb998549a3a8d719a1c7de2efbe8fdd2ff0ee5fecd06f19",
+        "--root=/var/lib/ateom-gvisor/actors/iot-agents:asr-2bf2c943db5918ea48f0a0e9/runsc-state",
+        "exec",
+        "--user=1001:1001",
+        "kagent",
+        "/bin/sh",
+        "-c",
+        "test ! -e /srv/iot-data"
+      ]
+    },
+    "allowed-mcp": {
+      "exit": 128,
+      "command": [
+        "/var/lib/ateom-gvisor/static-files/runsc-f18a948bf9c8bbb54eb998549a3a8d719a1c7de2efbe8fdd2ff0ee5fecd06f19",
+        "--root=/var/lib/ateom-gvisor/actors/iot-agents:asr-2bf2c943db5918ea48f0a0e9/runsc-state",
+        "exec",
+        "--user=1001:1001",
+        "kagent",
+        "/usr/bin/curl",
+        "--max-time",
+        "8",
+        "--silent",
+        "--show-error",
+        "--output",
+        "/dev/null",
+        "--write-out",
+        "%{http_code}",
+        "http://iot-retrieval-mcp.iot-agents.svc.cluster.local:8080/health/live"
+      ]
+    },
+    "blocked-external": {
+      "exit": 128,
+      "command": [
+        "/var/lib/ateom-gvisor/static-files/runsc-f18a948bf9c8bbb54eb998549a3a8d719a1c7de2efbe8fdd2ff0ee5fecd06f19",
+        "--root=/var/lib/ateom-gvisor/actors/iot-agents:asr-2bf2c943db5918ea48f0a0e9/runsc-state",
+        "exec",
+        "--user=1001:1001",
+        "kagent",
+        "/usr/bin/curl",
+        "--max-time",
+        "8",
+        "--silent",
+        "--show-error",
+        "--output",
+        "/dev/null",
+        "--write-out",
+        "%{http_code}",
+        "http://example.com/"
+      ]
+    }
+  },
+  "runsc_sha256": "f18a948bf9c8bbb54eb998549a3a8d719a1c7de2efbe8fdd2ff0ee5fecd06f19",
+  "scope": "Read-only operator exec inside one existing actor. This adds no agent shell tool and makes no host compromise or multitenancy claim.",
+  "passed": false
+}

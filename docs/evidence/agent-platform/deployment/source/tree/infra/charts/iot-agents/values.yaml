@@ -1,0 +1,7 @@
+# Each agent has its own two-slot pool; worker capacity is separate from the shared model server.
+workerImage: ghcr.io/kagent-dev/substrate/ateom-gvisor:v0.0.9
+workerReplicas: 2
+workerResources:
+  requests: {cpu: 50m, memory: 256Mi}
+  limits: {cpu: '2', memory: 3Gi}
+modelConfig: default-model-config

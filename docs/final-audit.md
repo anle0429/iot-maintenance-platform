@@ -55,3 +55,9 @@ python -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 The MCP checkpoint adds 745 curated source/native/UI payloads, 79 native API tests, 97.74% statement coverage, 90.57% branch coverage and two authenticated Locust workloads. Its verifier also checks that the original 945-mutant gate failed at 56.19%; verifying that receipt does not make the mutation requirement pass. The expanded mutation gate also failed, at 62.86%, with the earlier 79-test/coverage baseline unchanged. Full agent integration remains open.
 
 The current PC regression passed 773 tests and 333 subtests, with nine documented skips, in 87.08 seconds. The dedicated MCP environment separately passed 79 API tests and three evidence-oracle tests. All 31 offline verifiers passed. Documentation checks covered 597 maintained files, 1,949 local links and five diagrams; the current Python audit found descriptions for all 1,952 definitions in 368 maintained files.
+
+## Agent platform checkpoint
+
+The [native agent foundation](agent-platform.md) adds a shared local-model configuration, persistent private registry, three Ready gVisor templates and two workers per role. Its 528-payload verifier preserves six actual tool results across two incomplete retrieval attempts and explicitly leaves complete chat, boundary probes, autoscaling and warm-up unverified. The same model now exposes an 8,192-token context after a guarded one-node rollout. These checks do not close the selected LLM track.
+
+The PC regression for this checkpoint passed 781 tests and 335 subtests, with seven documented skips, in 59.37 seconds. Fifteen focused client/evidence/rubric tests also passed. Documentation checks covered 629 maintained files, 2,005 local links and five figures. All 1,991 definitions in 383 maintained Python files have descriptions. The offline audit now includes 32 artifact verifiers; its agent-foundation result does not assert complete conversations or the full coursework.

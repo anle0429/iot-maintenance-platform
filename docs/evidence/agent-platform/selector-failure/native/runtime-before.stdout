@@ -1,0 +1,1421 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "1",
+                    "meta.helm.sh/release-name": "substrate",
+                    "meta.helm.sh/release-namespace": "ate-system"
+                },
+                "creationTimestamp": "2026-10-29T06:21:51Z",
+                "generation": 1,
+                "labels": {
+                    "app.kubernetes.io/managed-by": "Helm"
+                },
+                "name": "ate-api-server-deployment",
+                "namespace": "ate-system",
+                "resourceVersion": "360945",
+                "uid": "b7947ba4-e0e8-48b4-b80d-31d66a584b32"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "ate-api-server"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "prometheus.io/port": "9090",
+                            "prometheus.io/scrape": "true"
+                        },
+                        "labels": {
+                            "app": "ate-api-server"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "args": [
+                                    "--grpc-listen-addr=0.0.0.0:443",
+                                    "--grpc-server-cred-bundle=/run/ateapi-tls/credential-bundle.pem",
+                                    "--auth-mode=jwt",
+                                    "--redis-cluster-address=@env",
+                                    "--redis-no-tls=true",
+                                    "--redis-use-iam-auth=@env",
+                                    "--client-jwt-issuer=https://kubernetes.default.svc.cluster.local",
+                                    "--client-jwt-audience=api.ate-system.svc",
+                                    "--session-id-jwt-pool=/run/session-id-jwt-pool/pool.json",
+                                    "--session-id-ca-pool=/run/session-id-ca-pool/pool.json",
+                                    "--client-jwt-ca-cert=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+                                ],
+                                "env": [
+                                    {
+                                        "name": "POD_NAME",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "metadata.name"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "POD_NAMESPACE",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "metadata.namespace"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "POD_UID",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "metadata.uid"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "OTEL_RESOURCE_ATTRIBUTES",
+                                        "value": "k8s.namespace.name=$(POD_NAMESPACE),k8s.pod.name=$(POD_NAME),k8s.pod.uid=$(POD_UID),service.instance.id=$(POD_UID)"
+                                    }
+                                ],
+                                "envFrom": [
+                                    {
+                                        "configMapRef": {
+                                            "name": "ate-api-server-envvars",
+                                            "optional": true
+                                        }
+                                    }
+                                ],
+                                "image": "ghcr.io/kagent-dev/substrate/ateapi:v0.0.9",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "ate-api-server",
+                                "ports": [
+                                    {
+                                        "containerPort": 443,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 9090,
+                                        "name": "prometheus",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "path": "/readyz",
+                                        "port": 9090,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 5,
+                                    "periodSeconds": 2,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "1Gi"
+                                    },
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "256Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/run/ateapi-tls",
+                                        "name": "ateapi-tls",
+                                        "readOnly": true
+                                    },
+                                    {
+                                        "mountPath": "/run/session-id-jwt-pool",
+                                        "name": "session-id-jwt-pool"
+                                    },
+                                    {
+                                        "mountPath": "/run/session-id-ca-pool",
+                                        "name": "session-id-ca-pool",
+                                        "readOnly": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "initContainers": [
+                            {
+                                "command": [
+                                    "sh",
+                                    "-c",
+                                    "cat /run/ateapi-tls-src/tls.crt /run/ateapi-tls-src/tls.key \u003e /run/ateapi-tls/credential-bundle.pem"
+                                ],
+                                "image": "busybox:1.36",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "assemble-cred-bundle",
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "500m",
+                                        "memory": "512Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "50m",
+                                        "memory": "64Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/run/ateapi-tls-src",
+                                        "name": "ateapi-tls-src",
+                                        "readOnly": true
+                                    },
+                                    {
+                                        "mountPath": "/run/ateapi-tls",
+                                        "name": "ateapi-tls"
+                                    }
+                                ]
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "ate-api-server",
+                        "serviceAccountName": "ate-api-server",
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "name": "ateapi-tls-src",
+                                "secret": {
+                                    "defaultMode": 420,
+                                    "secretName": "ateapi-tls"
+                                }
+                            },
+                            {
+                                "emptyDir": {},
+                                "name": "ateapi-tls"
+                            },
+                            {
+                                "name": "session-id-jwt-pool",
+                                "projected": {
+                                    "defaultMode": 420,
+                                    "sources": [
+                                        {
+                                            "secret": {
+                                                "items": [
+                                                    {
+                                                        "key": "pool",
+                                                        "path": "pool.json"
+                                                    }
+                                                ],
+                                                "name": "session-id-jwt-pool"
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "session-id-ca-pool",
+                                "projected": {
+                                    "defaultMode": 420,
+                                    "sources": [
+                                        {
+                                            "secret": {
+                                                "items": [
+                                                    {
+                                                        "key": "pool",
+                                                        "path": "pool.json"
+                                                    }
+                                                ],
+                                                "name": "session-id-ca-pool"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-10-29T06:23:19Z",
+                        "lastUpdateTime": "2026-10-29T06:23:19Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2026-10-29T06:21:52Z",
+                        "lastUpdateTime": "2026-10-29T06:23:19Z",
+                        "message": "ReplicaSet \"ate-api-server-deployment-787c744c58\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 1,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "terminatingReplicas": 0,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "1",
+                    "meta.helm.sh/release-name": "substrate",
+                    "meta.helm.sh/release-namespace": "ate-system"
+                },
+                "creationTimestamp": "2026-10-29T06:21:51Z",
+                "generation": 1,
+                "labels": {
+                    "app.kubernetes.io/managed-by": "Helm"
+                },
+                "name": "ate-controller",
+                "namespace": "ate-system",
+                "resourceVersion": "360184",
+                "uid": "74727796-4a95-4366-bc3c-ff41d5740b93"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "ate-controller"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "ate-controller"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "args": [
+                                    "--ateapi-conn-spec=dns:///api.ate-system.svc:443",
+                                    "--ateapi-auth=jwt",
+                                    "--ateapi-ca-file=/run/ateapi-ca/ca.crt",
+                                    "--ateapi-server-name=api.ate-system.svc",
+                                    "--ateapi-token-file=/var/run/secrets/tokens/ateapi/token"
+                                ],
+                                "image": "ghcr.io/kagent-dev/substrate/atecontroller:v0.0.9",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "ate-controller",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "name": "metrics",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8081,
+                                        "name": "healthz",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "500m",
+                                        "memory": "512Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "128Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/run/ateapi-ca",
+                                        "name": "ateapi-ca",
+                                        "readOnly": true
+                                    },
+                                    {
+                                        "mountPath": "/var/run/secrets/tokens/ateapi",
+                                        "name": "ateapi-token",
+                                        "readOnly": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "ate-controller",
+                        "serviceAccountName": "ate-controller",
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "configMap": {
+                                    "defaultMode": 420,
+                                    "name": "ateapi-ca"
+                                },
+                                "name": "ateapi-ca"
+                            },
+                            {
+                                "name": "ateapi-token",
+                                "projected": {
+                                    "defaultMode": 420,
+                                    "sources": [
+                                        {
+                                            "serviceAccountToken": {
+                                                "audience": "api.ate-system.svc",
+                                                "expirationSeconds": 3600,
+                                                "path": "token"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-10-29T06:22:13Z",
+                        "lastUpdateTime": "2026-10-29T06:22:13Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2026-10-29T06:21:51Z",
+                        "lastUpdateTime": "2026-10-29T06:22:13Z",
+                        "message": "ReplicaSet \"ate-controller-6975748555\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 1,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "terminatingReplicas": 0,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "1",
+                    "meta.helm.sh/release-name": "substrate",
+                    "meta.helm.sh/release-namespace": "ate-system"
+                },
+                "creationTimestamp": "2026-10-29T06:21:51Z",
+                "generation": 1,
+                "labels": {
+                    "app": "atenet-router",
+                    "app.kubernetes.io/managed-by": "Helm"
+                },
+                "name": "atenet-router",
+                "namespace": "ate-system",
+                "resourceVersion": "360638",
+                "uid": "fd6324b0-3111-4bb8-8994-f4e78ae1ad20"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "atenet-router"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "prometheus.io/port": "9090",
+                            "prometheus.io/scrape": "true"
+                        },
+                        "labels": {
+                            "app": "atenet-router"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "args": [
+                                    "router",
+                                    "--standalone",
+                                    "--networking-mode=agentgateway",
+                                    "--namespace=ate-system",
+                                    "--router-service-name=atenet-router",
+                                    "--port-http=8080",
+                                    "--port-extproc=50051",
+                                    "--extproc-address=127.0.0.1",
+                                    "--ateapi-address=api.ate-system.svc:443",
+                                    "--ateapi-auth=jwt",
+                                    "--ateapi-ca-file=/run/ateapi-ca/ca.crt",
+                                    "--ateapi-server-name=api.ate-system.svc",
+                                    "--ateapi-token-file=/var/run/secrets/tokens/ateapi/token",
+                                    "--status-port=4040",
+                                    "--port-https=8443"
+                                ],
+                                "env": [
+                                    {
+                                        "name": "POD_NAME",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "metadata.name"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "POD_NAMESPACE",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "metadata.namespace"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "POD_UID",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "metadata.uid"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "OTEL_RESOURCE_ATTRIBUTES",
+                                        "value": "k8s.namespace.name=$(POD_NAMESPACE),k8s.pod.name=$(POD_NAME),k8s.pod.uid=$(POD_UID),service.instance.id=$(POD_UID)"
+                                    }
+                                ],
+                                "image": "ghcr.io/kagent-dev/substrate/atenet:v0.0.9",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "atenet-router",
+                                "ports": [
+                                    {
+                                        "containerPort": 50051,
+                                        "name": "extproc",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 4040,
+                                        "name": "status",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 9090,
+                                        "name": "metrics",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "512Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "128Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/run/ateapi-ca",
+                                        "name": "ateapi-ca",
+                                        "readOnly": true
+                                    },
+                                    {
+                                        "mountPath": "/var/run/secrets/tokens/ateapi",
+                                        "name": "ateapi-token",
+                                        "readOnly": true
+                                    }
+                                ]
+                            },
+                            {
+                                "args": [
+                                    "-f",
+                                    "/etc/agentgateway/config.yaml"
+                                ],
+                                "image": "cr.agentgateway.dev/agentgateway:v1.3.0-alpha.1",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "agentgateway",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "name": "http",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 8443,
+                                        "name": "https",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 15021,
+                                        "name": "readiness",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 15020,
+                                        "name": "gw-metrics",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "path": "/healthz/ready",
+                                        "port": "readiness",
+                                        "scheme": "HTTP"
+                                    },
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "500m",
+                                        "memory": "512Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "50m",
+                                        "memory": "64Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/etc/agentgateway",
+                                        "name": "agentgateway-config"
+                                    },
+                                    {
+                                        "mountPath": "/run/agentgateway-tls",
+                                        "name": "agentgateway-tls",
+                                        "readOnly": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "atenet-router",
+                        "serviceAccountName": "atenet-router",
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "configMap": {
+                                    "defaultMode": 420,
+                                    "name": "atenet-router-agentgateway-config"
+                                },
+                                "name": "agentgateway-config"
+                            },
+                            {
+                                "name": "agentgateway-tls",
+                                "secret": {
+                                    "defaultMode": 420,
+                                    "secretName": "ateapi-tls"
+                                }
+                            },
+                            {
+                                "configMap": {
+                                    "defaultMode": 420,
+                                    "name": "ateapi-ca"
+                                },
+                                "name": "ateapi-ca"
+                            },
+                            {
+                                "name": "ateapi-token",
+                                "projected": {
+                                    "defaultMode": 420,
+                                    "sources": [
+                                        {
+                                            "serviceAccountToken": {
+                                                "audience": "api.ate-system.svc",
+                                                "expirationSeconds": 3600,
+                                                "path": "token"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-10-29T06:23:07Z",
+                        "lastUpdateTime": "2026-10-29T06:23:07Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2026-10-29T06:21:51Z",
+                        "lastUpdateTime": "2026-10-29T06:23:07Z",
+                        "message": "ReplicaSet \"atenet-router-785dcf8c8\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 1,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "terminatingReplicas": 0,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "1",
+                    "meta.helm.sh/release-name": "substrate",
+                    "meta.helm.sh/release-namespace": "ate-system"
+                },
+                "creationTimestamp": "2026-10-29T06:21:51Z",
+                "generation": 1,
+                "labels": {
+                    "app": "dns",
+                    "app.kubernetes.io/managed-by": "Helm"
+                },
+                "name": "dns",
+                "namespace": "ate-system",
+                "resourceVersion": "360405",
+                "uid": "10cc893f-fb2d-4937-a887-00908a64261d"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "dns"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "dns"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "args": [
+                                    "-conf",
+                                    "/etc/coredns/Corefile"
+                                ],
+                                "image": "coredns/coredns:1.11.1",
+                                "imagePullPolicy": "IfNotPresent",
+                                "livenessProbe": {
+                                    "failureThreshold": 5,
+                                    "httpGet": {
+                                        "path": "/health",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 10,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 5
+                                },
+                                "name": "coredns",
+                                "ports": [
+                                    {
+                                        "containerPort": 53,
+                                        "name": "dns",
+                                        "protocol": "UDP"
+                                    },
+                                    {
+                                        "containerPort": 53,
+                                        "name": "dns-tcp",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "path": "/ready",
+                                        "port": 8181,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 5,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 5
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "500m",
+                                        "memory": "512Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "50m",
+                                        "memory": "64Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/etc/coredns",
+                                        "name": "dns-config-volume"
+                                    }
+                                ]
+                            },
+                            {
+                                "args": [
+                                    "dns",
+                                    "--log-level=debug",
+                                    "--interval=10s",
+                                    "--corefile-path=/etc/coredns/Corefile",
+                                    "--router-service-name=atenet-router",
+                                    "--dns-service-name=dns"
+                                ],
+                                "env": [
+                                    {
+                                        "name": "POD_NAMESPACE",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "metadata.namespace"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "image": "ghcr.io/kagent-dev/substrate/atenet:v0.0.9",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "dns-controller",
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "500m",
+                                        "memory": "512Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "50m",
+                                        "memory": "64Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/etc/coredns",
+                                        "name": "dns-config-volume"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "initContainers": [
+                            {
+                                "args": [
+                                    "cat \u003c\u003c'EOF' \u003e /etc/coredns/Corefile\n.:53 {\n    errors\n    health :8080\n    ready :8181\n    reload\n}\nEOF\n"
+                                ],
+                                "command": [
+                                    "sh",
+                                    "-c"
+                                ],
+                                "image": "busybox:1.36",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "init-dns",
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "500m",
+                                        "memory": "512Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "50m",
+                                        "memory": "64Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/etc/coredns",
+                                        "name": "dns-config-volume"
+                                    }
+                                ]
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "atenet-dns",
+                        "serviceAccountName": "atenet-dns",
+                        "shareProcessNamespace": true,
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "emptyDir": {},
+                                "name": "dns-config-volume"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-10-29T06:22:41Z",
+                        "lastUpdateTime": "2026-10-29T06:22:41Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2026-10-29T06:21:52Z",
+                        "lastUpdateTime": "2026-10-29T06:22:41Z",
+                        "message": "ReplicaSet \"dns-6bf9688776\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 1,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "terminatingReplicas": 0,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "1",
+                    "meta.helm.sh/release-name": "substrate",
+                    "meta.helm.sh/release-namespace": "ate-system"
+                },
+                "creationTimestamp": "2026-10-29T06:21:51Z",
+                "generation": 1,
+                "labels": {
+                    "app.kubernetes.io/managed-by": "Helm"
+                },
+                "name": "rustfs",
+                "namespace": "ate-system",
+                "resourceVersion": "360713",
+                "uid": "0d6f083b-fb03-4f2b-a3d1-b2a1aa0dffce"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "rustfs"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "rustfs"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "RUSTFS_ADDRESS",
+                                        "value": ":9000"
+                                    },
+                                    {
+                                        "name": "RUSTFS_CONSOLE_ADDRESS",
+                                        "value": ":9001"
+                                    },
+                                    {
+                                        "name": "RUSTFS_CONSOLE_ENABLE",
+                                        "value": "true"
+                                    },
+                                    {
+                                        "name": "RUSTFS_VOLUMES",
+                                        "value": "/data"
+                                    },
+                                    {
+                                        "name": "RUSTFS_ACCESS_KEY",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "key": "access",
+                                                "name": "iot-substrate-object-store"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "RUSTFS_SECRET_KEY",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "key": "secret",
+                                                "name": "iot-substrate-object-store"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "image": "rustfs/rustfs:1.0.0-beta.3@sha256:378642b05b7dcb4849fb77ebe6aca4ced1c3f66e7e504247df95a5c9018d3358",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "rustfs",
+                                "ports": [
+                                    {
+                                        "containerPort": 9000,
+                                        "name": "api",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 9001,
+                                        "name": "console",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "2Gi"
+                                    },
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "256Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/data",
+                                        "name": "data"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {
+                            "fsGroup": 10001,
+                            "runAsGroup": 10001,
+                            "runAsUser": 10001
+                        },
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "name": "data",
+                                "persistentVolumeClaim": {
+                                    "claimName": "rustfs-data"
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-10-29T06:23:10Z",
+                        "lastUpdateTime": "2026-10-29T06:23:10Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    },
+                    {
+                        "lastTransitionTime": "2026-10-29T06:21:52Z",
+                        "lastUpdateTime": "2026-10-29T06:23:10Z",
+                        "message": "ReplicaSet \"rustfs-f9f84fff5\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    }
+                ],
+                "observedGeneration": 1,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "terminatingReplicas": 0,
+                "updatedReplicas": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "DaemonSet",
+            "metadata": {
+                "annotations": {
+                    "deprecated.daemonset.template.generation": "1",
+                    "meta.helm.sh/release-name": "substrate",
+                    "meta.helm.sh/release-namespace": "ate-system"
+                },
+                "creationTimestamp": "2026-10-29T06:21:51Z",
+                "generation": 1,
+                "labels": {
+                    "app": "atelet",
+                    "app.kubernetes.io/managed-by": "Helm"
+                },
+                "name": "atelet",
+                "namespace": "ate-system",
+                "resourceVersion": "360067",
+                "uid": "893904ab-6142-4345-9a8a-8dfc76f73162"
+            },
+            "spec": {
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "atelet"
+                    }
+                },
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "prometheus.io/port": "9090",
+                            "prometheus.io/scrape": "true"
+                        },
+                        "labels": {
+                            "app": "atelet"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "args": [
+                                    "--gcp-auth-for-image-pulls=false"
+                                ],
+                                "env": [
+                                    {
+                                        "name": "MY_NODE_NAME",
+                                        "valueFrom": {
+                                            "fieldRef": {
+                                                "apiVersion": "v1",
+                                                "fieldPath": "spec.nodeName"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "ATE_STORAGE_BACKEND",
+                                        "value": "s3"
+                                    },
+                                    {
+                                        "name": "AWS_REGION",
+                                        "value": "us-east-1"
+                                    },
+                                    {
+                                        "name": "AWS_ENDPOINT_URL",
+                                        "value": "http://rustfs.ate-system.svc:9000"
+                                    },
+                                    {
+                                        "name": "AWS_S3_USE_PATH_STYLE",
+                                        "value": "true"
+                                    },
+                                    {
+                                        "name": "AWS_ACCESS_KEY_ID",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "key": "access",
+                                                "name": "iot-substrate-object-store"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "AWS_SECRET_ACCESS_KEY",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "key": "secret",
+                                                "name": "iot-substrate-object-store"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "image": "ghcr.io/kagent-dev/substrate/atelet:v0.0.9",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "atelet",
+                                "ports": [
+                                    {
+                                        "containerPort": 8085,
+                                        "hostPort": 8085,
+                                        "name": "grpc",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 9090,
+                                        "name": "prometheus",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "2Gi"
+                                    },
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "256Mi"
+                                    }
+                                },
+                                "securityContext": {
+                                    "privileged": true
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/var/lib/ateom-gvisor",
+                                        "name": "run-ateom"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "atelet",
+                        "serviceAccountName": "atelet",
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "hostPath": {
+                                    "path": "/var/lib/ateom-gvisor",
+                                    "type": "DirectoryOrCreate"
+                                },
+                                "name": "run-ateom"
+                            }
+                        ]
+                    }
+                },
+                "updateStrategy": {
+                    "rollingUpdate": {
+                        "maxSurge": 0,
+                        "maxUnavailable": 1
+                    },
+                    "type": "RollingUpdate"
+                }
+            },
+            "status": {
+                "currentNumberScheduled": 1,
+                "desiredNumberScheduled": 1,
+                "numberAvailable": 1,
+                "numberMisscheduled": 0,
+                "numberReady": 1,
+                "observedGeneration": 1,
+                "updatedNumberScheduled": 1
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "StatefulSet",
+            "metadata": {
+                "annotations": {
+                    "meta.helm.sh/release-name": "substrate",
+                    "meta.helm.sh/release-namespace": "ate-system"
+                },
+                "creationTimestamp": "2026-10-29T06:21:51Z",
+                "generation": 1,
+                "labels": {
+                    "app.kubernetes.io/managed-by": "Helm"
+                },
+                "name": "valkey-cluster",
+                "namespace": "ate-system",
+                "resourceVersion": "360734",
+                "uid": "66ecb14e-6e39-4e8e-99c6-eb2018a4a4d1"
+            },
+            "spec": {
+                "persistentVolumeClaimRetentionPolicy": {
+                    "whenDeleted": "Retain",
+                    "whenScaled": "Retain"
+                },
+                "podManagementPolicy": "Parallel",
+                "replicas": 6,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "valkey-cluster"
+                    }
+                },
+                "serviceName": "valkey-cluster-service",
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "valkey-cluster"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "command": [
+                                    "valkey-server",
+                                    "/etc/valkey/valkey.conf"
+                                ],
+                                "image": "valkey/valkey:8.0",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "valkey",
+                                "ports": [
+                                    {
+                                        "containerPort": 6379,
+                                        "name": "valkey",
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 16379,
+                                        "name": "bus",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "250m",
+                                        "memory": "256Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "20m",
+                                        "memory": "64Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/etc/valkey",
+                                        "name": "config"
+                                    },
+                                    {
+                                        "mountPath": "/data",
+                                        "name": "data"
+                                    }
+                                ]
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "configMap": {
+                                    "defaultMode": 420,
+                                    "name": "valkey-config"
+                                },
+                                "name": "config"
+                            }
+                        ]
+                    }
+                },
+                "updateStrategy": {
+                    "rollingUpdate": {
+                        "partition": 0
+                    },
+                    "type": "RollingUpdate"
+                },
+                "volumeClaimTemplates": [
+                    {
+                        "apiVersion": "v1",
+                        "kind": "PersistentVolumeClaim",
+                        "metadata": {
+                            "name": "data"
+                        },
+                        "spec": {
+                            "accessModes": [
+                                "ReadWriteOnce"
+                            ],
+                            "resources": {
+                                "requests": {
+                                    "storage": "1Gi"
+                                }
+                            },
+                            "volumeMode": "Filesystem"
+                        },
+                        "status": {
+                            "phase": "Pending"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "availableReplicas": 6,
+                "collisionCount": 0,
+                "currentReplicas": 6,
+                "currentRevision": "valkey-cluster-6d694b6c4f",
+                "observedGeneration": 1,
+                "readyReplicas": 6,
+                "replicas": 6,
+                "updateRevision": "valkey-cluster-6d694b6c4f",
+                "updatedReplicas": 6
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}
