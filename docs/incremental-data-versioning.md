@@ -1,41 +1,16 @@
-# Phiên bản dữ liệu tăng dần trên MLflow
+# Incremental dataset versions and full restore
 
-Cập nhật27/10: [đã tích hợp tự động vào cả Notebook và KFP5task](automatic-ml-versioning.md): hai native fresh pulls3.132Mrows/0newblobbytes, model4–5 đăng ký đúng dataRun và đọc lại200probes. Thử nghiệm59→60ngày và model3 dưới đây giữ lịch sử.
+The version store writes canonical content-addressed parts and a manifest for each retrieved dataset. A 59-day to 60-day change stores the changed material while preserving shared blobs; unchanged content is referenced rather than duplicated.
 
-Mỗi dataset có một manifest đầy đủ, trỏ tới các tệp Parquet bằng SHA256. [Kho content-addressed](../ml/data_versions.py) chỉ ghi blob chưa có. [Publisher MLflow](../ml/mlflow_data_versions.py) upload blob mới vào data run mới, còn phần giữ nguyên tham chiếu data run cũ. Model có thể trỏ tới đúng manifest, không cần upload lại toàn bộ data vào mỗi model run.
+The native MLflow-backed checks compare actual uploaded/reused bytes and reconstruct the complete selected version. Restored rows, schema and keys must match the canonical input, including labels and protocol metadata. A manifest alone is insufficient without full restore/readback.
 
-## Kết quả đã đo thật
+Data identity, model identity and source version remain linked. The restored snapshot is not a claim of transactional versioning for arbitrary external stores, and later automatic notebook/KFP registration has separate receipts.
 
-[Kiểm chứng cục bộ](evidence/data-versions/local/verification.json) và [kiểm chứng MLflow](evidence/data-versions/remote/verification.json) đã qua trên dataset Feast thật:
+## Commands and recorded examples
 
-| Trường hợp | Dòng snapshot | Tệp logic | Blob dữ liệu mới | Byte dữ liệu upload mới |
-|---|---:|---:|---:|---:|
-| Cửa sổ ban đầu59ngày | 3.082.048 | 177 | 177 | 728.157.915 |
-| Thêm ngày thứ60 | 3.132.184 | 180 | 3 | 11.845.783 |
-| Phát lại cửa sổ60ngày | 3.132.184 | 180 | 0 | 0 |
-
-Đây là thử nghiệm mở rộng cửa sổ59→60ngày trên cùng nguồn bất biến, không phải ba lần sinh nguồn mới. Data run đầu **`7f2cc519f033445198a288d9c5b96dd3`**, run thêm ngày **`49ea21884b9048efb051db5150cff842`**; replay dùng lại run thứ hai. Cả hai run FINISHED. Metadata manifest/locator được tính riêng: lần thêm ngày có61.466byte metadata; replay cũng không upload metadata mới.
-
-Toàn dataset logic60ngày có **740.003.698byte**. Mỗi trường hợp được tải blob từ MLflow thật, dựng kho mới và khôi phục snapshot đầy đủ, kiểm lại mọi byte. Lượt full restore tải740.003.698byte: số upload0 không có nghĩa tổng lưu lượng mạng0. Không dùng cache blob cục bộ làm nguồn của remote restore.
-
-Version60ngày: **`5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e`**. [Manifest](evidence/data-versions/manifests/5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e.json) liệt kê mọi tệp; remote `locations.json` chỉ rõ run chứa từng blob, nên không phải lần theo chuỗi manifest cha để khôi phục. Blob thuộc các run cũ vẫn cần được giữ.
-
-[Lượt KFP độc lập](evidence/data-versions/kfp-binding/verification.json) đã lấy mới toàn3.132.184dòng, chuẩn hóa180tệp và nhận đúng version ở trên, **0byte blob mới**. Native report/descriptor khác lượt notebook vẫn được giữ riêng cho truy vết.
-
-## Chuẩn hóa và tính đúng đắn
-
-[Canonicalizer](../ml/canonical_dataset.py) đọc source đã seal, kiểm id, nhãn, grain, null/finite và ngày UTC. Nó cố định schema, thứ tự cột, sort id từng ngày và cấu hình Parquet/Snappy; mọi bảng ghi ra được đọc lại đúng giá trị. Manifest không chứa giờ chạy hoặc đường dẫn máy. Vì vậy một lần native Feast lookup khác trả cùng hàng theo thứ tự khác vẫn cho cùng content version.
-
-Phiên này version cả cohort, bảng nhãn hai cột và key map để dễ kiểm toán, nên có chi phí lưu ban đầu và dữ liệu lặp giữa các bảng. Không so footprint này trực tiếp với các split Parquet cũ vốn có schema/phạm vi khác; không nhận đây là bố trí lưu nhỏ nhất. [Report180tệp](evidence/data-versions/canonical/canonical.json) ghi format, byte và SHA thật. Đây là cohort trung gian, không phải versioning100GB.
-
-[Unit oracle](../tests/test_data_versions.py) kiểm thêm/sửa/xóa, replay, restore độc lập manifest cha, path traversal và blob hỏng. [Oracle HTTP thật](evidence/data-versions/remote/oracle.json) dùng JSON nhỏ trong experiment riêng: hai version lưu đúng phần đổi, replay không tạo run mới, dữ liệu khôi phục đúng đáp án. Nó cố tình làm hỏng một blob của fixture rồi kiểm bị từ chối trước restore, sau đó phục hồi đúng byte gốc. Không sửa dataset/model thật. SHA giúp phát hiện artifact bị sửa; không gọi MLflow là kho WORM không thể ghi đè.
-
-## Tự chạy
-
-Từ repo root trên VM có cohort native đã hoàn tất, dùng [CLI](../scripts/version-feast-dataset.py) và [Compose publisher](../infra/data-versions.compose.yaml). Nguồn, canonical output, content store, receipts và restore phải dùng đường dẫn mới/đúng mount; không có trong clone Git.
+Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.
 
 ```bash
-# Trong image Feast đã khóa, /ml-data trỏ đến workspace của native pull.
 python -m ml.canonical_dataset --cohort /ml-data/cohort.json \
   --protocol /workspace/ml/protocols/medium-60d-v1.json \
   --destination /canonical/dataset --output /proof/canonical.json
@@ -44,8 +19,6 @@ python scripts/version-feast-dataset.py --canonical-root /canonical/dataset \
   --output /proof/version-new.json --parent-version "$PREVIOUS_VERSION"
 ```
 
-Để publish qua MLflow, đặt `IOT_DATA_CAS_ROOT`, `IOT_DATA_VERSION_OUTPUT`, `IOT_DATA_VERSION_RESTORE` tới các thư mục riêng trên VM rồi chạy publisher image3.17.2:
-
 ```bash
 docker compose -f infra/data-versions.compose.yaml run --no-deps publisher \
   -m ml.mlflow_data_versions --store /data-cas --version "$DATA_VERSION" \
@@ -53,14 +26,38 @@ docker compose -f infra/data-versions.compose.yaml run --no-deps publisher \
   --output /remote-proof/new-run.json
 ```
 
-Tool thực tế1CPU/4GiB, UID10001, root readonly, chỉ vào Docker network MLflow riêng, không publish cổng. Kho dùng SQLite lock để serialize publication; blob hỏng không tự bị ghi đè. Pending run cùng context có thể được kiểm lại, còn receipt/restore hoàn tất không chạy đè.
+## Implementation and evidence
 
-[Model/data gate](../ml/model_data_link.py) kiểm protocol, nguồn, native report, input descriptor và manifest của chính split dùng train; cùng protocol nhưng khác native pull vẫn bị chặn. [CLI đăng ký model](../ml/register_incremental_model.py) và [source snapshot](../scripts/create-source-snapshot.py) đã chạy thật: model **version3**, run **`0f2fe09b6f974eadb858424a70edc7e6`**, alias `candidate`, `production=false`.
+- [Source: ml/data_versions.py](../ml/data_versions.py)
+- [Source: ml/mlflow_data_versions.py](../ml/mlflow_data_versions.py)
+- [Recorded artifact: data-versions/local/verification.json](evidence/data-versions/local/verification.json)
+- [Recorded artifact: data-versions/remote/verification.json](evidence/data-versions/remote/verification.json)
+- [Recorded artifact: data-versions/manifests/5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e.json](evidence/data-versions/manifests/5e78230e8defc2c584d0b97f1e438b65e2659d7358ca44cdda1d6dd95e6db30e.json)
+- [Recorded artifact: data-versions/kfp-binding/verification.json](evidence/data-versions/kfp-binding/verification.json)
+- [Source: ml/canonical_dataset.py](../ml/canonical_dataset.py)
+- [Recorded artifact: data-versions/canonical/canonical.json](evidence/data-versions/canonical/canonical.json)
+- [Source: tests/test_data_versions.py](../tests/test_data_versions.py)
+- [Recorded artifact: data-versions/remote/oracle.json](evidence/data-versions/remote/oracle.json)
+- [Source: scripts/version-feast-dataset.py](../scripts/version-feast-dataset.py)
+- [Source: infra/data-versions.compose.yaml](../infra/data-versions.compose.yaml)
+- [Source: ml/model_data_link.py](../ml/model_data_link.py)
+- [Source: ml/register_incremental_model.py](../ml/register_incremental_model.py)
+- [Source: scripts/create-source-snapshot.py](../scripts/create-source-snapshot.py)
+- [Recorded artifact: data-versions/registry/registration.json](evidence/data-versions/registry/registration.json)
+- [Recorded artifact: data-versions/registry/verification.json](evidence/data-versions/registry/verification.json)
+- [mlflow.org / mlflow.client.html](https://mlflow.org/docs/latest/api_reference/python_api/mlflow.client.html)
+- [Recorded artifact: data-versions/capture/manifest.json](evidence/data-versions/capture/manifest.json)
+- [Recorded artifact: data-versions/capture/evidence-map.json](evidence/data-versions/capture/evidence-map.json)
 
-[Receipt đăng ký](evidence/data-versions/registry/registration.json) gắn dataset version60ngày với data run `49ea21884b9048efb051db5150cff842`, source commit `f348c941cf7a7a2a8b3ddf3631fc87e666ef91f8` và native descriptor của đúng split distributed. Model run có weights, hyperparameters, metrics và metadata tham chiếu; **0byte dataset payload upload lặp**. Nạp lại model từ registry rồi so200dự đoán với Spark gốc: sai số tuyệt đối lớn nhất **2,22×10⁻¹⁶**. Source commit mô tả21tệp training/data đã đối chiếu từng byte; code đăng ký có SHA riêng trong receipt, không suy ra Git HEAD của VM từ máy phát triển.
+## Recorded interface views
 
-![MLflow version3 với data version và candidate](evidence/data-versions/registry/screenshots/model-version-3.jpg)
+These are original captures from the runs described above. Their timestamps, model identities and visible states belong to those runs.
 
-[Kiểm container thực](evidence/data-versions/registry/verification.json):1CPU/4GiB, UID10001, root readonly, imageMLflow3.17.2. Serving vẫn dùng version1; version3 chưa được promote. [Bước tự động sau mỗi pull đã hoàn tất trong Notebook/KFP](automatic-ml-versioning.md); CI/CD trigger/build/deploy training là mốc riêng còn thiếu. Các phiên bản1/2 trước đó vẫn giữ lịch sử cơ chế full-copy; không gán chứng cứ incremental của version3 cho chúng.
+![Recorded model version 3](evidence/data-versions/registry/screenshots/model-version-3.jpg)
 
-API MLflow dùng theo [tài liệu chính thức](https://mlflow.org/docs/latest/api_reference/python_api/mlflow.client.html). [Manifest37tệp native](evidence/data-versions/capture/manifest.json) và [mapping](evidence/data-versions/capture/evidence-map.json) giữ các receipt, canonical hashes và metadata tải từ server; bulk blobs, runtime index và secrets được giữ ngoài Git.
+
+## Related documentation
+
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/incremental-data-versioning.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

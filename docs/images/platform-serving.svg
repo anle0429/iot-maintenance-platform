@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="900" viewBox="0 0 1800 900" role="img" aria-labelledby="title desc">
+<title id="title">One inference request</title><desc id="desc">Feature API validates schema, both clocks, operating state and the pinned model before returning a score.</desc><rect width="100%" height="100%" fill="white"/>
+<text x="44" y="78" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="34" font-weight="600" text-anchor="start" fill="#16273b">One inference request</text>
+<text x="44" y="113" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="19" font-weight="400" text-anchor="start" fill="#526174">Feature API validates schema, both clocks, operating state and the pinned model before returning a score.</text>
+<text x="44" y="884" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#657386">Architecture illustration — not a runtime screenshot. Source: docs/diagrams/platform.py</text>
+<rect x="50" y="285" width="260" height="145" rx="12" fill="#e8f4fa" stroke="#327d9c" stroke-width="2"/>
+<text x="180.0" y="349.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Client</text>
+<text x="180.0" y="379.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">machine_id: P-001</text>
+<rect x="400" y="285" width="260" height="145" rx="12" fill="#e8f4fa" stroke="#327d9c" stroke-width="2"/>
+<text x="530.0" y="337.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">NGINX gateway</text>
+<text x="530.0" y="367.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Private CA / Basic auth</text>
+<text x="530.0" y="392.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Rate limiting</text>
+<rect x="750" y="285" width="300" height="145" rx="12" fill="#e8f4fa" stroke="#327d9c" stroke-width="2"/>
+<text x="900.0" y="337.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Feature API</text>
+<text x="900.0" y="367.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">FastAPI + Feast SDK</text>
+<text x="900.0" y="392.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Async bounded dispatch</text>
+<rect x="1320" y="285" width="350" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1495.0" y="337.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">KServe predictor</text>
+<text x="1495.0" y="367.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Portable logistic model</text>
+<text x="1495.0" y="392.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Recorded model version 6</text>
+<rect x="750" y="535" width="300" height="140" rx="12" fill="#e5f4ed" stroke="#368168" stroke-width="2"/>
+<text x="900.0" y="584.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Redis API store</text>
+<text x="900.0" y="614.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Eight inputs + timestamps</text>
+<text x="900.0" y="639.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Sealed serving context</text>
+<polyline points="310,350 400,350" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="400,350 389.60769515458674,356.0 389.60769515458674,344.0" fill="#596e86"/>
+<rect x="288.0" y="248" width="134.0" height="25" rx="4" fill="white"/>
+<text x="355" y="265" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">U1  HTTPS request</text>
+<polyline points="660,350 750,350" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="750,350 739.6076951545867,356.0 739.6076951545867,344.0" fill="#596e86"/>
+<rect x="635.5" y="248" width="139.0" height="25" rx="4" fill="white"/>
+<text x="705" y="265" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">U2  Routed request</text>
+<polyline points="830,430 830,535" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="830,535 824.0,524.6076951545867 836.0,524.6076951545867" fill="#596e86"/>
+<rect x="711.5" y="473" width="87.0" height="25" rx="4" fill="white"/>
+<text x="755" y="490" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">U3  Lookup</text>
+<polyline points="960,535 960,430" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="960,430 966.0,440.39230484541326 954.0,440.39230484541326" fill="#596e86"/>
+<rect x="1012.5078125" y="473" width="134.984375" height="25" rx="4" fill="white"/>
+<text x="1080" y="490" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">U4  Values + times</text>
+<polyline points="1050,325 1320,325" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="1320,325 1309.6076951545867,331.0 1309.6076951545867,319.0" fill="#596e86"/>
+<rect x="1100.0" y="278" width="170.0" height="25" rx="4" fill="white"/>
+<text x="1185" y="295" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">U5  Eight-feature vector</text>
+<polyline points="1320,395 1050,395" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="1050,395 1060.3923048454133,389.0 1060.3923048454133,401.0" fill="#596e86"/>
+<rect x="1090.0" y="418" width="190.0" height="25" rx="4" fill="white"/>
+<text x="1185" y="435" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">U6  Score + model identity</text>
+<polyline points="750,405 700,405 700,730 180,730 180,430" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="180,430 186.0,440.39230484541326 174.0,440.39230484541326" fill="#596e86"/>
+<rect x="326.5" y="708" width="207.0" height="25" rx="4" fill="white"/>
+<text x="430" y="725" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">U7  Prediction + feature trace</text>
+<text x="50" y="804" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="19" font-weight="400" text-anchor="start" fill="#16273b">Checks: stopped machine -&gt;409; unknown machine -&gt;404; malformed ID -&gt;422; stale or unavailable data -&gt;503.</text>
+</svg>

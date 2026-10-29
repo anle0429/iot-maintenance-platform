@@ -1,0 +1,488 @@
+{
+  "language": "en",
+  "source_snapshot": "docs/evidence/rubric-llm/source.json",
+  "source_snapshot_sha256": "947df230e73d6960fc28781cbf702a650d14e0142680db9288d1468f59ccb72f",
+  "source_workbook_sha256": "ed3503d1277583954a9eb140bec01706e7bd4985c457a55083c1ae167c358f69",
+  "rows": [
+    {
+      "id": "L03",
+      "source_refs": "C3; D3; E3",
+      "group": "LLM inference platform",
+      "requirement": "Deploy an LLM inference platform.",
+      "deliverable": "Deployment/custom-model documentation, benchmark method, optimization changes and measured before/after results.",
+      "points": 2
+    },
+    {
+      "id": "L04",
+      "source_refs": "C4; D3; E4",
+      "group": "LLM inference platform",
+      "requirement": "Configure a custom model server.",
+      "deliverable": "Deployment/custom-model documentation, benchmark method, optimization changes and measured before/after results.",
+      "points": 2
+    },
+    {
+      "id": "L05",
+      "source_refs": "C5; D3; E5",
+      "group": "LLM inference platform",
+      "requirement": "Benchmark the model server and optimize the inference platform.",
+      "deliverable": "Deployment/custom-model documentation, benchmark method, optimization changes and measured before/after results.",
+      "points": 2
+    },
+    {
+      "id": "L06",
+      "source_refs": "A6; D6; E6",
+      "group": "Global model configuration",
+      "requirement": "Deploy a global model configuration that allows agents to use the custom model.",
+      "deliverable": "Capture showing the model configuration was applied.",
+      "points": 2
+    },
+    {
+      "id": "L07",
+      "source_refs": "A7; D7; E7",
+      "group": "Agent registry",
+      "requirement": "Deploy an agent registry.",
+      "deliverable": "Screenshot showing the deployed registry.",
+      "points": 2
+    },
+    {
+      "id": "L08",
+      "source_refs": "C8; D8; E8",
+      "group": "RAG pipeline",
+      "requirement": "Build an Airflow RAG pipeline with text retrieval, chunking and chunk-embedding storage in a feature store through Feast.",
+      "deliverable": "Successful pipeline capture and DataHub lineage.",
+      "points": 2
+    },
+    {
+      "id": "L09",
+      "source_refs": "C9; D8; E9",
+      "group": "RAG pipeline",
+      "requirement": "Provide data governance for the RAG pipeline as in the mini-coursework.",
+      "deliverable": "Successful pipeline capture and DataHub lineage.",
+      "points": 2
+    },
+    {
+      "id": "L10",
+      "source_refs": "C10; D10; E10",
+      "group": "Retrieval MCP and agent",
+      "requirement": "Use FastAPI, Pydantic validation and Kubernetes health checks for the entity/chunk retrieval Web API.",
+      "deliverable": "Screenshots of registry publication, multi-replica/sandbox deployment and agent chat interaction.",
+      "points": 1
+    },
+    {
+      "id": "L11",
+      "source_refs": "C11; D10; E11",
+      "group": "Retrieval MCP and agent",
+      "requirement": "Use asynchronous request handling in the entity/chunk retrieval API.",
+      "deliverable": "Screenshots of registry publication, multi-replica/sandbox deployment and agent chat interaction.",
+      "points": 1
+    },
+    {
+      "id": "L12",
+      "source_refs": "C12; D10; E12",
+      "group": "Retrieval MCP and agent",
+      "requirement": "Deploy the retrieval API as an MCP tool to Kubernetes with Helm, rolling updates and automatic fallback; follow MCP-specific deployment guidance.",
+      "deliverable": "Screenshots of registry publication, multi-replica/sandbox deployment and agent chat interaction.",
+      "points": 2
+    },
+    {
+      "id": "L13",
+      "source_refs": "C13; D10; E13",
+      "group": "Retrieval MCP and agent",
+      "requirement": "Deploy an agent using that MCP tool with multiple replicas and autoscaling.",
+      "deliverable": "Screenshots of registry publication, multi-replica/sandbox deployment and agent chat interaction.",
+      "points": 2
+    },
+    {
+      "id": "L14",
+      "source_refs": "C14; D10; E14",
+      "group": "Retrieval MCP and agent",
+      "requirement": "Configure the retrieval agent to run in a security sandbox.",
+      "deliverable": "Screenshots of registry publication, multi-replica/sandbox deployment and agent chat interaction.",
+      "points": 1
+    },
+    {
+      "id": "L15",
+      "source_refs": "C15; D10; E15",
+      "group": "Retrieval MCP and agent",
+      "requirement": "Publish the retrieval agent to the deployed registry for governance.",
+      "deliverable": "Screenshots of registry publication, multi-replica/sandbox deployment and agent chat interaction.",
+      "points": 2
+    },
+    {
+      "id": "L16",
+      "source_refs": "C16; D16; E16",
+      "group": "Drift MCP and agent",
+      "requirement": "Use FastAPI, Pydantic validation and Kubernetes health checks for the drift-detection MCP API.",
+      "deliverable": "Screenshots of registry publication, multi-replica/sandbox deployment and agent chat interaction.",
+      "points": 1
+    },
+    {
+      "id": "L17",
+      "source_refs": "C17; D16; E17",
+      "group": "Drift MCP and agent",
+      "requirement": "Use asynchronous request handling in the drift-detection MCP API.",
+      "deliverable": "Screenshots of registry publication, multi-replica/sandbox deployment and agent chat interaction.",
+      "points": 1
+    },
+    {
+      "id": "L18",
+      "source_refs": "C18; D16; E18",
+      "group": "Drift MCP and agent",
+      "requirement": "Deploy the drift API as an MCP tool to Kubernetes with Helm, rolling updates and automatic fallback; follow MCP-specific deployment guidance.",
+      "deliverable": "Screenshots of registry publication, multi-replica/sandbox deployment and agent chat interaction.",
+      "points": 2
+    },
+    {
+      "id": "L19",
+      "source_refs": "C19; D16; E19",
+      "group": "Drift MCP and agent",
+      "requirement": "Deploy a drift agent using its MCP tool with multiple replicas and autoscaling.",
+      "deliverable": "Screenshots of registry publication, multi-replica/sandbox deployment and agent chat interaction.",
+      "points": 2
+    },
+    {
+      "id": "L20",
+      "source_refs": "C20; D16; E20",
+      "group": "Drift MCP and agent",
+      "requirement": "Configure the drift agent to run in a security sandbox.",
+      "deliverable": "Screenshots of registry publication, multi-replica/sandbox deployment and agent chat interaction.",
+      "points": 1
+    },
+    {
+      "id": "L21",
+      "source_refs": "C21; D16; E21",
+      "group": "Drift MCP and agent",
+      "requirement": "Publish the drift agent to the deployed registry for governance.",
+      "deliverable": "Screenshots of registry publication, multi-replica/sandbox deployment and agent chat interaction.",
+      "points": 2
+    },
+    {
+      "id": "L22",
+      "source_refs": "C22; D22; E22",
+      "group": "Agent notebooks",
+      "requirement": "Execute a Jupyter notebook demonstrating an agent calling MCP servers to retrieve Feast features and perform drift detection.",
+      "deliverable": "Captured notebook interaction results.",
+      "points": 2
+    },
+    {
+      "id": "L23",
+      "source_refs": "C23; D22; E23",
+      "group": "Agent notebooks",
+      "requirement": "Execute a Jupyter notebook demonstrating an agent calling MCP servers to retrieve feature-store data for RAG.",
+      "deliverable": "Captured notebook interaction results.",
+      "points": 2
+    },
+    {
+      "id": "L24",
+      "source_refs": "C24; D24; E24",
+      "group": "Coordinator agent",
+      "requirement": "Deploy a coordinator agent with multiple replicas and autoscaling to coordinate the two specialist agents.",
+      "deliverable": "No explicit deliverable text in source cell D24; related coordinator publication evidence is specified at D25.",
+      "points": 2
+    },
+    {
+      "id": "L25",
+      "source_refs": "C25; D25; E25",
+      "group": "Coordinator agent",
+      "requirement": "Publish the coordinator agent to the deployed registry for governance.",
+      "deliverable": "Screenshots of registry publication, multi-replica deployment and agent chat interaction.",
+      "points": 2
+    },
+    {
+      "id": "L26",
+      "source_refs": "A26; D26; E26",
+      "group": "Warm-up and worker pool",
+      "requirement": "Configure agent warm-up through Agent Substrate to reduce startup delay/cost; benchmark the result and document HA through worker-pool replicas.",
+      "deliverable": "Benchmark/optimization report and an HA explanation including worker-pool replicas.",
+      "points": 2
+    },
+    {
+      "id": "L27",
+      "source_refs": "C27; D27; E27",
+      "group": "Validation and verification",
+      "requirement": "Unit-test the Web APIs with Test Coverage > 90%, demonstrating fixtures and mocks with screenshots.",
+      "deliverable": "Screenshots of executed coverage results.",
+      "points": 1
+    },
+    {
+      "id": "L28",
+      "source_refs": "C28; D28; E28",
+      "group": "Validation and verification",
+      "requirement": "Use equivalence partitioning and boundary-value analysis to design parameterized test cases.",
+      "deliverable": "Screenshots demonstrating the required testing techniques.",
+      "points": 2
+    },
+    {
+      "id": "L29",
+      "source_refs": "C29; D29; E29",
+      "group": "Validation and verification",
+      "requirement": "Use mutation testing on changed code rather than the entire codebase on every commit. Mutation score > 80%.",
+      "deliverable": "Screenshots demonstrating the required testing techniques.",
+      "points": 2
+    },
+    {
+      "id": "L30",
+      "source_refs": "C30; D30; E30",
+      "group": "Validation and verification",
+      "requirement": "Use property-based idempotency tests, with Hypothesis/CrossHair suggested for finding inconsistent repeated behavior.",
+      "deliverable": "Screenshots demonstrating the required testing techniques.",
+      "points": 2
+    },
+    {
+      "id": "L31",
+      "source_refs": "C31; D31; E31",
+      "group": "Validation and verification",
+      "requirement": "Load-test the data-retrieval Web API for throughput and latency and produce a Locust HTML SLA report.",
+      "deliverable": "Screenshot and generated Locust HTML output.",
+      "points": 2
+    },
+    {
+      "id": "L32",
+      "source_refs": "C32; D32; E32",
+      "group": "Generator",
+      "requirement": "Simulate data drift.",
+      "deliverable": "Generator configuration and joined ID/label table.",
+      "points": 1
+    },
+    {
+      "id": "L33",
+      "source_refs": "C33; D32; E33",
+      "group": "Generator",
+      "requirement": "Control drift through generator configuration.",
+      "deliverable": "Generator configuration and joined ID/label table.",
+      "points": 1
+    },
+    {
+      "id": "L34",
+      "source_refs": "B34; D32; E34",
+      "group": "Generator",
+      "requirement": "Create a separate two-column ID/label table for joining with training features.",
+      "deliverable": "Generator configuration and joined ID/label table.",
+      "points": 2
+    },
+    {
+      "id": "L35",
+      "source_refs": "C35; D35; E35",
+      "group": "CI/CD",
+      "requirement": "Provide test/build/auto-deploy CI/CD for the RAG data pipeline.",
+      "deliverable": "Screenshots of every successful test/build/auto-deploy pipeline; secrets must be managed outside code.",
+      "points": 2
+    },
+    {
+      "id": "L36",
+      "source_refs": "C36; D35; E36",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for the data-retrieval MCP server and corresponding agent.",
+      "deliverable": "Screenshots of every successful test/build/auto-deploy pipeline; secrets must be managed outside code.",
+      "points": 2
+    },
+    {
+      "id": "L37",
+      "source_refs": "C37; D35; E37",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for the drift-detection MCP server and corresponding agent.",
+      "deliverable": "Screenshots of every successful test/build/auto-deploy pipeline; secrets must be managed outside code.",
+      "points": 2
+    },
+    {
+      "id": "L38",
+      "source_refs": "C38; D35; E38",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for the coordinator agent.",
+      "deliverable": "Screenshots of every successful test/build/auto-deploy pipeline; secrets must be managed outside code.",
+      "points": 2
+    },
+    {
+      "id": "L39",
+      "source_refs": "C39; D35; E39",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for the stream-feature OFFLINE-store job.",
+      "deliverable": "Screenshots of every successful test/build/auto-deploy pipeline; secrets must be managed outside code.",
+      "points": 2
+    },
+    {
+      "id": "L40",
+      "source_refs": "C40; D35; E40",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for the stream-feature ONLINE-store job.",
+      "deliverable": "Screenshots of every successful test/build/auto-deploy pipeline; secrets must be managed outside code.",
+      "points": 2
+    },
+    {
+      "id": "L41",
+      "source_refs": "C41; D41; E41",
+      "group": "Routing and gateway",
+      "requirement": "Place the metrics-viewing service behind the NGINX gateway.",
+      "deliverable": "Screenshots demonstrating each gateway setup.",
+      "points": 2
+    },
+    {
+      "id": "L42",
+      "source_refs": "C42; D41; E42",
+      "group": "Routing and gateway",
+      "requirement": "Place the log-viewing service behind the gateway.",
+      "deliverable": "Screenshots demonstrating each gateway setup.",
+      "points": 2
+    },
+    {
+      "id": "L43",
+      "source_refs": "C43; D41; E43",
+      "group": "Routing and gateway",
+      "requirement": "Place the trace-viewing service behind the gateway.",
+      "deliverable": "Screenshots demonstrating each gateway setup.",
+      "points": 2
+    },
+    {
+      "id": "L44",
+      "source_refs": "C44; D41; E44",
+      "group": "Routing and gateway",
+      "requirement": "Place the agent-testing UI behind the gateway.",
+      "deliverable": "Screenshots demonstrating each gateway setup.",
+      "points": 2
+    },
+    {
+      "id": "L45",
+      "source_refs": "C45; D41; E45",
+      "group": "Routing and gateway",
+      "requirement": "Place the agent-registry UI behind the gateway.",
+      "deliverable": "Screenshots demonstrating each gateway setup.",
+      "points": 2
+    },
+    {
+      "id": "L46",
+      "source_refs": "C46; D41; E46",
+      "group": "Routing and gateway",
+      "requirement": "Configure authentication and gateway rate controls for the agent-testing UI.",
+      "deliverable": "Screenshots demonstrating each gateway setup.",
+      "points": 2
+    },
+    {
+      "id": "L47",
+      "source_refs": "C47; D41; E47",
+      "group": "Routing and gateway",
+      "requirement": "Configure a domain and HTTPS for the data-retrieval Web API.",
+      "deliverable": "Screenshots demonstrating each gateway setup.",
+      "points": 1
+    },
+    {
+      "id": "L48",
+      "source_refs": "B48; D48; E48",
+      "group": "Infrastructure as code",
+      "requirement": "Use Terraform to provision GKE or other cloud services with a suitable directory layout.",
+      "deliverable": "Screenshots of successful infrastructure/configuration runs.",
+      "points": 1
+    },
+    {
+      "id": "L49",
+      "source_refs": "B49; D48; E49",
+      "group": "Infrastructure as code",
+      "requirement": "Use Ansible roles to configure the VM and deploy services.",
+      "deliverable": "Screenshots of successful infrastructure/configuration runs.",
+      "points": 1
+    },
+    {
+      "id": "L50",
+      "source_refs": "C50; D50; E50",
+      "group": "Observability",
+      "requirement": "Monitor Web API request rate, request counts, failures and related metrics.",
+      "deliverable": "Captured telemetry visible on dashboards.",
+      "points": 1
+    },
+    {
+      "id": "L51",
+      "source_refs": "C51; D50; E51",
+      "group": "Observability",
+      "requirement": "Collect and visualize CPU, RAM, disk and network metrics through Prometheus/Grafana or equivalent tools.",
+      "deliverable": "Captured telemetry visible on dashboards.",
+      "points": 1
+    },
+    {
+      "id": "L52",
+      "source_refs": "C52; D50; E52",
+      "group": "Observability",
+      "requirement": "Collect and visualize logs.",
+      "deliverable": "Captured telemetry visible on dashboards.",
+      "points": 1
+    },
+    {
+      "id": "L53",
+      "source_refs": "C53; D50; E53",
+      "group": "Observability",
+      "requirement": "Collect and visualize traces.",
+      "deliverable": "Captured telemetry visible on dashboards.",
+      "points": 1
+    },
+    {
+      "id": "L54",
+      "source_refs": "C54; D50; E54",
+      "group": "Observability",
+      "requirement": "Collect at least input/output/total tokens per request, full generation round-trip time, TTFT and counts/frequency of prompts caught by safety or PII controls.",
+      "deliverable": "Captured telemetry visible on dashboards.",
+      "points": 2
+    },
+    {
+      "id": "L55",
+      "source_refs": "C55; D50; E55",
+      "group": "Observability",
+      "requirement": "Collect at least per-agent call counts, per-MCP-tool call counts and failures for each tool call.",
+      "deliverable": "Captured telemetry visible on dashboards.",
+      "points": 2
+    },
+    {
+      "id": "L56",
+      "source_refs": "C56; D56; E56",
+      "group": "A/B testing",
+      "requirement": "A/B-test agents using different model configurations and monitor both variants.",
+      "deliverable": "A/B configuration and comparison dashboards.",
+      "points": 1
+    },
+    {
+      "id": "L57",
+      "source_refs": "C57; D56; E57",
+      "group": "A/B testing",
+      "requirement": "A/B-test different LLM versions on the inference platform.",
+      "deliverable": "A/B configuration and comparison dashboards.",
+      "points": 1
+    },
+    {
+      "id": "L58",
+      "source_refs": "C58; D58; E58",
+      "group": "Security",
+      "requirement": "Centralize shared secret management through HashiCorp Vault or an equivalent system.",
+      "deliverable": "Screenshots demonstrating centralized secrets.",
+      "points": 1
+    },
+    {
+      "id": "L59",
+      "source_refs": "B59; D59; E59",
+      "group": "Repository design",
+      "requirement": "Keep clean code and repository structure and demonstrate an implemented design pattern.",
+      "deliverable": "Screenshot demonstrating an implemented design pattern.",
+      "points": 2
+    },
+    {
+      "id": "L60",
+      "source_refs": "C60; D60; E60",
+      "group": "Class design",
+      "requirement": "Document five key classes expressing the main ML responsibilities; retain the source requirement and its example interfaces.",
+      "deliverable": "Documentation of five key classes.",
+      "points": 1
+    },
+    {
+      "id": "L61",
+      "source_refs": "B61; D61; E61",
+      "group": "Novel ideas",
+      "requirement": "Document novel idea 1 and demonstrate it works; it may be a researched technique/tool not taught in EDAI.",
+      "deliverable": "Idea documentation and proof that it works.",
+      "points": 2
+    },
+    {
+      "id": "L62",
+      "source_refs": "B62; D62; E62",
+      "group": "Novel ideas",
+      "requirement": "Document novel idea 2 and demonstrate it works; it may be a researched technique/tool not taught in EDAI.",
+      "deliverable": "Idea documentation and proof that it works.",
+      "points": 2
+    }
+  ]
+}

@@ -29,7 +29,25 @@ class FinalAuditTests(unittest.TestCase):
         self.assertEqual(rows['F20'][5], '1')
         self.assertIn('OFFLINE store', rows['F20'][3])
         # Green status text is not evidence of success and is not used to accept the requirements.
-        AUDIT.rubric_rows(self.snapshot, self.text.replace('Có bằng chứng', 'Chưa đánh giá'))
+        AUDIT.rubric_rows(self.snapshot, self.text.replace('Recorded ML evidence', 'Not assessed'))
+
+    def test_english_translation_cannot_be_weakened_with_the_tracker(self):
+        """Reject editing the canonical English threshold as well as the rendered table."""
+        source = ROOT / 'docs/rubric/final-ml-english.json'
+        with tempfile.TemporaryDirectory() as directory:
+            altered = Path(directory) / 'translation.json'
+            altered.write_bytes(source.read_bytes().replace(b'Mutation score > 80%', b'Mutation score > 1%'))
+            with self.assertRaises(ValueError): AUDIT.english_view(altered, 'ML')
+
+    def test_llm_rows_preserve_source_addresses_and_open_scope(self):
+        """Check all sixty LLM requirements without treating shared ML proof as an agent deployment."""
+        source = json.loads((ROOT / 'docs/evidence/rubric-llm/source.json').read_bytes())
+        text = (ROOT / 'docs/final-llm-rubric-tracker.md').read_text(encoding='utf-8')
+        rows = AUDIT.rubric_rows(source, text, 'LLM')
+        self.assertEqual(len(rows), 60)
+        self.assertEqual(rows['L06'][1], 'A6; D6; E6')
+        self.assertIn('Open', rows['L03'][6])
+        self.assertIn('TTFT', rows['L54'][3])
 
     def test_snapshot_pin_matches_git_blob_and_checkout(self):
         """Catch a Windows CRLF-derived pin that cannot verify an otherwise clean independent checkout."""

@@ -1,30 +1,20 @@
-# Thu hẹp join theo thời gian trước khi tính feature
+# Bounded temporal joins for feature engineering
 
-Một snapshot của máy tại thời điểm `t` chỉ cần telemetry trong `(t−10phút,t]`. Join theo riêng `machine_id` có thể xét cả lịch sử nhiều ngày rồi mới lọc thời gian. [Bản dùng ô thời gian](../pipelines/bounded_features.py) thêm khóa bucket để thu hẹp ứng viên; điều kiện thời gian chính xác và thời điểm dữ liệu đã tới vẫn được áp dụng sau khóa đó.
+A machine snapshot at t needs only readings in `(t−10 minutes, t]`. Joining on machine ID alone can consider an entire history before filtering. The bucketed implementation narrows candidates and then reapplies the exact temporal and availability predicates.
 
-| Phép tính | Độ rộng bucket | Hai bucket của snapshot | Điều kiện giữ nguyên |
+| Calculation | Bucket width | Candidate buckets | Exact rule retained |
 |---|---:|---|---|
-| Telemetry quá khứ | 600giây | hiện tại, trước đó | `t−600s < event_ts <= t`, `received_ts <= t` |
-| Sự cố đã biết | 86400giây | hiện tại, trước đó | `t−24h < failure_start_ts <= t`, `recorded_ts <= t` |
-| Nhãn và bảo trì tương lai | 3600giây | hiện tại, tiếp theo | `t < start_ts <= t+1h` |
+| Past telemetry | 600 seconds | Current and previous | `t−600s < event_ts <= t`, arrival no later than t |
+| Recorded failures | 86,400 seconds | Current and previous | Past 24 hours and recorded by t |
+| Future label/intervention | 3,600 seconds | Current and next | `t < start_ts <= t+1h` |
 
-Mỗi event chỉ có một bucket; mỗi snapshot được mở rộng thành hai bucket khác nhau. Vì thế một event hợp lệ chỉ được ghép một lần. Hai dòng rỗng của left join được gom về một snapshot: count bằng0, mean/max bằngNULL, độ lệch chuẩn bằng0 theo contract hiện có. Cần đầu vào đã dedup, snapshot duy nhất theo máy/thời điểm, và một phiên bản thông tin máy ban đầu cho mỗi máy. Không lấy truth tương lai vào tám feature; nhãn, can thiệp bảo trì và censoring vẫn nằm riêng.
+Each event belongs to one bucket, and each snapshot expands to two distinct buckets. A valid event therefore contributes once. Empty left joins collapse back to one snapshot: count zero, mean/max NULL and the contract-defined standard deviation. Deduplicated inputs and unique machine/snapshot keys are prerequisites.
 
-Khóa dùng `floor(unix_micros(timestamp)/(window_seconds×1000000))`; giữ độ phân giải microsecond và floor cho thời gian trước epoch. API có trong [PySpark3.5.9](https://spark.apache.org/docs/3.5.9/api/python/reference/pyspark.sql/api/pyspark.sql.functions.unix_micros.html). Session của phép kiểm dùng UTC.
+The independent Python oracle compares range and bucketed implementations on exact boundaries, one-microsecond offsets, midnight and pre-epoch times, unavailable arrivals/failures, missing readings, stopped machines and censored horizons. The isolated native fixture passed eight checks over nine snapshots, 168 readings, 192 failure rows and four maintenance rows. Its 34.059-second duration includes startup and both strategies; it is a correctness fixture, not a speed benchmark.
 
-[Phép kiểm Spark](../pipelines/feature_checks.py) tạo đáp án bằng vòng lặp Python, `statistics` và oracle nhãn riêng. Nó kiểm cả bản range cũ lẫn bản bucketed với cùng đáp án: điểm đầu/cuối cửa sổ, lệch một microsecond, qua nửa đêm, trước epoch, bản ghi đến muộn, failure chưa được ghi nhận, không có readings, máy dừng và horizon chưa đủ quan sát. `created` là thời điểm tính thực tế nên không dùng làm giá trị cố định để so sánh.
+## Commands and recorded examples
 
-## Kết quả thực trên VM
-
-Lượt cô lập `feature-buckets-v3` hoàn tất04:01UTC27/10/2026 trên VM8CPU/64GiB hiện có; container bị giới hạn2CPU/4GiB, heap2GiB, Spark3.5.9/Python3.10.12,4shufflepartitions/AQEfalse, không mạng ngoài. Không thay code đã release, nguồn hoặc dịch vụ đang chạy. [Report](evidence/feature-buckets/report.json) và [receipt với command/image/hash thực](evidence/feature-buckets/verification.json) ghi8checksPASS cho9snapshots/168readings/192failure rows/4maintenance rows; thời gian fixture34,059giây gồm startup và cả hai strategy. Đây không phải benchmark tốc độ hoặc quy mô dữ liệu thực.
-
-[Plan feature cũ](evidence/feature-buckets/range_features-plan.txt) join theo máy; [plan bucketed](evidence/feature-buckets/bucketed_features-plan.txt) cho thấy SortMergeJoin theo máy và bucket, vẫn có predicate event/receivedtime. [Plan nhãn cũ](evidence/feature-buckets/range_labels-plan.txt) và [plan nhãn bucketed](evidence/feature-buckets/bucketed_labels-plan.txt) cũng được lưu nguyên bản. Hash trong report phải khớp code trước khi dùng phép kiểm làm bằng chứng.
-
-Hai lượt đầu dừng ở cấu hình container: DNS khi tắt mạng, sau đó truyền thừa `spark-submit` dù image đã có entrypoint. Chúng chưa chạy phép kiểm; giữ log lỗi riêng trênVM, sửa launcher rồi chạy thư mục mớiV3. Không đổi đáp án hoặc code tính feature giữa các lượt này. Bộ130unit host hiện có cũng vẫnPASS; không lấy unitcount thay cho coverage/mutation/API hoặc phép kiểmSpark.
-
-Đây là thành phần chuẩn bị cho [protocol ML60ngày](ml-evaluation-protocol.md). Chưa đổi đường chạy Airflow DP3, chưa nhận đã xử lý feature60ngày hoặc100GB, chưa có metric mô hình mới. Cần kiểm trung gian và đo hiệu năng trên cùng workload trước khi chuyển pipeline chính.
-
-Trong container Spark có repo ở `/workspace`, chạy phép kiểm vào thư mục mới:
+Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.
 
 ```bash
 /opt/spark/bin/spark-submit --master 'local[2]' --driver-memory 2g \
@@ -33,4 +23,20 @@ Trong container Spark có repo ở `/workspace`, chạy phép kiểm vào thư m
   /workspace/pipelines/feature_checks.py --output /workspace/outputs/feature-check-local-01
 ```
 
-Image coursework đã đặt `spark-submit` làm entrypoint. Khi gọi `docker run IMAGE`, chỉ truyền các tham số sau entrypoint; không thêm `spark-submit` lần thứ hai. Cần ít nhất4GiB giới hạn RAM container cho cấu hình kiểm này. Nếu tắt mạng container, dùng hostname `localhost` cùng `SPARK_LOCAL_IP=127.0.0.1` và `SPARK_LOCAL_HOSTNAME=localhost`. Các lệnh trên không khởi tạo dịch vụ ngoài container Spark.
+## Implementation and evidence
+
+- [Source: pipelines/bounded_features.py](../pipelines/bounded_features.py)
+- [spark.apache.org / pyspark.sql.functions.unix_micros.html](https://spark.apache.org/docs/3.5.9/api/python/reference/pyspark.sql/api/pyspark.sql.functions.unix_micros.html)
+- [Source: pipelines/feature_checks.py](../pipelines/feature_checks.py)
+- [Recorded artifact: feature-buckets/report.json](evidence/feature-buckets/report.json)
+- [Recorded artifact: feature-buckets/verification.json](evidence/feature-buckets/verification.json)
+- [Recorded artifact: feature-buckets/range_features-plan.txt](evidence/feature-buckets/range_features-plan.txt)
+- [Recorded artifact: feature-buckets/bucketed_features-plan.txt](evidence/feature-buckets/bucketed_features-plan.txt)
+- [Recorded artifact: feature-buckets/range_labels-plan.txt](evidence/feature-buckets/range_labels-plan.txt)
+- [Recorded artifact: feature-buckets/bucketed_labels-plan.txt](evidence/feature-buckets/bucketed_labels-plan.txt)
+
+## Related documentation
+
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/bounded-features.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

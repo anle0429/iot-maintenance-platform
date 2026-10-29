@@ -6,6 +6,8 @@ This project follows pump telemetry from ingestion and validation through featur
 
 Built as an individual **Engineering for Data & AI — EDAI K11** coursework project. All equipment records, sensor readings and failure events are simulated.
 
+The selected scope includes **final ML and final LLM/agents**. The Data/ML lab has recorded implementation evidence. The LLM/agent extension is a selected workstream with open implementation requirements, not a deployed service.
+
 [Demo guide](docs/demo-walkthrough.md) · [Architecture details](docs/architecture.md) · [Verification report](docs/final-audit.md)
 
 ## Table of contents
@@ -13,7 +15,8 @@ Built as an individual **Engineering for Data & AI — EDAI K11** coursework pro
 - [Business domain](#business-domain)
 - [Architecture](#architecture)
   - [Data platform](#data-platform) · [ML platform](#ml-platform)
-  - [System diagram](#system-diagram) · [Deployment](#deployment)
+  - [System diagram](#system-diagram) · [Monitoring and retraining](#monitoring-and-retraining) · [Deployment](#deployment)
+  - [LLM and agent extension](#llm-and-agent-extension)
 - [Recorded results](#recorded-results)
 - [Quick start](#quick-start)
 - [Repository structure](#repository-structure)
@@ -37,6 +40,10 @@ One telemetry row represents one machine at one event time. The platform retains
 ## Architecture
 
 The data platform produces validated historical features and finalized streaming windows. The ML platform uses those outputs for training and inference. Batch and serving jobs use Feast SDK inside their own processes; offline Parquet files and online Redis instances hold the feature data.
+
+![Data, ML and retained-stream workflows with numbered data handoffs](docs/images/platform-overview.png)
+
+[Editable SVG](docs/images/platform-overview.svg) · [Figure source and regeneration](docs/diagrams/platform.py)
 
 ### Data platform
 
@@ -65,51 +72,19 @@ Prometheus, Grafana, Alloy, Loki and Jaeger cover metrics, logs and traces. Secu
 
 ### System diagram
 
-Boxes represent deployable services or jobs. Arrow labels identify the data or control request and number each flow: **U** inference, **D** batch data, **S** streaming, **T** training, **C** CI/CD and **O** observability. File transfers use shared volumes; an arrow labeled Parquet does not represent a direct network call between jobs.
+The figures separate workflow, request and deployment views. Boxes in workflow/request views represent deployable units; Feast SDK remains inside those units. Arrows carry numbered data or control labels. Persisted Parquet handoffs use shared volumes rather than invented job-to-job HTTP services.
 
-```mermaid
-flowchart TB
-    User["User"] -->|U1 HTTPS request with machine ID| Gateway["NGINX Ingress Controller"]
-    Gateway -->|U2 Authenticated and rate-limited request| API["Feature API Deployment"]
-    API -->|U3 Feature lookup| Redis["Redis API Deployment"]
-    Redis -->|U4 Features and timestamps| API
-    API -->|U5 Validated input vector| Predictor["KServe predictor Deployment"]
-    Predictor -->|U6 Risk score and model identity| API
-    API -->|U7 Prediction and feature provenance| User
+![Inference request: gateway, feature API, Redis and KServe](docs/images/platform-serving.png)
 
-    Generator["Generator job"] -->|D1 Historical telemetry files| Spark["Spark batch job"]
-    Airflow["Airflow scheduler"] -->|D2 Submit DP1-DP3| Spark
-    Spark -->|D3 Parquet features via shared volume| Materialize["Materialization job"]
-    Materialize -->|D4 Online features| BatchRedis["Redis batch-stream container"]
-    Spark -->|D5 Validation reports| Publisher["Metadata publisher job"]
-    Publisher -->|D6 Schemas, lineage and assertions| DataHub["DataHub GMS"]
-    Spark -->|D7 Serving feature bundle via shared volume| Prepare["Serving preparation job"]
-    Prepare -->|D8 Online features and context| Redis
-
-    Generator -->|S1 Telemetry replay| Kafka["Kafka broker"]
-    Kafka -->|S2 Events in arrival order| Flink["Flink job"]
-    Flink -->|S3 Retained finalized windows| Offline["Stream offline job"]
-    Offline -->|S4 Verified windows via shared volume| Online["Stream online job"]
-    Online -->|S5 Latest monitoring features| BatchRedis
-
-    Jenkins["Jenkins controller"] -->|C1 Submit pipeline after test and build| KFP["Kubeflow Pipelines API"]
-    Spark -->|T1 Offline Parquet features through Feast SDK| Training["Training task Pod"]
-    KFP -->|T2 Schedule ML steps| Training
-    Training -->|T3 Distributed tasks| Executor["Spark executor Pod x2"]
-    Executor -->|T4 Task results| Training
-    Training -->|T5 Data versions and model artifacts| MLflow["MLflow tracking server"]
-    MLflow -->|C2 Selected model bundle| Jenkins
-    Jenkins -->|C3 Image and Helm release| Predictor
-    Vault["Vault Raft server"] -->|C4 CI credentials through AppRole| Jenkins
-
-    API -->|O1 Metrics| Prometheus["Prometheus"]
-    Prometheus -->|O2 PromQL results| Grafana["Grafana"]
-    Alloy["Alloy collector"] -->|O3 Host and Pod logs| Loki["Loki"]
-    Loki -->|O4 LogQL results| Grafana
-    API -->|O5 OTLP spans| Jaeger["Jaeger"]
-```
+[Editable SVG](docs/images/platform-serving.svg)
 
 Batch/stream Redis and API Redis are configured separately. The two executor Pods run on the same physical VM. The diagram summarizes flows verified in separate runs; it does not imply that every job runs concurrently. Streaming store checks replay retained Kafka/Flink windows. The [architecture documentation](docs/architecture.md) includes a [request-to-code walkthrough](docs/architecture.md#follow-the-request-in-code) and a separate [monitoring/retraining view](docs/architecture.md#monitoring-and-retraining).
+
+### Monitoring and retraining
+
+![Offline PSI, API/log telemetry and guarded retraining are separate recorded paths](docs/images/platform-monitoring.png)
+
+The manual retraining probe used `drift=false` and produced model 7 as a candidate. Its success does not demonstrate a naturally occurring drift alarm or automatic promotion. The fixed model 3 monitoring reference is distinct from the served model 6. [Details](docs/architecture.md#monitoring-and-retraining) · [SVG](docs/images/platform-monitoring.svg)
 
 ### Deployment
 
@@ -123,6 +98,16 @@ The lab uses one Google Cloud VM with **8 vCPU and 64 GiB RAM**, separate data a
 | Developer PC | Editing, local generator runs, offline verification and IAP access to the VM |
 
 The gateway uses private lab domains and a private CA. Service-mesh authorization was tested in a separate namespace. Deployment details and recovery procedures are in the [infrastructure report](docs/iac-verification.md) and [demo guide](docs/demo-walkthrough.md).
+
+![One-VM deployment with K3s, Docker, host services and separate storage](docs/images/platform-deployment.png)
+
+[Editable SVG](docs/images/platform-deployment.svg)
+
+### LLM and agent extension
+
+![Planned LLM and agent extension; gray units are not deployed](docs/images/platform-llm-plan.png)
+
+The supplied LLM rubric requires inference, RAG through Feast, MCP tools, specialist/coordinator agents, registry, sandbox, warm-up, delivery and LLM/agent telemetry. These obligations remain open. Existing Feature/Drift APIs are integration baselines, not proof of deployed agents. [Workstream and acceptance evidence](docs/llm-agent-plan.md) · [LLM tracker](docs/final-llm-rubric-tracker.md) · [SVG](docs/images/platform-llm-plan.svg)
 
 ## Recorded results
 
@@ -212,8 +197,8 @@ To review the implementation, start with [one inference request](docs/architectu
 | Observability | [Metrics and traces](docs/api-observability.md) · [Logs](docs/log-discovery.md) · [Drift and retraining](docs/drift-retraining.md) |
 | Infrastructure and security | [Terraform/Ansible](docs/iac-verification.md) · [Gateway](docs/private-gateway.md) · [Vault](docs/vault.md) · [Service mesh](docs/private-mesh.md) |
 | Extensions | [MMD for joint sensor drift](docs/joint-cohort.md) · [OPA deployment-policy checks](docs/deployment-policy.md) |
-| Coursework review | [Demo walkthrough](docs/demo-walkthrough.md) · [Final audit](docs/final-audit.md) · [Rubric matrix](docs/final-audit-matrix.md) |
+| Coursework review | [Demo walkthrough](docs/demo-walkthrough.md) · [Final audit](docs/final-audit.md) · [Rubric matrix](docs/final-audit-matrix.md) · [ML/LLM source notes](docs/rubric-source.md) |
 
-Detailed runbooks are currently in Vietnamese. Runtime versions, configurations and screenshots are recorded in the relevant reports. The original specification and workbook are under [`references/coursework/`](references/coursework/).
+Maintained runbooks and notebook prose are in English. Original source-language workbooks, screenshots and native logs are preserved as evidence. Runtime versions and configurations are recorded in the relevant reports. The original specification and workbook are under [`references/coursework/`](references/coursework/).
 
-Documentation references: [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform/tree/cc34515304815774a5dad6f796683b46c27f93ac) for README organization, and [RecSys-MLops](https://github.com/itsmekhoathekid/RecSys-MLops) for separating architecture views and connecting them to code and evidence.
+Presentation reference: [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform/tree/cc34515304815774a5dad6f796683b46c27f93ac). The supplied [coursework rubrics](docs/rubric-source.md) govern requirements; reference repositories are not substituted for them. The figures in this repository are original architecture illustrations, not runtime screenshots.

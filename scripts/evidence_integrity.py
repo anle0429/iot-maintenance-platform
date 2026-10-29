@@ -36,11 +36,38 @@ def executable_python_tree(source):
 
 
 def documentation_equivalent(original,current,suffix):
-    """Accept exact bytes or Python edits confined to docstrings; preserve all other AST nodes."""
+    """Accept exact bytes, Python docstrings or notebook Markdown-only edits; preserve executable state."""
     if original==current:return True
+    if suffix=='.ipynb':
+        try:
+            left=json.loads(original);right=json.loads(current)
+            for document in [left,right]:
+                for cell in document['cells']:
+                    if cell['cell_type']=='markdown':cell['source']=[]
+            return left==right
+        except (ValueError,KeyError,TypeError):return False
     if suffix!='.py':return False
     try:return ast.dump(executable_python_tree(original),include_attributes=False)==ast.dump(executable_python_tree(current),include_attributes=False)
     except (SyntaxError,ValueError):return False
+
+
+def dashboard_labels_equivalent(original,current,name):
+    """Allow only six declared display-title translations in one known dashboard, never metric/config changes."""
+    if name!='infra/observability/grafana-dashboard.json':return False
+    labels={
+        'T\u1ed5ng y\u00eau c\u1ea7u theo API':'Requests by API',
+        'Y\u00eau c\u1ea7u m\u1ed7i gi\u00e2y':'Requests per second',
+        'Ph\u1ea3n h\u1ed3i 4xx v\u00e0 5xx':'HTTP 4xx and 5xx responses',
+        'P95 th\u1eddi gian x\u1eed l\u00fd':'P95 request duration',
+        'Trung b\u00ecnh th\u1eddi gian x\u1eed l\u00fd':'Mean request duration',
+        'S\u1ed1 y\u00eau c\u1ea7u theo route v\u00e0 status':'Requests by route and status'}
+    try:
+        left=json.loads(original);right=json.loads(current)
+        for document in [left,right]:
+            for panel in document['panels']:
+                if panel.get('title') in labels:panel['title']=labels[panel['title']]
+        return left==right
+    except (ValueError,KeyError,TypeError):return False
 
 
 def current_source_bindings(seal):
@@ -48,5 +75,6 @@ def current_source_bindings(seal):
     source_bindings(seal)
     for name in seal['files']:
         original=subprocess.check_output(['git','show',seal['commit']+':'+name],cwd=ROOT);path=ROOT/name
-        assert documentation_equivalent(original,path.read_bytes(),path.suffix),name
+        current=path.read_bytes()
+        assert documentation_equivalent(original,current,path.suffix) or dashboard_labels_equivalent(original,current,name),name
     return len(seal['files'])

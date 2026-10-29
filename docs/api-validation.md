@@ -1,29 +1,27 @@
-# Kiểm thử biên, phân hoạch và tính bất biến của API
+# Boundary, partition and property-based API validation
 
-Lượt Linux ngày 28/10/2026, source `ff832374349e0825b6f6bbf3f36fd67031533491`, chạy **71 ca pytest và 220 ví dụ Hypothesis đạt**, seed `20261028`. JUnit, console đầy đủ, source trước/sau và giới hạn container được giữ trong [capsule](evidence/api-validation-linux/manifest.json). Kiểm độc lập: `python scripts/verify-focused-api.py`.
+The focused native validation package tests behavioral partitions and boundaries of the feature, predictor, drift and A/B APIs. It includes malformed/unknown IDs, operating-state eligibility, timestamp/freshness boundaries, invalid numeric inputs, model/protocol mismatch and replay/conflict cases.
 
-## Chọn ca kiểm thử như thế nào?
+The recorded Linux run passed 71 JUnit test cases and 220 Hypothesis examples across 14 groups, with 31 Git inputs bound to the run. Property-based generation searches for order, duplication and replay combinations that could violate the contract; it is not a replacement for known-answer fixtures.
 
-| Quy tắc | Biên / phân hoạch đã kiểm | Lý do |
-|---|---|---|
-| Tuổi feature | -1, 0, 599, 600, 601 giây | Tương lai bị chặn; đúng 600 còn dùng được, quá biên bị chặn |
-| Lease demo theo đồng hồ thật | -1, 0, 3599, 3600 giây | Lease hết ngay tại 3600; khác tuổi feature theo event time |
-| Kích thước batch prediction | 0, 1, 128, 129 | Tách rỗng / hợp lệ / vượt giới hạn; HTTP 422 hoặc 200 đúng contract |
-| Dữ liệu đầu vào | Số hợp lệ, âm ngoài miền, vượt trần, sai kiểu, bool thay số, schema/key lỗi | Các nhóm phải cùng bị từ chối vì cùng vi phạm contract |
-| Drift reference và window | 31, 32, 2048, 2049 hàng; histogram biết đáp án | Kiểm cả hai đầu miền và giá trị PSI tính tay |
+Original console, JUnit, source bindings and screenshots are retained. This package does not claim a new deployment, coverage run, mutation run or throughput benchmark. Those are independently documented gates.
 
-[Profile](../tests/api/focused-validation.json) chọn đúng 14 nhóm từ các test thực. BVA chọn sát ranh giới vì lỗi thường xảy ra ở dấu `<`/`<=`; equivalence partitioning chia dữ liệu thành các nhóm có cùng hành vi kỳ vọng. Không chỉ chọn vài giá trị ngẫu nhiên.
+## Implementation and evidence
 
-![Console biên Linux gốc](evidence/api-validation-linux/screenshots/boundaries.jpg)
+- [Recorded artifact: api-validation-linux/manifest.json](evidence/api-validation-linux/manifest.json)
+- [Source: tests/api/focused-validation.json](../tests/api/focused-validation.json)
 
-## Property-based và idempotency
+## Recorded interface views
 
-Hypothesis sinh 50 ví dụ thứ tự key/replay feature, 100 ví dụ prediction, 35 ví dụ canonical drift và 35 ví dụ HTTP/SQLite. Nhóm cuối gửi request thật qua FastAPI TestClient với thứ tự hàng khác nhau, duplicate và timezone tương đương; kết quả HTTP phải bằng nhau, chỉ một window được lưu. Mở lại runtime với cùng SQLite vẫn đọc đúng kết quả và một bản ghi. Đây là tính chất nghiệp vụ, không so sánh một hàm với chính nó.
+These are original captures from the runs described above. Their timestamps, model identities and visible states belong to those runs.
 
-![Thống kê Hypothesis Linux gốc](evidence/api-validation-linux/screenshots/hypothesis.jpg)
+![Recorded boundaries](evidence/api-validation-linux/screenshots/boundaries.jpg)
 
-Hai ảnh là ảnh trình duyệt của **trích đoạn nguyên byte từ console native đã lưu**, phục vụ xem lại bằng chứng; không phải ảnh terminal đang chạy. Verifier kiểm trích đoạn nằm trong console đầy đủ, JUnit không lỗi/bỏ qua, tổng ví dụ được cộng độc lập và 31 Git input khớp source trước/sau.
+![Recorded hypothesis](evidence/api-validation-linux/screenshots/hypothesis.jpg)
 
-Container Python 3.12.16 giới hạn 2 CPU/1 GiB, không mạng, filesystem chỉ đọc, user 10001; exit 0, không OOM; một lượt Docker wall 9,004 giây. Fixture predictor dùng model 1 để giữ oracle lịch sử; production hiện tại model 6. Đây không phải request mới tới deployment, không thay thế các bằng chứng coverage, mutation, load và integration riêng.
 
-Tự chạy tập nhỏ trong môi trường đã có dependencies: `python scripts/run-focused-api-validation.py --output outputs/my-focused-check` (chọn thư mục mới). Đọc `result/check` trong capsule để đối chiếu; đường dẫn output khi tự chạy là thư mục vừa chọn.
+## Related documentation
+
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/api-validation.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

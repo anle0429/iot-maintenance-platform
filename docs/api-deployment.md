@@ -1,41 +1,14 @@
-# Deploy hai API bằng Helm và kiểm tra tự phục hồi
+# Helm rolling updates and automatic fallback
 
-[Chart dùng chung](../infra/charts/iot-api/Chart.yaml) tạo hai release riêng: `iot-feature-api` đọc Feast rồi gọi KServe; `iot-drift-api` so cửa sổ feature với reference huấn luyện. Cả hai dùng ClusterIP trong namespace `iot-features`, trên VM hiện có. Không cần VM, đĩa cloud hay cổng Internet mới.
+The feature and drift APIs are deployed through Helm. Readiness/liveness probes and a rolling strategy control when a new Pod can receive traffic. Atomic upgrades wait for health and restore the previous release when the new one cannot become ready.
 
-## Cấu hình đã chạy
+Native tests cover successful rollout and deliberately unsuccessful releases on both APIs. Readbacks compare release/Pod identities, endpoint behavior and the restored version; the screenshots show actual rollout history.
 
-Helm3.20.0/K3s1.35.9+k3s1; pod UID10001, root readonly, bỏ capabilities, không mount ServiceAccount token. API drift giới hạn1CPU/512MiB; feature API1CPU/1GiB. Giá trị riêng ở [feature values](../infra/feature-api/helm-values.yaml) và [drift values](../infra/drift-api/helm-values.yaml).
+The deployment checks concern service availability and recovery under the tested failure. They do not replace schema, prediction-correctness or load gates, and they do not establish multi-host HA. The shared chart is under `infra/charts/iot-api`.
 
-RollingUpdate đặt `maxSurge=1`, `maxUnavailable=0`. Pod có health/readiness probe thật. Hook `preStop` giữ process thêm5giây để EndpointSlice/kube-proxy kịp rút địa chỉ pod trước SIGTERM. CLI [deploy-api.py](../scripts/deploy-api.py) lint chart trước, rồi luôn chạy Helm3 `upgrade --install --atomic --wait`; mỗi lượt lưu command, exit code và console gốc. [Helm3 upgrade](https://docs.helm.sh/docs/v3/helm/helm_upgrade/) mô tả cơ chế tự rollback của `--atomic`.
+## Commands and recorded examples
 
-Reference drift được tạo từ train của model3 rồi đưa vào ConfigMap immutable. Dataset/reference đầy đủ giữ trên VM. SQLite dùng [local PVC2GiB](../infra/drift-api/storage.yaml) trên HDD hiện có, reclaim policy Retain; nhiều replica trên cùng node đọc cùng kho. Đây là dung lượng khai báo của volume, không phải một đĩa cloud mới hoặc quota filesystem tự áp đặt.
-
-Feature API lấy seed từ một lần native Feast preparation mới tại `data/feature-serving-helm-27/state`. Cutoff nghiệp vụ vẫn là thời gian mô phỏng, còn lease/TTL dùng đồng hồ thật1giờ. Sau khi cache mất hoặc lease hết, readiness trả503; cần preparation mới đã kiểm chứng. Không thay timestamp trong seed để làm endpoint hiện xanh. Model đang phục vụ vẫn là version1; reference drift hiện gắn model3 candidate.
-
-## Kết quả kiểm chứng thật
-
-[Lượt hoàn tất](evidence/drift-api/rollout/verification.json) chạy ngày27/10/2026 trên cùng VM. Mỗi mẫu kiểm cả endpoint nghiệp vụ và readiness:
-
-| API | Rolling update | Đưa image không tồn tại | Kết quả native Helm |
-|---|---:|---:|---|
-| Drift | 7mẫu,0lỗi | 91mẫu,0lỗi | revision5failed, revision6deployed, `Rollback to 4` |
-| Feature | 18mẫu,0lỗi | 89mẫu,0lỗi | revision4failed, revision5deployed, `Rollback to 3` |
-
-Tổng205mẫu không lỗi ở lượt đã sửa. Observer kiểm pod cũ/mới cùng hiện diện, trạng thái `ErrImageNeverPull` thật, exit code khác0 của lần upgrade lỗi, lịch sử rollback và response nghiệp vụ giữ nguyên. Drift gọi một cửa sổ đã cache; feature gọi native Feast→KServe. Đây là thay đổi marker cấu hình pod với cùng image tốtv1, chưa phải so sánh hai bản mã ứng dụng hoặc cam kết mọi request đều không gián đoạn.
-
-Lượt đầu bắt được **1timeout/7mẫu** lúc pod cũ dừng. [Quan sát gốc](evidence/drift-api/rollout-initial/drift/rolling-observations.json), [template trước sửa](evidence/drift-api/rollout/deployment-before-drain.yaml.txt) và [receipt sửa](evidence/drift-api/rollout/repair.json) được giữ. Hook drain được cài vào hai release trước khi chạy lại observer; lần bootstrap này là bước chuẩn bị, không nằm trong kết quả205mẫu.
-
-![Thông báo atomic rollback gốc của Helm](evidence/drift-api/screenshots/helm-atomic-console.jpg)
-
-![JSON helm history gốc: drift failed rồi deployed rollback](evidence/drift-api/screenshots/helm-drift-atomic-history.jpg)
-
-![JSON helm history gốc: feature failed rồi deployed rollback](evidence/drift-api/screenshots/helm-feature-atomic-history.jpg)
-
-Ảnh chụp khi mở log/JSON gốc, không chỉnh pixel. [Log drift](evidence/drift-api/rollout/drift/bad-image/helm-console.txt), [lịch sử drift](evidence/drift-api/rollout/drift/bad-image-history.json), [lịch sử feature](evidence/drift-api/rollout/feature/bad-image-history.json) và toàn bộ mẫu theo thời gian được gắn SHA trong [manifest native](evidence/drift-api/capture/manifest.json)/[mapping](evidence/drift-api/capture/evidence-map.json).
-
-## Tự chạy lại
-
-Trên VM có cluster, image đã import và runtime inputs riêng; bản clone Git chỉ có code/config mẫu. Đặt `KUBECONFIG` trỏ tới kubeconfig có quyền phù hợp và dùng binary Helm3 đã kiểm. Chuẩn bị reference/seed bằng các CLI trong [drift guide](drift-detection.md) và [feature guide](feature-api.md) trước khi deploy. Với reference lớn, tạo ConfigMap mới trực tiếp bằng `kubectl create configmap ... --from-file=reference.json=...`; lượt client-side apply ban đầu đã chạm giới hạn annotation262.144byte vì lặp dữ liệu trong last-applied. [Lỗi gốc](evidence/drift-api/helm-initial/reference-configmap.txt) và [cách tạo immutable ConfigMap](evidence/drift-api/helm/repair.json) được giữ.
+Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.
 
 ```bash
 python scripts/deploy-api.py --api drift --helm "$HELM" \
@@ -44,12 +17,46 @@ python scripts/deploy-api.py --api feature --helm "$HELM" \
   --revision demo-feature --output outputs/helm-new-feature
 ```
 
-Để kiểm chứng có kiểm soát, [observer CLI](../scripts/verify-api-rollout.py) chủ động tạo một revision dùng image không tồn tại rồi kiểm tự rollback. Chọn output/run ID mới, chạy trong cửa sổ lease còn hiệu lực của feature API và kiểm endpoint trước:
-
 ```bash
 python scripts/verify-api-rollout.py --api drift --helm "$HELM" \
   --reference data/drift/reference-27/reference.json \
   --run rollback-new-drift --output outputs/rollback-new-drift
 ```
 
-Lượt rollout lịch sử bên trên chưa bật HPA. Mốc tiếp theo đã kiểm chứng [hai API tự scale1→2→1 bằng CPU thật](api-autoscaling.md), giữ proof riêng và source hash mới. CI/CD, gateway và telemetry tiếp tục triển khai.
+## Implementation and evidence
+
+- [Source: infra/charts/iot-api/Chart.yaml](../infra/charts/iot-api/Chart.yaml)
+- [Source: infra/feature-api/helm-values.yaml](../infra/feature-api/helm-values.yaml)
+- [Source: infra/drift-api/helm-values.yaml](../infra/drift-api/helm-values.yaml)
+- [Source: scripts/deploy-api.py](../scripts/deploy-api.py)
+- [docs.helm.sh / helm_upgrade](https://docs.helm.sh/docs/v3/helm/helm_upgrade/)
+- [Source: infra/drift-api/storage.yaml](../infra/drift-api/storage.yaml)
+- [Recorded artifact: drift-api/rollout/verification.json](evidence/drift-api/rollout/verification.json)
+- [Recorded artifact: drift-api/rollout-initial/drift/rolling-observations.json](evidence/drift-api/rollout-initial/drift/rolling-observations.json)
+- [Recorded artifact: drift-api/rollout/deployment-before-drain.yaml.txt](evidence/drift-api/rollout/deployment-before-drain.yaml.txt)
+- [Recorded artifact: drift-api/rollout/repair.json](evidence/drift-api/rollout/repair.json)
+- [Recorded artifact: drift-api/rollout/drift/bad-image/helm-console.txt](evidence/drift-api/rollout/drift/bad-image/helm-console.txt)
+- [Recorded artifact: drift-api/rollout/drift/bad-image-history.json](evidence/drift-api/rollout/drift/bad-image-history.json)
+- [Recorded artifact: drift-api/rollout/feature/bad-image-history.json](evidence/drift-api/rollout/feature/bad-image-history.json)
+- [Recorded artifact: drift-api/capture/manifest.json](evidence/drift-api/capture/manifest.json)
+- [Recorded artifact: drift-api/capture/evidence-map.json](evidence/drift-api/capture/evidence-map.json)
+- [Recorded artifact: drift-api/helm-initial/reference-configmap.txt](evidence/drift-api/helm-initial/reference-configmap.txt)
+- [Recorded artifact: drift-api/helm/repair.json](evidence/drift-api/helm/repair.json)
+- [Source: scripts/verify-api-rollout.py](../scripts/verify-api-rollout.py)
+
+## Recorded interface views
+
+These are original captures from the runs described above. Their timestamps, model identities and visible states belong to those runs.
+
+![Recorded helm atomic console](evidence/drift-api/screenshots/helm-atomic-console.jpg)
+
+![Recorded helm drift atomic history](evidence/drift-api/screenshots/helm-drift-atomic-history.jpg)
+
+![Recorded helm feature atomic history](evidence/drift-api/screenshots/helm-feature-atomic-history.jpg)
+
+
+## Related documentation
+
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/api-deployment.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

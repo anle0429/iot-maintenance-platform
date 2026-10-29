@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1110" viewBox="0 0 1800 1110" role="img" aria-labelledby="title desc">
+<title id="title">Monitoring and guarded retraining</title><desc id="desc">Recorded ML monitoring paths; the retraining integration test was a manual probe with drift=false.</desc><rect width="100%" height="100%" fill="white"/>
+<text x="44" y="78" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="34" font-weight="600" text-anchor="start" fill="#16273b">Monitoring and guarded retraining</text>
+<text x="44" y="113" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="19" font-weight="400" text-anchor="start" fill="#526174">Recorded ML monitoring paths; the retraining integration test was a manual probe with drift=false.</text>
+<text x="44" y="1094" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#657386">Architecture illustration — not a runtime screenshot. Source: docs/diagrams/platform.py</text>
+<rect x="35" y="170" width="1730" height="235" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="55" y="206" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">OFFLINE DRIFT — fixed model3 training reference, no labels</text>
+<rect x="65" y="235" width="270" height="135" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="200.0" y="294.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Airflow scheduler</text>
+<text x="200.0" y="324.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Five-minute schedule</text>
+<rect x="415" y="235" width="270" height="135" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="550.0" y="294.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Feast drift job</text>
+<text x="550.0" y="324.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Bounded 1024-row cohort</text>
+<rect x="765" y="235" width="270" height="135" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="900.0" y="294.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Pushgateway</text>
+<text x="900.0" y="324.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">PSI / freshness gauges</text>
+<rect x="1115" y="235" width="270" height="135" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="1250.0" y="294.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Prometheus</text>
+<text x="1250.0" y="324.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Recorded query values</text>
+<rect x="1465" y="235" width="270" height="135" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="1600.0" y="294.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Grafana</text>
+<text x="1600.0" y="324.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Result age + PSI</text>
+<polyline points="335,300 415,300" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="415,300 404.60769515458674,306.0 404.60769515458674,294.0" fill="#596e86"/>
+<rect x="286.5" y="208" width="177.0" height="25" rx="4" fill="white"/>
+<text x="375" y="225" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">M1  Comparison window</text>
+<polyline points="685,300 765,300" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="765,300 754.6076951545867,306.0 754.6076951545867,294.0" fill="#596e86"/>
+<rect x="680.0" y="208" width="90.0" height="25" rx="4" fill="white"/>
+<text x="725" y="225" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">M2  Gauges</text>
+<polyline points="1035,300 1115,300" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="1115,300 1104.6076951545867,306.0 1104.6076951545867,294.0" fill="#596e86"/>
+<rect x="1032.0" y="208" width="86.0" height="25" rx="4" fill="white"/>
+<text x="1075" y="225" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">M3  Scrape</text>
+<polyline points="1385,300 1465,300" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="1465,300 1454.6076951545867,306.0 1454.6076951545867,294.0" fill="#596e86"/>
+<rect x="1378.0" y="208" width="94.0" height="25" rx="4" fill="white"/>
+<text x="1425" y="225" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">M4  PromQL</text>
+<rect x="35" y="460" width="1730" height="235" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="55" y="496" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">API AND LOG TELEMETRY — original source-bound workloads</text>
+<rect x="65" y="525" width="270" height="135" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="200.0" y="584.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">API deployments</text>
+<text x="200.0" y="614.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">HTTP metrics / spans</text>
+<rect x="415" y="525" width="270" height="135" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="550.0" y="584.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Alloy collector</text>
+<text x="550.0" y="614.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Pod discovery / state</text>
+<rect x="765" y="525" width="270" height="135" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="900.0" y="584.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Loki</text>
+<text x="900.0" y="614.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Timestamped log rows</text>
+<rect x="1115" y="525" width="270" height="135" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="1250.0" y="584.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Grafana</text>
+<text x="1250.0" y="614.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">LogQL / metrics panels</text>
+<rect x="1465" y="525" width="270" height="135" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="1600.0" y="584.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Jaeger</text>
+<text x="1600.0" y="614.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">OTLP trace graph</text>
+<polyline points="335,590 415,590" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="415,590 404.60769515458674,596.0 404.60769515458674,584.0" fill="#596e86"/>
+<rect x="316.0" y="498" width="118.0" height="25" rx="4" fill="white"/>
+<text x="375" y="515" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">O1  CRI log files</text>
+<polyline points="685,590 765,590" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="765,590 754.6076951545867,596.0 754.6076951545867,584.0" fill="#596e86"/>
+<rect x="652.5" y="498" width="145.0" height="25" rx="4" fill="white"/>
+<text x="725" y="515" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">O2  Labeled records</text>
+<polyline points="1035,590 1115,590" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="1115,590 1104.6076951545867,596.0 1104.6076951545867,584.0" fill="#596e86"/>
+<rect x="1034.0" y="498" width="82.0" height="25" rx="4" fill="white"/>
+<text x="1075" y="515" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">O3  LogQL</text>
+<rect x="35" y="750" width="1730" height="235" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="55" y="786" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">RETRAINING — admission, persistent intent, replay and cooldown</text>
+<rect x="65" y="815" width="270" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="200.0" y="874.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Airflow task</text>
+<text x="200.0" y="904.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Sealed report + policy</text>
+<rect x="415" y="815" width="270" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="550.0" y="874.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Retrain controller</text>
+<text x="550.0" y="904.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Admit / hold / skip</text>
+<rect x="765" y="815" width="270" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="900.0" y="874.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Kubeflow API</text>
+<text x="900.0" y="904.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Actual five-task run</text>
+<rect x="1115" y="815" width="270" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1250.0" y="874.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">ML task Pods</text>
+<text x="1250.0" y="904.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Same fixed protocol</text>
+<rect x="1465" y="815" width="270" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1600.0" y="862.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">MLflow registry</text>
+<text x="1600.0" y="892.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Model 7 candidate</text>
+<text x="1600.0" y="917.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">No automatic promotion</text>
+<polyline points="335,880 415,880" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="415,880 404.60769515458674,886.0 404.60769515458674,874.0" fill="#596e86"/>
+<rect x="307.0" y="788" width="136.0" height="25" rx="4" fill="white"/>
+<text x="375" y="805" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">R1  Report / policy</text>
+<polyline points="685,880 765,880" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="765,880 754.6076951545867,886.0 754.6076951545867,874.0" fill="#596e86"/>
+<rect x="654.5" y="788" width="141.0" height="25" rx="4" fill="white"/>
+<text x="725" y="805" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">R2  Run parameters</text>
+<polyline points="1035,880 1115,880" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="1115,880 1104.6076951545867,886.0 1104.6076951545867,874.0" fill="#596e86"/>
+<rect x="996.5078125" y="788" width="156.984375" height="25" rx="4" fill="white"/>
+<text x="1075" y="805" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">R3  Task orchestration</text>
+<polyline points="1385,880 1465,880" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="1465,880 1454.6076951545867,886.0 1454.6076951545867,874.0" fill="#596e86"/>
+<rect x="1344.0" y="788" width="162.0" height="25" rx="4" fill="white"/>
+<text x="1425" y="805" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">R4  Candidate artifacts</text>
+<text x="45" y="1037" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#16273b">Jaeger receives OTLP spans directly from the APIs. LLM tokens, TTFT, safety hits and agent/tool counters are still unimplemented.</text>
+<polyline points="200,660 200,715 1600,715 1600,660" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="1600,660 1606.0,670.3923048454133 1594.0,670.3923048454133" fill="#596e86"/>
+<rect x="779.5" y="701" width="241.0" height="25" rx="4" fill="white"/>
+<text x="900" y="718" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">O4  OTLP spans from API to Jaeger</text>
+</svg>

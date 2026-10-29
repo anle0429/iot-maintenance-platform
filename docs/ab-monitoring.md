@@ -1,73 +1,19 @@
-# Theo dõi hai phiên bản bằng Prometheus và Grafana
+# A/B monitoring with Prometheus and Grafana
 
-## Native VM ngày28/10/2026
+The native dashboard monitors the recorded model 1/model 6 experiment through six panels and 26 values from each query engine. Prometheus and Grafana are evaluated at the same declared timestamp and compared with independent calculations from the underlying trial and feature records.
 
-**Đã đọc dashboard thật từ A/B triển khai qua Jenkins serving8/source`99d6dcc`**, Prometheus3.13.5 và Grafana OSS13.3.0. Hai predictor là model1 và model6 đã train riêng, Feast cohort thật trênVM. Experiment `serve-jenkins-8` có780trial:376baseline/404candidate,94/101snapshot duy nhất và40replay không tăng đếm. Sáu panel trả **26giá trị mỗi engine** tại cùng evaluation1793163484 (04:58:04UTC); độc lập tính lại từ raw report và train reference. [Verification](evidence/ci-serving-linux/monitoring/verification.json), [query readbacks](evidence/ci-serving-linux/monitoring/panel-queries.json), [16PSI độc lập](evidence/ci-serving-linux/monitoring/independent-psi.json).
+The observed experiment contains 376/404 trials and 94/101 feature snapshots. Replay does not add trials. Sixteen PSI values use the fixed training reference rather than an arbitrary display baseline; their bins and counts are recomputed from raw inputs.
 
-Prometheus scrape private ClusterIP quan sát thật`10.53.109.158`; dashboardUID`iot-two-model-ab`, datasourceUID`iot-ab-prometheus`. Thêm target8 bằng file discovery, giữ target7 và cùng Prometheus process; không thay report/ledger gốc để tạo đồ thị. Runtime/password/database chỉ ởVM; UI qua IAP/loopback. [Serving CI](ci-serving.md) ghi image/UID/PV/PVC/SQL readbacks và controlled rollback6→1→6.
+Original query responses, evaluation times, source hashes and screenshots are retained. There are no ground-truth labels in this monitoring workload. PSI, mean risk, response counts and error rates do not establish model accuracy or justify promotion by themselves.
 
-![A/B native:376 và404trials,94 và101snapshots](evidence/ci-serving-linux/screenshots/ab8-grafana-overview.jpg)
+## Commands and recorded examples
 
-![PSI native của tám feature ở hai phiên bản](evidence/ci-serving-linux/screenshots/ab8-grafana-psi.jpg)
-
-Snapshot được dedup trước PSI, bốn lượt lặp không thành780mẫu độc lập. Reference lấy train model3 đã cố định trước, không chọn theo test; verifier dùng raw referenceSHA`b102b670e58aca8876125a631cb9b44219bba5f07b63754d0bf8ce1da2e3001b`. Counter predictor có thể tăng thêm bởi health probes, nên đối chiếu ít nhất trial mỗi nhóm; số đếm thí nghiệm dùng ledger riêng. P95 là nội suy histogram server, không phải latency client chính xác. Không có groundtruth trong dashboard: mean risk và PSI không phải accuracy, cũng không chứng minh candidate tốt hơn hoặc tự quyết định promotion.
-
-Tự kiểm toàn bộ capsule bằng `python -S scripts/verify-native-serving.py`. Mục PC bên dưới giữ nguyên source/fixture/số đo lịch sử, có verifier riêng; không cộng800PCtrial vào780native.
-
-## Kết quả PC Windows ngày27/10/2026
-
-Prometheus **3.13.5 LTS** lấy metrics từ A/B API; Grafana OSS **13.3.0** đọc Prometheus và hiển thị sáu biểu đồ. Code chạy ở commit `9fa1326d68615c4120aa99dee65387766a9a9ea9`. Registry và feature Feast là fixture; hai version pin dùng cùng weights legacy. Kết quả này chứng minh đường monitoring trênPC; không thay cho kết quả native ở trên hoặc đánh giá chất lượng model.
-
-Sau mốc PC, native serving CI sửa quyền đọc bundle và cấu hình thư mục mutation. Verifier PC giữ77source bindings **lịch sử**; hai file CI mới được đối chiếu riêng: ba HTTP helper đã dùng không đổi AST, cấu hình mutation chỉ thay copy script đơn thành thư mục.75file runtime/API/monitoring còn lại vẫn khớp. Không nhận các số đo PC thành proof cho native CI. [Host monitoring trên Linux VM](host-monitoring.md#linux-vm-kết-quả-chạy-thật-ngày2810) cũng có proof riêng với dashboard A/B native ở đầu tài liệu.
-
-## Thành phần và số đo
-
-[Bộ tạo cấu hình](../ml/ab_monitoring.py) viết một thư mục runtime mới, gồm Prometheus file discovery, datasource và dashboard provision của Grafana. Mỗi lần chạy dùng state riêng; trùng thư mục sẽ bị từ chối. Hai dịch vụ chỉ nghe `127.0.0.1`. Target A/B phải là IPv4 loopback hoặc RFC1918 cụ thể; không nhận public URL, DNS, metadata endpoint hoặc URL chứa credentials. Các file sinh ra, database, password và binary không vào Git.
-
-Datasource được gắn UID cố định trước khi provision. Theo [tài liệu Grafana](https://grafana.com/docs/grafana/latest/administration/provisioning/), biến môi trường trong file định nghĩa dashboard không được nội suy như file provisioning. Vì vậy chỉ đặt `${DS_PROMETHEUS}` rồi chép JSON sẽ chưa đủ. Mã hiện tại thay UID trong cả sáu panel và biến chọn experiment, sau đó kiểm bằng API Grafana thật.
-
-Prometheus dùng [file service discovery](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#file_sd_config), lấy số liệu mỗi hai giây. Test đổi target qua file nguyên tử, quan sát `down`, khôi phục target cũ và quan sát `up`; không cần mở endpoint reload. Thời gian giữ TSDB24giờ và giới hạn retention256MB là cấu hình giữ dữ liệu, **không phải trần tổng dung lượng thư mục hoặc RAM**. `GOMEMLIMIT=384MiB` trong test là mục tiêu mềm của Go, không phải giới hạn cứng cho process.
-
-| Biểu đồ | Baseline/v1 | Candidate/v2 | Cách đối chiếu |
-| --- | ---: | ---: | --- |
-| Unique completed trials | 372 | 428 | Đếm request ID duy nhất trong ledger |
-| Non200 unique trial outcomes | 0 | 0 | Đếm status khác200 của trial đã ghi |
-| Unique feature snapshots | 93 | 107 | Set `(machine_id, feature_event_ts)` |
-| P95 server model path | 4,9083ms | 4,9828ms | Nội suy histogram theo đúng bucket đã xuất |
-| Mean risk score | 0,72340016 | 0,72340016 | Trung bình risk score từ các row thành công |
-| PSI | 8feature/nhóm | 8feature/nhóm | Reference/bins cố định, không dùng nhãn |
-
-800trial là bốn lượt qua200máy; **40concurrent retries không làm tăng trial hoặc snapshot**. Các lượt lặp lại không phải800mẫu drift độc lập. Counter này cũng không tính mọi HTTP request: các input bị chặn trước trial, như label422 hoặc ID conflict409, nằm ngoài counter ledger.
-
-P95 ở đây đo toàn thí nghiệm hữu hạn, từ histogram server sau khi có khóa; không gồm chờ khóa hoặc mạng client và không phải P95 chính xác của mẫu latency. Chênh lệch nhỏ giữa hai nhóm trên PC không phải bằng chứng hiệu năng model. Mean score không phải accuracy. Fixture giữ feature bằng nhau; đường8feature chồng nhau trong mỗi nhóm. PSI hơi khác0 do pseudocount và kích thước reference64 so với93/107snapshot, không tự chứng minh drift thực tế.
-
-![Dashboard Grafana thật trên PC: trial, failure, snapshot, latency và mean score](evidence/ab-monitoring-pc/grafana-overview.jpg)
-
-![PSI của hai nhóm trên Grafana thật; các feature trùng nhau trong fixture](evidence/ab-monitoring-pc/grafana-psi.jpg)
-
-Khoảng đứt trên biểu đồ xuất hiện khi test cố ý ngắt target metrics rồi phục hồi. Hai ảnh là JPEG gốc từ trình duyệt, không chỉnh số liệu hoặc dựng lại giao diện.
-
-## Kiểm chứng đã thực hiện
-
-- **24unit tests PASS**: chặn URL không phù hợp/port0/label sai, không tạo thư mục khi input sai, không ghi đè runtime cũ, không sửa template và gắn datasource đúng.
-- **Một integration test PASS**: ba HTTP API thật, Prometheus/promtool thật và Grafana thật;800trial/40retry; sáu truy vấn qua cả Prometheus query engine và Grafana datasource API. **26series mỗi engine** được so với giá trị từ ledger. API readback cũng xác nhận dashboard đã provision và dùng đúng datasource.
-- Experiment không tồn tại trả vector rỗng; PromQL sai trả400. Target metrics mất kết nối thật rồi được khôi phục; ledger giữ nguyên. Cả hai process monitoring chỉ có listener127.0.0.1 khi kiểm; ba thread API và hai process đã dừng sau test.
-- [Verifier độc lập](../scripts/verify-ab-monitoring.py) không import implementation: kiểm20payload hashes/77source bindings,800assignment và phép tính model, bốn cycle, snapshot sets, P95 theo bucket, PSI theo counts và26giá trị qua mỗi query engine. Đây là audit bằng chứng đã lưu, không phải chạy lại hệ thống.
-
-[Manifest](evidence/ab-monitoring-pc/manifest.json), [kết quả](evidence/ab-monitoring-pc/verification.json), [query readbacks](evidence/ab-monitoring-pc/panel-queries.json) và [projection800row](evidence/ab-monitoring-pc/ledger-observations.json) đủ để tự kiểm các con số trên. Projection chỉ giữ các cột phục vụ phép kiểm, không phải bản sao đầy đủ trace hoặc HTTP wire bytes. Raw ledger/database vẫn ở máy chạy. Ba file khi thực thi dùng CRLF; proof ghi cả hash working tree và Git LF, không nhận chúng là cùng raw bytes. Console/JUnit/promtool chỉ thay đường dẫn workspace; lưu hash trước/sau trong verification.
-
-Binary lấy từ [Prometheus official download](https://prometheus.io/download/) và [Grafana OSS Windows](https://grafana.com/grafana/download?edition=oss&platform=windows), đã đối chiếu SHA256 của nhà phát hành trước giải nén. [Receipt tải](evidence/ab-monitoring-pc/official-downloads.json) ghi URL/version/hash/byte thực tế. Bản standalone không được cài làm Windows service. Điểm đo working set của hai process khoảng388MiB tổng cộng tại lúc chụp; đây không phải peak hoặc ngân sách cho cả workload. Thời lượng pytest83,64giây gồm khoảng chờ kiểm giao diện, không dùng làm benchmark tốc độ.
-
-## Tự chạy
-
-Trong Python environment có các dependency test của [lock serving](../infra/ci/requirements-serving-tests.lock), từ repo root:
+Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.
 
 ```powershell
 python -m pytest tests/test_ab_monitoring.py -q
 python -S scripts/verify-ab-monitoring.py
 ```
-
-Để tự chạy integration, giải nén hai bản standalone nêu trên vào thư mục cục bộ sau khi kiểm SHA256, rồi trỏ tới binary thực tế. Ví dụ layout đã dùng trên PC này:
 
 ```powershell
 $env:IOT_PROMETHEUS_EXE=(Resolve-Path outputs/monitoring-27/prometheus-3.13.5.windows-amd64/prometheus.exe).Path
@@ -76,20 +22,44 @@ $env:IOT_GRAFANA_HOME=(Resolve-Path outputs/monitoring-27/grafana-13.3.0).Path
 python -m pytest tests/integration/test_ab_monitoring_http.py -q
 ```
 
-Test tự chọn port loopback còn trống, tạo admin password ngẫu nhiên qua process environment, provision một viewer chỉ trên máy hiện tại rồi dừng dịch vụ khi xong. Thiếu ba biến binary thì test báo **SKIP**, không được nhận là đã kiểm integration. Không dùng lại `--basetemp` có dữ liệu cần giữ: pytest quản lý/xóa thư mục đó.
-
-Nếu muốn xem giao diện trong khi test, trước lệnh integration đặt `IOT_MONITORING_HOLD_FILE` tới **một đường dẫn chưa tồn tại**. Sau khi kiểm xong các API, test viết `monitoring/ui-ready.json` trong thư mục tmp của pytest; mở `dashboard_url` trong file đó. Tạo file hold đã chọn để kết thúc hoặc test tự dừng sau tối đa10phút. Không giữ dịch vụ chạy vô thời hạn.
-
-Để chuẩn bị cấu hình cho một A/B API riêng đã chạy, dùng [CLI](../scripts/prepare-ab-monitoring.py), thay endpoint bằng địa chỉ thực đã kiểm:
-
 ```powershell
 python scripts/prepare-ab-monitoring.py --output outputs/my-ab-monitor --endpoint http://127.0.0.1:18001 --experiment my-trial --label "Private runtime deployment pending"
 ```
 
-CLI chỉ tạo cấu hình và `launch.json`, không khởi động dịch vụ. Trước khi chạy Grafana từ cấu hình này phải đặt `GF_SECURITY_ADMIN_USER`/`GF_SECURITY_ADMIN_PASSWORD` riêng qua environment. Cổng mặc định Prometheus19090/Grafana13000 phải còn trống; có thể đổi bằng hai tùy chọn port. Không chuyển listener thành0.0.0.0 hoặc mở firewall chỉ để xem dashboard.
+## Implementation and evidence
 
-## Phần còn lại
+- [Recorded artifact: ci-serving-linux/monitoring/verification.json](evidence/ci-serving-linux/monitoring/verification.json)
+- [Recorded artifact: ci-serving-linux/monitoring/panel-queries.json](evidence/ci-serving-linux/monitoring/panel-queries.json)
+- [Recorded artifact: ci-serving-linux/monitoring/independent-psi.json](evidence/ci-serving-linux/monitoring/independent-psi.json)
+- [Source: ml/ab_monitoring.py](../ml/ab_monitoring.py)
+- [grafana.com / provisioning](https://grafana.com/docs/grafana/latest/administration/provisioning/)
+- [prometheus.io / configuration](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#file_sd_config)
+- [Source: scripts/verify-ab-monitoring.py](../scripts/verify-ab-monitoring.py)
+- [Recorded artifact: ab-monitoring-pc/manifest.json](evidence/ab-monitoring-pc/manifest.json)
+- [Recorded artifact: ab-monitoring-pc/verification.json](evidence/ab-monitoring-pc/verification.json)
+- [Recorded artifact: ab-monitoring-pc/panel-queries.json](evidence/ab-monitoring-pc/panel-queries.json)
+- [Recorded artifact: ab-monitoring-pc/ledger-observations.json](evidence/ab-monitoring-pc/ledger-observations.json)
+- [prometheus.io / download](https://prometheus.io/download/)
+- [grafana.com / download?edition=oss&platform=windows](https://grafana.com/grafana/download?edition=oss&platform=windows)
+- [Recorded artifact: ab-monitoring-pc/official-downloads.json](evidence/ab-monitoring-pc/official-downloads.json)
+- [Source: infra/ci/requirements-serving-tests.lock](../infra/ci/requirements-serving-tests.lock)
+- [Source: scripts/prepare-ab-monitoring.py](../scripts/prepare-ab-monitoring.py)
 
-F53 vẫn **Đang làm** vì cần dashboard gắn với hai model và A/B release thật trên VM qua CI. F46 vẫn thiếu phạm vi metrics của các API khác; F47 đã có [bằng chứng host PC và Linux VM](host-monitoring.md) riêng. Loopback viewer phục vụ kiểm cục bộ, chưa đáp ứng Vault hoặc service authentication của final. Serving CI, Linux API gates và healthy rollback vẫn theo [bàn giao CI](ci-ab-deployment.md).
+## Recorded interface views
 
-Verifier giữ77hash nguồn lịch sử và toàn bộ số đo của lượt PC. Bộ test A/B hiện tại đã tăng kiểm tra native wiring/ledger/metric consumer contract; kết quả test lịch sử không được gắn cho bộ test mới. Các API và hàm HTTP thực dùng trong lượt đo cũ vẫn phải khớp nguồn, dù metadata CI và phần test được nêu rõ là đã thay thế.
+These are original captures from the runs described above. Their timestamps, model identities and visible states belong to those runs.
+
+![Recorded ab8 grafana overview](evidence/ci-serving-linux/screenshots/ab8-grafana-overview.jpg)
+
+![Recorded ab8 grafana psi](evidence/ci-serving-linux/screenshots/ab8-grafana-psi.jpg)
+
+![Recorded grafana overview](evidence/ab-monitoring-pc/grafana-overview.jpg)
+
+![Recorded grafana psi](evidence/ab-monitoring-pc/grafana-psi.jpg)
+
+
+## Related documentation
+
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/ab-monitoring.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

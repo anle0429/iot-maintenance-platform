@@ -1,34 +1,20 @@
-# Kiểm tra chất lượng repo và docstrings
+# Repository quality and documentation checks
 
-Commit source cố định `b8f0ef81d9d5305ad63a9e3099435801499c5f0c` đã chạy toàn bộ `pytest tests` trên **PC Windows/Python3.13.14**: **732 tests đạt, 292 subtests đạt, 7 skipped**, không failure/error. Pytest wall67,21giây; JUnit ghi67,160giây. Header JUnit đếm1031 gồm739 testcase và292subtests; không nhận1031 test độc lập.
+A frozen full-suite run at `b8f0ef8` passed 732 tests,292 subtests and seven documented skips across 307 Python inputs. Its audit found 1,637 documented definitions. Later independent-clone verification at `3398a3c` passed 748 tests,314 subtests and seven skips, with 325 Git inputs unchanged before/after and 26 evidence verifiers successful.
 
-[Console gốc](evidence/repository-audit/frozen/pytest.stdout), [JUnit](evidence/repository-audit/frozen/junit.xml), [source trước](evidence/repository-audit/frozen/source-before.json)/[sau](evidence/repository-audit/frozen/source-after.json), [báo cáo](evidence/repository-audit/frozen/verification.json). 307file Python được bind Git và kiểm hash working tree không đổi trong cả lượt; khác newline Windows được ghi rõ. Đây là kiểm trên PC, không phải chạy lại coverage/mutation/load hoặc deployment Linux.
+The earlier documentation repair added 419 docstrings across 75 files. Its original edit manifest distinguishes 418 documentation-only descriptions from one verifier change. Historical source/evidence is never rewritten to make it appear retrospectively documented.
 
-## Phạm vi sửa tài liệu trong code
+Current English publication changes explanatory text, notebook Markdown and declared presentation labels. Source/hash checks retain the actual as-run Git blobs; permitted documentation/presentation differences are checked narrowly. An English caption does not change an original screenshot or native output.
 
-Đã thêm419docstrings ở75file đang bảo trì. Trong đó418mô tả ở74file có executable AST trước/sau giống nhau sau khi bỏ riêng docstrings; một mô tả còn lại nằm trong verifier A/B đồng thời được sửa cách so source lịch sử. [Danh sách và hash](evidence/repository-audit/docstring-edits.json) phân biệt hai nhóm. `__doc__`, help text và số dòng source có thay đổi có chủ đích; không gọi đây là toàn bộ bytecode/metadata không đổi.
+The five-class design document explains the implemented adapters, factory and dependency injection. Clone verification is a PC check, not proof that a physical laptop or a new VM has been provisioned.
 
-Audit tại commit trên có **307file/1637định nghĩa**, không thiếu mô tả đầu module/hàm/class, không có data/outputs/venv/pyc/state hoặc file điều khiển chat được track. Snapshot code cũ trong `docs/evidence/` được giữ nguyên để bảo toàn as-run hashes; chúng không bị sửa ngược cho đẹp báo cáo. Các module verifier thêm sau lượt frozen cũng được kiểm docstring khi chạy bộ kiểm bàn giao.
+## Commands and recorded examples
 
-Verifier gateway/mesh/Vault và A/B vẫn kiểm đúng **byte Git của source thực chạy**. Khi đối chiếu mã hiện tại, chỉ cho phép khác docstrings Python; mọi AST thực thi khác vẫn bị từ chối, mọi config ngoài Python vẫn cần byte đúng. Ba tests biết đáp án kiểm việc cho phép mô tả nhưng chặn đổi logic/default/decorator, string không phải docstring và JSON. Đây là thay đổi ở công cụ audit, không gán source mới cho deployment cũ.
-
-## Kết quả bổ sung và giới hạn
-
-19lệnh kiểm đều exit0: audit, pytest, pip check, package freeze và15verifier evidence. Các verifier kiểm API, policy, IaC, logs, MMD, DataHub, gateway, mesh, Vault, hai job stream, eventing, serving, telemetry, scheduled drift và A/B. Report/console từng lệnh giữ trong [capsule47payload](evidence/repository-audit/manifest.json).
-
-Bảy skip được giữ nguyên lý do: hai phép đổi timezone bằng `tzset` chỉ có POSIX; hai integration cần exporter/Prometheus/Grafana binary thật; một phép thử cần `promtool`; hai phép codec cần `orjson` tùy chọn. Không thay binary thật bằng fixture để biến skip thành PASS. Bằng chứng native tương ứng có tài liệu riêng; lượt PC này không nhận đã chạy chúng.
-
-Lượt collection ban đầu thiếu `opentelemetry.sdk`, exit2. Đã bổ sung đúng [overlay đã khóa](../infra/observability/requirements.lock) vào venv riêng, không nâng dependency nghiệp vụ; giữ [console lỗi gốc](evidence/repository-audit/initial-collection/console.stdout). Lượt frozen sau đó pip check đạt và lưu [freeze thực tế](evidence/repository-audit/frozen/freeze.stdout).
-
-## Tự kiểm từ clone
-
-Không cần VM/package ngoài standard library để kiểm artifact:
+Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.
 
 ```powershell
 python -S scripts/verify-final-handover.py
 ```
-
-Tạo môi trường riêng để chạy toàn tests theo đúng package freeze của lượt PC:
 
 ```powershell
 python -m venv outputs/venv-check
@@ -36,14 +22,27 @@ python -m venv outputs/venv-check
 ./outputs/venv-check/Scripts/python.exe -m pytest -q tests --hypothesis-seed=20261028
 ```
 
-Audit source hiện tại, chọn output mới:
-
 ```powershell
 python scripts/audit-repository.py --output outputs/my-repository-audit --edit-proof docs/evidence/repository-audit/docstring-edits.json
 ```
 
-Package/runtime, dữ liệu và dịch vụ riêng từng máy; clone kiểm trên PC không chứng minh laptop đã chạy. [Pattern Adapter/DI/factory và ảnh source gốc](ml-class-design.md) giải thích thiết kế; [diagram](../README.md#system-diagram) dùng đơn vị có thể triển khai, không vẽ Feast SDK thành server.
+## Implementation and evidence
 
-## Kiểm bản phát hành có fullcohort
+- [Recorded artifact: repository-audit/frozen/pytest.stdout](evidence/repository-audit/frozen/pytest.stdout)
+- [Recorded artifact: repository-audit/frozen/junit.xml](evidence/repository-audit/frozen/junit.xml)
+- [Recorded artifact: repository-audit/frozen/source-before.json](evidence/repository-audit/frozen/source-before.json)
+- [Recorded artifact: repository-audit/frozen/source-after.json](evidence/repository-audit/frozen/source-after.json)
+- [Recorded artifact: repository-audit/frozen/verification.json](evidence/repository-audit/frozen/verification.json)
+- [Recorded artifact: repository-audit/docstring-edits.json](evidence/repository-audit/docstring-edits.json)
+- [Recorded artifact: repository-audit/manifest.json](evidence/repository-audit/manifest.json)
+- [Source: infra/observability/requirements.lock](../infra/observability/requirements.lock)
+- [Recorded artifact: repository-audit/initial-collection/console.stdout](evidence/repository-audit/initial-collection/console.stdout)
+- [Recorded artifact: repository-audit/frozen/freeze.stdout](evidence/repository-audit/frozen/freeze.stdout)
+- [Source: README.md](../README.md#system-diagram)
+- [Recorded artifact: final-release-pc/manifest.json](evidence/final-release-pc/manifest.json)
 
-Clone PC từ GitHub main tại`5535bcffc013b1a9464133f69239cdb963183bb2` đã qua736 tests,297 subtests,7 skips trong môi trường Python riêng từ freeze đã công bố. Pip check, window/fullhandover/MMD/OPA và suite đều exit0; clone sạch trước/sau. [14 payload gốc](evidence/final-release-pc/manifest.json) giữ JUnit/console và receipt. Đây là lượt mới sau audit732/292, không thay số đo frozen cũ và không chứng minh đã chạy trên laptop. Tự kiểm cả hai lượt bằng `python -S scripts/verify-final-handover.py`.
+## Related documentation
+
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/repository-quality.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

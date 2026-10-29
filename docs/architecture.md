@@ -2,6 +2,8 @@
 
 This document describes the IoT lab implemented in this repository: the prediction request, the data and training jobs behind it, and the controls around deployment. The [README](../README.md#system-diagram) provides the platform overview; the [demo guide](demo-walkthrough.md) provides the operating commands.
 
+The selected coursework scope includes both final ML and final LLM/agents. This page describes recorded Data/ML behavior; the [LLM workstream](llm-agent-plan.md) is selected but not implemented.
+
 ## Scope and runtime
 
 The lab runs on one Google Cloud VM with 8 vCPU and 64 GiB RAM. K3s hosts Kubernetes workloads; Docker containers and host services provide the remaining components. Shared data and scratch volumes hold datasets, model artifacts and service state. Administration uses loopback ports and IAP.
@@ -15,6 +17,8 @@ Three workloads have different boundaries:
 | Streaming store checks | Retained Kafka/Flink output: 5,760 finalized windows across 20 machines; separate small CI/Airflow fixtures | [Window cohort](window-cohort.md), [stream CI](ci-stream-push.md) |
 
 The 100 GB result does not cover feature engineering or model training at that scale. Diagrams summarize recorded workflows; they do not assert that all jobs run concurrently or that endpoints are currently ready.
+
+![Data and ML workflow overview](images/platform-overview.png)
 
 ## Inference request
 
@@ -97,9 +101,9 @@ The notebook and Kubernetes pipeline execute five ML steps. The pipeline is defi
 | 4. Validate saved model | Reload the saved weights and reproduce validation behavior |
 | 5. Evaluate holdout | Evaluate the selected model under the unchanged protocol |
 
-Dataset changes are stored incrementally and linked to MLflow runs and model versions. A trained candidate is distinct from a serving release: the recorded retraining run created model7 as a candidate, while the demonstrated serving pin remains model6.
+Dataset changes are stored incrementally and linked to MLflow runs and model versions. A trained candidate is distinct from a serving release: the recorded retraining run created model 7 as a candidate, while the demonstrated serving pin remains model 6.
 
-Jenkins serving CI retrieves the selected model bundle, runs gates, builds images and deploys with Helm. The recorded A/B experiment compared versions1 and6; controlled rollback restored the previous version before returning to6. This is separate from model7 training. See [distributed training](distributed-training.md), [automatic versioning](automatic-ml-versioning.md), [serving CI](ci-serving.md) and [A/B deployment](ci-ab-deployment.md).
+Jenkins serving CI retrieves the selected model bundle, runs gates, builds images and deploys with Helm. The recorded A/B experiment compared versions1 and6; controlled rollback restored the previous version before returning to6. This is separate from model 7 training. See [distributed training](distributed-training.md), [automatic versioning](automatic-ml-versioning.md), [serving CI](ci-serving.md) and [A/B deployment](ci-ab-deployment.md).
 
 ## Monitoring and retraining
 
@@ -116,7 +120,7 @@ flowchart LR
     KFP -->|R3 Backend run status| Controller
 ```
 
-The comparison uses a fixed model3 training reference. Its PSI values are not accuracy measurements for the served model6. The recorded retraining test was a manual probe with `drift=false`; it demonstrated a real KFP run and the admission/replay/cooldown controls. It did not establish a naturally occurring drift alarm or automatic promotion.
+The comparison uses a fixed model 3 training reference. Its PSI values are not accuracy measurements for the served model 6. The recorded retraining test was a manual probe with `drift=false`; it demonstrated a real KFP run and the admission/replay/cooldown controls. It did not establish a naturally occurring drift alarm or automatic promotion.
 
 The deployment also has API metrics and OTLP traces, host/Pod logs, and a separate Knative Eventing-to-KServe drift receiver. Those have their own workloads and evidence. MMD is an additional offline diagnostic for joint sensor-distribution changes. See [offline drift](offline-drift-monitoring.md), [retraining](drift-retraining.md), [API observability](api-observability.md), [logs](log-discovery.md), [Eventing](drift-eventing.md) and [MMD](joint-cohort.md).
 
@@ -142,4 +146,10 @@ Database, artifact and registry state stays on VM volumes. A Git clone does not 
 
 Earlier design sketches and model versions are retained in [Git history](https://github.com/anle0429/iot-maintenance-platform/blob/1c9d1932ea652f09b1b2b77caa001b082a2b4be7/docs/architecture.md). They describe earlier milestones, not the current lab design.
 
-The [RecSys-MLops system-design documentation](https://github.com/itsmekhoathekid/RecSys-MLops/blob/main/docs/submission/rubic-final-coursework-%28final-ml%29/high_level_system_design.md) was consulted for separating system views and linking them to implementation. The diagrams here describe this repository's IoT jobs, stores and serving path.
+The supplied rubrics govern scope. [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform) is a presentation reference; the illustrations and code walkthrough describe this repository's IoT implementation.
+
+## Selected LLM workstream
+
+![Planned LLM and agent architecture, not a deployed system](images/platform-llm-plan.png)
+
+See the [LLM plan](llm-agent-plan.md), [source rubric](rubric-source.md) and [open LLM tracker](final-llm-rubric-tracker.md). Shared ML APIs are integration points. No LLM, RAG, MCP, sandbox, warm-up or agent runtime is claimed from a diagram.

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1140" viewBox="0 0 1800 1140" role="img" aria-labelledby="title desc">
+<title id="title">Deployment view</title><desc id="desc">One Google Cloud VM; private administration through IAP and loopback forwards. No multi-host HA claim.</desc><rect width="100%" height="100%" fill="white"/>
+<text x="44" y="78" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="34" font-weight="600" text-anchor="start" fill="#16273b">Deployment view</text>
+<text x="44" y="113" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="19" font-weight="400" text-anchor="start" fill="#526174">One Google Cloud VM; private administration through IAP and loopback forwards. No multi-host HA claim.</text>
+<text x="44" y="1124" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#657386">Architecture illustration — not a runtime screenshot. Source: docs/diagrams/platform.py</text>
+<rect x="35" y="155" width="300" height="850" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="55" y="191" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">DEVELOPER PC</text>
+<rect x="60" y="265" width="250" height="160" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="185.0" y="312.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Local tools</text>
+<text x="185.0" y="342.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Git / Python</text>
+<text x="185.0" y="367.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Editor / offline checks</text>
+<text x="185.0" y="392.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">IAP client</text>
+<rect x="60" y="555" width="250" height="160" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="185.0" y="602.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Browser</text>
+<text x="185.0" y="632.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Swagger / Airflow</text>
+<text x="185.0" y="657.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Grafana / DataHub</text>
+<text x="185.0" y="682.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">MLflow / Jenkins</text>
+<rect x="380" y="155" width="1380" height="850" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="400" y="191" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">GOOGLE CLOUD VM — 8 vCPU / 64 GiB RAM</text>
+<rect x="410" y="225" width="1320" height="245" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="430" y="261" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">K3s — Kubernetes workloads</text>
+<rect x="435" y="290" width="285" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="577.5" y="354.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Feature / drift APIs</text>
+<text x="577.5" y="384.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Helm Deployments</text>
+<rect x="755" y="290" width="285" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="897.5" y="354.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">KServe predictors</text>
+<text x="897.5" y="384.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">ML inference / Eventing</text>
+<rect x="1075" y="290" width="285" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1217.5" y="354.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Kubeflow Pipelines</text>
+<text x="1217.5" y="384.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">API / task Pods</text>
+<rect x="1395" y="290" width="285" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1537.5" y="354.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Gateway / test mesh</text>
+<text x="1537.5" y="384.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Ingress / identity tests</text>
+<rect x="410" y="500" width="1320" height="210" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="430" y="536" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">Docker containers and jobs</text>
+<rect x="445" y="560" width="395" height="115" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
+<text x="642.5" y="609.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Spark / Kafka / Flink</text>
+<text x="642.5" y="639.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Separate images, limits and state</text>
+<rect x="875" y="560" width="395" height="115" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
+<text x="1072.5" y="609.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Airflow / DataHub</text>
+<text x="1072.5" y="639.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Separate images, limits and state</text>
+<rect x="1305" y="560" width="395" height="115" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
+<text x="1502.5" y="609.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">MLflow / Jenkins</text>
+<text x="1502.5" y="639.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Separate images, limits and state</text>
+<rect x="410" y="740" width="1320" height="210" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="430" y="776" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">Host services</text>
+<rect x="445" y="800" width="395" height="115" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="642.5" y="849.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Prometheus / Grafana</text>
+<text x="642.5" y="879.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Retained state; recovery CLI</text>
+<rect x="875" y="800" width="395" height="115" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="1072.5" y="849.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Loki / Alloy / exporter</text>
+<text x="1072.5" y="879.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Retained state; recovery CLI</text>
+<rect x="1305" y="800" width="395" height="115" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="1502.5" y="849.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Vault / Pushgateway</text>
+<text x="1502.5" y="879.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Retained state; recovery CLI</text>
+<text x="410" y="1052" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#16273b">Storage: 50 GiB boot + 500 GiB data HDD + 150 GiB pd-balanced scratch. Datasets, registry and secrets stay on VM volumes.</text>
+<text x="45" y="1097" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#16273b">Administration: IAP-forwarded SSH22; UI listeners use loopback. A Git clone contains code and documentation, not live service state.</text>
+</svg>

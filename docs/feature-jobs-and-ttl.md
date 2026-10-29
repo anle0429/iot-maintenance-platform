@@ -1,41 +1,36 @@
-# Ba đường ghi feature và chính sách TTL
+# Feature write paths and TTL policy
 
-Feature store có hai view với mục đích khác nhau. `machine_rolling_10m` chứa tám đầu vào cho mô hình dự đoán sự cố trong một giờ tới. `machine_tumbling_final_10m` giữ **bốn** aggregate giám sát của cửa sổ Flink đã chốt; không đưa trực tiếp chúng vào mô hình tám đầu vào.
+There are two different feature views. `machine_rolling_10m` contains eight model inputs from the preceding ten minutes. `machine_tumbling_final_10m` contains four aggregates from finalized non-overlapping Flink windows and is used for monitoring, not substituted into that model.
 
-| Thành phần | Thời hạn | Giải thích và bằng chứng |
+| Limit | Value | Meaning |
 |---|---|---|
-| Feast `machine_rolling_10m` | 10 phút theo event time | Feature dựng mỗi 5 phút từ 10 phút quá khứ. Cho phép tối đa khoảng hai nhịp cập nhật; API chấp nhận age 0…600 giây, từ chối tương lai/601. Đây là lựa chọn vận hành, chưa đo tối ưu accuracy/freshness. [Source](../feature_store/repository.py), [biên](api-validation.md). |
-| Feast `machine_tumbling_final_10m` | 1 giờ theo event time | Giám sát các cửa sổ không chồng lấn 10 phút đã final; giữ phạm vi khoảng sáu cửa sổ cho lookup lịch sử. Không dùng TTL này để nhận dữ liệu đã có ngay tại window end. [Source](../feature_store/push.py). |
-| Redis online key | 3600 giây theo đồng hồ thật | Giới hạn tồn tại của giá trị online sau ghi. Replay đã ack không ghi lại nên không gia hạn key. API vẫn phải kiểm tuổi event; key chưa hết hạn không đảm bảo feature fresh. |
-| Lease demo | 3600 giây theo đồng hồ thật | Backfill dùng thời gian mô phỏng, nên lease giới hạn thời gian phục vụ snapshot trên máy thật. Không sửa timestamp/lease để kéo dài demo; phải chuẩn bị dữ liệu lại bằng luồng thật. |
-| Parquet offline | Không tự xóa theo TTL Redis | Lưu lịch sử phục vụ audit/training; FeatureView TTL giới hạn phép lookup, không phải lịch xóa file. |
-| Fixture thử expiry | 3 giây | Chỉ rút ngắn thời gian chờ trong phép thử native, không phải TTL nghiệp vụ. |
+| Rolling-view event TTL | Ten minutes | Historical/online lookup freshness; API accepts age 0…600 seconds |
+| Finalized-window event TTL | One hour | Approximately six finalized ten-minute monitoring windows |
+| Redis key expiry | 3,600 actual seconds | Physical online-key lifetime after a write; acknowledged replay does not extend it |
+| Demo lease | 3,600 actual seconds | Bound on how long a prepared simulated snapshot can be served |
+| Offline Parquet | No automatic Redis-driven deletion | Retained history; view TTL limits retrieval rather than deleting files |
 
-Chân trời nhãn một giờ là khoảng tương lai muốn dự đoán; nó không quyết định TTL của feature. `created` là audit clock; `received_ts`/availability cùng event time mới quyết định thông tin thực sự có khi dự đoán.
+The prediction target's one-hour future horizon does not determine feature TTL. Build-time `created`, event time and first availability have different meanings. A live Redis key can still contain an ineligible stale feature. Actual materialization and the separate offline/online Airflow jobs are documented with their own run IDs and replay evidence.
 
-## Batch incremental qua Airflow
+## Implementation and evidence
 
-`register_bound_source → materialize_incremental → validate_online → publish_to_datahub`.
+- [Source: feature_store/repository.py](../feature_store/repository.py)
+- [Source: feature_store/push.py](../feature_store/push.py)
+- [Recorded artifact: ci-stream-push/offline-3/ci/airflow.json](evidence/ci-stream-push/offline-3/ci/airflow.json)
+- [Recorded artifact: ci-stream-push/online-2/ci/airflow.json](evidence/ci-stream-push/online-2/ci/airflow.json)
+- [Source: infra/ci/iot_ci_stream_push.py](../infra/ci/iot_ci_stream_push.py)
 
-[DAG và ảnh Airflow bốn task thành công](feast-materialization.md) có initial, incremental, replay và ca lùi thời gian bị chặn. Incremental đổi đúng 200/200 vector; replay không đổi vector và không thêm native interval; backward không đổi SHA checkpoint. [DataHub sau phục hồi](datahub-restore.md) đọc lại đúng lineage và sáu assertion thành công của run này. Đây là nguồn 200 máy đã bound, không phải materialize toàn bộ telemetry 100 GB.
+## Recorded interface views
 
-## Hai job streaming độc lập
+These are original captures from the runs described above. Their timestamps, model identities and visible states belong to those runs.
 
-| Job thực tế | Stage Airflow | Kết quả đã đọc lại |
-|---|---|---|
-| `iot_ci_stream_offline`, run `stream-offline-jenkins-3` | `push_finalized_windows → replay_without_new_writes` | 19:31:58…19:32:17 UTC ngày 28/10; hai task success; Parquet giữ ba khóa/cửa sổ và timestamp microsecond đúng nguồn. [API gốc](evidence/ci-stream-push/offline-3/ci/airflow.json). |
-| `iot_ci_stream_online`, run `stream-online-jenkins-2` | `push_finalized_windows → replay_without_new_writes` | 19:33:48…19:34:04 UTC; hai task success; online latest P-001 mean40, P-002 mean100; replay không tăng dữ liệu. [API gốc](evidence/ci-stream-push/online-2/ci/airflow.json). |
+![Recorded jenkins offline3 success](evidence/ci-stream-push/screenshots/jenkins-offline3-success.jpg)
 
-Tên task chính xác đối chiếu từ `tasks.task_instances` trong hai JSON gốc; thứ tự phụ thuộc được khai báo trong [DAG](../infra/ci/iot_ci_stream_push.py). [CI streaming](ci-stream-push.md) giữ ảnh Jenkins thành công của cả hai job, console, fault/recovery SDK và bằng chứng nguồn trước/sau. Một executor và pool `feast_jobs` một slot cố ý ghi tuần tự; không nhận ảnh hai job đang chạy đồng thời.
+![Recorded jenkins online2 success](evidence/ci-stream-push/screenshots/jenkins-online2-success.jpg)
 
-![Job offline thành công](evidence/ci-stream-push/screenshots/jenkins-offline3-success.jpg)
 
-![Job online thành công](evidence/ci-stream-push/screenshots/jenkins-online2-success.jpg)
+## Related documentation
 
-[Luồng Kafka/Flink live trước đó](stream-feast-push.md) chứng minh worker ack khi source còn RUNNING, cùng chính sách late/replay. Lượt CI dùng ba cửa sổ/two machines giữ lại từ luồng thật để kiểm triển khai nhỏ; không thay cho streaming lớn, distributed exactly-once hoặc nguồn chạy liên tục. [Ảnh UI Airflow gốc của hai DAG](final-handover.md#ba-pipeline-feature) đã bổ sung28/10, graph/task success khớp API; ảnh Jenkins/API vẫn được ghi nguồn riêng.
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
 
-Tự kiểm không cần VM: `python scripts/verify-ci-stream-push.py`; kiểm API biên: `python scripts/verify-focused-api.py`. Chạy native lại theo [hướng dẫn CI](ci-stream-push.md), chọn release mới và kiểm tài nguyên/phiên được duyệt. Nếu snapshot/Redis/lease đã hết hạn, ghi nhận đúng trạng thái hết hạn; không sửa receipt lịch sử.
-
-## Readback bổ sung28/10
-
-[Ba DAG/tám task](final-handover.md#ba-pipeline-feature) có API thật và hai ảnh UI Airflow gốc. [Fullcohort native](window-cohort.md) riêng đã ghi/replay5.760cửa sổ từ mini-coursework, với ảnh hai job khi lần lượt RUNNING và output success; không nhận fullcohort đã chạy qua Airflow hoặc hai job chạy đồng thời. CI/Airflow giữ fixture ba cửa sổ đúng scope lịch sử.
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/feature-jobs-and-ttl.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

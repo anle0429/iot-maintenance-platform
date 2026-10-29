@@ -1,67 +1,134 @@
-# Ma trận đối chiếu57dòng final
+# Rubric implementation and evidence map
 
-Bảng này dẫn từ từng yêu cầu gốc tới mã và proof đã đọc. [Tracker đầy đủ](final-rubric-tracker.md) giữ nguyên sáu cột nguồn và deliverable; [kết luận/giới hạn rà soát](final-audit.md) giải thích phạm vi. Dòng có proof không tự quy đổi thành điểm. A2 được đối chiếu ở README/diagram, docstrings và repository audit.
+Both final ML and final LLM/agents are selected. The tables distinguish recorded ML evidence from unverified LLM work. Source weights are not self-awarded grades. [Source notes](rubric-source.md) preserve the original workbook/cell references.
 
-| Dòng | Yêu cầu | Điểm vào mã/thiết kế | Proof để mở | Bộ kiểm liên quan |
+## Final ML
+
+| ID | Requirement | Code entry | Evidence | Offline checker |
 |---|---|---|---|---|
-| F03 | Có sử dụng FastAPI + data validation (với pydantic) + healthcheck for k8s | [app.py](../services/feature_api/app.py) | [Feature API native](feature-api.md); [Helm rolling/fallback](api-deployment.md) | native-serving |
-| F04 | Sử dụng async | [app.py](../services/feature_api/app.py) | [Async feature API](../services/feature_api/app.py); [Helm rolling/atomic](api-deployment.md) | native-serving |
-| F05 | Deploy to k8s with helm + rollingupdate + auto fallback (see --atomic) | [app.py](../services/feature_api/app.py) | [Helm feature API](api-deployment.md) | native-serving |
-| F06 | Có sử dụng FastAPI + data validation (với pydantic) + healthcheck for k8s | [app.py](../services/drift_api/app.py) | [Drift API native](drift-detection.md); [Helm rolling/fallback](api-deployment.md) | drift-api capsule / drift-eventing |
-| F07 | Sử dụng async | [app.py](../services/drift_api/app.py) | [Async drift API](../services/drift_api/app.py) | drift-api capsule / drift-eventing |
-| F08 | Deploy to k8s with helm + rollingupdate + auto fallback (see --atomic) | [app.py](../services/drift_api/app.py) | [Helm drift](api-deployment.md) | drift-api capsule / drift-eventing |
-| F09 | Web API kéo dữ liệu | [hpa.yaml](../infra/charts/iot-api/templates/hpa.yaml) | [Native CPU HPA1→2→1](api-autoscaling.md) | api-autoscale capsule |
-| F10 | Web API cho drift detection | [hpa.yaml](../infra/charts/iot-api/templates/hpa.yaml) | [Native CPU HPA1→2→1](api-autoscaling.md) | api-autoscale capsule |
-| F11 | Unit test với Test Coverage > 90% | [test-api-observability.py](../scripts/test-api-observability.py) | [Native serving8](ci-serving.md); [API drift không đổi](drift-detection.md) | native-serving / ci-api-observability |
-| F12 | Có sử dụng kỹ thuật equivalence partitioning vs boundary value analysis khi thiết kế test cases để parametrize. | [run-focused-api-validation.py](../scripts/run-focused-api-validation.py) | [Native boundary/partition](api-validation.md) | focused-api |
-| F13 | Có sử dụng mutation testing để đánh giá hiệu quả của các test (cái này đã dạy ở lớp rồi nha cả nhà, là cái https://mutmut.readthedoc… | [test-api-observability.py](../scripts/test-api-observability.py) | [Mutation native hoàn chỉnh5/source914d494](ci-serving.md); [Drift API source không đổi](drift-detection.md) | native-serving / ci-api-observability |
-| F14 | Idempotency testing sử dụng property-based testing (chuyên để tìm ra cái test case có thể tạo ra bug), ví dụ, để kiểm tra xem model … | [run-focused-api-validation.py](../scripts/run-focused-api-validation.py) | [Native Hypothesis](api-validation.md) | focused-api |
-| F15 | Load test the Web API (cái Web API kéo dữ liệu) to understand throughput (req/s) and latency | [feature_api.py](../tests/load/feature_api.py) | [Locust native8](ci-serving.md); [Locust overlay2f](observed-api-load.md) | observed-api-load |
-| F16 | Simulate data drift | [drift.py](../generator/drift.py) | [SensorDrift nhỏ](drift-detection.md) | drift-api capsule |
-| F17 | Using generator configuration | [drift.py](../generator/drift.py) | [Config JSON](../generator/configs/sensor-drift-small.json) | drift-api capsule |
-| F18 | Tạo bảng label có 2 cột id và label. Bảng này sẽ dùng để join với các bảng feature cho training.  | [drift.py](../generator/drift.py) | [Native nhỏ](drift-detection.md); [Cohort training](training-notebook.md) | drift-api capsule |
-| F19 | Build data pipeline (ví dụ Airflow) để incremental materialize dữ liệu mới nhất từ offline qua online store | [batch.py](../feature_store/batch.py) | [Materialization/TTL](feature-jobs-and-ttl.md); [UI Airflow gốc](final-handover.md#ba-pipeline-feature) | final-handover / ci-materialization capsule |
-| F20 | Deploy job chịu trách nhiệm push streaming feature (ở mini-coursework) vào OFFLINE store | [staged_push.py](../feature_store/staged_push.py) | [OfflineCI3](ci-stream-push.md); [UI gốc](final-handover.md#ba-pipeline-feature) | window-cohort / ci-stream-push |
-| F21 | Deploy job chịu trách nhiệm push streaming feature (ở mini-coursework) vào ONLINE store | [staged_push.py](../feature_store/staged_push.py) | [OnlineCI2](ci-stream-push.md); [UI gốc](final-handover.md#ba-pipeline-feature) | window-cohort / ci-stream-push |
-| F22 | Define TTL cho từng bảng feature, giải thích tại sao chọn TTL như thế | [repository.py](../feature_store/repository.py) | [TTL từng view/store/lease](feature-jobs-and-ttl.md) | final-handover / feature-jobs-and-ttl.md |
-| F23 | Jupyter notebook để kéo dữ liệu từ offline store (thông qua Feast) để tạo ra model (dùng ML/DL). | [01_failure_training.ipynb](../notebooks/01_failure_training.ipynb) | [Notebook5bước đã execute](training-notebook.md) | notebook / notebook-parity capsules |
-| F24 | Chuyển đổi code từ Jupyter notebook thành training pipeline với số lượng step giống ở phần notebook bên trên (sử dụng Kubeflow pipel… | [kfp_notebook.py](../ml/kfp_notebook.py) | [Notebook5ML/6ô PASS](training-notebook.md); [KFP5task PASS](distributed-training.md) | distributed-training capsule / ci-training |
-| F25 | Trong training pipeline, ở step train, thay bằng distributed training, ví dụ nếu mọi người dùng model XGBoost thì có thể coi tutoria… | [kfp_notebook.py](../ml/kfp_notebook.py) | [NativeSparkKubernetes](distributed-training.md) | distributed-training capsule / ci-training |
-| F26 | Khi training pipeline hoàn tất, thông tin của MODEL (weight, hyperparam) cần được lưu trữ lại ở Model Registry (qua MLFlow) | [run-versioned-training.py](../scripts/run-versioned-training.py) | [Tự động model4–5](automatic-ml-versioning.md) | automatic-versioning capsule / ci-training |
-| F27 | Mỗi lần kéo dữ liệu từ Feast về để training, cần version lại DATA theo cơ chế incremental (ví dụ lần train thứ 2 data chỉ có 1 chút … | [snapshot.py](../ml/snapshot.py) | [Hai freshpulls tự động](automatic-ml-versioning.md); [59→60ngày](incremental-data-versioning.md) | data-versions / automatic-versioning capsules |
-| F28 | Materialize Pipeline | [ci-materialization.py](../scripts/ci-materialization.py) | [Jenkins materialization](ci-materialization.md) | ci-materialization capsule |
-| F29 | Training Pipeline | [ci-training.py](../scripts/ci-training.py) | [Jenkins build2 SUCCESS](ci-training.md) | ci-training |
-| F30 | DP 1 (xem ở sheet mini-coursework) | [ci-data-pipelines.py](../scripts/ci-data-pipelines.py) | [Jenkinsbuild2SUCCESS](ci-data-pipelines.md) | ci-data-pipelines capsule |
-| F31 | DP 2 (xem ở sheet mini-coursework) | [ci-data-pipelines.py](../scripts/ci-data-pipelines.py) | [Jenkinsbuild2SUCCESS](ci-data-pipelines.md) | ci-data-pipelines capsule |
-| F32 | DP 3 (xem ở sheet mini-coursework) | [ci-data-pipelines.py](../scripts/ci-data-pipelines.py) | [Jenkinsbuild2SUCCESS](ci-data-pipelines.md) | ci-data-pipelines capsule |
-| F33 | Web API (với FastAPI) | [ci-serving.py](../scripts/ci-serving.py) | [Jenkins serving8 SUCCESS307949ms](ci-serving.md); [Refresh vận hành riêng](active-feature-refresh.md) | native-serving / ci-api-observability |
-| F34 | Inference Engine (ví dụ KServe) | [ci-serving.py](../scripts/ci-serving.py) | [Serving8 KServe native](ci-serving.md); [TelemetryCI2](ci-api-observability.md) | native-serving / ci-api-observability |
-| F35 | Cho real-time drift detection Web API (sử dụng KNative Eventing kết hợp với KServe) | [ci-drift-eventing.py](../scripts/ci-drift-eventing.py) | [Jenkins drift Eventing3](drift-eventing.md) | drift-eventing |
-| F36 | Job 1: Push stream feature to OFFLINE store | [ci-stream-push.py](../scripts/ci-stream-push.py) | [CI stream offline](ci-stream-push.md) | ci-stream-push |
-| F37 | Job 2: Push stream feature to ONLINE store | [ci-stream-push.py](../scripts/ci-stream-push.py) | [CI stream online](ci-stream-push.md) | ci-stream-push |
-| F38 | Service để coi metric (ví dụ Grafana) | [deploy-private-gateway.py](../scripts/deploy-private-gateway.py) | [Gateway private native](private-gateway.md) | private-gateway |
-| F39 | Service để coi log (ví dụ Kibana) | [deploy-private-gateway.py](../scripts/deploy-private-gateway.py) | [Gateway private native](private-gateway.md) | private-gateway |
-| F40 | Service để coi trace (ví dụ Jaeger) | [deploy-private-gateway.py](../scripts/deploy-private-gateway.py) | [Gateway private native](private-gateway.md) | private-gateway |
-| F41 | Web API kéo dữ liệu | [deploy-private-gateway.py](../scripts/deploy-private-gateway.py) | [Gateway private native](private-gateway.md) | private-gateway |
-| F42 | Setup authentication & rate limit cho Web API kéo dữ liệu | [deploy-private-gateway.py](../scripts/deploy-private-gateway.py) | [Gateway private native](private-gateway.md) | private-gateway |
-| F43 | Làm cái này cho Web API kéo dữ liệu. Mọi người có thể tham khảo 2 đồ án sau: cái này và cái này | [deploy-private-gateway.py](../scripts/deploy-private-gateway.py) | [Gateway private native](private-gateway.md) | private-gateway |
-| F44 | Dùng Terraform để setup GKE hoặc các cloud services (để ý cách chia folder theo từng service nếu có, ví dụ như sau) | [main.tf](../infra/gcp/vm/main.tf) | [IaC verified](iac-verification.md) | iac-final |
-| F45 | Dùng Ansible để configure và deploy các service lên VM  | [bootstrap.yml](../infra/ansible/bootstrap.yml) | [Ansible roles verified](iac-verification.md) | iac-final |
-| F46 | Web API monitoring metrics such as req/s, num. of reqs, num. of failures, etc. | [ci-observability.py](../scripts/ci-observability.py) | [API metrics native](api-observability.md); [Locust wrapper](observed-api-load.md) | api-observability |
-| F47 | Collect và visualize metrics với Prometheus + Grafana (hoặc tool tương tự) | [host_monitoring.py](../ml/host_monitoring.py) | [Host metrics PC + Linux VM](host-monitoring.md) | host-monitoring / linux-host |
-| F48 | Tương tự cho logs | [log_discovery.py](../ml/log_discovery.py) | [Log VM thực](log-monitoring.md); [Dynamic Pod discovery](log-discovery.md) | linux-logs / log-discovery |
-| F49 | Tương tự cho traces | [ci-observability.py](../scripts/ci-observability.py) | [Jaeger2.22 native](api-observability.md) | api-observability |
-| F50 | Airflow data drift pipeline to periodically pull data from offline feature store and compare with groundtruth and update to Grafana … | [verify-offline-drift.py](../scripts/verify-offline-drift.py) | [Native Airflow→Feast→Pushgateway→Grafana](offline-drift-monitoring.md) | offline-drift |
-| F51 | Trigger retrain by calling Kubeflow API (you can design by adding one step at the end of the Airflow data drift pipeline) | [verify-drift-retraining.py](../scripts/verify-drift-retraining.py) | [Airflow→KFP native](drift-retraining.md) | drift-retraining |
-| F52 | Perform A/B traffic split for 2 versions of inference service (deploy via CI/CD) | [ci-serving.py](../scripts/ci-serving.py) | [A/B native qua servingCI8](ci-ab-deployment.md) | native-serving / ab-monitoring |
-| F53 | Setup monitoring dashboard to monitor 2 versions. | [ab_monitoring.py](../ml/ab_monitoring.py) | [Dashboard nativeVM](ab-monitoring.md) | ab-monitoring |
-| F54 | Centralize secret management via Hashi Corp Vault (or similar tools) so it will be used across the whole organization. | [vault_client.py](../infra/security/vault_client.py) | [Vault native2.2.1/Raft/TLS](vault.md) | vault / resume-demo-services live |
-| F55 | Using service mesh to authorize access from service to service | [install-private-mesh.py](../scripts/install-private-mesh.py) | [Istio1.31.3 native](private-mesh.md) | private-mesh |
-| F56 | Clean Code + clean repo + demonstrate the use of Design Pattern | [runtime.py](../services/feature_api/runtime.py) | [Pattern/source](ml-class-design.md); [repoaudit](repository-quality.md) | final-handover / repository-quality.md |
-| F57 | Propose 5 key classes to present our main focus: | [ml-class-design.md](../docs/ml-class-design.md) | [Năm lớp đã có](ml-class-design.md) | 5classes/design pattern document |
-| F58 | Idea 1 | [joint_drift.py](../ml/joint_drift.py) | [MMD controlled](joint-drift.md); [nativecohort](joint-cohort.md) | joint-cohort |
-| F59 | Idea 2 | [check-deployment-policy.py](../scripts/check-deployment-policy.py) | [OPA native policy](deployment-policy.md); [Learner confirmation](evidence/course-scope/learner-confirmation.json) | deployment-policy |
+| F03 | Use FastAPI, Pydantic data validation and Kubernetes health checks for the feature-retrieval API. | [app](../services/feature_api/app.py) | [feature api](feature-api.md); [api deployment](api-deployment.md) | native-serving |
+| F04 | Use asynchronous request handling in the feature-retrieval API. | [app](../services/feature_api/app.py) | [app](../services/feature_api/app.py); [api deployment](api-deployment.md) | native-serving |
+| F05 | Deploy the feature-retrieval API to Kubernetes using Helm, rolling updates and automatic fallback, such as --atomic. | [app](../services/feature_api/app.py) | [api deployment](api-deployment.md) | native-serving |
+| F06 | Use FastAPI, Pydantic data validation and Kubernetes health checks for the real-time drift API. | [app](../services/drift_api/app.py) | [drift detection](drift-detection.md); [api deployment](api-deployment.md) | drift-api capsule / drift-eventing |
+| F07 | Use asynchronous request handling in the real-time drift API. | [app](../services/drift_api/app.py) | [app](../services/drift_api/app.py) | drift-api capsule / drift-eventing |
+| F08 | Deploy the real-time drift API to Kubernetes using Helm, rolling updates and automatic fallback. | [app](../services/drift_api/app.py) | [api deployment](api-deployment.md) | drift-api capsule / drift-eventing |
+| F09 | Demonstrate autoscaling of the feature-retrieval API. | [hpa](../infra/charts/iot-api/templates/hpa.yaml) | [api autoscaling](api-autoscaling.md) | api-autoscale capsule |
+| F10 | Demonstrate autoscaling of the drift-detection API. | [hpa](../infra/charts/iot-api/templates/hpa.yaml) | [api autoscaling](api-autoscaling.md) | api-autoscale capsule |
+| F11 | Unit-test the Web APIs with Test Coverage > 90%, demonstrating fixtures and mocks with screenshots. | [test api observability](../scripts/test-api-observability.py) | [ci serving](ci-serving.md); [drift detection](drift-detection.md) | native-serving / ci-api-observability |
+| F12 | Use equivalence partitioning and boundary-value analysis to design parameterized test cases. | [run focused api validation](../scripts/run-focused-api-validation.py) | [api validation](api-validation.md) | focused-api |
+| F13 | Use mutation testing to assess test effectiveness. Mutate changed code rather than the entire codebase on every commit. Mutation score > 80%. | [test api observability](../scripts/test-api-observability.py) | [ci serving](ci-serving.md); [drift detection](drift-detection.md) | native-serving / ci-api-observability |
+| F14 | Use property-based idempotency tests, for example repeated model-prediction consistency. Hypothesis and its CrossHair backend are suggested tools. | [run focused api validation](../scripts/run-focused-api-validation.py) | [api validation](api-validation.md) | focused-api |
+| F15 | Load-test the feature-retrieval Web API for throughput and latency; produce a Locust HTML report documenting the SLA workload. | [feature_api](../tests/load/feature_api.py) | [ci serving](ci-serving.md); [observed api load](observed-api-load.md) | observed-api-load |
+| F16 | Simulate data drift. | [drift](../generator/drift.py) | [drift detection](drift-detection.md) | drift-api capsule |
+| F17 | Control drift through generator configuration. | [drift](../generator/drift.py) | [sensor drift small](../generator/configs/sensor-drift-small.json) | drift-api capsule |
+| F18 | Create a separate two-column ID/label table for joining with feature tables during training; domain-specific ID names are allowed. | [drift](../generator/drift.py) | [drift detection](drift-detection.md); [training notebook](training-notebook.md) | drift-api capsule |
+| F19 | Build an incremental pipeline, for example Airflow, materializing the latest offline features into the online store. | [batch](../feature_store/batch.py) | [feature jobs and ttl](feature-jobs-and-ttl.md); [final handover](final-handover.md#feature-pipelines) | final-handover / ci-materialization capsule |
+| F20 | Deploy a job pushing the mini-coursework streaming features into the OFFLINE store. | [staged_push](../feature_store/staged_push.py) | [ci stream push](ci-stream-push.md); [final handover](final-handover.md#feature-pipelines) | window-cohort / ci-stream-push |
+| F21 | Deploy a job pushing the mini-coursework streaming features into the ONLINE store. | [staged_push](../feature_store/staged_push.py) | [ci stream push](ci-stream-push.md); [final handover](final-handover.md#feature-pipelines) | window-cohort / ci-stream-push |
+| F22 | Define and justify the TTL of each feature table. | [repository](../feature_store/repository.py) | [feature jobs and ttl](feature-jobs-and-ttl.md) | final-handover / feature-jobs-and-ttl.md |
+| F23 | Execute a Jupyter notebook that retrieves offline data through Feast, joins the generated labels, splits train/validation, fits a task-appropriate ML/DL model, evaluates validation and saves the model. | [01_failure_training](../notebooks/01_failure_training.ipynb) | [training notebook](training-notebook.md) | notebook / notebook-parity capsules |
+| F24 | Convert the notebook into a Kubeflow training pipeline with the same number of ML steps; standalone Kubeflow Pipelines is sufficient. | [kfp_notebook](../ml/kfp_notebook.py) | [training notebook](training-notebook.md); [distributed training](distributed-training.md) | distributed-training capsule / ci-training |
+| F25 | Use distributed training in the training step; distributed XGBoost is an example, not a required model. | [kfp_notebook](../ml/kfp_notebook.py) | [distributed training](distributed-training.md) | distributed-training capsule / ci-training |
+| F26 | After training completes, store model weights and hyperparameters in a model registry such as MLflow. | [run versioned training](../scripts/run-versioned-training.py) | [automatic ml versioning](automatic-ml-versioning.md) | automatic-versioning capsule / ci-training |
+| F27 | Version each Feast training-data retrieval incrementally, storing changed data rather than duplicating every full dataset. | [snapshot](../ml/snapshot.py) | [automatic ml versioning](automatic-ml-versioning.md); [incremental data versioning](incremental-data-versioning.md) | data-versions / automatic-versioning capsules |
+| F28 | Provide CI/CD for the materialization pipeline. | [ci materialization](../scripts/ci-materialization.py) | [ci materialization](ci-materialization.md) | ci-materialization capsule |
+| F29 | Provide CI/CD for the training pipeline. | [ci training](../scripts/ci-training.py) | [ci training](ci-training.md) | ci-training |
+| F30 | Provide CI/CD for DP1 as defined in the mini-coursework. | [ci data pipelines](../scripts/ci-data-pipelines.py) | [ci data pipelines](ci-data-pipelines.md) | ci-data-pipelines capsule |
+| F31 | Provide CI/CD for DP2 as defined in the mini-coursework. | [ci data pipelines](../scripts/ci-data-pipelines.py) | [ci data pipelines](ci-data-pipelines.md) | ci-data-pipelines capsule |
+| F32 | Provide CI/CD for DP3 as defined in the mini-coursework. | [ci data pipelines](../scripts/ci-data-pipelines.py) | [ci data pipelines](ci-data-pipelines.md) | ci-data-pipelines capsule |
+| F33 | Provide CI/CD for the FastAPI Web API, retrieving the production/tagged-production model from the registry before packaging and deployment. | [ci serving](../scripts/ci-serving.py) | [ci serving](ci-serving.md); [active feature refresh](active-feature-refresh.md) | native-serving / ci-api-observability |
+| F34 | Provide CI/CD for the inference engine, for example KServe. | [ci serving](../scripts/ci-serving.py) | [ci serving](ci-serving.md); [ci api observability](ci-api-observability.md) | native-serving / ci-api-observability |
+| F35 | Provide CI/CD for the real-time drift Web API using Knative Eventing with KServe. | [ci drift eventing](../scripts/ci-drift-eventing.py) | [drift eventing](drift-eventing.md) | drift-eventing |
+| F36 | Provide CI/CD for the job pushing stream features to the OFFLINE store. | [ci stream push](../scripts/ci-stream-push.py) | [ci stream push](ci-stream-push.md) | ci-stream-push |
+| F37 | Provide CI/CD for the job pushing stream features to the ONLINE store. | [ci stream push](../scripts/ci-stream-push.py) | [ci stream push](ci-stream-push.md) | ci-stream-push |
+| F38 | Place the metrics-viewing service, for example Grafana, behind the NGINX gateway. | [deploy private gateway](../scripts/deploy-private-gateway.py) | [private gateway](private-gateway.md) | private-gateway |
+| F39 | Place the log-viewing service behind the gateway. | [deploy private gateway](../scripts/deploy-private-gateway.py) | [private gateway](private-gateway.md) | private-gateway |
+| F40 | Place the trace-viewing service behind the gateway. | [deploy private gateway](../scripts/deploy-private-gateway.py) | [private gateway](private-gateway.md) | private-gateway |
+| F41 | Place the feature-retrieval Web API behind the gateway. | [deploy private gateway](../scripts/deploy-private-gateway.py) | [private gateway](private-gateway.md) | private-gateway |
+| F42 | Configure gateway Basic authentication and rate limiting for the feature-retrieval Web API. | [deploy private gateway](../scripts/deploy-private-gateway.py) | [private gateway](private-gateway.md) | private-gateway |
+| F43 | Configure a domain and HTTPS for the feature-retrieval Web API. | [deploy private gateway](../scripts/deploy-private-gateway.py) | [private gateway](private-gateway.md) | private-gateway |
+| F44 | Use Terraform to provision GKE or other cloud services, with a suitable service/module directory layout. | [main](../infra/gcp/vm/main.tf) | [iac verification](iac-verification.md) | iac-final |
+| F45 | Use Ansible roles to configure the VM and deploy services. | [bootstrap](../infra/ansible/bootstrap.yml) | [iac verification](iac-verification.md) | iac-final |
+| F46 | Monitor Web API request rate, request counts, failures and related metrics. | [ci observability](../scripts/ci-observability.py) | [api observability](api-observability.md); [observed api load](observed-api-load.md) | api-observability |
+| F47 | Collect and visualize compute telemetry such as CPU, RAM, disk and network through Prometheus/Grafana or equivalent tools. | [host_monitoring](../ml/host_monitoring.py) | [host monitoring](host-monitoring.md) | host-monitoring / linux-host |
+| F48 | Collect and visualize logs. | [log_discovery](../ml/log_discovery.py) | [log monitoring](log-monitoring.md); [log discovery](log-discovery.md) | linux-logs / log-discovery |
+| F49 | Collect and visualize traces. | [ci observability](../scripts/ci-observability.py) | [api observability](api-observability.md) | api-observability |
+| F50 | Schedule an Airflow drift pipeline to retrieve offline features, compare with its reference and update Grafana through Pushgateway. The source explicitly assumes ground-truth labels are unavailable for drift monitoring. | [verify offline drift](../scripts/verify-offline-drift.py) | [offline drift monitoring](offline-drift-monitoring.md) | offline-drift |
+| F51 | Trigger retraining by calling the Kubeflow API, for example from a final step in the Airflow drift pipeline. | [verify drift retraining](../scripts/verify-drift-retraining.py) | [drift retraining](drift-retraining.md) | drift-retraining |
+| F52 | Split A/B traffic between two inference-service versions deployed through CI/CD. | [ci serving](../scripts/ci-serving.py) | [ci ab deployment](ci-ab-deployment.md) | native-serving / ab-monitoring |
+| F53 | Monitor both inference versions on a dashboard; the source assumes no ground-truth labels for drift monitoring. | [ab_monitoring](../ml/ab_monitoring.py) | [ab monitoring](ab-monitoring.md) | ab-monitoring |
+| F54 | Centralize shared secret management through HashiCorp Vault or an equivalent system. | [vault_client](../infra/security/vault_client.py) | [vault](vault.md) | vault / final-review |
+| F55 | Authorize service-to-service access using a service mesh. | [install private mesh](../scripts/install-private-mesh.py) | [private mesh](private-mesh.md) | private-mesh |
+| F56 | Keep clean code and a clean repository, and demonstrate a design pattern in the implementation. | [runtime](../services/feature_api/runtime.py) | [ml class design](ml-class-design.md); [repository quality](repository-quality.md) | final-handover / repository-quality.md |
+| F57 | Document five key classes expressing the main ML responsibilities, including interfaces such as training-data validation/deduplication and time-based splitting. | [ml class design](../docs/ml-class-design.md) | [ml class design](ml-class-design.md) | five classes/design pattern document |
+| F58 | Document novel idea 1 and demonstrate it works; it may be a researched technique/tool not taught in EDAI. | [joint_drift](../ml/joint_drift.py) | [joint drift](joint-drift.md); [joint cohort](joint-cohort.md) | joint-cohort |
+| F59 | Document novel idea 2 and demonstrate it works; it may be a researched technique/tool not taught in EDAI. | [check deployment policy](../scripts/check-deployment-policy.py) | [deployment policy](deployment-policy.md); [learner confirmation](evidence/course-scope/learner-confirmation.json) | deployment-policy |
 
-`verify-NAME.py` là bộ kiểm offline nếu NAME thuộc whitelist của `scripts/audit-final-coursework.py`. “Capsule” là nhóm payload native được kiểm toàn bộ byte/hash/map; phép thử runtime gốc và output được giữ trong tài liệu liên kết. Những CLI rollout/autoscale/materialization có thao tác deploy không được tự chạy bởi audit offline.
+The detailed status and source deliverables are in the [ML tracker](final-rubric-tracker.md). Recorded A2 evidence includes the README, deployment figures, repository layout and documented code.
 
-[Cách tự demo và trả lời câu hỏi](demo-walkthrough.md) tách việc đọc proof với việc thực hiện request live.
+## Final LLM/agents
+
+| ID | Group | Requirement | Status |
+|---|---|---|---|
+| L03 | LLM inference platform | Deploy an LLM inference platform. | Open: native LLM evidence missing |
+| L04 | LLM inference platform | Configure a custom model server. | Open: native LLM evidence missing |
+| L05 | LLM inference platform | Benchmark the model server and optimize the inference platform. | Open: native LLM evidence missing |
+| L06 | Global model configuration | Deploy a global model configuration that allows agents to use the custom model. | Open: native LLM evidence missing |
+| L07 | Agent registry | Deploy an agent registry. | Open: native LLM evidence missing |
+| L08 | RAG pipeline | Build an Airflow RAG pipeline with text retrieval, chunking and chunk-embedding storage in a feature store through Feast. | Open: native LLM evidence missing |
+| L09 | RAG pipeline | Provide data governance for the RAG pipeline as in the mini-coursework. | Open: native LLM evidence missing |
+| L10 | Retrieval MCP and agent | Use FastAPI, Pydantic validation and Kubernetes health checks for the entity/chunk retrieval Web API. | Open: native LLM evidence missing |
+| L11 | Retrieval MCP and agent | Use asynchronous request handling in the entity/chunk retrieval API. | Open: native LLM evidence missing |
+| L12 | Retrieval MCP and agent | Deploy the retrieval API as an MCP tool to Kubernetes with Helm, rolling updates and automatic fallback; follow MCP-specific deployment guidance. | Open: native LLM evidence missing |
+| L13 | Retrieval MCP and agent | Deploy an agent using that MCP tool with multiple replicas and autoscaling. | Open: native LLM evidence missing |
+| L14 | Retrieval MCP and agent | Configure the retrieval agent to run in a security sandbox. | Open: native LLM evidence missing |
+| L15 | Retrieval MCP and agent | Publish the retrieval agent to the deployed registry for governance. | Open: native LLM evidence missing |
+| L16 | Drift MCP and agent | Use FastAPI, Pydantic validation and Kubernetes health checks for the drift-detection MCP API. | Open: native LLM evidence missing |
+| L17 | Drift MCP and agent | Use asynchronous request handling in the drift-detection MCP API. | Open: native LLM evidence missing |
+| L18 | Drift MCP and agent | Deploy the drift API as an MCP tool to Kubernetes with Helm, rolling updates and automatic fallback; follow MCP-specific deployment guidance. | Open: native LLM evidence missing |
+| L19 | Drift MCP and agent | Deploy a drift agent using its MCP tool with multiple replicas and autoscaling. | Open: native LLM evidence missing |
+| L20 | Drift MCP and agent | Configure the drift agent to run in a security sandbox. | Open: native LLM evidence missing |
+| L21 | Drift MCP and agent | Publish the drift agent to the deployed registry for governance. | Open: native LLM evidence missing |
+| L22 | Agent notebooks | Execute a Jupyter notebook demonstrating an agent calling MCP servers to retrieve Feast features and perform drift detection. | Open: native LLM evidence missing |
+| L23 | Agent notebooks | Execute a Jupyter notebook demonstrating an agent calling MCP servers to retrieve feature-store data for RAG. | Open: native LLM evidence missing |
+| L24 | Coordinator agent | Deploy a coordinator agent with multiple replicas and autoscaling to coordinate the two specialist agents. | Open: native LLM evidence missing |
+| L25 | Coordinator agent | Publish the coordinator agent to the deployed registry for governance. | Open: native LLM evidence missing |
+| L26 | Warm-up and worker pool | Configure agent warm-up through Agent Substrate to reduce startup delay/cost; benchmark the result and document HA through worker-pool replicas. | Open: native LLM evidence missing |
+| L27 | Validation and verification | Unit-test the Web APIs with Test Coverage > 90%, demonstrating fixtures and mocks with screenshots. | Open: native LLM evidence missing |
+| L28 | Validation and verification | Use equivalence partitioning and boundary-value analysis to design parameterized test cases. | Open: native LLM evidence missing |
+| L29 | Validation and verification | Use mutation testing on changed code rather than the entire codebase on every commit. Mutation score > 80%. | Open: native LLM evidence missing |
+| L30 | Validation and verification | Use property-based idempotency tests, with Hypothesis/CrossHair suggested for finding inconsistent repeated behavior. | Open: native LLM evidence missing |
+| L31 | Validation and verification | Load-test the data-retrieval Web API for throughput and latency and produce a Locust HTML SLA report. | Open: native LLM evidence missing |
+| L32 | Generator | Simulate data drift. | Open: native LLM evidence missing |
+| L33 | Generator | Control drift through generator configuration. | Open: native LLM evidence missing |
+| L34 | Generator | Create a separate two-column ID/label table for joining with training features. | Open: native LLM evidence missing |
+| L35 | CI/CD | Provide test/build/auto-deploy CI/CD for the RAG data pipeline. | Open: native LLM evidence missing |
+| L36 | CI/CD | Provide CI/CD for the data-retrieval MCP server and corresponding agent. | Open: native LLM evidence missing |
+| L37 | CI/CD | Provide CI/CD for the drift-detection MCP server and corresponding agent. | Open: native LLM evidence missing |
+| L38 | CI/CD | Provide CI/CD for the coordinator agent. | Open: native LLM evidence missing |
+| L39 | CI/CD | Provide CI/CD for the stream-feature OFFLINE-store job. | Open: native LLM evidence missing |
+| L40 | CI/CD | Provide CI/CD for the stream-feature ONLINE-store job. | Open: native LLM evidence missing |
+| L41 | Routing and gateway | Place the metrics-viewing service behind the NGINX gateway. | Open: native LLM evidence missing |
+| L42 | Routing and gateway | Place the log-viewing service behind the gateway. | Open: native LLM evidence missing |
+| L43 | Routing and gateway | Place the trace-viewing service behind the gateway. | Open: native LLM evidence missing |
+| L44 | Routing and gateway | Place the agent-testing UI behind the gateway. | Open: native LLM evidence missing |
+| L45 | Routing and gateway | Place the agent-registry UI behind the gateway. | Open: native LLM evidence missing |
+| L46 | Routing and gateway | Configure authentication and gateway rate controls for the agent-testing UI. | Open: native LLM evidence missing |
+| L47 | Routing and gateway | Configure a domain and HTTPS for the data-retrieval Web API. | Open: native LLM evidence missing |
+| L48 | Infrastructure as code | Use Terraform to provision GKE or other cloud services with a suitable directory layout. | Open: native LLM evidence missing |
+| L49 | Infrastructure as code | Use Ansible roles to configure the VM and deploy services. | Open: native LLM evidence missing |
+| L50 | Observability | Monitor Web API request rate, request counts, failures and related metrics. | Open: native LLM evidence missing |
+| L51 | Observability | Collect and visualize CPU, RAM, disk and network metrics through Prometheus/Grafana or equivalent tools. | Open: native LLM evidence missing |
+| L52 | Observability | Collect and visualize logs. | Open: native LLM evidence missing |
+| L53 | Observability | Collect and visualize traces. | Open: native LLM evidence missing |
+| L54 | Observability | Collect at least input/output/total tokens per request, full generation round-trip time, TTFT and counts/frequency of prompts caught by safety or PII controls. | Open: native LLM evidence missing |
+| L55 | Observability | Collect at least per-agent call counts, per-MCP-tool call counts and failures for each tool call. | Open: native LLM evidence missing |
+| L56 | A/B testing | A/B-test agents using different model configurations and monitor both variants. | Open: native LLM evidence missing |
+| L57 | A/B testing | A/B-test different LLM versions on the inference platform. | Open: native LLM evidence missing |
+| L58 | Security | Centralize shared secret management through HashiCorp Vault or an equivalent system. | Open: native LLM evidence missing |
+| L59 | Repository design | Keep clean code and repository structure and demonstrate an implemented design pattern. | Open: native LLM evidence missing |
+| L60 | Class design | Document five key classes expressing the main ML responsibilities; retain the source requirement and its example interfaces. | Open: native LLM evidence missing |
+| L61 | Novel ideas | Document novel idea 1 and demonstrate it works; it may be a researched technique/tool not taught in EDAI. | Open: native LLM evidence missing |
+| L62 | Novel ideas | Document novel idea 2 and demonstrate it works; it may be a researched technique/tool not taught in EDAI. | Open: native LLM evidence missing |
+
+See the [LLM tracker](final-llm-rubric-tracker.md) for exact source cells and deliverables, and the [implementation plan](llm-agent-plan.md) for acceptance evidence. Existing ML infrastructure is a baseline, not proof of agent deployment.

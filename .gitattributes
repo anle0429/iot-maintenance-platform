@@ -148,3 +148,6 @@ docs/evidence/final-review-live/** -text -whitespace
 docs/evidence/final-review-pc/** -text -whitespace
 # Pin the rubric snapshot to its original Git LF blob across Windows checkouts.
 docs/evidence/rubric-final/source.json text eol=lf
+# Preserve original source-language archives and the new rubric capture byte-for-byte.
+references/coursework/*-source-language.md -text -whitespace
+docs/evidence/rubric-llm/** -text -whitespace

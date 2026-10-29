@@ -13,6 +13,9 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_SNAPSHOT_SHA256 = '66b8c73d65bb101b2966e1155898d080901002a6fcbd2c1432063befca871ae3'
+LLM_SNAPSHOT_SHA256 = '947df230e73d6960fc28781cbf702a650d14e0142680db9288d1468f59ccb72f'
+TRANSLATION_SHA256 = {'ML': 'e08a2544db9073401c595c70f834b30aabedeb8c4b26b1cf7b6a3b7c2dca60c1',
+                      'LLM': '9001e6a26fa6e61bae15d5e3cff82bb1bbdcfe2b89f689bfa9ee8ff7435a16be'}
 VERIFIERS = (
     'ab-monitoring', 'active-feature-refresh', 'api-observability', 'ci-api-observability',
     'ci-stream-push', 'ci-training', 'datahub-restore', 'deployment-policy', 'drift-eventing',
@@ -46,34 +49,46 @@ def cell(snapshot, address):
         if left == right == column and int(top) <= int(row) <= int(bottom):
             address = left + top
             break
-    return address, snapshot['cells'][address]['value']
+    return address, snapshot['cells'].get(address, {}).get('value')
 
 
-def rubric_rows(snapshot, text):
-    """Reject missing, duplicated or altered scored rows against the original workbook-cell snapshot."""
-    assert snapshot['weighted_rows'] == 57 and snapshot['source_point_total'] == 100
+def english_view(path, kind):
+    """Pin the reviewed English wording independently of both the tracker and original source snapshot."""
+    raw = path.read_bytes()
+    if sha256(raw).hexdigest() != TRANSLATION_SHA256[kind]: raise ValueError('The reviewed English rubric translation changed')
+    data = json.loads(raw)
+    expected_source = SOURCE_SNAPSHOT_SHA256 if kind == 'ML' else LLM_SNAPSHOT_SHA256
+    assert data['source_snapshot_sha256'] == expected_source and data['language'] == 'en'
+    return {row['id']: row for row in data['rows']}
+
+
+def rubric_rows(snapshot, text, kind='ML'):
+    """Check English wording plus original IDs, merged-cell addresses and weights without altering source-language artifacts."""
+    count, prefix = (57, 'F') if kind == 'ML' else (60, 'L')
+    assert snapshot['weighted_rows'] == count and snapshot['source_point_total'] == 100
+    translation = english_view(ROOT / 'docs/rubric' / ('final-' + kind.lower() + '-english.json'), kind)
     rows = {}
     for line in text.splitlines():
-        if not re.match(r'\| F\d+ \|', line):
+        if not re.match(r'\| ' + prefix + r'\d+ \|', line):
             continue
         columns = [part.strip() for part in re.split(r'(?<!\\)\|', line)[1:-1]]
         key = columns[0]
         assert key not in rows and len(columns) == 8, key
         rows[key] = columns
-    assert set(rows) == {f'F{i:02}' for i in range(3, 60)}, 'Missing or unexpected final rows'
+    assert set(rows) == set(translation) == {f'{prefix}{i:02}' for i in range(3, count + 3)}, 'Missing or unexpected final rows'
     points = 0
-    for number in range(3, 60):
-        key = f'F{number:02}'; current = rows[key]
-        _, category = cell(snapshot, f'A{number}')
+    for number in range(3, count + 3):
+        key = f'{prefix}{number:02}'; current = rows[key]; translated = translation[key]
         _, subgroup = cell(snapshot, f'B{number}')
         _, detail = cell(snapshot, f'C{number}')
-        requirement_column = 'C' if detail else 'B'
-        requirement_address, requirement = cell(snapshot, requirement_column + str(number))
-        deliverable_address, deliverable = cell(snapshot, f'D{number}')
+        requirement_column = 'C' if detail else 'B' if subgroup else 'A'
+        requirement_address, _ = cell(snapshot, requirement_column + str(number))
+        deliverable_address, _ = cell(snapshot, f'D{number}')
         weight = float(cell(snapshot, f'E{number}')[1]); points += weight
-        group = ' / '.join(str(value) for value in [category, subgroup if detail and normalize(subgroup) != normalize(detail) else None] if value)
-        expected = [key, f'{requirement_address}; {deliverable_address}; E{number}', group, requirement, deliverable, f'{weight:g}']
-        assert [normalize(v) for v in current[:6]] == [normalize(v) for v in expected], f'Original rubric changed: {key}'
+        refs = f'{requirement_address}; {deliverable_address}; E{number}'
+        assert translated['source_refs'] == refs and translated['points'] == weight, key
+        expected = [key, refs, translated['group'], translated['requirement'], translated['deliverable'], f'{weight:g}']
+        assert [normalize(v) for v in current[:6]] == [normalize(v) for v in expected], f'Rubric presentation changed: {key}'
     assert points == 100
     return rows
 
@@ -133,8 +148,11 @@ def audit(output, workers):
     snapshot_path = ROOT / 'docs/evidence/rubric-final/source.json'
     snapshot = original_snapshot(snapshot_path)
     rows = rubric_rows(snapshot, (ROOT / 'docs/final-rubric-tracker.md').read_text(encoding='utf-8'))
+    llm_raw = (ROOT / 'docs/evidence/rubric-llm/source.json').read_bytes()
+    if sha256(llm_raw).hexdigest() != LLM_SNAPSHOT_SHA256: raise ValueError('The original LLM source snapshot changed')
+    llm_rows = rubric_rows(json.loads(llm_raw), (ROOT / 'docs/final-llm-rubric-tracker.md').read_text(encoding='utf-8'), 'LLM')
     links = 0
-    for key, columns in rows.items():
+    for key, columns in (rows | llm_rows).items():
         for target in re.findall(r'\]\(([^)]+)\)', columns[-1]):
             if '://' in target:
                 continue
@@ -156,8 +174,11 @@ def audit(output, workers):
               'working_tree_clean': not bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT)),
               'checker_source_sha256': source_before, 'checker_source_unchanged': True,
               'snapshot_sha256': sha256(snapshot_path.read_bytes()).hexdigest(), 'scored_rows': len(rows), 'original_source_points': 100,
-              'source_columns_unchanged': True, 'local_evidence_links': links, 'additional_capsule_payloads': capsules, 'verifiers': results,
-              'live_readiness_checked': False, 'scope': 'Historical artifact integrity and independent numerical checks on PC. Not a grade, VM deployment, full100GB ML or laptop runtime verification.'}
+              'source_columns_unchanged': False, 'source_text_preserved_in_snapshots': True, 'presentation_language': 'en',
+              'english_translations_pinned': True, 'llm_scored_rows': len(llm_rows), 'llm_source_points': 100,
+              'llm_runtime_verified': False, 'coursework_complete': False,
+              'local_evidence_links': links, 'additional_capsule_payloads': capsules, 'verifiers': results,
+              'live_readiness_checked': False, 'scope': 'Historical ML artifact integrity and both source-rubric presentations. LLM implementation is open. Not a grade, live deployment, full100GB ML or laptop verification.'}
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(report, indent=2))
     return 0 if report['passed'] else 1

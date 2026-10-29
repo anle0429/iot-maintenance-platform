@@ -1,6 +1,6 @@
 {
   "uid": "iot-api-observability",
-  "title": "IoT APIs — requests, errors, latency",
+  "title": "IoT APIs \u2014 requests, errors, latency",
   "schemaVersion": 42,
   "version": 1,
   "timezone": "utc",
@@ -19,7 +19,7 @@
     {
       "id": 1,
       "type": "timeseries",
-      "title": "Tổng yêu cầu theo API",
+      "title": "Requests by API",
       "gridPos": {
         "x": 0,
         "y": 0,
@@ -58,7 +58,7 @@
     {
       "id": 2,
       "type": "timeseries",
-      "title": "Yêu cầu mỗi giây",
+      "title": "Requests per second",
       "gridPos": {
         "x": 12,
         "y": 0,
@@ -97,7 +97,7 @@
     {
       "id": 3,
       "type": "timeseries",
-      "title": "Phản hồi 4xx và 5xx",
+      "title": "HTTP 4xx and 5xx responses",
       "gridPos": {
         "x": 0,
         "y": 8,
@@ -136,7 +136,7 @@
     {
       "id": 4,
       "type": "timeseries",
-      "title": "P95 thời gian xử lý",
+      "title": "P95 request duration",
       "gridPos": {
         "x": 12,
         "y": 8,
@@ -175,7 +175,7 @@
     {
       "id": 5,
       "type": "timeseries",
-      "title": "Trung bình thời gian xử lý",
+      "title": "Mean request duration",
       "gridPos": {
         "x": 0,
         "y": 16,
@@ -214,7 +214,7 @@
     {
       "id": 6,
       "type": "timeseries",
-      "title": "Số yêu cầu theo route và status",
+      "title": "Requests by route and status",
       "gridPos": {
         "x": 12,
         "y": 16,

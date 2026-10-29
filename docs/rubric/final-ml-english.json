@@ -1,0 +1,464 @@
+{
+  "language": "en",
+  "source_snapshot": "docs/evidence/rubric-final/source.json",
+  "source_snapshot_sha256": "66b8c73d65bb101b2966e1155898d080901002a6fcbd2c1432063befca871ae3",
+  "source_workbook_sha256": "ed3503d1277583954a9eb140bec01706e7bd4985c457a55083c1ae167c358f69",
+  "rows": [
+    {
+      "id": "F03",
+      "source_refs": "C3; D3; E3",
+      "group": "Feature API",
+      "requirement": "Use FastAPI, Pydantic data validation and Kubernetes health checks for the feature-retrieval API.",
+      "deliverable": "Screenshots demonstrating rolling update and fallback.",
+      "points": 2
+    },
+    {
+      "id": "F04",
+      "source_refs": "C4; D3; E4",
+      "group": "Feature API",
+      "requirement": "Use asynchronous request handling in the feature-retrieval API.",
+      "deliverable": "Screenshots demonstrating rolling update and fallback.",
+      "points": 2
+    },
+    {
+      "id": "F05",
+      "source_refs": "C5; D3; E5",
+      "group": "Feature API",
+      "requirement": "Deploy the feature-retrieval API to Kubernetes using Helm, rolling updates and automatic fallback, such as --atomic.",
+      "deliverable": "Screenshots demonstrating rolling update and fallback.",
+      "points": 2
+    },
+    {
+      "id": "F06",
+      "source_refs": "C6; D6; E6",
+      "group": "Drift API",
+      "requirement": "Use FastAPI, Pydantic data validation and Kubernetes health checks for the real-time drift API.",
+      "deliverable": "Screenshots demonstrating rolling update and fallback.",
+      "points": 2
+    },
+    {
+      "id": "F07",
+      "source_refs": "C7; D6; E7",
+      "group": "Drift API",
+      "requirement": "Use asynchronous request handling in the real-time drift API.",
+      "deliverable": "Screenshots demonstrating rolling update and fallback.",
+      "points": 2
+    },
+    {
+      "id": "F08",
+      "source_refs": "C8; D6; E8",
+      "group": "Drift API",
+      "requirement": "Deploy the real-time drift API to Kubernetes using Helm, rolling updates and automatic fallback.",
+      "deliverable": "Screenshots demonstrating rolling update and fallback.",
+      "points": 2
+    },
+    {
+      "id": "F09",
+      "source_refs": "C9; D9; E9",
+      "group": "Autoscaling",
+      "requirement": "Demonstrate autoscaling of the feature-retrieval API.",
+      "deliverable": "Screenshots demonstrating successful autoscaling.",
+      "points": 2
+    },
+    {
+      "id": "F10",
+      "source_refs": "C10; D9; E10",
+      "group": "Autoscaling",
+      "requirement": "Demonstrate autoscaling of the drift-detection API.",
+      "deliverable": "Screenshots demonstrating successful autoscaling.",
+      "points": 2
+    },
+    {
+      "id": "F11",
+      "source_refs": "C11; D11; E11",
+      "group": "Validation and verification",
+      "requirement": "Unit-test the Web APIs with Test Coverage > 90%, demonstrating fixtures and mocks with screenshots.",
+      "deliverable": "Screenshots of the executed coverage result.",
+      "points": 2
+    },
+    {
+      "id": "F12",
+      "source_refs": "C12; D12; E12",
+      "group": "Validation and verification",
+      "requirement": "Use equivalence partitioning and boundary-value analysis to design parameterized test cases.",
+      "deliverable": "Screenshots demonstrating the required test techniques.",
+      "points": 2
+    },
+    {
+      "id": "F13",
+      "source_refs": "C13; D13; E13",
+      "group": "Validation and verification",
+      "requirement": "Use mutation testing to assess test effectiveness. Mutate changed code rather than the entire codebase on every commit. Mutation score > 80%.",
+      "deliverable": "Screenshots demonstrating the required test techniques.",
+      "points": 2
+    },
+    {
+      "id": "F14",
+      "source_refs": "C14; D14; E14",
+      "group": "Validation and verification",
+      "requirement": "Use property-based idempotency tests, for example repeated model-prediction consistency. Hypothesis and its CrossHair backend are suggested tools.",
+      "deliverable": "Screenshots demonstrating the required test techniques.",
+      "points": 2
+    },
+    {
+      "id": "F15",
+      "source_refs": "C15; D15; E15",
+      "group": "Validation and verification",
+      "requirement": "Load-test the feature-retrieval Web API for throughput and latency; produce a Locust HTML report documenting the SLA workload.",
+      "deliverable": "Screenshot and generated Locust HTML output.",
+      "points": 2
+    },
+    {
+      "id": "F16",
+      "source_refs": "C16; D16; E16",
+      "group": "Generator",
+      "requirement": "Simulate data drift.",
+      "deliverable": "Generator configuration and joined ID/label table.",
+      "points": 2
+    },
+    {
+      "id": "F17",
+      "source_refs": "C17; D16; E17",
+      "group": "Generator",
+      "requirement": "Control drift through generator configuration.",
+      "deliverable": "Generator configuration and joined ID/label table.",
+      "points": 2
+    },
+    {
+      "id": "F18",
+      "source_refs": "B18; D16; E18",
+      "group": "Generator",
+      "requirement": "Create a separate two-column ID/label table for joining with feature tables during training; domain-specific ID names are allowed.",
+      "deliverable": "Generator configuration and joined ID/label table.",
+      "points": 2
+    },
+    {
+      "id": "F19",
+      "source_refs": "C19; D19; E19",
+      "group": "Feature store",
+      "requirement": "Build an incremental pipeline, for example Airflow, materializing the latest offline features into the online store.",
+      "deliverable": "Airflow stage-order screenshots, running/successful job views and TTL rationale.",
+      "points": 2
+    },
+    {
+      "id": "F20",
+      "source_refs": "C20; D19; E20",
+      "group": "Feature store",
+      "requirement": "Deploy a job pushing the mini-coursework streaming features into the OFFLINE store.",
+      "deliverable": "Airflow stage-order screenshots, running/successful job views and TTL rationale.",
+      "points": 1
+    },
+    {
+      "id": "F21",
+      "source_refs": "C21; D19; E21",
+      "group": "Feature store",
+      "requirement": "Deploy a job pushing the mini-coursework streaming features into the ONLINE store.",
+      "deliverable": "Airflow stage-order screenshots, running/successful job views and TTL rationale.",
+      "points": 1
+    },
+    {
+      "id": "F22",
+      "source_refs": "C22; D19; E22",
+      "group": "Feature store",
+      "requirement": "Define and justify the TTL of each feature table.",
+      "deliverable": "Airflow stage-order screenshots, running/successful job views and TTL rationale.",
+      "points": 2
+    },
+    {
+      "id": "F23",
+      "source_refs": "C23; D23; E23",
+      "group": "ML notebook",
+      "requirement": "Execute a Jupyter notebook that retrieves offline data through Feast, joins the generated labels, splits train/validation, fits a task-appropriate ML/DL model, evaluates validation and saves the model.",
+      "deliverable": "Documentation of the notebook steps.",
+      "points": 2
+    },
+    {
+      "id": "F24",
+      "source_refs": "C24; D24; E24",
+      "group": "Training pipelines",
+      "requirement": "Convert the notebook into a Kubeflow training pipeline with the same number of ML steps; standalone Kubeflow Pipelines is sufficient.",
+      "deliverable": "Successful training-pipeline and distributed-training screenshots.",
+      "points": 2
+    },
+    {
+      "id": "F25",
+      "source_refs": "C25; D24; E25",
+      "group": "Training pipelines",
+      "requirement": "Use distributed training in the training step; distributed XGBoost is an example, not a required model.",
+      "deliverable": "Successful training-pipeline and distributed-training screenshots.",
+      "points": 2
+    },
+    {
+      "id": "F26",
+      "source_refs": "C26; D26; E26",
+      "group": "Versioning",
+      "requirement": "After training completes, store model weights and hyperparameters in a model registry such as MLflow.",
+      "deliverable": "Versioned model and corresponding incrementally versioned data.",
+      "points": 2
+    },
+    {
+      "id": "F27",
+      "source_refs": "C27; D26; E27",
+      "group": "Versioning",
+      "requirement": "Version each Feast training-data retrieval incrementally, storing changed data rather than duplicating every full dataset.",
+      "deliverable": "Versioned model and corresponding incrementally versioned data.",
+      "points": 2
+    },
+    {
+      "id": "F28",
+      "source_refs": "C28; D28; E28",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for the materialization pipeline.",
+      "deliverable": "Screenshots of each successfully executed CI/CD pipeline; CI/CD includes test, build and auto-deploy, with secrets managed outside source.",
+      "points": 2
+    },
+    {
+      "id": "F29",
+      "source_refs": "C29; D28; E29",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for the training pipeline.",
+      "deliverable": "Screenshots of each successfully executed CI/CD pipeline; CI/CD includes test, build and auto-deploy, with secrets managed outside source.",
+      "points": 2
+    },
+    {
+      "id": "F30",
+      "source_refs": "C30; D28; E30",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for DP1 as defined in the mini-coursework.",
+      "deliverable": "Screenshots of each successfully executed CI/CD pipeline; CI/CD includes test, build and auto-deploy, with secrets managed outside source.",
+      "points": 2
+    },
+    {
+      "id": "F31",
+      "source_refs": "C31; D28; E31",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for DP2 as defined in the mini-coursework.",
+      "deliverable": "Screenshots of each successfully executed CI/CD pipeline; CI/CD includes test, build and auto-deploy, with secrets managed outside source.",
+      "points": 2
+    },
+    {
+      "id": "F32",
+      "source_refs": "C32; D28; E32",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for DP3 as defined in the mini-coursework.",
+      "deliverable": "Screenshots of each successfully executed CI/CD pipeline; CI/CD includes test, build and auto-deploy, with secrets managed outside source.",
+      "points": 2
+    },
+    {
+      "id": "F33",
+      "source_refs": "C33; D28; E33",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for the FastAPI Web API, retrieving the production/tagged-production model from the registry before packaging and deployment.",
+      "deliverable": "Screenshots of each successfully executed CI/CD pipeline; CI/CD includes test, build and auto-deploy, with secrets managed outside source.",
+      "points": 2
+    },
+    {
+      "id": "F34",
+      "source_refs": "C34; D28; E34",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for the inference engine, for example KServe.",
+      "deliverable": "Screenshots of each successfully executed CI/CD pipeline; CI/CD includes test, build and auto-deploy, with secrets managed outside source.",
+      "points": 1
+    },
+    {
+      "id": "F35",
+      "source_refs": "C35; D28; E35",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for the real-time drift Web API using Knative Eventing with KServe.",
+      "deliverable": "Screenshots of each successfully executed CI/CD pipeline; CI/CD includes test, build and auto-deploy, with secrets managed outside source.",
+      "points": 1
+    },
+    {
+      "id": "F36",
+      "source_refs": "C36; D28; E36",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for the job pushing stream features to the OFFLINE store.",
+      "deliverable": "Screenshots of each successfully executed CI/CD pipeline; CI/CD includes test, build and auto-deploy, with secrets managed outside source.",
+      "points": 1
+    },
+    {
+      "id": "F37",
+      "source_refs": "C37; D28; E37",
+      "group": "CI/CD",
+      "requirement": "Provide CI/CD for the job pushing stream features to the ONLINE store.",
+      "deliverable": "Screenshots of each successfully executed CI/CD pipeline; CI/CD includes test, build and auto-deploy, with secrets managed outside source.",
+      "points": 1
+    },
+    {
+      "id": "F38",
+      "source_refs": "C38; D38; E38",
+      "group": "Routing and gateway",
+      "requirement": "Place the metrics-viewing service, for example Grafana, behind the NGINX gateway.",
+      "deliverable": "Screenshots of each successful gateway setup.",
+      "points": 2
+    },
+    {
+      "id": "F39",
+      "source_refs": "C39; D38; E39",
+      "group": "Routing and gateway",
+      "requirement": "Place the log-viewing service behind the gateway.",
+      "deliverable": "Screenshots of each successful gateway setup.",
+      "points": 2
+    },
+    {
+      "id": "F40",
+      "source_refs": "C40; D38; E40",
+      "group": "Routing and gateway",
+      "requirement": "Place the trace-viewing service behind the gateway.",
+      "deliverable": "Screenshots of each successful gateway setup.",
+      "points": 2
+    },
+    {
+      "id": "F41",
+      "source_refs": "C41; D38; E41",
+      "group": "Routing and gateway",
+      "requirement": "Place the feature-retrieval Web API behind the gateway.",
+      "deliverable": "Screenshots of each successful gateway setup.",
+      "points": 2
+    },
+    {
+      "id": "F42",
+      "source_refs": "C42; D38; E42",
+      "group": "Routing and gateway",
+      "requirement": "Configure gateway Basic authentication and rate limiting for the feature-retrieval Web API.",
+      "deliverable": "Screenshots of each successful gateway setup.",
+      "points": 2
+    },
+    {
+      "id": "F43",
+      "source_refs": "C43; D38; E43",
+      "group": "Routing and gateway",
+      "requirement": "Configure a domain and HTTPS for the feature-retrieval Web API.",
+      "deliverable": "Screenshots of each successful gateway setup.",
+      "points": 1
+    },
+    {
+      "id": "F44",
+      "source_refs": "B44; D44; E44",
+      "group": "Infrastructure as code",
+      "requirement": "Use Terraform to provision GKE or other cloud services, with a suitable service/module directory layout.",
+      "deliverable": "Screenshots of successful infrastructure/configuration runs.",
+      "points": 2
+    },
+    {
+      "id": "F45",
+      "source_refs": "B45; D44; E45",
+      "group": "Infrastructure as code",
+      "requirement": "Use Ansible roles to configure the VM and deploy services.",
+      "deliverable": "Screenshots of successful infrastructure/configuration runs.",
+      "points": 2
+    },
+    {
+      "id": "F46",
+      "source_refs": "C46; D46; E46",
+      "group": "Observability and retraining",
+      "requirement": "Monitor Web API request rate, request counts, failures and related metrics.",
+      "deliverable": "Captured telemetry visible on dashboards.",
+      "points": 2
+    },
+    {
+      "id": "F47",
+      "source_refs": "C47; D46; E47",
+      "group": "Observability and retraining",
+      "requirement": "Collect and visualize compute telemetry such as CPU, RAM, disk and network through Prometheus/Grafana or equivalent tools.",
+      "deliverable": "Captured telemetry visible on dashboards.",
+      "points": 2
+    },
+    {
+      "id": "F48",
+      "source_refs": "C48; D46; E48",
+      "group": "Observability and retraining",
+      "requirement": "Collect and visualize logs.",
+      "deliverable": "Captured telemetry visible on dashboards.",
+      "points": 2
+    },
+    {
+      "id": "F49",
+      "source_refs": "C49; D46; E49",
+      "group": "Observability and retraining",
+      "requirement": "Collect and visualize traces.",
+      "deliverable": "Captured telemetry visible on dashboards.",
+      "points": 2
+    },
+    {
+      "id": "F50",
+      "source_refs": "C50; D46; E50",
+      "group": "Observability and retraining",
+      "requirement": "Schedule an Airflow drift pipeline to retrieve offline features, compare with its reference and update Grafana through Pushgateway. The source explicitly assumes ground-truth labels are unavailable for drift monitoring.",
+      "deliverable": "Captured telemetry visible on dashboards.",
+      "points": 1
+    },
+    {
+      "id": "F51",
+      "source_refs": "C51; D46; E51",
+      "group": "Observability and retraining",
+      "requirement": "Trigger retraining by calling the Kubeflow API, for example from a final step in the Airflow drift pipeline.",
+      "deliverable": "Captured telemetry visible on dashboards.",
+      "points": 1
+    },
+    {
+      "id": "F52",
+      "source_refs": "C52; D52; E52",
+      "group": "A/B testing",
+      "requirement": "Split A/B traffic between two inference-service versions deployed through CI/CD.",
+      "deliverable": "A/B setup and comparison-dashboard screenshots.",
+      "points": 1
+    },
+    {
+      "id": "F53",
+      "source_refs": "C53; D52; E53",
+      "group": "A/B testing",
+      "requirement": "Monitor both inference versions on a dashboard; the source assumes no ground-truth labels for drift monitoring.",
+      "deliverable": "A/B setup and comparison-dashboard screenshots.",
+      "points": 1
+    },
+    {
+      "id": "F54",
+      "source_refs": "C54; D54; E54",
+      "group": "Security",
+      "requirement": "Centralize shared secret management through HashiCorp Vault or an equivalent system.",
+      "deliverable": "Screenshots demonstrating centralized secrets.",
+      "points": 1
+    },
+    {
+      "id": "F55",
+      "source_refs": "C55; D55; E55",
+      "group": "Security",
+      "requirement": "Authorize service-to-service access using a service mesh.",
+      "deliverable": "Screenshots demonstrating service-to-service authorization.",
+      "points": 1
+    },
+    {
+      "id": "F56",
+      "source_refs": "B56; D56; E56",
+      "group": "Repository design",
+      "requirement": "Keep clean code and a clean repository, and demonstrate a design pattern in the implementation.",
+      "deliverable": "Screenshot demonstrating an implemented design pattern.",
+      "points": 2
+    },
+    {
+      "id": "F57",
+      "source_refs": "C57; D57; E57",
+      "group": "Class design",
+      "requirement": "Document five key classes expressing the main ML responsibilities, including interfaces such as training-data validation/deduplication and time-based splitting.",
+      "deliverable": "Documentation of five key classes.",
+      "points": 1
+    },
+    {
+      "id": "F58",
+      "source_refs": "B58; D58; E58",
+      "group": "Novel ideas",
+      "requirement": "Document novel idea 1 and demonstrate it works; it may be a researched technique/tool not taught in EDAI.",
+      "deliverable": "Idea documentation and proof that it works.",
+      "points": 2
+    },
+    {
+      "id": "F59",
+      "source_refs": "B59; D59; E59",
+      "group": "Novel ideas",
+      "requirement": "Document novel idea 2 and demonstrate it works; it may be a researched technique/tool not taught in EDAI.",
+      "deliverable": "Idea documentation and proof that it works.",
+      "points": 2
+    }
+  ]
+}

@@ -24,3 +24,24 @@ class DocumentationEquivalenceTests(unittest.TestCase):
         self.assertFalse(module.documentation_equivalent(b'{"allowed":false}',b'{"allowed":true}','.json'))
         self.assertFalse(module.documentation_equivalent(b'def ok():return True',b'def broken(','.py'))
         self.assertTrue(module.documentation_equivalent(b'unchanged',b'unchanged','.json'))
+
+    def test_notebook_markdown_translation_preserves_code_and_outputs(self):
+        """Allow prose translation but reject executable, execution-output or metadata changes."""
+        import json
+        old={'cells':[{'cell_type':'markdown','source':['Old prose'],'metadata':{}},
+                      {'cell_type':'code','source':['return 1'],'outputs':[],'metadata':{}}]}
+        changed=json.loads(json.dumps(old));changed['cells'][0]['source']=['English prose']
+        self.assertTrue(module.documentation_equivalent(json.dumps(old).encode(),json.dumps(changed).encode(),'.ipynb'))
+        changed['cells'][1]['source']=['return 2']
+        self.assertFalse(module.documentation_equivalent(json.dumps(old).encode(),json.dumps(changed).encode(),'.ipynb'))
+
+    def test_dashboard_translation_does_not_allow_metric_or_other_config_changes(self):
+        """Limit the presentation exception to declared labels and the exact dashboard path."""
+        import json
+        old={'panels':[{'title':'P95 th\u1eddi gian x\u1eed l\u00fd','targets':[{'expr':'rate(requests[1m])'}]}]}
+        translated={'panels':[{'title':'P95 request duration','targets':[{'expr':'rate(requests[1m])'}]}]}
+        left=json.dumps(old).encode();right=json.dumps(translated).encode()
+        self.assertTrue(module.dashboard_labels_equivalent(left,right,'infra/observability/grafana-dashboard.json'))
+        self.assertFalse(module.dashboard_labels_equivalent(left,right,'another-config.json'))
+        translated['panels'][0]['targets'][0]['expr']='different_metric'
+        self.assertFalse(module.dashboard_labels_equivalent(left,json.dumps(translated).encode(),'infra/observability/grafana-dashboard.json'))

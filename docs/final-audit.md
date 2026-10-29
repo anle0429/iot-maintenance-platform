@@ -1,71 +1,51 @@
-# Rà soát rubric final và khả năng tự demo
+# Final rubric audit: evidence, scope and remaining work
 
-Chuẩn kiểm là **57 dòng có trọng số của sheet final-coursework và yêu cầu A2**, theo xác nhận của học viên. Tổng trọng số nguồn là100; đây không phải điểm tự chấm. Các phần triển khai đều có bằng chứng trong phạm vi lab đã mô tả. Đợt rà soát bổ sung tìm thấy các lỗi ở công cụ kiểm và bàn giao vận hành; không thể suy từ một tracker màu xanh rằng máy vừa bật lên đã sẵn sàng demo.
+## Current conclusion
 
-## Những thiếu sót tìm được và đã xử lý
+The selected scope is now final ML plus final LLM/agents. The supplied workbook has 57 weighted ML rows and 60 weighted LLM rows, with 100 source points per sheet. These are source weights, not self-awarded marks. The original source cells and workbook bytes are preserved separately from the pinned English views.
 
-| Thiếu sót trước rà soát | Thay đổi cụ thể | Kiểm chứng |
-|---|---|---|
-| Hai bộ kiểm metrics PC/Linux từ chối source sau khi thêm docstring | Giữ kiểm SHA của source Git đã chạy; cho phép khác biệt AST chỉ ở phần mô tả Python, config vẫn phải khớp | Hai bộ kiểm chạy qua; test đổi logic/default/decorator/config vẫn bị từ chối |
-| Chưa có một lệnh đối chiếu toàn rubric và chạy hết các bộ kiểm offline | Thêm `audit-final-coursework.py`: pin snapshot nguồn, resolve ô merge, kiểm57 dòng/sáu cột nguồn, chín capsule và26verifier | Phát hiện được yêu cầu bị làm yếu, dòng mất/trùng, snapshot nguồn bị sửa và payload sai hash/thoát thư mục |
-| Clone Windows từ chối snapshot vì hash ban đầu lấy từ CRLF của working copy | Cố định snapshot LF bằng `.gitattributes`, pin đúng blob Git gốc; không đổi nội dung workbook | Regression test so cả checkout và Git blob; audit lại từ clone sạch |
-| Các dịch vụ systemd chạy tạm không tự trở lại sau VM STOP | Thêm `resume-demo-services.py`: phục hồi monitor, relay CNI của gateway, Alloy discovery, Jenkins và Vault; gia hạn JWT có scope cũ | Health của các dịch vụ trả200; giữ Jenkins home/ảnh container và Vault cluster ID/Raft; mở khóa thay vì init lại |
-| MLflow khỏe trong Docker nhưng container đã phục hồi không publish cổng UI | CLI phục hồi thêm socket relay chỉ ở127.0.0.1:15000 tới IP private của container hiện có | Model6/run ID đọc qua API khớp; giữ container/image/state mount; PC mở được trang qua IAP |
-| AppRole/Jenkins credential hết hạn theo phiên | Cờ `--renew-consumers` cấp secret-id mới cho hai role cũ và cập nhật đúng một Jenkins SecretText | Quyền giữ nguyên; secret-id có20lượt dùng và hết hạn trước phiên VM; giá trị thật chỉ ở runtime/Vault/Jenkins |
-| Cache hết hạn và hướng dẫn cũ dùng cầu review tạm | Thêm `refresh-demo-feature.py` và `demo-feature-api.py`; tài liệu dùng port-forward/IAP chuẩn | Materialize200máy thật, immutable seed mới, cùng model6; chín HTTP case qua và score tính lại khớp |
-| Chứng chỉ máy chủ cũ hết hạn30/10, trước ngày nộp | Thêm `renew-demo-certificates.py`, cấp lại chứng chỉ bằng khóa bảo vệ hiện có và giữ bản cũ để phục hồi | X509 thật theo đồng hồ thật; bốn route HTTPS200 và peer fingerprint khớp chứng chỉ mới; Vault giữ cluster ID, không init lại |
+Recorded ML lab evidence covers the linked ML requirements within documented boundaries. The LLM-specific workstream is not implemented or natively verified, so the whole selected coursework must not be described as complete. Shared infrastructure or ML API tests are not relabeled as MCP/agent proof.
 
-[Kịch bản tự chạy và trình bày](demo-walkthrough.md) là điểm bắt đầu mới. [Bàn giao cũ](final-handover.md) giữ lịch sử bằng chứng; các giờ hết hạn trong lượt cũ không phải trạng thái live hiện tại.
+## Audit method
 
-## Cách rà từng dòng
+The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It runs 26 read-only artifact verifiers and checks nine additional native capsules with 685 payloads. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
 
-1. Đối chiếu nội dung và trọng số với [snapshot ô gốc](evidence/rubric-final/source.json), kể cả các ô merge. Snapshot được pin bằng SHA256, tránh sửa cả nguồn lẫn tracker rồi tự nhận đạt.
-2. Đọc yêu cầu/deliverable và phạm vi đã đo của từng hàng trong [ma trận57dòng](final-audit-matrix.md) và [tracker gốc](final-rubric-tracker.md).
-3. Kiểm byte/hash của các capsule, Git source thực chạy và phép tính độc lập: score model, PSI/MMD, số hàng, replay, metrics, trace graph, mutation provenance và các kết quả CI.
-4. Kiểm live riêng sau khi bật lại cùng VM: mounts, dịch vụ, feature lease, credential và các HTTP case. Artifact lịch sử không chứng minh một endpoint còn Ready hôm nay.
+The original ML source-language tracker is archived. Translation changes the presentation columns, not the preserved source requirements. A lowered threshold, missing row or changed translation pin fails the checks. The JSON report separately states artifact-check success, unverified LLM runtime and `coursework_complete=false`.
 
-Lệnh offline dùng Python3.12/3.13, Git và thư viện chuẩn; không khởi động VM hoặc tải dữ liệu lớn:
+## Issues corrected during the ML review
+
+Historical host-verifier checks were made aware of documentation-only edits while retaining immutable Git bindings. A clean Windows clone exposed a CRLF-derived snapshot pin; the canonical LF Git blob is now pinned. Native recovery restores transient monitor/relay/collector/Jenkins/Vault state and scoped credentials. Real Feast preparation refreshes expired features rather than changing timestamps. TLS renewal issues real certificates with protected existing keys and preserves Vault identity. MLflow UI access uses a loopback relay without replacing registry state.
+
+The after-restart package verifies native materialization of 200 machines, nine actual HTTP cases, Vault CI build 3 SUCCESS/cross-and-revoked 403, four CA/SNI HTTPS routes and six reachable login/docs pages. Page 200 does not replace authenticated dashboard or DAG proof.
+
+## Interpretation limits
+
+The 100 GB workload covers Bronze/Silver, while ML uses 3.132 million rows from a separate 60-day source. Two executor Pods share one physical VM. Gateway domains/CA are private. Vault has two lab consumers; the mesh test is isolated. Stream CI uses a small fixture and full retained-window checks run separately. Original images and logs remain in their capture language. Laptop execution, production HA, full 100 GB ML and LLM deployment are not established.
+
+## English documentation review
+
+The presentation review checked 1,823 local links and five generated architecture views. All 26 historical artifact verifiers passed. The PC regression suite passed 752 tests and 314 subtests, with seven documented skips. The repository audit found descriptions for all 1,745 definitions in 323 maintained Python files.
+
+Notebook changes are confined to Markdown prose: executable cells, outputs, execution counts and metadata are unchanged. The dashboard change translates six display titles without changing queries or configuration. Earlier source/evidence files remain untouched. These checks validate the documentation and audit-tool changes; they do not establish new native workloads or close the LLM requirements.
+
+## Commands and recorded examples
+
+Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.
 
 ```powershell
 $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-Kết quả gồm26console gốc và `verification.json`. Chín capsule bổ sung có685payload được đối chiếu; riêng file ignore-policy của coverage đã được manifest cũ ghi rõ là không đưa vào repo. Việc loại file đó không loại report, test, source hoặc số đo nào. Bộ kiểm này không tự chấm điểm và không thay việc đọc nội dung ảnh/deliverable.
+## Implementation and evidence
 
-## Kết quả chạy thật sau restart28/10
+- [Recorded artifact: rubric-final/source.json](evidence/rubric-final/source.json)
+- [Recorded artifact: final-review-live/manifest.json](evidence/final-review-live/manifest.json)
+- [Recorded artifact: final-review-pc/manifest.json](evidence/final-review-pc/manifest.json)
+- [javadoc.jenkins.io / CredentialsStore.html](https://javadoc.jenkins.io/plugin/credentials/com/cloudbees/plugins/credentials/CredentialsStore.html)
 
-[Capsule bổ sung](evidence/final-review-live/manifest.json) giữ24payload công khai:21file VM, hai file HTTP PC và một binding source. Bộ kiểm `verify-final-review.py` đối chiếu bốn operator với Git source đã chạy,96file runtime và10file CI; giữ ba receipt lỗi ban đầu nguyên trạng. Không chứa helper điều khiển máy, private key, mật khẩu hoặc token.
+## Related documentation
 
-- Phục hồi năm health endpoint200, relay gateway, Alloy có hardening; Jenkins dùng lại home/image và Vault giữ cluster ID/Raft. Token có hạn trước STOP8giờ.
-- Feast materialize200máy thật trong container1CPU/8GiB, exit0/khôngOOM; Redis trước0sau200key, seed mới bất biến. Cache có hạn một giờ thật.
-- Chín request PC qua IAP cho kết quả200/409/404/422 đúng; lặp predict giống nhau, tính lại risk score khớp model6. Đây là smoke test, không thay load test gốc.
-- Jenkins Vault build3SUCCESS: đăng nhập Airflow201/đọc DAG200, đọc chéo và token đã revoke đều403. AppRole gateway đọc KV2version2 và bốn route HTTPS200.
-- Cấp lại chứng chỉ thật: bốn peer TLS đúng fingerprint của leaf mới, CA/SNI verification giữ nguyên; các khóa không đổi và Vault không init lại. Ngày hết hạn mới nêu bên dưới.
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
 
-[Kiểm bản clone độc lập trên PC](evidence/final-review-pc/manifest.json): **748test PASS,314subtest PASS,7skip có ghi lý do**, pipcheck PASS;26verifier đều PASS.325đầu vào khớp blob Git và giữ nguyên trước/sau tại3398a3c. Sau đó CLI bổ sung MLflow relay tại60c9c28 đã chạy thật,8focusedtest/8subtest PASS; sáu trang API/Airflow/Jenkins/Grafana/DataHub/MLflow đều HTTP200 qua IAP. HTTP200 ở đây chỉ chứng minh trang docs/login truy cập được, không thay bằng chứng chạy DAG hoặc dashboard đã đăng nhập.69payload giữ cả lỗi hash CRLF và lần probe MLflow chưa nối cổng, không sửa chúng thành PASS.
-
-## Phạm vi cần trình bày đúng
-
-| Tiêu chí/phần | Đã có | Giới hạn của kết luận |
-|---|---|---|
-| F19–F22 | Incremental200máy; hai DAG stream có graph UI gốc; native5.760cửa sổ/57.600reading qua hai store và replay; TTL có lý do | CI/Airflow dùng fixture3cửa sổ; fullcohort là lượt Docker riêng. Ảnh RUNNING của hai job chụp lần lượt, không nhận chúng chạy đồng thời |
-| F23–F27 | Notebook/KFP cùng5bước; train qua hai executor JVM/Pod; MLflow model/data versions tự động | Hai executor trên cùng VM; không gọi là benchmark nhiều máy vật lý |
-| F38–F43 | Bốn virtualhost `.test`, Basic auth/rate limit, HTTPS có CA/SNI và phép thử từ chối | Domain riêng của lab, CA riêng; ảnh browser qua HTTP loopback/IAP không phải chứng minh publicDNS hay browser-trusted HTTPS |
-| F44–F45 | Terraform cloud VM/network/disks và Ansible roles có idempotency | Rubric cho phép cloud services; triển khai dùng Compute VM. Các service bổ sung có CLI/chart riêng, chưa gom tất cả vào Ansible |
-| F54–F55 | Vault có hai consumer thật và policy/cross-denial; mesh có identity/mTLS allow/deny thật | Lab một operator/một VM; mesh ở namespace thử riêng; không khẳng định HA hoặc migration toàn doanh nghiệp |
-| Nguồn lớn/ML | Nguồn offline102.447.847.856byte đã qua Spark Bronze/Silver; ML dùng3.132.184training rows từ nguồn60ngày | Không nhận Gold/features/training đã chạy toàn100GB. Hai quy mô có proof riêng |
-| Máy chạy | Native Linux VM và clone kiểm trên PC | Chưa kiểm thực tế trên laptop; laptop có thể dùng CLI nhẹ và IAP tới VM |
-
-Đây là các giới hạn được ghi rõ, không phải yêu cầu mới tự thêm vào rubric. Nếu giảng viên yêu cầu publicDNS, mọi service qua Ansible, mesh toàn production hoặc ảnh hai job cùng RUNNING, cần chốt riêng phạm vi đó; không tự đánh dấu đã làm những việc này.
-
-## Việc vận hành còn phải thực hiện khi demo vào ngày khác
-
-- Bật cùng VM trong phiên đã được duyệt; kiểm nguyên8giờ tự STOP và các đĩa.
-- Phục hồi dịch vụ và credential có hạn bằng CLI; chỉ materialize khi cache/lease cũ đã hết hạn. Không sửa `prepared_wall_utc` để kéo dài demo.
-- Kiểm hạn certificate lab trước buổi trình bày. Lượt cấp lại29/10 UTC đã cho server hạn đến **05/11/2026 00:18:40 UTC**, CA đến12/11; lần cấp sau dùng CLI trong hướng dẫn, giữ kiểm CA/hostname. Chứng chỉ cũ trong capsule lịch sử vẫn giữ byte gốc.
-- Giữ bí mật nằm ngoài Git và bài nộp. Dữ liệu/runtime của VM không tự xuất hiện trên laptop khi clone.
-
-Các lần lỗi đầu của công cụ resume được giữ trong lịch sử receipt: thiếu đường dẫn asset khi chạy từ `/tmp`, chờ Raft chưa đủ sau unseal, và lỗi trùng tên hàm với module `http`. Lượt hoàn tất chỉ được ghi PASS sau khi sửa và chạy lại; không sửa các receipt lỗi thành thành công.
-
-Tham khảo API dùng cho cập nhật một credential đang có: [Jenkins CredentialsStore](https://javadoc.jenkins.io/plugin/credentials/com/cloudbees/plugins/credentials/CredentialsStore.html). Thao tác quản trị chạy qua endpoint private bằng tài khoản operator hiện có; secret không được nhúng vào script gửi đi hay lưu vào proof.
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/final-audit.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

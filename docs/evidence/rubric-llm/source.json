@@ -1,0 +1,823 @@
+{
+  "cells": {
+    "D1": {
+      "value": "Deliverables",
+      "formula": null
+    },
+    "E1": {
+      "value": "Point",
+      "formula": null
+    },
+    "A2": {
+      "value": "Viết file README.md để giới thiệu về business domain mà mọi người đang làm và high-level system deployment diagram (diagram tổng thể, kết hợp kiến thức cả khoá nha)\nMọi người lưu ý:\n+ README.md cần có Repo Structure (thể hiện file/folder này làm gì),Table of Contents chia ra từng sections để người dùng dễ đọc!\n+ Các hàm/class phải có docstring để mô tả hàm đó làm gì, đầu file phải có mô tả file đó làm những gì\n+ mỗi thành phần chính của diagram phải là 1 deloyable unit, ví dụ Kafka là 1 deployable unit, còn Feast SDK không phải deployable unit vì không thể deploy - Xem ví dụ về diagram của các khoá trước ở đây. \n+ mũi tên nên đi theo đường truyền của dữ liệu, ví dụ nếu data truyền từ A đến B thì mũi tên đi từ A đến B, và dữ liệu thể hiện bên trên mũi tên. Còn nếu A chỉ gọi tới B, không truyển dữ liệu gì thì mũi tên từ A đến B.\n+ các mũi tên nên có description và đánh số thứ tự, nếu có nhiều user flow, ví dụ end user và developer thì có thể thể hiện các màu mũi tên khác nhau và đánh số thứ tự riêng cho từng flow (ví dụ cả 2 ông đều đi từ 1->n)\n+ hạn chế sử dụng mũi tên nét đứt, thường dùng cho các luồng k phải luồng chính (tức luồng liên quan trực tiếp tới các user)\n",
+      "formula": null
+    },
+    "A3": {
+      "value": "Deploy a LLM inference platform theo hướng dẫn này và set up gateway cho agent theo hướng dẫn này",
+      "formula": null
+    },
+    "B3": {
+      "value": "Deploy LLM inference platform + setup custom model",
+      "formula": null
+    },
+    "C3": {
+      "value": "Deploy LLM inference platform",
+      "formula": null
+    },
+    "D3": {
+      "value": "Document cách mọi người deploy, setup các custom model server để có thể triển khai riêng model của mọi người, cách thực hiện benchmark và optimize, cùng kết quả cải thiện sau optimize cho custom model",
+      "formula": null
+    },
+    "E3": {
+      "value": 2,
+      "formula": null
+    },
+    "C4": {
+      "value": "Setup a custom model",
+      "formula": null
+    },
+    "E4": {
+      "value": 2,
+      "formula": null
+    },
+    "C5": {
+      "value": "Benchmark model server and optimize the platform",
+      "formula": null
+    },
+    "E5": {
+      "value": 2,
+      "formula": null
+    },
+    "A6": {
+      "value": "Deploy 1 global model config theo tutorial này để các Agent có thể dùng custom model.",
+      "formula": null
+    },
+    "D6": {
+      "value": "Capture chứng minh phần code config đã được apply",
+      "formula": null
+    },
+    "E6": {
+      "value": 2,
+      "formula": null
+    },
+    "A7": {
+      "value": "Deploy registry for agent theo tutorial này",
+      "formula": null
+    },
+    "D7": {
+      "value": "Capture màn hình thể hiện registry đã được deploy",
+      "formula": null
+    },
+    "E7": {
+      "value": 2,
+      "formula": null
+    },
+    "A8": {
+      "value": "RAG",
+      "formula": null
+    },
+    "B8": {
+      "value": "RAG Data Pipeline",
+      "formula": null
+    },
+    "C8": {
+      "value": "Build 1 Airflow pipeline với ít nhất các step sau: kéo dữ liệu từ text => chia chunk => lưu embedding vector cho các chunk vào feature store thông qua Feast",
+      "formula": null
+    },
+    "D8": {
+      "value": "Capture màn hình thể hiện pipeline đã chạy thành công, với lineage trên DataHub",
+      "formula": null
+    },
+    "E8": {
+      "value": 2,
+      "formula": null
+    },
+    "C9": {
+      "value": "Đảm bảo data governance cho pipeline (tương tự mini-coursework)",
+      "formula": null
+    },
+    "E9": {
+      "value": 2,
+      "formula": null
+    },
+    "A10": {
+      "value": "Web API kéo dữ liệu user (đã lưu thông qua feature pipeline) và chunk (đã được lưu thông qua RAG pipeline)\n(Web API này sẽ dùng để kéo dữ liệu từ Online Feature store dựa trên ID (user_id, chunk_id, etc.))",
+      "formula": null
+    },
+    "B10": {
+      "value": "Có sử dụng FastAPI + data validation (với pydantic)",
+      "formula": null
+    },
+    "C10": {
+      "value": "Có sử dụng FastAPI + data validation (với pydantic) + healthcheck for k8s",
+      "formula": null
+    },
+    "D10": {
+      "value": "Demonstrate Agent có trên registry, được deploy với multi-replica, giới hạn quyền thông qua Sandbox và màn hình UI chat với Agent",
+      "formula": null
+    },
+    "E10": {
+      "value": 1,
+      "formula": null
+    },
+    "C11": {
+      "value": "Sử dụng async",
+      "formula": null
+    },
+    "E11": {
+      "value": 1,
+      "formula": null
+    },
+    "C12": {
+      "value": "Deploy in the form of MCP tool to k8s with helm + rollingupdate + auto fallback (see here)\nRemember, your MCP tool is not like normal API deployment, check it our how to deploy here.",
+      "formula": null
+    },
+    "E12": {
+      "value": 2,
+      "formula": null
+    },
+    "C13": {
+      "value": "Deploy 1 Agent sử dụng MCP tool ở trên với multi-replica và auto-scale sử dụng cái này",
+      "formula": null
+    },
+    "E13": {
+      "value": 2,
+      "formula": null
+    },
+    "C14": {
+      "value": "Configure Agent chạy trong Sandbox để đảm bảo security",
+      "formula": null
+    },
+    "E14": {
+      "value": 1,
+      "formula": null
+    },
+    "C15": {
+      "value": "Publish Agent ở trên lên registry đã deploy để đảm bảo governance",
+      "formula": null
+    },
+    "E15": {
+      "value": 2,
+      "formula": null
+    },
+    "A16": {
+      "value": "Web API cho Real-time Drift Detection (để làm MCP tool, tương tự như trên)",
+      "formula": null
+    },
+    "B16": {
+      "value": "Có sử dụng FastAPI + data validation (với pydantic)",
+      "formula": null
+    },
+    "C16": {
+      "value": "Có sử dụng FastAPI + data validation (với pydantic) + healthcheck for k8s",
+      "formula": null
+    },
+    "D16": {
+      "value": "Demonstrate Agent có trên registry, được deploy với multi-replica, giới hạn quyền thông qua Sandbox và màn hình UI chat với Agent",
+      "formula": null
+    },
+    "E16": {
+      "value": 1,
+      "formula": null
+    },
+    "C17": {
+      "value": "Sử dụng async",
+      "formula": null
+    },
+    "E17": {
+      "value": 1,
+      "formula": null
+    },
+    "C18": {
+      "value": "Deploy in the form of MCP tool to k8s with helm + rollingupdate + auto fallback (see here)\nRemember, your MCP tool is not like normal API deployment, check it our how to deploy here.",
+      "formula": null
+    },
+    "E18": {
+      "value": 2,
+      "formula": null
+    },
+    "C19": {
+      "value": "Deploy 1 Agent sử dụng MCP tool ở trên với multi-replica và auto-scale sử dụng cái này",
+      "formula": null
+    },
+    "E19": {
+      "value": 2,
+      "formula": null
+    },
+    "C20": {
+      "value": "Configure Agent chạy trong Sandbox để đảm bảo security",
+      "formula": null
+    },
+    "E20": {
+      "value": 1,
+      "formula": null
+    },
+    "C21": {
+      "value": "Publish Agent ở trên lên registry đã deploy để đảm bảo governance",
+      "formula": null
+    },
+    "E21": {
+      "value": 2,
+      "formula": null
+    },
+    "A22": {
+      "value": "Demonstrate basic understanding of Agents",
+      "formula": null
+    },
+    "B22": {
+      "value": "Jupyter notebooks to demonstrate basic understanding of Agents",
+      "formula": null
+    },
+    "C22": {
+      "value": "Jupyter notebook để demonstrate Agent tương tác với MCP servers để kéo feature từ Feast và thực hiện drift detection",
+      "formula": null
+    },
+    "D22": {
+      "value": "Capture kết quả đã tương tác",
+      "formula": null
+    },
+    "E22": {
+      "value": 2,
+      "formula": null
+    },
+    "C23": {
+      "value": "Jupyter notebook để demonstrate Agent tương tác với MCP servers để kéo dữ liệu từ feature store cho RAG (cả nhà coi ví dụ tại đây)",
+      "formula": null
+    },
+    "E23": {
+      "value": 2,
+      "formula": null
+    },
+    "A24": {
+      "value": "Deploy 1 Coordinator Agent",
+      "formula": null
+    },
+    "B24": {
+      "value": "Điều phối 2 Agent ở trên",
+      "formula": null
+    },
+    "C24": {
+      "value": "Deploy 1 Agent sử dụng MCP tool ở trên với multi-replica và auto-scale sử dụng cái này",
+      "formula": null
+    },
+    "E24": {
+      "value": 2,
+      "formula": null
+    },
+    "C25": {
+      "value": "Publish Agent ở này lên registry đã deploy để đảm bảo governance",
+      "formula": null
+    },
+    "D25": {
+      "value": "Demonstrate Agent có trên registry, được deploy với multi-replica, và màn hình UI chat với Agent",
+      "formula": null
+    },
+    "E25": {
+      "value": 2,
+      "formula": null
+    },
+    "A26": {
+      "value": "Cài đặt hệ thống ở chế độ Warm Up cho agent theo hướng dẫn sau để tối ưu chi phí, đồng thời giảm thiểu thời gian startup",
+      "formula": null
+    },
+    "D26": {
+      "value": "+ Benchmark và document đã tối ưu được gì\n+ Document cách tăng HA (ví dụ set up replicas cho worker pool)",
+      "formula": null
+    },
+    "E26": {
+      "value": 2,
+      "formula": null
+    },
+    "A27": {
+      "value": "Validation & Verification",
+      "formula": null
+    },
+    "C27": {
+      "value": "Unit test với Test Coverage > 90%\n(với proof bằng screenshot thể hiện khả năng test Web API, và sử dụng fixture, mock) ",
+      "formula": null
+    },
+    "D27": {
+      "value": "Capture màn hình đã chạy test với test coverage thoả mãn yêu cầu",
+      "formula": null
+    },
+    "E27": {
+      "value": 1,
+      "formula": null
+    },
+    "C28": {
+      "value": "Có sử dụng kỹ thuật equivalence partitioning vs boundary value analysis khi thiết kế test cases để parametrize.\n(Cái này chưa được dạy, nhưng đơn giản lắm, cả nhà coi ở đây)",
+      "formula": null
+    },
+    "D28": {
+      "value": "Capture màn hình để thể hiện đã sử dụng các kỹ thuật này",
+      "formula": null
+    },
+    "E28": {
+      "value": 2,
+      "formula": null
+    },
+    "C29": {
+      "value": "Có sử dụng mutation testing để đánh giá hiệu quả của các test (cái này đã dạy ở lớp rồi nha cả nhà, là cái https://mutmut.readthedocs.io/). Note that you mutate only code changed, not the whole code base everytime you push your commit! Mutation score > 80%.",
+      "formula": null
+    },
+    "D29": {
+      "value": "Capture màn hình để thể hiện đã sử dụng các kỹ thuật này",
+      "formula": null
+    },
+    "E29": {
+      "value": 2,
+      "formula": null
+    },
+    "C30": {
+      "value": "Idempotency testing sử dụng property-based testing (chuyên để tìm ra cái test case có thể tạo ra bug), ví dụ, để kiểm tra xem model prediction có generate ra kết quả consistent sau nhiều lần chạy không. You can use the library hypothesis for property-based testing, combine with crosshair backend to find bugs easier.",
+      "formula": null
+    },
+    "D30": {
+      "value": "Capture màn hình để thể hiện đã sử dụng các kỹ thuật này",
+      "formula": null
+    },
+    "E30": {
+      "value": 2,
+      "formula": null
+    },
+    "C31": {
+      "value": "Load test the Web API (cái Web API kéo dữ liệu) to understand throughput (req/s) and latency\n(generate a html file with locust as SLA)",
+      "formula": null
+    },
+    "D31": {
+      "value": "Capture màn hình HTML output",
+      "formula": null
+    },
+    "E31": {
+      "value": 2,
+      "formula": null
+    },
+    "A32": {
+      "value": "Improve the Data Generator",
+      "formula": null
+    },
+    "B32": {
+      "value": "Simulate data drift",
+      "formula": null
+    },
+    "C32": {
+      "value": "Simulate data drift",
+      "formula": null
+    },
+    "D32": {
+      "value": "Capture màn hình thể hiện generator configuration và bảng sau khi merge id và label",
+      "formula": null
+    },
+    "E32": {
+      "value": 1,
+      "formula": null
+    },
+    "C33": {
+      "value": "Using generator configuration",
+      "formula": null
+    },
+    "E33": {
+      "value": 1,
+      "formula": null
+    },
+    "B34": {
+      "value": "Tạo bảng label có 2 cột id và label. Bảng này sẽ dùng để join với các bảng feature cho training. \n(cột id có thể đổi thành user_id, customer_id hay gì đó tuỳ mọi người)",
+      "formula": null
+    },
+    "E34": {
+      "value": 2,
+      "formula": null
+    },
+    "A35": {
+      "value": "CI/CD\n(CI/CD = test + build + auto-deploy)\n(all secrets should be saved in Jenkins or similar tools instead of putting it inside your code!)",
+      "formula": null
+    },
+    "B35": {
+      "value": "CI/CD cho RAG Data Pipeline",
+      "formula": null
+    },
+    "C35": {
+      "value": "RAG Data Pipeline",
+      "formula": null
+    },
+    "D35": {
+      "value": "Capture màn hình từng CI/CD pipeline đã run thành công",
+      "formula": null
+    },
+    "E35": {
+      "value": 2,
+      "formula": null
+    },
+    "B36": {
+      "value": "CI/CD cho MCP Servers & Agents\n(Build & package xong MCP Servers => Deploy Agent with the corresponding MCP Servers)",
+      "formula": null
+    },
+    "C36": {
+      "value": "Agent kéo dữ liệu",
+      "formula": null
+    },
+    "E36": {
+      "value": 2,
+      "formula": null
+    },
+    "C37": {
+      "value": "Agent drift detection",
+      "formula": null
+    },
+    "E37": {
+      "value": 2,
+      "formula": null
+    },
+    "C38": {
+      "value": "Agent để làm coordinator",
+      "formula": null
+    },
+    "E38": {
+      "value": 2,
+      "formula": null
+    },
+    "B39": {
+      "value": "CI/CD cho jobs",
+      "formula": null
+    },
+    "C39": {
+      "value": "Job 1: Push stream feature to OFFLINE store",
+      "formula": null
+    },
+    "E39": {
+      "value": 2,
+      "formula": null
+    },
+    "C40": {
+      "value": "Job 2: Push stream feature to ONLINE store",
+      "formula": null
+    },
+    "E40": {
+      "value": 2,
+      "formula": null
+    },
+    "A41": {
+      "value": "Routing & Gateway (NGINX Ingress Controller)",
+      "formula": null
+    },
+    "B41": {
+      "value": "Các service cần được hide đằng sau gateway",
+      "formula": null
+    },
+    "C41": {
+      "value": "Service để coi metric (ví dụ Grafana)",
+      "formula": null
+    },
+    "D41": {
+      "value": "Capture màn hình thể hiện từng setup đã thành công",
+      "formula": null
+    },
+    "E41": {
+      "value": 2,
+      "formula": null
+    },
+    "C42": {
+      "value": "Service để coi log (ví dụ Kibana)",
+      "formula": null
+    },
+    "E42": {
+      "value": 2,
+      "formula": null
+    },
+    "C43": {
+      "value": "Service để coi trace (ví dụ Jaeger)",
+      "formula": null
+    },
+    "E43": {
+      "value": 2,
+      "formula": null
+    },
+    "C44": {
+      "value": "UI để test agent (xem tại đây)",
+      "formula": null
+    },
+    "E44": {
+      "value": 2,
+      "formula": null
+    },
+    "C45": {
+      "value": "UI cho agent registry",
+      "formula": null
+    },
+    "E45": {
+      "value": 2,
+      "formula": null
+    },
+    "B46": {
+      "value": "Basic authentication & rate limit ở gateway (username/password)",
+      "formula": null
+    },
+    "C46": {
+      "value": "Setup authentication cho UI test agent ở trên",
+      "formula": null
+    },
+    "E46": {
+      "value": 2,
+      "formula": null
+    },
+    "B47": {
+      "value": "Setup domain & enable HTTPS",
+      "formula": null
+    },
+    "C47": {
+      "value": "Làm cái này cho Web API kéo dữ liệu. Mọi người có thể tham khảo 2 đồ án sau: cái này và cái này ",
+      "formula": null
+    },
+    "E47": {
+      "value": 1,
+      "formula": null
+    },
+    "A48": {
+      "value": "IaC",
+      "formula": null
+    },
+    "B48": {
+      "value": "Dùng Terraform để setup GKE hoặc các cloud services (để ý cách chia folder theo từng service nếu có, ví dụ như sau)",
+      "formula": null
+    },
+    "D48": {
+      "value": "Capture màn hình thể hiện từng setup đã chạy thành công\n",
+      "formula": null
+    },
+    "E48": {
+      "value": 1,
+      "formula": null
+    },
+    "B49": {
+      "value": "Dùng Ansible để configure và deploy các service lên VM \n(cần chia thành các role để code clean hơn)",
+      "formula": null
+    },
+    "E49": {
+      "value": 1,
+      "formula": null
+    },
+    "A50": {
+      "value": "Observability",
+      "formula": null
+    },
+    "B50": {
+      "value": "Web API metrics",
+      "formula": null
+    },
+    "C50": {
+      "value": "Web API monitoring metrics such as req/s, num. of reqs, num. of failures, etc.",
+      "formula": null
+    },
+    "D50": {
+      "value": "Capture màn hình thể hiện các data đã được capture, có thể coi trên các dashboard\n",
+      "formula": null
+    },
+    "E50": {
+      "value": 1,
+      "formula": null
+    },
+    "B51": {
+      "value": "Computing telemetry data\n(such as CPU, RAM, disk, network, etc.)",
+      "formula": null
+    },
+    "C51": {
+      "value": "Collect và visualize metrics với Prometheus + Grafana (hoặc tool tương tự)",
+      "formula": null
+    },
+    "E51": {
+      "value": 1,
+      "formula": null
+    },
+    "C52": {
+      "value": "Tương tự cho logs",
+      "formula": null
+    },
+    "E52": {
+      "value": 1,
+      "formula": null
+    },
+    "C53": {
+      "value": "Tương tự cho traces",
+      "formula": null
+    },
+    "E53": {
+      "value": 1,
+      "formula": null
+    },
+    "B54": {
+      "value": "LLM-related telemetry data",
+      "formula": null
+    },
+    "C54": {
+      "value": "Đảm bảo ít nhất các metrics\n+ token metrics (count of input tokens, output tokens and total tokens per req)\n+ total round-trip time for a generation\n+ TTFT\n+ Frequencies of prompts caught by safety of PII",
+      "formula": null
+    },
+    "E54": {
+      "value": 2,
+      "formula": null
+    },
+    "B55": {
+      "value": "Agent-related telemetry data",
+      "formula": null
+    },
+    "C55": {
+      "value": "Đảm bảo ít nhất các metrics\n+ total num of times each agent is called\n+ total num of times each MCP tool is called\n+ total failures cho mỗi lượt call tool",
+      "formula": null
+    },
+    "E55": {
+      "value": 2,
+      "formula": null
+    },
+    "A56": {
+      "value": "A/B Testing",
+      "formula": null
+    },
+    "B56": {
+      "value": "When you deploy a new model, don't replace the old one directly, you should do A/B test, monitor it, and deploy.",
+      "formula": null
+    },
+    "C56": {
+      "value": "Perform A/B test for agents with different model config and monitor them",
+      "formula": null
+    },
+    "D56": {
+      "value": "Capture màn hình thể hiện cách mọi người thực hiện A/B test và dashboard để đánh giá kết quả A/B test",
+      "formula": null
+    },
+    "E56": {
+      "value": 1,
+      "formula": null
+    },
+    "C57": {
+      "value": "Perform A/B test for different LLM versions on the LLM inference platform",
+      "formula": null
+    },
+    "E57": {
+      "value": 1,
+      "formula": null
+    },
+    "A58": {
+      "value": "Security",
+      "formula": null
+    },
+    "B58": {
+      "value": "Centralize secret management",
+      "formula": null
+    },
+    "C58": {
+      "value": "Centralize secret management via Hashi Corp Vault (or similar tools) so it will be used across the whole organization.",
+      "formula": null
+    },
+    "D58": {
+      "value": "Capture màn hình thể hiện cách mọi người thực hiện centrailize secret management",
+      "formula": null
+    },
+    "E58": {
+      "value": 1,
+      "formula": null
+    },
+    "A59": {
+      "value": "Repository Design",
+      "formula": null
+    },
+    "B59": {
+      "value": "Clean Code + clean repo + demonstrate the use of Design Pattern",
+      "formula": null
+    },
+    "D59": {
+      "value": "Capture màn hình thể hiện Design Pattern đã được sử dụng trong code",
+      "formula": null
+    },
+    "E59": {
+      "value": 2,
+      "formula": null
+    },
+    "A60": {
+      "value": "Documentation \n(tất cả documents để trong folder `docs/`, và ở README.md thì mọi người link tới mấy document này nhé. README.md chỉ summarize thôi, và nếu ai muốn đọc chi tiết các document optimize hoặc schema design thì đọc thêm ở trong docs/)\n(các capture màn hình cũng nên đính ở trong document để mô tả rõ mục đích từng cái muốn thể hiện điều gì, thay vì chỉ để một đống ảnh trong folder và để reviewer tự hiểu, tốt nhất nên có 1 file doc trong mỗi phần to trong folder docs/, ví dụ IaC.md thể hiện các output/document của step này, hoặc Security.md, etc.)",
+      "formula": null
+    },
+    "B60": {
+      "value": "Low-level ML Design",
+      "formula": null
+    },
+    "C60": {
+      "value": "Propose 5 key classes to present our main focus:\nExample:\nclass TrainingDataService:\n    def read_training_table(self) -> DataFrame: ...\n    def validate_schema(self, df: DataFrame) -> None: ...\n    def dedup_by_created_ts(self, df: DataFrame) -> DataFrame: ...\n\nclass SplitService:\n    def get_split_boundaries(self, df: DataFrame) -> dict: ...\n    def split_by_time(self, df: DataFrame) -> tuple[DataFrame, DataFrame, DataFrame]: ...",
+      "formula": null
+    },
+    "D60": {
+      "value": "Document 5 key classes",
+      "formula": null
+    },
+    "E60": {
+      "value": 1,
+      "formula": null
+    },
+    "A61": {
+      "value": "Novel ideas \n(không nhất thiết tự sáng tạo ra cái gì, có thể nghiên cứu dùng thêm các công cụ, hoặc kỹ thuật gì đó không được dạy ở EDAI)",
+      "formula": null
+    },
+    "B61": {
+      "value": "Idea 1",
+      "formula": null
+    },
+    "D61": {
+      "value": "Document idea + proof it worked!",
+      "formula": null
+    },
+    "E61": {
+      "value": 2,
+      "formula": null
+    },
+    "B62": {
+      "value": "Idea 2",
+      "formula": null
+    },
+    "D62": {
+      "value": "Document idea + proof it worked!",
+      "formula": null
+    },
+    "E62": {
+      "value": 2,
+      "formula": null
+    },
+    "D63": {
+      "value": "Sum",
+      "formula": null
+    },
+    "E63": {
+      "value": 100,
+      "formula": "SUM(E2:E62)"
+    }
+  },
+  "merged_ranges": [
+    "A3:A5",
+    "B3:B5",
+    "D3:D5",
+    "A8:A9",
+    "B8:B9",
+    "A10:A15",
+    "B10:B15",
+    "A27:A31",
+    "A32:A34",
+    "A35:A40",
+    "A41:A47",
+    "A48:A49",
+    "A50:A55",
+    "A56:A57",
+    "A61:A62",
+    "B32:B33",
+    "B36:B38",
+    "B39:B40",
+    "B41:B45",
+    "B51:B53",
+    "B56:B57",
+    "A16:A21",
+    "B16:B21",
+    "A22:A23",
+    "B22:B23",
+    "A24:A25",
+    "B24:B25",
+    "B27:B31",
+    "D48:D49",
+    "D50:D55",
+    "D56:D57",
+    "D8:D9",
+    "D10:D15",
+    "D16:D21",
+    "D22:D23",
+    "D32:D34",
+    "D35:D40",
+    "D41:D47"
+  ],
+  "source_workbook_sha256": "ed3503d1277583954a9eb140bec01706e7bd4985c457a55083c1ae167c358f69",
+  "source_filename": "Coursework Tracking (Public).xlsx",
+  "sheet": "Sheet3",
+  "weighted_rows": 60,
+  "source_point_total": 100,
+  "captured_utc": "2026-10-29T03:01:20.382587+00:00",
+  "source_hyperlinks": {
+    "A2": "https://fullstackdatascience.com/hall-of-fame",
+    "A3": "https://llm-d.ai/docs/getting-started/quickstart",
+    "A6": "https://kagent.dev/docs/kagent/supported-providers/byo-openai",
+    "A7": "https://aregistry.ai/",
+    "C10": "https://kubernetes.io/docs/concepts/workloads/pods/probes/",
+    "C12": "https://octopus.com/devops/kubernetes-deployments/kubernetes-rolling-deployment/",
+    "C13": "https://keda.sh/",
+    "C14": "https://kagent.dev/docs/kagent/examples/agent-sandbox",
+    "C16": "https://kubernetes.io/docs/concepts/workloads/pods/probes/",
+    "C18": "https://octopus.com/devops/kubernetes-deployments/kubernetes-rolling-deployment/",
+    "C19": "https://keda.sh/",
+    "C20": "https://kagent.dev/docs/kagent/examples/agent-sandbox",
+    "C23": "https://docs.feast.dev/tutorials/rag-with-docling",
+    "C24": "https://keda.sh/",
+    "A26": "https://kagent.dev/docs/kagent/concepts/agent-substrate",
+    "D26": "https://kagent.dev/docs/kagent/examples/agent-substrate",
+    "C28": "https://share.google/aimode/tqb9NTql5vzv4BD9J",
+    "C29": "https://mutmut.readthedocs.io/).",
+    "C30": "https://hypothesis.readthedocs.io/en/latest/reference/internals.html",
+    "C44": "https://kagent.dev/docs/kagent/getting-started/first-mcp-tool",
+    "C47": "https://github.com/VuHuy-cse-9/prompt-guardrail-ml-system",
+    "B48": "https://ajdevopssolutions.medium.com/best-practices-for-terraform-directory-layout-from-small-to-large-projects-4d4ff41cf93c",
+    "A60": "http://iac.md/"
+  }
+}

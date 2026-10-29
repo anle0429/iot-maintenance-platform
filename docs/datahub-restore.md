@@ -1,13 +1,32 @@
-# Phục hồi DataHub, giữ nguyên metadata
+# DataHub restoration after a VM restart
 
-Ngày28/10, năm container DataHub không khởi động vì tham chiếu network Docker đã mất sau STOP/START. Đã phục hồi MySQL, OpenSearch, Kafka broker, GMS và frontend trên bridge private hiện có`iot-metadata-restored-28b`. [Receipt](evidence/datahub-restore-linux/restore-v2/verification.json): cùng image ID và **tất cả mount cũ**, kể cả anonymous Kafka volume; không SystemUpdate/reset DB/đổi credentials hay volume thay thế. GMS18080/frontend19002 vẫn bind127.0.0.1.
+The restoration procedure preserves the existing DataHub images, metadata volumes and indexed entities after STOP/START. Native readbacks confirm the two feature datasets, producing job and six existing assertions remain available.
 
-Container cũ giữ hậu tố`-before-session-28d`. Lượt đầu dừng sau MySQL vì so Config.Image tag với image ID. Đọc lại xác nhận chỉ trường Image khác; lần tiếp dùng MySQL đang healthy và khởi động bốn service còn lại. [Before state](evidence/datahub-restore-linux/before.json), [mount receipt](evidence/datahub-restore-linux/restore-v2/progress.json), [Config digest parity](evidence/datahub-restore-linux/config-parity.json). Config đầy đủ có secrets chỉ giữ riêng trên VM. Hash attest phép so sánh native sau chuẩn hóa Image; capsule không cho phép tự tính lại toàn Config bí mật.
+The UI and GMS checks use the restored service and its actual dependencies. They do not regenerate lineage, rerun materialization or republish metadata merely to make the interface look populated.
 
-GMS health200/frontend login200. GraphQL đọc lại hai dataset compactParquet/Redis của`feast-incremental-27`, còn upstream feature, producing Airflow job và sáu assertion runEventSUCCESS. [Indexed proof](evidence/datahub-restore-linux/indexed/verification.json), [input](evidence/datahub-restore-linux/indexed/input.json), [output](evidence/datahub-restore-linux/indexed/output.json). Đây là metadata cũ còn nguyên, không phải publication/materialization mới. [Ảnh và luồng gốc](feast-materialization.md) giữ riêng; mốc này chưa có ảnh UI DataHub mới.
+The receipt and original captures establish same-state restoration for this lab. UI availability alone does not prove every downstream pipeline is healthy; review the specific entity/assertion payloads and their producer identities.
+
+## Commands and recorded examples
+
+Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.
 
 ```powershell
 python -S scripts/verify-datahub-restore.py
 ```
 
-Chín payload49710byte/8nativefile/native manifest, verifier không cần credentials/VM. [Manifest](evidence/datahub-restore-linux/manifest.json). Native support tar chungSHA`c78ad198693aac3496ecfddf624d3565392970b44a07e5c4222830ace5daff10`; scan sáu giá trị secret thực và encoding không thấy trùng. Helpers/privateConfig không publish. VM đã phục hồi: không rename/recreate lại để xem bằng chứng. Compose cũ còn trỏ network cũ, phải kiểm trạng thái và dùng override phù hợp trước thao tác sau. UI qua IAP cần đăng nhập bình thường.
+## Implementation and evidence
+
+- [Recorded artifact: datahub-restore-linux/restore-v2/verification.json](evidence/datahub-restore-linux/restore-v2/verification.json)
+- [Recorded artifact: datahub-restore-linux/before.json](evidence/datahub-restore-linux/before.json)
+- [Recorded artifact: datahub-restore-linux/restore-v2/progress.json](evidence/datahub-restore-linux/restore-v2/progress.json)
+- [Recorded artifact: datahub-restore-linux/config-parity.json](evidence/datahub-restore-linux/config-parity.json)
+- [Recorded artifact: datahub-restore-linux/indexed/verification.json](evidence/datahub-restore-linux/indexed/verification.json)
+- [Recorded artifact: datahub-restore-linux/indexed/input.json](evidence/datahub-restore-linux/indexed/input.json)
+- [Recorded artifact: datahub-restore-linux/indexed/output.json](evidence/datahub-restore-linux/indexed/output.json)
+- [Recorded artifact: datahub-restore-linux/manifest.json](evidence/datahub-restore-linux/manifest.json)
+
+## Related documentation
+
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/datahub-restore.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

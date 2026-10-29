@@ -1,31 +1,33 @@
-# Thiết kế lớp ở các biên của vòng đời ML
+# Five key classes in the ML lifecycle
 
-Năm lớp dưới đây đang có trong mã và được dùng ở các mốc đã chạy. Mỗi lớp giữ một trách nhiệm: lưu snapshot, publish dữ liệu, nạp model, lấy feature để suy luận, hoặc đo drift. Split/train/label vẫn là các hàm Spark có protocol cố định; tài liệu này không biến chúng thành lớp chỉ để tăng số lớp.
+The low-level design follows implemented responsibilities rather than adding abstractions solely to match a diagram. The source separates content-addressed dataset storage, MLflow publication, portable model inference, feature eligibility/backend access and drift comparison.
 
-| Lớp và mã | Giao diện chính | Đầu vào/đầu ra và trách nhiệm | Kiểm chứng |
-|---|---|---|---|
-| [ContentAddressedDatasetStore](../ml/data_versions.py) | `publish(files, metadata, parent_version=None)`, `manifest(version)`, `restore(version, destination)` | Tệp canonical và metadata→version SHA/manifest đầy đủ. Chỉ lưu blob mới; kiểm hash/path và serialize publication bằng lock. Không chịu trách nhiệm train hay ghi MLflow. | [59→60ngày/replay/restore](incremental-data-versioning.md), unit oracle thêm/sửa/xóa/blob hỏng. |
-| [MlflowDatasetPublisher](../ml/mlflow_data_versions.py) | `publish(version, restore_to)` | Version cục bộ→completed data run cùng locator cho mọi blob. Reuse run chứa blob cũ; kiểm tải từ server rồi restore vào kho mới trước khi seal. Không upload thêm một full dataset vào mỗi model run. | [Native MLflow](evidence/data-versions/remote/verification.json),177→3→0blob upload, corruption fixture. |
-| [PortablePumpModel](../ml/portable_model.py) | `load_context(context)`, `predict(context, model_input, params=None)` | Artifact scaler/logistic đã fit và DataFrame tám feature→risk score/quyết định theo threshold đã chọn. Không fit lại hoặc dùng nhãn khi suy luận; từ chối cột sai/thứ tự sai. Là adapter theo giao diện MLflow `PythonModel`. | [Registry model3](evidence/data-versions/registry/registration.json),200predictions so Spark sau khi nạp registry. |
-| [FeatureRuntime](../services/feature_api/runtime.py) | `features(machine)`, `predict(machine)` | Machine ID, context và backend→feature trace hoặc prediction. Kiểm đồng hồ/lease/arrival/operating state trước khi gọi model; phân biệt404/409/503 qua API. Không tự biết chi tiết Feast protobuf hay KServe transport. | [Feature API](feature-api.md),200máy/195prediction, freshness/availability tests và native load. |
-| [DriftDetector](../services/drift_api/detector.py) | Khởi tạo bằng reference bundle; `compare(window)` | Reference train cố định và cửa sổ feature→PSI từng feature/alert theo policy. Không nhận label hoặc suy ra accuracy. Việc lưu cửa sổ/idempotency thuộc `DriftRuntime`. | [Drift guide](drift-detection.md), PSI tính tay, HTTP control/shift/replay,172statement/40branch100%. |
+The dataset store owns canonical parts, version manifests and restore checks. The registry publisher binds model artifacts to data/protocol/source identity. The portable predictor validates schema and computes the exported model. `FeatureRuntime` owns clocks, operating state and eligibility while a backend adapter performs native SDK/network reads. The drift detector owns reference statistics and comparison policy.
 
-Luồng liên kết: native Feast pull tạo cohort và canonical files; store/publisher version dữ liệu; training tạo model; model/data gate gắn đúng data run vào registry. Khi phục vụ, `FeatureRuntime` gọi backend; `PortablePumpModel` là implementation registry đã so khớp với Spark, còn image predictor dùng cùng phép tính portable qua `PumpPredictor`. Drift là một phép đánh giá feature riêng. Hiện serving pin model1, reference drift gắn model3 candidate; chưa gán lineage của hai version cho nhau.
+Factory construction and dependency injection let HTTP tests substitute controlled backends without treating those fixtures as native deployment evidence. Interfaces and error boundaries are tested at behavior level. Original source views/screenshots and the exact class locations are retained below.
 
-## Pattern và ranh giới phụ thuộc
+## Implementation and evidence
 
-**Adapter:** [FeastKServeBackend](../services/feature_api/runtime.py) đổi native Feast response và KServe HTTP thành hai thao tác `fetch(machine)`/`predict(features)` mà `FeatureRuntime` dùng. Tests có backend fixture cùng giao diện để kiểm nghiệp vụ bằng đáp án biết trước, còn integration riêng kiểm transport thật.
+- [Source: ml/data_versions.py](../ml/data_versions.py)
+- [Source: ml/mlflow_data_versions.py](../ml/mlflow_data_versions.py)
+- [Recorded artifact: data-versions/remote/verification.json](evidence/data-versions/remote/verification.json)
+- [Source: ml/portable_model.py](../ml/portable_model.py)
+- [Recorded artifact: data-versions/registry/registration.json](evidence/data-versions/registry/registration.json)
+- [Source: services/feature_api/runtime.py](../services/feature_api/runtime.py)
+- [Source: services/drift_api/detector.py](../services/drift_api/detector.py)
+- [Source: services/drift_api/app.py](../services/drift_api/app.py)
+- [Recorded artifact: drift-api/mutation/coverage-html/z_da970418c10ed19b_app_py.html](evidence/drift-api/mutation/coverage-html/z_da970418c10ed19b_app_py.html)
+- [Recorded artifact: drift-api/capture/manifest.json](evidence/drift-api/capture/manifest.json)
 
-**Dependency injection:** runtime nhận backend và clock từ ngoài; `create_app(runtime=...)` nhận runtime fixture khi test. Production factory tạo backend thật từ runtime config. Vì vậy test mô phỏng lỗi upstream, timezone hoặc lease mà không cần sửa trạng thái dịch vụ đang chạy.
+## Recorded interface views
 
-**Factory function:** [create_app](../services/drift_api/app.py) tạo một ứng dụng, khởi tạo/đóng runtime theo lifespan. Đây là factory ở cấp hàm, không gọi nhầm là GoF Factory Method dựa trên kế thừa.
+These are original captures from the runs described above. Their timestamps, model identities and visible states belong to those runs.
 
-![Factory function và runtime injection trong HTML coverage native](evidence/drift-api/screenshots/factory-dependency-injection.jpg)
+![Recorded factory dependency injection](evidence/drift-api/screenshots/factory-dependency-injection.jpg)
 
-Ảnh chụp source được coverage tool xuất sau lượt native40test. [Bản HTML gốc](evidence/drift-api/mutation/coverage-html/z_da970418c10ed19b_app_py.html) và source hashes trong [manifest](evidence/drift-api/capture/manifest.json) cho phép đối chiếu. Mỗi factory có runtime riêng; endpoint async đưa tác vụ đồng bộ ra thread và giới hạn concurrency, thay vì giữ event loop chờ SDK/SQLite.
 
-Các lớp không tự mở cloud resource, promote model, đổi protocol hoặc quyết định retrain. Những thao tác đó thuộc orchestration/policy riêng và cần có receipt tương ứng khi được triển khai.
+## Related documentation
 
-## Đối chiếu trạng thái hiện tại
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
 
-Đoạn model1/reference3 bên trên mô tả snapshot lịch sử gắn với bằng chứng. Hiện production serving model6 qua [CI](ci-serving.md), model7 giữ candidate; [gateway](private-gateway.md) và [mesh](private-mesh.md) đã so lineage/math model6. Pattern Adapter/DI/factory không đổi trách nhiệm giữa các phiên bản. Audit A2 docstrings toàn repo vẫn được theo dõi riêng; ảnh source/pattern không tự chứng minh mọi hàm đều có docstring.
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/ml-class-design.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

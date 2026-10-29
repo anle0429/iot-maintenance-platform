@@ -1,71 +1,69 @@
-# API lấy feature và dự đoán theo mã máy
+# Feature API: eligibility, inference and provenance
 
-Lượt và giới hạn bên dưới là lịch sử có timestamp riêng. Trạng thái hiện tại: [rà soát final](final-audit.md) và [quy trình tự demo sau restart](demo-walkthrough.md), pin model6; xem đúng source/run trước khi dùng số đo.
+The FastAPI service reads eight native Feast features by machine ID, validates their event timestamps and arrival context, then calls a fixed private KServe endpoint. Async routes offload synchronous SDK/network work and bound in-flight backend operations.
 
-Cập nhật source3b670c6: [version pin serving](versioned-serving.md) đã kiểm trên PC; chưa build/rollout native. Các số đo, images và screenshots bên dưới thuộc mốc source ban đầu, không chứng minh deployment mã mới.
+The runtime separately checks the simulated event clock and the real preparation lease. It rejects stale/future/incomplete features, mismatched model pins and stopped-machine inference. Native cohort checks cover 200 machines:195 valid predictions and five stopped-machine 409 responses, plus malformed/unknown IDs and unavailable upstream state.
 
-Người gọi gửi `machine_id`; API lấy tám feature qua **Feast SDK/Redis**, kiểm thời gian và trạng thái vận hành rồi gọi KServe. Người gọi không phải tự tạo vector hoặc gửi nhãn. [FeatureRuntime](../services/feature_api/runtime.py) chứa quy tắc nghiệp vụ, `FeastKServeBackend` là adapter và [FastAPI](../services/feature_api/app.py) xử lý HTTP/async.
+The first native API evidence belongs to its original model/source version; subsequent serving CI and fresh demo checks establish the model 6 pin. A generated manifest or an old successful receipt does not prove current readiness. The current architecture links the route, runtime, backend, binding and numeric model code so a reviewer can follow one request.
 
-## Kiểm chứng trên Kubernetes
+## Commands and recorded examples
 
-[Native verification](evidence/feature-api/deployment/verification.json) **PASS11:47:31UTC27/10/2026**:200máy đọc feature thành công,195máy operating nhận prediction,5máy failed bị chặn409; máy lạ404, mã sai422. [Đối chiếu độc lập](evidence/feature-api/deployment/offline-comparison.json) đọc nguồn Parquet bằng DuckDB, kiểm mọi feature của200máy và tính lại195điểm từ portable model; maxdelta**0**. Hai [response mẫu](evidence/feature-api/capture/selected-http-probes.json) là trích từ request thật; toàn200response giữ trên VM, hash nằm trong [capture-state](evidence/feature-api/capture/capture-state.json).
-
-Image`sha256:3eee3fb0764df3b440835af9c42e1e64df0789413b255a9365a218200180ee90`,1.080.059.467byte inspect, dùng lại SDKFeast0.67.0 đã khóa. [Dockerfile](../infra/feature-api/Dockerfile)/ignore chỉ gửi code nhỏ, không gửi dữ liệu hoặc secrets. [Pod thực](evidence/feature-api/capture/current-pods.json):UID/GID10001, readonlyroot/dropALL/no service-account token, API1CPU/1GiB, Redis500m/256MiB. Services ClusterIP. Redis demo riêng dùng bộ nhớ tạm; không đổi Redis/registry của pipeline huấn luyện và materialization cũ.
-
-Docker default buildx xuất **OCI index**; cần đi qua manifest linux/amd64 rồi mới tới config digest của pod. [Capture repair](evidence/feature-api/capture/capture-repair.json) giữ lỗi đọc nhầm index ban đầu và quan hệ digest đã kiểm; không sửa source image hay số đo để khớp ID.
-
-![Gửi mã máy và nhận HTTP200 từ luồng Feast→KServe](evidence/feature-api/screenshots/machine-prediction-http200.jpg)
-
-![Feature trace có cả event/received time và simulation clock](evidence/feature-api/screenshots/arrival-aware-feature-trace.jpg)
-
-## Hai đồng hồ và điều kiện được dự đoán
-
-Demo dùng `as_of=2026-11-29T23:50:00+00:00`, **thời gian mô phỏng** trong nguồn đã khóa; không phải tình trạng máy tại giờ thực27/10. [Preparation](../feature_store/serving.py) tạo namespace Feast riêng, so200vector với nguồn immutable và lấy operating context chỉ từ telemetry có cả`event_ts<=as_of` và`received_ts<=as_of`. Không dùng future failures hoặc nhãn để xác định trạng thái hiện tại.
-
-Mỗi feature phải có native status PRESENT, đúng machine, cùng timestamp và tuổi0–600giây tại đồng hồ mô phỏng. Context vận hành cũng phải đến kịp và không cũ quá600giây. Máy stopped vẫn có thể xem feature nhưng không được dự đoán sự cố sắp bắt đầu. KServe response phải khớp model/version/protocol/portable hash và ngưỡng0,7.
-
-Redis key TTL**3600giây theo giờ thực** giới hạn thời gian giữ bản demo. API còn kiểm lease `<3600giây` từ lần chuẩn bị; điều này khác freshness600giây theo event time. Hết lease hoặc thiếu key trả503; readiness không còn xanh. Replay cùng checkpoint không tự làm dữ liệu mới hoặc gia hạn TTL. Sau reboot Redis tạm mất key, cần chuẩn bị/kiểm lại state demo trước khi dùng; không sửa timestamp cũ để giả freshness.
-
-Lượt chuẩn bị đầu bị chặn vì chọn cutoff vượt horizon protocol; [log lỗi](evidence/feature-api/preparation-rejected/console.txt) giữ nguyên. Lượt hợp lệ lấy cutoff bằng observation_end trừ10phút. [Native fixture](../tests/fixtures/feature-api-native-online.json) là response SDK0.67 thật từ namespace demo riêng, không phải response tự dựng.
-
-## Tests và sức mạnh kiểm thử
-
-[PC hiện tại](evidence/feature-api/pc/tests-console.txt):**127passed/1skipped**, skip chỉ kiểm timezone POSIX không có trên Windows. [Coverage](evidence/feature-api/pc/coverage.json) hai API hiện có:211statements/56branches**100%**. Riêng feature API107statements/34branches; native Linux baseline**57/57passed**, gồm timezone test. Fixtures/mock dựa trên response Feast thật; tích hợp SDK/Redis/KServe còn được kiểm riêng bằng HTTP, không thay bằng mock.
-
-![Coverage HTML từ lượt test thật](evidence/feature-api/screenshots/api-coverage.jpg)
-
-[Tests](../tests/api/test_feature_api.py) kiểm boundary/partition:0/600/601giây, timestamp tương lai, lease0/3599/3600, field thiếu/thừa, không hữu hạn, unknown/stopped, upstream lỗi và provenance. Hypothesis50ví dụ kiểm replay/key order.32request đồng thời dùng threadpool kiểm số backend operation không vượt16, đồng thời health hoàn thành trước các lookup chậm.
-
-Mutation chạy trên Linux bằng mutmut3.8, chỉ mutate function bodies của **feature API mới**, không mutate predictor/ML không đổi. Lượt đầu[345/489=70,55%](evidence/feature-api/mutation-initial/verification.json) **chưa đạt**,144survivors được giữ. Bổ sung8case kiểm đủ provenance/default clock/SDK config/metadata alignment/concurrency; không sửa production code. Lượt sau[413/489=84,46%](evidence/feature-api/mutation/verification.json),76survivors,0no-tests/timeout/suspicious/skipped, không exclusions. Tất cả489mutant chạy lại. Predictor có gate riêng209/246=84,96%; không gộp mẫu số để làm đẹp kết quả. Coverage100% không tự chứng minh test đủ mạnh.
-
-## Load test thật
-
-[Locust2.47.0](https://docs.locust.io/en/stable/installation.html), mỗi workload60giây, paced0,1giây/user, ramp2user/giây. SLA khóa trong [load code](../tests/load/feature_api.py) trước đo:ít nhất100request,0lỗi,p95≤500ms. Cùng VM chia sẻ với KFP và các platform services; API1CPU1GiB/Redis500m256MiB. Chỉ đo GETfeature, không đo prediction, mạng Internet hoặc công suất tối đa.
-
-| Users | Requests | Failures | Req/s | p50 / p95 / p99 ms | HTML gốc |
-|---:|---:|---:|---:|---|---|
-| 1 | 597 | 0 | 10,015 | 6 / 7 / 9 | [Locust1user](evidence/feature-api/load/users-1.html) |
-| 10 | 5770 | 0 | 96,655 | 20 / 32 / 35 | [Locust10users](evidence/feature-api/load/users-10.html) |
-
-[Verification](evidence/feature-api/load/verification.json) và CSV/console cùng thư mục giữ số đo thật; đây là hai mức tải, không gọi là baseline/optimized của hai phiên bản code.
-
-## Tự chạy và phần còn thiếu
-
-Trên VM có runtime/data riêng: kiểm source hashes, dùng [preparation CLI](../feature_store/serving.py) với thư mục mới và cutoff trong protocol. SDK image dùng lockFeast; image API chỉ thêm adapter, không tải package khi startup. [Redis YAML](../infra/feature-api/redis.yaml) và [API YAML](../infra/feature-api/deployment.yaml) dùng ConfigMap seed được sinh từ state đã seal, không lưu state/registry vào Git. Với state demo đã đúng và pod Ready:
+Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.
 
 ```bash
 sudo k3s kubectl get pods,svc -n iot-features
 sudo k3s kubectl port-forward -n iot-features svc/feature-api --address=127.0.0.1 18082:80
 ```
 
-PC/laptop forward qua IAP tới VM127.0.0.1:18082, rồi xem`/docs`, GET`/v1/machines/P-001/features` hoặc POST`/v1/machines/P-001:predict`. Cài test tooling từ [requirements-test](../infra/feature-api/requirements-test.txt), chạy`python -m pytest tests/api --cov=services.predictor --cov=services.feature_api --cov-branch`. [Offline checker](../scripts/verify-feature-api-offline.py) chạy trong image SDK với workspace inputs readonly; chỉ output proof được ghi.
+## Implementation and evidence
 
-[Helm rolling/atomic rollback](api-deployment.md) của release mới`iot-feature-api` và [API drift](drift-detection.md) đã kiểm thật. Autoscale, gateway/auth/HTTPS, CI và dashboard còn thiếu theo [final tracker](final-rubric-tracker.md). KServe/API vẫn pin version1; model3 candidate đã có [incrementaldata link](incremental-data-versioning.md).63nativefile của lượt ban đầu được gắn [manifest](evidence/feature-api/capture/manifest.json)/[mapping](evidence/feature-api/capture/evidence-map.json); chứng cứ Helm mới nằm trong drift evidence. Rawdata/credentials/helpers không có trong Git.
+- [Source: services/feature_api/runtime.py](../services/feature_api/runtime.py)
+- [Source: services/feature_api/app.py](../services/feature_api/app.py)
+- [Recorded artifact: feature-api/deployment/verification.json](evidence/feature-api/deployment/verification.json)
+- [Recorded artifact: feature-api/deployment/offline-comparison.json](evidence/feature-api/deployment/offline-comparison.json)
+- [Recorded artifact: feature-api/capture/selected-http-probes.json](evidence/feature-api/capture/selected-http-probes.json)
+- [Recorded artifact: feature-api/capture/capture-state.json](evidence/feature-api/capture/capture-state.json)
+- [Source: infra/feature-api/Dockerfile](../infra/feature-api/Dockerfile)
+- [Recorded artifact: feature-api/capture/current-pods.json](evidence/feature-api/capture/current-pods.json)
+- [Recorded artifact: feature-api/capture/capture-repair.json](evidence/feature-api/capture/capture-repair.json)
+- [Source: feature_store/serving.py](../feature_store/serving.py)
+- [Recorded artifact: feature-api/preparation-rejected/console.txt](evidence/feature-api/preparation-rejected/console.txt)
+- [Source: tests/fixtures/feature-api-native-online.json](../tests/fixtures/feature-api-native-online.json)
+- [Recorded artifact: feature-api/pc/tests-console.txt](evidence/feature-api/pc/tests-console.txt)
+- [Recorded artifact: feature-api/pc/coverage.json](evidence/feature-api/pc/coverage.json)
+- [Source: tests/api/test_feature_api.py](../tests/api/test_feature_api.py)
+- [Recorded artifact: feature-api/mutation-initial/verification.json](evidence/feature-api/mutation-initial/verification.json)
+- [Recorded artifact: feature-api/mutation/verification.json](evidence/feature-api/mutation/verification.json)
+- [docs.locust.io / installation.html](https://docs.locust.io/en/stable/installation.html)
+- [Source: tests/load/feature_api.py](../tests/load/feature_api.py)
+- [Recorded artifact: feature-api/load/users-1.html](evidence/feature-api/load/users-1.html)
+- [Recorded artifact: feature-api/load/users-10.html](evidence/feature-api/load/users-10.html)
+- [Recorded artifact: feature-api/load/verification.json](evidence/feature-api/load/verification.json)
+- [Source: infra/feature-api/redis.yaml](../infra/feature-api/redis.yaml)
+- [Source: infra/feature-api/deployment.yaml](../infra/feature-api/deployment.yaml)
+- [Source: infra/feature-api/requirements-test.txt](../infra/feature-api/requirements-test.txt)
+- [Source: scripts/verify-feature-api-offline.py](../scripts/verify-feature-api-offline.py)
+- [Recorded artifact: feature-api/capture/manifest.json](evidence/feature-api/capture/manifest.json)
+- [Recorded artifact: feature-api/capture/evidence-map.json](evidence/feature-api/capture/evidence-map.json)
+- [Recorded artifact: feature-api/screenshots/locust-capture.json](evidence/feature-api/screenshots/locust-capture.json)
 
-## Ảnh báo cáo tải thật
+## Recorded interface views
 
-![Locust 10 người dùng: 5.770 request, 0 lỗi, p95 32 ms](evidence/feature-api/screenshots/locust-10-users-html.jpg)
+These are original captures from the runs described above. Their timestamps, model identities and visible states belong to those runs.
 
-![Locust 1 người dùng: 597 request, 0 lỗi, p95 7 ms](evidence/feature-api/screenshots/locust-1-user-html.jpg)
+![Recorded machine prediction http200](evidence/feature-api/screenshots/machine-prediction-http200.jpg)
 
-Ảnh chụp trực tiếp hai HTML gốc, không sửa pixel. Đồng hồ trong trình duyệt là America/Chicago; report gốc và receipt ghi UTC. [Ràng buộc ảnh/HTML](evidence/feature-api/screenshots/locust-capture.json). Đây là tải có pacing trong 60 giây trên cùng VM, không đo công suất tối đa hay tốc độ dự đoán.
+![Recorded arrival aware feature trace](evidence/feature-api/screenshots/arrival-aware-feature-trace.jpg)
+
+![Recorded api coverage](evidence/feature-api/screenshots/api-coverage.jpg)
+
+![Recorded locust 10 users html](evidence/feature-api/screenshots/locust-10-users-html.jpg)
+
+![Recorded locust 1 user html](evidence/feature-api/screenshots/locust-1-user-html.jpg)
+
+
+## Related documentation
+
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/feature-api.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

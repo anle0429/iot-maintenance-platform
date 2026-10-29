@@ -1,0 +1,163 @@
+{
+  "kind": "authored-architecture-illustrations",
+  "runtime_screenshot": false,
+  "views": [
+    {
+      "name": "platform-overview",
+      "width": 1800,
+      "height": 1210,
+      "nodes": [
+        "gen",
+        "dp1",
+        "dp2",
+        "dp3",
+        "mat",
+        "redis",
+        "kfp",
+        "tasks",
+        "mlflow",
+        "ci",
+        "serve",
+        "kafka",
+        "flink",
+        "off",
+        "on",
+        "streamredis"
+      ],
+      "arrows": [
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "T1",
+        "T2",
+        "C1",
+        "C2",
+        "D6",
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ]
+    },
+    {
+      "name": "platform-serving",
+      "width": 1800,
+      "height": 900,
+      "nodes": [
+        "user",
+        "gateway",
+        "api",
+        "predictor",
+        "redis"
+      ],
+      "arrows": [
+        "U1",
+        "U2",
+        "U3",
+        "U4",
+        "U5",
+        "U6",
+        "U7"
+      ]
+    },
+    {
+      "name": "platform-deployment",
+      "width": 1800,
+      "height": 1140,
+      "nodes": [
+        "pc",
+        "browser",
+        "api",
+        "kserve",
+        "kfp",
+        "mesh",
+        "batch",
+        "orch",
+        "registry",
+        "metrics",
+        "logs",
+        "vault"
+      ],
+      "arrows": []
+    },
+    {
+      "name": "platform-monitoring",
+      "width": 1800,
+      "height": 1110,
+      "nodes": [
+        "schedule",
+        "driftjob",
+        "push",
+        "prom",
+        "graf",
+        "api",
+        "collector",
+        "loki",
+        "dashboard",
+        "jaeger",
+        "airflow",
+        "control",
+        "kfp",
+        "pods",
+        "candidate"
+      ],
+      "arrows": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "O1",
+        "O2",
+        "O3",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "O4"
+      ]
+    },
+    {
+      "name": "platform-llm-plan",
+      "width": 2200,
+      "height": 1400,
+      "nodes": [
+        "ui",
+        "gw",
+        "coord",
+        "llmrouter",
+        "registry",
+        "rag",
+        "data",
+        "drift",
+        "warm",
+        "embed",
+        "mcpdata",
+        "mcpdrift",
+        "telemetry",
+        "kb",
+        "customserver",
+        "feature",
+        "driftapi"
+      ],
+      "arrows": [
+        "A1",
+        "A2",
+        "A3",
+        "G1",
+        "G2",
+        "A4",
+        "A5",
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "K1",
+        "K2",
+        "K3",
+        "K4"
+      ]
+    }
+  ]
+}

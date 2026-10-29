@@ -1,40 +1,16 @@
-# Notebook và huấn luyện phân tán thật
+# Distributed training on Kubeflow Pipelines
 
-Cập nhật27/10: [pipeline5task có tự động incrementaldata/model registration](automatic-ml-versioning.md) đã SUCCEEDED, model5/candidate; phần dưới giữ run phân tán đầu tiên để đối chiếu.
+The five-task pipeline retrieves features and labels, splits by time, trains, reloads/validates the saved model and evaluates holdout. The original recorded run `bfb3e4d0-1473-42f7-a732-94ce8d7fdc43` succeeded on Kubeflow Pipelines 2.17.2. Its controller measured 942.862 seconds; backend workflow timing is a separate measurement.
 
-[Pipeline](../ml/kfp_notebook.py) đã chạy thành công trên backend Kubeflow 2.17.2, run **`bfb3e4d0-1473-42f7-a732-94ce8d7fdc43`**. [Receipt](evidence/distributed-training/controller/verification.json) hoàn tất lúc **14:05:29 UTC ngày 27/10/2026**; controller đo 942,862 giây, UI đo riêng workflow 15 phút 35 giây. Có năm task: lấy Feast/merge nhãn → split → train phân tán → nạp lại model/validation → đánh giá holdout theo protocol cũ.
+The driver runs in the training Pod and submits Spark work through Kubernetes to two executor Pods. Each executor has one CPU, a 4-GiB heap and 1-GiB overhead. Native event-log checks find successful logistic-regression fit tasks on both executor IDs, including stages 7–17 at `RDDLossFunction.scala:61`, with no failed task attempts. Two idle Pods alone would not establish distributed training.
 
-![Năm task thành công](evidence/distributed-training/screenshots/five-tasks-succeeded.jpg)
+Every run freshly retrieves the same 3,132,184 eligible rows. The train/validation/test counts and protocol remain fixed. Notebook parity uses the same five ML steps; its initialization cell is not a sixth stage. Later runs add automatic incremental data/model registration.
 
-![Run Succeeded và thời gian thật](evidence/distributed-training/screenshots/run-succeeded-detail.jpg)
+Both executor Pods run on the same physical 8-vCPU/64-GiB VM. This is distributed process execution, not a multi-machine speedup benchmark. Original Pod, event-log, registry and UI captures establish the recorded run and remain unchanged.
 
-Pipeline dùng chung các kernel với [notebook đã execute](training-notebook.md). Notebook ban đầu có bốn bước; [lượt Notebook 5 bước hoàn tất 18:47:57 UTC](evidence/notebook-parity/execution/execution.json) đã bổ sung holdout reproduction sau kiểm model, thống nhất **5 bước ML ở cả hai phía**; ô init không tính là bước ML. Native Feast của mỗi lượt lấy mới **3.132.184 dòng**; train/validation/test vẫn là **2.195.668 / 468.132 / 468.384**. Không dùng lại daypart của lượt notebook hoặc chuyển ranh giới/ngưỡng theo kết quả test.
+## Commands and recorded examples
 
-## Điều gì chứng minh phân tán?
-
-Task train dùng Spark `k8s://...`, driver trong pod KFP và **hai executor pod riêng**, mỗi executor 1 CPU, heap 4 GiB và overhead 1 GiB. [Submit wrapper](../ml/distributed_submit.py) giữ driver heap 6 GiB; main container giới hạn 2 CPU/10 GiB. Executor chạy UID185/GID10001, không mount service-account token, bỏ capabilities và dùng seccomp RuntimeDefault. [Pod template](../infra/kfp/spark-executor.yaml), [hai pod đang chạy được observer chụp](evidence/distributed-training/controller/two-executors-running.json), [trạng thái sau chạy](evidence/distributed-training/controller/executor-pods.json).
-
-[Event-log verification](evidence/distributed-training/controller/distributed-verification.json) ghi `ApplicationEnd`, executor ID1 và2, không có task attempt lỗi. Các **stage7–17 `treeAggregate at RDDLossFunction.scala:61`** của quá trình tối ưu LogisticRegression đều có task thành công trên **cả hai executor**. Đây là bằng chứng làm việc của bước fit; chỉ nhìn hai pod rảnh hoặc năm task orchestration sẽ chưa đủ.
-
-![Tổng79task thành công,0task lỗi](evidence/distributed-training/screenshots/two-executor-task-counts.jpg)
-
-![Executor1 thực hiện40task và executor2 thực hiện39task](evidence/distributed-training/screenshots/executor-1-and-2-rows.jpg)
-
-79task gồm fit, validation và serialization trong application train; không gọi tất cả là gradient tasks. History hiển thị `Active` khi event log không có ExecutorRemoved trước ApplicationEnd; pod thật đã `Completed`. Dùng [pod JSON](evidence/distributed-training/controller/executor-pods.json) và ApplicationEnd để chốt trạng thái, không coi chữ Active trong bản History là tiến trình còn chạy. History đọc bản sao byte-identical của event log gốc, có [hash và nguồn](evidence/distributed-training/capture/history-event-copies.json).
-
-Đây là **nhiều JVM/executor trên cùng một VM vật lý**, chưa kiểm nhiều máy hay khả năng chịu mất node. Các PVC hostPath/RWO dùng đĩa sẵn có; dung lượng khai báo PVC không phải quota filesystem. Không nhận tăng tốc so với local[2] vì chưa có benchmark cùng điều kiện; Spark application train khoảng1,5phút còn toàn workflow gồm Feast và các bước khác.
-
-## Kết quả và bảo vệ dữ liệu
-
-[Evaluation](evidence/distributed-training/capture/task-artifacts/evaluation.json): ngưỡng0,7 chọn bằng validation, test precision0,4743 / recall0,6572 / F1=0,5510 / PR-AUC0,6151; TP13.115/FP14.536/FN6.842/TN433.891. PR-AUC là tích phân hình thang Spark không chia bin, không phải average precision. Portable score khớp native Spark trên toàn 468.384hàng test, delta lớn nhất4,44e-16. Đây là tái lập protocol đã đóng băng, không có tuning mới từ holdout.
-
-[Năm typed artifacts](evidence/distributed-training/capture/artifact-verification.json) đã được tải từ object store KFP thật; inventory mọi tệp data/model tham chiếu đã được đọc và so SHA. Credentials object store chỉ tồn tại trong bộ nhớ tiến trình đọc bằng chứng. Dữ liệu/model binary và event log gốc ở VM, Git giữ các receipt/ảnh nhỏ. Cohort này thuộc nguồn trung gian60ngày, không phải training100GB. Dữ liệu mô phỏng, score chưa calibration và model chưa tự thay vào dịch vụ version1.
-
-## Tự chạy và các lỗi đã sửa
-
-Trước pipeline lớn, [oracle Kubernetes](../scripts/run-distributed-oracle.py) chạy360hàng có đáp án biết trước qua chính hai executor. Lượt [oracle cuối](evidence/distributed-training/oracle/verification.json) mất94,205giây, qua purge cutoff, confusionTP60/TN60, portable và threshold isolation; không dùng metric fixture làm chất lượng IoT. Oracle đầu có cảnh báo thiếu seccomp, đã giữ nguồn trước sửa và kiểm lại cấu hình RuntimeDefault.
-
-Từ repo root Linux VM có cluster, source/Feast/PVC/image của [mốc KFP](kfp-cluster.md), dùng tên run mới và deadline thật:
+Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.
 
 ```bash
 sudo data/runtime/kfp-venv/bin/python scripts/run-distributed-oracle.py \
@@ -44,8 +20,46 @@ sudo data/runtime/kfp-venv/bin/python scripts/run-notebook-kfp.py \
   --oracle outputs/distributed-oracle/distributed-oracle-new/verification.json
 ```
 
-Runner compile từ source hiện tại; không phụ thuộc file prepared riêng của phiên trước. Nó cần 90 phút, RAM khả dụng24GiB và40GB trống trên các đĩa data/scratch; chỉ hủy run của mình khi reserve/deadline chạm guard. [Role](../infra/kfp/spark-driver-rbac.yaml) bổ sung pods/services/configmaps trong namespace coursework, không cấp Secret/cluster/cloudIAM. Đây là namespace một người dùng, chưa phải thiết kế multi-tenant.
+## Implementation and evidence
 
-Các lượt lỗi được giữ: [Concat literal làm sai đường dẫn](evidence/distributed-training/attempt-path/diagnosis/load-main.txt), [HOSTNAME bị cắt63ký tự](evidence/distributed-training/attempt-identity/diagnosis/cancellation-reason.json), [lượt gửi sớm đã dừng](evidence/distributed-training/attempt-premature/stop-before-repair.json), [image chỉ có python3](evidence/distributed-training/attempt-python/diagnosis/train-main.txt). Backend ghi `FAILED` sau yêu cầu terminate; không sửa thành CANCELED. Sửa bằng Python path wrapper, DownwardAPI metadata.name/status.podIP, đúng interpreter và oracle nhỏ trước lần chạy tiếp. Không đổi nhãn, kernel ML hoặc protocol để biến lượt lỗi thành thành công.
+- [Source: ml/kfp_notebook.py](../ml/kfp_notebook.py)
+- [Recorded artifact: distributed-training/controller/verification.json](evidence/distributed-training/controller/verification.json)
+- [Recorded artifact: notebook-parity/execution/execution.json](evidence/notebook-parity/execution/execution.json)
+- [Source: ml/distributed_submit.py](../ml/distributed_submit.py)
+- [Source: infra/kfp/spark-executor.yaml](../infra/kfp/spark-executor.yaml)
+- [Recorded artifact: distributed-training/controller/two-executors-running.json](evidence/distributed-training/controller/two-executors-running.json)
+- [Recorded artifact: distributed-training/controller/executor-pods.json](evidence/distributed-training/controller/executor-pods.json)
+- [Recorded artifact: distributed-training/controller/distributed-verification.json](evidence/distributed-training/controller/distributed-verification.json)
+- [Recorded artifact: distributed-training/capture/history-event-copies.json](evidence/distributed-training/capture/history-event-copies.json)
+- [Recorded artifact: distributed-training/capture/task-artifacts/evaluation.json](evidence/distributed-training/capture/task-artifacts/evaluation.json)
+- [Recorded artifact: distributed-training/capture/artifact-verification.json](evidence/distributed-training/capture/artifact-verification.json)
+- [Source: scripts/run-distributed-oracle.py](../scripts/run-distributed-oracle.py)
+- [Recorded artifact: distributed-training/oracle/verification.json](evidence/distributed-training/oracle/verification.json)
+- [Source: infra/kfp/spark-driver-rbac.yaml](../infra/kfp/spark-driver-rbac.yaml)
+- [Recorded artifact: distributed-training/attempt-path/diagnosis/load-main.txt](evidence/distributed-training/attempt-path/diagnosis/load-main.txt)
+- [Recorded artifact: distributed-training/attempt-identity/diagnosis/cancellation-reason.json](evidence/distributed-training/attempt-identity/diagnosis/cancellation-reason.json)
+- [Recorded artifact: distributed-training/attempt-premature/stop-before-repair.json](evidence/distributed-training/attempt-premature/stop-before-repair.json)
+- [Recorded artifact: distributed-training/attempt-python/diagnosis/train-main.txt](evidence/distributed-training/attempt-python/diagnosis/train-main.txt)
+- [dlcdn.apache.org / running-on-kubernetes.html](https://dlcdn.apache.org/spark/docs/3.5.9/running-on-kubernetes.html)
+- [kfp-kubernetes.readthedocs.io / kubernetes.html](https://kfp-kubernetes.readthedocs.io/en/kfp-kubernetes-2.17/source/kubernetes.html)
+- [Recorded artifact: distributed-training/capture/manifest.json](evidence/distributed-training/capture/manifest.json)
+- [Recorded artifact: distributed-training/capture/evidence-map.json](evidence/distributed-training/capture/evidence-map.json)
 
-Thiết kế theo [Spark3.5.9 Kubernetes client mode](https://dlcdn.apache.org/spark/docs/3.5.9/running-on-kubernetes.html) và [KFP DownwardAPI](https://kfp-kubernetes.readthedocs.io/en/kfp-kubernetes-2.17/source/kubernetes.html). [Manifest102tệp native](evidence/distributed-training/capture/manifest.json), [mapping](evidence/distributed-training/capture/evidence-map.json) và hash ảnh gắn đúng runtime. CI/CD, drift và tự động nối data version vào mỗi lần training vẫn là mốc tiếp.
+## Recorded interface views
+
+These are original captures from the runs described above. Their timestamps, model identities and visible states belong to those runs.
+
+![Recorded five tasks succeeded](evidence/distributed-training/screenshots/five-tasks-succeeded.jpg)
+
+![Recorded run succeeded detail](evidence/distributed-training/screenshots/run-succeeded-detail.jpg)
+
+![Recorded two executor task counts](evidence/distributed-training/screenshots/two-executor-task-counts.jpg)
+
+![Recorded executor 1 and 2 rows](evidence/distributed-training/screenshots/executor-1-and-2-rows.jpg)
+
+
+## Related documentation
+
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/distributed-training.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

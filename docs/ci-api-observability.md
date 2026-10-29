@@ -1,29 +1,14 @@
-# CI cho telemetry của API
+# CI for API metrics and tracing
 
-Pipeline [Observability.Jenkinsfile](../infra/ci/Observability.Jenkinsfile) dùng [driver](../scripts/ci-observability.py) và namespace release `observe-jenkins-N`. Mục đích: test/build/auto-deploy instrumentation cho ba API đang phục vụ cùng model production. Pipeline serving/A-B cho việc đổi phiên bản model giữ riêng; không đổi model7 candidate thành production để kiểm telemetry.
+Jenkins telemetry build 2 succeeded with source `372`. Its test/build/auto-deploy path exercised the observability wrapper around the feature, predictor and drift APIs while retaining model 6.
 
-Ngày28/10/2026, **Jenkins `iot-api-observability/2` SUCCESS**,274.304ms/8stage. Source `372163145c9e5d56fa02c868cf85a587981ce70c`,92file Git seal trước/sau. Native8contract tests/299test chính+21subtest PASS; coverage wrapper74statements/16branches100%, mutation221/250=88,4%/29survived/0unfinished. Ba image `observe-jenkins-2` được build/probe/import/auto-deploy;200HTTP gồm195prediction đúng công thức và5stopped409. Model6/run be3b/weights60dff giữ nguyên, model7 vẫn candidate.
+The native gate recorded 299 main tests and 21 subtests, 100% coverage of the wrapper's 74 statements/16 branches, and 221/250 killed mutants (88.4%). Three images were built and probed; native HTTP checks covered 200 machines. Recorded image identities and code hashes connect the tests with the deployed workload.
 
-[Build](evidence/ci-api-observability/jenkins/build-2.json), [stages](evidence/ci-api-observability/jenkins/stages-2.json), [ảnh SUCCESS](evidence/ci-api-observability/screenshots/jenkins-telemetry2-success.jpg), [ảnh deploy/verify](evidence/ci-api-observability/screenshots/jenkins-telemetry2-stages.jpg), [gate](evidence/ci-api-observability/current/telemetry-tests/gate/verification.json), [200HTTP](evidence/ci-api-observability/current/http-all-machines.json). Verifier96payload/92Gitinputs PASS; HTML/JUnit/mutation meta/Pod digests/source-after giữ byte gốc. JUnit có299phần tử testcase và suite count320 tính21subtest, hai field đã phân biệt rõ.
+The publication contains 199 payloads and original screenshots across the observability/CI evidence packages. This release adds telemetry; it does not train or promote another model, create a new A/B comparison, or establish production HA. The earlier serving mutation run and the wrapper mutation run have different source scopes.
 
-Lượt1 FAILURE ở build test overlay: `FROM sha256:...` bị Docker coi là repository `docker.io/library/sha256`, chưa deploy. Đổi sang tag nội bộ, kiểm imageID trước/sau; giữ [log lỗi gốc](evidence/ci-api-observability/history/build-1/tests-overlay-build.txt), không sửa nhãn lượt cũ. Sau STOP/START đã khôi phục Jenkins/MLflow bằng cùngimage/env/mount; stopped containers cũ được giữ. Registry chạy trên bridge nội bộ mới, không mở thêm port/public service. Bản sửa helper/CI được100PCtests/69subtests kiểm riêng; không cộng các số đó vào native regression.
+## Commands and recorded examples
 
-Pipeline này deploy instrumentation cho model đang production, **không nhận là đổi model mới hoặc A/B mới**. [ServingCI8](ci-serving.md)/A-B1–6 giữ scope lịch sử; [Locust wrapper](observed-api-load.md) là phép đo vận hành riêng trướcCI2 với cùng mã API/dependency, chưa claim Locust trên Pod CI2. Feature lease15:18→16:18UTC hợp lệ lúc verify16:00:49UTC; demo sau đó cần prepare mới.
-
-## Các bước
-
-1. Đọc source packet Git có SHA từng file; kiểm phiên VM thật còn90phút, RAM/đĩa theo guard serving hiện có. Release mới không ghi đè đường dẫn servingCI8.
-2. SDK lấy lại đúng model có production marker từ MLflow. So9field identity và SHA weights với API hiện tại; từ chối đổi model qua pipeline telemetry. Giữ parent images và mã nghiệp vụ hiện có.
-3. Contract tests; source copy/scratch mới; regression ba API, statement/branch coverage>90%, mutation>80% chỉ wrapper mới, mọi mutant phải hoàn tất. Không lấy lại score cũ hoặc cho80% đúng bằng qua gate.
-4. Build overlay từ image ID đã quan sát; kiểm source/model bytes/nonroot/pip check; import và đọc CRI config digest.
-5. Guard UID/resourceVersion/image trước patch KServe; Helm feature/drift dùng atomic, feature init/API cùng image. Cấu hình store/seed/model giữ nguyên; endpoint OTLP cố định private.
-6. Kiểm Pod image IDs/Ready, metrics endpoints và200máy bằng công thức portable;195operating và5stopped409. Nếu lỗi sau deploy, khôi phục có điều kiện khi tài nguyên vẫn thuộc release, không ghi đè thay đổi của người khác. Lệnh rollback chưa phải proof healthy rollback.
-
-Native cần Jenkins/MLflow/K3s/Jaeger đang chạy và feature đã materialize thật, còn ít nhất15phút lease tại bước bind/deploy. Guard phiên VM90phút không đổi; không sửa TTL/timestamp để qua gate. Các unit test này dùng fixture, không thay proof registry/Kubernetes thật.
-
-## Tự kiểm source trước native
-
-Trong môi trường API/CI đã có dependency lock:
+Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.
 
 ```powershell
 python -S scripts/verify-ci-api-observability.py
@@ -32,4 +17,20 @@ python -m pytest tests/api/test_observed.py tests/test_api_observability_gate.py
 python scripts/package-serving-release.py --commit HEAD --output outputs/telemetry-release.tar
 ```
 
-Packet chỉ lấy file đã commit. Source runtime, model export, secrets, scratch và helper vận hành không đi vào Git. [Metrics/traces đã chạy thủ công](api-observability.md) giữ scope riêng cho source2f; CI2 có receipt riêng cho source372, không đổi nhãn receipt cũ.
+## Implementation and evidence
+
+- [Source: infra/ci/Observability.Jenkinsfile](../infra/ci/Observability.Jenkinsfile)
+- [Source: scripts/ci-observability.py](../scripts/ci-observability.py)
+- [Recorded artifact: ci-api-observability/jenkins/build-2.json](evidence/ci-api-observability/jenkins/build-2.json)
+- [Recorded artifact: ci-api-observability/jenkins/stages-2.json](evidence/ci-api-observability/jenkins/stages-2.json)
+- [Recorded artifact: ci-api-observability/screenshots/jenkins-telemetry2-success.jpg](evidence/ci-api-observability/screenshots/jenkins-telemetry2-success.jpg)
+- [Recorded artifact: ci-api-observability/screenshots/jenkins-telemetry2-stages.jpg](evidence/ci-api-observability/screenshots/jenkins-telemetry2-stages.jpg)
+- [Recorded artifact: ci-api-observability/current/telemetry-tests/gate/verification.json](evidence/ci-api-observability/current/telemetry-tests/gate/verification.json)
+- [Recorded artifact: ci-api-observability/current/http-all-machines.json](evidence/ci-api-observability/current/http-all-machines.json)
+- [Recorded artifact: ci-api-observability/history/build-1/tests-overlay-build.txt](evidence/ci-api-observability/history/build-1/tests-overlay-build.txt)
+
+## Related documentation
+
+[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/ci-api-observability.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.
