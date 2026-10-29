@@ -43,6 +43,8 @@ Kết quả gồm26console gốc và `verification.json`. Chín capsule bổ sun
 - Jenkins Vault build3SUCCESS: đăng nhập Airflow201/đọc DAG200, đọc chéo và token đã revoke đều403. AppRole gateway đọc KV2version2 và bốn route HTTPS200.
 - Cấp lại chứng chỉ thật: bốn peer TLS đúng fingerprint của leaf mới, CA/SNI verification giữ nguyên; các khóa không đổi và Vault không init lại. Ngày hết hạn mới nêu bên dưới.
 
+[Kiểm bản clone độc lập trên PC](evidence/final-review-pc/manifest.json): **748test PASS,314subtest PASS,7skip có ghi lý do**, pipcheck PASS;26verifier đều PASS.325đầu vào khớp blob Git và giữ nguyên trước/sau tại3398a3c. Sau đó CLI bổ sung MLflow relay tại60c9c28 đã chạy thật,8focusedtest/8subtest PASS; sáu trang API/Airflow/Jenkins/Grafana/DataHub/MLflow đều HTTP200 qua IAP. HTTP200 ở đây chỉ chứng minh trang docs/login truy cập được, không thay bằng chứng chạy DAG hoặc dashboard đã đăng nhập.69payload giữ cả lỗi hash CRLF và lần probe MLflow chưa nối cổng, không sửa chúng thành PASS.
+
 ## Phạm vi cần trình bày đúng
 
 | Tiêu chí/phần | Đã có | Giới hạn của kết luận |

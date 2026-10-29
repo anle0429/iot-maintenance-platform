@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "steps": {
+    "scoped_token": {
+      "expires_utc": "2026-10-29T07:24:44Z",
+      "files": 2,
+      "value_saved_in_evidence": false
+    },
+    "monitors": {
+      "units": [
+        "iot-node-exporter-28.service",
+        "iot-loki-28.service",
+        "iot-pushgateway-28.service",
+        "iot-prometheus-28.service",
+        "iot-grafana-28.service"
+      ],
+      "all_active": true
+    },
+    "private_gateway_relay": {
+      "socket_active": true,
+      "listener": "10.52.0.1:13002",
+      "upstream": "127.0.0.1:13001"
+    },
+    "collector_hardening": [
+      "CapabilityBoundingSet=",
+      "ReadWritePaths=/srv/iot-data/workspace/iot-maintenance-platform/data/runtime/log-discovery-28/alloy",
+      "PrivateTmp=yes",
+      "ProtectHome=yes",
+      "ProtectSystem=strict",
+      "NoNewPrivileges=yes"
+    ],
+    "dynamic_logs": {
+      "active": true,
+      "old_positions_preserved": true
+    },
+    "jenkins": {
+      "container_id": "89259d298cf4739469c5e06c997fadf4d3e31f5e7752d0a5dd7c33277c637c6f",
+      "image_id": "sha256:1fe2fc571cda23b3a4c9b52bd4cc485f54bfcb15a281c4c14182410c088787ff",
+      "existing_home_preserved": true
+    },
+    "mlflow_ui": {
+      "container_id": "204f371bb48797c6dd3cbddadfea22c1926f5afaaad89f7647d8a0965f7faa75",
+      "image_id": "sha256:0608a7e04d3eb739549fa721289e00f256aaa59c926c054557649b5f45660cbf",
+      "state_mount_preserved": true,
+      "listener": "127.0.0.1:15000",
+      "model_http": 200,
+      "model_version": "6",
+      "run_id": "be3b27fa0960493d92b45be69b20690e"
+    },
+    "vault": {
+      "http": 200,
+      "cluster_id": "63e1d9cc-7eb1-c7a7-a48d-b11a3ac107f9",
+      "initialized": true,
+      "sealed": false,
+      "reinitialized": false
+    }
+  },
+  "session": {
+    "last_start_utc": "2026-10-28T23:26:45.347000+00:00",
+    "auto_stop_utc": "2026-10-29T07:26:45.347000+00:00",
+    "max_run_seconds": 28800,
+    "source": "Actual Compute lastStartTimestamp/maxRunDurationSTOP; user explicitly approved this new session."
+  },
+  "source_sha256": "3e7b5c82d8ac1b02b979f600882a8c29d1e9914176d012729f3f37f8a957422c",
+  "health_http": {
+    "prometheus": 200,
+    "grafana": 200,
+    "loki": 200,
+    "alloy": 200,
+    "jenkins": 200,
+    "mlflow": 200
+  },
+  "checked_utc": "2026-10-29T00:29:44.804283+00:00",
+  "scope": "Same retained lab state and private listeners; no new cloud resources, data generation or training. Consumer AppRole secret-id renewal remains separate from unseal."
+}

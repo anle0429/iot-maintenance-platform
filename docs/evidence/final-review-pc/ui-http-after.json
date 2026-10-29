@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "scope": "Actual unauthenticated login/docs pages through private IAP tunnels; not authenticated dashboard or DAG execution proof.",
+  "rows": [
+    {
+      "service": "api",
+      "url": "http://127.0.0.1:18082/docs",
+      "status": 200,
+      "final_url": "http://127.0.0.1:18082/docs",
+      "checked_utc": "2026-10-29T00:29:51.335937+00:00"
+    },
+    {
+      "service": "airflow",
+      "url": "http://127.0.0.1:19903/auth/login/",
+      "status": 200,
+      "final_url": "http://127.0.0.1:19903/auth/login/",
+      "checked_utc": "2026-10-29T00:29:51.404865+00:00"
+    },
+    {
+      "service": "jenkins",
+      "url": "http://127.0.0.1:19787/login",
+      "status": 200,
+      "final_url": "http://127.0.0.1:19787/login",
+      "checked_utc": "2026-10-29T00:29:51.473930+00:00"
+    },
+    {
+      "service": "grafana",
+      "url": "http://127.0.0.1:19801/login",
+      "status": 200,
+      "final_url": "http://127.0.0.1:19801/login",
+      "checked_utc": "2026-10-29T00:29:51.551045+00:00"
+    },
+    {
+      "service": "datahub",
+      "url": "http://127.0.0.1:19902/",
+      "status": 200,
+      "final_url": "http://127.0.0.1:19902/",
+      "checked_utc": "2026-10-29T00:29:51.635279+00:00"
+    },
+    {
+      "service": "mlflow",
+      "url": "http://127.0.0.1:15000/",
+      "status": 200,
+      "final_url": "http://127.0.0.1:15000/",
+      "checked_utc": "2026-10-29T00:29:51.712511+00:00"
+    }
+  ]
+}

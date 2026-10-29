@@ -1,0 +1,216 @@
+ab-monitoring 0
+active-feature-refresh 0
+api-observability 0
+ci-api-observability 0
+ci-stream-push 0
+ci-training 0
+datahub-restore 0
+deployment-policy 0
+drift-eventing 0
+drift-retraining 0
+final-handover 0
+focused-api 0
+host-monitoring 0
+iac-final 0
+joint-cohort 0
+linux-host 0
+linux-logs 0
+log-discovery 0
+native-serving 0
+observed-api-load 0
+offline-drift 0
+private-gateway 0
+private-mesh 0
+vault 0
+window-cohort 0
+final-review 0
+{
+  "passed": true,
+  "checked_utc": "2026-10-29T00:28:02.418259+00:00",
+  "commit": "3398a3c34f86531d2b8570e2a36ddec0c94c9a45",
+  "working_tree_clean": true,
+  "checker_source_sha256": {
+    "scripts/verify-ab-monitoring.py": "c2f3e42f6ad31df8cba102081a221e966e92d3fbbe698054d2053b0b4b065f35",
+    "scripts/verify-active-feature-refresh.py": "c36de1ab5704c9ceeb9394af07c522e78da6d3001203b991a632e71ac803f271",
+    "scripts/verify-api-observability.py": "a4e6c95dff7caa9a043751805373d629f718c3bcdf257904e1e606f836171d59",
+    "scripts/verify-ci-api-observability.py": "9fba7be825684b572f4c3ca2c616a4a89891128d745a1b64c60cd9e2e1c8e689",
+    "scripts/verify-ci-stream-push.py": "b740aff3818de4ed955af1f76085107b790d21d1aee0f360ee81a1b49c07ebf5",
+    "scripts/verify-ci-training.py": "93f9669e077ecc4dd339f93e0bf5d54425514173731c3ac3c8cbcb3f08599b3b",
+    "scripts/verify-datahub-restore.py": "62444079d2c39f5e35c776500018fea7b53218b087c369f6201efb5e77946ad3",
+    "scripts/verify-deployment-policy.py": "72c4e73e99989e3913ffc8248fe8c0ad2a949eadeded4ad6a2742fd3b226aaa9",
+    "scripts/verify-drift-eventing.py": "dc6f464dec17be18ce6acffc0acd69031e26de8aa5aceae863d2b218653ebde8",
+    "scripts/verify-drift-retraining.py": "fdb4eb692e3b12a4cf25428935dc70fcbbb31417fd3a9c1e4057c431b78beb6b",
+    "scripts/verify-final-handover.py": "efa8f5b3877e1d1eccdfa0a6f18c91037f39ec965fb139b2ba7a3afc4e4ba6a4",
+    "scripts/verify-focused-api.py": "179a9ab7c2053bb0166a2d9bab49943195b954fe282e4d4a6fe439760f3dbc63",
+    "scripts/verify-host-monitoring.py": "4f2215826c0b309bb5a1432a33282b4fb85cb5b0fe03bd629ca514b0ab873d2c",
+    "scripts/verify-iac-final.py": "b473cb6f463a4802c377d6bfb46105a4ad1cb17d8c7658cbc3fb1b42ddf555c4",
+    "scripts/verify-joint-cohort.py": "39b00fd8b1435b8219ba956b28fe857d26de10faf8e4d2278c980da50408c5fe",
+    "scripts/verify-linux-host.py": "bbf09e1bd9da38a63b1e3b9ffd7b4cdb3ac075f12a3095141572126ba50155fb",
+    "scripts/verify-linux-logs.py": "a644dd4475842972d95f89f7bce8f259ac42d39ee04b6906c3350b73c9ce1fd2",
+    "scripts/verify-log-discovery.py": "313e04a62fbfd073bf27b30d8ac36f7f430b391744f05a5ed93e4c951ea53290",
+    "scripts/verify-native-serving.py": "d23a5f05270b84ed4d74799593cd9891e8690ceb5b8a3b206d17abeb859bd9c8",
+    "scripts/verify-observed-api-load.py": "93ab0202ae7d97dc49d5953a716ce7a2218e2b3697bf83fb7c7ef5afddf1ead5",
+    "scripts/verify-offline-drift.py": "5b568441a2db795f3fcacb5b5f1bc0d98184b6c7c299913a33a3a149451c379f",
+    "scripts/verify-private-gateway.py": "e9856a84756f62015cc90b59658debd3e0e78c3e083809d1fccd9a76405c5974",
+    "scripts/verify-private-mesh.py": "c02a53a1f57943a3a2d57f8111934c723883460780d94410a955f37dab354d12",
+    "scripts/verify-vault.py": "854ed07c6e76feb1d2b858e649fb88d7fc82800c96e59c33dc7646aebcc1f920",
+    "scripts/verify-window-cohort.py": "1ebcf938a7f0679f7184a10a83d64e6000185e48ac9544502062bdc233c63522",
+    "scripts/verify-final-review.py": "deb083ccd92ad659b2ec4db8340df652f1cae66ba8a5a2b12447e278db6763c1",
+    "scripts/audit-final-coursework.py": "ce737a078835c3d0dc2e816c091bad05af49d11dc72ab7f1f3d48befab8c8ae9",
+    "scripts/evidence_integrity.py": "6bb3d04a71ba2e70a503e43f2215fd265863217bd753a58f98e8b6f07d52ce56"
+  },
+  "checker_source_unchanged": true,
+  "snapshot_sha256": "66b8c73d65bb101b2966e1155898d080901002a6fcbd2c1432063befca871ae3",
+  "scored_rows": 57,
+  "original_source_points": 100,
+  "source_columns_unchanged": true,
+  "local_evidence_links": 88,
+  "additional_capsule_payloads": {
+    "drift-api": {
+      "verified_payloads": 146,
+      "declared_nonessential_exclusions": [
+        "outputs/drift-api-mutation-27-v2/coverage-html/.gitignore"
+      ]
+    },
+    "api-autoscale": {
+      "verified_payloads": 55,
+      "declared_nonessential_exclusions": []
+    },
+    "notebook": {
+      "verified_payloads": 24,
+      "declared_nonessential_exclusions": []
+    },
+    "notebook-parity": {
+      "verified_payloads": 43,
+      "declared_nonessential_exclusions": []
+    },
+    "distributed-training": {
+      "verified_payloads": 102,
+      "declared_nonessential_exclusions": []
+    },
+    "automatic-versioning": {
+      "verified_payloads": 156,
+      "declared_nonessential_exclusions": []
+    },
+    "data-versions": {
+      "verified_payloads": 37,
+      "declared_nonessential_exclusions": []
+    },
+    "ci-materialization": {
+      "verified_payloads": 40,
+      "declared_nonessential_exclusions": []
+    },
+    "ci-data-pipelines": {
+      "verified_payloads": 82,
+      "declared_nonessential_exclusions": []
+    }
+  },
+  "verifiers": {
+    "ab-monitoring": {
+      "exit": 0,
+      "seconds": 4.481470900005661
+    },
+    "active-feature-refresh": {
+      "exit": 0,
+      "seconds": 3.8010451000009198
+    },
+    "api-observability": {
+      "exit": 0,
+      "seconds": 5.210464000003412
+    },
+    "ci-api-observability": {
+      "exit": 0,
+      "seconds": 4.633925900008762
+    },
+    "ci-stream-push": {
+      "exit": 0,
+      "seconds": 19.977198699984
+    },
+    "ci-training": {
+      "exit": 0,
+      "seconds": 4.706442499998957
+    },
+    "datahub-restore": {
+      "exit": 0,
+      "seconds": 0.12271159997908399
+    },
+    "deployment-policy": {
+      "exit": 0,
+      "seconds": 2.446147100010421
+    },
+    "drift-eventing": {
+      "exit": 0,
+      "seconds": 18.312543200008804
+    },
+    "drift-retraining": {
+      "exit": 0,
+      "seconds": 5.778078599978471
+    },
+    "final-handover": {
+      "exit": 0,
+      "seconds": 24.180171900021378
+    },
+    "focused-api": {
+      "exit": 0,
+      "seconds": 1.6204704000265338
+    },
+    "host-monitoring": {
+      "exit": 0,
+      "seconds": 0.6300475000170991
+    },
+    "iac-final": {
+      "exit": 0,
+      "seconds": 0.48530230001779273
+    },
+    "joint-cohort": {
+      "exit": 0,
+      "seconds": 1.296282199997222
+    },
+    "linux-host": {
+      "exit": 0,
+      "seconds": 0.6070138000068255
+    },
+    "linux-logs": {
+      "exit": 0,
+      "seconds": 0.9260906999988947
+    },
+    "log-discovery": {
+      "exit": 0,
+      "seconds": 1.7540448999789078
+    },
+    "native-serving": {
+      "exit": 0,
+      "seconds": 11.492206599999918
+    },
+    "observed-api-load": {
+      "exit": 0,
+      "seconds": 0.28998550001415424
+    },
+    "offline-drift": {
+      "exit": 0,
+      "seconds": 1.4744081000098959
+    },
+    "private-gateway": {
+      "exit": 0,
+      "seconds": 1.6089270999946166
+    },
+    "private-mesh": {
+      "exit": 0,
+      "seconds": 2.3382821999839507
+    },
+    "vault": {
+      "exit": 0,
+      "seconds": 3.3109560000011697
+    },
+    "window-cohort": {
+      "exit": 0,
+      "seconds": 1.488055699999677
+    },
+    "final-review": {
+      "exit": 0,
+      "seconds": 5.446524500002852
+    }
+  },
+  "live_readiness_checked": false,
+  "scope": "Historical artifact integrity and independent numerical checks on PC. Not a grade, VM deployment, full100GB ML or laptop runtime verification."
+}

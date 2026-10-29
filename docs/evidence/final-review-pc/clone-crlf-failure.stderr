@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "C:\Users\thien\projects\edai-k11-cw-v0.0.2\iot-maintenance-platform\outputs\clone-ingest-e944b29\scripts\audit-final-coursework.py", line 171, in <module>
+    sys.exit(audit(args.output, args.workers))
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\thien\projects\edai-k11-cw-v0.0.2\iot-maintenance-platform\outputs\clone-ingest-e944b29\scripts\audit-final-coursework.py", line 134, in audit
+    snapshot = original_snapshot(snapshot_path)
+  File "C:\Users\thien\projects\edai-k11-cw-v0.0.2\iot-maintenance-platform\outputs\clone-ingest-e944b29\scripts\audit-final-coursework.py", line 37, in original_snapshot
+    if sha256(raw).hexdigest() != SOURCE_SNAPSHOT_SHA256: raise ValueError('The original final-rubric source snapshot changed')
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: The original final-rubric source snapshot changed

@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import ssl
 import subprocess
+import xml.etree.ElementTree as ET
 from evidence_integrity import ROOT, source_bindings
 
 
@@ -21,6 +22,44 @@ def capsule():
         assert len(raw) == metadata['bytes'] and sha256(raw).hexdigest() == metadata['sha256'], name
         assert b'PRIVATE KEY-----' not in raw, name
     return base, lambda name: json.loads((base / name).read_bytes())
+
+
+def published_pc():
+    """Bind the clean-clone suite to325 Git inputs and verify the later MLflow relay and six actual page requests."""
+    base = ROOT / 'docs/evidence/final-review-pc'
+    read = lambda name: json.loads((base / name).read_bytes())
+    manifest = read('manifest.json')
+    actual = {p.relative_to(base).as_posix() for p in base.rglob('*') if p.is_file() and p != base / 'manifest.json'}
+    assert actual == set(manifest['files']) and len(actual) == 69
+    for name, metadata in manifest['files'].items():
+        assert not Path(name).is_absolute() and '..' not in Path(name).parts
+        raw = (base / name).read_bytes()
+        assert len(raw) == metadata['bytes'] and sha256(raw).hexdigest() == metadata['sha256'], name
+    before = read('clone/source-before.json'); after = read('clone/source-after.json'); proof = read('clone/verification.json')
+    assert before == after and before['working_tree_clean'] is True and source_bindings(before) == 325
+    assert proof['passed'] and proof['commit'] == before['commit'] and proof['inputs_unchanged'] and all(code == 0 for code in proof['results'].values())
+    suite = ET.parse(base / 'clone/junit.xml')
+    assert len(suite.findall('.//testcase')) == 755 and len(suite.findall('.//skipped')) == 7
+    assert not suite.findall('.//failure') and not suite.findall('.//error') and int(suite.find('testsuite').attrib['tests']) == 1069
+    assert b'748 passed, 7 skipped' in (base / 'clone/pytest.stdout').read_bytes() and b'314 subtests passed' in (base / 'clone/pytest.stdout').read_bytes()
+    audit = read('clone/audit/verification.json')
+    assert audit['passed'] and audit['working_tree_clean'] and audit['scored_rows'] == 57 and audit['original_source_points'] == 100
+    assert len(audit['verifiers']) == 26 and all(row['exit'] == 0 for row in audit['verifiers'].values()) and audit['live_readiness_checked'] is False
+    assert audit['snapshot_sha256'] == before['files']['docs/evidence/rubric-final/source.json']
+    for name, pin in audit['checker_source_sha256'].items(): assert pin == before['files'][name], name
+    source = read('ui-source.json'); assert source_bindings(source) == 4
+    native = read('ui-native.json'); assert native['passed'] and native['source_sha256'] == source['files']['scripts/resume-demo-services.py']
+    assert len(native['health_http']) == 6 and all(code == 200 for code in native['health_http'].values())
+    registry = native['steps']['mlflow_ui']
+    assert registry['model_http'] == 200 and registry['model_version'] == '6' and registry['state_mount_preserved']
+    assert registry['run_id'] == 'be3b27fa0960493d92b45be69b20690e' and registry['listener'] == '127.0.0.1:15000'
+    assert b'8 passed, 8 subtests passed' in (base / 'ui-focused.stdout').read_bytes()
+    previous = read('ui-http-before.json'); current = read('ui-http-after.json')
+    assert previous['passed'] is False and previous['rows'][-1]['service'] == 'mlflow' and previous['rows'][-1]['error_type'] == 'ConnectionResetError'
+    assert current['passed'] and len(current['rows']) == 6 and all(row['status'] == 200 and row['url'].startswith('http://127.0.0.1:') for row in current['rows'])
+    assert b'The original final-rubric source snapshot changed' in (base / 'clone-crlf-failure.stderr').read_bytes()
+    return {'passed':True, 'full_pc_tests':748, 'subtests':314, 'expected_skips':7, 'clean_clone_git_inputs':325,
+            'frozen_verifiers':26, 'later_operator_focused_tests':8, 'private_ui_pages_http200':6, 'payloads':69}
 
 
 def verify():
@@ -91,7 +130,7 @@ def verify():
         assert valid_from <= datetime.fromisoformat(certificate['checked_utc']) < valid_until
         assert valid_until > datetime(2026,11,1,tzinfo=timezone.utc)
     return {'passed': True, 'native_payloads':21, 'public_payloads':24, 'operator_git_bindings':4, 'runtime_git_bindings':bindings,
-            'ci_git_bindings':ci_bindings, 'actual_http_cases':9, 'vault_ci_build':3, 'verified_tls_hosts':4, 'risk_score':score,
+            'ci_git_bindings':ci_bindings, 'actual_http_cases':9, 'vault_ci_build':3, 'verified_tls_hosts':4, 'risk_score':score, 'pc_validation':published_pc(),
             'scope':'Frozen historical after-restart proof; not current readiness, a grade, public DNS, full100GB ML or laptop validation.'}
 
 

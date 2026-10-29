@@ -1,0 +1,46 @@
+{
+  "passed": false,
+  "scope": "Actual unauthenticated login/docs pages through private IAP tunnels; not authenticated dashboard or DAG execution proof.",
+  "rows": [
+    {
+      "service": "api",
+      "url": "http://127.0.0.1:18082/docs",
+      "status": 200,
+      "final_url": "http://127.0.0.1:18082/docs",
+      "checked_utc": "2026-10-29T00:27:58.078460+00:00"
+    },
+    {
+      "service": "airflow",
+      "url": "http://127.0.0.1:19903/auth/login/",
+      "status": 200,
+      "final_url": "http://127.0.0.1:19903/auth/login/",
+      "checked_utc": "2026-10-29T00:27:58.157754+00:00"
+    },
+    {
+      "service": "jenkins",
+      "url": "http://127.0.0.1:19787/login",
+      "status": 200,
+      "final_url": "http://127.0.0.1:19787/login",
+      "checked_utc": "2026-10-29T00:27:58.237431+00:00"
+    },
+    {
+      "service": "grafana",
+      "url": "http://127.0.0.1:19801/login",
+      "status": 200,
+      "final_url": "http://127.0.0.1:19801/login",
+      "checked_utc": "2026-10-29T00:27:58.465926+00:00"
+    },
+    {
+      "service": "datahub",
+      "url": "http://127.0.0.1:19902/",
+      "status": 200,
+      "final_url": "http://127.0.0.1:19902/",
+      "checked_utc": "2026-10-29T00:27:58.628271+00:00"
+    },
+    {
+      "service": "mlflow",
+      "url": "http://127.0.0.1:15000/",
+      "error_type": "ConnectionResetError"
+    }
+  ]
+}
