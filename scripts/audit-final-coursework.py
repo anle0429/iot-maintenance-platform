@@ -23,7 +23,7 @@ VERIFIERS = (
     'joint-cohort', 'linux-host', 'linux-logs', 'log-discovery', 'native-serving',
     'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort', 'final-review', 'llm-inference',
     'rag-foundation', 'llm-grounding', 'rag-orchestration', 'mcp-tools', 'agent-platform', 'agent-response-baseline',
-    'mcp-quality', 'mcp-quality-native', 'gpu-inference', 'gpu-agents', 'agent-network', 'agent-scaling', 'agent-notebook', 'agent-warmup',
+    'mcp-quality', 'mcp-quality-native', 'gpu-inference', 'gpu-agents', 'agent-network', 'agent-scaling', 'agent-notebook', 'agent-warmup', 'ci-rag',
 )
 CAPSULES = (
     'drift-api', 'api-autoscale', 'notebook', 'notebook-parity', 'distributed-training',

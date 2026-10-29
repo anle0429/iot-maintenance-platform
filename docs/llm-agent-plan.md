@@ -19,7 +19,7 @@ A user asks about a machine's recent condition, risk or a relevant technical doc
 | Tools | Async validated data/chunk and drift MCP services, health checks, Helm rollout/fallback | [Two native MCP releases](mcp-tools.md), each with two replicas and verified rollback |
 | Agents | Retrieval and drift specialists, coordinator, registry publication, multi-replica autoscaling and sandbox | [Complete native conversations](gpu-agent-routing.md), [direct MCP isolation](agent-network-isolation.md), [automatic 2 → 4 → 2 scaling and original UI](agent-scaling.md) |
 | Startup | Agent Substrate warm-up, worker-pool HA explanation and startup benchmark | [24 fresh actors, matched cold/golden startup, mixed timings and single-host HA explanation](agent-warmup.md) |
-| Delivery | RAG and agent/MCP test-build-auto-deploy pipelines, gateway/UI access and secrets | ML CI/gateway/Vault are reusable baselines |
+| Delivery | RAG and agent/MCP test-build-auto-deploy pipelines, gateway/UI access and secrets | [RAG Jenkins release, six native Airflow tasks and DataHub readback](ci-rag.md) verified; three agent/MCP pipelines and LLM gateway/Vault integration remain open |
 | Evaluation | Notebooks, coverage >90%, mutation >80%, boundary/property tests and native load HTML | [79 native MCP tests and load reports](mcp-tools.md); [132 current tests and local mutation gate](mcp-quality.md); [executed agent notebook](agent-notebook.md) verified; CI integration and other tracked checks remain open |
 | Operations | Token counts, round-trip time, TTFT, safety/PII hits, agent/tool calls/failures and A/B | Existing metrics/log/trace backends; new telemetry missing |
 | Extensions | Two documented LLM-track ideas with working proof | Selection and acceptance still open |

@@ -1,6 +1,6 @@
 # Coursework rubric index
 
-The latest [worker-scaling checkpoint](agent-scaling.md) records automatic 2 → 4 → 2 capacity for three roles, verified parent/child conversations and original UI captures. The [GPU checkpoint](gpu-agent-routing.md) retains model routing and the strict adapter mutation audit. Final LLM row statuses are maintained in the [final LLM tracker](final-llm-rubric-tracker.md); the historical two-sheet weights below are not combined with final coursework.
+The latest [RAG delivery checkpoint](ci-rag.md) records a real Jenkins test/build/auto-deploy release, six successful Airflow tasks and source-bound DataHub lineage. The [worker-scaling checkpoint](agent-scaling.md) records automatic 2 → 4 → 2 capacity and verified parent/child conversations. The [GPU checkpoint](gpu-agent-routing.md) retains model routing and the strict adapter mutation audit. Final LLM row statuses are maintained in the [final LLM tracker](final-llm-rubric-tracker.md); the historical two-sheet weights below are not combined with final coursework.
 
 The selected submission covers **final ML and final LLM/agents**, as confirmed by the learner. The supplied Tracking workbook is the current source. It has a mini-coursework sheet, a final ML sheet and a separate LLM/agent sheet named `Sheet3`.
 

@@ -1,0 +1,223 @@
+{
+  "passed": true,
+  "dag_id": "iot_ci_rag_knowledge",
+  "run_id": "rag-ci-9b77c06f-3",
+  "source_commit": "9b77c06fe872d588e4f7e55af8c5834f2b03448e",
+  "ci_release": "llm-rag-jenkins-3",
+  "external_url": "http://localhost:18480/dags/iot_ci_rag_knowledge/runs/rag-ci-9b77c06f-3",
+  "flow_urn": "urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm)",
+  "readback": {
+    "flow": {
+      "customProperties": {
+        "source_commit": "9b77c06fe872d588e4f7e55af8c5834f2b03448e",
+        "run_id": "rag-ci-9b77c06f-3",
+        "ci_release": "llm-rag-jenkins-3"
+      },
+      "externalUrl": "http://localhost:18480/dags/iot_ci_rag_knowledge/runs/rag-ci-9b77c06f-3",
+      "name": "iot_ci_rag_knowledge",
+      "description": "Source-bound Jenkins RAG release and actual six-task Airflow execution."
+    },
+    "fetch": {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),fetch)",
+      "info": {
+        "customProperties": {
+          "source_commit": "9b77c06fe872d588e4f7e55af8c5834f2b03448e",
+          "run_id": "rag-ci-9b77c06f-3",
+          "ci_release": "llm-rag-jenkins-3"
+        },
+        "externalUrl": "http://localhost:18480/dags/iot_ci_rag_knowledge/runs/rag-ci-9b77c06f-3",
+        "name": "fetch",
+        "type": {
+          "string": "COMMAND"
+        },
+        "flowUrn": "urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm)"
+      },
+      "lineage": {
+        "inputDatasets": [],
+        "outputDatasets": [
+          "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.documents,DEV)"
+        ]
+      }
+    },
+    "chunk": {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),chunk)",
+      "info": {
+        "customProperties": {
+          "source_commit": "9b77c06fe872d588e4f7e55af8c5834f2b03448e",
+          "run_id": "rag-ci-9b77c06f-3",
+          "ci_release": "llm-rag-jenkins-3"
+        },
+        "externalUrl": "http://localhost:18480/dags/iot_ci_rag_knowledge/runs/rag-ci-9b77c06f-3",
+        "name": "chunk",
+        "type": {
+          "string": "COMMAND"
+        },
+        "flowUrn": "urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm)"
+      },
+      "lineage": {
+        "inputDatasets": [
+          "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.documents,DEV)"
+        ],
+        "outputDatasets": [
+          "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.chunks,DEV)"
+        ]
+      }
+    },
+    "embed": {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),embed)",
+      "info": {
+        "customProperties": {
+          "source_commit": "9b77c06fe872d588e4f7e55af8c5834f2b03448e",
+          "run_id": "rag-ci-9b77c06f-3",
+          "ci_release": "llm-rag-jenkins-3"
+        },
+        "externalUrl": "http://localhost:18480/dags/iot_ci_rag_knowledge/runs/rag-ci-9b77c06f-3",
+        "name": "embed",
+        "type": {
+          "string": "COMMAND"
+        },
+        "flowUrn": "urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm)"
+      },
+      "lineage": {
+        "inputDatasets": [
+          "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.chunks,DEV)"
+        ],
+        "outputDatasets": [
+          "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.embeddings,DEV)"
+        ]
+      }
+    },
+    "store": {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),store)",
+      "info": {
+        "customProperties": {
+          "source_commit": "9b77c06fe872d588e4f7e55af8c5834f2b03448e",
+          "run_id": "rag-ci-9b77c06f-3",
+          "ci_release": "llm-rag-jenkins-3"
+        },
+        "externalUrl": "http://localhost:18480/dags/iot_ci_rag_knowledge/runs/rag-ci-9b77c06f-3",
+        "name": "store",
+        "type": {
+          "string": "COMMAND"
+        },
+        "flowUrn": "urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm)"
+      },
+      "lineage": {
+        "inputDatasets": [
+          "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.chunks,DEV)",
+          "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.embeddings,DEV)"
+        ],
+        "outputDatasets": [
+          "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.knowledge.offline,DEV)",
+          "urn:li:dataset:(urn:li:dataPlatform:feast,iot.knowledge.online,DEV)"
+        ]
+      }
+    },
+    "validate": {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),validate)",
+      "info": {
+        "customProperties": {
+          "source_commit": "9b77c06fe872d588e4f7e55af8c5834f2b03448e",
+          "run_id": "rag-ci-9b77c06f-3",
+          "ci_release": "llm-rag-jenkins-3"
+        },
+        "externalUrl": "http://localhost:18480/dags/iot_ci_rag_knowledge/runs/rag-ci-9b77c06f-3",
+        "name": "validate",
+        "type": {
+          "string": "COMMAND"
+        },
+        "flowUrn": "urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm)"
+      },
+      "lineage": {
+        "inputDatasets": [
+          "urn:li:dataset:(urn:li:dataPlatform:feast,iot.knowledge.online,DEV)",
+          "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.knowledge.offline,DEV)"
+        ],
+        "outputDatasets": []
+      }
+    },
+    "publish_to_datahub": {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),publish_to_datahub)",
+      "info": {
+        "customProperties": {
+          "source_commit": "9b77c06fe872d588e4f7e55af8c5834f2b03448e",
+          "run_id": "rag-ci-9b77c06f-3",
+          "ci_release": "llm-rag-jenkins-3"
+        },
+        "externalUrl": "http://localhost:18480/dags/iot_ci_rag_knowledge/runs/rag-ci-9b77c06f-3",
+        "name": "publish_to_datahub",
+        "type": {
+          "string": "COMMAND"
+        },
+        "flowUrn": "urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm)"
+      },
+      "lineage": {
+        "inputDatasets": [
+          "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.documents,DEV)",
+          "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.chunks,DEV)",
+          "urn:li:dataset:(urn:li:dataPlatform:file,iot.knowledge.embeddings,DEV)",
+          "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.knowledge.offline,DEV)",
+          "urn:li:dataset:(urn:li:dataPlatform:feast,iot.knowledge.online,DEV)"
+        ],
+        "outputDatasets": []
+      }
+    }
+  },
+  "emitted": [
+    {
+      "urn": "urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm)",
+      "aspect": "dataFlowInfo"
+    },
+    {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),fetch)",
+      "aspect": "dataJobInfo"
+    },
+    {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),fetch)",
+      "aspect": "dataJobInputOutput"
+    },
+    {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),chunk)",
+      "aspect": "dataJobInfo"
+    },
+    {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),chunk)",
+      "aspect": "dataJobInputOutput"
+    },
+    {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),embed)",
+      "aspect": "dataJobInfo"
+    },
+    {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),embed)",
+      "aspect": "dataJobInputOutput"
+    },
+    {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),store)",
+      "aspect": "dataJobInfo"
+    },
+    {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),store)",
+      "aspect": "dataJobInputOutput"
+    },
+    {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),validate)",
+      "aspect": "dataJobInfo"
+    },
+    {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),validate)",
+      "aspect": "dataJobInputOutput"
+    },
+    {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),publish_to_datahub)",
+      "aspect": "dataJobInfo"
+    },
+    {
+      "urn": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_ci_rag_knowledge,iot-vm),publish_to_datahub)",
+      "aspect": "dataJobInputOutput"
+    }
+  ],
+  "canonical_publication_sha256": "b63c7dc6be3bc502e254c5644c4f8698f3b1a2ba64f08b1211d508148c8fc70d",
+  "canonical_knowledge_flow": "urn:li:dataFlow:(airflow,iot_rag_knowledge,iot-vm)",
+  "quality_sha256": "ace7801094002c92dafebebd35f9a151cf1eca13bcf471cfbb1f7f11e8635def"
+}

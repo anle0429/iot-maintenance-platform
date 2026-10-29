@@ -102,7 +102,7 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 | L32 | Generator | Simulate data drift. | Open: native LLM evidence missing |
 | L33 | Generator | Control drift through generator configuration. | Open: native LLM evidence missing |
 | L34 | Generator | Create a separate two-column ID/label table for joining with training features. | Open: native LLM evidence missing |
-| L35 | CI/CD | Provide test/build/auto-deploy CI/CD for the RAG data pipeline. | Open: native LLM evidence missing |
+| L35 | CI/CD | [RAG CI driver](../scripts/ci-rag.py) | [Native Jenkins/Airflow release and DataHub readback](ci-rag.md) | ci-rag |
 | L36 | CI/CD | Provide CI/CD for the data-retrieval MCP server and corresponding agent. | Open: native LLM evidence missing |
 | L37 | CI/CD | Provide CI/CD for the drift-detection MCP server and corresponding agent. | Open: native LLM evidence missing |
 | L38 | CI/CD | Provide CI/CD for the coordinator agent. | Open: native LLM evidence missing |
