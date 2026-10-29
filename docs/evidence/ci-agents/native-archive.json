@@ -1,0 +1,25 @@
+{
+  "archive_bytes": 2421457,
+  "archive_sha256": "38769bd8b0fd5de668dbed09d61d15d162f97c06da3a8768bcfce4f25d168994",
+  "native_payloads": 1605,
+  "original_inventory_sha256": "838324846ef398b92014a83cbb178298a4ee3969a6ab699b2ab58128b8388ae8",
+  "native_capture_unit": "iot-agent-ci-capture-29a",
+  "native_capture_invocation": "57c336e266a04dfa958cd63c000e77d3",
+  "archive_repacked": false,
+  "accepted_builds": {
+    "retrieval": 4,
+    "drift": 4,
+    "coordinator": 3
+  },
+  "source_commit": "daee5d3ff335917ffb7f1705e17bf1e723aa20ad",
+  "source_files": 362,
+  "scope": "All eleven original builds, three source revisions, fresh native API tests, actual images/charts/Pods, rollback and complete role/delegated answers.",
+  "excluded": [
+    "credentials",
+    "model weights",
+    "large Docker image layers",
+    "bulk telemetry",
+    "operator setup"
+  ],
+  "coursework_complete": false
+}

@@ -96,16 +96,16 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 | L26 | Warm-up and worker pool | [native benchmark](../scripts/benchmark-agent-warmup.py) | [Matched timings and HA limits](agent-warmup.md) | agent-warmup; mixed results retained, no general startup or host-HA claim |
 | L27 | Validation and verification | Unit-test the Web APIs with Test Coverage > 90%, demonstrating fixtures and mocks with screenshots. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L28 | Validation and verification | Use equivalence partitioning and boundary-value analysis to design parameterized test cases. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
-| L29 | Validation and verification | Use mutation testing on changed code rather than the entire codebase on every commit. Mutation score > 80%. | [Complete local gate 80.12%; original VM failures retained](mcp-quality.md); screenshot/CI integration remains open |
+| L29 | Validation and verification | Use mutation testing on changed code rather than the entire codebase on every commit. Mutation score > 80%. | [Complete local gate 80.12%; original VM failures retained](mcp-quality.md); MCP CI reuse verified in [agent delivery](ci-agents.md); technique captures remain open |
 | L30 | Validation and verification | Use property-based idempotency tests, with Hypothesis/CrossHair suggested for finding inconsistent repeated behavior. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L31 | Validation and verification | Load-test the data-retrieval Web API for throughput and latency and produce a Locust HTML SLA report. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L32 | Generator | Simulate data drift. | Open: native LLM evidence missing |
 | L33 | Generator | Control drift through generator configuration. | Open: native LLM evidence missing |
 | L34 | Generator | Create a separate two-column ID/label table for joining with training features. | Open: native LLM evidence missing |
 | L35 | CI/CD | [RAG CI driver](../scripts/ci-rag.py) | [Native Jenkins/Airflow release and DataHub readback](ci-rag.md) | ci-rag |
-| L36 | CI/CD | Provide CI/CD for the data-retrieval MCP server and corresponding agent. | Open: native LLM evidence missing |
-| L37 | CI/CD | Provide CI/CD for the drift-detection MCP server and corresponding agent. | Open: native LLM evidence missing |
-| L38 | CI/CD | Provide CI/CD for the coordinator agent. | Open: native LLM evidence missing |
+| L36 | CI/CD | [Agent CI driver](../scripts/ci-agents.py) | [Native retrieval build 4 and original stages](ci-agents.md) | ci-agents |
+| L37 | CI/CD | [Agent CI driver](../scripts/ci-agents.py) | [Native drift build 4 and original stages](ci-agents.md) | ci-agents |
+| L38 | CI/CD | [Agent CI driver](../scripts/ci-agents.py) | [Native coordinator build 3 and original stages](ci-agents.md) | ci-agents |
 | L39 | CI/CD | Provide CI/CD for the stream-feature OFFLINE-store job. | Open: native LLM evidence missing |
 | L40 | CI/CD | Provide CI/CD for the stream-feature ONLINE-store job. | Open: native LLM evidence missing |
 | L41 | Routing and gateway | Place the metrics-viewing service behind the NGINX gateway. | Open: native LLM evidence missing |

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "phase": "deploy",
+  "passed": true,
+  "component": "retrieval",
+  "build_number": "4",
+  "source_commit": "daee5d3ff335917ffb7f1705e17bf1e723aa20ad",
+  "release": "llm-retrieval-jenkins-4",
+  "source_digest": "9324f34d4a7ebf2205732ae67c40898e3339e6f9912eb946ad34b345258d4ce5",
+  "role": "retrieval",
+  "current_policy": "0.2.2",
+  "helm_revisions": {
+    "iot-agents": {
+      "revision": 13,
+      "updated": "2026-10-29T18:52:01.887044586Z",
+      "status": "deployed",
+      "chart": "iot-agents-0.1.0",
+      "app_version": "0.2.2",
+      "description": "CI:llm-retrieval-jenkins-4:daee5d3ff335917ffb7f1705e17bf1e723aa20ad"
+    },
+    "iot-retrieval-mcp": {
+      "revision": 14,
+      "updated": "2026-10-29T18:50:43.418171867Z",
+      "status": "deployed",
+      "chart": "iot-mcp-0.1.0",
+      "app_version": "1.0.0",
+      "description": "CI:llm-retrieval-jenkins-4:daee5d3ff335917ffb7f1705e17bf1e723aa20ad"
+    }
+  },
+  "shared_agent_reapply": "Same accepted three-role policy and pools; no agent-version change claimed.",
+  "new_mcp_image": "sha256:a6bfed8a735a169dd86535f423191bd1c0e4fafc314df838bfe220c3b091def7"
+}

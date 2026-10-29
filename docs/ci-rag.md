@@ -60,4 +60,4 @@ For presentation, explain one complete chain: selected Git source → tests → 
 
 The [native archive](evidence/ci-rag/native-archive.json), [Jenkins stages](evidence/ci-rag/jenkins-stages.json), [quality report](evidence/ci-rag/quality.json) and [CI governance readback](evidence/ci-rag/ci-datahub-publication.json) are checked by the [offline verifier](../scripts/verify-ci-rag.py). The archive preserves the failed predecessor and both successful builds. Screenshots are original browser captures.
 
-This checkpoint covers RAG pipeline delivery, L35. The retrieval MCP/agent, drift MCP/agent and coordinator pipelines still require their own native releases. Gateway access, full agent telemetry, A/B evaluation and the remaining LLM requirements are tracked in the [final LLM rubric](final-llm-rubric-tracker.md).
+This checkpoint covers RAG pipeline delivery, L35. A later [MCP/agent delivery checkpoint](ci-agents.md) records three separate successful pipelines for L36–L38. Gateway access, full agent telemetry, A/B evaluation and the remaining LLM requirements are tracked in the [final LLM rubric](final-llm-rubric-tracker.md).
