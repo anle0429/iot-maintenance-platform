@@ -2,7 +2,7 @@
 from datetime import datetime,timezone,timedelta
 from hashlib import sha256
 from pathlib import Path
-import argparse,base64,json,os,re,subprocess,sys,tarfile
+import argparse,base64,json,os,re,subprocess,sys,tarfile,time
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from infra.security.vault_client import VaultClient
 
@@ -78,15 +78,35 @@ def run(args):
     config=blobs[manifest[0]['Config']];config_digest='sha256:'+sha256(config).hexdigest()
     assert json.loads(config)['config']['Labels']['org.opencontainers.image.revision']==gate['source_commit']
     (out/'image-save-manifest.json').write_bytes(blobs['manifest.json']);(out/'image-save-config.json').write_bytes(config)
+    index=json.loads(blobs['index.json']);qualified_tag='docker.io/library/'+image['tag']
+    descriptors=[v for v in index['manifests'] if v.get('annotations',{}).get('io.containerd.image.name')==qualified_tag]
+    assert len(descriptors)==1 and re.fullmatch(r'sha256:[0-9a-f]{64}',descriptors[0]['digest'])
+    index_digest=descriptors[0]['digest'];index_bytes=blobs['blobs/sha256/'+index_digest.split(':')[1]]
+    assert 'sha256:'+sha256(index_bytes).hexdigest()==index_digest
+    image_ref='docker.io/library/iot-llm-observer@'+index_digest
+    (out/'image-save-index.json').write_bytes(blobs['index.json']);(out/'image-oci-index.json').write_bytes(index_bytes)
     archive_digest=sha256()
     with archive.open('rb') as stream:
         while chunk:=stream.read(1048576):archive_digest.update(chunk)
-    keep('image-export.json',{'bytes':archive.stat().st_size,'sha256':archive_digest.hexdigest(),'config_digest':config_digest})
+    keep('image-export.json',{'bytes':archive.stat().st_size,'sha256':archive_digest.hexdigest(),'config_digest':config_digest,'index_digest':index_digest,'image_ref':image_ref})
     command('image-import',['/usr/local/bin/k3s','ctr','images','import','--digests','--base-name','docker.io/library/iot-llm-observer',str(archive)],timeout=300)
     imported=json.loads(command('image-cri',['/usr/local/bin/k3s','crictl','inspecti',image['tag']]))
     assert imported['status']['id']==config_digest
-    choices=[n for n in imported['status']['repoDigests'] if re.fullmatch(r'docker.io/library/iot-llm-observer@sha256:[0-9a-f]{64}',n)]
-    assert len(choices)==1
+    existing=subprocess.run(['/usr/local/bin/k3s','crictl','inspecti',image_ref],capture_output=True,timeout=30)
+    (out/'image-digest-before.stdout').write_bytes(existing.stdout);(out/'image-digest-before.stderr').write_bytes(existing.stderr)
+    if existing.returncode==0:
+        assert json.loads(existing.stdout)['status']['id']==config_digest,'Preserve an existing immutable reference with a different configuration'
+        keep('image-digest-retained.json',{'image_ref':image_ref,'config_digest':config_digest,'existing_reference_preserved':True})
+    else:command('image-digest-reference',['/usr/local/bin/k3s','ctr','images','tag',qualified_tag,image_ref])
+    for attempt in range(5):
+        try:imported=json.loads(command('image-digest-cri-'+str(attempt),['/usr/local/bin/k3s','crictl','inspecti',image_ref]))
+        except RuntimeError:
+            time.sleep(.2);continue
+        assert imported['status']['id']==config_digest,'Preserve an alias with a different tested image configuration'
+        choices=[n for n in imported['status']['repoDigests'] if re.fullmatch(r'docker.io/library/iot-llm-observer@sha256:[0-9a-f]{64}',n)]
+        if choices==[image_ref]:break
+        time.sleep(.2)
+    else:raise ValueError('The authenticated OCI index digest is not registered in the native image store')
     secret={'apiVersion':'v1','kind':'Secret','metadata':{'name':'iot-llm-observer-client','namespace':namespace},'type':'Opaque','stringData':selected}
     command('secret-create',k+['create','-f','-'],json.dumps(secret).encode())
     secret=get('secret','iot-llm-observer-client','-n',namespace)
