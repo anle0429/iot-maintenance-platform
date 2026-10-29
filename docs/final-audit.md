@@ -1,3 +1,7 @@
+## Private agent gateway checkpoint
+
+The [agent gateway report](agent-gateway.md) records two authenticated private interfaces, CA/SNI and rejection checks, the measured 150/170 split across 320 requests, two scoped Vault consumers and a complete parent/two-child conversation with four actual MCP calls. Four original UI captures and 714 native payloads are preserved. The offline audit includes this as its 44th checker. The current PC regression passed 891 tests and 590 subtests, with eleven documented skips, in 84.78 seconds; all 44 artifact checkers passed. These checks validate recorded evidence rather than current live readiness or the laptop. This is a single-operator lab; browser CA trust, tenant authorization, the requested Vault UI capture and the remaining LLM telemetry/A-B/extensions are separate obligations.
+
 # Final rubric audit: evidence, scope and remaining work
 
 ## Current conclusion

@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-29T19:40:51.942188+00:00",
+  "source_sha256": {
+    "scripts/configure-agent-ui-identity.py": "8d552ee777b557f8e5a4c4fafd4ef8af38f3209ffd931574d20b6423a77677b1",
+    "infra/gateway/ui_identity.py": "833c47ba057ad9a078e2afcba5aa84bfd36e643c5d057dc7b7e23cf123a014d4"
+  },
+  "ui_uid": "7d913cba-478e-4fca-98ff-bb7dcb953fe8",
+  "actual_image_ids": [
+    "ghcr.io/kagent-dev/kagent/ui@sha256:13f62914b66e19d394eea5fe04db85f689457ad582ef6b2ebd3bb44ec01a1127"
+  ],
+  "setting": "KAGENT_ADDITIONAL_FORWARDED_HEADERS=X-User-Id",
+  "model_agents_pools_preserved": true,
+  "scope": "Official UI header forwarding only; same image, unchanged shared model/agents/pools. Browser session behavior must be checked separately."
+}

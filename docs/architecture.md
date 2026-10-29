@@ -133,9 +133,9 @@ The deployment also has API metrics and OTLP traces, host/Pod logs, and a separa
 | Docker | Spark jobs, Kafka/Flink, Airflow, DataHub, MLflow and Jenkins | [Orchestration Compose](../infra/orchestration.compose.yaml), [MLflow Compose](../infra/mlflow.compose.yaml) |
 | Host services | Prometheus, Grafana, Loki, Alloy, Pushgateway, exporter and Vault processes | [Host metrics](host-monitoring.md), [recovery](demo-walkthrough.md) |
 
-The gateway provides authentication, rate limiting and private-CA HTTPS. Vault supplies scoped credentials to two real consumers: Jenkins and the gateway credential-sync job. Mesh authorization was tested with workload identities in a separate namespace. OPA checks a deployment plan in CI; it is a policy gate, not a cluster admission webhook.
+The gateway provides authentication, rate limiting and private-CA HTTPS. Vault supplies scoped credentials to Jenkins and gateway synchronization. The [agent gateway milestone](agent-gateway.md) adds two dedicated AppRoles for the agent gateway and MCP/model-client Secret synchronization, preserving existing credential bytes. Mesh authorization was tested with workload identities in a separate namespace. OPA checks a deployment plan in CI; it is a policy gate, not a cluster admission webhook.
 
-Database, artifact and registry state stays on VM volumes. A Git clone does not reproduce that state or credentials. The lab has not been validated as a multi-host HA deployment. See [gateway](private-gateway.md), [Vault](vault.md), [mesh](private-mesh.md) and [OPA](deployment-policy.md).
+Database, artifact and registry state stays on VM volumes. A Git clone does not reproduce that state or credentials. The lab has not been validated as a multi-host HA deployment. See [agent gateway](agent-gateway.md), [ML gateway](private-gateway.md), [Vault](vault.md), [mesh](private-mesh.md) and [OPA](deployment-policy.md).
 
 ## Review and reproduce
 

@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-29T19:57:11.026009+00:00",
+  "source_sha256": "0c3bf14f88915f42116dd253a3ea7f87d6537ef6ed88472efa1eb6fbf0c6a315",
+  "gateway_ip": "10.53.22.203",
+  "new_hosts": [
+    "agents.iot.test",
+    "registry.iot.test"
+  ],
+  "unauthorized_401": 8,
+  "redirects_308": 2,
+  "authenticated_ui_pages": 2,
+  "authenticated_javascript_assets": 2,
+  "native_catalog_versions": 3,
+  "frontend_identity": "admin@kagent.dev",
+  "spoofed_identity_header_ignored": true,
+  "account_model": "One authenticated operator mapped to the existing internal UI lab principal",
+  "preserved_old_routes": 4,
+  "tls_negative_cases": 2,
+  "burst_requests": 320,
+  "burst_statuses": {
+    "200": 150,
+    "429": 170
+  },
+  "burst_duration_seconds": 2.011450505000539,
+  "recovery_http": 200,
+  "scope": "Actual private NGINX TLS/Basic/rate controls and working frontend assets/API/catalog. Single operator lab; not public DNS, browser CA trust, multi-tenant controller authorization or a new LLM conversation."
+}

@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-29T19:19:06.525647+00:00",
+  "source_sha256": {
+    "scripts/provision-agent-vault.py": "933bc600fc29d003af6ecde55b9ff4514d59960e3eb7a4e5fc20b3b6211a894d",
+    "infra/security/vault_client.py": "7920a2db09380398a3eba4eb07ca6dbb96fe34239c1164115701d35e8b32ab32",
+    "infra/security/vault-agent-gateway.hcl": "ba878f1afa36c7dfe85c4a3466badaa0f4485f7f898472808d5baf5fd811906e",
+    "infra/security/vault-agent-services.hcl": "914d794cd9eb53e22fee0942e60637db159475e84a459f763b516f0883143536"
+  },
+  "cluster_id": "63e1d9cc-7eb1-c7a7-a48d-b11a3ac107f9",
+  "roles": {
+    "gateway": {
+      "policy": "iot-agent-gateway",
+      "policy_sha256": "ba878f1afa36c7dfe85c4a3466badaa0f4485f7f898472808d5baf5fd811906e",
+      "path": "iot/data/agents/gateway",
+      "secret_version": 1,
+      "lease": {
+        "lease_duration": 300,
+        "renewable": true,
+        "token_policies": [
+          "iot-agent-gateway"
+        ]
+      },
+      "cross_service_statuses": {
+        "iot/data/agents/services": 403,
+        "iot/data/ci/airflow": 403,
+        "iot/data/gateway/basic": 403
+      },
+      "revoked_token_status": 403,
+      "readback_exact": true
+    },
+    "services": {
+      "policy": "iot-agent-services",
+      "policy_sha256": "914d794cd9eb53e22fee0942e60637db159475e84a459f763b516f0883143536",
+      "path": "iot/data/agents/services",
+      "secret_version": 1,
+      "lease": {
+        "lease_duration": 300,
+        "renewable": true,
+        "token_policies": [
+          "iot-agent-services"
+        ]
+      },
+      "cross_service_statuses": {
+        "iot/data/agents/gateway": 403,
+        "iot/data/ci/airflow": 403,
+        "iot/data/gateway/basic": 403
+      },
+      "revoked_token_status": 403,
+      "readback_exact": true
+    }
+  },
+  "existing_service_secret_uids_preserved": true,
+  "credential_values_archived": false,
+  "scope": "Actual private TLS Vault KV2, two dedicated AppRoles, denied cross-service access, revoked tokens and exact Kubernetes service-secret readback. No automatic rotation or production HA claim."
+}

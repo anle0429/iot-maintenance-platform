@@ -111,9 +111,9 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 | L41 | Routing and gateway | Place the metrics-viewing service behind the NGINX gateway. | Open: native LLM evidence missing |
 | L42 | Routing and gateway | Place the log-viewing service behind the gateway. | Open: native LLM evidence missing |
 | L43 | Routing and gateway | Place the trace-viewing service behind the gateway. | Open: native LLM evidence missing |
-| L44 | Routing and gateway | Place the agent-testing UI behind the gateway. | Open: native LLM evidence missing |
-| L45 | Routing and gateway | Place the agent-registry UI behind the gateway. | Open: native LLM evidence missing |
-| L46 | Routing and gateway | Configure authentication and gateway rate controls for the agent-testing UI. | Open: native LLM evidence missing |
+| L44 | Routing and gateway | [Gateway/Vault implementation and scope](agent-gateway.md) | [Authenticated UI, complete coordinator session and original captures](agent-gateway.md); [offline checker](../scripts/verify-agent-gateway.py) | agent-gateway; Recorded native gateway and original UI |
+| L45 | Routing and gateway | [Gateway/Vault implementation and scope](agent-gateway.md) | [Protected catalog and versioned resource identities](agent-gateway.md); [original registry](evidence/agent-gateway/ui/registry-final.jpg) | agent-gateway; Recorded native gateway and original registry UI |
+| L46 | Routing and gateway | [Gateway/Vault implementation and scope](agent-gateway.md) | [Eight 401 rejections, TLS negatives, 320-request burst/recovery and working UI](agent-gateway.md); no multi-tenant authorization claim | agent-gateway; Recorded private single-operator controls |
 | L47 | Routing and gateway | Configure a domain and HTTPS for the data-retrieval Web API. | Open: native LLM evidence missing |
 | L48 | Infrastructure as code | Use Terraform to provision GKE or other cloud services with a suitable directory layout. | Open: native LLM evidence missing |
 | L49 | Infrastructure as code | Use Ansible roles to configure the VM and deploy services. | Open: native LLM evidence missing |
@@ -125,7 +125,7 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 | L55 | Observability | Collect at least per-agent call counts, per-MCP-tool call counts and failures for each tool call. | [Partial: MCP counters](mcp-tools.md); agent/dashboard export open |
 | L56 | A/B testing | A/B-test agents using different model configurations and monitor both variants. | Open: native LLM evidence missing |
 | L57 | A/B testing | A/B-test different LLM versions on the inference platform. | Open: native LLM evidence missing |
-| L58 | Security | Centralize shared secret management through HashiCorp Vault or an equivalent system. | Open: native LLM evidence missing |
+| L58 | Security | [Gateway/Vault implementation and scope](agent-gateway.md) | [Two scoped Vault AppRoles, denied cross-service reads, revoked tokens and four unchanged Secret UIDs](agent-gateway.md#centralize-credentials-without-rotating-them); centralized-secret UI capture remains open | agent-gateway; Native agent integration; requested UI capture open |
 | L59 | Repository design | Keep clean code and repository structure and demonstrate an implemented design pattern. | Open: native LLM evidence missing |
 | L60 | Class design | Document five key classes expressing the main ML responsibilities; retain the source requirement and its example interfaces. | Open: native LLM evidence missing |
 | L61 | Novel ideas | Document novel idea 1 and demonstrate it works; it may be a researched technique/tool not taught in EDAI. | Open: native LLM evidence missing |

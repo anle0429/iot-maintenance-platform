@@ -66,4 +66,4 @@ The checker authenticates the original archive inventory, all 362 current source
 
 For presentation, open the successful stage view, then inspect its test report, application/chart identities and original A2A response. Trace one feature value or citation from the final answer back to its tool result. For the coordinator, show both child-session IDs. Explain why an old successful response cannot prove that a newly deployed release works.
 
-The remaining LLM gateway, telemetry, A/B and extension requirements stay separate in the [final LLM tracker](final-llm-rubric-tracker.md).
+The [agent gateway checkpoint](agent-gateway.md) separately verifies authenticated UI/catalog access and Vault consumers. The remaining telemetry, A/B and extension requirements stay separate in the [final LLM tracker](final-llm-rubric-tracker.md).

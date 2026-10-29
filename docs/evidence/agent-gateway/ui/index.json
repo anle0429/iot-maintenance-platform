@@ -1,0 +1,37 @@
+{
+  "original_screenshots": true,
+  "entries": [
+    {
+      "image": "agents-final.jpg",
+      "accessibility": "agents-final.ax.txt",
+      "tab_id": 111,
+      "url": "http://127.0.0.1:18090/",
+      "pixels_edited": false
+    },
+    {
+      "image": "registry-final.jpg",
+      "accessibility": "registry-final.ax.txt",
+      "tab_id": 112,
+      "url": "http://127.0.0.1:18091/",
+      "pixels_edited": false
+    },
+    {
+      "image": "coordinator-answer-final.jpg",
+      "accessibility": "coordinator-answer-final.ax.txt",
+      "tab_id": 113,
+      "url": "http://localhost:18090/agents/iot-agents/iot-coordinator/chat/0e647792-dc27-4100-9f23-f33fe49fed78",
+      "pixels_edited": false
+    },
+    {
+      "image": "retrieval-tools-final.jpg",
+      "accessibility": "retrieval-tools-final.ax.txt",
+      "tab_id": 113,
+      "url": "http://localhost:18090/agents/iot-agents/iot-coordinator/chat/0e647792-dc27-4100-9f23-f33fe49fed78",
+      "pixels_edited": false
+    }
+  ],
+  "scope": "Original native UI bytes viewed through a loopback-only IAP administrative relay. The relay verifies CA/SNI and authenticates the actual upstream HTTPS gateway. Browser origin is loopback HTTP; no browser CA trust or public endpoint claim.",
+  "agents_viewer_source_sha256": "b19170abf22cd39c37197354b8dc9ba852d7c8651030af1606b35a18a2535cba",
+  "registry_viewer_source": "executed-scripts/iot-view-agent-gateway-29b.py",
+  "upstream_leaf_sha256": "e60801a16f3febb05fb3d855b627d7acf43af8df8fde5dd3e7771d1190e8a999"
+}
