@@ -24,6 +24,14 @@ def run(args):
     assert datetime.fromisoformat(gpu['last_start_utc'])+timedelta(seconds=28800)>datetime.now(timezone.utc)+timedelta(minutes=20)
     mem=next(int(l.split()[1])*1024 for l in Path('/proc/meminfo').read_text().splitlines() if l.startswith('MemAvailable:'))
     assert mem>4*1024**3 and os.statvfs(root).f_bavail*os.statvfs(root).f_frsize>10_000_000_000
+    previous=None
+    if args.resume_from is not None:
+        previous=args.resume_from.resolve()
+        assert previous.is_relative_to(root/'outputs') and previous!=out
+        assert re.fullmatch(r'llm-observer-[a-z0-9-]+',previous.name)
+        assert not (previous/'verification.json').exists(),'Preserve an accepted existing installation'
+        assert (previous/'helm-install.exit').read_text().strip()=='1'
+        assert 'Kubernetes cluster unreachable' in (previous/'helm-install.stderr').read_text()
     out.mkdir(exist_ok=False);k=['/usr/local/bin/k3s','kubectl'];release='iot-llm-observer';namespace='iot-llm'
     def keep(name,value):
         """Retain safe source, readiness and public resource facts; never retain a Secret body."""
@@ -46,11 +54,18 @@ def run(args):
         'agents':['sandboxagents','-n','iot-agents'],
         'model':['modelconfig','default-model-config','-n','iot-agents']}.items()}
     for name,value in before.items():keep('before-'+name+'.json',value)
+    if previous is not None:
+        for name,value in before.items():
+            old=json.loads((previous/('before-'+name+'.json')).read_bytes())
+            if name=='agents':assert {a['metadata']['uid']:a['spec'] for a in value['items']}=={a['metadata']['uid']:a['spec'] for a in old['items']}
+            else:assert value['metadata']['uid']==old['metadata']['uid'] and value['spec']==old['spec']
     assert before['pool']['spec']['selector']['matchLabels']=={
         'app.kubernetes.io/instance':'iot-model-control','app.kubernetes.io/name':'iot-llm-model-control'}
     assert before['pool']['spec']['targetPorts']==[{'number':8080}]
     assert before['control']['spec']['template']['spec']['containers'][0]['image']==json.loads((ROOT/'infra/llm-observability/runtime.lock.json').read_bytes())['retained_model_control_image']
-    for kind,name in [('deployment',release),('service',release),('networkpolicy',release),('secret','iot-llm-observer-client')]:
+    absent=[('deployment',release),('service',release),('networkpolicy',release)]
+    if previous is None:absent.append(('secret','iot-llm-observer-client'))
+    for kind,name in absent:
         if subprocess.check_output(k+['get',kind,name,'-n',namespace,'--ignore-not-found','-o','name'],stderr=subprocess.PIPE).strip():
             raise ValueError('Inspect and preserve the existing named observer resource before another install')
     if not args.role.resolve().is_relative_to(root/'data/runtime') or not args.ca.resolve().is_relative_to(root):
@@ -107,12 +122,20 @@ def run(args):
         if choices==[image_ref]:break
         time.sleep(.2)
     else:raise ValueError('The authenticated OCI index digest is not registered in the native image store')
-    secret={'apiVersion':'v1','kind':'Secret','metadata':{'name':'iot-llm-observer-client','namespace':namespace},'type':'Opaque','stringData':selected}
-    command('secret-create',k+['create','-f','-'],json.dumps(secret).encode())
+    if previous is None:
+        secret={'apiVersion':'v1','kind':'Secret','metadata':{'name':'iot-llm-observer-client','namespace':namespace},'type':'Opaque','stringData':selected}
+        command('secret-create',k+['create','-f','-'],json.dumps(secret).encode())
     secret=get('secret','iot-llm-observer-client','-n',namespace)
-    assert base64.b64decode(secret['data']['API_KEY']).decode()==selected['API_KEY']
+    assert set(secret['data'])=={'API_KEY'} and base64.b64decode(secret['data']['API_KEY']).decode()==selected['API_KEY']
+    if previous is not None:assert secret['metadata']['uid']==json.loads((previous/'secret-identity.json').read_bytes())['uid']
     keep('secret-identity.json',{'uid':secret['metadata']['uid'],'type':secret['type'],'keys':sorted(secret['data']),'same_credential_bytes':True})
-    directory=root/'data/runtime'/out.name/'db';directory.mkdir(parents=True,exist_ok=False);os.chown(directory,10001,10001);directory.chmod(0o750)
+    directory=root/'data/runtime'/(out.name if previous is None else previous.name)/'db'
+    if previous is None:
+        directory.mkdir(parents=True,exist_ok=False);os.chown(directory,10001,10001);directory.chmod(0o750)
+    else:
+        assert directory.is_dir() and not directory.is_symlink() and not any(directory.iterdir()),'Preserve any existing ledger; do not resume a used canary'
+        assert directory.stat().st_uid==10001 and directory.stat().st_gid==10001 and directory.stat().st_mode&0o777==0o750
+        keep('retained-install-inputs.json',{'previous_output':str(previous),'secret_uid':secret['metadata']['uid'],'empty_owned_ledger':str(directory),'existing_inputs_unchanged':True})
     # The private parent's traversal permission must let the non-root Pod reach its own ledger.
     directory.parent.chmod(0o755)
     values={'image':choices[0],'modelControlImage':before['control']['spec']['template']['spec']['containers'][0]['image'],
@@ -122,7 +145,7 @@ def run(args):
     command('helm-lint',[str(helm),'lint',str(chart),'-f',str(out/'values.json')])
     command('helm-template',[str(helm),'template',release,str(chart),'-n',namespace,'-f',str(out/'values.json')])
     command('server-dry-run',k+['apply','--dry-run=server','-n',namespace,'-f',str(out/'helm-template.stdout')])
-    command('helm-install',[str(helm),'install',release,str(chart),'-n',namespace,'-f',str(out/'values.json'),'--atomic','--wait','--timeout','240s'],timeout=270)
+    command('helm-install',[str(helm),'--kubeconfig','/etc/rancher/k3s/k3s.yaml','install',release,str(chart),'-n',namespace,'-f',str(out/'values.json'),'--atomic','--wait','--timeout','240s'],timeout=270)
     after=get('deployment',release,'-n',namespace);keep('deployment.json',after)
     pods=get('pods','-n',namespace,'-l','app.kubernetes.io/instance='+release);keep('pods.json',pods)
     assert after['status']['readyReplicas']==1 and len(pods['items'])==1
@@ -152,4 +175,5 @@ def run(args):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     for name in ['runtime-root','output','quality','role','ca']:parser.add_argument('--'+name,type=Path,required=True)
+    parser.add_argument('--resume-from',type=Path,help='Retain the authenticated Secret and empty ledger of a pre-workload Helm connection failure')
     run(parser.parse_args())
