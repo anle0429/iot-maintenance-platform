@@ -189,7 +189,7 @@ def deploy_host(c):
     rendered=subprocess.check_output([c.helm,'template','iot-agents',chart,'-n','iot-agents','-f',str(c.out/'agent-values.json'),'--post-renderer',renderer])
     documents=list(yaml.safe_load_all(rendered));validate_agents(documents,json.loads((ROOT/'agents/response-policy.json').read_bytes()))
     (c.out/'rendered-agents.yaml').write_bytes(rendered)
-    c.log('agent-server-dry-run',c.k+['apply','--dry-run=server','-f',str(c.out/'rendered-agents.yaml'),'-o','json'])
+    c.log('agent-server-dry-run',c.k+['apply','--dry-run=server','-n','iot-agents','-f',str(c.out/'rendered-agents.yaml'),'-o','json'])
     c.log('upgrade-agents',[c.helm,'upgrade','iot-agents',chart,'-n','iot-agents','-f',str(c.out/'agent-values.json'),
           '--post-renderer',renderer,'--description',c.description,'--atomic','--wait','--timeout','240s'],330)
     deadline=time.monotonic()+180
