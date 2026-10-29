@@ -2,7 +2,7 @@
 
 English presentation of the supplied source rubric. Original cells, merged ranges and workbook bytes are preserved separately; this is not a self-awarded grade. Each sheet has its own 100 source points; no combined weighting is invented.
 
-The selected submission includes both final ML and final LLM/agents. ML evidence is scoped to the recorded lab. LLM-specific implementation and native evidence remain open.
+The selected submission includes both final ML and final LLM/agents. ML evidence is scoped to the recorded lab. The [LLM tracker](final-llm-rubric-tracker.md) records its separate native milestones and remaining implementation work.
 
 [Rubric source and scope](rubric-source.md) · [Architecture](architecture.md) · [LLM implementation plan](llm-agent-plan.md)
 

@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1400" viewBox="0 0 2200 1400" role="img" aria-labelledby="title desc">
-<title id="title">LLM / agent extension — staged implementation</title><desc id="desc">Blue: verified CPU inference. Gray: planned/in progress. Green: existing ML APIs. Illustration, not runtime evidence.</desc><rect width="100%" height="100%" fill="white"/>
+<title id="title">LLM / agent extension — staged implementation</title><desc id="desc">Blue: verified inference / RAG. Gray: planned/in progress. Green: existing ML APIs. Illustration, not runtime evidence.</desc><rect width="100%" height="100%" fill="white"/>
 <text x="44" y="78" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="34" font-weight="600" text-anchor="start" fill="#16273b">LLM / agent extension — staged implementation</text>
-<text x="44" y="113" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="19" font-weight="400" text-anchor="start" fill="#526174">Blue: verified CPU inference. Gray: planned/in progress. Green: existing ML APIs. Illustration, not runtime evidence.</text>
+<text x="44" y="113" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="19" font-weight="400" text-anchor="start" fill="#526174">Blue: verified inference / RAG. Gray: planned/in progress. Green: existing ML APIs. Illustration, not runtime evidence.</text>
 <text x="44" y="1384" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#657386">Architecture illustration — not a runtime screenshot. Source: docs/diagrams/platform.py</text>
 <rect x="60" y="200" width="290" height="145" rx="12" fill="#f1f3f6" stroke="#7d8795" stroke-width="2"/>
 <text x="205.0" y="252.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Agent chat UI</text>
@@ -17,16 +17,16 @@
 <text x="950.0" y="307.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Multi-replica / autoscale</text>
 <rect x="1370" y="200" width="330" height="145" rx="12" fill="#e8f4fa" stroke="#327d9c" stroke-width="2"/>
 <text x="1535.0" y="252.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">llm-d inference router</text>
-<text x="1535.0" y="282.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">RUNNING: llm-d 1.0</text>
+<text x="1535.0" y="282.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">VERIFIED: llm-d 1.0</text>
 <text x="1535.0" y="307.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Agent model config pending</text>
 <rect x="1800" y="200" width="320" height="145" rx="12" fill="#f1f3f6" stroke="#7d8795" stroke-width="2"/>
 <text x="1960.0" y="252.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Agent registry</text>
 <text x="1960.0" y="282.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">PLANNED</text>
 <text x="1960.0" y="307.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Published agent versions</text>
-<rect x="60" y="500" width="290" height="145" rx="12" fill="#f1f3f6" stroke="#7d8795" stroke-width="2"/>
+<rect x="60" y="500" width="290" height="145" rx="12" fill="#e8f4fa" stroke="#327d9c" stroke-width="2"/>
 <text x="205.0" y="552.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Airflow RAG job</text>
-<text x="205.0" y="582.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">PLANNED</text>
-<text x="205.0" y="607.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Text -&gt; chunks -&gt; Feast</text>
+<text x="205.0" y="582.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">VERIFIED</text>
+<text x="205.0" y="607.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Six tasks / DataHub</text>
 <rect x="800" y="500" width="300" height="145" rx="12" fill="#f1f3f6" stroke="#7d8795" stroke-width="2"/>
 <text x="950.0" y="552.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Data / RAG agent</text>
 <text x="950.0" y="582.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">PLANNED</text>
@@ -39,10 +39,10 @@
 <text x="1960.0" y="552.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Warm worker pool</text>
 <text x="1960.0" y="582.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">PLANNED</text>
 <text x="1960.0" y="607.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Agent startup benchmark</text>
-<rect x="60" y="800" width="290" height="145" rx="12" fill="#f1f3f6" stroke="#7d8795" stroke-width="2"/>
+<rect x="60" y="800" width="290" height="145" rx="12" fill="#e8f4fa" stroke="#327d9c" stroke-width="2"/>
 <text x="205.0" y="852.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Embedding job</text>
-<text x="205.0" y="882.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">IN PROGRESS</text>
-<text x="205.0" y="907.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Pinned MiniLM CPU</text>
+<text x="205.0" y="882.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">VERIFIED</text>
+<text x="205.0" y="907.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">MiniLM / 384 dimensions</text>
 <rect x="800" y="800" width="300" height="145" rx="12" fill="#f1f3f6" stroke="#7d8795" stroke-width="2"/>
 <text x="950.0" y="852.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Data / chunk MCP</text>
 <text x="950.0" y="882.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">PLANNED</text>
@@ -55,14 +55,14 @@
 <text x="1960.0" y="852.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Agent / LLM telemetry</text>
 <text x="1960.0" y="882.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">PLANNED</text>
 <text x="1960.0" y="907.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Tokens / TTFT / tool calls</text>
-<rect x="60" y="1100" width="290" height="145" rx="12" fill="#f1f3f6" stroke="#7d8795" stroke-width="2"/>
+<rect x="60" y="1100" width="290" height="145" rx="12" fill="#e8f4fa" stroke="#327d9c" stroke-width="2"/>
 <text x="205.0" y="1152.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Knowledge store</text>
-<text x="205.0" y="1182.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">PLANNED</text>
-<text x="205.0" y="1207.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Feast registry / vectors</text>
+<text x="205.0" y="1182.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">VERIFIED</text>
+<text x="205.0" y="1207.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Feast / Milvus / 18 chunks</text>
 <rect x="1800" y="1100" width="320" height="145" rx="12" fill="#e8f4fa" stroke="#327d9c" stroke-width="2"/>
 <text x="1960.0" y="1152.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Custom model server</text>
-<text x="1960.0" y="1182.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">RUNNING: Qwen2.5 1.5B</text>
-<text x="1960.0" y="1207.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">CPU / Q4_K_M benchmark</text>
+<text x="1960.0" y="1182.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">VERIFIED: Qwen2.5 7B</text>
+<text x="1960.0" y="1207.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">1.5B benchmark separate</text>
 <rect x="800" y="1100" width="300" height="145" rx="12" fill="#e5f4ed" stroke="#368168" stroke-width="2"/>
 <text x="950.0" y="1152.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Existing Feature API</text>
 <text x="950.0" y="1182.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">ML implementation exists</text>
@@ -131,5 +131,5 @@
 <polygon points="800,870 789.6076951545867,876.0 789.6076951545867,864.0" fill="#596e86"/>
 <rect x="516.0" y="1133" width="148.0" height="25" rx="4" fill="white"/>
 <text x="590" y="1150" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">K4  Retrieved chunks</text>
-<text x="60" y="1320" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#16273b">Remaining proof: RAG lineage, MCP/agents, global config, sandbox, registry, warm-up, CI, A/B and full token/tool telemetry.</text>
+<text x="60" y="1320" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#16273b">Remaining proof: MCP/agents, global config, sandbox, registry, warm-up, CI, A/B and full token/tool telemetry.</text>
 </svg>

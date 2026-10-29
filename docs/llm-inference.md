@@ -1,6 +1,6 @@
 # CPU inference through llm-d
 
-The first LLM milestone runs a real model behind the llm-d router on the existing coursework VM. It establishes inference and a measured configuration change. RAG, MCP execution and agent coordination are separate milestones.
+The first LLM milestone ran a real model behind the llm-d router on the existing coursework VM. It establishes inference and a measured configuration change for the **1.5B prototype**. The current backend is the [7B grounding candidate](llm-grounding.md); the prototype results below remain unchanged.
 
 ## What each part does
 
@@ -72,7 +72,7 @@ Then, in another PowerShell terminal:
 
 ```powershell
 $body = @{
-  model = 'iot-qwen2.5-1.5b'
+  model = 'iot-qwen2.5-7b'
   messages = @(@{role = 'user'; content = 'Explain why a high vibration reading alone does not prove a pump failure.'})
   max_tokens = 100
   temperature = 0
@@ -82,7 +82,7 @@ $reply.choices[0].message.content
 $reply.usage
 ```
 
-This question tests generation without retrieval. Until the RAG/tool path is integrated, its answer is not cited machine-specific evidence.
+This command targets the current 7B backend and tests generation without retrieval. Use the [grounded probe](llm-grounding.md#repeat-the-live-probe-on-the-retained-vm) to retrieve and verify references. Neither command inspects a real machine.
 
 Offline verification requires no running VM:
 
@@ -94,6 +94,6 @@ The checker pins the [94-payload capsule](evidence/llm-inference/manifest.json),
 
 ## Next dependency
 
-The [LLM learning guide](llm-learning-guide.md) follows the full request. The [workstream](llm-agent-plan.md) tracks remaining RAG/Airflow/DataHub, global model configuration, MCP, specialist/coordinator agents, registry, sandbox, warm-up, CI, telemetry and A/B requirements.
+The [LLM learning guide](llm-learning-guide.md) follows the full request. [RAG orchestration](rag-orchestration.md) and [grounded responses](llm-grounding.md) now have separate native proof. The [workstream](llm-agent-plan.md) tracks remaining global model configuration, MCP, specialist/coordinator agents, registry, sandbox, warm-up, CI, telemetry and A/B requirements.
 
 Official references: [llm-d quickstart](https://llm-d.ai/docs/getting-started/quickstart), [llama.cpp server](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md), [Qwen model](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF).

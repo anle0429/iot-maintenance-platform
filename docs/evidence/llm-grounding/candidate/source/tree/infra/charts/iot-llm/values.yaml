@@ -1,0 +1,9 @@
+image: ghcr.io/ggml-org/llama.cpp@sha256:2dd73958b10a819976be48be87fb6c7aa1d1178654f1ab7ada6ddf800959042b
+modelDirectory: /srv/iot-fast/models/iot-qwen2.5-1.5b
+modelFile: qwen2.5-1.5b-instruct-q4_k_m.gguf
+servedModel: iot-qwen2.5-1.5b
+threads: 4
+contextTokens: 4096
+resources:
+  requests: {cpu: '2', memory: 2Gi}
+  limits: {cpu: '4', memory: 6Gi}

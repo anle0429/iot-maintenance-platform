@@ -6,7 +6,7 @@ This project follows pump telemetry from ingestion and validation through featur
 
 Built as an individual **Engineering for Data & AI — EDAI K11** coursework project. All equipment records, sensor readings and failure events are simulated.
 
-The selected scope includes **final ML and final LLM/agents**. The Data/ML lab and initial CPU LLM inference have recorded runtime evidence. RAG and agent integration are being built; the full LLM/agent workstream remains incomplete.
+The selected scope includes **final ML and final LLM/agents**. The Data/ML lab, CPU inference and RAG ingestion/governance have recorded runtime evidence. Three reference questions also have verified generated citations. MCP and agent integration remain in progress.
 
 [Demo guide](docs/demo-walkthrough.md) · [Architecture details](docs/architecture.md) · [Verification report](docs/final-audit.md)
 
@@ -105,9 +105,9 @@ The gateway uses private lab domains and a private CA. Service-mesh authorizatio
 
 ### LLM and agent extension
 
-![LLM extension: blue inference units are verified; gray agent/RAG units remain planned](docs/images/platform-llm-plan.png)
+![LLM extension: verified inference and RAG components with planned agent integration](docs/images/platform-llm-plan.png)
 
-llm-d now routes real requests to a pinned Qwen2.5 CPU backend. A controlled 1-thread/4-thread comparison and structured tool-selection probe are recorded in the [inference report](docs/llm-inference.md). The [RAG core](docs/rag-foundation.md) has native chunk/embedding/Feast retrieval proof. Airflow/governance integration, MCP execution, agents, registry, sandbox, warm-up, delivery and full telemetry remain separate open requirements. [Learning guide](docs/llm-learning-guide.md) · [Workstream](docs/llm-agent-plan.md) · [LLM tracker](docs/final-llm-rubric-tracker.md) · [SVG](docs/images/platform-llm-plan.svg)
+llm-d routes requests to a pinned Qwen2.5 CPU backend. The [inference report](docs/llm-inference.md) records a 1-thread/4-thread comparison for the 1.5B prototype. The current 7B backend answers [three reference questions with verified citations](docs/llm-grounding.md). A [six-task Airflow pipeline](docs/rag-orchestration.md) indexes 18 chunks through Feast, checks persisted data and publishes DataHub lineage/assertions. MCP execution, agents, registry, sandbox, warm-up, CI and full telemetry remain open. [Learning guide](docs/llm-learning-guide.md) · [LLM tracker](docs/final-llm-rubric-tracker.md) · [SVG](docs/images/platform-llm-plan.svg)
 
 ## Recorded results
 
@@ -119,6 +119,8 @@ llm-d now routes real requests to a pinned Qwen2.5 CPU backend. A controlled 1-t
 | Inference | Model version 6 demo: 195 valid predictions and 5 stopped-machine HTTP 409 responses across 200 machines | [Serving handover](docs/final-handover.md) |
 | PC verification | 748 tests and 314 subtests passed; 7 documented skips; 26 evidence verifiers passed from an independent clean clone | [Final audit](docs/final-audit.md) |
 | CPU LLM inference | Same-workload median response 5.047 → 1.682 s with 1 → 4 threads; actual llm-d routing and a structured tool-selection response | [Inference report](docs/llm-inference.md) |
+| Knowledge pipeline | Six actual Airflow tasks, 18 Feast/Milvus chunks, ten persisted quality checks, DataHub lineage and rejected bad-source input | [RAG orchestration](docs/rag-orchestration.md) |
+| Grounded generation | Three actual 7B responses with independently verified rankings and source-bound citations; small acceptance set | [Grounding report](docs/llm-grounding.md) |
 
 The 100 GB run covers source ingestion through Bronze/Silver. Feature engineering and ML use the separate 60-day dataset. API coverage, mutation scores and load-test measurements are recorded with their workloads in [serving CI](docs/ci-serving.md), [API validation](docs/api-validation.md) and [load testing](docs/observed-api-load.md).
 
@@ -149,7 +151,7 @@ $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-The audit checks both source rubrics, payload hashes and 27 offline verifiers. It writes `verification.json` and the verifier consoles to the output directory. It checks recorded results rather than rerunning the pipelines; initial LLM inference does not mark the full agent track complete.
+The audit checks both source rubrics, payload hashes and 30 offline verifiers. It writes `verification.json` and the verifier consoles to the output directory. It checks recorded results rather than rerunning the pipelines; successful RAG and inference checks do not mark the full agent track complete.
 
 ### Call the lab API
 

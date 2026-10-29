@@ -4,13 +4,13 @@
 
 The selected scope is now final ML plus final LLM/agents. The supplied workbook has 57 weighted ML rows and 60 weighted LLM rows, with 100 source points per sheet. These are source weights, not self-awarded marks. The original source cells and workbook bytes are preserved separately from the pinned English views.
 
-Recorded ML lab evidence covers the linked ML requirements within documented boundaries. Initial CPU inference and llm-d routing now have [separate native proof](llm-inference.md). RAG and agent requirements remain incomplete, so the whole selected coursework must not be described as complete. Shared infrastructure or ML API tests are not relabeled as MCP/agent proof.
+Recorded ML lab evidence covers the linked ML requirements within documented boundaries. CPU inference and llm-d routing have [separate native proof](llm-inference.md). [RAG ingestion/governance](rag-orchestration.md) and [three grounded responses](llm-grounding.md) are also verified. MCP and agent requirements remain incomplete, so the whole selected coursework must not be described as complete. Shared infrastructure or ML API tests are not relabeled as MCP/agent proof.
 
 ## Audit method
 
-The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It now runs 27 read-only artifact verifiers, including CPU inference, and checks nine additional native capsules with 685 payloads. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
+The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It now runs 30 read-only artifact verifiers, including inference, RAG core, grounding and orchestration, and checks nine additional native capsules with 685 payloads. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
 
-The original ML source-language tracker is archived. Translation changes the presentation columns, not the preserved source requirements. A lowered threshold, missing row or changed translation pin fails the checks. The JSON report distinguishes `llm_inference_verified` from the still-incomplete full LLM runtime and `coursework_complete=false`.
+The original ML source-language tracker is archived. Translation changes the presentation columns, not the preserved source requirements. A lowered threshold, missing row or changed translation pin fails the checks. The JSON report distinguishes inference, grounding and orchestration verification from the still-incomplete full LLM runtime and `coursework_complete=false`.
 
 ## Issues corrected during the ML review
 
@@ -23,6 +23,8 @@ The after-restart package verifies native materialization of 200 machines, nine 
 The 100 GB workload covers Bronze/Silver, while ML uses 3.132 million rows from a separate 60-day source. Two executor Pods share one physical VM. Gateway domains/CA are private. Vault has two lab consumers; the mesh test is isolated. Stream CI uses a small fixture and full retained-window checks run separately. Original images and logs remain in their capture language. Laptop execution, production HA, full 100 GB ML and a complete LLM/agent system are not established.
 
 ## English documentation review
+
+The later LLM/RAG implementation check on this PC passed 770 tests and 333 subtests, with seven documented skips, in 85.57 seconds. All 30 offline artifact verifiers passed. The repository audit found descriptions for 1,824 definitions in 353 maintained Python files. The native integration packages retain 145 grounding and 223 orchestration payloads, including the rejected predecessors and original browser captures. These checks leave the full agent track open.
 
 The presentation review checked 1,823 local links and five generated architecture views. All 26 historical artifact verifiers passed. The PC regression suite passed 752 tests and 314 subtests, with seven documented skips. The repository audit found descriptions for all 1,745 definitions in 323 maintained Python files.
 

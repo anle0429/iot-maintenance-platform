@@ -1,0 +1,63 @@
+[
+    {
+        "Id": "sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695",
+        "RepoTags": [
+            "iot-coursework-metadata:1.6.0"
+        ],
+        "RepoDigests": [
+            "iot-coursework-metadata@sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695"
+        ],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-10-26T19:35:24.009518407Z",
+        "Config": {
+            "Env": [
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305",
+                "PYTHON_VERSION=3.12.12",
+                "PYTHON_SHA256=fb85a13414b028c49ba18bbd523c2d055a30b56b18b92ce454ea2c51edc656c4"
+            ],
+            "Entrypoint": [
+                "python",
+                "-m",
+                "pipelines.metadata_publish"
+            ],
+            "WorkingDir": "/workspace"
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 345972222,
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:9eb9a78eeb101ab215acf43ffb2a709d5fca9ca2a22178564c7ee5cc30774c60",
+                "sha256:9a0912b10e7336b5032c96abfaaad92f0fba6c03cbb315ea5f9ff37442520911",
+                "sha256:78a4eeeff9630145665d0439c75b49eb0fb4ae92de07a5fa541365d8587ac5aa",
+                "sha256:1f6b48d1b8f31d448ca0c4f981b51eaec48e38809d015e7d941534aa12c452b6",
+                "sha256:c10af8da9ea44c609f1b5469eb16bbf6751d0e1c12958ac3a49afb29abe14b8f",
+                "sha256:a66ec9362c93d1281f59c9510562670877a218055618cbf08bb72aeb0ccc39ac"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-10-26T19:45:05.216348304Z"
+        },
+        "Descriptor": {
+            "mediaType": "application/vnd.oci.image.index.v1+json",
+            "digest": "sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695",
+            "size": 856
+        },
+        "Identity": {
+            "Pull": [
+                {
+                    "Repository": "docker.io/library/iot-coursework-metadata"
+                }
+            ],
+            "Build": [
+                {
+                    "Ref": "42w7hsy28mjlpp88603z51wx5",
+                    "CreatedAt": "2026-10-26T19:45:05.231194596Z"
+                }
+            ]
+        }
+    }
+]

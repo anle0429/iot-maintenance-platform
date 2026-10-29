@@ -1,6 +1,6 @@
 # Rubric implementation and evidence map
 
-Both final ML and final LLM/agents are selected. The tables distinguish recorded ML evidence from unverified LLM work. Source weights are not self-awarded grades. [Source notes](rubric-source.md) preserve the original workbook/cell references.
+Both final ML and final LLM/agents are selected. The tables distinguish recorded ML/LLM milestones from remaining agent work. Source weights are not self-awarded grades. [Source notes](rubric-source.md) preserve the original workbook/cell references.
 
 ## Final ML
 
@@ -75,8 +75,8 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 | L05 | LLM inference platform | Benchmark the model server and optimize the inference platform. | [Recorded native inference](llm-inference.md) |
 | L06 | Global model configuration | Deploy a global model configuration that allows agents to use the custom model. | Open: native LLM evidence missing |
 | L07 | Agent registry | Deploy an agent registry. | Open: native LLM evidence missing |
-| L08 | RAG pipeline | Build an Airflow RAG pipeline with text retrieval, chunking and chunk-embedding storage in a feature store through Feast. | Open: native LLM evidence missing |
-| L09 | RAG pipeline | Provide data governance for the RAG pipeline as in the mini-coursework. | Open: native LLM evidence missing |
+| L08 | RAG pipeline | Build an Airflow RAG pipeline with text retrieval, chunking and chunk-embedding storage in a feature store through Feast. | Recorded native RAG evidence; [report](rag-orchestration.md) |
+| L09 | RAG pipeline | Provide data governance for the RAG pipeline as in the mini-coursework. | Recorded native RAG evidence; [report](rag-orchestration.md) |
 | L10 | Retrieval MCP and agent | Use FastAPI, Pydantic validation and Kubernetes health checks for the entity/chunk retrieval Web API. | Open: native LLM evidence missing |
 | L11 | Retrieval MCP and agent | Use asynchronous request handling in the entity/chunk retrieval API. | Open: native LLM evidence missing |
 | L12 | Retrieval MCP and agent | Deploy the retrieval API as an MCP tool to Kubernetes with Helm, rolling updates and automatic fallback; follow MCP-specific deployment guidance. | Open: native LLM evidence missing |

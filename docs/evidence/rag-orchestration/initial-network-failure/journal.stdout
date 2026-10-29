@@ -1,0 +1,9 @@
+Started iot-rag-airflow-29a.service - /usr/bin/python3 /srv/iot-data/workspace/iot-maintenance-platform/data/llm-source/rag-airflow-29a/tree/scripts/deploy-rag-airflow.py --runtime-root /srv/iot-data/workspace/iot-maintenance-platform --source-root /srv/iot-data/workspace/iot-maintenance-platform/data/llm-source/rag-airflow-29a/tree --run rag-airflow-29a.
+Traceback (most recent call last):
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/llm-source/rag-airflow-29a/tree/scripts/deploy-rag-airflow.py", line 107, in <module>
+    deploy(parser.parse_args())
+  File "/srv/iot-data/workspace/iot-maintenance-platform/data/llm-source/rag-airflow-29a/tree/scripts/deploy-rag-airflow.py", line 95, in deploy
+    raise RuntimeError('The real RAG DAG failed; preserve its task/container state')
+RuntimeError: The real RAG DAG failed; preserve its task/container state
+iot-rag-airflow-29a.service: Main process exited, code=exited, status=1/FAILURE
+iot-rag-airflow-29a.service: Failed with result 'exit-code'.

@@ -22,6 +22,7 @@ VERIFIERS = (
     'drift-retraining', 'final-handover', 'focused-api', 'host-monitoring', 'iac-final',
     'joint-cohort', 'linux-host', 'linux-logs', 'log-discovery', 'native-serving',
     'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort', 'final-review', 'llm-inference',
+    'rag-foundation', 'llm-grounding', 'rag-orchestration',
 )
 CAPSULES = (
     'drift-api', 'api-autoscale', 'notebook', 'notebook-parity', 'distributed-training',
@@ -160,7 +161,7 @@ def audit(output, workers):
             assert path.is_relative_to(ROOT) and path.is_file(), (key, target)
             links += 1
     capsules = {name: capsule_manifest(ROOT, name) for name in CAPSULES}
-    checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py']
+    checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py', ROOT / 'scripts/integration_evidence.py']
     source_before = {p.relative_to(ROOT).as_posix(): sha256(p.read_bytes()).hexdigest() for p in checkers}
     results = {}
     with ThreadPoolExecutor(max_workers=workers) as pool:
@@ -177,9 +178,11 @@ def audit(output, workers):
               'source_columns_unchanged': False, 'source_text_preserved_in_snapshots': True, 'presentation_language': 'en',
               'english_translations_pinned': True, 'llm_scored_rows': len(llm_rows), 'llm_source_points': 100,
               'llm_inference_verified': results['llm-inference']['exit'] == 0,
+              'llm_grounding_verified': results['llm-grounding']['exit'] == 0,
+              'rag_orchestration_verified': results['rag-orchestration']['exit'] == 0,
               'llm_runtime_verified': False, 'coursework_complete': False,
               'local_evidence_links': links, 'additional_capsule_payloads': capsules, 'verifiers': results,
-              'live_readiness_checked': False, 'scope': 'Historical ML and initial LLM inference artifacts plus both rubric presentations. Full LLM/agent track remains incomplete. Not a grade, current readiness, full100GB ML or laptop verification.'}
+              'live_readiness_checked': False, 'scope': 'Historical ML, LLM inference, bounded grounding and RAG orchestration artifacts plus both rubric presentations. Full LLM/agent track remains incomplete. Not a grade, current readiness, full100GB ML or laptop verification.'}
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(report, indent=2))
     return 0 if report['passed'] else 1

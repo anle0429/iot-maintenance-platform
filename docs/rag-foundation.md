@@ -1,6 +1,6 @@
 # Versioned knowledge ingestion and native retrieval
 
-This milestone verifies the core RAG data path on the existing VM: four authored sources become 18 chunks, a real CPU encoder produces 384-dimensional embeddings, and native Feast stores/retrieves the data through Milvus Lite. It is not yet an Airflow/DataHub or agent demonstration.
+This first milestone verifies the core RAG data path on the existing VM: four authored sources become 18 chunks, a real CPU encoder produces 384-dimensional embeddings, and native Feast stores/retrieves the data through Milvus Lite. Later milestones add [Airflow/DataHub](rag-orchestration.md) and [source-cited generation](llm-grounding.md); agent execution remains open.
 
 ## Source and chunk contracts
 
@@ -26,7 +26,7 @@ All five containers exited zero, without OOM, under UID 10001, read-only roots, 
 
 Writing the same frame a second time returned the same values for all 18 chunk keys. The report preserves both SDK responses. It does not claim a transaction across arbitrary stores, concurrent index updates or independently measured physical row counts.
 
-The three native queries concern high vibration, prediction rejection for stopped pumps and the distinction between input drift and accuracy. Relevant documents appear in the top three. This is a small acceptance set, not a broad retrieval-quality benchmark or proof that a model generated a grounded answer. LLM answers and citations are the next integration boundary.
+The three native queries concern high vibration, prediction rejection for stopped pumps and the distinction between input drift and accuracy. Relevant documents appear in the top three. This original check did not prove that every column shared the same ordering as the ranked chunk IDs. A later source audit found an inconsistency; the [keyed retrieval adapter and corrected probe](llm-grounding.md#why-the-retrieval-adapter-exists) address it. The original records remain unchanged. This is a small acceptance set, not a broad retrieval-quality benchmark.
 
 ## Run and inspect
 
@@ -48,6 +48,6 @@ The [69-payload capsule](evidence/rag-foundation/manifest.json) retains the orig
 
 ## Remaining acceptance work
 
-Schedule the stages in Airflow; publish actual DataHub lineage/assertions; validate a failure path; connect retrieved context to real llm-d responses; then expose the bounded retrieval path through authenticated, validated MCP tools. Keep L08/L09 open until the required Airflow/governance evidence exists. See the [learning guide](llm-learning-guide.md) and [LLM tracker](final-llm-rubric-tracker.md).
+The [Airflow/governance run](rag-orchestration.md) now includes the successful DAG, a rejected source, native lineage/readback and original UI captures for L08/L09. The [grounded probe](llm-grounding.md) adds native post-replay entity counts, independent rankings and generated citations. The next boundary is authenticated, validated MCP execution and the remaining agent requirements. See the [learning guide](llm-learning-guide.md) and [LLM tracker](final-llm-rubric-tracker.md).
 
 The implementation follows the [Feast vector-RAG API](https://docs.feast.dev/tutorials/rag-with-docling) using the project's authored Markdown corpus and section chunker; it does not claim to have executed the tutorial's Docling/PDF example.

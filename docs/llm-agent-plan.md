@@ -1,6 +1,6 @@
 # LLM and agent workstream
 
-**Status: initial LLM inference verified; remaining agent workstream incomplete.** A real llm-d router and CPU model have [native proof](llm-inference.md). Existing ML APIs provide integration points; they do not establish MCP or agent execution. Start with the [learning guide](llm-learning-guide.md) to follow the information flow.
+**Status: inference, bounded grounded generation and RAG orchestration/governance verified; agent workstream incomplete.** A real llm-d router and CPU model have [native proof](llm-inference.md). The [RAG pipeline](rag-orchestration.md) and [three cited responses](llm-grounding.md) have separate acceptance records. Existing ML APIs provide integration points; they do not establish MCP or agent execution. Start with the [learning guide](llm-learning-guide.md) to follow the information flow.
 
 ![Staged LLM and agent components, with verified inference and existing ML endpoints distinguished](images/platform-llm-plan.png)
 
@@ -15,7 +15,7 @@ A user asks about a machine's recent condition, risk or a relevant technical doc
 | Area | Required work | Existing baseline |
 |---|---|---|
 | Inference | llm-d platform, custom server, global model configuration, measured optimization | Router/custom backend and CPU-thread comparison verified; agent-global configuration pending |
-| Knowledge | Authored corpus, Airflow text/chunk/embedding pipeline, Feast storage, validation and DataHub lineage | [Native five-stage core verified](rag-foundation.md); Airflow/DataHub integration pending |
+| Knowledge | Authored corpus, Airflow text/chunk/embedding pipeline, Feast storage, validation and DataHub lineage | [Six-task Airflow/GMS run, ten checks and invalid-input rejection](rag-orchestration.md); [source-cited generation](llm-grounding.md) verified on three questions |
 | Tools | Async validated data/chunk and drift MCP services, health checks, Helm rollout/fallback | Feature/drift HTTP APIs are not yet MCP deployments |
 | Agents | Retrieval and drift specialists, coordinator, registry publication, multi-replica autoscaling and sandbox | None deployed |
 | Startup | Agent Substrate warm-up, worker-pool HA explanation and startup benchmark | Not implemented |
