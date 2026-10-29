@@ -53,8 +53,8 @@ def run(args):
     for kind,name in [('deployment',release),('service',release),('networkpolicy',release),('secret','iot-llm-observer-client')]:
         if subprocess.check_output(k+['get',kind,name,'-n',namespace,'--ignore-not-found','-o','name'],stderr=subprocess.PIPE).strip():
             raise ValueError('Inspect and preserve the existing named observer resource before another install')
-    for path in [args.role.resolve(),args.ca.resolve()]:
-        if not path.is_relative_to(root/'data/runtime'):raise ValueError('Keep Vault identity and CA in the retained private runtime')
+    if not args.role.resolve().is_relative_to(root/'data/runtime') or not args.ca.resolve().is_relative_to(root):
+        raise ValueError('Keep the Vault identity private and its verified public CA inside the retained project')
     client=VaultClient('https://10.52.0.1:18200',args.ca,json.loads(args.role.read_bytes()))
     lease=client.login()
     try:data,version=client.read('iot/data/agents/services')
