@@ -12,7 +12,7 @@ import sys
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE_SNAPSHOT_SHA256 = '37ae3f47b05035d159bdb7ea2987ac9e83b60577e4103428b68e80bd77ff0914'
+SOURCE_SNAPSHOT_SHA256 = '66b8c73d65bb101b2966e1155898d080901002a6fcbd2c1432063befca871ae3'
 VERIFIERS = (
     'ab-monitoring', 'active-feature-refresh', 'api-observability', 'ci-api-observability',
     'ci-stream-push', 'ci-training', 'datahub-restore', 'deployment-policy', 'drift-eventing',

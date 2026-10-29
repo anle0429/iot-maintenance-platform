@@ -1,6 +1,7 @@
 """Ensure final-rubric auditing rejects weakened requirements, missing rows and modified or escaped evidence."""
 import importlib.util
 import json
+import subprocess
 from hashlib import sha256
 from pathlib import Path
 import tempfile
@@ -29,6 +30,14 @@ class FinalAuditTests(unittest.TestCase):
         self.assertIn('OFFLINE store', rows['F20'][3])
         # Green status text is not evidence of success and is not used to accept the requirements.
         AUDIT.rubric_rows(self.snapshot, self.text.replace('Có bằng chứng', 'Chưa đánh giá'))
+
+    def test_snapshot_pin_matches_git_blob_and_checkout(self):
+        """Catch a Windows CRLF-derived pin that cannot verify an otherwise clean independent checkout."""
+        path = 'docs/evidence/rubric-final/source.json'
+        blob = subprocess.check_output(['git', 'show', 'HEAD:' + path], cwd=ROOT)
+        self.assertEqual(sha256(blob).hexdigest(), AUDIT.SOURCE_SNAPSHOT_SHA256)
+        self.assertEqual((ROOT / path).read_bytes(), blob)
+        self.assertEqual(AUDIT.original_snapshot(ROOT / path), self.snapshot)
 
     def test_weakened_requirement_missing_and_duplicate_rows_fail(self):
         """Reject a lowered mutation threshold, a removed final idea and a duplicated API criterion."""
