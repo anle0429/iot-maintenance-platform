@@ -4,7 +4,7 @@ The subsequent [GPU agent checkpoint](gpu-agent-routing.md) records complete spe
 
 The deployment recorded on 29 October uses kagent 0.10.3, Agent Substrate 0.0.9 and agentregistry 0.4.0 on the retained VM. Three sandbox agents reached Ready with golden snapshots and separate two-worker pools. Their versioned catalog entries identify the actual runtime image, Kubernetes resource UID and agent-specification hash. Current availability depends on an active VM session and fresh feature data.
 
-This checkpoint verifies the platform foundation. Complete specialist/coordinator conversations, notebook demonstrations, autoscaling, isolation probes and a warm-up comparison remain separate acceptance work.
+This page retains the original platform foundation. Later checkpoints verify [GPU specialist/coordinator conversations](gpu-agent-routing.md), [MCP isolation](agent-network-isolation.md) and [automatic worker scaling with original UI captures](agent-scaling.md). Notebook demonstrations and a measured cold/warm comparison remain separate acceptance work.
 
 ![Three sandbox agents using the same local model](evidence/agent-platform/ui/native-ready-agents.jpg)
 
@@ -14,7 +14,7 @@ The retrieval specialist has three MCP tools: read machine features, obtain the 
 
 All three reference `default-model-config`, which selects the existing Qwen2.5-7B backend through llm-d. `OpenAI` in this configuration names the compatible API protocol. It does not select a paid external OpenAI model. The applied settings and the generated per-agent settings are checked independently, without exporting their credentials.
 
-Substrate creates actors inside gVisor workers. A worker is a slot for an executing actor, rather than a permanently running copy of one chat session. The three pools each have two workers. Idle sessions can snapshot and release a slot. Six workers on one VM provide process capacity; they do not provide host-level high availability or demonstrate autoscaling.
+Substrate creates actors inside gVisor workers. A worker is a slot for an executing actor, rather than a permanently running copy of one chat session. The original foundation kept two workers per role. A later [KEDA experiment](agent-scaling.md) verified automatic 2 → 4 → 2 scaling for all three pools. Idle sessions can snapshot and release a slot. The pools share one control VM, so additional workers do not establish host-level high availability.
 
 The installation follows the version-compatible [kagent Substrate guide](https://kagent.dev/docs/kagent/0.x/examples/agent-substrate/). The controller verifies the Substrate API certificate using the generated public CA. JWT authentication uses the retained cluster's ServiceAccount issuer. The trusted runtime workers and atelet require host privileges. These are distinct from the isolated agent actor and from the unprivileged MCP services.
 

@@ -1,0 +1,531 @@
+Browser tab: 103, Title: "kagent.dev", URL: "http://127.0.0.1:18088/substrate".
+0 AXWebArea kagent.dev, URL: 127.0.0.1:18088/substrate
+	1 container
+		3 link 127.0.0.1:18088/
+		4 link Description: Home, Value: 127.0.0.1:18088/
+		5 pop up button (collapsed) Create, ID: radix-_R_5ldb_, Secondary Actions: Expand
+		6 pop up button (collapsed) View, ID: radix-_R_7ldb_, Secondary Actions: Expand
+		7 link Description: Contribute, Value: github.com/kagent-dev/kagent
+		8 link Description: Community, Value: discord.gg/Fu3k65f2k3
+		9 pop up button (collapsed) Toggle theme, ID: radix-_R_dldb_, Secondary Actions: Expand
+		10 container
+			11 link Description: Skip to content, Value: 127.0.0.1:18088/substrate#page-main
+			12 container Agent Substrate, ID: page-main
+				13 container
+					14 heading Agent Substrate, Value: 1, ID: substrate-page-title
+						15 text Agent Substrate
+					16 text Worker pools and actor templates from Kubernetes, plus live actors and worker assignments from ate-api.
+				17 text Namespace
+				18 combo box (collapsed) Namespace, Value: All watched namespaces, ID: substrate-ns, Secondary Actions: Expand
+					19 text All watched namespaces
+				20 text Auto-refresh
+				21 combo box (collapsed) Auto-refresh, Value: 2 seconds, ID: substrate-refresh-interval, Secondary Actions: Expand
+					22 text 2 seconds
+				23 button Refresh
+				24 definition list
+					25 container WORKER POOLS
+						26 text WORKER POOLS
+					27 text 3
+					28 container TEMPLATES READY
+						29 text TEMPLATES READY
+					30 text 3/3
+					31 container ACTORS RUNNING
+						32 text ACTORS RUNNING
+					33 text 0/36
+					34 container WORKERS BUSY
+						35 text WORKERS BUSY
+					36 text 0/6
+					37 container ATE-API
+						38 text ATE-API
+					39 text connected
+					40 container SCOPE
+						41 text SCOPE
+					42 text all
+				43 container
+					44 heading Worker pools, Value: 2
+						45 text Worker pools
+					46 text 3 Kubernetes WorkerPool CRs
+					47 table
+						48 row
+							49 cell
+								50 text POOL
+							51 cell
+								52 text REPLICAS
+							53 cell
+								54 text ATEOM IMAGE
+						55 row
+							56 cell
+								57 text iot-agents / iot-coordinator-pool
+							58 cell
+								59 text 2
+							60 cell
+								61 text ghcr.io/kagent-dev/substrate/ateom-gvisor:v0.0.9
+						62 row
+							63 cell
+								64 text iot-agents / iot-drift-pool
+							65 cell
+								66 text 2
+							67 cell
+								68 text ghcr.io/kagent-dev/substrate/ateom-gvisor:v0.0.9
+						69 row
+							70 cell
+								71 text iot-agents / iot-retrieval-pool
+							72 cell
+								73 text 2
+							74 cell
+								75 text ghcr.io/kagent-dev/substrate/ateom-gvisor:v0.0.9
+				76 container
+					77 heading Actor templates, Value: 2
+						78 text Actor templates
+					79 text 3 Golden snapshots and harness-owned templates
+					80 table
+						81 row
+							82 cell
+								83 text TEMPLATE
+							84 cell
+								85 text PHASE
+							86 cell
+								87 text SANDBOX CLASS
+							88 cell
+								89 text WORKER SELECTOR
+							90 cell
+								91 text HARNESS
+						92 row
+							93 cell
+								94 container
+									95 text iot-agents / iot-coordinator-e538441cc4bd9608
+								96 container
+									97 text golden:  aba779e8-5b9e-47bf-bd5b-614dbb6cb308
+							98 cell
+								99 text READY
+							100 cell
+								101 text gvisor
+							102 cell
+								103 text kagent.dev/worker-pool=iot-coordinator-pool
+							104 cell
+								105 link Description: iot-coordinator, Value: 127.0.0.1:18088/agents?namespace=iot-agents
+						106 row
+							107 cell
+								108 container
+									109 text iot-agents / iot-drift-79c14651ad58ae16
+								110 container
+									111 text golden:  7711ea3d-01c1-4ef7-b304-5f2396043c85
+							112 cell
+								113 text READY
+							114 cell
+								115 text gvisor
+							116 cell
+								117 text kagent.dev/worker-pool=iot-drift-pool
+							118 cell
+								119 link Description: iot-drift, Value: 127.0.0.1:18088/agents?namespace=iot-agents
+						120 row
+							121 cell
+								122 container
+									123 text iot-agents / iot-retrieval-f8cce8e77a8564aa
+								124 container
+									125 text golden:  8cff75eb-76d3-43ce-9d9c-5babd2aab3cf
+							126 cell
+								127 text READY
+							128 cell
+								129 text gvisor
+							130 cell
+								131 text kagent.dev/worker-pool=iot-retrieval-pool
+							132 cell
+								133 link Description: iot-retrieval, Value: 127.0.0.1:18088/agents?namespace=iot-agents
+				134 container
+					135 heading Actors, Value: 2
+						136 text Actors
+					137 text 36 Live state from ate-api
+					138 table
+						139 row
+							140 cell
+								141 text ACTOR
+							142 cell
+								143 text STATUS
+							144 cell
+								145 text TEMPLATE
+							146 cell
+								147 text WORKER POD
+						148 row
+							149 cell
+								150 text 7711ea3d-01c1-4ef7-b304-5f2396043c85
+							151 cell
+								152 text SUSPENDED
+							153 cell
+								154 text iot-agents/iot-drift-79c14651ad58ae16
+							155 cell
+								156 text —
+						157 row
+							158 cell
+								159 text 8cff75eb-76d3-43ce-9d9c-5babd2aab3cf
+							160 cell
+								161 text SUSPENDED
+							162 cell
+								163 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							164 cell
+								165 text —
+						166 row
+							167 cell
+								168 text aba779e8-5b9e-47bf-bd5b-614dbb6cb308
+							169 cell
+								170 text SUSPENDED
+							171 cell
+								172 text iot-agents/iot-coordinator-e538441cc4bd9608
+							173 cell
+								174 text —
+						175 row
+							176 cell
+								177 text asr-0d3ab58481ece195e2f81dc7
+							178 cell
+								179 text SUSPENDED
+							180 cell
+								181 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							182 cell
+								183 text —
+						184 row
+							185 cell
+								186 text asr-0fd68599e62f9108c072d02d
+							187 cell
+								188 text SUSPENDED
+							189 cell
+								190 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							191 cell
+								192 text —
+						193 row
+							194 cell
+								195 text asr-294e27a603594325d068600e
+							196 cell
+								197 text SUSPENDED
+							198 cell
+								199 text iot-agents/iot-coordinator-e538441cc4bd9608
+							200 cell
+								201 text —
+						202 row
+							203 cell
+								204 text asr-2bf2c943db5918ea48f0a0e9
+							205 cell
+								206 text SUSPENDED
+							207 cell
+								208 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							209 cell
+								210 text —
+						211 row
+							212 cell
+								213 text asr-2ffd8c51fa6e1aaad770083c
+							214 cell
+								215 text SUSPENDED
+							216 cell
+								217 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							218 cell
+								219 text —
+						220 row
+							221 cell
+								222 text asr-3010d8d42882e393942222c1
+							223 cell
+								224 text SUSPENDED
+							225 cell
+								226 text iot-agents/iot-coordinator-e538441cc4bd9608
+							227 cell
+								228 text —
+						229 row
+							230 cell
+								231 text asr-3a11d930096cf9e237b3fa5b
+							232 cell
+								233 text SUSPENDED
+							234 cell
+								235 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							236 cell
+								237 text —
+						238 row
+							239 cell
+								240 text asr-66f5af2e5b2eb74aeaf29b43
+							241 cell
+								242 text SUSPENDED
+							243 cell
+								244 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							245 cell
+								246 text —
+						247 row
+							248 cell
+								249 text asr-6a85f77bafdc596e734b7bcb
+							250 cell
+								251 text SUSPENDED
+							252 cell
+								253 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							254 cell
+								255 text —
+						256 row
+							257 cell
+								258 text asr-6cc15a8470098616c4a80bde
+							259 cell
+								260 text SUSPENDED
+							261 cell
+								262 text iot-agents/iot-coordinator-e538441cc4bd9608
+							263 cell
+								264 text —
+						265 row
+							266 cell
+								267 text asr-821eeaccb0e675ba233e56ac
+							268 cell
+								269 text SUSPENDED
+							270 cell
+								271 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							272 cell
+								273 text —
+						274 row
+							275 cell
+								276 text asr-898ee768557bcb72264602a2
+							277 cell
+								278 text SUSPENDED
+							279 cell
+								280 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							281 cell
+								282 text —
+						283 row
+							284 cell
+								285 text asr-936a644d04c18bef58c3c132
+							286 cell
+								287 text SUSPENDED
+							288 cell
+								289 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							290 cell
+								291 text —
+						292 row
+							293 cell
+								294 text asr-a23705620f91d8109ecb0fb4
+							295 cell
+								296 text SUSPENDED
+							297 cell
+								298 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							299 cell
+								300 text —
+						301 row
+							302 cell
+								303 text asr-a3d328d834892a3ababa59a5
+							304 cell
+								305 text SUSPENDED
+							306 cell
+								307 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							308 cell
+								309 text —
+						310 row
+							311 cell
+								312 text asr-ac934d56e70a84cd07e26b44
+							313 cell
+								314 text SUSPENDED
+							315 cell
+								316 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							317 cell
+								318 text —
+						319 row
+							320 cell
+								321 text asr-ad886156fb8392b2f1debbdd
+							322 cell
+								323 text SUSPENDED
+							324 cell
+								325 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							326 cell
+								327 text —
+						328 row
+							329 cell
+								330 text asr-ae04c8b4ee69437d616e10dd
+							331 cell
+								332 text SUSPENDED
+							333 cell
+								334 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							335 cell
+								336 text —
+						337 row
+							338 cell
+								339 text asr-e53f39bad1a0f391c57ca966
+							340 cell
+								341 text SUSPENDED
+							342 cell
+								343 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							344 cell
+								345 text —
+						346 row
+							347 cell
+								348 text asr-ec02797ef6d76e0fd5aed311
+							349 cell
+								350 text SUSPENDED
+							351 cell
+								352 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							353 cell
+								354 text —
+						355 row
+							356 cell
+								357 text asr-f8b706f329c071b34b682912
+							358 cell
+								359 text SUSPENDED
+							360 cell
+								361 text iot-agents/iot-retrieval-f8cce8e77a8564aa
+							362 cell
+								363 text —
+						364 row
+							365 cell
+								366 text asr-fb5bcdc4a2025611b13855e4
+							367 cell
+								368 text SUSPENDED
+							369 cell
+								370 text iot-agents/iot-coordinator-e538441cc4bd9608
+							371 cell
+								372 text —
+						373 row
+							374 cell
+								375 text asr-iot-agents-iot-drift-01a18685-8aaf-7254-934e-02f1a14fe69e
+							376 cell
+								377 text SUSPENDED
+							378 cell
+								379 text iot-agents/iot-drift-79c14651ad58ae16
+							380 cell
+								381 text —
+						382 row
+							383 cell
+								384 text asr-iot-agents-iot-drift-01a187bf-c97c-70bf-b68f-1fc13aa797f9
+							385 cell
+								386 text SUSPENDED
+							387 cell
+								388 text iot-agents/iot-drift-79c14651ad58ae16
+							389 cell
+								390 text —
+						391 row
+							392 cell
+								393 text asr-iot-agents-iot-drift-01a187cf-08d4-7d48-b772-49878b1ec85b
+							394 cell
+								395 text SUSPENDED
+							396 cell
+								397 text iot-agents/iot-drift-79c14651ad58ae16
+							398 cell
+								399 text —
+						400 row
+							401 cell
+								402 text asr-iot-agents-iot-drift-01a18817-a084-7054-8c7c-07df26be2f5b
+							403 cell
+								404 text SUSPENDED
+							405 cell
+								406 text iot-agents/iot-drift-79c14651ad58ae16
+							407 cell
+								408 text —
+						409 row
+							410 cell
+								411 text asr-iot-agents-iot-drift-06af7ae5-8350-4928-97c5-55138d140652
+							412 cell
+								413 text SUSPENDED
+							414 cell
+								415 text iot-agents/iot-drift-79c14651ad58ae16
+							416 cell
+								417 text —
+						418 row
+							419 cell
+								420 text asr-iot-agents-iot-drift-72d03da1-86f6-4807-837c-d5ec8b17b7b1
+							421 cell
+								422 text SUSPENDED
+							423 cell
+								424 text iot-agents/iot-drift-79c14651ad58ae16
+							425 cell
+								426 text —
+						427 row
+							428 cell
+								429 text asr-iot-agents-iot-drift-9b083ae3-b9c5-42e3-9452-59127932e2ef
+							430 cell
+								431 text SUSPENDED
+							432 cell
+								433 text iot-agents/iot-drift-79c14651ad58ae16
+							434 cell
+								435 text —
+						436 row
+							437 cell
+								438 text asr-iot-agents-iot-drift-b32f6ee6-c94a-4731-97b0-cfe614f59d38
+							439 cell
+								440 text SUSPENDED
+							441 cell
+								442 text iot-agents/iot-drift-79c14651ad58ae16
+							443 cell
+								444 text —
+						445 row
+							446 cell
+								447 text asr-iot-agents-iot-drift-d1b0695a-3bb9-46e9-acd3-6ddd2fc08b01
+							448 cell
+								449 text SUSPENDED
+							450 cell
+								451 text iot-agents/iot-drift-79c14651ad58ae16
+							452 cell
+								453 text —
+						454 row
+							455 cell
+								456 text asr-iot-agents-iot-drift-eac4579a-2db1-4ddc-9cef-d09699121a07
+							457 cell
+								458 text SUSPENDED
+							459 cell
+								460 text iot-agents/iot-drift-79c14651ad58ae16
+							461 cell
+								462 text —
+						463 row
+							464 cell
+								465 text asr-iot-agents-iot-drift-f153e202-49d3-4c23-8569-fc1947ada006
+							466 cell
+								467 text SUSPENDED
+							468 cell
+								469 text iot-agents/iot-drift-79c14651ad58ae16
+							470 cell
+								471 text —
+				472 container
+					473 heading Workers, Value: 2
+						474 text Workers
+					475 text 6 ateom pod assignments
+					476 table
+						477 row
+							478 cell
+								479 text POD
+							480 cell
+								481 text POOL
+							482 cell
+								483 text ACTOR
+						484 row
+							485 cell
+								486 text iot-agents / iot-coordinator-pool-deployment-7cfbf66644-p5nvl
+							487 cell
+								488 text iot-coordinator-pool
+							489 cell
+								490 text idle
+						491 row
+							492 cell
+								493 text iot-agents / iot-coordinator-pool-deployment-7cfbf66644-svvmw
+							494 cell
+								495 text iot-coordinator-pool
+							496 cell
+								497 text idle
+						498 row
+							499 cell
+								500 text iot-agents / iot-drift-pool-deployment-d4944c596-gdpcw
+							501 cell
+								502 text iot-drift-pool
+							503 cell
+								504 text idle
+						505 row
+							506 cell
+								507 text iot-agents / iot-drift-pool-deployment-d4944c596-z6chj
+							508 cell
+								509 text iot-drift-pool
+							510 cell
+								511 text idle
+						512 row
+							513 cell
+								514 text iot-agents / iot-retrieval-pool-deployment-677b46cbc-bw2s4
+							515 cell
+								516 text iot-retrieval-pool
+							517 cell
+								518 text idle
+						519 row
+							520 cell
+								521 text iot-agents / iot-retrieval-pool-deployment-677b46cbc-rs544
+							522 cell
+								523 text iot-retrieval-pool
+							524 cell
+								525 text idle
+		526 image
+		527 text is an open source project
+		2 container Notifications alt+T
+
+The focused UI element is 6 pop up button (collapsed) View, ID: radix-_R_7ldb_, Secondary Actions: Expand

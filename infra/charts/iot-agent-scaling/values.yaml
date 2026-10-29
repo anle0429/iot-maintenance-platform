@@ -1,0 +1,6 @@
+# Worker capacity is independent of the shared GPU model's generation capacity.
+minReplicas: 2
+maxReplicas: 4
+pollingInterval: 5
+scaleDownStabilizationSeconds: 180
+controllerURL: http://kagent-controller.iot-agents.svc.cluster.local:8083/api/substrate/status

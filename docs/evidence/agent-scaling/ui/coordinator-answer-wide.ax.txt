@@ -1,0 +1,81 @@
+Browser tab: 103, Title: "kagent.dev", URL: "http://127.0.0.1:18088/agents/iot-agents/iot-coordinator/chat/c0068ee5-0198-4f85-9aae-bb89fa3b99f1".
+1 AXWebArea kagent.dev, URL: 127.0.0.1:18088/agents/iot-agents/iot-coordinator/chat/c0068ee5-0198-4f85-9aae-bb89fa3b99f1
+	2 container
+		3 link 127.0.0.1:18088/
+		4 link Description: Home, Value: 127.0.0.1:18088/
+		5 pop up button (collapsed) Create, ID: radix-_R_5ldb_, Secondary Actions: Expand
+		6 pop up button (collapsed) View, ID: radix-_R_7ldb_, Secondary Actions: Expand
+		7 link Description: Contribute, Value: github.com/kagent-dev/kagent
+		8 link Description: Community, Value: discord.gg/Fu3k65f2k3
+		9 pop up button (collapsed) Toggle theme, ID: radix-_R_dldb_, Secondary Actions: Expand
+	10 container
+		11 content list
+			12 pop up button (collapsed) iot-agents/iot-coordinator OpenAI(iot-qwen2.5-7b), ID: radix-_R_6cnpfiv5udb_, Secondary Actions: Expand
+				13 image
+				14 text iot-agents/iot-coordinator
+				15 text OpenAI
+				16 text (iot-qwen2.5-7b)
+		40 container
+			41 button New Chat
+			42 content list
+				43 button (expanded) Today, Secondary Actions: Collapse
+				44 content list
+					45 container
+						46 link Description: Untitled 10:11 AM, Value: 127.0.0.1:18088/agents/iot-agents/iot-coordinator/chat/01a18837-82a5-7e6f-85ac-12ae3de782b9
+						47 pop up button (collapsed) More, ID: radix-_r_7_, Secondary Actions: Expand
+					48 container
+						49 link Description: Untitled 9:37 AM, Value: 127.0.0.1:18088/agents/iot-agents/iot-coordinator/chat/c0068ee5-0198-4f85-9aae-bb89fa3b99f1
+						50 pop up button (collapsed) More, ID: radix-_r_9_, Secondary Actions: Expand
+					51 container
+						52 link Description: Untitled 8:17 AM, Value: 127.0.0.1:18088/agents/iot-agents/iot-coordinator/chat/e225efcd-68e8-4b02-870a-2c4f40cd0654
+						53 pop up button (collapsed) More, ID: radix-_r_b_, Secondary Actions: Expand
+					54 container
+						55 link Description: Untitled 8:01 AM, Value: 127.0.0.1:18088/agents/iot-agents/iot-coordinator/chat/713f724b-cef7-4ca9-8c22-b18927a3ec5f
+						56 pop up button (collapsed) More, ID: radix-_r_d_, Secondary Actions: Expand
+					57 container
+						58 link Description: Untitled 2:17 AM, Value: 127.0.0.1:18088/agents/iot-agents/iot-coordinator/chat/05fb432f-0e6c-4f46-ac26-5235f716113f
+						59 pop up button (collapsed) More, ID: radix-_r_f_, Secondary Actions: Expand
+		18 button Toggle Sidebar
+		60 container
+			61 container
+				62 text user
+				63 text Use both specialists. Get the current features and failure prediction for pump P-001 and a reference about vibration. Also assess drift for the standard demo cohort of all 32 unique machines P-001 through P-032 using window_id agent-demo-29. Combine the actual results, preserving model and source identifiers.
+				64 image
+				65 text iot-agents/iot-retrieval CxYYnGqQZf4iY8RjfIQHU7Y4UpnvP4SX Completed
+				66 button Input
+				67 button Output
+				68 button Activity
+				69 image
+				70 text iot-agents/iot-drift V2M5QtiXH5G19z7beVs47KpSIsk7S9sS Completed
+				71 button Input
+				72 button Output
+				73 button Activity
+				74 image
+				75 text iot-agents/iot-coordinator
+				76 text { "retrieval": { "machine_id": "P-001", "feature_event_ts": "2026-11-29T23:50:00Z", "model_version": "6", "risk_score": 0.103181, "document_ids": ["monitoring"], "vibration_alone_proves_failure": false, "simulated": true, "score_is_calibrated": false }, "drift": { "window_id": "agent-demo-29", "unique_rows": 32, "flagged_features": ["current_mean_10m", "current_std_10m", "machine_age_days", "prior_failures_24h", "temperature_mean_10m", "vibration_max_10m"], "reference_id": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93", "assessment_sha256": "c23698fc9426a3c56e85cbd074e529a5a1158fe392b4882505f569cfa8dcfa9a", "drift_establishes_accuracy_loss": false, "drift_establishes_failure": false } }
+				77 button Token usage
+				78 button Thumbs up
+				79 button Thumbs down
+			80 scroll bar Description: Chat history minimap, Value: 72
+		20 text Ready
+		21 pop up button (collapsed) Description: Share this chat, Secondary Actions: Expand
+		22 container
+			23 text entry area (settable)
+			24 button Attach files
+			25 button Voice input
+			26 button (disabled) Send
+		27 text Agent Details
+		28 link Description: Edit agent iot-agents/iot-coordinator, Value: 127.0.0.1:18088/agents/new?edit=true&name=iot-coordinator&namespace=iot-agents
+		29 container
+			30 text iot-agents/iot-coordinator
+			31 text iot-qwen2.5-7b
+			32 text Delegate pump context and drift questions to the two bounded IoT specialists. Tools & Agents
+			33 content list
+				34 button (collapsed) iot-agents/iot-retrieval, Secondary Actions: Expand
+				35 button (collapsed) iot-agents/iot-drift, Secondary Actions: Expand
+	36 container
+		37 image
+		38 text is an open source project
+	39 container Notifications alt+T
+
+The focused UI element is 18 button Toggle Sidebar

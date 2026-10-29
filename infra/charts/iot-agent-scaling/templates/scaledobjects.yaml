@@ -1,0 +1,40 @@
+{{- range $role := list "retrieval" "drift" "coordinator" }}
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: iot-{{ $role }}-workers
+  labels: {iot.coursework/agent-scaling: 'true'}
+spec:
+  scaleTargetRef:
+    apiVersion: ate.dev/v1alpha1
+    kind: WorkerPool
+    name: iot-{{ $role }}-pool
+  pollingInterval: {{ $.Values.pollingInterval }}
+  minReplicaCount: {{ $.Values.minReplicas }}
+  maxReplicaCount: {{ $.Values.maxReplicas }}
+  fallback:
+    failureThreshold: 3
+    replicas: {{ $.Values.maxReplicas }}
+    behavior: currentReplicasIfHigher
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleUp:
+          stabilizationWindowSeconds: 0
+          policies: [{type: Percent, value: 100, periodSeconds: 15}]
+        scaleDown:
+          stabilizationWindowSeconds: {{ $.Values.scaleDownStabilizationSeconds }}
+          policies: [{type: Pods, value: 1, periodSeconds: 30}]
+  triggers:
+    - type: metrics-api
+      name: busyActors
+      metricType: AverageValue
+      metadata:
+        url: {{ $.Values.controllerURL | quote }}
+        format: json
+        valueLocation: 'data.actors.#(status=="Running")#|#(atespace=="iot-agents")#|#(actorTemplateName%"iot-{{ $role }}-*")#|#'
+        targetValue: '0.5'
+        activationTargetValue: '0'
+        timeout: 5s
+{{- end }}

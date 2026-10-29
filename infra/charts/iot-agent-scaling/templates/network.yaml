@@ -1,0 +1,16 @@
+# Permit only the private KEDA operator to read the existing controller's demand signal.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: iot-agent-scaling-observer
+spec:
+  podSelector:
+    matchLabels: {iot.coursework/agent-control: 'true'}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: iot-autoscale}
+          podSelector:
+            matchLabels: {app.kubernetes.io/name: keda-operator, app.kubernetes.io/instance: iot-agent-keda}
+      ports: [{protocol: TCP, port: 8083}]

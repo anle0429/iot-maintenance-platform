@@ -8,7 +8,7 @@ Recorded ML lab evidence covers the linked ML requirements within documented bou
 
 ## Audit method
 
-The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It now includes 38 read-only artifact verifiers, including GPU conversations and [direct specialist MCP network isolation](agent-network-isolation.md), and checks nine additional native capsules with 685 payloads. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
+The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It now includes 39 read-only artifact verifiers, including GPU conversations, [direct MCP network isolation](agent-network-isolation.md) and [automatic worker scaling](agent-scaling.md), and checks nine additional native capsules with 685 payloads. The scaling package preserves 1,300 original native payloads and ten original UI captures. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
 
 The original ML source-language tracker is archived. Translation changes the presentation columns, not the preserved source requirements. A lowered threshold, missing row or changed translation pin fails the checks. The JSON report distinguishes inference, grounding and orchestration verification from the still-incomplete full LLM runtime and `coursework_complete=false`.
 
@@ -23,6 +23,8 @@ The after-restart package verifies native materialization of 200 machines, nine 
 The 100 GB workload covers Bronze/Silver, while ML uses 3.132 million rows from a separate 60-day source. Two executor Pods share one physical VM. Gateway domains/CA are private. Vault has two lab consumers; the mesh test is isolated. Stream CI uses a small fixture and full retained-window checks run separately. Original images and logs remain in their capture language. Laptop execution, production HA, full 100 GB ML and a complete LLM/agent system are not established.
 
 ## English documentation review
+
+The worker-scaling review passed 860 tests and 523 subtests on the PC, with 11 skips, in 69.44 seconds. All 39 offline artifact verifiers passed. The documentation check covered 704 maintained text files, 2,129 local links and five architecture views. The following paragraphs retain earlier review results; they are not added to the current counts.
 
 The previous LLM/RAG implementation check on this PC passed 770 tests and 333 subtests, with seven documented skips, in 85.57 seconds. All 30 offline artifact verifiers passed. The repository audit found descriptions for 1,824 definitions in 353 maintained Python files. The native integration packages retain 145 grounding and 223 orchestration payloads, including the rejected predecessors and original browser captures. These checks leave the full agent track open.
 
