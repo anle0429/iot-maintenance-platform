@@ -24,7 +24,12 @@ def agent_role(payload):
     """Classify model turns by their declared tool set, separately from actual traced agent invocation counts."""
     declarations=payload.get('tools',[])
     if not isinstance(declarations,list):return 'unknown'
-    names={t.get('function',{}).get('name') for t in declarations if isinstance(t,dict) and isinstance(t.get('function',{}),dict)}
+    names=set()
+    for declaration in declarations:
+        if not isinstance(declaration,dict) or not isinstance(declaration.get('function'),dict):return 'unknown'
+        name=declaration['function'].get('name')
+        if not isinstance(name,str) or not name:return 'unknown'
+        names.add(name)
     if names=={'get_machine_features','predict_failure','search_knowledge'}:return 'retrieval'
     if names=={'assess_feature_drift'}:return 'drift'
     if names=={'iot_agents__NS__iot_retrieval','iot_agents__NS__iot_drift'}:return 'coordinator'

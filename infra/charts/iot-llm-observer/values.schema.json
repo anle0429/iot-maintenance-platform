@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["image", "modelControlImage", "sourceCommit", "clientSecret", "dataPath", "cpuNode"],
+  "properties": {
+    "image": {"type": "string", "pattern": "^docker[.]io/library/iot-llm-observer@sha256:[0-9a-f]{64}$"},
+    "modelControlImage": {"const": "docker.io/library/iot-model-control@sha256:6001ff60ce56e13e9c891279cbc37ee9a899fbf73d856b01e2a9b36655a3f063"},
+    "sourceCommit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "clientSecret": {"const": "iot-llm-observer-client"},
+    "dataPath": {"type": "string", "pattern": "^/srv/iot-data/.+/data/runtime/llm-observer-[a-z0-9-]+/db$"},
+    "cpuNode": {"const": "iot-cw-vm"}
+  }
+}

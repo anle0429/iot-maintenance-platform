@@ -54,6 +54,11 @@ class PromptPolicyTests(unittest.TestCase):
             with self.subTest(names=names):self.assertEqual(agent_role({'tools':[{'function':{'name':n}} for n in names]}),wanted)
         self.assertEqual(agent_role({'tools':None}),'unknown')
 
+    def test_malformed_tool_names_remain_unknown_without_breaking_observation(self):
+        """Unhashable or incomplete tool declarations must not crash a monitoring-only classifier."""
+        for declarations in [[None],['tool'],[{}],[{'function':None}],[{'function':{'name':{}}}],[{'function':{'name':[]}}]]:
+            with self.subTest(declarations=declarations):self.assertEqual(agent_role({'tools':declarations}),'unknown')
+
 
 class StreamObservationTests(unittest.TestCase):
     """Known-answer protocol fixtures distinguish early headers/roles from actual output and terminal usage."""
@@ -125,6 +130,76 @@ class StreamObservationTests(unittest.TestCase):
             for value in [True,-1,1.5,None,2**31]:
                 with self.subTest(key=key,value=value),self.assertRaises(ValueError):token_usage(base|{key:value})
         self.assertEqual(token_usage(base|{'provider_details':{'not_saved':True}}),base)
+
+
+class ObservationBoundaryTests(unittest.TestCase):
+    """Exercise independent protocol limits, valid extremes and first-output semantics rather than only visiting code lines."""
+    def test_reported_usage_accepts_zero_and_int32_extremes_but_not_larger_totals(self):
+        """Each count uses the advertised signed-int32 range; all sums must still be exact."""
+        for a,b in [(0,0),(2147483647,0),(0,2147483647),(2147483646,1)]:
+            expected={'prompt_tokens':a,'completion_tokens':b,'total_tokens':a+b}
+            with self.subTest(a=a,b=b):self.assertEqual(token_usage(expected),expected)
+        for value in [None,[],1,{'prompt_tokens':2147483649,'completion_tokens':0,'total_tokens':2147483649}]:
+            with self.subTest(value=value),self.assertRaises(ValueError):token_usage(value)
+
+    def test_conversation_and_text_limits_include_the_boundary(self):
+        """Permit the documented last valid message/text size and reject the first unsupported size."""
+        policy=PromptPolicy()
+        self.assertEqual(policy.inspect(question('x'*65536)),[])
+        self.assertEqual(policy.inspect(question('x')|{'messages':[{'role':'user','content':'x'}]*256}),[])
+        for messages in [None,{},[{'role':'user','content':'x'}]*257]:
+            with self.subTest(shape=type(messages).__name__),self.assertRaises(ValueError):policy.inspect(question('x')|{'messages':messages})
+        for role in ['system','developer','assistant','tool']:
+            with self.subTest(role=role):self.assertEqual(policy.inspect({'model':'iot-qwen2.5-7b','messages':[{'role':role,'content':'person@example.com'}]}),[])
+        self.assertEqual(policy.inspect(question('x')|{'stream':False}),[])
+
+    def test_fragment_clocks_and_wire_types_reject_invalid_partitions(self):
+        """Reject booleans, nonfinite/negative clocks and nonbyte transport without coercion."""
+        for elapsed in [-1,3600.0001,float('inf'),float('nan'),True,'1',None]:
+            with self.subTest(clock=elapsed),self.assertRaises(ValueError):StreamObservation().feed(b'',elapsed)
+        for chunk in ['',None,bytearray(b'')]:
+            with self.subTest(chunk=type(chunk).__name__),self.assertRaises(ValueError):StreamObservation().feed(chunk,0)
+        stream=StreamObservation();stream.feed(b'data: [DONE]\n\n',3600);self.assertEqual(stream.finish(3600)['duration_seconds'],3600)
+        for elapsed in [-1,3600.0001,float('inf'),float('nan'),True,'1',None]:
+            stream=StreamObservation();stream.feed(b'data: [DONE]\n\n',0)
+            with self.subTest(finish=elapsed),self.assertRaises(ValueError):stream.finish(elapsed)
+
+    def test_first_output_is_not_overwritten_and_refusal_is_observable(self):
+        """Use different arrival times so replacing the first observation with the last cannot pass."""
+        for delta in [{'content':'x'},{'refusal':'A synthetic refusal'},{'tool_calls':[{'function':{'arguments':'{}'}}]}]:
+            with self.subTest(delta=delta):
+                stream=StreamObservation();stream.feed(event({'choices':[{'delta':delta}]}),.2)
+                stream.feed(event({'choices':[{'delta':{'content':'later'},'finish_reason':'length'}]}),.7)
+                stream.feed(event({'usage':{'prompt_tokens':0,'completion_tokens':1,'total_tokens':1}})+b'data: [DONE]\n\n',.8)
+                result=stream.finish(1)
+                self.assertEqual(result,{'complete':True,'duration_seconds':1,'ttft_seconds':.2,
+                    'usage':{'prompt_tokens':0,'completion_tokens':1,'total_tokens':1},'finish_reason':'length','upstream_error':False,'events':3})
+                with self.assertRaises(ValueError):stream.finish(.1)
+
+    def test_finish_reasons_and_repeated_identical_usage_preserve_provider_metadata(self):
+        """Keep all supported reasons, normalize only unknown reasons and permit the same final count twice."""
+        for reason,wanted in [('stop','stop'),('length','length'),('tool_calls','tool_calls'),('content_filter','content_filter'),('provider-specific','other')]:
+            stream=StreamObservation();usage={'prompt_tokens':2,'completion_tokens':3,'total_tokens':5}
+            stream.feed(event({'usage':usage})+event({'choices':[{'delta':{'content':'x'},'finish_reason':reason}]}),0)
+            stream.feed(event({'usage':usage})+b'data: [DONE]\n\n',1)
+            with self.subTest(reason=reason):self.assertEqual(stream.finish(1)['finish_reason'],wanted)
+
+    def test_sse_limits_cover_pending_lines_and_multiline_event_accumulation(self):
+        """A line budget and a combined data-event budget apply even before the event's blank separator arrives."""
+        stream=StreamObservation();stream.feed(b':'+b'x'*65535+b'\r\n' + b'data:[DONE]\r\n\r\n',0);self.assertFalse(stream.finish(1)['complete'])
+        for wire in [b'x'*65537,b'data: '+b'x'*40000+b'\ndata: '+b'x'*40000+b'\n',b'data: [DONE]\n\ndata: {}\n\n']:
+            with self.subTest(bytes=len(wire)),self.assertRaises(ValueError):StreamObservation().feed(wire,0)
+        stream=StreamObservation();stream.feed(b'\xe2',0)
+        with self.assertRaises(ValueError):stream.finish(1)
+        stream=StreamObservation();stream.feed(b'event: ping\nid: public\n: comment\ndata: [DONE]\n\n',0)
+        self.assertEqual(stream.finish(1)['events'],0)
+
+    def test_malformed_choice_fields_fail_without_fabricating_completion(self):
+        """Partition every typed text/tool/reason field, including nested missing and malformed functions."""
+        choices=[{'delta':{'refusal':1}},{'delta':{'tool_calls':[None]}},{'delta':{'tool_calls':[{'function':None}]}},
+                 {'delta':{'tool_calls':[{'function':{'name':False}}]}},{'delta':{},'finish_reason':1}]
+        for choice in choices:
+            with self.subTest(choice=choice),self.assertRaises(ValueError):StreamObservation().feed(event({'choices':[choice]}),0)
 
 
 if __name__=='__main__':unittest.main()

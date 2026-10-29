@@ -9,11 +9,12 @@ QUALITY=module_from_spec(SPEC);SPEC.loader.exec_module(QUALITY)
 
 class ObserverQualityTests(unittest.TestCase):
     """Keep every mutation outcome in scope and distinguish actual test failures from engine errors."""
-    def fixture(self,killed=5):
-        """Create a complete five-module inventory whose normal exits are independently declared."""
+    def fixture(self,killed=10):
+        """Create a complete module/API-method inventory whose normal exits are independently declared."""
         names=[n.removesuffix('.py').replace('/','.')+'.x_sample__mutmut_1' for n in sorted(QUALITY.MODULES)]
+        names += [name+'__mutmut_1' for name in sorted(QUALITY.REQUIRED_API_FUNCTIONS)]
         stats={n:0 for n in ['killed','survived','no_tests','skipped','suspicious','timeout','check_was_interrupted_by_user','segfault']}
-        stats.update(killed=killed,survived=5-killed,total=5)
+        stats.update(killed=killed,survived=len(names)-killed,total=len(names))
         codes={name:int(i<killed) for i,name in enumerate(names)}
         text='\n'.join(name+': '+('killed' if codes[name] else 'survived') for name in names)
         return stats,text,codes
@@ -24,7 +25,7 @@ class ObserverQualityTests(unittest.TestCase):
 
     def test_eighty_percent_is_insufficient(self):
         """The coursework requires more than eighty percent, so equality does not pass."""
-        with self.assertRaisesRegex(ValueError,'exceed'):QUALITY.mutation_gate(*self.fixture(4))
+        with self.assertRaisesRegex(ValueError,'exceed'):QUALITY.mutation_gate(*self.fixture(8))
 
     def test_internal_errors_and_missing_exits_cannot_inflate_kills(self):
         """Mutmut labels pytest exit three as killed; this gate explicitly refuses that label."""
@@ -37,8 +38,14 @@ class ObserverQualityTests(unittest.TestCase):
 
     def test_non_test_outcomes_remain_unresolved(self):
         """Timeouts and omitted modules cannot be silently removed from the denominator."""
-        stats,text,codes=self.fixture();stats.update(killed=4,timeout=1)
+        stats,text,codes=self.fixture();stats.update(killed=9,timeout=1)
         with self.assertRaises(ValueError):QUALITY.mutation_gate(stats,text,codes)
+
+    def test_factory_only_inventory_cannot_claim_to_mutate_route_handlers(self):
+        """A high score on construction code alone is insufficient for the observation API."""
+        stats,text,codes=self.fixture();codes={k:v for k,v in codes.items() if k.split('__mutmut_')[0] not in QUALITY.REQUIRED_API_FUNCTIONS}
+        stats.update(killed=len(codes),total=len(codes));text='\n'.join(k+': killed' for k in codes)
+        with self.assertRaisesRegex(ValueError,'factory-only'):QUALITY.mutation_gate(stats,text,codes)
         stats,text,codes=self.fixture();text=text.split('\n',1)[1]
         with self.assertRaises(ValueError):QUALITY.mutation_gate(stats,text,codes)
 

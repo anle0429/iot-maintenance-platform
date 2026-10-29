@@ -1,11 +1,13 @@
 """Exercise the observer's actual ASGI proxy, policy admission, native protobuf handling and unchanged response streams."""
 from pathlib import Path
+from hashlib import sha256
 from tempfile import TemporaryDirectory
 import asyncio,json,unittest
 import httpx
 from fastapi.testclient import TestClient
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter
 from hypothesis import given,settings,strategies as st
+from prometheus_client.parser import text_string_to_metric_families
 from llm_observability.app import create_app
 from llm_observability.ledger import TelemetryLedger
 from tests.test_llm_observation_contracts import event,question
@@ -179,6 +181,68 @@ class ObserverApiTests(unittest.TestCase):
         response=self.api.post('/v1/traces',content=native.SerializeToString(),headers={'Content-Type':'application/x-protobuf'})
         self.assertEqual(response.status_code,503);self.assertEqual(len(self.store.rows()),1)
         self.assertEqual(self.api.get('/health/ready').status_code,503)
+
+    def test_http_route_counts_and_lifetimes_reconcile_across_outcome_partitions(self):
+        """Observe independent live/ready/unknown/trace/model routes, including rejected inputs and real streamed completion."""
+        self.assertEqual(self.api.get('/health/live').json(),{'live':True});self.assertEqual(self.api.get('/health/ready').json(),{'ready':True})
+        self.assertEqual(self.api.get('/absent').status_code,404)
+        self.assertEqual(self.api.post('/v1/traces',content=b'bad').status_code,415)
+        self.assertEqual(self.api.post('/v1/chat/completions',content=b'bad').status_code,401)
+        self.assertEqual(self.api.post('/v1/chat/completions',content=b'bad',headers={'Authorization':'Bearer '+TOKEN}).status_code,400)
+        self.assertEqual(self.post(question('Contact fictional@example.com')).status_code,422);self.assertEqual(self.post().status_code,200)
+        response=self.api.get('/metrics');self.assertEqual(response.status_code,200)
+        values={(sample.name,tuple(sorted(sample.labels.items()))):sample.value for family in text_string_to_metric_families(response.text) for sample in family.samples}
+        for route,status in [('live','200'),('ready','200'),('other','404'),('traces','415'),('model','401'),('model','400'),('model','422'),('model','200')]:
+            self.assertEqual(values[('iot_llm_observer_http_requests_total',tuple(sorted({'route':route,'status':status}.items())))],1)
+        for route,count in [('live',1),('ready',1),('other',1),('traces',1),('model',4)]:
+            self.assertEqual(values[('iot_llm_observer_http_seconds_count',(('route',route),))],count)
+            self.assertGreaterEqual(values[('iot_llm_observer_http_seconds_sum',(('route',route),))],0)
+        self.assertEqual(self.store.size(),4)
+
+    def test_rejection_codes_and_safe_messages_are_the_public_api_contract(self):
+        """Return precise machine-readable causes and a request correlation ID without executing any backend request."""
+        cases=[({},b'bad','/v1/chat/completions',401,'model_authentication_required'),
+            ({'Authorization':'Bearer '+TOKEN},b'bad','/v1/chat/completions',400,'invalid_model_request'),
+            ({'Authorization':'Bearer '+TOKEN},json.dumps(question('Explain timestamps.')).encode(),'/v1/chat/completions?x=1',400,'unexpected_query'),
+            ({'Authorization':'Bearer '+TOKEN},json.dumps(question('Contact fictional@example.com')).encode(),'/v1/chat/completions',422,'prompt_policy_rejected')]
+        for headers,wire,path,status,code in cases:
+            response=self.api.post(path,content=wire,headers=headers)
+            self.assertEqual(response.status_code,status);self.assertEqual(response.json()['error']['code'],code)
+            self.assertEqual(response.json()['error']['type'],'invalid_request_error');self.assertEqual(len(response.headers['X-Iot-Request-Id']),32)
+            prefix='Remove personal identifiers' if status==422 else 'The model request'
+            self.assertTrue(response.json()['error']['message'].startswith(prefix))
+        self.assertEqual(self.requests,[]);self.assertEqual(self.store.size(),4)
+
+    def test_real_parent_context_and_safe_logs_agree_with_the_exported_model_span(self):
+        """Preserve actual trace parentage but discard baggage, trace-state and unrelated request headers."""
+        response=self.api.post('/v1/chat/completions',json=question('Explain timestamps.'),headers={'Authorization':'Bearer '+TOKEN,
+            'traceparent':'00-'+32*'a'+'-'+16*'b'+'-01','tracestate':'private=SECRET','baggage':'private=SECRET','X-Private':'SECRET'})
+        self.assertEqual(response.status_code,200);self.app.state.provider.force_flush();spans=self.exporter.get_finished_spans();self.assertEqual(len(spans),1)
+        span=spans[0];self.assertEqual(span.context.trace_id,int('a'*32,16));self.assertEqual(span.parent.span_id,int('b'*16,16))
+        self.assertEqual(span.status.status_code.value,1);self.assertEqual(span.name,'chat iot-qwen2.5-7b');self.assertEqual(span.kind.name,'CLIENT')
+        self.assertEqual(dict(span.resource.attributes),{'service.name':'iot_llm_observer','service.namespace':'iot_llm','service.version':'0.1.0'})
+        self.assertEqual(span.attributes['http.response.status_code'],200);self.assertEqual(span.attributes['gen_ai.operation.name'],'chat')
+        self.assertEqual(span.attributes['gen_ai.request.model'],'iot-qwen2.5-7b');self.assertEqual(span.attributes['gen_ai.agent.name'],'direct')
+        self.assertEqual(span.attributes['iot.request_id'],response.headers['X-Iot-Request-Id'])
+        self.assertEqual(span.attributes['gen_ai.usage.output_tokens'],2);self.assertGreaterEqual(span.attributes['iot.first_output_seconds'],0)
+        self.assertEqual(self.logs[0]['trace_id'],'a'*32);self.assertEqual(self.logs[0]['span_id'],format(span.context.span_id,'016x'))
+        self.assertEqual(self.logs[0]['request_id'],response.headers['X-Iot-Request-Id']);self.assertEqual(self.logs[0]['event'],'model_request')
+        self.assertEqual(self.requests[0].headers['traceparent'].split('-')[2],format(span.context.span_id,'016x'))
+        for key in ['tracestate','baggage','x-private']:self.assertNotIn(key,self.requests[0].headers)
+
+    def test_private_trace_audit_matches_exported_bytes_and_does_not_forward_authentication(self):
+        """Reconcile projected output, original counts, response media type and independent hash without trusting an echoed summary."""
+        native,_=batch();response=self.api.post('/v1/traces',content=native.SerializeToString(),headers={
+            'Content-Type':'application/x-protobuf; charset=binary','Authorization':'Bearer '+TOKEN})
+        self.assertEqual(response.status_code,200);self.assertEqual(response.content,b'');self.assertEqual(response.headers['content-type'],'application/x-protobuf')
+        self.assertNotIn('authorization',self.requests[0].headers)
+        self.assertEqual(self.logs,[{'event':'private_trace_batch','received_spans':1,'new_spans':1,'removed_attributes':3,
+            'exported_sha256':sha256(self.requests[0].content).hexdigest()}])
+
+    def test_explicit_invalid_tokens_are_rejected_without_falling_back_to_a_private_file(self):
+        """Only an omitted credential requests the mounted file; explicit malformed values fail validation."""
+        for token in ['',False,[],{},'x'*31]:
+            with self.subTest(token=token),self.assertRaises(ValueError):create_app(ledger=self.store,client=self.upstream,token=token,span_exporter=self.exporter,emit=self.logs.append)
 
     @settings(max_examples=24,deadline=None,derandomize=True)
     @given(st.from_regex(r'[a-z]{1,12}',fullmatch=True))

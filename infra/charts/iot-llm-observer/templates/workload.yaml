@@ -1,0 +1,93 @@
+# This separate release retains the old adapter deployment as an unchanged rollback candidate.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app.kubernetes.io/instance: {{ .Release.Name }}}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/name: iot-llm-observer
+      annotations:
+        iot.coursework/source-commit: {{ required "Supply the tested source revision" .Values.sourceCommit | quote }}
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30
+      nodeSelector:
+        kubernetes.io/hostname: {{ .Values.cpuNode | quote }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: observer
+          image: {{ required "Supply the source-tested imported observer digest" .Values.image | quote }}
+          imagePullPolicy: Never
+          ports: [{name: observe, containerPort: 8081}]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          resources:
+            requests: {cpu: 100m, memory: 128Mi}
+            limits: {cpu: '1', memory: 512Mi}
+          volumeMounts:
+            - {name: ledger, mountPath: /var/lib/iot-llm-observer}
+            - {name: client, mountPath: /var/run/iot-llm-observer, readOnly: true}
+            - {name: temporary, mountPath: /tmp}
+          readinessProbe:
+            httpGet: {path: /health/ready, port: observe}
+            periodSeconds: 5
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet: {path: /health/live, port: observe}
+            periodSeconds: 15
+            failureThreshold: 4
+        - name: model-control
+          image: {{ .Values.modelControlImage | quote }}
+          imagePullPolicy: Never
+          ports: [{name: control, containerPort: 8080}]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          resources:
+            requests: {cpu: 25m, memory: 32Mi}
+            limits: {cpu: 500m, memory: 128Mi}
+          readinessProbe:
+            httpGet: {path: /health, port: control}
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: {path: /health, port: control}
+            periodSeconds: 20
+            failureThreshold: 6
+      volumes:
+        - name: ledger
+          hostPath:
+            path: {{ required "Supply the existing owned project ledger directory" .Values.dataPath | quote }}
+            type: Directory
+        - name: client
+          secret:
+            secretName: {{ .Values.clientSecret }}
+            defaultMode: 0440
+        - name: temporary
+          emptyDir: {medium: Memory, sizeLimit: 16Mi}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/name: iot-llm-observer
+  ports: [{name: observe, port: 8081, targetPort: observe}]

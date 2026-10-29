@@ -87,4 +87,79 @@ class PrivateTraceTests(unittest.TestCase):
         self.assertEqual(actual['agent'],'coordinator');self.assertEqual(actual['tool'],'delegate_retrieval')
 
 
+class TraceSchemaTests(unittest.TestCase):
+    """Exercise the independent public metadata schema and original graph values across every supported role/tool alias."""
+    def test_public_resource_schema_is_closed_and_typed(self):
+        """Permit only reviewed service identities, namespaces and versions; reject other values or resource keys."""
+        roles=['retrieval','drift','coordinator'];names=[v for role in roles for v in [role,'iot-'+role,'iot_'+role,'iot-agents/iot-'+role]]+['iot_llm_observer']
+        fields={'service.name':names,'service.namespace':['iot_agents','iot-agents','iot_llm','iot-llm'],'service.version':['0.10.3','0.1.0']}
+        for key,values in fields.items():
+            for value in values:
+                with self.subTest(key=key,value=value):self.assertTrue(approved(key,value,True))
+            for value in ['private@example.com',None,True,123,[]]:
+                with self.subTest(key=key,rejected=value):self.assertFalse(approved(key,value,True))
+        self.assertFalse(approved('gen_ai.agent.name','iot_retrieval',True))
+        self.assertFalse(approved('service.name','iot_retrieval',False))
+
+    def test_public_span_schema_preserves_only_reviewed_scalar_values(self):
+        """Keep supported agent/tool/model/operation/count/opaque-ID metadata without accepting free text or boolean counts."""
+        values={'kagent.app_name':['retrieval','iot-drift','iot_coordinator','iot-agents/iot-retrieval'],
+            'gen_ai.agent.name':['retrieval','iot-drift','iot_coordinator','iot-agents/iot-retrieval'],
+            'gen_ai.tool.name':['get_machine_features','predict-failure','search_knowledge','assess-feature-drift','iot_agents__NS__iot_retrieval','iot-agents/iot-drift'],
+            'gcp.vertex.agent.tool_name':['get-machine-features','predict_failure','search-knowledge','assess_feature_drift','iot-agents/iot-retrieval','iot_agents__NS__iot_drift'],
+            'gen_ai.request.model':['iot-qwen2.5-7b'],'gen_ai.response.model':['iot-qwen2.5-7b'],
+            'gen_ai.operation.name':['invoke_agent','execute_tool','chat','generate_content','invocation']}
+        for key,items in values.items():
+            for value in items:
+                with self.subTest(key=key,value=value):self.assertTrue(approved(key,value))
+            self.assertFalse(approved(key,'private unknown text'))
+        for key in ['gen_ai.usage.input_tokens','gen_ai.usage.output_tokens','gen_ai.usage.prompt_tokens','gen_ai.usage.completion_tokens','gen_ai.usage.total_tokens']:
+            for value in [0,2147483647]:self.assertTrue(approved(key,value))
+            for value in [-1,2147483648,2147483649,True,1.0,'1',None]:self.assertFalse(approved(key,value))
+        for key in ['gen_ai.task.id','gen_ai.conversation.id','iot.request_id']:
+            for value in ['a'*32,'b'*48,'12345678-1234-1234-abcd-123456789abc']:self.assertTrue(approved(key,value))
+            for value in ['a'*31,'b'*49,'private@example.com',None,32]:self.assertFalse(approved(key,value))
+
+    def test_original_span_graph_status_and_canonical_name_are_preserved(self):
+        """Check flags/kind, root parentage, status zero/one/two and the complete derived identity rather than only error counts."""
+        for status in [0,1,2]:
+            request,span=batch();span.status.code=status;span.kind=3;span.flags=257;span.parent_span_id=b''
+            result=PrivateTraceProcessor().project(request.SerializeToString());projected=ExportTraceServiceRequest.FromString(result['payload'])
+            actual=projected.resource_spans[0].scope_spans[0].spans[0];fact=result['spans'][0][1]
+            self.assertEqual((actual.name,actual.kind,actual.flags,actual.parent_span_id,actual.status.code),('tool predict_failure',3,257,b'',status))
+            self.assertEqual(fact,{'agent':'retrieval','model':'unknown','duration_seconds':.5,'usage':None,'operation':'tool','tool':'predict_failure',
+                'error':status==2,'status_code':status,'trace_id':(b'a'*16).hex(),'span_id':(b'b'*8).hex(),'parent_span_id':'','start_ns':1000000000,'end_ns':1500000000})
+            self.assertEqual(result['spans'][0][0],(b'a'*16+b'b'*8).hex());self.assertEqual(result['received_spans'],1);self.assertEqual(result['removed_attributes'],3)
+
+    def test_each_known_alias_maps_to_the_emitter_and_canonical_tool(self):
+        """Use every supported service spelling and delegation alias so unknown classification cannot hide a dropped identity."""
+        for role in ['retrieval','drift','coordinator']:
+            for alias in [role,'iot-'+role,'iot_'+role,'iot-agents/iot-'+role]:
+                request,span=batch();next(a for a in request.resource_spans[0].resource.attributes if a.key=='service.name').value.string_value=alias
+                span.attributes.add(key='kagent.app_name').value.string_value=alias
+                self.assertEqual(PrivateTraceProcessor().project(request.SerializeToString())['spans'][0][1]['agent'],role)
+        tools=['get_machine_features','predict_failure','search_knowledge','assess_feature_drift']
+        pairs=[(alias,name) for name in tools for alias in [name,name.replace('_','-')]]
+        pairs += [('iot_agents__NS__iot_retrieval','delegate_retrieval'),('iot-agents/iot-retrieval','delegate_retrieval'),
+                  ('iot_agents__NS__iot_drift','delegate_drift'),('iot-agents/iot-drift','delegate_drift')]
+        for alias,wanted in pairs:
+            request,span=batch();next(a for a in span.attributes if a.key=='gen_ai.tool.name').value.string_value=alias
+            self.assertEqual(PrivateTraceProcessor().project(request.SerializeToString())['spans'][0][1]['tool'],wanted)
+
+    def test_reported_aliases_model_and_operation_are_not_invented(self):
+        """Preserve matching aliases and reported models, reject conflicting totals and leave incomplete usage absent."""
+        for input_key,output_key in [('gen_ai.usage.input_tokens','gen_ai.usage.output_tokens'),('gen_ai.usage.prompt_tokens','gen_ai.usage.completion_tokens')]:
+            request,span=batch()
+            for key,value in [(input_key,0),(output_key,2147483647),('gen_ai.usage.total_tokens',2147483647)]:span.attributes.add(key=key).value.int_value=value
+            for key in ['gen_ai.request.model','gen_ai.response.model']:span.attributes.add(key=key).value.string_value='iot-qwen2.5-7b'
+            result=PrivateTraceProcessor().project(request.SerializeToString())['spans'][0][1]
+            self.assertEqual(result['model'],'iot-qwen2.5-7b');self.assertEqual(result['usage'],{'prompt_tokens':0,'completion_tokens':2147483647,'total_tokens':2147483647})
+            next(a for a in span.attributes if a.key=='gen_ai.usage.total_tokens').value.int_value=1
+            with self.assertRaises(ValueError):PrivateTraceProcessor().project(request.SerializeToString())
+        request,span=batch();span.attributes.add(key='gen_ai.usage.input_tokens').value.int_value=7
+        self.assertIsNone(PrivateTraceProcessor().project(request.SerializeToString())['spans'][0][1]['usage'])
+        request,span=batch();span.attributes.add(key='gcp.vertex.agent.tool_name').value.string_value='search_knowledge'
+        with self.assertRaises(ValueError):PrivateTraceProcessor().project(request.SerializeToString())
+
+
 if __name__=='__main__':unittest.main()

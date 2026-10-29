@@ -1,0 +1,113 @@
+[
+  {
+    "request_id": "e84c13ffd82241228cab4a6ef8e5d3ab",
+    "question_index": 0,
+    "http_status": 200,
+    "headers_seconds": 0.1016996639991703,
+    "response_bytes": 8605,
+    "response_sha256": "b8b658a9a5705b496f47a9a07b2e93f40f7bbf7fbc5354b89d084f48a43c80bd",
+    "observation": {
+      "complete": true,
+      "duration_seconds": 18.935433827000452,
+      "ttft_seconds": 18.679431205999208,
+      "usage": {
+        "prompt_tokens": 46,
+        "completion_tokens": 31,
+        "total_tokens": 77
+      },
+      "finish_reason": "stop",
+      "upstream_error": false,
+      "events": 33
+    },
+    "fact": {
+      "agent": "direct",
+      "model": "iot-qwen2.5-7b",
+      "duration_seconds": 18.935433827000452,
+      "ttft_seconds": 18.679431205999208,
+      "usage": {
+        "prompt_tokens": 46,
+        "completion_tokens": 31,
+        "total_tokens": 77
+      },
+      "status": 200,
+      "result": "ok",
+      "streaming": true,
+      "finish_reason": "stop",
+      "policy_categories": []
+    }
+  },
+  {
+    "request_id": "e24d81f50849470a8e948eb7464f23d3",
+    "question_index": 1,
+    "http_status": 200,
+    "headers_seconds": 0.011444108000432607,
+    "response_bytes": 8103,
+    "response_sha256": "1b1149179d2c4221b4c256c9ded052ae15b6a24a6601236c1831936e890f04a6",
+    "observation": {
+      "complete": true,
+      "duration_seconds": 0.2597232810003334,
+      "ttft_seconds": 0.03219523500047217,
+      "usage": {
+        "prompt_tokens": 45,
+        "completion_tokens": 29,
+        "total_tokens": 74
+      },
+      "finish_reason": "stop",
+      "upstream_error": false,
+      "events": 31
+    },
+    "fact": {
+      "agent": "direct",
+      "model": "iot-qwen2.5-7b",
+      "duration_seconds": 0.2597232810003334,
+      "ttft_seconds": 0.03219523500047217,
+      "usage": {
+        "prompt_tokens": 45,
+        "completion_tokens": 29,
+        "total_tokens": 74
+      },
+      "status": 200,
+      "result": "ok",
+      "streaming": true,
+      "finish_reason": "stop",
+      "policy_categories": []
+    }
+  },
+  {
+    "request_id": "cb96fd93958b4f20af8a96dd97ca1804",
+    "question_index": 2,
+    "http_status": 200,
+    "headers_seconds": 0.00921896799991373,
+    "response_bytes": 14858,
+    "response_sha256": "e021bd71b3a78505f6a93211600bec3034926fafaaadf4d6a8366d8170e143a0",
+    "observation": {
+      "complete": true,
+      "duration_seconds": 0.4725316380008735,
+      "ttft_seconds": 0.028045036000548862,
+      "usage": {
+        "prompt_tokens": 46,
+        "completion_tokens": 56,
+        "total_tokens": 102
+      },
+      "finish_reason": "stop",
+      "upstream_error": false,
+      "events": 58
+    },
+    "fact": {
+      "agent": "direct",
+      "model": "iot-qwen2.5-7b",
+      "duration_seconds": 0.4725316380008735,
+      "ttft_seconds": 0.028045036000548862,
+      "usage": {
+        "prompt_tokens": 46,
+        "completion_tokens": 56,
+        "total_tokens": 102
+      },
+      "status": 200,
+      "result": "ok",
+      "streaming": true,
+      "finish_reason": "stop",
+      "policy_categories": []
+    }
+  }
+]

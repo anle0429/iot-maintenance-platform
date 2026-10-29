@@ -4,6 +4,8 @@ from pathlib import Path,PurePosixPath
 import argparse,json,os,re,shutil,subprocess,sys
 
 MODULES={'llm_observability/'+n+'.py' for n in ['contracts','ledger','metrics','private_traces','app']}
+REQUIRED_API_FUNCTIONS={'llm_observability.app.xǁ'+name for name in [
+    'ModelExchangeǁexecute','ModelExchangeǁstream','ModelExchangeǁfinalize','ObserverRuntimeǁtraces','HttpMetricsMiddlewareǁ__call__']}
 TESTS=['tests/test_llm_observation_contracts.py','tests/test_llm_telemetry_ledger.py','tests/test_llm_observation_metrics.py',
        'tests/test_llm_private_traces.py','tests/test_llm_observer_properties.py','tests/api/test_llm_observer_api.py']
 
@@ -26,6 +28,8 @@ def mutation_gate(stats,text,raw_codes):
         prefix=next((module for module in wanted if name.startswith(module+'.')),None)
         if prefix is None:raise ValueError('Mutation outside the declared new five-module scope')
         actual.add(prefix)
+    if not REQUIRED_API_FUNCTIONS<={name.split('__mutmut_')[0] for name,_ in rows}:
+        raise ValueError('Mutation inventory must exercise actual API admission, streaming, cleanup, traces and middleware; factory-only mutation is insufficient')
     if actual!=wanted or sum(status=='killed' for _,status in rows)!=stats['killed']:raise ValueError('Mutation scope/count mismatch')
     score=100*stats['killed']/stats['total']
     if score<=80:raise ValueError('Fresh observer mutation score must exceed eighty percent')

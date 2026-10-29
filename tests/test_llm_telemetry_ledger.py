@@ -69,4 +69,64 @@ class TelemetryLedgerTests(unittest.TestCase):
             with self.subTest(change=change),self.assertRaises(ValueError):validate_fact('span',span|change)
 
 
+class LedgerBoundaryTests(unittest.TestCase):
+    """Check the complete public fact vocabulary, valid extremes and independent durable row counts."""
+    def test_request_labels_and_optional_fields_round_trip_without_coercion(self):
+        """Every supported role, result, completion reason and policy category remains a bounded scalar."""
+        for role in ['retrieval','drift','coordinator','direct','unknown']:
+            self.assertEqual(validate_fact('request',fact()|{'agent':role})['agent'],role)
+        for result in ['ok','policy_rejected','invalid_request','upstream_error','transport_error','invalid_response','cancelled']:
+            self.assertEqual(validate_fact('request',fact()|{'result':result})['result'],result)
+        for reason in [None,'stop','length','tool_calls','content_filter','other']:
+            self.assertEqual(validate_fact('request',fact()|{'finish_reason':reason})['finish_reason'],reason)
+        self.assertIsNone(validate_fact('request',fact()|{'usage':None,'ttft_seconds':None,'streaming':False})['ttft_seconds'])
+        self.assertEqual(validate_fact('request',fact()|{'model':'unknown'})['model'],'unknown')
+        self.assertEqual(validate_fact('request',fact()|{'policy_categories':['hardware_command','pii_email','pii_phone','secret_literal']})['policy_categories'],
+            ['hardware_command','pii_email','pii_phone','secret_literal'])
+
+    def test_request_boundaries_reject_outside_values_and_accept_both_endpoints(self):
+        """Finite durations, actual integer HTTP statuses and TTFT ordering have inclusive documented limits."""
+        for value in [0,3600]:self.assertEqual(validate_fact('request',fact()|{'duration_seconds':value,'ttft_seconds':value})['duration_seconds'],value)
+        for value in [100,599]:self.assertEqual(validate_fact('request',fact()|{'status':value})['status'],value)
+        changes=[{'duration_seconds':v} for v in [-.001,3600.001,True,'1',float('inf')]]
+        changes += [{'ttft_seconds':v} for v in [-.001,1.501,True,'1',float('nan'),float('inf')]]
+        changes += [{'status':v} for v in [99,600,200.0,'200']]
+        changes += [{'policy_categories':v} for v in [None,{},[[]],['pii_phone','pii_email']]]
+        for change in changes:
+            with self.subTest(change=change),self.assertRaises(ValueError):validate_fact('request',fact()|change)
+        for key in fact():
+            value=fact();value.pop(key)
+            with self.subTest(missing=key),self.assertRaises(ValueError):validate_fact('request',value)
+        for value in [None,[],1]:
+            with self.subTest(value=value),self.assertRaises(ValueError):validate_fact('request',value)
+
+    def test_capacity_and_identity_boundaries_keep_independent_sorted_counts(self):
+        """Accept the advertised last valid capacity/ID sizes and verify real rows, not only an insertion return value."""
+        with TemporaryDirectory() as directory:
+            p=Path(directory)/'events.sqlite'
+            for capacity in [0,1000001,True,1.5]:
+                with self.subTest(capacity=capacity),self.assertRaises(ValueError):TelemetryLedger(p,capacity)
+            store=TelemetryLedger(p,1000000);self.assertEqual(store.size(),0)
+            for identity in ['b'*80,'a'*16]:self.assertTrue(store.put('request',identity,fact()))
+            self.assertEqual(store.size(),2);self.assertEqual([r['event_id'] for r in store.rows()],['a'*16,'b'*80])
+            for identity in ['a'*15,'a'*81,None,True]:
+                with self.subTest(identity=identity),self.assertRaises(ValueError):store.put('request',identity,fact())
+            self.assertEqual(store.size(),2);store.close();store=TelemetryLedger(p);self.assertEqual(store.size(),2);store.close()
+
+    def test_span_vocabulary_and_status_match_original_graph_facts(self):
+        """Keep actual roots, all supported operations/tools and each real OTLP status without inventing success."""
+        base={'agent':'unknown','model':'unknown','duration_seconds':0,'usage':None,'operation':'other','tool':'none','error':False,'status_code':0,
+            'trace_id':'1'*32,'span_id':'2'*16,'parent_span_id':'','start_ns':0,'end_ns':0}
+        for operation in ['invocation','agent','model','tool','transport','other']:
+            self.assertEqual(validate_fact('span',base|{'operation':operation})['operation'],operation)
+        for tool in ['none','get_machine_features','predict_failure','search_knowledge','assess_feature_drift','delegate_retrieval','delegate_drift']:
+            self.assertEqual(validate_fact('span',base|{'tool':tool})['tool'],tool)
+        for status in [0,1,2]:self.assertEqual(validate_fact('span',base|{'status_code':status,'error':status==2})['status_code'],status)
+        changes=[{'status_code':True},{'status_code':3},{'error':True},{'error':1},{'trace_id':'1'*31},{'span_id':'0'*16},
+            {'parent_span_id':'0'*16},{'start_ns':True},{'start_ns':-1},{'end_ns':1},{'duration_seconds':.5}]
+        for change in changes:
+            with self.subTest(change=change),self.assertRaises(ValueError):validate_fact('span',base|change)
+        with self.assertRaises(ValueError):validate_fact('other',base)
+
+
 if __name__=='__main__':unittest.main()

@@ -51,7 +51,8 @@ class FinalAuditTests(unittest.TestCase):
         self.assertIn('agent-platform.md', rows['L06'][7])
         self.assertIn('agent-scaling.md', rows['L13'][7])
         self.assertIn('agent-scaling', AUDIT.VERIFIERS)
-        self.assertIn('Open', rows['L54'][6])
+        self.assertIn('dashboards open', rows['L54'][6])
+        self.assertIn('llm-observability.md', rows['L54'][7])
         self.assertIn('TTFT', rows['L54'][3])
 
     def test_snapshot_pin_matches_git_blob_and_checkout(self):
