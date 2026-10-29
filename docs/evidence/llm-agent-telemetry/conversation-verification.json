@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-29T23:02:16.547298+00:00",
+  "source_commit": "daee5d3ff335917ffb7f1705e17bf1e723aa20ad",
+  "source_digest": "9324f34d4a7ebf2205732ae67c40898e3339e6f9912eb946ad34b345258d4ce5",
+  "runner_sha256": "f40c543d99c29dcd99e6c365b301c2f1bcd3b9e37ef15b4c4e238e3d5756d41b",
+  "gateway_host": "agents.iot.test",
+  "leaf_sha256": "e60801a16f3febb05fb3d855b627d7acf43af8df8fde5dd3e7771d1190e8a999",
+  "feature_seed_uid": "e7d42dcd-e8f9-4132-9aff-ddcd49129fa2",
+  "actual_acceptance": {
+    "passed": true,
+    "task_id": "01a189e5-df00-7a69-b16d-e4ab0f472b5e",
+    "context_id": "d710e3be-5bd2-4309-a7c5-52db976beb3d",
+    "coordinator_delegation_verified": true,
+    "children": {
+      "retrieval": {
+        "passed": true,
+        "role": "retrieval",
+        "task_id": "01a189e5-e63a-7c59-b5fc-ff47bf825695",
+        "context_id": "01a189e5-e151-7c66-a9e9-bd508dcd4c78",
+        "successful_tool_events": 3,
+        "tool_error_events": 0,
+        "coordinator_delegation_verified": false,
+        "coursework_complete": false,
+        "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+      },
+      "drift": {
+        "passed": true,
+        "role": "drift",
+        "task_id": "01a189e6-0358-7393-b3f8-0d106d9663c3",
+        "context_id": "01a189e5-fd96-742e-937a-2a2545e6cf6e",
+        "successful_tool_events": 1,
+        "tool_error_events": 0,
+        "coordinator_delegation_verified": false,
+        "coursework_complete": false,
+        "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+      }
+    },
+    "coursework_complete": false,
+    "scope": "Combined answer equals two actual delegated child answers, each verified against its own MCP history. Native capture authenticity remains separately required."
+  },
+  "all_chat_requests_through_https_ui_gateway": true,
+  "scope": "One complete GPU coordinator response, two independent real specialist histories and four MCP calls through the authenticated private UI gateway. Not a load benchmark, multi-tenant authorization or full coursework completion."
+}

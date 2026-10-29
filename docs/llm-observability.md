@@ -1,6 +1,6 @@
 # Measuring model and agent activity
 
-The observation API now has a source-tested private canary on the CPU VM, forwarding real requests to the existing V100 model server. Nine model requests produced exactly nine durable facts: three completed generations, four policy rejections and two invalid requests. The active agent route remains a separate integration step.
+The observation API now sits on the active private model route. Its initial canary produced exactly nine durable facts: three completed generations, four policy rejections and two invalid requests. A later [coordinator cohort](#trace-an-actual-coordinator-request) verifies the active integration against actual specialist histories, per-Pod MCP counters and stored Jaeger traces. Dashboard and load acceptance remain separate.
 
 Run `python -B -S scripts/verify-llm-observer.py` to check the [quality report](evidence/llm-observer/quality-verification.json), [ready canary](evidence/llm-observer/canary-verification.json), [request results](evidence/llm-observer/probe-verification.json) and [original native archive](evidence/llm-observer/native-receipts.tar.gz). The checker requires only Python's standard library. It authenticates 894 original payloads, then independently checks mutation exits, reported usage, chunk clocks, request identities and the log/counter readbacks. This is recorded execution evidence, not a claim that a stopped VM is currently serving traffic.
 
@@ -24,6 +24,57 @@ Two streamed canary replies had client TTFTs of 0.05090 s and 0.03485 s, with fu
 The original failed attempts are retained. The first quality build found incompatible dependency pins; completed mutation runs B, D and E stayed below the threshold, and C was deliberately interrupted to address uncovered handlers. The accepted F run starts with fresh scratch and keeps all survivors. Canary A stopped when the native image store lacked a digest reference. B stopped before workload creation because Helm had no explicit Kubernetes connection. C authenticated the immutable image reference, retained B's unchanged Secret and unused ledger, and completed installation with an explicit kubeconfig. These repairs did not alter the accepted API image or the existing agent/model specifications.
 
 The canary's prompt checks cover four explicit patterns: email addresses, labeled telephone numbers, credential assignments and direct hardware-control commands. They do not establish universal PII detection or model safety. Logs retain approved identifiers, timings, statuses and counts; the observation ledger has no prompt, answer or credential fields. The fixed canary questions and original responses are retained separately as controlled test evidence.
+
+## Trace an actual coordinator request
+
+The accepted rollout adds one exact private OTLP route to the existing Envoy listener and selects the observation Pod for model requests. The deployed Envoy 1.33.2 binary validates the new configuration before cutover. The old adapter deployment remains available, and the original GPU, shared model and agent business specifications remain unchanged. Tracing settings create three new Ready actor templates with message capture disabled.
+
+```mermaid
+flowchart LR
+    Gateway[Private HTTPS gateway] --> Coordinator
+    Coordinator -->|A2A| Retrieval
+    Coordinator -->|A2A| Drift
+    Retrieval -->|3 tools| RetrievalMCP[Retrieval MCP]
+    Drift -->|1 tool| DriftMCP[Drift MCP]
+    Coordinator -->|model| Router[llm-d router]
+    Retrieval -->|model| Router
+    Drift -->|model| Router
+    Router --> Observer[Observation API]
+    Observer --> Adapter[Retained tool-turn adapter]
+    Adapter --> GPU[Qwen 2.5 7B on V100]
+    Observer -. approved trace metadata .-> Jaeger
+```
+
+This is the recorded application flow, not a runtime screenshot. Agents also export OTLP through the router's exact private trace path to the observer. Only that trace route bypasses model selection; the original model route still uses the endpoint picker.
+
+One new HTTPS coordinator conversation completes with two independently checked child histories. A genuine Feast materialization supplies 200 machines after the previous cache naturally expires; the conversation finishes inside the new one-hour lease. The result identifies the machine/model/features and matches its actual paired tool outputs.
+
+| Native observation | Cohort result |
+|---|---:|
+| Coordinator / retrieval / drift executor roots | 1 / 1 / 1 |
+| Retrieval MCP calls | 3 |
+| Drift MCP calls | 1 |
+| MCP failures added during the cohort | 0 |
+| Model generations | 9 |
+| Provider-reported input / output tokens | 13,549 / 1,139 |
+| Provider-reported total tokens | 14,688 |
+| Native spans added | 771 |
+
+The 771 spans include transport and nested SDK activities. They represent three agent executions, not 771 agent calls. Six traced tool operations comprise four MCP tools and two specialist delegations. Per-Pod MCP counter differences independently confirm the four server executions. Existing failure counters remain visible; zero new failures is only a statement about this cohort.
+
+The agent graph preserves its actual shared trace ID, parent IDs and nanosecond times in Jaeger. The nine native model spans and nine proxy request facts have matching reported usage. The proxy labels these requests `unknown` for agent identity because the runtime tool declarations do not match its narrow role classifier. No per-request identity link to the separate proxy SDK spans is invented. Agent call counts come from the native executor roots.
+
+The pinned Go SDK leaves these span statuses **unset**. Answer/tool acceptance establishes that the conversation worked; an unset span is not rewritten as a success status. Unapproved attributes, events, links and trace state are removed before native agent traces reach storage. Unsupported service names are omitted, so some projected transport spans appear under Jaeger's `missing-service-name` fallback.
+
+Verify the original [rollout](evidence/llm-agent-telemetry/rollout-verification.json), [conversation](evidence/llm-agent-telemetry/conversation-verification.json), [feature lease](evidence/llm-agent-telemetry/feature-lease.json) and [native archive](evidence/llm-agent-telemetry/native-receipts.tar.gz):
+
+```powershell
+python -B -S scripts/verify-llm-agent-telemetry.py
+```
+
+The checker authenticates 2,104 original payloads and rechecks the complete parent/child answer contract, source identities, native routing transitions, per-Pod counter differences, reported usage and exact stored graph identities. An initial promotion attempt returned to the original route after its probe incorrectly expected an empty OTLP batch to succeed. The corrected run retains the expected HTTP 400 rejection and its original bytes before enabling controller tracing. Both attempts and their original journals remain in the archive; the retained launcher filename issue is explicitly documented in its capture notes.
+
+Prometheus/Loki export, host-resource measurements, native load checks and original monitoring captures still need separate acceptance. This checkpoint does not close rows that require visible dashboards.
 
 ## Earlier router pilot
 
@@ -83,7 +134,7 @@ The local API exercises use controlled backends and temporary databases. Native 
 
 The new observation API sits in front of the retained model-control adapter. It reads streaming bytes while forwarding them, exposes metrics and projects native OTLP traces onto an approved metadata schema. Prompt checks cover four explicit pattern categories: email, labeled telephone numbers, credential assignments and direct hardware-control commands. They are bounded coursework controls, not a universal PII detector or safety classifier.
 
-A separate Helm release now runs the accepted canary behind an internal ClusterIP service and a narrow network policy. It retains the old adapter deployment and does not change the active model pool. Agent tracing, traffic promotion, native load checks, Prometheus/Loki integration and original dashboard captures remain separate acceptance steps.
+A separate Helm release runs the tested observer behind an internal ClusterIP service and a narrow network policy. The subsequent accepted rollout selects that Pod for active model traffic and enables private agent tracing while retaining the old adapter deployment. Native load checks, Prometheus/Loki integration and original dashboard captures remain separate acceptance steps.
 
 The prepared internal API has explicit machine-readable failures. These response bodies are checked locally alongside their HTTP statuses:
 

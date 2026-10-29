@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-29T22:59:16.992050+00:00",
+  "source_commit": "1bc089e62a0c37ac14cec16ac5742462d2375ccf",
+  "tested_source_commit": "97ba77b6d538b816b6304c17031090e3820a3fa0",
+  "observer_pod_uid": "5490d542-f65a-468d-96a3-27ad176c3785",
+  "new_immutable_config_map": "iot-llm-router-observe-29b",
+  "validated_envoy_image": "docker.io/envoyproxy/envoy@sha256:85500e28ed088ec39ff0adc1be3d358a8ad062926aaa62c36b28bde00919e4e8",
+  "trace_environment": {
+    "OTEL_TRACING_ENABLED": "true",
+    "OTEL_LOGGING_ENABLED": "false",
+    "OTEL_EXPORTER_OTLP_TRACES_PROTOCOL": "http/protobuf",
+    "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT": "http://iot-router-epp.iot-llm.svc.cluster.local:8081/iot-telemetry/v1/traces",
+    "OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT": "false"
+  },
+  "routing_changed": true,
+  "original_agent_business_specs_unchanged": true,
+  "original_control_and_gpu_specs_unchanged": true,
+  "scope": "Actual immutable Envoy validation, private trace route with an expected empty-batch rejection, observer pool selection, one real routed GPU response and controller trace configuration. Fresh agent executions, valid native trace readbacks, monitoring, load and UI captures remain separate checks."
+}
