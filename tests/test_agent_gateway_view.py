@@ -13,6 +13,7 @@ class AgentGatewayViewTests(unittest.TestCase):
         self.assertTrue(VIEW.allowed_request('agents','127.0.0.1:18090',None,'/_next/app.js','GET'))
         self.assertTrue(VIEW.allowed_request('agents','127.0.0.1:18090','http://127.0.0.1:18090','/api/sessions','POST'))
         self.assertTrue(VIEW.allowed_request('agents','127.0.0.1:18090','http://127.0.0.1:18090','/agents/iot-agents/iot-coordinator/chat','POST'))
+        self.assertTrue(VIEW.allowed_request('agents','127.0.0.1:18090','http://127.0.0.1:18090','/agents/iot-agents/iot-coordinator/chat/01a18938-317a-755b-a2b0-b07e2b664648','POST'))
         self.assertTrue(VIEW.allowed_request('registry','localhost:18091',None,'/v0/agents','GET'))
 
     def test_foreign_origins_absolute_targets_and_write_methods_are_refused(self):
@@ -21,6 +22,7 @@ class AgentGatewayViewTests(unittest.TestCase):
             ('agents','evil.example',None,'/','GET'),('agents','127.0.0.1:18090','https://evil.example','/api/sessions','POST'),
             ('agents','127.0.0.1:18090',None,'http://external.example/','GET'),('agents','127.0.0.1:18090',None,'//external.example/','GET'),
             ('agents','127.0.0.1:18090',None,'/api/agents','DELETE'),('agents','127.0.0.1:18090',None,'/admin','POST'),
+            ('agents','127.0.0.1:18090',None,'/agents/iot-agents/iot-coordinator/chat/01a18938-317a-755b-a2b0-b07e2b664648/delete','POST'),
             ('registry','127.0.0.1:18091',None,'/v0/apply','POST')]:
             with self.subTest(path=path,method=method):self.assertFalse(VIEW.allowed_request(role,host,origin,path,method))
 

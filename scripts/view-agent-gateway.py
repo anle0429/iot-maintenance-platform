@@ -26,7 +26,7 @@ def allowed_request(role,host,origin,path,method):
     port=PORTS[role];valid_hosts={'127.0.0.1:'+str(port),'localhost:'+str(port)}
     if host not in valid_hosts or origin and origin not in {'http://'+value for value in valid_hosts}:return False
     if not path.startswith('/') or path.startswith('//') or '\\' in path or urlsplit(path).scheme:return False
-    chat_action=re.fullmatch(r'/agents/iot-agents/iot-(retrieval|drift|coordinator)/chat',urlsplit(path).path)
+    chat_action=re.fullmatch(r'/agents/iot-agents/iot-(retrieval|drift|coordinator)/chat(?:/[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12})?',urlsplit(path).path)
     return method in {'GET','HEAD'} or role=='agents' and method=='POST' and (path.startswith('/api/') or bool(chat_action))
 
 
