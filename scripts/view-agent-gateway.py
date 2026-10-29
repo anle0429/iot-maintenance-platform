@@ -61,23 +61,32 @@ def run(args):
                     location=urlsplit(value)
                     if location.scheme and location.hostname==host:value=location.path+('?' + location.query if location.query else '')
                 self.send_header(name,value)
-            self.send_header('Connection','close');self.end_headers();digest=sha256();size=0
+            self.send_header('Connection','close');self.end_headers();digest=sha256();size=0;debug=[]
             try:
                 if self.command!='HEAD':
                     while True:
                         chunk=response.read1(16384)
                         if not chunk:break
                         self.wfile.write(chunk);self.wfile.flush();digest.update(chunk);size+=len(chunk)
+                        if args.debug_actions and self.command=='POST' and size<=1048576:debug.append(chunk)
             finally:
                 connection.close();self.close_connection=True
                 record={'utc':datetime.now(timezone.utc).isoformat(),'host':host,'path':urlsplit(self.path).path,'method':self.command,
                         'status':response.status,'ca_verified':True,'hostname_verified':True,'tls_version':version,'leaf_sha256':leaf,
                         'response_bytes':size,'served_response_sha256':digest.hexdigest(),'body_edited':False,'credentials_logged':False}
                 with lock:audit.write(json.dumps(record)+'\n');audit.flush()
+                if args.debug_actions and self.command=='POST':
+                    target=args.debug_actions/(datetime.now(timezone.utc).strftime('%H%M%S%f')+'-'+self.headers.get('Next-Action','api')[:16]+'.json')
+                    target.write_text(json.dumps({'path':urlsplit(self.path).path,'next_action':self.headers.get('Next-Action'),
+                        'request_body':body.decode() if body else None,'response_body':b''.join(debug).decode(errors='replace')},indent=2)+'\n')
 
         do_GET=forward
         do_HEAD=forward
         do_POST=forward
+    if args.debug_actions:
+        if not args.debug_actions.resolve().is_relative_to(Path('/srv/iot-data/workspace/iot-maintenance-platform/data/runtime')):
+            raise ValueError('Server-action diagnostics must remain in the private runtime directory')
+        args.debug_actions.mkdir(parents=True,exist_ok=False);args.debug_actions.chmod(0o700)
     server=ThreadingHTTPServer(('127.0.0.1',port),Handler)
     print(json.dumps({'listen':'http://127.0.0.1:'+str(port),'upstream':'https://'+host,'ca_verified':True,
                       'scope':'Authenticated administrative relay; browser sees loopback HTTP. No browser CA bypass, public listener or external proxy target.'}),flush=True)
@@ -88,4 +97,5 @@ def run(args):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--role',choices=sorted(HOSTS),required=True);parser.add_argument('--gateway-ip',required=True)
     for name in ['credentials','ca','audit']:parser.add_argument('--'+name,type=Path,required=True)
+    parser.add_argument('--debug-actions',type=Path)
     run(parser.parse_args())
