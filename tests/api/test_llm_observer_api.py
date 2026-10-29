@@ -111,7 +111,8 @@ class ObserverApiTests(unittest.TestCase):
         headers={'Authorization':'Bearer '+TOKEN}
         self.assertEqual(self.api.post('/v1/chat/completions',content=b'bad',headers=headers).status_code,400)
         self.assertEqual(self.api.post('/v1/chat/completions?destination=foreign',json=question('x'),headers=headers).status_code,400)
-        self.assertEqual(self.api.post('/v1/chat/completions',content=b'x'*(1024**2+1),headers=headers).status_code,413)
+        too_large=self.api.post('/v1/chat/completions',content=b'x'*(1024**2+1),headers=headers)
+        self.assertEqual(too_large.status_code,413);self.assertEqual(too_large.json()['error']['code'],'model_request_too_large')
         self.assertEqual(self.post(question('x')|{'model':'foreign-model'}).status_code,400);self.assertEqual(self.requests,[])
         self.assertEqual(self.api.delete('/v1/chat/completions').status_code,405)
 
@@ -160,7 +161,8 @@ class ObserverApiTests(unittest.TestCase):
         self.assertEqual(self.api.get('/health/live').json(),{'live':True});self.assertEqual(self.api.get('/health/ready').status_code,200)
         self.status=503;self.assertEqual(self.api.get('/health/ready').status_code,503)
         self.status=200;self.store.limit=1;self.post();requests=len(self.requests)
-        self.assertEqual(self.api.get('/health/ready').status_code,503);self.assertEqual(self.post().status_code,503);self.assertEqual(len(self.requests),requests)
+        self.assertEqual(self.api.get('/health/ready').json(),{'ready':False});full=self.post()
+        self.assertEqual(full.status_code,503);self.assertEqual(full.json(),{'error':{'code':'observation_capacity_reached'}});self.assertEqual(len(self.requests),requests)
 
     def test_private_trace_projection_replay_and_backend_export_are_real(self):
         """Forward a sanitized actual protobuf message and count its original span once across duplicate deliveries."""
@@ -172,12 +174,13 @@ class ObserverApiTests(unittest.TestCase):
 
     def test_bad_trace_payloads_and_storage_outages_do_not_look_successful(self):
         """Keep private ingestion protocol errors and Jaeger failures separate from accepted trace exports."""
-        self.assertEqual(self.api.post('/v1/traces',content=b'wrong').status_code,415)
+        response=self.api.post('/v1/traces',content=b'wrong');self.assertEqual(response.status_code,415);self.assertEqual(response.json(),{'error':'require_otlp_protobuf'})
         headers={'Content-Type':'application/x-protobuf'}
-        self.assertEqual(self.api.post('/v1/traces',content=b'wrong',headers=headers).status_code,400)
-        self.assertEqual(self.api.post('/v1/traces',content=b'x'*(2*1024**2+1),headers=headers).status_code,413)
+        response=self.api.post('/v1/traces',content=b'wrong',headers=headers);self.assertEqual(response.status_code,400);self.assertEqual(response.json(),{'error':'invalid_otlp_trace'})
+        response=self.api.post('/v1/traces',content=b'x'*(2*1024**2+1),headers=headers);self.assertEqual(response.status_code,413);self.assertEqual(response.json(),{'error':'otlp_request_too_large'})
         native,_=batch();self.status=503
-        self.assertEqual(self.api.post('/v1/traces',content=native.SerializeToString(),headers=headers).status_code,503)
+        response=self.api.post('/v1/traces',content=native.SerializeToString(),headers=headers)
+        self.assertEqual(response.status_code,503);self.assertEqual(response.json(),{'error':'trace_storage_unavailable'})
         self.assertEqual(len(self.store.rows()),1)
 
     def test_trace_transport_failure_and_backend_readiness_failure_remain_visible(self):
@@ -301,6 +304,39 @@ class ObserverApiTests(unittest.TestCase):
             self.json_response=json.dumps({'usage':USAGE,'choices':[{'finish_reason':reason}]}).encode()
             response=self.post(question('Explain timestamps.')|{'stream':False})
             self.assertEqual(next(r['facts']['finish_reason'] for r in self.store.rows() if r['event_id']==response.headers['x-iot-request-id']),wanted)
+
+    def test_omitted_stream_flag_defaults_to_json_without_a_fabricated_ttft(self):
+        """The optional OpenAI streaming flag defaults to false and must remain a real boolean in the stored fact."""
+        self.mode='json';payload=question('Explain timestamps.');payload.pop('stream');response=self.post(payload)
+        self.assertEqual(response.status_code,200);self.assertEqual(response.json()['usage'],USAGE)
+        self.assertEqual(self.store.size(),1);fact=self.store.rows()[0]['facts'];self.assertIs(fact['streaming'],False)
+        self.assertEqual(fact['result'],'ok');self.assertIsNone(fact['ttft_seconds'])
+
+    def test_model_body_boundary_accepts_the_last_byte_and_rejects_the_next(self):
+        """Large trusted context may reach the one-MiB body budget; the next byte is rejected before backend execution."""
+        self.mode='json';payload=question('Explain timestamps.')|{'stream':False};payload['messages'].insert(0,{'role':'system','content':''})
+        size=1048576;payload['messages'][0]['content']='x'*(size-len(json.dumps(payload).encode()));raw=json.dumps(payload).encode();self.assertEqual(len(raw),size)
+        headers={'Authorization':'Bearer '+TOKEN};response=self.api.post('/v1/chat/completions',content=raw,headers=headers)
+        self.assertEqual(response.status_code,200);self.assertEqual(response.json()['usage'],USAGE);self.assertEqual(self.requests[0].content,raw)
+        response=self.api.post('/v1/chat/completions',content=raw+b' ',headers=headers)
+        self.assertEqual(response.status_code,413);self.assertEqual(response.json()['error']['code'],'model_request_too_large');self.assertEqual(len(self.requests),1)
+
+    def test_malformed_stream_metadata_preserves_wire_bytes_and_a_real_failed_receipt(self):
+        """A malformed JSON frame during feed must leave one invalid-response fact rather than an empty successful-looking assertion."""
+        self.chunks=[b'data: {invalid}\n\n',event({'choices':[{'delta':{'content':'later'},'finish_reason':'stop'}]}),event({'usage':USAGE}),b'data: [DONE]\n\n']
+        response=self.post();self.assertEqual(response.status_code,200);self.assertEqual(response.content,b''.join(self.chunks))
+        self.assertEqual(self.store.size(),1);fact=self.store.rows()[0]['facts'];self.assertEqual(fact['result'],'invalid_response')
+        self.assertIsNone(fact['usage']);self.assertIsNone(fact['ttft_seconds']);self.app.state.provider.force_flush()
+        spans=self.exporter.get_finished_spans();self.assertEqual(len(spans),1);self.assertEqual(spans[0].status.status_code.value,2)
+
+    def test_otlp_body_limit_accepts_a_valid_envelope_with_unknown_padding_at_the_boundary(self):
+        """Keep the two-MiB protocol budget while discarding a large unreviewed protobuf field before export."""
+        native,_=batch();base=native.SerializeToString();length=2097152-len(base)-5
+        number=length;encoded=[]
+        while number>127:encoded.append((number&127)|128);number>>=7
+        encoded.append(number);raw=base+b'\xfa\x07'+bytes(encoded)+b'x'*length;self.assertEqual(len(raw),2097152)
+        response=self.api.post('/v1/traces',content=raw,headers={'Content-Type':'application/x-protobuf'})
+        self.assertEqual(response.status_code,200);self.assertEqual(self.store.size(),1);self.assertLess(len(self.requests[0].content),1024)
 
     def exchange(self,error=None):
         """Create one real request lifecycle with a controlled response transport for cancellation/cleanup assertions."""
