@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "version": 2,
+  "cross_read_http": 403,
+  "gateway_https": {
+    "metrics.iot.test": 200,
+    "logs.iot.test": 200,
+    "traces.iot.test": 200,
+    "features.iot.test": 200
+  },
+  "scope": "Fresh gateway AppRole login/KV2 read/revoke and CA+SNI-authenticated four-route probes after VM restart."
+}

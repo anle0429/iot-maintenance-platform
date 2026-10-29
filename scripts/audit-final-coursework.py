@@ -18,7 +18,7 @@ VERIFIERS = (
     'ci-stream-push', 'ci-training', 'datahub-restore', 'deployment-policy', 'drift-eventing',
     'drift-retraining', 'final-handover', 'focused-api', 'host-monitoring', 'iac-final',
     'joint-cohort', 'linux-host', 'linux-logs', 'log-discovery', 'native-serving',
-    'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort',
+    'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort', 'final-review',
 )
 CAPSULES = (
     'drift-api', 'api-autoscale', 'notebook', 'notebook-parity', 'distributed-training',

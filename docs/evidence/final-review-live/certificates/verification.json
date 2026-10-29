@@ -1,0 +1,102 @@
+{
+  "passed": true,
+  "source_sha256": "3587e4daf4872f563c9bb88cc39426ff1cfad7bac23e12427e577eed6283b2ad",
+  "before": {
+    "outputs/gateway-28/deploy/ca.crt": {
+      "sha256": "1ab50bbea75976efd2a28a4dc624b9b798a118f96eac308545e81818fbbce8eb",
+      "metadata": [
+        "notBefore=Oct 28 19:42:48 2026 GMT",
+        "notAfter=Oct 31 19:42:48 2026 GMT",
+        "subject=CN = IoT coursework private lab CA",
+        "sha256 Fingerprint=63:3E:17:8B:18:FD:C3:89:B7:3A:24:FE:35:05:0F:C1:53:88:D9:21:D9:77:CD:0E:4B:8E:09:80:A8:D6:E1:6B"
+      ]
+    },
+    "outputs/vault-28/resume-active/ca.crt": {
+      "sha256": "1ab50bbea75976efd2a28a4dc624b9b798a118f96eac308545e81818fbbce8eb",
+      "metadata": [
+        "notBefore=Oct 28 19:42:48 2026 GMT",
+        "notAfter=Oct 31 19:42:48 2026 GMT",
+        "subject=CN = IoT coursework private lab CA",
+        "sha256 Fingerprint=63:3E:17:8B:18:FD:C3:89:B7:3A:24:FE:35:05:0F:C1:53:88:D9:21:D9:77:CD:0E:4B:8E:09:80:A8:D6:E1:6B"
+      ]
+    },
+    "outputs/gateway-28/deploy/server.crt": {
+      "sha256": "05ddedd76f0246d3cf956bd0d99a91a376eda2e9f3a646b7d1ee39f7447c2aaf",
+      "metadata": [
+        "notBefore=Oct 28 19:42:48 2026 GMT",
+        "notAfter=Oct 30 19:42:48 2026 GMT",
+        "subject=CN = features.iot.test",
+        "sha256 Fingerprint=EF:FC:07:6F:62:A3:09:CE:59:A4:8F:DC:C7:17:77:06:0E:1C:CC:AB:4B:3F:65:C9:FB:0E:42:A4:9F:51:76:A5"
+      ]
+    },
+    "data/runtime/vault-server-28/server.crt": {
+      "sha256": "4b07afc23fb7a7b809eb92e10ca304c2f0622be7293a90ab4254ebc17376ba81",
+      "metadata": [
+        "notBefore=Oct 28 19:58:56 2026 GMT",
+        "notAfter=Oct 30 19:58:56 2026 GMT",
+        "subject=CN = vault.iot.test",
+        "sha256 Fingerprint=59:2B:73:22:AC:30:7B:07:13:DF:15:BE:25:2A:D1:8C:5C:B0:1A:8C:0F:F3:86:F7:E5:0A:24:6F:1C:50:2A:CA"
+      ]
+    }
+  },
+  "existing_private_keys_reused": true,
+  "old_bytes_backed_up": true,
+  "checked_utc": "2026-10-29T00:18:44.278531+00:00",
+  "after": {
+    "outputs/gateway-28/deploy/ca.crt": {
+      "sha256": "44305bdedb408def91093d6d1cf62583976e301301800247cf00ec1a896add31",
+      "metadata": [
+        "notBefore=Oct 29 00:18:39 2026 GMT",
+        "notAfter=Nov 12 00:18:39 2026 GMT",
+        "subject=CN = IoT coursework private lab CA",
+        "sha256 Fingerprint=F7:BD:CF:63:B4:47:A2:79:7F:F4:B8:45:74:82:E8:15:0F:09:D5:09:CB:57:99:C9:4B:5A:60:AB:D6:C0:78:17"
+      ]
+    },
+    "outputs/vault-28/resume-active/ca.crt": {
+      "sha256": "44305bdedb408def91093d6d1cf62583976e301301800247cf00ec1a896add31",
+      "metadata": [
+        "notBefore=Oct 29 00:18:39 2026 GMT",
+        "notAfter=Nov 12 00:18:39 2026 GMT",
+        "subject=CN = IoT coursework private lab CA",
+        "sha256 Fingerprint=F7:BD:CF:63:B4:47:A2:79:7F:F4:B8:45:74:82:E8:15:0F:09:D5:09:CB:57:99:C9:4B:5A:60:AB:D6:C0:78:17"
+      ]
+    },
+    "outputs/gateway-28/deploy/server.crt": {
+      "sha256": "409045cbc35ce7eddc8e2b354c82eb361a972e9813e83c045fb0daf82b7d9ed2",
+      "metadata": [
+        "notBefore=Oct 29 00:18:40 2026 GMT",
+        "notAfter=Nov  5 00:18:40 2026 GMT",
+        "subject=CN = features.iot.test",
+        "sha256 Fingerprint=51:A9:28:6A:C9:6E:29:61:DE:F2:D9:F0:4C:1E:1C:89:97:D1:1A:F8:ED:48:49:A5:F4:82:E9:A3:44:9A:FC:24"
+      ]
+    },
+    "data/runtime/vault-server-28/server.crt": {
+      "sha256": "96e64dfebee2576f0373013aa8f6400e9dc41addce36aa9df33a4ac4ea8e2515",
+      "metadata": [
+        "notBefore=Oct 29 00:18:40 2026 GMT",
+        "notAfter=Nov  5 00:18:40 2026 GMT",
+        "subject=CN = 10.52.0.1",
+        "sha256 Fingerprint=E8:A4:19:97:84:19:E9:81:18:9E:AE:83:73:1C:B9:DE:8A:6F:D0:1E:AA:94:29:FE:52:05:7A:35:8C:42:A5:4B"
+      ]
+    }
+  },
+  "vault_cluster_id": "63e1d9cc-7eb1-c7a7-a48d-b11a3ac107f9",
+  "vault_health_http": 200,
+  "vault_reinitialized": false,
+  "gateway_http": {
+    "metrics.iot.test": 200,
+    "logs.iot.test": 200,
+    "traces.iot.test": 200,
+    "features.iot.test": 200
+  },
+  "actual_gateway_peer_der_sha256": {
+    "metrics.iot.test": "51a9286ac96e2961def2d9f04c1e1c8997d11af8ed4849a5f482e9a3449afc24",
+    "logs.iot.test": "51a9286ac96e2961def2d9f04c1e1c8997d11af8ed4849a5f482e9a3449afc24",
+    "traces.iot.test": "51a9286ac96e2961def2d9f04c1e1c8997d11af8ed4849a5f482e9a3449afc24",
+    "features.iot.test": "51a9286ac96e2961def2d9f04c1e1c8997d11af8ed4849a5f482e9a3449afc24"
+  },
+  "expected_gateway_peer_der_sha256": "51a9286ac96e2961def2d9f04c1e1c8997d11af8ed4849a5f482e9a3449afc24",
+  "gateway_all_routes_200": true,
+  "private_key_bytes_unchanged": true,
+  "scope": "New real X509 issuance: CA14days/server7days, same protected keys and persistent services. Historical evidence untouched; application readiness remains a separate check."
+}

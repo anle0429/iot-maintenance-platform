@@ -7,7 +7,7 @@ Chuẩn kiểm là **57 dòng có trọng số của sheet final-coursework và 
 | Thiếu sót trước rà soát | Thay đổi cụ thể | Kiểm chứng |
 |---|---|---|
 | Hai bộ kiểm metrics PC/Linux từ chối source sau khi thêm docstring | Giữ kiểm SHA của source Git đã chạy; cho phép khác biệt AST chỉ ở phần mô tả Python, config vẫn phải khớp | Hai bộ kiểm chạy qua; test đổi logic/default/decorator/config vẫn bị từ chối |
-| Chưa có một lệnh đối chiếu toàn rubric và chạy hết các bộ kiểm offline | Thêm `audit-final-coursework.py`: pin snapshot nguồn, resolve ô merge, kiểm57 dòng/sáu cột nguồn/86link, chín capsule và25verifier | Phát hiện được yêu cầu bị làm yếu, dòng mất/trùng, snapshot nguồn bị sửa và payload sai hash/thoát thư mục |
+| Chưa có một lệnh đối chiếu toàn rubric và chạy hết các bộ kiểm offline | Thêm `audit-final-coursework.py`: pin snapshot nguồn, resolve ô merge, kiểm57 dòng/sáu cột nguồn, chín capsule và26verifier | Phát hiện được yêu cầu bị làm yếu, dòng mất/trùng, snapshot nguồn bị sửa và payload sai hash/thoát thư mục |
 | Các dịch vụ systemd chạy tạm không tự trở lại sau VM STOP | Thêm `resume-demo-services.py`: phục hồi monitor, relay CNI của gateway, Alloy discovery, Jenkins và Vault; gia hạn JWT có scope cũ | Health của các dịch vụ trả200; giữ Jenkins home/ảnh container và Vault cluster ID/Raft; mở khóa thay vì init lại |
 | AppRole/Jenkins credential hết hạn theo phiên | Cờ `--renew-consumers` cấp secret-id mới cho hai role cũ và cập nhật đúng một Jenkins SecretText | Quyền giữ nguyên; secret-id có20lượt dùng và hết hạn trước phiên VM; giá trị thật chỉ ở runtime/Vault/Jenkins |
 | Cache hết hạn và hướng dẫn cũ dùng cầu review tạm | Thêm `refresh-demo-feature.py` và `demo-feature-api.py`; tài liệu dùng port-forward/IAP chuẩn | Materialize200máy thật, immutable seed mới, cùng model6; chín HTTP case qua và score tính lại khớp |
@@ -29,7 +29,17 @@ $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-Kết quả gồm25console gốc và `verification.json`. Chín capsule bổ sung có685payload được đối chiếu; riêng file ignore-policy của coverage đã được manifest cũ ghi rõ là không đưa vào repo. Việc loại file đó không loại report, test, source hoặc số đo nào. Bộ kiểm này không tự chấm điểm và không thay việc đọc nội dung ảnh/deliverable.
+Kết quả gồm26console gốc và `verification.json`. Chín capsule bổ sung có685payload được đối chiếu; riêng file ignore-policy của coverage đã được manifest cũ ghi rõ là không đưa vào repo. Việc loại file đó không loại report, test, source hoặc số đo nào. Bộ kiểm này không tự chấm điểm và không thay việc đọc nội dung ảnh/deliverable.
+
+## Kết quả chạy thật sau restart28/10
+
+[Capsule bổ sung](evidence/final-review-live/manifest.json) giữ24payload công khai:21file VM, hai file HTTP PC và một binding source. Bộ kiểm `verify-final-review.py` đối chiếu bốn operator với Git source đã chạy,96file runtime và10file CI; giữ ba receipt lỗi ban đầu nguyên trạng. Không chứa helper điều khiển máy, private key, mật khẩu hoặc token.
+
+- Phục hồi năm health endpoint200, relay gateway, Alloy có hardening; Jenkins dùng lại home/image và Vault giữ cluster ID/Raft. Token có hạn trước STOP8giờ.
+- Feast materialize200máy thật trong container1CPU/8GiB, exit0/khôngOOM; Redis trước0sau200key, seed mới bất biến. Cache có hạn một giờ thật.
+- Chín request PC qua IAP cho kết quả200/409/404/422 đúng; lặp predict giống nhau, tính lại risk score khớp model6. Đây là smoke test, không thay load test gốc.
+- Jenkins Vault build3SUCCESS: đăng nhập Airflow201/đọc DAG200, đọc chéo và token đã revoke đều403. AppRole gateway đọc KV2version2 và bốn route HTTPS200.
+- Cấp lại chứng chỉ thật: bốn peer TLS đúng fingerprint của leaf mới, CA/SNI verification giữ nguyên; các khóa không đổi và Vault không init lại. Ngày hết hạn mới nêu bên dưới.
 
 ## Phạm vi cần trình bày đúng
 

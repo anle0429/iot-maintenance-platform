@@ -1,0 +1,103 @@
+{
+  "scope": "Real retained VM restart, service recovery, native Feast materialization, Vault CI, CA/SNI TLS renewal and actual PC HTTP. Historical failure receipts retained. Not a full 100GB retrain or public DNS test.",
+  "native_tar_sha256": "62ed0a07edc0c846141eb9ca5e19ff1c7a70db012027fd46974a1d1a79217812",
+  "native_private_value_scan_passed": true,
+  "files": {
+    "certificates/ca.crt": {
+      "bytes": 1537,
+      "sha256": "44305bdedb408def91093d6d1cf62583976e301301800247cf00ec1a896add31"
+    },
+    "certificates/gateway.crt": {
+      "bytes": 1651,
+      "sha256": "409045cbc35ce7eddc8e2b354c82eb361a972e9813e83c045fb0daf82b7d9ed2"
+    },
+    "certificates/vault.crt": {
+      "bytes": 1554,
+      "sha256": "96e64dfebee2576f0373013aa8f6400e9dc41addce36aa9df33a4ac4ea8e2515"
+    },
+    "certificates/verification.json": {
+      "bytes": 4717,
+      "sha256": "f3edbde90a08e39b21583f193d80c10e7e0814e3af25bf24bc0c33862c544a32"
+    },
+    "feature-refresh/helm.stdout": {
+      "bytes": 193,
+      "sha256": "47f9838fc604ad6530d18282282d895570d358c6e370f2a8cd0c22276876478e"
+    },
+    "feature-refresh/materialization-container.json": {
+      "bytes": 1167,
+      "sha256": "c391cd54a45061ce1ce6730d8e0b8010e184abb7529e94f0f75b676d271ff003"
+    },
+    "feature-refresh/materialization.stderr": {
+      "bytes": 199,
+      "sha256": "5b58ecc95d973a6c1c4527a82fd0bead8fd090f176f03fd7ad401d6fde0bd36f"
+    },
+    "feature-refresh/materialization.stdout": {
+      "bytes": 206,
+      "sha256": "576a32c452fc372e43bca5c17ea1c8350fd31e05fe7284ab8b470fedb57fb734"
+    },
+    "feature-refresh/physical-ttl-after.json": {
+      "bytes": 2637,
+      "sha256": "97a932e0981f588395a6d2db4e00c80ebf2e6abb176c1c9ccc76eac1d3147774"
+    },
+    "feature-refresh/physical-ttl-before.json": {
+      "bytes": 33,
+      "sha256": "6b3df21c0b4f11cc6e4eaac8cd56639f5f87c546bdda4dd9efcc9021cef7cf2c"
+    },
+    "feature-refresh/verification.json": {
+      "bytes": 11495,
+      "sha256": "a21d4e72526970c44e62756c8164c2c9915d28617c37ecc3e8172e72099de808"
+    },
+    "operator-source.json": {
+      "bytes": 752,
+      "sha256": "594ed69123e2ce40b1bf1e716c3db0fd6f524e98b99f9298f5aaf556534232ff"
+    },
+    "pc-http/http.json": {
+      "bytes": 8133,
+      "sha256": "c177f77aea7a24edd2ff26f64ca79da00ed5e3d1e33cfa32f1bd7544133e8216"
+    },
+    "pc-http/verification.json": {
+      "bytes": 569,
+      "sha256": "0f78629274ffb7ec54c2888aba447b32a40cf1f93c0ed96ad2211214d2367f3b"
+    },
+    "resume/verification.json": {
+      "bytes": 1000,
+      "sha256": "12cde26ad774478d38c3ebbbf904e0930721e19596be26f05b223b771c179db4"
+    },
+    "resume-release/verification.json": {
+      "bytes": 2715,
+      "sha256": "6ec8374d95041c89feacef7ebb19d5742be315082f60f8d9442e117bbfcd53cf"
+    },
+    "resume-v2/verification.json": {
+      "bytes": 1165,
+      "sha256": "6ebce2726638f5915014a0ab19061ed317b2f57eff236bc92028e60e81b79ca9"
+    },
+    "resume-with-roles/verification.json": {
+      "bytes": 1697,
+      "sha256": "abf3be927f762fc4d12f86af4e631060fc28e94e4aca4a2e547dd2d6b7e95c9f"
+    },
+    "vault-ci-v3/build.json": {
+      "bytes": 203,
+      "sha256": "a60ef5f0e38a7ac5c2bd31b5f261f54a616e17dba4c538ac945faf8f17b870b4"
+    },
+    "vault-ci-v3/consumer.json": {
+      "bytes": 602,
+      "sha256": "aa757194c36bacd3eb32c2e7251494b938ffadd270311ab3b9c3edff4160684b"
+    },
+    "vault-ci-v3/gateway-http-before-assert.json": {
+      "bytes": 108,
+      "sha256": "8fd3ec17ca1955319062562f159f284fcd61d646771bfc37db3fbd6d20aad428"
+    },
+    "vault-ci-v3/gateway-role.json": {
+      "bytes": 320,
+      "sha256": "17cb0771c402f52147fa5fac5d9d0812321a04fee4ccb97ee1f9751b1e7189c7"
+    },
+    "vault-ci-v3/source.json": {
+      "bytes": 1120,
+      "sha256": "b5799c9586ce851dbd1eb53cc3e3a551789be00199ea74c90d66ed80d6cca93d"
+    },
+    "vault-ci-v3/verification.json": {
+      "bytes": 349,
+      "sha256": "db980ca8fc7910fb689f01ce38ffd7227ef0743af05b96b84b8c4fbbce501dea"
+    }
+  }
+}
