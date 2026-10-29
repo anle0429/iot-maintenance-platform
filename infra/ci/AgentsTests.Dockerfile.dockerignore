@@ -1,0 +1,24 @@
+# Add the four native API test modules and their drift reference adapters to the bounded context.
+**
+!services/
+!services/__init__.py
+!services/mcp_tools/
+!services/mcp_tools/*.py
+!services/predictor/
+!services/predictor/__init__.py
+!services/predictor/contracts.py
+!services/drift_api/
+!services/drift_api/*.py
+!rag/
+!rag/__init__.py
+!rag/store.py
+!rag/embeddings.py
+!rag/retrieval.py
+!infra/
+!infra/rag/
+!infra/rag/embedding.lock.json
+!knowledge/
+!knowledge/catalog.json
+!tests/
+!tests/mcp/
+!tests/mcp/*.py

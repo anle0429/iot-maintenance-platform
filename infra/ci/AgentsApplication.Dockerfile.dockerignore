@@ -1,0 +1,22 @@
+# Limit this build context to copied application inputs.
+**
+!services/
+!services/__init__.py
+!services/mcp_tools/
+!services/mcp_tools/*.py
+!services/predictor/
+!services/predictor/__init__.py
+!services/predictor/contracts.py
+!services/drift_api/
+!services/drift_api/__init__.py
+!services/drift_api/contracts.py
+!rag/
+!rag/__init__.py
+!rag/store.py
+!rag/embeddings.py
+!rag/retrieval.py
+!infra/
+!infra/rag/
+!infra/rag/embedding.lock.json
+!knowledge/
+!knowledge/catalog.json
