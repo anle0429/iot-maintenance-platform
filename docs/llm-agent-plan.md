@@ -30,6 +30,8 @@ Every LLM row remains open until its own implementation and appropriate evidence
 
 An architecture drawing, generated YAML, a mocked test or an unrelated ML dashboard is not native LLM proof. A proposed model is not described as deployed, and new cloud resources are not assumed authorized by this plan.
 
+The next conversation iteration uses the [compact response contract](agent-response-contract.md). Its native predecessor contains one complete drift answer, an incomplete retrieval answer and no coordinator response. Policy 0.2 and its resource-guarded rollout are prepared locally; their deployment, latency and complete delegation remain unverified.
+
 ## Workbook references
 
 The source links point to [llm-d](https://llm-d.ai/docs/getting-started/quickstart), [kagent custom providers](https://kagent.dev/docs/kagent/supported-providers/byo-openai), [agent registry](https://aregistry.ai/), [sandbox agents](https://kagent.dev/docs/kagent/examples/agent-sandbox), [Agent Substrate](https://kagent.dev/docs/kagent/concepts/agent-substrate), [KEDA](https://keda.sh/) and [Feast RAG](https://docs.feast.dev/tutorials/rag-with-docling). These are requirement references retained from the supplied workbook; no installation or compatibility is claimed from merely listing them.

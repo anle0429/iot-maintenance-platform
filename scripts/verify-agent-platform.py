@@ -25,9 +25,9 @@ def verify():
     assert curation['native_archive_sha256'] == '0268cbb7c179ee519ff08af8373c77f2047623d855bab5ee5468ba7577c70167'
     assert curation['excluded_native_files'] == []
     for prefix in ['core', 'substrate', 'invalid-schema', 'selector-failure', 'selector-repair',
-                   'catalog-and-wire-failure', 'session-id-failure', 'router-failure', 'generation-timeout']:
+                   'catalog-and-wire-failure', 'session-id-failure', 'router-failure', 'generation-timeout', 'truncated-answer']:
         sources(base, prefix)
-    for prefix in ['deployment', 'model-budget', 'model-context', 'truncated-answer']:
+    for prefix in ['deployment', 'model-budget', 'model-context']:
         sources(base, prefix, current=True)
     for prefix in ['core', 'substrate', 'deployment', 'model-budget', 'model-context']:
         assert read(base, prefix + '/native/verification.json')['passed']
@@ -107,6 +107,7 @@ def verify():
     return {'passed': True, 'payload_files': count, 'native_tool_results': calls, 'registry_entries': 3,
         'agent_roles_ready': 3, 'workers_per_role': 2, 'context_tokens': 8192,
         'agent_platform_foundation_verified': True, 'complete_agent_chat_verified': False,
+        'recorded_probe_matches_current': sha256((ROOT / 'agents/probe.py').read_bytes()).hexdigest() == read(base, 'truncated-answer/source/manifest.json')['files']['agents/probe.py'],
         'sandbox_boundary_probe_verified': False, 'autoscaling_verified': False, 'warmup_benchmark_verified': False,
         'coursework_complete': False,
         'scope': 'Source-bound controller/catalog, Ready gVisor templates and actual tool history. Full conversations, boundary probes, scale and warmup remain separate acceptance work.'}

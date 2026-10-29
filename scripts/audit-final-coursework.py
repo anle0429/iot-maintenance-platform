@@ -22,7 +22,7 @@ VERIFIERS = (
     'drift-retraining', 'final-handover', 'focused-api', 'host-monitoring', 'iac-final',
     'joint-cohort', 'linux-host', 'linux-logs', 'log-discovery', 'native-serving',
     'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort', 'final-review', 'llm-inference',
-    'rag-foundation', 'llm-grounding', 'rag-orchestration', 'mcp-tools', 'agent-platform',
+    'rag-foundation', 'llm-grounding', 'rag-orchestration', 'mcp-tools', 'agent-platform', 'agent-response-baseline',
 )
 CAPSULES = (
     'drift-api', 'api-autoscale', 'notebook', 'notebook-parity', 'distributed-training',
@@ -161,7 +161,7 @@ def audit(output, workers):
             assert path.is_relative_to(ROOT) and path.is_file(), (key, target)
             links += 1
     capsules = {name: capsule_manifest(ROOT, name) for name in CAPSULES}
-    checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py', ROOT / 'scripts/integration_evidence.py']
+    checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py', ROOT / 'scripts/integration_evidence.py', ROOT / 'agents/answer_acceptance.py', ROOT / 'agents/probe.py']
     source_before = {p.relative_to(ROOT).as_posix(): sha256(p.read_bytes()).hexdigest() for p in checkers}
     results = {}
     with ThreadPoolExecutor(max_workers=workers) as pool:
@@ -182,6 +182,7 @@ def audit(output, workers):
               'rag_orchestration_verified': results['rag-orchestration']['exit'] == 0,
               'mcp_tools_verified': results['mcp-tools']['exit'] == 0,
               'agent_platform_foundation_verified': results['agent-platform']['exit'] == 0,
+              'agent_drift_answer_verified': results['agent-response-baseline']['exit'] == 0,
               'llm_runtime_verified': False, 'coursework_complete': False,
               'local_evidence_links': links, 'additional_capsule_payloads': capsules, 'verifiers': results,
               'live_readiness_checked': False, 'scope': 'Recorded ML, LLM inference/grounding, RAG orchestration and MCP deployment/API baseline artifacts plus both rubric presentations. MCP mutation and the full agent track remain incomplete. Not a grade, current readiness, full100GB ML or laptop verification.'}

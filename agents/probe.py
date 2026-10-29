@@ -1,5 +1,6 @@
 """Call the deployed kagent A2A endpoint and preserve actual replies, identifiers and elapsed time."""
 from pathlib import Path
+from http.client import IncompleteRead
 from urllib.error import HTTPError
 from urllib.request import Request, ProxyHandler, build_opener
 from uuid import uuid4
@@ -15,7 +16,16 @@ QUESTIONS = {
 }
 
 
-def request(opener, url, payload=None, user_id=None):
+class TransportFailure(RuntimeError):
+    """Carry observed transport facts without inventing an HTTP response or disclosing exception text."""
+
+    def __init__(self, error_type, elapsed, status=None, partial=b''):
+        """Retain partial response bytes and any actually observed status for the caller's failed-run receipts."""
+        super().__init__('Native HTTP transport did not complete: ' + error_type)
+        self.error_type = error_type; self.elapsed = elapsed; self.status = status; self.partial = partial
+
+
+def request(opener, url, payload=None, user_id=None, timeout=30):
     """Send a native A2A/HTTP request with a fixed body length and return the original response bytes."""
     headers = {'Accept': 'application/json', 'A2A-Version': '0.3'}
     if user_id:
@@ -23,15 +33,26 @@ def request(opener, url, payload=None, user_id=None):
     data = None
     if payload is not None:
         data = json.dumps(payload).encode(); headers['Content-Type'] = 'application/json'
-    started = time.monotonic()
+    if not isinstance(timeout, (int, float)) or isinstance(timeout, bool) or not 0 < timeout <= 2400:
+        raise ValueError('Use a bounded HTTP timeout of at most 2400 seconds')
+    started = time.monotonic(); status = None
     try:
-        with opener.open(Request(url, data=data, headers=headers), timeout=900) as response:
+        with opener.open(Request(url, data=data, headers=headers), timeout=timeout) as response:
+            status = response.status
             return response.status, response.read(), time.monotonic() - started
     except HTTPError as error:
-        return error.code, error.read(), time.monotonic() - started
+        try:
+            body = error.read()
+        except (OSError, IncompleteRead) as read_error:
+            raise TransportFailure(type(read_error).__name__, time.monotonic() - started,
+                                   error.code, getattr(read_error, 'partial', b'')) from read_error
+        return error.code, body, time.monotonic() - started
+    except (OSError, IncompleteRead) as error:
+        raise TransportFailure(type(error).__name__, time.monotonic() - started,
+                               status, getattr(error, 'partial', b'')) from error
 
 
-def run(base_url, output, roles):
+def run(base_url, output, roles, specialist_timeout=1200, coordinator_timeout=2100):
     """Check protocol completion without treating fluent model text as proof of actual downstream tool execution."""
     output.mkdir(parents=True, exist_ok=False)
     opener = build_opener(ProxyHandler({})); reports = []
@@ -51,10 +72,24 @@ def run(base_url, output, roles):
                                   'parts': [{'kind': 'text', 'text': QUESTIONS[role]}]},
                        'configuration': {'blocking': True}}}
         (output / (role + '-request.json')).write_text(json.dumps(payload, indent=2) + '\n')
-        status, body, elapsed = request(opener, url, payload, user_id=identity)
+        timeout = coordinator_timeout if role == 'coordinator' else specialist_timeout
+        try:
+            status, body, elapsed = request(opener, url, payload, user_id=identity, timeout=timeout)
+        except TransportFailure as error:
+            if error.partial:
+                (output / (role + '-response.partial')).write_bytes(error.partial)
+            transport = {'http_status': error.status, 'elapsed_seconds': error.elapsed,
+                'response_bytes': len(error.partial), 'requested_a2a_version': '0.3',
+                'response_complete': False, 'error_type': error.error_type, 'timeout_seconds': timeout}
+            (output / (role + '-transport.json')).write_text(json.dumps(transport, indent=2) + '\n')
+            reports.append({'role': role, 'http_status': error.status, 'a2a_state': None,
+                            'transport_error': error.error_type, 'elapsed_seconds': error.elapsed})
+            (output / 'results.json').write_text(json.dumps(reports, indent=2) + '\n')
+            raise ValueError('Native A2A transport did not complete: ' + role) from error
         (output / (role + '-response.json')).write_bytes(body)
         (output / (role + '-transport.json')).write_text(json.dumps({'http_status': status, 'elapsed_seconds': elapsed,
-            'response_bytes': len(body), 'requested_a2a_version': '0.3'}, indent=2) + '\n')
+            'response_bytes': len(body), 'requested_a2a_version': '0.3', 'response_complete': True,
+            'timeout_seconds': timeout}, indent=2) + '\n')
         try:
             reply = json.loads(body)
         except json.JSONDecodeError as error:
@@ -78,4 +113,6 @@ if __name__ == '__main__':
     parser.add_argument('--base-url', required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--roles', nargs='+', choices=list(QUESTIONS), default=list(QUESTIONS))
-    args = parser.parse_args(); raise SystemExit(run(args.base_url, args.output, args.roles))
+    parser.add_argument('--specialist-timeout', type=float, default=1200)
+    parser.add_argument('--coordinator-timeout', type=float, default=2100)
+    args = parser.parse_args(); raise SystemExit(run(args.base_url, args.output, args.roles, args.specialist_timeout, args.coordinator_timeout))

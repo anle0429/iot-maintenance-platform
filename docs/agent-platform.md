@@ -1,6 +1,6 @@
 # Native agent control plane and catalog
 
-The lab now runs kagent 0.10.3, Agent Substrate 0.0.9 and agentregistry 0.4.0 on the retained VM. Three sandbox agents have Ready golden snapshots and separate two-worker pools. Their versioned catalog entries identify the actual runtime image, Kubernetes resource UID and agent-specification hash.
+The deployment recorded on 29 October uses kagent 0.10.3, Agent Substrate 0.0.9 and agentregistry 0.4.0 on the retained VM. Three sandbox agents reached Ready with golden snapshots and separate two-worker pools. Their versioned catalog entries identify the actual runtime image, Kubernetes resource UID and agent-specification hash. Current availability depends on an active VM session and fresh feature data.
 
 This checkpoint verifies the platform foundation. Complete specialist/coordinator conversations, notebook demonstrations, autoscaling, isolation probes and a warm-up comparison remain separate acceptance work.
 
@@ -48,11 +48,13 @@ Initial operator diagnostics did not establish the required isolation boundary. 
 
 ## Verify the recorded checkpoint
 
+The later [response baseline and candidate policy](agent-response-contract.md) adds a complete native drift answer and preserves the overall timeout. Retrieval and coordinator acceptance remain open. Policy 0.2 is prepared locally; it does not replace the recorded 0.1 deployment described here.
+
 ```powershell
 python -S scripts/verify-agent-platform.py
 python -m unittest tests.test_agent_probe -q
 ```
 
-The first command checks 528 source, command, readback and image payloads. It verifies applied configuration, native Ready states, catalog identities, tool-result provenance and the retained failed/partial outcomes. It explicitly reports complete chat, boundary probes, autoscaling, warm-up and overall coursework completion as unverified. The five client tests check protocol/error handling with fixtures; they are not native model evidence.
+The first command checks 528 source, command, readback and image payloads. It verifies applied configuration, native Ready states, catalog identities, tool-result provenance and the retained failed/partial outcomes. It explicitly reports complete chat, boundary probes, autoscaling, warm-up and overall coursework completion as unverified. The nine client tests check protocol/error handling with fixtures; they are not native model evidence. Captures retain the exact historical client, and the verifier separately reports whether it matches the current source.
 
 [Agent learning guide](llm-learning-guide.md) · [Live demo steps](agent-demo.md) · [LLM requirements](final-llm-rubric-tracker.md) · [Original capture inventory](evidence/agent-platform/capture.json)

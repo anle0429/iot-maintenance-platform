@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 from urllib.error import HTTPError
-from agents.probe import run, request
+from agents.probe import run, request, TransportFailure
 
 
 class AgentProbeTests(unittest.TestCase):
@@ -47,7 +47,7 @@ class AgentProbeTests(unittest.TestCase):
         """Session IDs and the controller-reported test identity travel with the real A2A request."""
         calls = []
 
-        def capture(opener, url, payload=None, user_id=None):
+        def capture(opener, url, payload=None, user_id=None, timeout=900):
             """Return protocol-shaped fixtures while retaining inputs for independent session checks."""
             calls.append((url, payload, user_id))
             if url.endswith('/api/me'):
@@ -73,3 +73,53 @@ class AgentProbeTests(unittest.TestCase):
         self.assertGreaterEqual(elapsed, 0)
         sent = opener.open.call_args.args[0]
         self.assertEqual(sent.get_header('A2a-version'), '0.3')
+
+    def test_incomplete_http_body_is_retained_as_failure(self):
+        """An observed200status with a cut JSON body must not become a completed response."""
+        from http.client import IncompleteRead
+        response = unittest.mock.Mock(); response.status = 200
+        response.read.side_effect = IncompleteRead(b'{"result":', 200)
+        opener = unittest.mock.MagicMock(); opener.open.return_value.__enter__.return_value = response
+        with self.assertRaises(TransportFailure) as caught:
+            request(opener, 'http://private-controller')
+        self.assertEqual(caught.exception.status, 200)
+        self.assertEqual(caught.exception.partial, b'{"result":')
+        self.assertEqual(caught.exception.error_type, 'IncompleteRead')
+
+    def test_timeout_has_no_fabricated_response(self):
+        """A network deadline without response headers remains a failed attempt with no invented status/body."""
+        opener = unittest.mock.Mock(); opener.open.side_effect = TimeoutError('private detail is not a receipt')
+        with self.assertRaises(TransportFailure) as caught:
+            request(opener, 'http://private-controller', timeout=1200)
+        self.assertIsNone(caught.exception.status); self.assertEqual(caught.exception.partial, b'')
+        self.assertNotIn('private detail', str(caught.exception))
+        self.assertEqual(opener.open.call_args.kwargs['timeout'], 1200)
+
+    def test_run_records_partial_transport_and_role_budget(self):
+        """Save a coordinator deadline and its partial wire bytes while leaving completion unverified."""
+        calls = []
+
+        def capture(opener, url, payload=None, user_id=None, timeout=900):
+            """Supply identity/card fixtures and an explicit incomplete native-transport-shaped failure."""
+            if url.endswith('/api/me'): return 200, b'{"sub":"test-identity"}', .01
+            if payload is None: return 200, b'{}', .01
+            calls.append(timeout)
+            raise TransportFailure('IncompleteRead', 2100, 200, b'{"result":')
+
+        with tempfile.TemporaryDirectory() as directory, patch('agents.probe.request', side_effect=capture):
+            target = Path(directory) / 'result'
+            with self.assertRaisesRegex(ValueError, 'transport did not complete'):
+                run('http://private-controller', target, ['coordinator'])
+            self.assertEqual(calls, [2100])
+            self.assertEqual((target / 'coordinator-response.partial').read_bytes(), b'{"result":')
+            self.assertFalse((target / 'coordinator-response.json').exists())
+            self.assertFalse((target / 'verification.json').exists())
+            transport = json.loads((target / 'coordinator-transport.json').read_bytes())
+            self.assertFalse(transport['response_complete'])
+            self.assertEqual(transport['error_type'], 'IncompleteRead')
+
+    def test_unbounded_or_invalid_http_wait_is_rejected(self):
+        """A test driver cannot silently request an unlimited wait outside its documented bound."""
+        for value in [0, -1, 2401, True, float('nan'), float('inf')]:
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                request(unittest.mock.Mock(), 'http://private-controller', timeout=value)

@@ -1,0 +1,21 @@
+{
+  "jsonrpc": "2.0",
+  "id": "1d480522-9a23-4651-a9b4-1dca8e1f620d",
+  "method": "message/send",
+  "params": {
+    "message": {
+      "role": "user",
+      "messageId": "1c657e2e-855c-4ce9-ad06-3404d25130c5",
+      "contextId": "06af7ae5-8350-4928-97c5-55138d140652",
+      "parts": [
+        {
+          "kind": "text",
+          "text": "Assess feature drift for the standard demo cohort of all 32 unique machines P-001 through P-032 with window_id agent-demo-29. Report actual unique_rows, flagged features, reference_id and assessment_sha256."
+        }
+      ]
+    },
+    "configuration": {
+      "blocking": true
+    }
+  }
+}
