@@ -70,9 +70,9 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 
 | ID | Group | Requirement | Status |
 |---|---|---|---|
-| L03 | LLM inference platform | Deploy an LLM inference platform. | Open: native LLM evidence missing |
-| L04 | LLM inference platform | Configure a custom model server. | Open: native LLM evidence missing |
-| L05 | LLM inference platform | Benchmark the model server and optimize the inference platform. | Open: native LLM evidence missing |
+| L03 | LLM inference platform | Deploy an LLM inference platform. | [Recorded native inference](llm-inference.md) |
+| L04 | LLM inference platform | Configure a custom model server. | [Recorded native inference](llm-inference.md) |
+| L05 | LLM inference platform | Benchmark the model server and optimize the inference platform. | [Recorded native inference](llm-inference.md) |
 | L06 | Global model configuration | Deploy a global model configuration that allows agents to use the custom model. | Open: native LLM evidence missing |
 | L07 | Agent registry | Deploy an agent registry. | Open: native LLM evidence missing |
 | L08 | RAG pipeline | Build an Airflow RAG pipeline with text retrieval, chunking and chunk-embedding storage in a feature store through Feast. | Open: native LLM evidence missing |

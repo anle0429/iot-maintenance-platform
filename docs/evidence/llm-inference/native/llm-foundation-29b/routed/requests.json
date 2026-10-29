@@ -1,0 +1,4191 @@
+{
+  "workload": [
+    "Explain in three short sentences why duplicate sensor events can distort a rolling vibration average.",
+    "Explain in three short sentences why an industrial pump can have a high vibration reading without a confirmed failure.",
+    "Explain in three short sentences why a prediction score must identify the model and feature timestamp."
+  ],
+  "parameters": {
+    "model": "iot-qwen2.5-1.5b",
+    "messages": [],
+    "max_tokens": 64,
+    "temperature": 0,
+    "seed": 7,
+    "cache_prompt": false,
+    "stream": true,
+    "stream_options": {
+      "include_usage": true
+    }
+  },
+  "warmup": [
+    {
+      "status": 200,
+      "ttft_seconds": 0.5366381139992882,
+      "elapsed_seconds": 1.4673132699990674,
+      "usage": {
+        "completion_tokens": 30,
+        "prompt_tokens": 46,
+        "total_tokens": 76,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "completion_tokens_per_second": 20.445531716631354,
+      "text": "Duplicate sensor events can distort a rolling vibration average because they introduce noise and redundancy into the data, which can obscure the true vibration patterns and trends.",
+      "events": [
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "role": "assistant",
+                "content": null
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "Duplicate"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " sensor"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " events"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " can"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " distort"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " a"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " rolling"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " vibration"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " average"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " because"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " they"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " introduce"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " noise"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " and"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " redundancy"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " into"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " data"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": ","
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " which"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " can"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " obscure"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " true"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " vibration"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " patterns"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " and"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " trends"
+              }
+            }
+          ],
+          "created": 1793244939,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "."
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "index": 0,
+              "delta": {}
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [],
+          "created": 1793244940,
+          "id": "chatcmpl-scB49ptVaJOx40CLNfq0whDYE5zrWNWE",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk",
+          "usage": {
+            "completion_tokens": 30,
+            "prompt_tokens": 46,
+            "total_tokens": 76,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 46,
+            "prompt_ms": 516.244,
+            "prompt_per_token_ms": 11.222695652173913,
+            "prompt_per_second": 89.10515182743043,
+            "predicted_n": 30,
+            "predicted_ms": 929.702,
+            "predicted_per_token_ms": 32.058689655172415,
+            "predicted_per_second": 31.19279080823748
+          }
+        }
+      ]
+    },
+    {
+      "status": 200,
+      "ttft_seconds": 0.6435691499991663,
+      "elapsed_seconds": 1.8779373609995673,
+      "usage": {
+        "completion_tokens": 39,
+        "prompt_tokens": 50,
+        "total_tokens": 89,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "completion_tokens_per_second": 20.76746584307877,
+      "text": "An industrial pump can have a high vibration reading without a confirmed failure due to various factors such as misalignment, improper installation, or the presence of contaminants that can cause increased friction and noise.",
+      "events": [
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "role": "assistant",
+                "content": null
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "An"
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " industrial"
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " pump"
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " can"
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " have"
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " a"
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " high"
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " vibration"
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " reading"
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " without"
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " a"
+              }
+            }
+          ],
+          "created": 1793244940,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " confirmed"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " failure"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " due"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " to"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " various"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " factors"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " such"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " as"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " mis"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "alignment"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": ","
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " improper"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " installation"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": ","
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " or"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " presence"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " of"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " contaminants"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " that"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " can"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " cause"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " increased"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " friction"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " and"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " noise"
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "."
+              }
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "index": 0,
+              "delta": {}
+            }
+          ],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [],
+          "created": 1793244941,
+          "id": "chatcmpl-EkM2biM5xLTDnfxuxmB9fzrPfZ2cisna",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk",
+          "usage": {
+            "completion_tokens": 39,
+            "prompt_tokens": 50,
+            "total_tokens": 89,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 50,
+            "prompt_ms": 636.184,
+            "prompt_per_token_ms": 12.72368,
+            "prompt_per_second": 78.59361442601512,
+            "predicted_n": 39,
+            "predicted_ms": 1233.521,
+            "predicted_per_token_ms": 32.46107894736842,
+            "predicted_per_second": 30.80612328448401
+          }
+        }
+      ]
+    },
+    {
+      "status": 200,
+      "ttft_seconds": 0.6185918009996385,
+      "elapsed_seconds": 2.1549302479998005,
+      "usage": {
+        "completion_tokens": 50,
+        "prompt_tokens": 47,
+        "total_tokens": 97,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "completion_tokens_per_second": 23.202607159285012,
+      "text": "A prediction score must identify the model and feature timestamp because it allows for tracking the performance of the model over time and understanding the impact of changes in the data or model parameters. This is crucial for maintaining the accuracy and reliability of the model predictions.",
+      "events": [
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "role": "assistant",
+                "content": null
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "A"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " prediction"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " score"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " must"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " identify"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " model"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " and"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " feature"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " timestamp"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " because"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " it"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " allows"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " for"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " tracking"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244942,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " performance"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " of"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " model"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " over"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " time"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " and"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " understanding"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " impact"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " of"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " changes"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " in"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " data"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " or"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " model"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " parameters"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "."
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " This"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " is"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " crucial"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " for"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " maintaining"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " accuracy"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " and"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " reliability"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " of"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " model"
+              }
+            }
+          ],
+          "created": 1793244943,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " predictions"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "."
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "index": 0,
+              "delta": {}
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [],
+          "created": 1793244944,
+          "id": "chatcmpl-OIGgJv6LMlR0cSi0iYkwQ9xO8aGqQBCk",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk",
+          "usage": {
+            "completion_tokens": 50,
+            "prompt_tokens": 47,
+            "total_tokens": 97,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 47,
+            "prompt_ms": 612.204,
+            "prompt_per_token_ms": 13.025617021276595,
+            "prompt_per_second": 76.77179502257418,
+            "predicted_n": 50,
+            "predicted_ms": 1536.325,
+            "predicted_per_token_ms": 31.353571428571428,
+            "predicted_per_second": 31.894293199681055
+          }
+        }
+      ]
+    }
+  ],
+  "measured": [
+    {
+      "status": 200,
+      "ttft_seconds": 0.4910980969998491,
+      "elapsed_seconds": 1.402621954001006,
+      "usage": {
+        "completion_tokens": 30,
+        "prompt_tokens": 46,
+        "total_tokens": 76,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "completion_tokens_per_second": 21.388514499166668,
+      "text": "Duplicate sensor events can distort a rolling vibration average because they introduce noise and redundancy into the data, which can obscure the true vibration patterns and trends.",
+      "events": [
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "role": "assistant",
+                "content": null
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "Duplicate"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " sensor"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " events"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " can"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " distort"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " a"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " rolling"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " vibration"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " average"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " because"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " they"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " introduce"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " noise"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " and"
+              }
+            }
+          ],
+          "created": 1793244944,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " redundancy"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " into"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " data"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": ","
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " which"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " can"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " obscure"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " true"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " vibration"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " patterns"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " and"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " trends"
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "."
+              }
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "index": 0,
+              "delta": {}
+            }
+          ],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [],
+          "created": 1793244945,
+          "id": "chatcmpl-p0Ut7lSoC9YS0nPW5fVaRVflhGOtKy4M",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk",
+          "usage": {
+            "completion_tokens": 30,
+            "prompt_tokens": 46,
+            "total_tokens": 76,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 46,
+            "prompt_ms": 485.355,
+            "prompt_per_token_ms": 10.551195652173913,
+            "prompt_per_second": 94.77598870929526,
+            "predicted_n": 30,
+            "predicted_ms": 910.359,
+            "predicted_per_token_ms": 31.391689655172414,
+            "predicted_per_second": 31.855564672837854
+          }
+        }
+      ],
+      "repeat": 0,
+      "prompt_index": 0
+    },
+    {
+      "status": 200,
+      "ttft_seconds": 0.5404366639995715,
+      "elapsed_seconds": 1.7601378670005943,
+      "usage": {
+        "completion_tokens": 39,
+        "prompt_tokens": 50,
+        "total_tokens": 89,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "completion_tokens_per_second": 22.157355245392736,
+      "text": "An industrial pump can have a high vibration reading without a confirmed failure due to various factors such as misalignment, improper installation, or the presence of contaminants that can cause increased friction and noise.",
+      "events": [
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "role": "assistant",
+                "content": null
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "An"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " industrial"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " pump"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " can"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " have"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " a"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " high"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " vibration"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " reading"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " without"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " a"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " confirmed"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " failure"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " due"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " to"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " various"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " factors"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " such"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " as"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " mis"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "alignment"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": ","
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " improper"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " installation"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": ","
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " or"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " presence"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " of"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " contaminants"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " that"
+              }
+            }
+          ],
+          "created": 1793244946,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " can"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " cause"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " increased"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " friction"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " and"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " noise"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "."
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "index": 0,
+              "delta": {}
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [],
+          "created": 1793244947,
+          "id": "chatcmpl-lk0cQ9OOWP91G2veiBHA9bIdIFfca8is",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk",
+          "usage": {
+            "completion_tokens": 39,
+            "prompt_tokens": 50,
+            "total_tokens": 89,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 50,
+            "prompt_ms": 534.51,
+            "prompt_per_token_ms": 10.690199999999999,
+            "prompt_per_second": 93.54361938972143,
+            "predicted_n": 39,
+            "predicted_ms": 1218.992,
+            "predicted_per_token_ms": 32.078736842105265,
+            "predicted_per_second": 31.173297281688477
+          }
+        }
+      ],
+      "repeat": 0,
+      "prompt_index": 1
+    },
+    {
+      "status": 200,
+      "ttft_seconds": 0.5682660330003273,
+      "elapsed_seconds": 2.1567547180002293,
+      "usage": {
+        "completion_tokens": 50,
+        "prompt_tokens": 47,
+        "total_tokens": 97,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "completion_tokens_per_second": 23.1829793080785,
+      "text": "A prediction score must identify the model and feature timestamp because it allows for tracking the performance of the model over time and understanding the impact of changes in the data or model parameters. This is crucial for maintaining the accuracy and reliability of the model predictions.",
+      "events": [
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "role": "assistant",
+                "content": null
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "A"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " prediction"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " score"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " must"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " identify"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " model"
+              }
+            }
+          ],
+          "created": 1793244947,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " and"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " feature"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " timestamp"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " because"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " it"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " allows"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " for"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " tracking"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " performance"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " of"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " model"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " over"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " time"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " and"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " understanding"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " impact"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " of"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " changes"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " in"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " data"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " or"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " model"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " parameters"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "."
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " This"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " is"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " crucial"
+              }
+            }
+          ],
+          "created": 1793244948,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " for"
+              }
+            }
+          ],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " maintaining"
+              }
+            }
+          ],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " accuracy"
+              }
+            }
+          ],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " and"
+              }
+            }
+          ],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " reliability"
+              }
+            }
+          ],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " of"
+              }
+            }
+          ],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " the"
+              }
+            }
+          ],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " model"
+              }
+            }
+          ],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": " predictions"
+              }
+            }
+          ],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": null,
+              "index": 0,
+              "delta": {
+                "content": "."
+              }
+            }
+          ],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "index": 0,
+              "delta": {}
+            }
+          ],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk"
+        },
+        {
+          "choices": [],
+          "created": 1793244949,
+          "id": "chatcmpl-CeJprufHGwotSvk6UubYtiY7IhUc0mAX",
+          "model": "iot-qwen2.5-1.5b",
+          "system_fingerprint": "b11960-8642541b2",
+          "object": "chat.completion.chunk",
+          "usage": {
+            "completion_tokens": 50,
+            "prompt_tokens": 47,
+            "total_tokens": 97,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 47,
+            "prompt_ms": 562.818,
+            "prompt_per_token_ms": 11.974851063829787,
+            "prompt_per_second": 83.5083455042305,
+            "predicted_n": 50,
+            "predicted_ms": 1587.739,
+            "predicted_per_token_ms": 32.40283673469388,
+            "predicted_per_second": 30.8614954976857
+          }
+        }
+      ],
+      "repeat": 0,
+      "prompt_index": 2
+    }
+  ]
+}

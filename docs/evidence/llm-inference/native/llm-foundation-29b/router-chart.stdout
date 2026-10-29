@@ -1,0 +1,12 @@
+apiVersion: v2
+appVersion: v1.0.0
+dependencies:
+- alias: router
+  name: router
+  repository: file://../routerlib
+  version: 0.0.0
+description: A Helm chart for Endpoint Picker
+name: llm-d-router-standalone
+type: application
+version: v1.0.0
+

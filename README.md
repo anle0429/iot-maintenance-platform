@@ -6,7 +6,7 @@ This project follows pump telemetry from ingestion and validation through featur
 
 Built as an individual **Engineering for Data & AI — EDAI K11** coursework project. All equipment records, sensor readings and failure events are simulated.
 
-The selected scope includes **final ML and final LLM/agents**. The Data/ML lab has recorded implementation evidence. The LLM/agent extension is a selected workstream with open implementation requirements, not a deployed service.
+The selected scope includes **final ML and final LLM/agents**. The Data/ML lab and initial CPU LLM inference have recorded runtime evidence. RAG and agent integration are being built; the full LLM/agent workstream remains incomplete.
 
 [Demo guide](docs/demo-walkthrough.md) · [Architecture details](docs/architecture.md) · [Verification report](docs/final-audit.md)
 
@@ -105,9 +105,9 @@ The gateway uses private lab domains and a private CA. Service-mesh authorizatio
 
 ### LLM and agent extension
 
-![Planned LLM and agent extension; gray units are not deployed](docs/images/platform-llm-plan.png)
+![LLM extension: blue inference units are verified; gray agent/RAG units remain planned](docs/images/platform-llm-plan.png)
 
-The supplied LLM rubric requires inference, RAG through Feast, MCP tools, specialist/coordinator agents, registry, sandbox, warm-up, delivery and LLM/agent telemetry. These obligations remain open. Existing Feature/Drift APIs are integration baselines, not proof of deployed agents. [Workstream and acceptance evidence](docs/llm-agent-plan.md) · [LLM tracker](docs/final-llm-rubric-tracker.md) · [SVG](docs/images/platform-llm-plan.svg)
+llm-d now routes real requests to a pinned Qwen2.5 CPU backend. A controlled 1-thread/4-thread comparison and structured tool-selection probe are recorded in the [inference report](docs/llm-inference.md). The [RAG core](docs/rag-foundation.md) has native chunk/embedding/Feast retrieval proof. Airflow/governance integration, MCP execution, agents, registry, sandbox, warm-up, delivery and full telemetry remain separate open requirements. [Learning guide](docs/llm-learning-guide.md) · [Workstream](docs/llm-agent-plan.md) · [LLM tracker](docs/final-llm-rubric-tracker.md) · [SVG](docs/images/platform-llm-plan.svg)
 
 ## Recorded results
 
@@ -118,6 +118,7 @@ The supplied LLM rubric requires inference, RAG through Feast, MCP tools, specia
 | Streaming stores | 5,760 windows and 57,600 readings across 20 machines, written and replayed through offline/online stores | [Window cohort](docs/window-cohort.md) |
 | Inference | Model version 6 demo: 195 valid predictions and 5 stopped-machine HTTP 409 responses across 200 machines | [Serving handover](docs/final-handover.md) |
 | PC verification | 748 tests and 314 subtests passed; 7 documented skips; 26 evidence verifiers passed from an independent clean clone | [Final audit](docs/final-audit.md) |
+| CPU LLM inference | Same-workload median response 5.047 → 1.682 s with 1 → 4 threads; actual llm-d routing and a structured tool-selection response | [Inference report](docs/llm-inference.md) |
 
 The 100 GB run covers source ingestion through Bronze/Silver. Feature engineering and ML use the separate 60-day dataset. API coverage, mutation scores and load-test measurements are recorded with their workloads in [serving CI](docs/ci-serving.md), [API validation](docs/api-validation.md) and [load testing](docs/observed-api-load.md).
 
@@ -148,7 +149,7 @@ $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-The audit checks the original rubric, payload hashes and 26 offline verifiers. It writes `verification.json` and the verifier consoles to the output directory. It checks recorded results rather than rerunning the pipelines.
+The audit checks both source rubrics, payload hashes and 27 offline verifiers. It writes `verification.json` and the verifier consoles to the output directory. It checks recorded results rather than rerunning the pipelines; initial LLM inference does not mark the full agent track complete.
 
 ### Call the lab API
 

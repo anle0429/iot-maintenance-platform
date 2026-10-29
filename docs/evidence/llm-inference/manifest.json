@@ -1,0 +1,477 @@
+{
+  "machine": "iot-cw-vm",
+  "source_base_commit": "feda98b0d2d2b56bb4068b340ccd401a1d46014d",
+  "files": {
+    "native/llm-foundation-29a/budget.json": {
+      "sha256": "8a569b8fcad3e3bb9f13df93b827ce40a823884f43cb74ac99570534d78e8773",
+      "bytes": 122,
+      "native_source": "llm-foundation-29a/budget.json"
+    },
+    "native/llm-foundation-29a/download.json": {
+      "sha256": "d82096b73be63651863add2ff9d0aed5ebdf8a15db5cf17f9f6d741ce85d0a13",
+      "bytes": 289,
+      "native_source": "llm-foundation-29a/download.json"
+    },
+    "native/llm-foundation-29a/failure.json": {
+      "sha256": "05b6ed8a743ca6bba6e67fab3a4c17d51293750e928edca2fedacd7e022fe107",
+      "bytes": 139,
+      "native_source": "llm-foundation-29a/failure.json"
+    },
+    "native/llm-foundation-29a/model-baseline-install.stdout": {
+      "sha256": "3f490b5ea4d3cc5cb3ffd4482cd31791fad20b7cffae712c3475c3e9a2ed14f3",
+      "bytes": 176,
+      "native_source": "llm-foundation-29a/model-baseline-install.stdout"
+    },
+    "native/llm-foundation-29a/model-lock.json": {
+      "sha256": "e5e7de1a5a0260a799e5e78fa33353d6e6e69d7c90ae6f01d3625be4d6c1c7f4",
+      "bytes": 778,
+      "native_source": "llm-foundation-29a/model-lock.json"
+    },
+    "native/llm-foundation-29a/model-optimized-install.stdout": {
+      "sha256": "d7f7ca340dd8bc348eb7c74c11978f3daf9657201d8c325f08a2aae470a1ce8e",
+      "bytes": 175,
+      "native_source": "llm-foundation-29a/model-optimized-install.stdout"
+    },
+    "native/llm-foundation-29a/model-service.stdout": {
+      "sha256": "1bf7db6d49e16f20cdaf38d018f8848a63922428a83d3a32de492d5be904a1c1",
+      "bytes": 1159,
+      "native_source": "llm-foundation-29a/model-service.stdout"
+    },
+    "native/llm-foundation-29a/source.json": {
+      "sha256": "6fedd1a921b16df1cc4caffaf2cf9df10e3500afe3f22302a325b2f501a3fb91",
+      "bytes": 908,
+      "native_source": "llm-foundation-29a/source.json"
+    },
+    "native/llm-foundation-29a/baseline/requests.json": {
+      "sha256": "3932533750ac6a88ae16436a429d9c8cd9fa3ccbad7613225221d2a49d6eaf8d",
+      "bytes": 241013,
+      "native_source": "llm-foundation-29a/baseline/requests.json"
+    },
+    "native/llm-foundation-29a/baseline/summary.json": {
+      "sha256": "3c8716e4dbb6e6efc5720949b64cab258f367f9d36001ea8c6db8b8263ac0813",
+      "bytes": 420,
+      "native_source": "llm-foundation-29a/baseline/summary.json"
+    },
+    "native/llm-foundation-29b/baseline-origin.json": {
+      "sha256": "d4cd73e8463722a13da62ec2ac4f85da5ced3c23d68378fe574360843eadb0c2",
+      "bytes": 367,
+      "native_source": "llm-foundation-29b/baseline-origin.json"
+    },
+    "native/llm-foundation-29b/budget.json": {
+      "sha256": "baea9de8b427cbc7a6894ce5d0bc08dd5bc4b0f5538dc82517f99fcf6d958690",
+      "bytes": 122,
+      "native_source": "llm-foundation-29b/budget.json"
+    },
+    "native/llm-foundation-29b/helm-model.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/helm-model.exit"
+    },
+    "native/llm-foundation-29b/helm-model.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/helm-model.stderr"
+    },
+    "native/llm-foundation-29b/helm-model.stdout": {
+      "sha256": "88c2906ae192b30ab002474d3e570e86a3f2685f7e49450912794c07fd643865",
+      "bytes": 370,
+      "native_source": "llm-foundation-29b/helm-model.stdout"
+    },
+    "native/llm-foundation-29b/helm-router.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/helm-router.exit"
+    },
+    "native/llm-foundation-29b/helm-router.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/helm-router.stderr"
+    },
+    "native/llm-foundation-29b/helm-router.stdout": {
+      "sha256": "5980979bbd571a4db9548301b6229d8ca49c6b029b5cf05aeb4980eadde58d25",
+      "bytes": 24006,
+      "native_source": "llm-foundation-29b/helm-router.stdout"
+    },
+    "native/llm-foundation-29b/inference-pool-before.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/inference-pool-before.exit"
+    },
+    "native/llm-foundation-29b/inference-pool-before.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/inference-pool-before.stderr"
+    },
+    "native/llm-foundation-29b/model-chart-lint.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/model-chart-lint.exit"
+    },
+    "native/llm-foundation-29b/model-chart-lint.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/model-chart-lint.stderr"
+    },
+    "native/llm-foundation-29b/model-chart-lint.stdout": {
+      "sha256": "cda1b831ce8add4b675620e8efb4d97d555526df03b957e98a6a6ef1cd71945f",
+      "bytes": 195,
+      "native_source": "llm-foundation-29b/model-chart-lint.stdout"
+    },
+    "native/llm-foundation-29b/model-lock.json": {
+      "sha256": "e5e7de1a5a0260a799e5e78fa33353d6e6e69d7c90ae6f01d3625be4d6c1c7f4",
+      "bytes": 778,
+      "native_source": "llm-foundation-29b/model-lock.json"
+    },
+    "native/llm-foundation-29b/model-logs.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/model-logs.exit"
+    },
+    "native/llm-foundation-29b/model-logs.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/model-logs.stderr"
+    },
+    "native/llm-foundation-29b/model-logs.stdout": {
+      "sha256": "5da679e97bcee2f2df484218ca189c490c8004d0999d75109c6cd08f730e30be",
+      "bytes": 17552,
+      "native_source": "llm-foundation-29b/model-logs.stdout"
+    },
+    "native/llm-foundation-29b/model-optimized-install.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/model-optimized-install.exit"
+    },
+    "native/llm-foundation-29b/model-optimized-install.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/model-optimized-install.stderr"
+    },
+    "native/llm-foundation-29b/model-optimized-install.stdout": {
+      "sha256": "c834a301a5554e4ce93a5ad62b650ea6a5bb35cc0764e666509efcce576d47c1",
+      "bytes": 175,
+      "native_source": "llm-foundation-29b/model-optimized-install.stdout"
+    },
+    "native/llm-foundation-29b/model-service.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/model-service.exit"
+    },
+    "native/llm-foundation-29b/model-service.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/model-service.stderr"
+    },
+    "native/llm-foundation-29b/model-service.stdout": {
+      "sha256": "1bf7db6d49e16f20cdaf38d018f8848a63922428a83d3a32de492d5be904a1c1",
+      "bytes": 1159,
+      "native_source": "llm-foundation-29b/model-service.stdout"
+    },
+    "native/llm-foundation-29b/namespace-before.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/namespace-before.exit"
+    },
+    "native/llm-foundation-29b/namespace-before.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/namespace-before.stderr"
+    },
+    "native/llm-foundation-29b/node-budget.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/node-budget.exit"
+    },
+    "native/llm-foundation-29b/node-budget.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/node-budget.stderr"
+    },
+    "native/llm-foundation-29b/nodes-before.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/nodes-before.exit"
+    },
+    "native/llm-foundation-29b/nodes-before.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/nodes-before.stderr"
+    },
+    "native/llm-foundation-29b/optimized-health.json": {
+      "sha256": "a82f33f5ef552610e61e16b25e83893ee9390ad3c8e8673ce90cec6b33bf72a4",
+      "bytes": 72,
+      "native_source": "llm-foundation-29b/optimized-health.json"
+    },
+    "native/llm-foundation-29b/pods-before.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/pods-before.exit"
+    },
+    "native/llm-foundation-29b/pods-before.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/pods-before.stderr"
+    },
+    "native/llm-foundation-29b/replicasets-after.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/replicasets-after.exit"
+    },
+    "native/llm-foundation-29b/replicasets-after.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/replicasets-after.stderr"
+    },
+    "native/llm-foundation-29b/replicasets-after.stdout": {
+      "sha256": "b893657a0299ace038c1a19de17fc2757418787badee029cf23ea3d92baee6e0",
+      "bytes": 31305,
+      "native_source": "llm-foundation-29b/replicasets-after.stdout"
+    },
+    "native/llm-foundation-29b/resources-after.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/resources-after.exit"
+    },
+    "native/llm-foundation-29b/resources-after.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/resources-after.stderr"
+    },
+    "native/llm-foundation-29b/resources-after.stdout": {
+      "sha256": "40957cc4a279b60322009c97f1269f4916c06985f2f5716871f8f842ea4171b1",
+      "bytes": 61034,
+      "native_source": "llm-foundation-29b/resources-after.stdout"
+    },
+    "native/llm-foundation-29b/resume-model-values.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/resume-model-values.exit"
+    },
+    "native/llm-foundation-29b/resume-model-values.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/resume-model-values.stderr"
+    },
+    "native/llm-foundation-29b/resume-model-values.stdout": {
+      "sha256": "88c2906ae192b30ab002474d3e570e86a3f2685f7e49450912794c07fd643865",
+      "bytes": 370,
+      "native_source": "llm-foundation-29b/resume-model-values.stdout"
+    },
+    "native/llm-foundation-29b/router-chart.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/router-chart.exit"
+    },
+    "native/llm-foundation-29b/router-chart.stderr": {
+      "sha256": "49f91cf32fa138f5b389bf244c25269471bfc1b0fcd7cdf060e0c6a8e3480c06",
+      "bytes": 140,
+      "native_source": "llm-foundation-29b/router-chart.stderr"
+    },
+    "native/llm-foundation-29b/router-chart.stdout": {
+      "sha256": "4d3dc34eef93cbcabd3edde77b33a38cead672de7b084d9960652f404698c884",
+      "bytes": 241,
+      "native_source": "llm-foundation-29b/router-chart.stdout"
+    },
+    "native/llm-foundation-29b/router-install.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/router-install.exit"
+    },
+    "native/llm-foundation-29b/router-install.stderr": {
+      "sha256": "49f91cf32fa138f5b389bf244c25269471bfc1b0fcd7cdf060e0c6a8e3480c06",
+      "bytes": 140,
+      "native_source": "llm-foundation-29b/router-install.stderr"
+    },
+    "native/llm-foundation-29b/router-install.stdout": {
+      "sha256": "9f5314a8392c6918ca053b97ad940038c1639a111cd738719af913c89a81e88c",
+      "bytes": 178,
+      "native_source": "llm-foundation-29b/router-install.stdout"
+    },
+    "native/llm-foundation-29b/router-logs.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/router-logs.exit"
+    },
+    "native/llm-foundation-29b/router-logs.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/router-logs.stderr"
+    },
+    "native/llm-foundation-29b/router-logs.stdout": {
+      "sha256": "27cf462708deb0e5a99a2d781a8f02b8a583d45851ae0fb17df73ff93f10dd5a",
+      "bytes": 26223,
+      "native_source": "llm-foundation-29b/router-logs.stdout"
+    },
+    "native/llm-foundation-29b/router-service.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/router-service.exit"
+    },
+    "native/llm-foundation-29b/router-service.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/router-service.stderr"
+    },
+    "native/llm-foundation-29b/router-service.stdout": {
+      "sha256": "f024b21893841cc2ce0b007734babea066f66f13889263d2efc24a775c53a4cc",
+      "bytes": 1658,
+      "native_source": "llm-foundation-29b/router-service.stdout"
+    },
+    "native/llm-foundation-29b/source.json": {
+      "sha256": "e12b7130f8b14f65a8b96098c8ffe377ed0082fcabec25b83e028266bfefa9db",
+      "bytes": 908,
+      "native_source": "llm-foundation-29b/source.json"
+    },
+    "native/llm-foundation-29b/tool-response.json": {
+      "sha256": "48bb37cf98da732a28df12a34890ab4c26349c7d77fd5858736ab74aa48f9a9e",
+      "bytes": 791,
+      "native_source": "llm-foundation-29b/tool-response.json"
+    },
+    "native/llm-foundation-29b/top-after.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/top-after.exit"
+    },
+    "native/llm-foundation-29b/top-after.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/top-after.stderr"
+    },
+    "native/llm-foundation-29b/top-after.stdout": {
+      "sha256": "14b832896aaa75c359049c1f283316d2eb8e9144a468215834353dd4de66f54c",
+      "bytes": 118,
+      "native_source": "llm-foundation-29b/top-after.stdout"
+    },
+    "native/llm-foundation-29b/verification.json": {
+      "sha256": "1a353beee9d7131288f6ac99632438d13af6b39a2e8b3208ff380de7ee327d03",
+      "bytes": 563,
+      "native_source": "llm-foundation-29b/verification.json"
+    },
+    "native/llm-foundation-29b/wait-inference-crd.exit": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "native_source": "llm-foundation-29b/wait-inference-crd.exit"
+    },
+    "native/llm-foundation-29b/wait-inference-crd.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "native_source": "llm-foundation-29b/wait-inference-crd.stderr"
+    },
+    "native/llm-foundation-29b/wait-inference-crd.stdout": {
+      "sha256": "5e6d1b811b8c79f794234722c6d103309544f7b6e6b0aa8d6cac5bdd1c1d8490",
+      "bytes": 103,
+      "native_source": "llm-foundation-29b/wait-inference-crd.stdout"
+    },
+    "native/llm-foundation-29b/baseline/requests.json": {
+      "sha256": "3932533750ac6a88ae16436a429d9c8cd9fa3ccbad7613225221d2a49d6eaf8d",
+      "bytes": 241013,
+      "native_source": "llm-foundation-29b/baseline/requests.json"
+    },
+    "native/llm-foundation-29b/baseline/summary.json": {
+      "sha256": "3c8716e4dbb6e6efc5720949b64cab258f367f9d36001ea8c6db8b8263ac0813",
+      "bytes": 420,
+      "native_source": "llm-foundation-29b/baseline/summary.json"
+    },
+    "native/llm-foundation-29b/optimized/requests.json": {
+      "sha256": "b3901eca7d8b3316f129ec6a77caf04e4ccf798fec5ad1f01013e8466335aa27",
+      "bytes": 241011,
+      "native_source": "llm-foundation-29b/optimized/requests.json"
+    },
+    "native/llm-foundation-29b/optimized/summary.json": {
+      "sha256": "9cb374f9e3f7e7a6b61742562789ee179df42b433386c2e5ff8287d6a68022a2",
+      "bytes": 423,
+      "native_source": "llm-foundation-29b/optimized/summary.json"
+    },
+    "native/llm-foundation-29b/routed/requests.json": {
+      "sha256": "7aefe83c9a8a6f2a83f98cb3750028727af25991ad8b195566cbb125785622df",
+      "bytes": 120770,
+      "native_source": "llm-foundation-29b/routed/requests.json"
+    },
+    "native/llm-foundation-29b/routed/summary.json": {
+      "sha256": "3500ff8152379bfea3e0fd440a8664742d2a80a21e7096ae014be14e20c74ae8",
+      "bytes": 423,
+      "native_source": "llm-foundation-29b/routed/summary.json"
+    },
+    "source-snapshots/initial/llm/benchmark.py": {
+      "sha256": "4c710b2bb7cf7193509128d7af397b82c3600320c3568a54a41715b1397c2692",
+      "bytes": 4459,
+      "native_source": "sealed uploaded source packet initial"
+    },
+    "source-snapshots/initial/llm/__init__.py": {
+      "sha256": "beecce3c84da4daf8e2dfbadd6e7564a5654bc31f21e7ab5a7e352f8e29ab098",
+      "bytes": 69,
+      "native_source": "sealed uploaded source packet initial"
+    },
+    "source-snapshots/initial/scripts/deploy-llm-inference.py": {
+      "sha256": "280d22991daf8f78be44bfb73253c346aa67e12f3509aa3a98821280d89f95d9",
+      "bytes": 11380,
+      "native_source": "sealed uploaded source packet initial"
+    },
+    "source-snapshots/initial/infra/llm/model.lock.json": {
+      "sha256": "e5e7de1a5a0260a799e5e78fa33353d6e6e69d7c90ae6f01d3625be4d6c1c7f4",
+      "bytes": 778,
+      "native_source": "sealed uploaded source packet initial"
+    },
+    "source-snapshots/initial/infra/llm/router-values.yaml": {
+      "sha256": "296e82f77dda168448caf4837c2deb051fcf3ba991acb5910bf8b49b467e41ac",
+      "bytes": 1092,
+      "native_source": "sealed uploaded source packet initial"
+    },
+    "source-snapshots/initial/infra/charts/iot-llm/Chart.yaml": {
+      "sha256": "216f08d179f985318d98411418fcd6138cea69312f44d50332015d22bafa601d",
+      "bytes": 169,
+      "native_source": "sealed uploaded source packet initial"
+    },
+    "source-snapshots/initial/infra/charts/iot-llm/values.yaml": {
+      "sha256": "a2b7b2b2fdad29b4c80787e697559ee26a28c52907316f69a881ed4fd89161b7",
+      "bytes": 347,
+      "native_source": "sealed uploaded source packet initial"
+    },
+    "source-snapshots/initial/infra/charts/iot-llm/templates/model.yaml": {
+      "sha256": "4df5d61fc89a53aa31ab20cc693e52ae69e57890e30b65855930b880e79421c7",
+      "bytes": 2409,
+      "native_source": "sealed uploaded source packet initial"
+    },
+    "source-snapshots/completion/llm/benchmark.py": {
+      "sha256": "4c710b2bb7cf7193509128d7af397b82c3600320c3568a54a41715b1397c2692",
+      "bytes": 4459,
+      "native_source": "sealed uploaded source packet completion"
+    },
+    "source-snapshots/completion/llm/__init__.py": {
+      "sha256": "beecce3c84da4daf8e2dfbadd6e7564a5654bc31f21e7ab5a7e352f8e29ab098",
+      "bytes": 69,
+      "native_source": "sealed uploaded source packet completion"
+    },
+    "source-snapshots/completion/scripts/deploy-llm-inference.py": {
+      "sha256": "821abe1c52d5bef2be3680f32ce1ea0975cad3ea4fe8e5758113dc34f5b3ec17",
+      "bytes": 14424,
+      "native_source": "sealed uploaded source packet completion"
+    },
+    "source-snapshots/completion/infra/llm/model.lock.json": {
+      "sha256": "e5e7de1a5a0260a799e5e78fa33353d6e6e69d7c90ae6f01d3625be4d6c1c7f4",
+      "bytes": 778,
+      "native_source": "sealed uploaded source packet completion"
+    },
+    "source-snapshots/completion/infra/llm/router-values.yaml": {
+      "sha256": "296e82f77dda168448caf4837c2deb051fcf3ba991acb5910bf8b49b467e41ac",
+      "bytes": 1092,
+      "native_source": "sealed uploaded source packet completion"
+    },
+    "source-snapshots/completion/infra/charts/iot-llm/Chart.yaml": {
+      "sha256": "216f08d179f985318d98411418fcd6138cea69312f44d50332015d22bafa601d",
+      "bytes": 169,
+      "native_source": "sealed uploaded source packet completion"
+    },
+    "source-snapshots/completion/infra/charts/iot-llm/values.yaml": {
+      "sha256": "a2b7b2b2fdad29b4c80787e697559ee26a28c52907316f69a881ed4fd89161b7",
+      "bytes": 347,
+      "native_source": "sealed uploaded source packet completion"
+    },
+    "source-snapshots/completion/infra/charts/iot-llm/templates/model.yaml": {
+      "sha256": "4df5d61fc89a53aa31ab20cc693e52ae69e57890e30b65855930b880e79421c7",
+      "bytes": 2409,
+      "native_source": "sealed uploaded source packet completion"
+    }
+  },
+  "capture_note": "Original source-sealed native reports and command output. Failed initial rollout connection and unchanged baseline preserved. Unrelated workload/node inventory and upstream CRD bytes stay in local original capture; no state, model weights, credentials or synthetic UI captures included."
+}

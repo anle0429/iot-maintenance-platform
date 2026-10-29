@@ -12,7 +12,7 @@ Source points are not earned marks. No combined weighting is assumed. Mini-cours
 
 ## Evidence status
 
-The recorded Data/ML lab has source-bound reports, native executions and original screenshots. Its scope limits are listed in the [final audit](final-audit.md). LLM inference, RAG, MCP/agents, registry, sandbox, warm-up, LLM CI/A/B and token/tool telemetry have **no native implementation evidence yet**. Shared ML infrastructure is identified as a baseline, not substituted for an LLM workload.
+The recorded Data/ML lab has source-bound reports, native executions and original screenshots. Initial LLM inference now has [separate native proof](llm-inference.md) for llm-d, a custom CPU backend and the thread comparison (L03–L05). RAG, MCP/agents, registry, sandbox, warm-up, LLM CI/A/B and full token/tool telemetry remain open. Shared ML infrastructure is a baseline, not substituted for an LLM workload. Scope limits are listed in the [final audit](final-audit.md).
 
 The [implementation matrix](final-audit-matrix.md) links both tracks to reports or open work. The [LLM plan](llm-agent-plan.md) specifies what acceptance evidence is still required.
 

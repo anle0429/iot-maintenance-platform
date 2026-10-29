@@ -151,3 +151,7 @@ docs/evidence/rubric-final/source.json text eol=lf
 # Preserve original source-language archives and the new rubric capture byte-for-byte.
 references/coursework/*-source-language.md -text -whitespace
 docs/evidence/rubric-llm/** -text -whitespace
+docs/evidence/llm-inference/** -text -whitespace
+docs/evidence/rag-foundation/** -text -whitespace
+# The authored source catalog is sealed by its exact uploaded bytes.
+knowledge/catalog.json -text -whitespace

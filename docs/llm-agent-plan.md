@@ -1,8 +1,8 @@
 # LLM and agent workstream
 
-**Status: selected coursework scope; not implemented or natively verified.** The existing ML APIs and infrastructure provide integration points, not proof that MCP servers or agents already run.
+**Status: initial LLM inference verified; remaining agent workstream incomplete.** A real llm-d router and CPU model have [native proof](llm-inference.md). Existing ML APIs provide integration points; they do not establish MCP or agent execution. Start with the [learning guide](llm-learning-guide.md) to follow the information flow.
 
-![Planned LLM and agent components, with existing ML endpoints distinguished](images/platform-llm-plan.png)
+![Staged LLM and agent components, with verified inference and existing ML endpoints distinguished](images/platform-llm-plan.png)
 
 [Editable SVG](images/platform-llm-plan.svg) · [Source](diagrams/platform.py) · [LLM rubric](final-llm-rubric-tracker.md)
 
@@ -14,8 +14,8 @@ A user asks about a machine's recent condition, risk or a relevant technical doc
 
 | Area | Required work | Existing baseline |
 |---|---|---|
-| Inference | llm-d platform, custom server, global model configuration, measured optimization | VM resources; no LLM server |
-| Knowledge | Authored corpus, Airflow text/chunk/embedding pipeline, Feast storage, validation and DataHub lineage | Airflow/Feast/DataHub exist for ML |
+| Inference | llm-d platform, custom server, global model configuration, measured optimization | Router/custom backend and CPU-thread comparison verified; agent-global configuration pending |
+| Knowledge | Authored corpus, Airflow text/chunk/embedding pipeline, Feast storage, validation and DataHub lineage | [Native five-stage core verified](rag-foundation.md); Airflow/DataHub integration pending |
 | Tools | Async validated data/chunk and drift MCP services, health checks, Helm rollout/fallback | Feature/drift HTTP APIs are not yet MCP deployments |
 | Agents | Retrieval and drift specialists, coordinator, registry publication, multi-replica autoscaling and sandbox | None deployed |
 | Startup | Agent Substrate warm-up, worker-pool HA explanation and startup benchmark | Not implemented |

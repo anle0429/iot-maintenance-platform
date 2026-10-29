@@ -150,6 +150,6 @@ The supplied rubrics govern scope. [Card Fraud Platform](https://github.com/cvin
 
 ## Selected LLM workstream
 
-![Planned LLM and agent architecture, not a deployed system](images/platform-llm-plan.png)
+![Staged LLM architecture: verified inference and planned agents](images/platform-llm-plan.png)
 
-See the [LLM plan](llm-agent-plan.md), [source rubric](rubric-source.md) and [open LLM tracker](final-llm-rubric-tracker.md). Shared ML APIs are integration points. No LLM, RAG, MCP, sandbox, warm-up or agent runtime is claimed from a diagram.
+The llm-d router and CPU backend have [native inference evidence](llm-inference.md); the remaining RAG/agent components are planned or in progress. See the [learning guide](llm-learning-guide.md), [workstream](llm-agent-plan.md), [source rubric](rubric-source.md) and [LLM tracker](final-llm-rubric-tracker.md). Shared ML APIs are integration points. The drawing itself is not runtime evidence.

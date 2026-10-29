@@ -21,7 +21,7 @@ VERIFIERS = (
     'ci-stream-push', 'ci-training', 'datahub-restore', 'deployment-policy', 'drift-eventing',
     'drift-retraining', 'final-handover', 'focused-api', 'host-monitoring', 'iac-final',
     'joint-cohort', 'linux-host', 'linux-logs', 'log-discovery', 'native-serving',
-    'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort', 'final-review',
+    'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort', 'final-review', 'llm-inference',
 )
 CAPSULES = (
     'drift-api', 'api-autoscale', 'notebook', 'notebook-parity', 'distributed-training',
@@ -176,9 +176,10 @@ def audit(output, workers):
               'snapshot_sha256': sha256(snapshot_path.read_bytes()).hexdigest(), 'scored_rows': len(rows), 'original_source_points': 100,
               'source_columns_unchanged': False, 'source_text_preserved_in_snapshots': True, 'presentation_language': 'en',
               'english_translations_pinned': True, 'llm_scored_rows': len(llm_rows), 'llm_source_points': 100,
+              'llm_inference_verified': results['llm-inference']['exit'] == 0,
               'llm_runtime_verified': False, 'coursework_complete': False,
               'local_evidence_links': links, 'additional_capsule_payloads': capsules, 'verifiers': results,
-              'live_readiness_checked': False, 'scope': 'Historical ML artifact integrity and both source-rubric presentations. LLM implementation is open. Not a grade, live deployment, full100GB ML or laptop verification.'}
+              'live_readiness_checked': False, 'scope': 'Historical ML and initial LLM inference artifacts plus both rubric presentations. Full LLM/agent track remains incomplete. Not a grade, current readiness, full100GB ML or laptop verification.'}
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(report, indent=2))
     return 0 if report['passed'] else 1

@@ -4,13 +4,13 @@
 
 The selected scope is now final ML plus final LLM/agents. The supplied workbook has 57 weighted ML rows and 60 weighted LLM rows, with 100 source points per sheet. These are source weights, not self-awarded marks. The original source cells and workbook bytes are preserved separately from the pinned English views.
 
-Recorded ML lab evidence covers the linked ML requirements within documented boundaries. The LLM-specific workstream is not implemented or natively verified, so the whole selected coursework must not be described as complete. Shared infrastructure or ML API tests are not relabeled as MCP/agent proof.
+Recorded ML lab evidence covers the linked ML requirements within documented boundaries. Initial CPU inference and llm-d routing now have [separate native proof](llm-inference.md). RAG and agent requirements remain incomplete, so the whole selected coursework must not be described as complete. Shared infrastructure or ML API tests are not relabeled as MCP/agent proof.
 
 ## Audit method
 
-The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It runs 26 read-only artifact verifiers and checks nine additional native capsules with 685 payloads. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
+The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It now runs 27 read-only artifact verifiers, including CPU inference, and checks nine additional native capsules with 685 payloads. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
 
-The original ML source-language tracker is archived. Translation changes the presentation columns, not the preserved source requirements. A lowered threshold, missing row or changed translation pin fails the checks. The JSON report separately states artifact-check success, unverified LLM runtime and `coursework_complete=false`.
+The original ML source-language tracker is archived. Translation changes the presentation columns, not the preserved source requirements. A lowered threshold, missing row or changed translation pin fails the checks. The JSON report distinguishes `llm_inference_verified` from the still-incomplete full LLM runtime and `coursework_complete=false`.
 
 ## Issues corrected during the ML review
 
@@ -20,7 +20,7 @@ The after-restart package verifies native materialization of 200 machines, nine 
 
 ## Interpretation limits
 
-The 100 GB workload covers Bronze/Silver, while ML uses 3.132 million rows from a separate 60-day source. Two executor Pods share one physical VM. Gateway domains/CA are private. Vault has two lab consumers; the mesh test is isolated. Stream CI uses a small fixture and full retained-window checks run separately. Original images and logs remain in their capture language. Laptop execution, production HA, full 100 GB ML and LLM deployment are not established.
+The 100 GB workload covers Bronze/Silver, while ML uses 3.132 million rows from a separate 60-day source. Two executor Pods share one physical VM. Gateway domains/CA are private. Vault has two lab consumers; the mesh test is isolated. Stream CI uses a small fixture and full retained-window checks run separately. Original images and logs remain in their capture language. Laptop execution, production HA, full 100 GB ML and a complete LLM/agent system are not established.
 
 ## English documentation review
 
