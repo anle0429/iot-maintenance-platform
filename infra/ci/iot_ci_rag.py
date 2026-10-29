@@ -24,7 +24,7 @@ def run(operation):
         path = (source / name).resolve()
         if not path.is_relative_to(source) or sha256(path.read_bytes()).hexdigest() != digest:
             raise ValueError('The prepared task source changed')
-    name = 'rag/airflow_tasks.py'
+    name = 'rag/ci_tasks.py'
     if name not in manifest['source_files']: raise ValueError('The selected launcher must be sealed')
     spec = importlib.util.spec_from_file_location('iot_ci_selected_rag_tasks', source / name)
     tasks = importlib.util.module_from_spec(spec); spec.loader.exec_module(tasks)

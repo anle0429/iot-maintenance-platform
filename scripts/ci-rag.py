@@ -144,12 +144,18 @@ def verify_host(c):
         raise ValueError('Actual native RAG tasks failed')
     state=c.deploy/'data/rag'/c.run_id;reports=c.deploy/'outputs'/c.run_id
     native={}
-    for name in ['quality.json','datahub-publication.json','retrieval.json','store-readback.json']:
+    for name in ['quality.json','datahub-publication.json','ci-datahub-publication.json','retrieval.json','store-readback.json']:
         raw=(state/name).read_bytes();(c.out/name).write_bytes(raw);native[name]=json.loads(raw)
     if (not native['quality.json']['passed'] or not native['datahub-publication.json']['passed']
             or native['datahub-publication.json']['run']!=c.run_id
             or native['datahub-publication.json']['quality_sha256']!=sha256((state/'quality.json').read_bytes()).hexdigest()):
         raise ValueError('Native persisted quality/governance facts do not match this run')
+    ci=native['ci-datahub-publication.json']
+    if (ci.get('passed') is not True or ci.get('dag_id')!=DAG_ID or ci.get('run_id')!=c.run_id
+            or ci.get('source_commit')!=c.commit or ci.get('ci_release')!=c.release or len(ci['readback'])!=7
+            or ci.get('quality_sha256')!=sha256((state/'quality.json').read_bytes()).hexdigest()
+            or ci.get('canonical_publication_sha256')!=sha256((state/'datahub-publication.json').read_bytes()).hexdigest()):
+        raise ValueError('Actual CI DAG/task lineage is missing or belongs to another release')
     containers={}
     for operation in ['fetch','chunk','embed','store','validate','publish']:
         raw=(reports/(operation+'-container.json')).read_bytes();value=json.loads(raw)

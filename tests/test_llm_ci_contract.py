@@ -7,6 +7,7 @@ import json
 import tempfile
 import unittest
 from agents.ci_contract import release_identity, require_receipt, validate_agents, validate_source
+from rag.ci_metadata import ci_identity
 
 ROOT=Path(__file__).resolve().parents[1]
 SPEC=importlib.util.spec_from_file_location('ci_response_renderer',ROOT/'scripts/render-agent-responses.py')
@@ -15,6 +16,15 @@ renderer=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(renderer)
 
 class LlmCiContractTests(unittest.TestCase):
     """Use recorded resource fixtures and independent small seals; live CI still needs its own native proof."""
+
+    def test_rag_governance_binds_the_actual_dag_source_and_build(self):
+        """A metadata URL cannot silently point to the manual DAG or another build's run."""
+        actual=ci_identity('rag-ci-aaaaaaaa-2','a'*40,'llm-rag-jenkins-2')
+        self.assertEqual(actual['external_url'],'http://localhost:18480/dags/iot_ci_rag_knowledge/runs/rag-ci-aaaaaaaa-2')
+        for run,commit,release in [('rag-ci-aaaaaaaa-1','a'*40,'llm-rag-jenkins-2'),
+                                   ('rag-ci-bbbbbbbb-2','a'*40,'llm-rag-jenkins-2'),
+                                   ('rag-ci-aaaaaaaa-2','a'*40,'llm-drift-jenkins-2')]:
+            with self.subTest(run=run,release=release),self.assertRaises(ValueError):ci_identity(run,commit,release)
 
     def test_four_jobs_have_distinct_release_names(self):
         """The same build number in two jobs must not share a release or successful-stage receipt."""
