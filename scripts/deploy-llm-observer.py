@@ -101,7 +101,7 @@ def run(args):
     keep('chart-source.json',{str(p.relative_to(ROOT)):sha256(p.read_bytes()).hexdigest() for p in sorted(chart.rglob('*')) if p.is_file()})
     command('helm-lint',[str(helm),'lint',str(chart),'-f',str(out/'values.json')])
     command('helm-template',[str(helm),'template',release,str(chart),'-n',namespace,'-f',str(out/'values.json')])
-    command('server-dry-run',k+['apply','--dry-run=server','-f',str(out/'helm-template.stdout')])
+    command('server-dry-run',k+['apply','--dry-run=server','-n',namespace,'-f',str(out/'helm-template.stdout')])
     command('helm-install',[str(helm),'install',release,str(chart),'-n',namespace,'-f',str(out/'values.json'),'--atomic','--wait','--timeout','240s'],timeout=270)
     after=get('deployment',release,'-n',namespace);keep('deployment.json',after)
     pods=get('pods','-n',namespace,'-l','app.kubernetes.io/instance='+release);keep('pods.json',pods)
