@@ -1,0 +1,20 @@
+# No host port, Service or cloud firewall is added. Only the existing control node can scrape this overlay endpoint.
+{{- if not .Values.controlSourceAddresses }}
+{{- fail "Supply the exact existing control-node source addresses" }}
+{{- end }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  podSelector:
+    matchLabels: {app.kubernetes.io/instance: {{ .Release.Name }}}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+{{- range .Values.controlSourceAddresses }}
+        - ipBlock: {cidr: {{ . | quote }}}
+{{- end }}
+      ports: [{protocol: TCP, port: 9100}]
+  egress: []

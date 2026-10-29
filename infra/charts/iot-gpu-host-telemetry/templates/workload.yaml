@@ -1,0 +1,77 @@
+# Bind explicit host proc files, including PID1's network view; the exporter keeps its isolated Pod network.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app.kubernetes.io/instance: {{ .Release.Name }}}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/name: iot-gpu-host-telemetry
+      annotations:
+        iot.coursework/source-commit: {{ required "Supply the sealed source revision" .Values.sourceCommit | quote }}
+    spec:
+      automountServiceAccountToken: false
+      hostNetwork: false
+      hostPID: false
+      nodeSelector:
+        kubernetes.io/hostname: {{ .Values.gpuNode | quote }}
+      tolerations:
+        - {key: iot.coursework/inference-gpu, operator: Equal, value: 'true', effect: NoSchedule}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: exporter
+          image: {{ required "Supply the imported official-binary image digest" .Values.image | quote }}
+          imagePullPolicy: Never
+          args:
+            - --web.listen-address=0.0.0.0:9100
+            - --collector.disable-defaults
+            - --collector.cpu
+            - --collector.meminfo
+            - --collector.filesystem
+            - --collector.diskstats
+            - --collector.netdev
+            - --no-collector.netdev.netlink
+            - --path.procfs=/proc-view
+            - --path.sysfs=/host/sys
+            - --path.rootfs=/host
+            - --collector.filesystem.mount-points-include=^(/|/srv/iot-inference)$
+          ports: [{name: metrics, containerPort: 9100}]
+          readinessProbe:
+            httpGet: {path: /metrics, port: metrics}
+            periodSeconds: 10
+            timeoutSeconds: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          resources:
+            requests: {cpu: 25m, memory: 32Mi}
+            limits: {cpu: 250m, memory: 128Mi}
+          volumeMounts:
+            - {name: rootfs, mountPath: /host, readOnly: true}
+            - {name: stat, mountPath: /proc-view/stat, readOnly: true}
+            - {name: cpuinfo, mountPath: /proc-view/cpuinfo, readOnly: true}
+            - {name: meminfo, mountPath: /proc-view/meminfo, readOnly: true}
+            - {name: diskstats, mountPath: /proc-view/diskstats, readOnly: true}
+            - {name: mountinfo, mountPath: /proc-view/1/mountinfo, readOnly: true}
+            - {name: netdev, mountPath: /proc-view/net/dev, readOnly: true}
+      volumes:
+        - {name: rootfs, hostPath: {path: /, type: Directory}}
+        - {name: stat, hostPath: {path: /proc/stat, type: File}}
+        - {name: cpuinfo, hostPath: {path: /proc/cpuinfo, type: File}}
+        - {name: meminfo, hostPath: {path: /proc/meminfo, type: File}}
+        - {name: diskstats, hostPath: {path: /proc/diskstats, type: File}}
+        - {name: mountinfo, hostPath: {path: /proc/1/mountinfo, type: File}}
+        - {name: netdev, hostPath: {path: /proc/1/net/dev, type: File}}
