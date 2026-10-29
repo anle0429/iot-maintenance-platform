@@ -1,6 +1,6 @@
 # MCP contract and mutation checks
 
-**Status: 132 API tests pass and the complete local mutation gate passes at 681/850 (80.12%).** The timestamp fix is now in the current source; its native deployment remains open. The earlier VM mutation gates remain unsuccessful. Read the [native MCP report](mcp-tools.md) for the earlier deployed image, coverage, rollback and load evidence.
+**Status: 132 API tests pass locally and on the VM; the complete local mutation gate passes at 681/850 (80.12%).** The timestamp fix has now been rebuilt, deployed and checked through the native MCP transport. The earlier VM mutation gates remain unsuccessful. Read the [earlier MCP report](mcp-tools.md) for its original image and load measurement.
 
 ## What each check establishes
 
@@ -67,6 +67,20 @@ python scripts/verify-mcp-quality.py
 
 For a new mutation environment, install the [API test dependencies](../infra/mcp/requirements-tests.txt) and [Cosmic Ray pin](../infra/mcp/requirements-cosmic-ray.txt) in a separate virtual environment. Follow the official initialize → baseline → execute sequence with all four API modules and an explicit test interpreter, using fresh output paths. The captured configuration records the original machine's paths and must not be overwritten to suit a different clone.
 
+## Native deployment of the tested fix
+
+The Linux run completed on the existing VM at 10:12 UTC on 29 October. All 50 local-tested source members match the 64-member release seal; the additional members are deployment inputs. The native test container passed **132 tests**, with **98.03% statement coverage** and **90.74% branch coverage**. It ran without network access, as UID 10001, with a read-only root and a two-GiB memory limit.
+
+Both MCP services were deployed with two replicas. Four actual SDK probes executed 24 calls, including validation errors and repeated requests. Two deliberately invalid image upgrades failed and rolled back to the source-bound image. Subsequent probes succeeded. The six original knowledge-state files remained unchanged, and prediction continued to identify model version 6.
+
+The [native inventory](evidence/mcp-quality-native/manifest.json) retains 171 payloads, including source, build, tests, tool responses and rollback readback. A [separate three-payload process capture](evidence/mcp-quality-process/manifest.json) retains the original journal. Completed transient units can lose their invocation properties after garbage collection; the checker therefore matches the journal's actual invocation and printed completion report rather than inferring a process from default inactive-unit properties.
+
+```powershell
+python scripts/verify-mcp-quality-native.py
+```
+
+The [native checker](../scripts/verify-mcp-quality-native.py) verifies this release independently of the local mutation scoreboard. The earlier Locust results remain a versioned measurement of the earlier image. This release does not establish new load performance or complete agent conversations.
+
 ## Remaining acceptance
 
-Build and deploy the source-bound timestamp fix and verify its native behavior. The existing deployment/load evidence describes the earlier source, with that difference reported explicitly by its checker. Agent conversation, isolation, scaling, warm-up, CI, telemetry and A/B requirements remain separate.
+Add the required presentation captures and CI integration. Agent conversation, isolation, scaling, warm-up, telemetry and A/B requirements remain separate.
