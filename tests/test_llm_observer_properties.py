@@ -2,7 +2,10 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
-from hypothesis import given,settings,strategies as st
+try:
+    from hypothesis import given,settings,strategies as st
+except ModuleNotFoundError as error:
+    raise unittest.SkipTest('Install infra/llm-observability/requirements-local.txt for optional generated API cases') from error
 from llm_observability.contracts import StreamObservation
 from llm_observability.ledger import TelemetryLedger
 from llm_observability.metrics import render_metrics

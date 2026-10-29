@@ -2,7 +2,10 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
-from prometheus_client.parser import text_string_to_metric_families
+try:
+    from prometheus_client.parser import text_string_to_metric_families
+except ModuleNotFoundError as error:
+    raise unittest.SkipTest('Install infra/llm-observability/requirements-local.txt for optional API metrics tests') from error
 from llm_observability.ledger import TelemetryLedger
 from llm_observability.metrics import render_metrics
 from tests.test_llm_telemetry_ledger import fact

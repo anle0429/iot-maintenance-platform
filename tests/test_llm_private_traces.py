@@ -1,6 +1,9 @@
 """Verify native OTLP graph preservation and an adversarial privacy projection before exporting or deriving counters."""
-from opentelemetry.proto.collector.trace.v1.trace_service_pb2 import ExportTraceServiceRequest
 import unittest
+try:
+    from opentelemetry.proto.collector.trace.v1.trace_service_pb2 import ExportTraceServiceRequest
+except ModuleNotFoundError as error:
+    raise unittest.SkipTest('Install infra/llm-observability/requirements-local.txt for optional OTLP tests') from error
 from llm_observability.private_traces import PrivateTraceProcessor,attributes,approved
 
 
