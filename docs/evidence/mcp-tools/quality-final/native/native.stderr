@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/source/scripts/test-mcp-tools.py", line 70, in <module>
+    args=parser.parse_args();run(args.source,args.manifest,args.workspace,args.output,args.configuration)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/source/scripts/test-mcp-tools.py", line 64, in run
+    if not result['passed']:raise RuntimeError('Inspect surviving or incomplete native mutants; do not weaken the denominator')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Inspect surviving or incomplete native mutants; do not weaken the denominator

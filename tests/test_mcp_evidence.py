@@ -24,6 +24,8 @@ class McpEvidenceTests(unittest.TestCase):
         self.assertEqual(result['native_mcp_calls'], 24)
         self.assertEqual(result['locust_requests'], 2658)
         self.assertFalse(result['initial_mutation_gate_passed'])
+        self.assertFalse(result['expanded_mutation_gate_passed'])
+        self.assertEqual(result['expanded_mutation_score_percent'], 100 * 594 / 945)
 
     def test_changed_prediction_trace_is_rejected(self):
         """Even after bypassing byte-integrity checks, a different machine in the prediction cannot pass the oracle."""
@@ -31,7 +33,9 @@ class McpEvidenceTests(unittest.TestCase):
 
     def test_claimed_successful_mutation_gate_is_rejected(self):
         """A relabeled passed flag cannot turn 531/945 detected mutants into an accepted mutation gate."""
-        self.reject_change('initial-mutation/native/proof/result/verification.json', 'mutation')
+        for name in ['initial-mutation/native/proof/result/verification.json', 'quality-final/native/verification.json']:
+            with self.subTest(receipt=name):
+                self.reject_change(name, 'mutation')
 
     def reject_change(self, name, kind):
         """Change one copied semantic receipt while retaining the independent source and count checks."""
@@ -46,6 +50,6 @@ class McpEvidenceTests(unittest.TestCase):
                 data = json.loads(response['text']); data['feature_trace']['machine_id'] = 'P-002'
                 response['text'] = json.dumps(data)
             path.write_text(json.dumps(value), encoding='utf-8')
-            with patch.object(CHECKER, 'capsule', return_value=(copied, 719)):
+            with patch.object(CHECKER, 'capsule', return_value=(copied, 745)):
                 with self.assertRaises(AssertionError):
                     CHECKER.verify()

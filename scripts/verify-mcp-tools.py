@@ -7,7 +7,7 @@ import math
 import xml.etree.ElementTree as ET
 from integration_evidence import ROOT, capsule, read, sources, exited
 
-MANIFEST_SHA256 = '919cf2715f0416a3a4fcfa368485612108f69a19632d8cd92f616f5e848385b9'
+MANIFEST_SHA256 = '21c4cb7e7a3b391f14af3e4e893c0b0555143d498c5b69be8ddb2e19752b78db'
 
 
 def payload(call):
@@ -129,6 +129,20 @@ def verify():
     assert not mutation['passed'] and mutation['mutation_score_percent'] == 100 * categories[1] / 945 < 80
     assert not json.loads((base / 'initial-mutation/native/container.json').read_bytes())[0]['State']['OOMKilled']
     assert not read(base, 'initial-mutation/native/container.json')[0]['State']['Running']
+    expanded = read(base, 'quality-final/native/verification.json')
+    updated_categories = Counter()
+    for path in (base / 'quality-final/native').glob('*.meta'):
+        updated_categories.update(json.loads(path.read_bytes())['exit_code_by_key'].values())
+    assert updated_categories == {1: 594, 0: 343, -24: 8}
+    assert expanded['complete_inventory'] and expanded['stats']['total'] == sum(updated_categories.values()) == 945
+    assert expanded['mutation_score_percent'] == 100 * 594 / 945 < 80 and not expanded['passed']
+    exited(read(base, 'quality-final/native/container.json')[0], 1)
+    assert 'ActiveState=failed' in (base / 'quality-final/native/unit.txt').read_text(encoding='utf-8')
+    binding = read(base, 'quality-final/native/baseline-binding.json')
+    assert binding['passed']
+    assert binding['source_manifest_sha256'] == sha256((base / 'quality-baseline/source/manifest.json').read_bytes()).hexdigest()
+    for name, pin in binding['earlier_baseline_unchanged'].items():
+        assert sha256((base / 'quality-baseline/native' / name).read_bytes()).hexdigest() == pin
     load = read(base, 'load/native/verification.json')
     requests = 0
     for users in [1, 8]:
@@ -160,12 +174,13 @@ def verify():
     assert read(base, 'privacy.json')['passed']
     for path in (base / 'ui').glob('*.jpg'):
         assert path.read_bytes().startswith(b'\xff\xd8\xff')
-    assert len(list((base / 'ui').glob('*.jpg'))) == 8
+    assert len(list((base / 'ui').glob('*.jpg'))) == 9
     return {'passed': True, 'payloads': count, 'native_mcp_calls': observed_calls, 'replicas_per_role': 2,
             'controlled_atomic_rollbacks': 2, 'native_tests': 79, 'line_coverage_percent': 100 * 346 / 354,
             'branch_coverage_percent': 100 * 96 / 106, 'locust_requests': requests,
             'initial_mutation_gate_passed': False, 'initial_mutation_score_percent': mutation['mutation_score_percent'],
-            'scope': 'Recorded private MCP/REST transport, deployment, baseline API quality and feature-read load. Expanded mutation, agents, registry, sandbox, CI and full LLM telemetry remain separate.'}
+            'expanded_mutation_gate_passed': False, 'expanded_mutation_score_percent': expanded['mutation_score_percent'],
+            'scope': 'Recorded private MCP/REST transport, deployment, baseline API quality and feature-read load. Both mutation gates failed; agents, registry, sandbox, CI and full LLM telemetry remain incomplete.'}
 
 
 if __name__ == '__main__':

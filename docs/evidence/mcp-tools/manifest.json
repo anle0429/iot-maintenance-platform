@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "mcp-tools",
   "machine": "iot-cw-vm / e2-highmem-8 / retained approved session",
-  "capture": "Curated original native source, command/report files and eight unmodified browser images. Discovery cache and intermediate binary coverage state are explicitly listed in curation.json. No credentials, weights, application databases or local launch helpers.",
+  "capture": "Curated original native source, command/report files and nine unmodified browser images. Discovery cache and intermediate binary coverage state are explicitly listed in curation.json. No credentials, weights, application databases or local launch helpers.",
   "files": {
     "capacity/native/ansible-first.exit": {
       "bytes": 2,
@@ -2244,6 +2244,106 @@
       "bytes": 22321,
       "sha256": "f984a837c8a7e4ab4c1794beebc939a359aac9b7082cee41cfb3895785fde1d5"
     },
+    "quality-final/native/app.py.meta": {
+      "bytes": 45816,
+      "sha256": "62486da5ca8ee0ec5be06ef9cd848075fd860a3bced7e4456dfc924fbf28ae6c"
+    },
+    "quality-final/native/auth.py.meta": {
+      "bytes": 64697,
+      "sha256": "de9b22179741d0418c2421c0bca232b932853bc334026efb03a32f1e39b54819"
+    },
+    "quality-final/native/baseline-binding.json": {
+      "bytes": 695,
+      "sha256": "690e0950d82456e40b639bcf0a3a479c2fd5dcda0b50c89adfe470c8f5af8f81"
+    },
+    "quality-final/native/container.json": {
+      "bytes": 10865,
+      "sha256": "55fc50c8a334f915cd0f0378c2776a00b7c8f813981e89927f33c764836ffc03"
+    },
+    "quality-final/native/contracts.py.meta": {
+      "bytes": 164,
+      "sha256": "8337af0c4106390d1c3bc4da61916adc36a117e653e1d7baa815d1ca882d6238"
+    },
+    "quality-final/native/mutation-export.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "quality-final/native/mutation-export.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "quality-final/native/mutation-export.stdout": {
+      "bytes": 52,
+      "sha256": "b4fa85afb541e94791ffadc803edbdb40149f7ea0c339e198e61acd5f51178b3"
+    },
+    "quality-final/native/mutation-inventory.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "quality-final/native/mutation-inventory.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "quality-final/native/mutation-inventory.stdout": {
+      "bytes": 69492,
+      "sha256": "697590f5bdadee1d7c1bbde9167972b7cefb7c41feed8667c5e260c39c2b0305"
+    },
+    "quality-final/native/mutation-stats.json": {
+      "bytes": 178,
+      "sha256": "4caa6218e4212c0af430eb031852bcf19ee1f12507a286d11cabf1d9cf1834f3"
+    },
+    "quality-final/native/mutmut.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "quality-final/native/mutmut.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "quality-final/native/mutmut.stdout": {
+      "bytes": 71528,
+      "sha256": "6d3eac3c50ae9feb523662f8f67363f6761d1dbb25827168bc4cb4d3dbc2b6b8"
+    },
+    "quality-final/native/native.exit": {
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    "quality-final/native/native.stderr": {
+      "bytes": 720,
+      "sha256": "8edb6023f5b3550e6e985f1960e1427a7cb9473ac6041d42666368bc6136f88c"
+    },
+    "quality-final/native/native.stdout": {
+      "bytes": 615,
+      "sha256": "f52acdebcc7a733cab305d4bc5b9aa01c1f0afc20992c4a3ba4bdfdf0c954821"
+    },
+    "quality-final/native/quality-image-build.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "quality-final/native/quality-image-build.stderr": {
+      "bytes": 3903,
+      "sha256": "c2b33259ae27014349cd277915fd7b3cadf8609938dfd95ccb2f37fa91780d2b"
+    },
+    "quality-final/native/quality-image-build.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "quality-final/native/quality-image.json": {
+      "bytes": 4520,
+      "sha256": "36f7e00deae61bea25a265b28d350b9d32dc1fc91e8b69963e4ca2b7434c6b5b"
+    },
+    "quality-final/native/runtime.py.meta": {
+      "bytes": 138550,
+      "sha256": "59cd77aa7a53f8b5ca371d3e137b9f52b0e1721f724e131226d0b1bb8c5337e3"
+    },
+    "quality-final/native/unit.txt": {
+      "bytes": 53,
+      "sha256": "f3960f40bf71cd243c2b7cc32e2484a1f2ad9acb92ae03ccd89aabb58d2724f9"
+    },
+    "quality-final/native/verification.json": {
+      "bytes": 615,
+      "sha256": "f52acdebcc7a733cab305d4bc5b9aa01c1f0afc20992c4a3ba4bdfdf0c954821"
+    },
     "readback/drift-history.exit": {
       "bytes": 2,
       "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
@@ -2871,6 +2971,10 @@
     "ui/native-locust-8-users.jpg": {
       "bytes": 61936,
       "sha256": "6e53c6b6567adb7e8c39f49457b148cf3248629e5936a3183f71db0a1266783d"
+    },
+    "ui/native-mutation-expanded-failure.jpg": {
+      "bytes": 40370,
+      "sha256": "3fd8ebc4e1fe16260aaf340a0f8b1d938c0943d6ee5284e982672be3c085ddd7"
     },
     "ui/native-mutation-initial-failure.jpg": {
       "bytes": 40312,

@@ -96,7 +96,7 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 | L26 | Warm-up and worker pool | Configure agent warm-up through Agent Substrate to reduce startup delay/cost; benchmark the result and document HA through worker-pool replicas. | Open: native LLM evidence missing |
 | L27 | Validation and verification | Unit-test the Web APIs with Test Coverage > 90%, demonstrating fixtures and mocks with screenshots. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L28 | Validation and verification | Use equivalence partitioning and boundary-value analysis to design parameterized test cases. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
-| L29 | Validation and verification | Use mutation testing on changed code rather than the entire codebase on every commit. Mutation score > 80%. | [Open: original mutation gate 56.19%](mcp-tools.md#api-verification) |
+| L29 | Validation and verification | Use mutation testing on changed code rather than the entire codebase on every commit. Mutation score > 80%. | [Open: expanded mutation gate 62.86%](mcp-tools.md#api-verification) |
 | L30 | Validation and verification | Use property-based idempotency tests, with Hypothesis/CrossHair suggested for finding inconsistent repeated behavior. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L31 | Validation and verification | Load-test the data-retrieval Web API for throughput and latency and produce a Locust HTML SLA report. | [Recorded native MCP/API scope](mcp-tools.md); agent integration remains open |
 | L32 | Generator | Simulate data drift. | Open: native LLM evidence missing |

@@ -47,7 +47,7 @@ Scope is `services.mcp_tools`, including snapshot initialization and excluding t
 
 ![Original native Hypothesis and pytest console, displayed without rewriting its text](evidence/mcp-tools/ui/native-hypothesis-console.jpg)
 
-**Mutation remains open.** The first complete inventory contained 945 generated mutants: 531 killed, 398 survived and 16 timed out. The strict killed/total score was **56.19%**, below the required >80%. All initial files and the failed gate are preserved. Mutmut generated no mutants for the decorated Pydantic validators in `contracts.py`; the direct validator tests do not remove that mutation-tool limitation. An expanded run uses the additional contract/concurrency tests and a per-test timeout to bound hanging mutants. Its baseline is captured separately; no successful expanded mutation gate is claimed here.
+**Mutation remains open.** The first complete inventory contained 945 generated mutants: 531 killed, 398 survived and 16 timed out. The strict killed/total score was **56.19%**, below the required >80%. All initial files and the failed gate are preserved. Mutmut generated no mutants for the decorated Pydantic validators in `contracts.py`; the direct validator tests do not remove that mutation-tool limitation. The expanded run, completed at 05:48 UTC, used the additional contract/concurrency tests and per-test timeout. It killed 594 of the same 945 generated mutants, with 343 survivors and eight timeouts: **62.86%**, still below the threshold. Its earlier 79-test/coverage baseline remained byte-identical. [Original expanded result](evidence/mcp-tools/quality-final/native/verification.json) and the [unchanged-baseline binding](evidence/mcp-tools/quality-final/native/baseline-binding.json) are retained. Both quality gates failed; CLI analysis exit zero does not mean the mutation requirement passed.
 
 ## Authenticated retrieval load
 
@@ -72,7 +72,7 @@ The earlier rollout reached the node's configured 60-Pod ceiling even though CPU
 
 The archive also retains four earlier deployment failures: an absent-namespace response parser, an unavailable Feature API, an SDK field-name mismatch in the acceptance client, and the scheduling ceiling. The Feature API was refreshed through real native materialization, preserving model 6. Timestamps and TTLs were not edited. Knowledge snapshot originals remained unchanged.
 
-The committed capsule contains 719 curated source, command, report and image files. It excludes 55 generated Kubernetes discovery-cache files and one optional binary coverage-state file. [Curation receipt](evidence/mcp-tools/curation.json) records their original hashes and the retained native archive identity. All execution reports, source bindings, coverage HTML/JSON/XML, JUnit and eight original screenshots remain included.
+The committed capsule contains 745 curated source, command, report and image files. It excludes 55 generated Kubernetes discovery-cache files and one optional binary coverage-state file. [Curation receipt](evidence/mcp-tools/curation.json) records their original hashes and the retained native archive identity. All execution reports, source bindings, coverage HTML/JSON/XML, JUnit and nine original screenshots remain included.
 
 ## Repeat the checks
 
