@@ -8,7 +8,7 @@ Recorded ML lab evidence covers the linked ML requirements within documented bou
 
 ## Audit method
 
-The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It now runs 31 read-only artifact verifiers, including inference, RAG core, grounding, orchestration and MCP, and checks nine additional native capsules with 685 payloads. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
+The offline audit pins original source snapshots and reviewed English translations, checks IDs/merged-cell references/weights and validates linked evidence. It now includes 38 read-only artifact verifiers, including GPU conversations and [direct specialist MCP network isolation](agent-network-isolation.md), and checks nine additional native capsules with 685 payloads. The older manifest explicitly excludes one nonessential coverage-HTML ignore file; source, reports and measurements remain verified.
 
 The original ML source-language tracker is archived. Translation changes the presentation columns, not the preserved source requirements. A lowered threshold, missing row or changed translation pin fails the checks. The JSON report distinguishes inference, grounding and orchestration verification from the still-incomplete full LLM runtime and `coursework_complete=false`.
 
