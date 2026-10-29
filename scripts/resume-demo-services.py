@@ -9,6 +9,7 @@ import argparse
 import base64
 import http.cookiejar
 import json
+import ipaddress
 import os
 import re
 import ssl
@@ -230,6 +231,32 @@ def run(args):
         if not any(m['Destination'] == '/var/jenkins_home' and Path(m['Source']).is_relative_to(root / 'data/runtime') for m in jenkins['Mounts']): raise ValueError('Unexpected Jenkins home')
         if not jenkins['State']['Running']: command(['docker', 'start', 'iot-jenkins-ci-27'])
         report['steps']['jenkins'] = {'container_id': jenkins['Id'], 'image_id': jenkins['Image'], 'existing_home_preserved': True}; save()
+        # The retained restored MLflow container deliberately has no Docker published port.
+        # Restore only a loopback byte relay; keep its SQLite/artifact mount and container unchanged.
+        tracking = json.loads(command(['docker', 'inspect', 'iot-mlflow-tracking-1']))[0]
+        state_mount = next(m for m in tracking['Mounts'] if m['Destination'] == '/state')
+        if Path(state_mount['Source']).resolve() != (root / 'data/mlflow').resolve() or not tracking['State']['Running']:
+            raise ValueError('Inspect the retained MLflow state/container before restoring UI access')
+        address = tracking['NetworkSettings']['Networks'][tracking['HostConfig']['NetworkMode']]['IPAddress']
+        if not ipaddress.ip_address(address).is_private: raise ValueError('Require the existing private MLflow network')
+        if not tracking['NetworkSettings']['Ports'].get('5000/tcp'):
+            mlflow_units = {'socket': '[Unit]\nDescription=IoT demo MLflow private socket\n[Socket]\nListenStream=127.0.0.1:15000\nNoDelay=true\n',
+                'service': '[Unit]\nDescription=IoT demo MLflow private relay\n[Service]\nExecStart=' + proxy + ' ' + address + ':5000\nUser=nobody\nNoNewPrivileges=true\nProtectSystem=strict\nProtectHome=true\nPrivateTmp=true\nMemoryMax=32M\nCPUQuota=10%\n'}
+            for suffix, text in mlflow_units.items():
+                target = Path('/run/systemd/system/iot-demo-mlflow.' + suffix)
+                if target.exists() and target.read_text() != text:
+                    old = target.read_text()
+                    if suffix != 'service' or not old.startswith('[Unit]\nDescription=IoT demo MLflow private relay\n[Service]\nExecStart=' + proxy + ' '):
+                        raise ValueError('Preserve an independently configured MLflow relay')
+                    command(['systemctl', 'stop', 'iot-demo-mlflow.service'])
+                target.write_text(text)
+            command(['systemctl', 'daemon-reload']); command(['systemctl', 'start', 'iot-demo-mlflow.socket'])
+        model_url = 'http://127.0.0.1:15000/api/2.0/mlflow/model-versions/get?name=iot-pump-failure-v1&version=6'
+        model_http, body = health(model_url); model = json.loads(body)['model_version']
+        if model_http != 200 or model['version'] != '6' or model['run_id'] != 'be3b27fa0960493d92b45be69b20690e':
+            raise ValueError('The retained registry model6 changed')
+        report['steps']['mlflow_ui'] = {'container_id': tracking['Id'], 'image_id': tracking['Image'], 'state_mount_preserved': True,
+            'listener': '127.0.0.1:15000', 'model_http': model_http, 'model_version': model['version'], 'run_id': model['run_id']}; save()
         # Vault retains the same Raft directory and server key; sys/init is deliberately absent.
         recipe = root / 'outputs/vault-28/resume-active/vault.service'; raw = recipe.read_bytes()
         binary = root / 'data/runtime/vault-assets-28/vault'; pins = json.loads(args.vault_assets.read_bytes())
@@ -261,7 +288,7 @@ def run(args):
             report['steps']['vault_after_unseal'] = {'http': code, 'initialized': state.get('initialized'), 'sealed': state.get('sealed'), 'standby': state.get('standby')}
             raise ValueError('Vault has not completed Raft activation after private unseal')
         report['steps']['vault'] = {'http': code, 'cluster_id': state['cluster_id'], 'initialized': True, 'sealed': False, 'reinitialized': False}; save()
-        urls = {'prometheus': 'http://127.0.0.1:19091/-/ready', 'grafana': 'http://127.0.0.1:13001/api/health', 'loki': 'http://127.0.0.1:13100/ready', 'alloy': 'http://127.0.0.1:12345/-/ready', 'jenkins': 'http://127.0.0.1:18787/login'}
+        urls = {'prometheus': 'http://127.0.0.1:19091/-/ready', 'grafana': 'http://127.0.0.1:13001/api/health', 'loki': 'http://127.0.0.1:13100/ready', 'alloy': 'http://127.0.0.1:12345/-/ready', 'jenkins': 'http://127.0.0.1:18787/login', 'mlflow': 'http://127.0.0.1:15000/health'}
         statuses = {}
         for attempt in range(90):
             for name, url in urls.items():
