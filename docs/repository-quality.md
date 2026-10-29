@@ -42,7 +42,7 @@ Audit source hiện tại, chọn output mới:
 python scripts/audit-repository.py --output outputs/my-repository-audit --edit-proof docs/evidence/repository-audit/docstring-edits.json
 ```
 
-Package/runtime, dữ liệu và dịch vụ riêng từng máy; clone kiểm trên PC không chứng minh laptop đã chạy. [Pattern Adapter/DI/factory và ảnh source gốc](ml-class-design.md) giải thích thiết kế; [diagram](../README.md#sơ-đồ-triển-khai-hiện-có) dùng đơn vị có thể triển khai, không vẽ Feast SDK thành server.
+Package/runtime, dữ liệu và dịch vụ riêng từng máy; clone kiểm trên PC không chứng minh laptop đã chạy. [Pattern Adapter/DI/factory và ảnh source gốc](ml-class-design.md) giải thích thiết kế; [diagram](../README.md#system-diagram) dùng đơn vị có thể triển khai, không vẽ Feast SDK thành server.
 
 ## Kiểm bản phát hành có fullcohort
 

@@ -2,7 +2,7 @@
 
 ## Cập nhật28/10/2026
 
-[Sơ đồ tổng thể trong README](../README.md#sơ-đồ-triển-khai-hiện-có) phản ánh mốc hiện tại; các sơ đồ theo ngày bên dưới giữ làm lịch sử. Core vẫn là một VM8CPU/64GiB, k3s và các Compose/systemd services; chưa nhận là cluster nhiều máy hoặc đã đủ mọi yêu cầu final.
+[Sơ đồ tổng thể trong README](../README.md#system-diagram) phản ánh mốc hiện tại; các sơ đồ theo ngày bên dưới giữ làm lịch sử. Core vẫn là một VM8CPU/64GiB, k3s và các Compose/systemd services; chưa nhận là cluster nhiều máy hoặc đã đủ mọi yêu cầu final.
 
 | Luồng | Đơn vị thực thi và dữ liệu | Bằng chứng/phạm vi |
 |---|---|---|
