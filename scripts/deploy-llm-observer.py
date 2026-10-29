@@ -82,7 +82,7 @@ def run(args):
     with archive.open('rb') as stream:
         while chunk:=stream.read(1048576):archive_digest.update(chunk)
     keep('image-export.json',{'bytes':archive.stat().st_size,'sha256':archive_digest.hexdigest(),'config_digest':config_digest})
-    command('image-import',['/usr/local/bin/k3s','ctr','images','import',str(archive)],timeout=300)
+    command('image-import',['/usr/local/bin/k3s','ctr','images','import','--digests','--base-name','docker.io/library/iot-llm-observer',str(archive)],timeout=300)
     imported=json.loads(command('image-cri',['/usr/local/bin/k3s','crictl','inspecti',image['tag']]))
     assert imported['status']['id']==config_digest
     choices=[n for n in imported['status']['repoDigests'] if re.fullmatch(r'docker.io/library/iot-llm-observer@sha256:[0-9a-f]{64}',n)]
