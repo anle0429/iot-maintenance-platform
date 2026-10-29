@@ -138,6 +138,7 @@ The [private gateway](docs/agent-gateway.md) protects the chat and catalog with 
 | MCP/agent delivery | Three separate successful Jenkins pipelines; fresh API tests, tested images/charts, real tool calls, child sessions and exercised rollback | [Agent CI report and original stages](docs/ci-agents.md) |
 | Agent gateway and secrets | Authenticated private UI/catalog, actual TLS and rate checks, scoped Vault consumers and a complete delegated conversation | [Gateway report and original UI](docs/agent-gateway.md) |
 | Stream measurement pilot | Three actual router requests, provider-reported usage, original first-output/full-response clocks and replay after database reopening | [Measurements, scope and offline check](docs/llm-observability.md) |
+| Observation API canary | Fresh native coverage/mutation gates; nine real GPU-backed request outcomes reconciled with durable facts, logs and counters | [Source-tested canary and original proof](docs/llm-observability.md#source-tested-canary) |
 
 The 100 GB run covers source ingestion through Bronze/Silver. Feature engineering and ML use the separate 60-day dataset. API coverage, mutation scores and load-test measurements are recorded with their workloads in [serving CI](docs/ci-serving.md), [API validation](docs/api-validation.md) and [load testing](docs/observed-api-load.md).
 

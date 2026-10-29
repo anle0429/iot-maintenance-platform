@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-29T22:45:17.465396+00:00",
+  "tested_source_commit": "97ba77b6d538b816b6304c17031090e3820a3fa0",
+  "image": "docker.io/library/iot-llm-observer@sha256:7a4e2312a4802c35b541876bb483541ffa21c690d29c3334564095565bc8071b",
+  "config_digest": "sha256:10efee51a71fb45237fb16d1ad2f5206f8e1e1ba1de1419d1f260c741fb3965f",
+  "pod_uid": "5490d542-f65a-468d-96a3-27ad176c3785",
+  "packaged_files": {
+    "llm_observability/__init__.py": "7610c8933e72fa2e6679d2202252bde06f76938d5ec26f89698ba79c5cba414a",
+    "llm_observability/app.py": "610371fb7070bfb9a2d6f8da03a33c307540150a16773117945db946717846cf",
+    "llm_observability/contracts.py": "4958f7a3cedcdb2ab621a25750546e883cabab5ba25ff974088ae0a79ed08154",
+    "llm_observability/ledger.py": "abad5472446036aa751079d874dcb69d27419c32ecd37d962d478496ccdbcafb",
+    "llm_observability/metrics.py": "9c0b2ee66c9925a31a6c516aca22079a2aef2ad941e1b9dd198ec0ab3e8c359f",
+    "llm_observability/private_traces.py": "935ac18b30ff23e11a4949e0ed409e5d189851f8215fcaa3d6401e68546a7bfb"
+  },
+  "routing_changed": false,
+  "scope": "A separate private observer canary is ready. Original active routing, adapter, GPU, agent and model specifications are unchanged. Real canary requests and agent telemetry promotion still require separate verification."
+}

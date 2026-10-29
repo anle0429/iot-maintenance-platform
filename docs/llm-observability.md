@@ -1,5 +1,32 @@
 # Measuring model and agent activity
 
+The observation API now has a source-tested private canary on the CPU VM, forwarding real requests to the existing V100 model server. Nine model requests produced exactly nine durable facts: three completed generations, four policy rejections and two invalid requests. The active agent route remains a separate integration step.
+
+Run `python -B -S scripts/verify-llm-observer.py` to check the [quality report](evidence/llm-observer/quality-verification.json), [ready canary](evidence/llm-observer/canary-verification.json), [request results](evidence/llm-observer/probe-verification.json) and [original native archive](evidence/llm-observer/native-receipts.tar.gz). The checker requires only Python's standard library. It authenticates 894 original payloads, then independently checks mutation exits, reported usage, chunk clocks, request identities and the log/counter readbacks. This is recorded execution evidence, not a claim that a stopped VM is currently serving traffic.
+
+## Source-tested canary
+
+| Check | Recorded result |
+|---|---|
+| Native API tests | 93 cases and 305 subtests; no failures, errors or skips |
+| Statement coverage | 492/492, or 100% |
+| Branch coverage | 253/256, or 98.83% |
+| Fresh mutation gate | 2,348 killed / 2,932 total, or 80.08%; 584 survivors retained |
+| Mutation completion | Every mutant exited normally; no timeout, omission or engine-error kill |
+| Running image | All six packaged runtime files match the tested source; authenticated OCI digest |
+| Actual model requests | Three generations, four policy rejections and two invalid requests |
+| Recorded usage | 125 input + 120 output = 245 total tokens across three generations |
+
+The mutation inventory includes the actual request admission, streaming, finalization, trace receiver and middleware methods. An earlier factory-only inventory could not demonstrate that these handlers were tested. The strict gate accepts only normal failing-test exits as kills; an internal test-engine error cannot increase the score.
+
+Two streamed canary replies had client TTFTs of 0.05090 s and 0.03485 s, with full times of 0.43238 s and 0.39729 s. The third reply arrived as one JSON document in 0.26934 s, so its TTFT is absent. These are functional canary measurements on different questions, not a performance comparison. The [per-request measurements](evidence/llm-observer/generations.json) preserve the exact values.
+
+The original failed attempts are retained. The first quality build found incompatible dependency pins; completed mutation runs B, D and E stayed below the threshold, and C was deliberately interrupted to address uncovered handlers. The accepted F run starts with fresh scratch and keeps all survivors. Canary A stopped when the native image store lacked a digest reference. B stopped before workload creation because Helm had no explicit Kubernetes connection. C authenticated the immutable image reference, retained B's unchanged Secret and unused ledger, and completed installation with an explicit kubeconfig. These repairs did not alter the accepted API image or the existing agent/model specifications.
+
+The canary's prompt checks cover four explicit patterns: email addresses, labeled telephone numbers, credential assignments and direct hardware-control commands. They do not establish universal PII detection or model safety. Logs retain approved identifiers, timings, statuses and counts; the observation ledger has no prompt, answer or credential fields. The fixed canary questions and original responses are retained separately as controlled test evidence.
+
+## Earlier router pilot
+
 The first measurement checkpoint records three real streaming requests through the private model router. Their token counts come from the provider's `usage` response. Their timings come from the client reading the stream. The [original measurements](evidence/llm-observation/measurements.json), [native execution report](evidence/llm-observation/pilot-verification.json) and [unaltered native archive](evidence/llm-observation/native-receipts.tar.gz) are retained together.
 
 The established [GPU route](gpu-agent-routing.md) sends model-control requests to the V100 service. This pilot does not measure GPU utilization or compare inference engines. It checks that the stream can be observed correctly before adding monitoring to agent traffic.
@@ -56,7 +83,7 @@ The local API exercises use controlled backends and temporary databases. Native 
 
 The new observation API sits in front of the retained model-control adapter. It reads streaming bytes while forwarding them, exposes metrics and projects native OTLP traces onto an approved metadata schema. Prompt checks cover four explicit pattern categories: email, labeled telephone numbers, credential assignments and direct hardware-control commands. They are bounded coursework controls, not a universal PII detector or safety classifier.
 
-A separate Helm release is prepared for a canary. Its installation requires the source-bound native coverage and mutation gates. It retains the old adapter deployment and does not itself change the active model pool. Agent tracing, traffic promotion, native load checks, Prometheus/Loki integration and original dashboard captures remain separate acceptance steps.
+A separate Helm release now runs the accepted canary behind an internal ClusterIP service and a narrow network policy. It retains the old adapter deployment and does not change the active model pool. Agent tracing, traffic promotion, native load checks, Prometheus/Loki integration and original dashboard captures remain separate acceptance steps.
 
 The prepared internal API has explicit machine-readable failures. These response bodies are checked locally alongside their HTTP statuses:
 
