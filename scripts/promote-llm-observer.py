@@ -2,6 +2,7 @@
 from datetime import datetime,timedelta,timezone
 from hashlib import sha256
 from pathlib import Path
+from urllib.error import HTTPError
 from urllib.request import Request,ProxyHandler,build_opener
 import argparse,base64,json,os,re,subprocess,sys,time
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
@@ -93,16 +94,20 @@ def run(args):
     assert len(validationpods['items'])==1 and validationpods['items'][0]['status']['containerStatuses'][0]['state']['terminated']['exitCode']==0
     command('validator-logs',k+['logs','job/'+job,'-n','iot-llm'])
     token=base64.b64decode(get('secret','iot-llm-observer-client','-n','iot-llm')['data']['API_KEY']).decode()
-    def request(label,path,payload,authenticated=True,content_type='application/json'):
+    def request(label,path,payload,authenticated=True,content_type='application/json',expected_status=200):
         """Keep the original fixed administrative request/response bytes without retaining authentication headers."""
         service=get('service','iot-router-epp','-n','iot-llm');headers={'Content-Type':content_type}
         assert service['spec']['type']=='ClusterIP'
         if authenticated:headers['Authorization']='Bearer '+token
         (out/(label+'-request.bin')).write_bytes(payload)
-        with opener.open(Request('http://'+service['spec']['clusterIP']+':8081'+path,data=payload,headers=headers),timeout=150) as response:
+        try:response=opener.open(Request('http://'+service['spec']['clusterIP']+':8081'+path,data=payload,headers=headers),timeout=150)
+        except HTTPError as error:response=error
+        with response:
             body=response.read(2*1024**2+1);assert len(body)<=2*1024**2
             save(label+'-http.json',{'status':response.status,'headers':{k.lower():v for k,v in response.headers.items()}})
-        (out/(label+'-response.bin')).write_bytes(body);return body
+        (out/(label+'-response.bin')).write_bytes(body)
+        if response.status!=expected_status:raise ValueError(label+' returned unexpected HTTP '+str(response.status))
+        return body
     phase='router'
     try:
         router=json.loads(json.dumps(objects['router']['spec']))
@@ -119,7 +124,8 @@ def run(args):
             'messages':[{'role':'user','content':'In one sentence, why should a pump prediction identify its feature timestamp?'}]}
         reply=json.loads(request('routed-generation','/v1/chat/completions',json.dumps(body).encode()))
         assert reply['choices'][0]['finish_reason']=='stop' and reply['usage']['total_tokens']>0
-        request('routed-trace-empty',TRACE_PATH,b'',False,'application/x-protobuf')
+        rejection=json.loads(request('routed-trace-empty',TRACE_PATH,b'',False,'application/x-protobuf',400))
+        assert rejection=={'error':'invalid_otlp_trace'},'The exact private route must reach the observer validation contract'
         phase='controller';controller=json.loads(json.dumps(objects['controller']['spec']))
         containers=controller['template']['spec']['containers'];assert len(containers)==1 and containers[0]['image']=='ghcr.io/kagent-dev/kagent/controller:0.10.3'
         containers[0]['env']=controller_trace_environment(containers[0]['env'])
@@ -138,7 +144,7 @@ def run(args):
         report={'passed':True,'checked_utc':datetime.now(timezone.utc).isoformat(),'source_commit':seal['commit'],'tested_source_commit':accepted['tested_source_commit'],
             'observer_pod_uid':accepted['pod_uid'],'new_immutable_config_map':cm,'validated_envoy_image':image,'trace_environment':TRACE_ENV,
             'routing_changed':True,'original_agent_business_specs_unchanged':True,'original_control_and_gpu_specs_unchanged':True,
-            'scope':'Actual immutable Envoy validation, private trace bridge, observer pool selection, one real routed GPU response and controller trace configuration. Fresh agent executions, complete trace readbacks, monitoring, load and UI captures remain separate checks.'}
+            'scope':'Actual immutable Envoy validation, private trace route with an expected empty-batch rejection, observer pool selection, one real routed GPU response and controller trace configuration. Fresh agent executions, valid native trace readbacks, monitoring, load and UI captures remain separate checks.'}
     except BaseException as error:
         rollback=[]
         for label,kind,name,namespace,before,after in reversed(changed):
