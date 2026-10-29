@@ -1,0 +1,27 @@
+F
+================================== FAILURES ===================================
+_ test_invalid_native_clock_has_safe_unavailable_status[None-event_ts-features] _
+
+route = 'features', field = 'event_ts', value = None
+
+    @pytest.mark.parametrize('route', ['features', 'predict'])
+    @pytest.mark.parametrize('field', ['event_ts', 'received_ts'])
+    @pytest.mark.parametrize('value', INVALID_CLOCKS)
+    def test_invalid_native_clock_has_safe_unavailable_status(route, field, value):
+        """A backend200with a non-string or missing clock must become503in both feature and prediction routes."""
+        row = malformed_machine(field, value)
+        raw = row if route == 'features' else dict(prediction(), feature_trace=row)
+        upstream = httpx2.AsyncClient(transport=httpx2.MockTransport(lambda request: httpx2.Response(200, json=raw)))
+        runtime = ToolRuntime('retrieval', REFERENCE, SmallKnowledge(), upstream)
+        with TestClient(create_app(runtime, 'retrieval', TOKEN), raise_server_exceptions=False) as api:
+            response = (api.get('/v1/machines/P-001/features', headers=HEADERS) if route == 'features'
+                        else api.post('/v1/machines/P-001:predict', headers=HEADERS, json={}))
+>           assert response.status_code == 503
+E           assert 500 == 503
+E            +  where 500 = <Response [500 Internal Server Error]>.status_code
+
+tests\mcp\test_native_timestamp_types.py:40: AssertionError
+=========================== short test summary info ===========================
+FAILED tests\mcp\test_native_timestamp_types.py::test_invalid_native_clock_has_safe_unavailable_status[None-event_ts-features]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 2.76s

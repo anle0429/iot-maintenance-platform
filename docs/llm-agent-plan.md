@@ -1,6 +1,6 @@
 # LLM and agent workstream
 
-**Status: inference, bounded grounding, RAG governance and private MCP deployment/API checks verified; agent workstream incomplete.** A real llm-d router and CPU model have [native proof](llm-inference.md). The [RAG pipeline](rag-orchestration.md) and [three cited responses](llm-grounding.md) have separate acceptance records. [MCP tools](mcp-tools.md) now call those APIs through the native transport. The [agent foundation](agent-platform.md) now has native controller/catalog, Ready gVisor templates and initial tool-history proof. Complete conversations, boundary acceptance, autoscaling, warm-up and the mutation gate remain separate. Start with the [learning guide](llm-learning-guide.md) to follow the information flow.
+**Status: inference, bounded grounding, RAG governance and private MCP deployment/API checks verified; agent workstream incomplete.** A real llm-d router and CPU model have [native proof](llm-inference.md). The [RAG pipeline](rag-orchestration.md) and [three cited responses](llm-grounding.md) have separate acceptance records. [MCP tools](mcp-tools.md) now call those APIs through the native transport. The [agent foundation](agent-platform.md) now has native controller/catalog, Ready gVisor templates and initial tool-history proof. A [complete local mutation run](mcp-quality.md) now exceeds 80%; its CI integration and remaining conversation, boundary, autoscaling and warm-up work require separate acceptance. Start with the [learning guide](llm-learning-guide.md) to follow the information flow.
 
 ![Staged LLM and agent components, with verified inference and existing ML endpoints distinguished](images/platform-llm-plan.png)
 
@@ -20,7 +20,7 @@ A user asks about a machine's recent condition, risk or a relevant technical doc
 | Agents | Retrieval and drift specialists, coordinator, registry publication, multi-replica autoscaling and sandbox | [Three Ready sandbox agents and published catalog identities](agent-platform.md); complete chat, boundary and scaling acceptance open |
 | Startup | Agent Substrate warm-up, worker-pool HA explanation and startup benchmark | Native golden snapshots and two workers per role; measured cold/warm comparison and HA explanation open |
 | Delivery | RAG and agent/MCP test-build-auto-deploy pipelines, gateway/UI access and secrets | ML CI/gateway/Vault are reusable baselines |
-| Evaluation | Notebooks, coverage >90%, mutation >80%, boundary/property tests and native load HTML | [79 native MCP tests and load reports](mcp-tools.md); mutation and future agent checks remain open |
+| Evaluation | Notebooks, coverage >90%, mutation >80%, boundary/property tests and native load HTML | [79 native MCP tests and load reports](mcp-tools.md); [132 current tests and local mutation gate](mcp-quality.md); notebooks, CI integration and agent checks remain open |
 | Operations | Token counts, round-trip time, TTFT, safety/PII hits, agent/tool calls/failures and A/B | Existing metrics/log/trace backends; new telemetry missing |
 | Extensions | Two documented LLM-track ideas with working proof | Selection and acceptance still open |
 

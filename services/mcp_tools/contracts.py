@@ -58,7 +58,9 @@ class MachineData(BaseModel):
         if self.operating_context.get('status') not in ['operating', 'failed', 'maintenance']:
             raise ValueError('Unknown operating state')
         for field in ['event_ts', 'received_ts']:
-            value = datetime.fromisoformat(self.operating_context[field].replace('Z', '+00:00'))
+            timestamp = self.operating_context.get(field)
+            if not isinstance(timestamp, str): raise ValueError('Operating timestamps must be ISO8601 strings')
+            value = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
             if value.tzinfo is None or value > self.as_of: raise ValueError('Unavailable operating context')
         event = datetime.fromisoformat(self.operating_context['event_ts'].replace('Z','+00:00'))
         received = datetime.fromisoformat(self.operating_context['received_ts'].replace('Z','+00:00'))

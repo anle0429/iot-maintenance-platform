@@ -27,9 +27,15 @@ def verify():
     assert 'initial-mutation/native/proof/.coverage' in excluded
     assert curation['previous_manifest_sha256'] == 'f6fdd3de2a7bff42aa06a24584eb1c2f37a3cd9142695ee407bf7b99973cf906'
     assert curation['native_archive_sha256'] == '6d8aa7d3ade8a727df360b274042cf55db0a77b56b4444bec16935e379197b56'
-    seal = sources(base, 'success', current=True)
-    sources(base, 'load', current=True)
-    sources(base, 'quality-baseline', current=True)
+    historical_differences = {}
+    for prefix in ['success', 'load', 'quality-baseline']:
+        recorded = sources(base, prefix)
+        changed = [name for name, pin in recorded['files'].items()
+                   if sha256((ROOT / name).read_bytes()).hexdigest() != pin]
+        # The timestamp validation fix has separate local quality evidence; retain these original deployed bytes.
+        assert set(changed) <= {'services/mcp_tools/contracts.py'}
+        historical_differences[prefix] = changed
+    seal = sources(base, 'success')
     for prefix in ['initial-namespace-failure', 'initial-feature-failure', 'initial-client-failure', 'initial-capacity-failure', 'initial-mutation']:
         sources(base, prefix)
     result = read(base, 'success/native/verification.json')
@@ -180,7 +186,9 @@ def verify():
             'branch_coverage_percent': 100 * 96 / 106, 'locust_requests': requests,
             'initial_mutation_gate_passed': False, 'initial_mutation_score_percent': mutation['mutation_score_percent'],
             'expanded_mutation_gate_passed': False, 'expanded_mutation_score_percent': expanded['mutation_score_percent'],
-            'scope': 'Recorded private MCP/REST transport, deployment, baseline API quality and feature-read load. Both mutation gates failed; agents, registry, sandbox, CI and full LLM telemetry remain incomplete.'}
+            'recorded_api_source_matches_current': not any(historical_differences.values()),
+            'changed_since_recorded_deployment': historical_differences,
+            'scope': 'Historical private MCP/REST transport, deployment, baseline API quality and feature-read load. Both recorded VM mutation gates failed. A later timestamp validation fix and local Cosmic Ray run have separate evidence; this capture does not prove their deployment. Agents, sandbox, CI and full LLM telemetry remain incomplete.'}
 
 
 if __name__ == '__main__':

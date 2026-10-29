@@ -1,0 +1,15 @@
+[10/29/26 03:10:44] INFO     INFO:root:Reading config from        config.py:115
+                             '../cosmic-ray.toml'                              
+                    INFO     INFO:cosmic_ray.commands.execute:Beg execute.py:46
+                             inning execution                                  
+                    INFO     INFO:cosmic_ray.testing:Running test testing.py:50
+                             (timeout=60.0): python -m pytest                  
+                             tests/mcp -x -q                                   
+                    INFO     INFO:cosmic_ray.commands.execute:Job execute.py:44
+                             baseline complete                                 
+                    INFO     INFO:cosmic_ray.commands.execute:Exe execute.py:54
+                             cution finished                                   
+                    ERROR    ERROR:root:Baseline failed. Execution   cli.py:195
+                             with no mutation gives those following            
+                             errors:                                           
+                               >>>                                             

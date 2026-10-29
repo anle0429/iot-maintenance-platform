@@ -4,7 +4,7 @@
 
 The selected scope is now final ML plus final LLM/agents. The supplied workbook has 57 weighted ML rows and 60 weighted LLM rows, with 100 source points per sheet. These are source weights, not self-awarded marks. The original source cells and workbook bytes are preserved separately from the pinned English views.
 
-Recorded ML lab evidence covers the linked ML requirements within documented boundaries. CPU inference and llm-d routing have [separate native proof](llm-inference.md). [RAG ingestion/governance](rag-orchestration.md) and [three grounded responses](llm-grounding.md) are also verified. [Native MCP deployment and API/load checks](mcp-tools.md) now have separate evidence; the new mutation gate and agent requirements remain incomplete, so the whole selected coursework must not be described as complete. Shared infrastructure or ML API tests are not relabeled as MCP/agent proof.
+Recorded ML lab evidence covers the linked ML requirements within documented boundaries. CPU inference and llm-d routing have [separate native proof](llm-inference.md). [RAG ingestion/governance](rag-orchestration.md) and [three grounded responses](llm-grounding.md) are also verified. [Native MCP deployment and API/load checks](mcp-tools.md) have separate evidence, and a [complete local mutation gate](mcp-quality.md) now exceeds 80%. Full agent acceptance and remaining delivery requirements are incomplete, so the whole selected coursework must not be described as complete. Shared infrastructure or ML API tests are not relabeled as MCP/agent proof.
 
 ## Audit method
 
