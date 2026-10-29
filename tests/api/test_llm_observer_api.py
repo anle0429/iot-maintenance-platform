@@ -2,13 +2,17 @@
 from pathlib import Path
 from hashlib import sha256
 from tempfile import TemporaryDirectory
-import asyncio,json,unittest
+from contextlib import redirect_stdout
+from io import StringIO
+from unittest.mock import patch
+import asyncio,json,sqlite3,unittest
 import httpx
 from fastapi.testclient import TestClient
 from opentelemetry.sdk.trace.export.in_memory_span_exporter import InMemorySpanExporter
 from hypothesis import given,settings,strategies as st
 from prometheus_client.parser import text_string_to_metric_families
 from llm_observability.app import create_app
+import llm_observability.app as observer
 from llm_observability.ledger import TelemetryLedger
 from tests.test_llm_observation_contracts import event,question
 from tests.test_llm_private_traces import batch
@@ -243,6 +247,36 @@ class ObserverApiTests(unittest.TestCase):
         """Only an omitted credential requests the mounted file; explicit malformed values fail validation."""
         for token in ['',False,[],{},'x'*31]:
             with self.subTest(token=token),self.assertRaises(ValueError):create_app(ledger=self.store,client=self.upstream,token=token,span_exporter=self.exporter,emit=self.logs.append)
+
+    def test_failed_store_returns_a_safe_unavailable_response_before_gpu_execution(self):
+        """Exercise the actual shared SQLite exception handler and exclude internal database details from the API."""
+        self.store.close();response=self.post()
+        self.assertEqual(response.status_code,503);self.assertEqual(response.json(),{'error':{'code':'observation_unavailable'}})
+        self.assertEqual(self.requests,[]);self.assertNotIn('sqlite',response.text);self.assertNotIn('closed',response.text)
+
+    def test_default_log_sink_writes_one_parseable_structured_event(self):
+        """Container output must contain one complete JSON event per line rather than a Python object representation."""
+        value={'event':'model_request','status':422,'usage':None,'policy_categories':['pii_email']};output=StringIO()
+        with redirect_stdout(output):observer.emit_fact(value)
+        lines=output.getvalue().splitlines();self.assertEqual(len(lines),1);self.assertEqual(json.loads(lines[0]),value)
+        self.assertTrue(output.getvalue().endswith('\n'))
+
+    def test_production_defaults_read_only_the_mounted_key_and_close_owned_adapters(self):
+        """Verify the credential mount, fixed exporter, proxy/redirect refusal and cleanup using real temporary adapters."""
+        own_store=TelemetryLedger(Path(self.directory.name)/'owned.sqlite')
+        own_client=httpx.AsyncClient(transport=httpx.MockTransport(lambda _:httpx.Response(200,json={'ready':True})),trust_env=False)
+        own_exporter=InMemorySpanExporter()
+        with patch.object(observer,'TelemetryLedger',return_value=own_store) as storage,patch.object(observer.httpx,'AsyncClient',return_value=own_client) as transport,\
+             patch.object(observer,'OTLPSpanExporter',return_value=own_exporter) as exporter,\
+             patch.object(Path,'read_text',autospec=True,return_value=TOKEN+'\n') as credential:
+            app=create_app()
+            storage.assert_called_once_with('/var/lib/iot-llm-observer/telemetry.sqlite')
+            credential.assert_called_once_with(Path('/var/run/iot-llm-observer/API_KEY'))
+            self.assertFalse(transport.call_args.kwargs['trust_env']);self.assertFalse(transport.call_args.kwargs['follow_redirects'])
+            exporter.assert_called_once_with(endpoint=EXPECTED_TRACE,timeout=3)
+        with TestClient(app) as api:self.assertEqual(api.get('/health/live').json(),{'live':True})
+        self.assertTrue(own_client.is_closed)
+        with self.assertRaises(sqlite3.ProgrammingError):own_store.rows()
 
     @settings(max_examples=24,deadline=None,derandomize=True)
     @given(st.from_regex(r'[a-z]{1,12}',fullmatch=True))
