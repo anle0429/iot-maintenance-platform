@@ -11,6 +11,7 @@ Chuẩn kiểm là **57 dòng có trọng số của sheet final-coursework và 
 | Các dịch vụ systemd chạy tạm không tự trở lại sau VM STOP | Thêm `resume-demo-services.py`: phục hồi monitor, relay CNI của gateway, Alloy discovery, Jenkins và Vault; gia hạn JWT có scope cũ | Health của các dịch vụ trả200; giữ Jenkins home/ảnh container và Vault cluster ID/Raft; mở khóa thay vì init lại |
 | AppRole/Jenkins credential hết hạn theo phiên | Cờ `--renew-consumers` cấp secret-id mới cho hai role cũ và cập nhật đúng một Jenkins SecretText | Quyền giữ nguyên; secret-id có20lượt dùng và hết hạn trước phiên VM; giá trị thật chỉ ở runtime/Vault/Jenkins |
 | Cache hết hạn và hướng dẫn cũ dùng cầu review tạm | Thêm `refresh-demo-feature.py` và `demo-feature-api.py`; tài liệu dùng port-forward/IAP chuẩn | Materialize200máy thật, immutable seed mới, cùng model6; chín HTTP case qua và score tính lại khớp |
+| Chứng chỉ máy chủ cũ hết hạn30/10, trước ngày nộp | Thêm `renew-demo-certificates.py`, cấp lại chứng chỉ bằng khóa bảo vệ hiện có và giữ bản cũ để phục hồi | X509 thật theo đồng hồ thật; bốn route HTTPS200 và peer fingerprint khớp chứng chỉ mới; Vault giữ cluster ID, không init lại |
 
 [Kịch bản tự chạy và trình bày](demo-walkthrough.md) là điểm bắt đầu mới. [Bàn giao cũ](final-handover.md) giữ lịch sử bằng chứng; các giờ hết hạn trong lượt cũ không phải trạng thái live hiện tại.
 
@@ -48,7 +49,7 @@ Kết quả gồm25console gốc và `verification.json`. Chín capsule bổ sun
 
 - Bật cùng VM trong phiên đã được duyệt; kiểm nguyên8giờ tự STOP và các đĩa.
 - Phục hồi dịch vụ và credential có hạn bằng CLI; chỉ materialize khi cache/lease cũ đã hết hạn. Không sửa `prepared_wall_utc` để kéo dài demo.
-- Kiểm hạn certificate lab trước buổi trình bày. Server certificate ban đầu có hạn2ngày, CA3ngày; cần cấp lại theo quy trình TLS nếu demo sau hạn, giữ CA/hostname verification.
+- Kiểm hạn certificate lab trước buổi trình bày. Lượt cấp lại29/10 UTC đã cho server hạn đến **05/11/2026 00:18:40 UTC**, CA đến12/11; lần cấp sau dùng CLI trong hướng dẫn, giữ kiểm CA/hostname. Chứng chỉ cũ trong capsule lịch sử vẫn giữ byte gốc.
 - Giữ bí mật nằm ngoài Git và bài nộp. Dữ liệu/runtime của VM không tự xuất hiện trên laptop khi clone.
 
 Các lần lỗi đầu của công cụ resume được giữ trong lịch sử receipt: thiếu đường dẫn asset khi chạy từ `/tmp`, chờ Raft chưa đủ sau unseal, và lỗi trùng tên hàm với module `http`. Lượt hoàn tất chỉ được ghi PASS sau khi sửa và chạy lại; không sửa các receipt lỗi thành thành công.
