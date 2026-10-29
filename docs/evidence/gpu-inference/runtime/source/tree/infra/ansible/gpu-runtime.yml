@@ -1,0 +1,141 @@
+# Configure only the dedicated GPU worker after the pinned Google driver installer has completed.
+- name: Configure private GPU inference containers
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  vars:
+    iot_gpu_root: /srv/iot-inference
+    iot_toolkit_version: 1.20.1-1
+  pre_tasks:
+    - name: Require the authorized project and dedicated worker name
+      ansible.builtin.assert:
+        that:
+          - expected_project_id is defined
+          - ansible_facts.distribution == 'Ubuntu'
+          - ansible_facts.distribution_version == '24.04'
+          - ansible_facts.memtotal_mb >= 14000
+    - name: Read actual project identity
+      ansible.builtin.uri:
+        url: http://metadata.google.internal/computeMetadata/v1/project/project-id
+        headers: {Metadata-Flavor: Google}
+        return_content: true
+        use_proxy: false
+      register: iot_gpu_project
+      no_log: true
+    - name: Read actual instance name
+      ansible.builtin.uri:
+        url: http://metadata.google.internal/computeMetadata/v1/instance/name
+        headers: {Metadata-Flavor: Google}
+        return_content: true
+        use_proxy: false
+      register: iot_gpu_instance
+      no_log: true
+    - name: Refuse changes to the data/control VM or another project
+      ansible.builtin.assert:
+        that:
+          - iot_gpu_project.content == expected_project_id
+          - iot_gpu_instance.content == 'iot-cw-gpu'
+    - name: Require an already functioning NVIDIA device driver
+      ansible.builtin.command:
+        argv: [nvidia-smi, '--query-gpu=name,driver_version,memory.total', '--format=csv,noheader']
+      changed_when: false
+      register: iot_gpu_driver
+    - name: Require one reviewed V100 device and the compatible driver branch
+      ansible.builtin.assert:
+        that:
+          - iot_gpu_driver.stdout_lines | length == 1
+          - "'V100' in iot_gpu_driver.stdout"
+          - "'580.' in iot_gpu_driver.stdout"
+  tasks:
+    - name: Install package and repository prerequisites
+      ansible.builtin.apt:
+        name: [ca-certificates, curl, gnupg2]
+        state: present
+        update_cache: true
+        lock_timeout: 300
+    - name: Create dedicated runtime and signing-key directories
+      ansible.builtin.file:
+        path: '{{ item }}'
+        state: directory
+        mode: '0755'
+      loop: [/etc/apt/keyrings, /etc/docker, /srv/iot-inference/docker]
+    - name: Obtain the checksum-pinned official Docker signing key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/iot-docker.asc
+        checksum: sha256:1500c1f56fa9e26b9b8f42452a553675796ade0807cdce11975eb98170b3a570
+        mode: '0644'
+    - name: Configure the signed Docker Ubuntu repository
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/iot-docker.sources
+        mode: '0644'
+        content: |
+          Types: deb
+          URIs: https://download.docker.com/linux/ubuntu
+          Suites: noble
+          Components: stable
+          Architectures: amd64
+          Signed-By: /etc/apt/keyrings/iot-docker.asc
+    - name: Obtain the checksum-pinned NVIDIA repository signing key
+      ansible.builtin.get_url:
+        url: https://nvidia.github.io/libnvidia-container/gpgkey
+        dest: /etc/apt/keyrings/iot-nvidia.asc
+        checksum: sha256:c880576d6cf75a48e5027a871bac70fd0421ab07d2b55f30877b21f1c87959c9
+        mode: '0644'
+    - name: Configure the signed stable NVIDIA container repository
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/iot-nvidia-container.sources
+        mode: '0644'
+        content: |
+          Types: deb
+          URIs: https://nvidia.github.io/libnvidia-container/stable/deb/amd64
+          Suites: /
+          Signed-By: /etc/apt/keyrings/iot-nvidia.asc
+    - name: Install the pinned Docker engine and NVIDIA container runtime
+      ansible.builtin.apt:
+        name:
+          - docker-ce=5:29.9.2-1~ubuntu.24.04~noble
+          - docker-ce-cli=5:29.9.2-1~ubuntu.24.04~noble
+          - containerd.io
+          - nvidia-container-toolkit={{ iot_toolkit_version }}
+          - nvidia-container-toolkit-base={{ iot_toolkit_version }}
+          - libnvidia-container-tools={{ iot_toolkit_version }}
+          - libnvidia-container1={{ iot_toolkit_version }}
+        state: present
+        update_cache: true
+        lock_timeout: 300
+    - name: Keep Docker logs bounded and store its data in the worker root
+      ansible.builtin.copy:
+        dest: /etc/docker/daemon.json
+        mode: '0644'
+        validate: /usr/bin/dockerd --validate --config-file %s
+        force: false
+        content: |
+          {"data-root":"/srv/iot-inference/docker","log-driver":"local","log-opts":{"max-size":"10m","max-file":"3"}}
+      notify: Restart GPU worker Docker
+    - name: Read existing Docker runtime configuration
+      ansible.builtin.slurp:
+        src: /etc/docker/daemon.json
+      register: iot_gpu_daemon
+    - name: Register NVIDIA only when its runtime is absent
+      ansible.builtin.command:
+        argv: [nvidia-ctk, runtime, configure, --runtime=docker]
+      when: "'nvidia' not in ((iot_gpu_daemon.content | b64decode | from_json).get('runtimes', {}))"
+      notify: Restart GPU worker Docker
+    - name: Apply runtime configuration before the hardware readback
+      ansible.builtin.meta: flush_handlers
+    - name: Read installed runtime versions
+      ansible.builtin.command:
+        argv: [nvidia-ctk, --version]
+      changed_when: false
+    - name: Read the registered Docker runtimes
+      ansible.builtin.command:
+        argv: [docker, info, --format, '{{ "{{json .Runtimes}}" }}']
+      changed_when: false
+  handlers:
+    - name: Restart GPU worker Docker
+      ansible.builtin.systemd_service:
+        name: docker
+        state: restarted
+        enabled: true

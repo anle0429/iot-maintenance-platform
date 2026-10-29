@@ -1,0 +1,364 @@
+{
+  "Id": "da2cd276d9446083e7a7d0e459afbef79add56fd0a0656f94ca34c7af3c732a1",
+  "Created": "2026-10-29T11:38:54.412559645Z",
+  "Path": "/app/llama-server",
+  "Args": [
+    "--model",
+    "/models/qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf",
+    "--alias",
+    "iot-qwen2.5-7b",
+    "--host",
+    "0.0.0.0",
+    "--port",
+    "8080",
+    "--ctx-size",
+    "8192",
+    "--threads",
+    "3",
+    "--threads-batch",
+    "3",
+    "--parallel",
+    "1",
+    "--n-gpu-layers",
+    "0",
+    "--jinja",
+    "--metrics",
+    "--no-webui"
+  ],
+  "State": {
+    "Status": "running",
+    "Running": true,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 33270,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-29T11:39:00.114394989Z",
+    "FinishedAt": "0001-01-01T00:00:00Z",
+    "Health": {
+      "Status": "healthy",
+      "FailingStreak": 0,
+      "Log": [
+        {
+          "Start": "2026-10-29T11:41:00.770637176Z",
+          "End": "2026-10-29T11:41:00.885068149Z",
+          "ExitCode": 0,
+          "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100    15  100    15    0     0   2464   {\"status\":\"ok\"}   0 --:--:-- --:--:-- --:--:--  3000\n"
+        },
+        {
+          "Start": "2026-10-29T11:41:30.886229955Z",
+          "End": "2026-10-29T11:41:30.994274503Z",
+          "ExitCode": 0,
+          "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100    15  100    15    0     0   9548      0 --:--:-- --:--:-- --:--:-- 15000\n{\"status\":\"ok\"}"
+        },
+        {
+          "Start": "2026-10-29T11:42:00.999758452Z",
+          "End": "2026-10-29T11:42:01.101711412Z",
+          "ExitCode": 0,
+          "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100    15  100    15    0     0   9609      0 --:--:-- --:--:-- --:--:-- 15000\n{\"status\":\"ok\"}"
+        },
+        {
+          "Start": "2026-10-29T11:42:31.103117226Z",
+          "End": "2026-10-29T11:42:31.232670466Z",
+          "ExitCode": 0,
+          "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100    15  100    15    0{\"status\":\"ok\"}     0    512      0 --:--:-- --:--:-- --:--:--   517\n"
+        },
+        {
+          "Start": "2026-10-29T11:43:01.234592935Z",
+          "End": "2026-10-29T11:43:01.37610533Z",
+          "ExitCode": 0,
+          "Output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\r  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\r100    15  100    15    0     0    782      0 --:--:-- --:--:-- --:--:--   789\n{\"status\":\"ok\"}"
+        }
+      ]
+    }
+  },
+  "Image": "sha256:d854233e9f043046f363953047ff518a9792b044cea1d53f86d299e88344cd5f",
+  "ResolvConfPath": "/srv/iot-inference/docker/containers/da2cd276d9446083e7a7d0e459afbef79add56fd0a0656f94ca34c7af3c732a1/resolv.conf",
+  "HostnamePath": "/srv/iot-inference/docker/containers/da2cd276d9446083e7a7d0e459afbef79add56fd0a0656f94ca34c7af3c732a1/hostname",
+  "HostsPath": "/srv/iot-inference/docker/containers/da2cd276d9446083e7a7d0e459afbef79add56fd0a0656f94ca34c7af3c732a1/hosts",
+  "LogPath": "",
+  "Name": "/iot-gpu-benchmark-29a-cpu",
+  "RestartCount": 0,
+  "Driver": "overlayfs",
+  "Platform": "linux",
+  "MountLabel": "",
+  "ProcessLabel": "",
+  "AppArmorProfile": "docker-default",
+  "ExecIDs": null,
+  "HostConfig": {
+    "Binds": null,
+    "ContainerIDFile": "",
+    "LogConfig": {
+      "Type": "local",
+      "Config": {
+        "max-file": "3",
+        "max-size": "10m"
+      }
+    },
+    "NetworkMode": "bridge",
+    "PortBindings": {
+      "8080/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "18084"
+        }
+      ]
+    },
+    "RestartPolicy": {
+      "Name": "no",
+      "MaximumRetryCount": 0
+    },
+    "AutoRemove": false,
+    "VolumeDriver": "",
+    "VolumesFrom": null,
+    "ConsoleSize": [
+      0,
+      0
+    ],
+    "CapAdd": null,
+    "CapDrop": [
+      "ALL"
+    ],
+    "CgroupnsMode": "private",
+    "Dns": null,
+    "DnsOptions": [],
+    "DnsSearch": [],
+    "ExtraHosts": null,
+    "GroupAdd": null,
+    "IpcMode": "private",
+    "Cgroup": "",
+    "Links": null,
+    "OomScoreAdj": 0,
+    "PidMode": "",
+    "Privileged": false,
+    "PublishAllPorts": false,
+    "ReadonlyRootfs": true,
+    "SecurityOpt": [
+      "no-new-privileges"
+    ],
+    "Tmpfs": {
+      "/tmp": "rw,noexec,nosuid,size=128m"
+    },
+    "UTSMode": "",
+    "UsernsMode": "",
+    "ShmSize": 67108864,
+    "Runtime": "runc",
+    "Isolation": "",
+    "CpuShares": 0,
+    "Memory": 10737418240,
+    "NanoCpus": 3000000000,
+    "CgroupParent": "",
+    "BlkioWeight": 0,
+    "BlkioWeightDevice": [],
+    "BlkioDeviceReadBps": [],
+    "BlkioDeviceWriteBps": [],
+    "BlkioDeviceReadIOps": [],
+    "BlkioDeviceWriteIOps": [],
+    "CpuPeriod": 0,
+    "CpuQuota": 0,
+    "CpuRealtimePeriod": 0,
+    "CpuRealtimeRuntime": 0,
+    "CpusetCpus": "",
+    "CpusetMems": "",
+    "Devices": [],
+    "DeviceCgroupRules": null,
+    "DeviceRequests": [
+      {
+        "Driver": "",
+        "Count": -1,
+        "DeviceIDs": null,
+        "Capabilities": [
+          [
+            "gpu"
+          ]
+        ],
+        "Options": {}
+      }
+    ],
+    "MemoryReservation": 0,
+    "MemorySwap": 10737418240,
+    "MemorySwappiness": null,
+    "OomKillDisable": null,
+    "PidsLimit": null,
+    "Ulimits": null,
+    "CpuCount": 0,
+    "CpuPercent": 0,
+    "IOMaximumIOps": 0,
+    "IOMaximumBandwidth": 0,
+    "Mounts": [
+      {
+        "Type": "bind",
+        "Source": "/srv/iot-inference/models/iot-qwen2.5-7b",
+        "Target": "/models",
+        "ReadOnly": true
+      }
+    ],
+    "MaskedPaths": [
+      "/proc/acpi",
+      "/proc/asound",
+      "/proc/interrupts",
+      "/proc/kcore",
+      "/proc/keys",
+      "/proc/latency_stats",
+      "/proc/sched_debug",
+      "/proc/scsi",
+      "/proc/timer_list",
+      "/proc/timer_stats",
+      "/sys/devices/virtual/powercap",
+      "/sys/firmware"
+    ],
+    "ReadonlyPaths": [
+      "/proc/bus",
+      "/proc/fs",
+      "/proc/irq",
+      "/proc/sys",
+      "/proc/sysrq-trigger"
+    ]
+  },
+  "Storage": {
+    "RootFS": {
+      "Snapshot": {
+        "Name": "overlayfs"
+      }
+    }
+  },
+  "Mounts": [
+    {
+      "Type": "bind",
+      "Source": "/srv/iot-inference/models/iot-qwen2.5-7b",
+      "Destination": "/models",
+      "Mode": "",
+      "RW": false,
+      "Propagation": "rprivate"
+    }
+  ],
+  "Config": {
+    "Hostname": "da2cd276d944",
+    "Domainname": "",
+    "User": "10001:10001",
+    "AttachStdin": false,
+    "AttachStdout": false,
+    "AttachStderr": false,
+    "ExposedPorts": {
+      "8080/tcp": {}
+    },
+    "Tty": false,
+    "OpenStdin": false,
+    "StdinOnce": false,
+    "Env": [
+      "PATH=/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "NVARCH=x86_64",
+      "NVIDIA_REQUIRE_CUDA=cuda>=12.8 brand=unknown,driver>=470,driver<471 brand=grid,driver>=470,driver<471 brand=tesla,driver>=470,driver<471 brand=nvidia,driver>=470,driver<471 brand=quadro,driver>=470,driver<471 brand=quadrortx,driver>=470,driver<471 brand=nvidiartx,driver>=470,driver<471 brand=vapps,driver>=470,driver<471 brand=vpc,driver>=470,driver<471 brand=vcs,driver>=470,driver<471 brand=vws,driver>=470,driver<471 brand=cloudgaming,driver>=470,driver<471 brand=unknown,driver>=535,driver<536 brand=grid,driver>=535,driver<536 brand=tesla,driver>=535,driver<536 brand=nvidia,driver>=535,driver<536 brand=quadro,driver>=535,driver<536 brand=quadrortx,driver>=535,driver<536 brand=nvidiartx,driver>=535,driver<536 brand=vapps,driver>=535,driver<536 brand=vpc,driver>=535,driver<536 brand=vcs,driver>=535,driver<536 brand=vws,driver>=535,driver<536 brand=cloudgaming,driver>=535,driver<536 brand=unknown,driver>=550,driver<551 brand=grid,driver>=550,driver<551 brand=tesla,driver>=550,driver<551 brand=nvidia,driver>=550,driver<551 brand=quadro,driver>=550,driver<551 brand=quadrortx,driver>=550,driver<551 brand=nvidiartx,driver>=550,driver<551 brand=vapps,driver>=550,driver<551 brand=vpc,driver>=550,driver<551 brand=vcs,driver>=550,driver<551 brand=vws,driver>=550,driver<551 brand=cloudgaming,driver>=550,driver<551 brand=unknown,driver>=560,driver<561 brand=grid,driver>=560,driver<561 brand=tesla,driver>=560,driver<561 brand=nvidia,driver>=560,driver<561 brand=quadro,driver>=560,driver<561 brand=quadrortx,driver>=560,driver<561 brand=nvidiartx,driver>=560,driver<561 brand=vapps,driver>=560,driver<561 brand=vpc,driver>=560,driver<561 brand=vcs,driver>=560,driver<561 brand=vws,driver>=560,driver<561 brand=cloudgaming,driver>=560,driver<561 brand=unknown,driver>=565,driver<566 brand=grid,driver>=565,driver<566 brand=tesla,driver>=565,driver<566 brand=nvidia,driver>=565,driver<566 brand=quadro,driver>=565,driver<566 brand=quadrortx,driver>=565,driver<566 brand=nvidiartx,driver>=565,driver<566 brand=vapps,driver>=565,driver<566 brand=vpc,driver>=565,driver<566 brand=vcs,driver>=565,driver<566 brand=vws,driver>=565,driver<566 brand=cloudgaming,driver>=565,driver<566",
+      "NV_CUDA_CUDART_VERSION=12.8.90-1",
+      "CUDA_VERSION=12.8.1",
+      "LD_LIBRARY_PATH=/usr/local/cuda/lib64",
+      "NVIDIA_VISIBLE_DEVICES=all",
+      "NVIDIA_DRIVER_CAPABILITIES=compute,utility",
+      "NV_CUDA_LIB_VERSION=12.8.1-1",
+      "NV_NVTX_VERSION=12.8.90-1",
+      "NV_LIBNPP_VERSION=12.3.3.100-1",
+      "NV_LIBNPP_PACKAGE=libnpp-12-8=12.3.3.100-1",
+      "NV_LIBCUSPARSE_VERSION=12.5.8.93-1",
+      "NV_LIBCUBLAS_PACKAGE_NAME=libcublas-12-8",
+      "NV_LIBCUBLAS_VERSION=12.8.4.1-1",
+      "NV_LIBCUBLAS_PACKAGE=libcublas-12-8=12.8.4.1-1",
+      "NV_LIBNCCL_PACKAGE_NAME=libnccl2",
+      "NV_LIBNCCL_PACKAGE_VERSION=2.25.1-1",
+      "NCCL_VERSION=2.25.1-1",
+      "NV_LIBNCCL_PACKAGE=libnccl2=2.25.1-1+cuda12.8",
+      "NVIDIA_PRODUCT_NAME=CUDA",
+      "LLAMA_ARG_HOST=0.0.0.0",
+      "LLAMA_ARG_PORT=8080"
+    ],
+    "Cmd": [
+      "--model",
+      "/models/qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf",
+      "--alias",
+      "iot-qwen2.5-7b",
+      "--host",
+      "0.0.0.0",
+      "--port",
+      "8080",
+      "--ctx-size",
+      "8192",
+      "--threads",
+      "3",
+      "--threads-batch",
+      "3",
+      "--parallel",
+      "1",
+      "--n-gpu-layers",
+      "0",
+      "--jinja",
+      "--metrics",
+      "--no-webui"
+    ],
+    "Healthcheck": {
+      "Test": [
+        "CMD",
+        "curl",
+        "-f",
+        "http://localhost:8080/health"
+      ]
+    },
+    "Image": "ghcr.io/ggml-org/llama.cpp@sha256:d854233e9f043046f363953047ff518a9792b044cea1d53f86d299e88344cd5f",
+    "Volumes": null,
+    "WorkingDir": "/app",
+    "Entrypoint": [
+      "/app/llama-server"
+    ],
+    "Labels": {
+      "maintainer": "NVIDIA CORPORATION <cudatools@nvidia.com>",
+      "org.opencontainers.image.created": "2026-10-29T04:28:07Z",
+      "org.opencontainers.image.description": "LLM inference in C/C++",
+      "org.opencontainers.image.ref.name": "ubuntu",
+      "org.opencontainers.image.revision": "7ac5727d6037ec99c31a28c6520f45de154199d9",
+      "org.opencontainers.image.source": "https://github.com/ggml-org/llama.cpp",
+      "org.opencontainers.image.title": "llama.cpp",
+      "org.opencontainers.image.url": "https://github.com/ggml-org/llama.cpp",
+      "org.opencontainers.image.version": "b11977"
+    }
+  },
+  "NetworkSettings": {
+    "SandboxID": "a5de859d44f3259e95b83a392350c88e0fd2d4adf4dd003664d3a7876dbd76e2",
+    "SandboxKey": "/var/run/docker/netns/a5de859d44f3",
+    "Ports": {
+      "8080/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "18084"
+        }
+      ]
+    },
+    "Networks": {
+      "bridge": {
+        "IPAMConfig": null,
+        "Links": null,
+        "Aliases": null,
+        "DriverOpts": null,
+        "GwPriority": 0,
+        "NetworkID": "23ce79581f16e59ea8cc36d0377b66a4811dc37aabcb7ca710e8d4c72e96b323",
+        "EndpointID": "6ba052ca6dc656da2d0266c090ba463a0eefc1762f7b1da54699f3a0d0305800",
+        "Gateway": "172.17.0.1",
+        "IPAddress": "172.17.0.2",
+        "MacAddress": "de:f8:da:82:e4:bb",
+        "IPPrefixLen": 16,
+        "IPv6Gateway": "",
+        "GlobalIPv6Address": "",
+        "GlobalIPv6PrefixLen": 0,
+        "DNSNames": null
+      }
+    }
+  },
+  "ImageManifestDescriptor": {
+    "mediaType": "application/vnd.oci.image.manifest.v1+json",
+    "digest": "sha256:d854233e9f043046f363953047ff518a9792b044cea1d53f86d299e88344cd5f",
+    "size": 3273,
+    "platform": {
+      "architecture": "amd64",
+      "os": "linux"
+    }
+  }
+}

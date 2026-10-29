@@ -1,0 +1,40 @@
+{
+  "guestAccelerators": [
+    {
+      "acceleratorCount": 1,
+      "acceleratorType": "https://www.googleapis.com/compute/v1/projects/project-208f5905-011e-4ae9-9a5/zones/us-central1-a/acceleratorTypes/nvidia-tesla-v100"
+    }
+  ],
+  "id": "11538226507322059",
+  "lastStartTimestamp": "2026-10-29T04:21:38.146-07:00",
+  "machineType": "https://www.googleapis.com/compute/v1/projects/project-208f5905-011e-4ae9-9a5/zones/us-central1-a/machineTypes/n1-standard-4",
+  "name": "iot-cw-gpu",
+  "networkInterfaces": [
+    {
+      "fingerprint": "Krin6p7aVZM=",
+      "kind": "compute#networkInterface",
+      "name": "nic0",
+      "network": "https://www.googleapis.com/compute/v1/projects/project-208f5905-011e-4ae9-9a5/global/networks/iot-cw-network",
+      "networkIP": "10.42.0.7",
+      "stackType": "IPV4_ONLY",
+      "subnetwork": "https://www.googleapis.com/compute/v1/projects/project-208f5905-011e-4ae9-9a5/regions/us-central1/subnetworks/iot-cw-subnet"
+    }
+  ],
+  "scheduling": {
+    "automaticRestart": false,
+    "instanceTerminationAction": "STOP",
+    "maxRunDuration": {
+      "nanos": 0,
+      "seconds": "28800"
+    },
+    "onHostMaintenance": "TERMINATE",
+    "preemptible": false,
+    "provisioningModel": "STANDARD"
+  },
+  "shieldedInstanceConfig": {
+    "enableIntegrityMonitoring": true,
+    "enableSecureBoot": false,
+    "enableVtpm": true
+  },
+  "status": "RUNNING"
+}

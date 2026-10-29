@@ -1,0 +1,99 @@
+[
+    {
+        "Id": "sha256:d854233e9f043046f363953047ff518a9792b044cea1d53f86d299e88344cd5f",
+        "RepoTags": [
+            "ghcr.io/ggml-org/llama.cpp@sha256:d854233e9f043046f363953047ff518a9792b044cea1d53f86d299e88344cd5f"
+        ],
+        "RepoDigests": [
+            "ghcr.io/ggml-org/llama.cpp@sha256:d854233e9f043046f363953047ff518a9792b044cea1d53f86d299e88344cd5f"
+        ],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-10-29T06:12:56.49886401Z",
+        "Config": {
+            "Env": [
+                "PATH=/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "NVARCH=x86_64",
+                "NVIDIA_REQUIRE_CUDA=cuda>=12.8 brand=unknown,driver>=470,driver<471 brand=grid,driver>=470,driver<471 brand=tesla,driver>=470,driver<471 brand=nvidia,driver>=470,driver<471 brand=quadro,driver>=470,driver<471 brand=quadrortx,driver>=470,driver<471 brand=nvidiartx,driver>=470,driver<471 brand=vapps,driver>=470,driver<471 brand=vpc,driver>=470,driver<471 brand=vcs,driver>=470,driver<471 brand=vws,driver>=470,driver<471 brand=cloudgaming,driver>=470,driver<471 brand=unknown,driver>=535,driver<536 brand=grid,driver>=535,driver<536 brand=tesla,driver>=535,driver<536 brand=nvidia,driver>=535,driver<536 brand=quadro,driver>=535,driver<536 brand=quadrortx,driver>=535,driver<536 brand=nvidiartx,driver>=535,driver<536 brand=vapps,driver>=535,driver<536 brand=vpc,driver>=535,driver<536 brand=vcs,driver>=535,driver<536 brand=vws,driver>=535,driver<536 brand=cloudgaming,driver>=535,driver<536 brand=unknown,driver>=550,driver<551 brand=grid,driver>=550,driver<551 brand=tesla,driver>=550,driver<551 brand=nvidia,driver>=550,driver<551 brand=quadro,driver>=550,driver<551 brand=quadrortx,driver>=550,driver<551 brand=nvidiartx,driver>=550,driver<551 brand=vapps,driver>=550,driver<551 brand=vpc,driver>=550,driver<551 brand=vcs,driver>=550,driver<551 brand=vws,driver>=550,driver<551 brand=cloudgaming,driver>=550,driver<551 brand=unknown,driver>=560,driver<561 brand=grid,driver>=560,driver<561 brand=tesla,driver>=560,driver<561 brand=nvidia,driver>=560,driver<561 brand=quadro,driver>=560,driver<561 brand=quadrortx,driver>=560,driver<561 brand=nvidiartx,driver>=560,driver<561 brand=vapps,driver>=560,driver<561 brand=vpc,driver>=560,driver<561 brand=vcs,driver>=560,driver<561 brand=vws,driver>=560,driver<561 brand=cloudgaming,driver>=560,driver<561 brand=unknown,driver>=565,driver<566 brand=grid,driver>=565,driver<566 brand=tesla,driver>=565,driver<566 brand=nvidia,driver>=565,driver<566 brand=quadro,driver>=565,driver<566 brand=quadrortx,driver>=565,driver<566 brand=nvidiartx,driver>=565,driver<566 brand=vapps,driver>=565,driver<566 brand=vpc,driver>=565,driver<566 brand=vcs,driver>=565,driver<566 brand=vws,driver>=565,driver<566 brand=cloudgaming,driver>=565,driver<566",
+                "NV_CUDA_CUDART_VERSION=12.8.90-1",
+                "CUDA_VERSION=12.8.1",
+                "LD_LIBRARY_PATH=/usr/local/cuda/lib64",
+                "NVIDIA_VISIBLE_DEVICES=all",
+                "NVIDIA_DRIVER_CAPABILITIES=compute,utility",
+                "NV_CUDA_LIB_VERSION=12.8.1-1",
+                "NV_NVTX_VERSION=12.8.90-1",
+                "NV_LIBNPP_VERSION=12.3.3.100-1",
+                "NV_LIBNPP_PACKAGE=libnpp-12-8=12.3.3.100-1",
+                "NV_LIBCUSPARSE_VERSION=12.5.8.93-1",
+                "NV_LIBCUBLAS_PACKAGE_NAME=libcublas-12-8",
+                "NV_LIBCUBLAS_VERSION=12.8.4.1-1",
+                "NV_LIBCUBLAS_PACKAGE=libcublas-12-8=12.8.4.1-1",
+                "NV_LIBNCCL_PACKAGE_NAME=libnccl2",
+                "NV_LIBNCCL_PACKAGE_VERSION=2.25.1-1",
+                "NCCL_VERSION=2.25.1-1",
+                "NV_LIBNCCL_PACKAGE=libnccl2=2.25.1-1+cuda12.8",
+                "NVIDIA_PRODUCT_NAME=CUDA",
+                "LLAMA_ARG_HOST=0.0.0.0",
+                "LLAMA_ARG_PORT=8080"
+            ],
+            "Entrypoint": [
+                "/app/llama-server"
+            ],
+            "WorkingDir": "/app",
+            "Labels": {
+                "maintainer": "NVIDIA CORPORATION <cudatools@nvidia.com>",
+                "org.opencontainers.image.created": "2026-10-29T04:28:07Z",
+                "org.opencontainers.image.description": "LLM inference in C/C++",
+                "org.opencontainers.image.ref.name": "ubuntu",
+                "org.opencontainers.image.revision": "7ac5727d6037ec99c31a28c6520f45de154199d9",
+                "org.opencontainers.image.source": "https://github.com/ggml-org/llama.cpp",
+                "org.opencontainers.image.title": "llama.cpp",
+                "org.opencontainers.image.url": "https://github.com/ggml-org/llama.cpp",
+                "org.opencontainers.image.version": "b11977"
+            },
+            "Healthcheck": {
+                "Test": [
+                    "CMD",
+                    "curl",
+                    "-f",
+                    "http://localhost:8080/health"
+                ]
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 7014422500,
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:4b7c01ed0534d4f9be9cf97d068da1598c6c20b26cb6134fad066defdb6d541d",
+                "sha256:5d874d849ec64ad89b8e1ff34cefc562238dfaaa6540905f0a8bac73777d4f25",
+                "sha256:5ef6645238f3599acf1a7b450ae0a8e9306bea4e342a7af89d3992b804676999",
+                "sha256:723554db4ba2a109baacf03b25cff50db586ce45370dfdbd21557171201992f5",
+                "sha256:6020d84069cf575521faca653d2817e2195b8233b8c4e2d7bc65f3296296c2bb",
+                "sha256:09d8fc1b386fa3eb8491421932e290ce3c33a55265e1d6da8cc9d720a08d3306",
+                "sha256:d9ab1aaed362889c6b77ea27e8df132379e24e2a0aacdfaed8fadf3cddb3131d",
+                "sha256:9004b01e4a91e9612a7374cce04c721e1e3a8f9e99619de547fb333425c79637",
+                "sha256:a2dd2dc8d2b5463fe695696cc9b429d90af7bb8b1ad911859146a38b720f4963",
+                "sha256:30b32e562ec9eab0a9802ca1493c926ef24d3f2ddcc45299cfb826ca027f2c1a",
+                "sha256:6a55d1070d8757aab66d6c3bb281744958b13e7334514c096af9ff1f689573b7",
+                "sha256:51bbf956d7baeba940caa444f66b8a4a873324dfaa0898154e8268ce2b3a77b6",
+                "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-10-29T11:38:54.273011487Z"
+        },
+        "Descriptor": {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:d854233e9f043046f363953047ff518a9792b044cea1d53f86d299e88344cd5f",
+            "size": 3273
+        },
+        "Identity": {
+            "Pull": [
+                {
+                    "Repository": "ghcr.io/ggml-org/llama.cpp"
+                }
+            ]
+        }
+    }
+]

@@ -16,6 +16,8 @@ The recorded Data/ML lab has source-bound reports, native executions and origina
 
 The [implementation matrix](final-audit-matrix.md) links both tracks to reports or open work. The [LLM plan](llm-agent-plan.md) specifies what acceptance evidence is still required.
 
+The [GPU worker report](gpu-inference.md) adds native Terraform/Ansible receipts and a paired 7B latency experiment. It preserves the failed capacity requests, the denied A100 quota and the successful V100 allocation. Agent routing and complete conversation acceptance remain separate work.
+
 ## Source preservation
 
 [Source notes](rubric-source.md) describe the original workbooks, cell references, English translation pins and the comparison with the provided ZIP. Original source-language criteria and native artifacts remain byte-exact in the reference/evidence areas. The former 93-row module tracker is [archived](../references/coursework/legacy-tracker-source-language.md); it is not added to the two final sheets or treated as a second grading total.

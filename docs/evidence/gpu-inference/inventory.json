@@ -1,0 +1,528 @@
+{
+  "files": {
+    "assets/native/budget.json": {
+      "bytes": 177,
+      "sha256": "7780050434d4ab98cff7e69e8813b40e567c5940ed39c905606ffc8eb188a6ac"
+    },
+    "assets/native/identity.json": {
+      "bytes": 103,
+      "sha256": "0f71bc4c308a95e2a2e9b735d27a5da9a477d42443d69f0d79684820a21c9432"
+    },
+    "assets/native/model-files.json": {
+      "bytes": 356,
+      "sha256": "958dd21a70b1b980bd211f8b63b7be565a5beeefded7bcaed1605a650107bab7"
+    },
+    "assets/native/model-lock.json": {
+      "bytes": 806,
+      "sha256": "8d88f9422569a45cd1d03d0038a53d44cb8e677099425d4531627c5d4506652a"
+    },
+    "assets/native/runtime-lock.json": {
+      "bytes": 670,
+      "sha256": "5a3ad37fbd3fd75fb4b8c32884f4bc93e2b4a458eda6fbca89c05bf6e769ea24"
+    },
+    "assets/native/source.json": {
+      "bytes": 701,
+      "sha256": "e4218ebd33daa38936f0d01ada1a31e2c20c7b2f91f07f9222ad261d6b7a7628"
+    },
+    "assets/native/verification.json": {
+      "bytes": 196,
+      "sha256": "e1fc7964e1f3303b48b90d412fda2f452e5bbde7cea3c4ab404ca55d54a919a5"
+    },
+    "benchmark/native/budget.json": {
+      "bytes": 177,
+      "sha256": "61cc5da14ec40d1319eed4bdb66949e869bb563711e720418216b24d98e63173"
+    },
+    "benchmark/native/cpu-command.json": {
+      "bytes": 885,
+      "sha256": "972ea0e18a55b8cae9156e2b494bbbfc7615393b49ae61e983b218c0c16e9072"
+    },
+    "benchmark/native/cpu-gpu-observation.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/cpu-gpu-observation.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/cpu-gpu-observation.stdout": {
+      "bytes": 15,
+      "sha256": "35cf6b9d7c76b3382dd156a0074d0de43083e486122a4e67effb454eaca1489c"
+    },
+    "benchmark/native/cpu-health.json": {
+      "bytes": 161,
+      "sha256": "68cb4aa6395380be961356e4de5ce26b623086ae830a52ed65866913a233fa27"
+    },
+    "benchmark/native/cpu-inspect.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/cpu-inspect.json": {
+      "bytes": 13331,
+      "sha256": "6f8eb51269fe3ef719da4cdc7567e9ef878a558c1800b7d6c2a801a5de9c0f93"
+    },
+    "benchmark/native/cpu-inspect.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/cpu-inspect.stdout": {
+      "bytes": 16739,
+      "sha256": "3144ce2a2c3642656f1bdbf60b4eabce774342767326875e0b7a76e736f97226"
+    },
+    "benchmark/native/cpu-logs.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/cpu-logs.stderr": {
+      "bytes": 12420,
+      "sha256": "94efa3a177502d5f3219520b51a53854253f9894fca9e18340b83e8e95447f6b"
+    },
+    "benchmark/native/cpu-logs.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/cpu-requests.json": {
+      "bytes": 367804,
+      "sha256": "9261a30611c82aceeff8862d56a243dc232948e6d94ae339f20648260fb6bc97"
+    },
+    "benchmark/native/cpu-start.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/cpu-start.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/cpu-start.stdout": {
+      "bytes": 65,
+      "sha256": "046faf82f825594330243de5620559c41a2a2b8bae73329f392f35ed529eba48"
+    },
+    "benchmark/native/cpu-stop.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/cpu-stop.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/cpu-stop.stdout": {
+      "bytes": 81,
+      "sha256": "b32166d9e3c269cd0edca7469605b46d0a3206fc279994ecb575ad75ffd7de57"
+    },
+    "benchmark/native/cpu-stopped.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/cpu-stopped.json": {
+      "bytes": 2865,
+      "sha256": "e2b86fa7d064970ee4c56be6b5e10c587646adc112278ff1c6c8d8e174842143"
+    },
+    "benchmark/native/cpu-stopped.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/cpu-stopped.stdout": {
+      "bytes": 16350,
+      "sha256": "34ee0dc473e2c7a0886a6c7b5d426fbee36552f9c7a0255fe9ad73cdbbcdee6d"
+    },
+    "benchmark/native/cpu.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/cpu.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/cpu.stdout": {
+      "bytes": 4541,
+      "sha256": "35e31e04b707324fc883c64ffbacfca6c52927686257815cfb6c5c9f4523a04c"
+    },
+    "benchmark/native/docker-version.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/docker-version.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/docker-version.stdout": {
+      "bytes": 1145,
+      "sha256": "5d9b78be2e741baf51eed3bd16e78cec042546dc92e2ba4d6364a185568236fb"
+    },
+    "benchmark/native/gpu-before.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/gpu-before.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/gpu-before.stdout": {
+      "bytes": 86,
+      "sha256": "5dbf6ad07e5039cd315025addf46b8e2dc9c2ee68a44d7fa82627bdc4b18dc77"
+    },
+    "benchmark/native/gpu-command.json": {
+      "bytes": 886,
+      "sha256": "47ddcf201df795f9141d69ea4caa9524479054fd3866bf7ac1db2e8c2e4b2e6f"
+    },
+    "benchmark/native/gpu-gpu-observation.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/gpu-gpu-observation.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/gpu-gpu-observation.stdout": {
+      "bytes": 16,
+      "sha256": "d0823faa1fb07b31e7488172c44b2f698e91b32cc17cb5001f532bb5c50e7ec8"
+    },
+    "benchmark/native/gpu-health.json": {
+      "bytes": 785,
+      "sha256": "e80a0dc875772d8a26c471826cd408e8921d344a3bd7ed854805e46dccbc73dc"
+    },
+    "benchmark/native/gpu-inspect.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/gpu-inspect.json": {
+      "bytes": 11824,
+      "sha256": "cb3e779de4d46d411bbe7246e5d43b2a5a83817bac0598a91fee6a94c8f52b67"
+    },
+    "benchmark/native/gpu-inspect.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/gpu-inspect.stdout": {
+      "bytes": 14992,
+      "sha256": "77f0302fce2a2c0e5103e9b34150152cc042112570873611f775ef6f17cb9d3c"
+    },
+    "benchmark/native/gpu-logs.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/gpu-logs.stderr": {
+      "bytes": 12420,
+      "sha256": "8fea49d3241add79e456bd73176c55754453fe9cd99c9ea720e040015a21aa5d"
+    },
+    "benchmark/native/gpu-logs.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/gpu-requests.json": {
+      "bytes": 362482,
+      "sha256": "10b7b187b01e1c1927a1b418fa67c046a8d5ac4868e4a43151023bcc2821f848"
+    },
+    "benchmark/native/gpu-start.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/gpu-start.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/gpu-start.stdout": {
+      "bytes": 65,
+      "sha256": "bd4d663dcb73f42f87e94f6373a21a154f4e7ebf5dcdb50a06daded0f3f3db32"
+    },
+    "benchmark/native/gpu-stop.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/gpu-stop.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/gpu-stop.stdout": {
+      "bytes": 81,
+      "sha256": "6b3af6d6b58ac9fbc990f7980b76c6ee9a4897526861632a4ad607cb5aa1155b"
+    },
+    "benchmark/native/gpu-stopped.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/gpu-stopped.json": {
+      "bytes": 1393,
+      "sha256": "0ee83ab2feeaeb1c2b0a52a7d3e963d465eedf5d2e76b4d9a81470bad6d2d320"
+    },
+    "benchmark/native/gpu-stopped.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/gpu-stopped.stdout": {
+      "bytes": 14604,
+      "sha256": "2e8b60f2016e91b99356cdef23bde198a84752e417f77e5fb4c1bcffda8574bd"
+    },
+    "benchmark/native/identity.json": {
+      "bytes": 103,
+      "sha256": "0f71bc4c308a95e2a2e9b735d27a5da9a477d42443d69f0d79684820a21c9432"
+    },
+    "benchmark/native/image-inspect.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/image-inspect.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/image-inspect.stdout": {
+      "bytes": 6858,
+      "sha256": "2957f0ca7c9082c56e13475b8049fd1bf8af8b66279198ff1f13a46928cc0988"
+    },
+    "benchmark/native/image-pull.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "benchmark/native/image-pull.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "benchmark/native/image-pull.stdout": {
+      "bytes": 1628,
+      "sha256": "f085d273c0cba1aef9ccd29f2c816734e3d91b4e714a9b00a4f3172ffcfbaba8"
+    },
+    "benchmark/native/image.json": {
+      "bytes": 6006,
+      "sha256": "2c559cf52e188c0d3f3269d375d0cbb08f941703bd356636022497c63745dbbf"
+    },
+    "benchmark/native/model-lock.json": {
+      "bytes": 806,
+      "sha256": "8d88f9422569a45cd1d03d0038a53d44cb8e677099425d4531627c5d4506652a"
+    },
+    "benchmark/native/runtime-lock.json": {
+      "bytes": 670,
+      "sha256": "5a3ad37fbd3fd75fb4b8c32884f4bc93e2b4a458eda6fbca89c05bf6e769ea24"
+    },
+    "benchmark/native/source.json": {
+      "bytes": 701,
+      "sha256": "e4218ebd33daa38936f0d01ada1a31e2c20c7b2f91f07f9222ad261d6b7a7628"
+    },
+    "benchmark/native/verification.json": {
+      "bytes": 864,
+      "sha256": "32c1908a069011eec437f6edf494c7a1572bd4ad2eadea489ab60ae1817b661e"
+    },
+    "benchmark/source/manifest.json": {
+      "bytes": 716,
+      "sha256": "04a78d8b3219b99e71286f0f3674f39f90f5873873593b6998bf65127880c0a1"
+    },
+    "benchmark/source/tree/infra/llm/assistant.lock.json": {
+      "bytes": 758,
+      "sha256": "f789c1e389d5992229cf3deb39ba88870df53cdfe7c1c36a5b6cf96d41c0b6c1"
+    },
+    "benchmark/source/tree/infra/llm/gpu-runtime.lock.json": {
+      "bytes": 670,
+      "sha256": "5a3ad37fbd3fd75fb4b8c32884f4bc93e2b4a458eda6fbca89c05bf6e769ea24"
+    },
+    "benchmark/source/tree/llm/__init__.py": {
+      "bytes": 69,
+      "sha256": "beecce3c84da4daf8e2dfbadd6e7564a5654bc31f21e7ab5a7e352f8e29ab098"
+    },
+    "benchmark/source/tree/llm/__pycache__/__init__.cpython-312.pyc": {
+      "bytes": 235,
+      "sha256": "14dae11ce4bf8f213136e88373f54825b109cff92e83cc3f2a1d451b070277c6"
+    },
+    "benchmark/source/tree/llm/__pycache__/benchmark.cpython-312.pyc": {
+      "bytes": 7167,
+      "sha256": "12c356ccccb7fb133fd70e69b65e72e4e9ada8962f3456b2eb7bcbc50087a731"
+    },
+    "benchmark/source/tree/llm/__pycache__/gpu_benchmark.cpython-312.pyc": {
+      "bytes": 22528,
+      "sha256": "79596345edc91fc82be1e09516b68287022e60f130c52bb60b580b56edd9d7b2"
+    },
+    "benchmark/source/tree/llm/benchmark.py": {
+      "bytes": 4459,
+      "sha256": "4c710b2bb7cf7193509128d7af397b82c3600320c3568a54a41715b1397c2692"
+    },
+    "benchmark/source/tree/llm/gpu_benchmark.py": {
+      "bytes": 14663,
+      "sha256": "c1040392ba1db1791ed17e748941ed74db8bb650614146d56e6c5afd83236029"
+    },
+    "capture.json": {
+      "bytes": 483,
+      "sha256": "57613e9f7fb819e8c624c5820004971943f1f6d27745d291c1366e944503bf45"
+    },
+    "process/iot-gpu-assets-29a.journal.jsonl": {
+      "bytes": 13489,
+      "sha256": "ed750839976ada034df4cc210ac5e1c63d36062d668dc322a13cda01c871d9f2"
+    },
+    "process/iot-gpu-assets-29a.unit.txt": {
+      "bytes": 111,
+      "sha256": "3b3d09e710ac9e99f3fde8861389a4a4b1b6de57b452060b7a395039ce1fafe1"
+    },
+    "process/iot-gpu-benchmark-29a.journal.jsonl": {
+      "bytes": 32328,
+      "sha256": "1b3da7a672979bd3637ac31eed4f5d74cc233e76b40dbabd08bf8fb4aaeee695"
+    },
+    "process/iot-gpu-benchmark-29a.unit.txt": {
+      "bytes": 114,
+      "sha256": "dd9708d3f3411a39eb1f5af20c03f8f5460fd28fd974b9321faf94e2882dee5e"
+    },
+    "process/iot-gpu-driver-29a.journal.jsonl": {
+      "bytes": 1403529,
+      "sha256": "d7b54b51616287c73c7f8c71f3e2d3cb09569ebd3219f2d6db581ac4f2de0c7c"
+    },
+    "process/iot-gpu-driver-29a.unit.txt": {
+      "bytes": 111,
+      "sha256": "f93142f1272e161ff08ff4d0c5a6878589bbd5348e938b4af4d443c5b679c223"
+    },
+    "process/iot-gpu-driver-29b.journal.jsonl": {
+      "bytes": 4802,
+      "sha256": "c8f68af623ac3ac3cf876333a99a79e76a990bb4defa093c9ca30388b5ca6078"
+    },
+    "process/iot-gpu-driver-29b.unit.txt": {
+      "bytes": 397,
+      "sha256": "31243bebe3e664f7dd88221fb4d5dda2c9183e76d93888bdc6bfc3cecdd6fd6f"
+    },
+    "process/iot-gpu-driver-29c.journal.jsonl": {
+      "bytes": 148251,
+      "sha256": "d1773fc0c42e5af4cd3879fd5db38539d2d2696ef8346071c3c0b329321fd737"
+    },
+    "process/iot-gpu-driver-29c.unit.txt": {
+      "bytes": 111,
+      "sha256": "6abbde765bb80ed959f93624b5ec64cc741b21aecc299cd22a5ea86ce6a55ae3"
+    },
+    "process/iot-gpu-runtime-29a.journal.jsonl": {
+      "bytes": 55019,
+      "sha256": "344642699c177a5bde99759b35325ddefd92efdc514b385a8e7a9ecda35b66f7"
+    },
+    "process/iot-gpu-runtime-29a.unit.txt": {
+      "bytes": 112,
+      "sha256": "8c61e11e351f2a196eb2ca8c8c2d29d67373d27973aa6e9076080b9fed26d280"
+    },
+    "readback/boot.txt": {
+      "bytes": 37,
+      "sha256": "a3cd6f1b547de2d47e8bece1ac5d9689b939af7b2fb204f6d8863b44dff6088b"
+    },
+    "readback/clock.txt": {
+      "bytes": 36,
+      "sha256": "420ea70633fc68aede0f1afbb68253cb2ad13a805b62a5fc0b1b2a2495eb50a1"
+    },
+    "readback/disk.txt": {
+      "bytes": 125,
+      "sha256": "f0cdc1371ff1132b421a93436b678f9bd1e019c7cda9cc7556738190bc4fc25c"
+    },
+    "readback/docker-info.json": {
+      "bytes": 14319,
+      "sha256": "be2ca78e09673c918a4cc5c73d82b990f444c8f63ab6b8278a571938626abad1"
+    },
+    "readback/gpu.csv": {
+      "bytes": 86,
+      "sha256": "5dbf6ad07e5039cd315025addf46b8e2dc9c2ee68a44d7fa82627bdc4b18dc77"
+    },
+    "readback/memory.txt": {
+      "bytes": 1671,
+      "sha256": "f0912aa6d6e9e39562ea9623691c0bcf9bc25d71a30a8e82e3fdc006b995e5a0"
+    },
+    "readback/packages.txt": {
+      "bytes": 269,
+      "sha256": "b7af7e6a71ac2e30152a85443f64d5940b3be79ad394f131abddd7c580999cc4"
+    },
+    "runtime/native/ansible.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "runtime/native/ansible.stderr": {
+      "bytes": 322,
+      "sha256": "d994675fb3a9e847dc724a889177a7ff90e9f8f6362653380066c4cbb5f35482"
+    },
+    "runtime/native/ansible.stdout": {
+      "bytes": 2690,
+      "sha256": "2297e6a2a0b311baa8121e756d6d774e2fb73e8341f152d31e67ac1e5ae53f3b"
+    },
+    "runtime/native/apt-venv.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "runtime/native/apt-venv.stderr": {
+      "bytes": 888,
+      "sha256": "01a0de54b5110c36914d33c02b4532b6252ece79749eab98efcabaac8ddd1acb"
+    },
+    "runtime/native/apt-venv.stdout": {
+      "bytes": 2620,
+      "sha256": "f96207baf54e235f7f0f619420ce3e0879a743e254e8baf834ed10a30cad4b2b"
+    },
+    "runtime/native/controller.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "runtime/native/controller.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "runtime/native/controller.stdout": {
+      "bytes": 4286,
+      "sha256": "4ae47f995b64b4a835c0179dd4e86f8ada4f4657e4936e60281739ecb2a3981c"
+    },
+    "runtime/native/driver.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "runtime/native/driver.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "runtime/native/driver.stdout": {
+      "bytes": 1689,
+      "sha256": "ff3030cb1673c2c58f86121504e3e028ce5f201126c4b939259a96f1df6a8ac5"
+    },
+    "runtime/native/freeze.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "runtime/native/freeze.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "runtime/native/freeze.stdout": {
+      "bytes": 150,
+      "sha256": "a9abde7f119fe31a2dda8bcc9caf260c6415ceb57e304001e99fbca9ac52ecd2"
+    },
+    "runtime/native/source.json": {
+      "bytes": 371,
+      "sha256": "b9bc2a09034d64d2f0b87bdbe02413f5f46aba21e05ca9ebbabef34dbce182cf"
+    },
+    "runtime/native/syntax.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "runtime/native/syntax.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "runtime/native/syntax.stdout": {
+      "bytes": 88,
+      "sha256": "f7c5815b29a7339eccba94d2ffd6b8260a8b07527ffa7ae797c21f06a60f52cb"
+    },
+    "runtime/native/venv.exit": {
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "runtime/native/venv.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "runtime/native/venv.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "runtime/native/verification.json": {
+      "bytes": 262,
+      "sha256": "4a9643e3ade6bc84e9ba70931c45b6259c4b1e553129e76c461ccf2c1785e19d"
+    },
+    "runtime/source/manifest.json": {
+      "bytes": 379,
+      "sha256": "572e10c982e926dc41ff0e0d134715a19a982a2810e4d33547ef91f154898d32"
+    },
+    "runtime/source/tree/bootstrap.py": {
+      "bytes": 2707,
+      "sha256": "a5f31e1c7b8656aeef1384b882fe2f0ff09dd84b84866dfedf56f9447ac69298"
+    },
+    "runtime/source/tree/infra/ansible/gpu-runtime.yml": {
+      "bytes": 5862,
+      "sha256": "82746e7a32d079f068d4f34d2d9e41f3afa478f71252d4a945ed423c100ede51"
+    },
+    "runtime/source/tree/infra/ansible/requirements-controller.txt": {
+      "bytes": 113,
+      "sha256": "7d2bb2b354745d51dc77dbc80110438594dd805da51df7989bbd9ea24710238d"
+    }
+  }
+}

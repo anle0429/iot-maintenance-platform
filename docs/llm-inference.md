@@ -2,6 +2,8 @@
 
 The first LLM milestone ran a real model behind the llm-d router on the existing coursework VM. It establishes inference and a measured configuration change for the **1.5B prototype**. The current backend is the [7B grounding candidate](llm-grounding.md); the prototype results below remain unchanged.
 
+The later [V100 experiment](gpu-inference.md) compares zero versus GPU offload for the 7B model on a separate worker. Its source, image, hardware and measurements are recorded separately from the prototype below.
+
 ## What each part does
 
 The **model file** contains learned weights. The **model server** loads those weights and generates tokens. The **router** accepts an OpenAI-compatible request and selects a model-server endpoint. A **tool call** is a structured request from the model to application code; generating that request does not execute the tool.

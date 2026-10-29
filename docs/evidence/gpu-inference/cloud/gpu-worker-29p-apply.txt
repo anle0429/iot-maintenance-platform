@@ -1,0 +1,35 @@
+google_compute_router_nat.egress: Destroying... [id=project-208f5905-011e-4ae9-9a5/us-west1/iot-cw-gpu-egress/iot-cw-gpu-egress]
+google_compute_router_nat.egress: Still destroying... [id=project-208f5905-011e-4ae9-9a5/us-west1/iot-cw-gpu-egress/iot-cw-gpu-egress, 00m10s elapsed]
+google_compute_router_nat.egress: Destruction complete after 11s
+google_compute_router.egress: Destroying... [id=projects/project-208f5905-011e-4ae9-9a5/regions/us-west1/routers/iot-cw-gpu-egress]
+google_compute_subnetwork.gpu[0]: Destroying... [id=projects/project-208f5905-011e-4ae9-9a5/regions/us-west1/subnetworks/iot-cw-gpu-subnet]
+google_compute_router.egress: Still destroying... [id=projects/project-208f5905-011e-4ae9-9a5...ons/us-west1/routers/iot-cw-gpu-egress, 00m10s elapsed]
+google_compute_subnetwork.gpu[0]: Still destroying... [id=projects/project-208f5905-011e-4ae9-9a5...us-west1/subnetworks/iot-cw-gpu-subnet, 00m10s elapsed]
+google_compute_router.egress: Destruction complete after 11s
+google_compute_router.egress: Creating...
+google_compute_subnetwork.gpu[0]: Destruction complete after 11s
+google_compute_subnetwork.gpu[0]: Creating...
+google_compute_router.egress: Still creating... [00m10s elapsed]
+google_compute_subnetwork.gpu[0]: Still creating... [00m10s elapsed]
+google_compute_subnetwork.gpu[0]: Creation complete after 11s [id=projects/project-208f5905-011e-4ae9-9a5/regions/us-east4/subnetworks/iot-cw-gpu-subnet]
+google_compute_instance.inference: Creating...
+google_compute_router.egress: Creation complete after 11s [id=projects/project-208f5905-011e-4ae9-9a5/regions/us-east4/routers/iot-cw-gpu-egress]
+google_compute_router_nat.egress: Creating...
+google_compute_instance.inference: Still creating... [00m10s elapsed]
+google_compute_router_nat.egress: Still creating... [00m10s elapsed]
+google_compute_router_nat.egress: Creation complete after 12s [id=project-208f5905-011e-4ae9-9a5/us-east4/iot-cw-gpu-egress/iot-cw-gpu-egress]
+
+Error: Error waiting for instance to create: The zone 'projects/project-208f5905-011e-4ae9-9a5/zones/us-east4-a' does not have enough resources available to fulfill the request.  'NULL:0/NULL:0/NULL:0 (state:STOCKOUT, sub-state:STOCKOUT, resource type:compute)'.
+
+
+A g2-standard-4 VM instance with 1 nvidia-l4 accelerator(s) is currently unavailable in the us-east4-a zone. Alternatively, you can try your request again with a different VM hardware configuration or at a later time. For more information, see the troubleshooting documentation.
+
+
+Troubleshooting documentation
+https://cloud.google.com/compute/docs/resource-error
+
+
+  with google_compute_instance.inference,
+  on main.tf line 64, in resource "google_compute_instance" "inference":
+  64: resource "google_compute_instance" "inference" {
+
