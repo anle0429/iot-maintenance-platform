@@ -1,0 +1,14 @@
+{
+  "runtime_parent": {
+    "image": "iot-ci-mcp:llm-retrieval-jenkins-4",
+    "image_id": "sha256:a6bfed8a735a169dd86535f423191bd1c0e4fafc314df838bfe220c3b091def7"
+  },
+  "test_parent": {
+    "image": "iot-ci-mcp-tests:llm-retrieval-jenkins-4",
+    "image_id": "sha256:660dafc36c38e83b6717c20c34fe8d0645dc0e9703b69449e64bc4ad838b8ee6"
+  },
+  "retained_model_control_image": "docker.io/library/iot-model-control@sha256:6001ff60ce56e13e9c891279cbc37ee9a899fbf73d856b01e2a9b36655a3f063",
+  "upstream": "http://127.0.0.1:8080",
+  "trace_storage": "http://iot-jaeger.iot-observability.svc.cluster.local:4318/v1/traces",
+  "source_policy": "Only the new observation package is mutated; all five runtime modules remain in scope. Old MCP and Go business modules are unchanged."
+}

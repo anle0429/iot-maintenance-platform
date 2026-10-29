@@ -62,7 +62,7 @@ class TelemetryLedgerTests(unittest.TestCase):
 
     def test_span_identity_parentage_and_duration_are_checked(self):
         """Only valid original span relationships and timestamp-derived durations can become invocation/tool metrics."""
-        span={'agent':'drift','model':MODEL,'duration_seconds':0.5,'usage':None,'operation':'tool','tool':'assess_feature_drift','error':False,
+        span={'agent':'drift','model':MODEL,'duration_seconds':0.5,'usage':None,'operation':'tool','tool':'assess_feature_drift','error':False,'status_code':1,
               'trace_id':'a'*32,'span_id':'b'*16,'parent_span_id':'c'*16,'start_ns':1000000000,'end_ns':1500000000}
         self.assertEqual(validate_fact('span',span),span)
         for change in [{'trace_id':'0'*32},{'parent_span_id':'bad'},{'operation':'private action'},{'duration_seconds':0.6},{'end_ns':0},{'tool':'private text'}]:

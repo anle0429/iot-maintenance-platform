@@ -12,7 +12,7 @@ RESULTS={'ok','policy_rejected','invalid_request','upstream_error','transport_er
 def validate_fact(kind,fact):
     """Refuse unreviewed fields and free-text labels so no prompt, answer or credential can enter the telemetry database."""
     common={'agent','model','duration_seconds','usage'}
-    extra={'status','result','streaming','ttft_seconds','finish_reason','policy_categories'} if kind=='request' else {'operation','tool','error','trace_id','span_id','parent_span_id','start_ns','end_ns'}
+    extra={'status','result','streaming','ttft_seconds','finish_reason','policy_categories'} if kind=='request' else {'operation','tool','error','status_code','trace_id','span_id','parent_span_id','start_ns','end_ns'}
     if kind not in {'request','span'} or not isinstance(fact,dict) or set(fact)!=common|extra:raise ValueError('Unexpected telemetry fields')
     if not isinstance(fact['agent'],str) or fact['agent'] not in ROLES or not isinstance(fact['model'],str) or fact['model'] not in {MODEL,'unknown'}:raise ValueError('Unbounded model or agent label')
     elapsed=fact['duration_seconds']
@@ -28,6 +28,7 @@ def validate_fact(kind,fact):
         if not isinstance(categories,list) or any(not isinstance(v,str) for v in categories) or categories!=sorted(set(categories)) or not set(categories)<=CATEGORIES:raise ValueError('Invalid policy categories')
     else:
         if fact['operation'] not in {'invocation','agent','model','tool','transport','other'} or fact['tool'] not in TOOLS|{'none','delegate_retrieval','delegate_drift'} or type(fact['error']) is not bool:raise ValueError('Invalid span classification')
+        if type(fact['status_code']) is not int or fact['status_code'] not in {0,1,2} or fact['error']!=(fact['status_code']==2):raise ValueError('Span error classification differs from its actual status')
         for name,length in [('trace_id',32),('span_id',16),('parent_span_id',16)]:
             value=fact[name]
             if name=='parent_span_id' and value=='':continue
@@ -66,6 +67,10 @@ class TelemetryLedger:
         """Return deterministic approved facts for metrics, independent reconciliation and restart checks."""
         with self.lock:
             return [{'kind':k,'event_id':i,'facts':json.loads(f)} for k,i,f in self.connection.execute('SELECT kind,event_id,facts FROM telemetry_events ORDER BY kind,event_id')]
+
+    def size(self):
+        """Check storage admission without loading the event payloads into application memory."""
+        with self.lock:return self.connection.execute('SELECT COUNT(*) FROM telemetry_events').fetchone()[0]
 
     def close(self):
         """Close the owned connection after pending facts have been committed."""

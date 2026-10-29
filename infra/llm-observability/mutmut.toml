@@ -1,0 +1,7 @@
+# All five newly introduced runtime modules are in the fresh gate, with no line exclusions or cached mutation reuse.
+[tool.mutmut]
+source_paths = ["llm_observability/"]
+only_mutate = ["llm_observability/contracts.py", "llm_observability/ledger.py", "llm_observability/metrics.py", "llm_observability/private_traces.py", "llm_observability/app.py"]
+pytest_add_cli_args_test_selection = ["tests/test_llm_observation_contracts.py", "tests/test_llm_telemetry_ledger.py", "tests/test_llm_observation_metrics.py", "tests/test_llm_private_traces.py", "tests/test_llm_observer_properties.py", "tests/api/test_llm_observer_api.py", "--timeout=5", "--timeout_method=thread"]
+also_copy = ["tests/"]
+process_isolation = "forkserver"
