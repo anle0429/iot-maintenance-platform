@@ -139,6 +139,7 @@ The RAG pipeline also [checks corpus embedding distance](docs/rag-corpus-drift.m
 | Agent notebook | Seven executed Jupyter cells; two real specialist requests, four successful MCP calls and a 32-machine drift cohort | [Notebook, outputs and source checks](docs/agent-notebook.md) |
 | Agent startup | Four matched pairs per role; mixed golden-snapshot timings, with all native samples retained | [Startup report and HA limits](docs/agent-warmup.md) |
 | RAG delivery | Successful Jenkins test/build/auto-deploy; six native Airflow tasks, ten Feast quality checks and source-bound DataHub jobs | [RAG CI report and original stages](docs/ci-rag.md) |
+| Assistant data validation | Two paired 8,640-event sources, separate ID/target tables, successful offline/online stream CI, and three original GPU evidence-reading answers with one wrong conclusion retained | [Data lineage, schema boundary and original pipeline captures](docs/assistant-data-validation.md) |
 | MCP/agent delivery | Three separate successful Jenkins pipelines; fresh API tests, tested images/charts, real tool calls, child sessions and exercised rollback | [Agent CI report and original stages](docs/ci-agents.md) |
 | Agent gateway and secrets | Authenticated private UI/catalog, actual TLS and rate checks, scoped Vault consumers and a complete delegated conversation | [Gateway report and original UI](docs/agent-gateway.md) |
 | Stream measurement pilot | Three actual router requests, provider-reported usage, original first-output/full-response clocks and replay after database reopening | [Measurements, scope and offline check](docs/llm-observability.md) |
@@ -175,7 +176,7 @@ $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-The audit checks both source rubrics, payload hashes and 53 offline verifiers. It writes `verification.json` and the verifier consoles to the output directory. It checks recorded results rather than rerunning the pipelines; successful RAG, inference and MCP checks do not mark the full agent track complete. The [GPU agent report](docs/gpu-agent-routing.md) verifies complete specialist answers and actual child delegation. Earlier failed runs remain preserved.
+The audit checks both source rubrics, payload hashes and 54 offline verifiers. It writes `verification.json` and the verifier consoles to the output directory. It checks recorded results rather than rerunning the pipelines; successful RAG, inference and MCP checks do not mark the full agent track complete. The [GPU agent report](docs/gpu-agent-routing.md) verifies complete specialist answers and actual child delegation. Earlier failed runs remain preserved.
 
 ### Call the lab API
 

@@ -1,0 +1,70 @@
+{
+  "derived_from": "Unmodified original case-result JSON and cases.json in the native archive. All three responses retained, including the wrong answer.",
+  "answers": [
+    {
+      "case_id": "generator_versions",
+      "expected": {
+        "feature_rows": 1485,
+        "positive_labels": 144,
+        "labels_are_separate": true,
+        "physical_truth_changed": false
+      },
+      "original_reply": "{\n  \"feature_rows\": 1485,\n  \"positive_labels\": 144,\n  \"labels_are_separate\": true,\n  \"physical_truth_changed\": false\n}",
+      "score": {
+        "correct": true,
+        "reason": "matched",
+        "actual": {
+          "feature_rows": 1485,
+          "positive_labels": 144,
+          "labels_are_separate": true,
+          "physical_truth_changed": false
+        }
+      },
+      "request_id": "9c67791c85854dd385791102ce59eb31"
+    },
+    {
+      "case_id": "stream_history_latest",
+      "expected": {
+        "offline_rows": 3,
+        "online_machines": 2,
+        "p001_latest_temperature": 40.0,
+        "replay_changed_offline": false,
+        "monitoring_is_complete_predictor_input": false
+      },
+      "original_reply": "{\n  \"offline_rows\": 3,\n  \"online_machines\": 2,\n  \"p001_latest_temperature\": 40.0,\n  \"replay_changed_offline\": false,\n  \"monitoring_is_complete_predictor_input\": true\n}",
+      "score": {
+        "correct": false,
+        "reason": "field:monitoring_is_complete_predictor_input",
+        "actual": {
+          "offline_rows": 3,
+          "online_machines": 2,
+          "p001_latest_temperature": 40.0,
+          "replay_changed_offline": false,
+          "monitoring_is_complete_predictor_input": true
+        }
+      },
+      "request_id": "ff44162dd7544f9a8b5322974d72918b"
+    },
+    {
+      "case_id": "label_eligibility",
+      "expected": {
+        "censored_rows": 36,
+        "stopped_rows": 132,
+        "insufficient_readings_rows": 3,
+        "future_target_in_inference_features": false
+      },
+      "original_reply": "{\"censored_rows\": 36, \"stopped_rows\": 132, \"insufficient_readings_rows\": 3, \"future_target_in_inference_features\": false}",
+      "score": {
+        "correct": true,
+        "reason": "matched",
+        "actual": {
+          "censored_rows": 36,
+          "stopped_rows": 132,
+          "insufficient_readings_rows": 3,
+          "future_target_in_inference_features": false
+        }
+      },
+      "request_id": "6abd6ca03e11442ca7d92b4f7368378b"
+    }
+  ]
+}

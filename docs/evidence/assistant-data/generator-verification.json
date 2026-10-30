@@ -1,0 +1,81 @@
+{
+  "maximum_raw_temperature_delta": 15.000000000000007,
+  "passed": true,
+  "raw_temperature_delta_before_drift": 0.0,
+  "same_physical_truth_and_labels": true,
+  "scope": "Real small paired generator/Spark exports and native two-column Parquet readback. Not a new trained model, live stream,100GB result or deployed assistant tool.",
+  "source_commit": "5e5872a6817fbfd4861b6cb7dc05a76aa8b1f313",
+  "spark_seconds": 51.050240239999766,
+  "versions": {
+    "baseline": {
+      "dataset_id": "9c51e602c63e92d98d230ffd0fc8d8770227974acfd504e94d2afef571fab098",
+      "excluded": {
+        "censored": 36,
+        "insufficient_readings": 3,
+        "maintenance": 72,
+        "stopped": 132
+      },
+      "failure_events": 13,
+      "feature_column_names": [
+        "temperature_mean_10m",
+        "vibration_max_10m",
+        "current_mean_10m",
+        "current_std_10m",
+        "rpm_mean_10m",
+        "reading_count_10m",
+        "machine_age_days",
+        "prior_failures_24h"
+      ],
+      "feature_rows": 1485,
+      "joined_rows": 1485,
+      "parquet_readback_rows": 1485,
+      "passed": true,
+      "scope": "Training-table export only; temporal split/purge and model evaluation are separate required stages.",
+      "source_grains": 1728,
+      "source_unique_events": 8640,
+      "target_columns": [
+        "sample_id",
+        "failure_in_next_1h"
+      ],
+      "target_counts": {
+        "0": 1341,
+        "1": 144
+      }
+    },
+    "drift": {
+      "dataset_id": "369798d82f618c0c44baba74d5cbfc3f67f67a7ab5b49cc93337335d66a8d0ff",
+      "excluded": {
+        "censored": 36,
+        "insufficient_readings": 3,
+        "maintenance": 72,
+        "stopped": 132
+      },
+      "failure_events": 13,
+      "feature_column_names": [
+        "temperature_mean_10m",
+        "vibration_max_10m",
+        "current_mean_10m",
+        "current_std_10m",
+        "rpm_mean_10m",
+        "reading_count_10m",
+        "machine_age_days",
+        "prior_failures_24h"
+      ],
+      "feature_rows": 1485,
+      "joined_rows": 1485,
+      "parquet_readback_rows": 1485,
+      "passed": true,
+      "scope": "Training-table export only; temporal split/purge and model evaluation are separate required stages.",
+      "source_grains": 1728,
+      "source_unique_events": 8640,
+      "target_columns": [
+        "sample_id",
+        "failure_in_next_1h"
+      ],
+      "target_counts": {
+        "0": 1341,
+        "1": 144
+      }
+    }
+  }
+}

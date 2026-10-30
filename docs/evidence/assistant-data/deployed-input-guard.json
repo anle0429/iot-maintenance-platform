@@ -1,0 +1,130 @@
+{
+  "passed": true,
+  "source_verification_sha256": "a5c8d9b683ed627b9b01f7db4c017ebe6cc4c2b4d15155ac725c6baea0ebb0b8",
+  "candidate": {
+    "temperature_mean_10m": 40.0,
+    "vibration_max_10m": 4.0,
+    "reading_count_10m": 1
+  },
+  "results": [
+    {
+      "pod": "iot-retrieval-mcp-5d8bc9ff9f-5t6cl",
+      "uid": "680bcbb1-277e-407f-95e8-bfb3ce9827c9",
+      "images": [
+        "sha256:0614c643c36547071fdc6bd4aecbdc359c97283f68959b022a5423ead2416145"
+      ],
+      "result": {
+        "schemas": {
+          "services.predictor.contracts": "5cab032dae3ede91c9cfd5446da195b99b03349f3ed04a915be92f0ed3da12ce",
+          "services.mcp_tools.contracts": "d5c762a144f70265c87976cdfb9256dd986321ea0116f0616e398df066ae4ece"
+        },
+        "predictor": {
+          "accepted": false,
+          "errors": [
+            {
+              "location": [
+                "current_mean_10m"
+              ],
+              "type": "missing"
+            },
+            {
+              "location": [
+                "current_std_10m"
+              ],
+              "type": "missing"
+            },
+            {
+              "location": [
+                "rpm_mean_10m"
+              ],
+              "type": "missing"
+            },
+            {
+              "location": [
+                "machine_age_days"
+              ],
+              "type": "missing"
+            },
+            {
+              "location": [
+                "prior_failures_24h"
+              ],
+              "type": "missing"
+            }
+          ]
+        },
+        "machine_tool": {
+          "accepted": false,
+          "errors": [
+            {
+              "location": [
+                "features"
+              ],
+              "type": "extra_forbidden"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pod": "iot-retrieval-mcp-5d8bc9ff9f-ngxgh",
+      "uid": "78f90617-b15f-45b7-a181-3ba9c8a3cc7a",
+      "images": [
+        "sha256:0614c643c36547071fdc6bd4aecbdc359c97283f68959b022a5423ead2416145"
+      ],
+      "result": {
+        "schemas": {
+          "services.predictor.contracts": "5cab032dae3ede91c9cfd5446da195b99b03349f3ed04a915be92f0ed3da12ce",
+          "services.mcp_tools.contracts": "d5c762a144f70265c87976cdfb9256dd986321ea0116f0616e398df066ae4ece"
+        },
+        "predictor": {
+          "accepted": false,
+          "errors": [
+            {
+              "location": [
+                "current_mean_10m"
+              ],
+              "type": "missing"
+            },
+            {
+              "location": [
+                "current_std_10m"
+              ],
+              "type": "missing"
+            },
+            {
+              "location": [
+                "rpm_mean_10m"
+              ],
+              "type": "missing"
+            },
+            {
+              "location": [
+                "machine_age_days"
+              ],
+              "type": "missing"
+            },
+            {
+              "location": [
+                "prior_failures_24h"
+              ],
+              "type": "missing"
+            }
+          ]
+        },
+        "machine_tool": {
+          "accepted": false,
+          "errors": [
+            {
+              "location": [
+                "features"
+              ],
+              "type": "extra_forbidden"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "scope": "Actual unchanged Pydantic contracts executed in both deployed MCP replicas. Not a fresh HTTP/API request or prediction; no feature refresh or model inference. Monitoring fields deliberately renamed to their closest predictor counterparts still lack five required inputs."
+}
