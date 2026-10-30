@@ -1,0 +1,103 @@
+Browser tab: 11, Title: "kagent.dev", URL: "http://127.0.0.1:18090/agents/iot-agents/iot-coordinator/chat/ab61aaf9-65ef-414e-9d1f-4fcdd8fa0c13".
+0 AXWebArea kagent.dev, URL: 127.0.0.1:18090/agents/iot-agents/iot-coordinator/chat/ab61aaf9-65ef-414e-9d1f-4fcdd8fa0c13
+	1 container
+		2 link 127.0.0.1:18090/
+		3 link Description: Home, Value: 127.0.0.1:18090/
+		4 pop up button (collapsed) Create, ID: radix-_R_5ldb_, Secondary Actions: Expand
+		5 pop up button (collapsed) View, ID: radix-_R_7ldb_, Secondary Actions: Expand
+		6 link Description: Contribute, Value: github.com/kagent-dev/kagent
+		7 link Description: Community, Value: discord.gg/Fu3k65f2k3
+		8 pop up button (collapsed) Toggle theme, ID: radix-_R_dldb_, Secondary Actions: Expand
+	9 container
+		10 content list
+			11 pop up button (collapsed) iot-agents/iot-coordinator OpenAI (iot-qwen2.5-7b), ID: radix-_r_0_, Secondary Actions: Expand
+				12 image
+				13 text iot-agents/iot-coordinator
+				14 text OpenAI
+				15 text (iot-qwen2.5-7b)
+		31 container
+			32 button New Chat
+			33 content list
+				34 button (expanded) Today, Secondary Actions: Collapse
+				35 content list
+					36 container
+						37 link Description: Untitled 1:30 AM, Value: 127.0.0.1:18090/agents/iot-agents/iot-coordinator/chat/ab61aaf9-65ef-414e-9d1f-4fcdd8fa0c13
+						38 pop up button (collapsed) More, ID: radix-_r_d_, Secondary Actions: Expand
+					39 container
+						40 link Description: Untitled 1:18 AM, Value: 127.0.0.1:18090/agents/iot-agents/iot-coordinator/chat/01a18b75-5053-7b70-b411-5c5004b1dac2
+						41 pop up button (collapsed) More, ID: radix-_r_f_, Secondary Actions: Expand
+					42 container
+						43 link Description: Untitled 1:11 AM, Value: 127.0.0.1:18090/agents/iot-agents/iot-coordinator/chat/23e4ba7a-26a8-4221-aac1-cdb8d2caf01f
+						44 pop up button (collapsed) More, ID: radix-_r_h_, Secondary Actions: Expand
+			45 content list
+				46 button (collapsed) Yesterday, Secondary Actions: Expand
+		17 button Toggle Sidebar
+		47 container
+			48 container
+				49 text user
+				50 text Use both specialists. Get the current features and failure prediction for pump P-001 and a reference about vibration. Also assess drift for the standard demo cohort of all 32 unique machines P-001 through P-032 using window_id agent-demo-29. Combine the actual results, preserving model and source identifiers.
+				51 image
+				52 text iot-agents/iot-retrieval vVxynyg0vZSbIO7cDiRUTxMm2FURA84E Completed
+				53 button Input
+				54 button Output
+				55 button Activity
+				75 text user
+				76 text current features and failure prediction for pump P-001 and a reference about vibration
+				77 button (collapsed) 3 tool calls 3 succeeded get-machine-features, predict-failure, search-knowledge, Secondary Actions: Expand
+					78 text 3 tool calls
+					79 text 3
+					80 text succeeded
+					81 text get-machine-features, predict-failure, search-knowledge
+				82 image
+				83 text iot-agents/iot-retrieval
+				84 text { "machine_id": "P-001", "feature_event_ts": "2026-11-29T23:50:00Z", "model_version": "6", "risk_score": 0.103181, "document_ids": ["monitoring"], "vibration_alone_proves_failure": false, "simulated": true, "score_is_calibrated": false }
+				85 button Token usage
+				86 button Thumbs up
+				87 button Thumbs down
+				56 image
+				57 text iot-agents/iot-drift mgknTsKfLrHGxLVgF7kmE96SDyS1kOdq Completed
+				58 button Input
+				59 button Output
+				60 button Activity
+				88 text user
+				89 text drift assessment for the standard demo cohort of all 32 unique machines P-001 through P-032 using window_id agent-demo-29
+				90 button (collapsed) 1 tool call 1 succeeded assess-feature-drift, Secondary Actions: Expand
+					91 text 1 tool call
+					92 text 1
+					93 text succeeded
+					94 text assess-feature-drift
+				95 image
+				96 text iot-agents/iot-drift
+				97 text { "window_id": "agent-demo-29", "unique_rows": 32, "flagged_features": ["current_mean_10m", "current_std_10m", "machine_age_days", "prior_failures_24h", "temperature_mean_10m", "vibration_max_10m"], "reference_id": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93", "assessment_sha256": "c23698fc9426a3c56e85cbd074e529a5a1158fe392b4882505f569cfa8dcfa9a", "drift_establishes_accuracy_loss": false, "drift_establishes_failure": false }
+				98 button Token usage
+				99 button Thumbs up
+				100 button Thumbs down
+				61 image
+				62 text iot-agents/iot-coordinator
+				63 text { "retrieval": { "machine_id": "P-001", "feature_event_ts": "2026-11-29T23:50:00Z", "model_version": "6", "risk_score": 0.103181, "document_ids": ["monitoring"], "vibration_alone_proves_failure": false, "simulated": true, "score_is_calibrated": false }, "drift": { "window_id": "agent-demo-29", "unique_rows": 32, "flagged_features": ["current_mean_10m", "current_std_10m", "machine_age_days", "prior_failures_24h", "temperature_mean_10m", "vibration_max_10m"], "reference_id": "ac366302a409d2a6a0f7f0442f8aab42c882f81310d072908b9826159b758e93", "assessment_sha256": "c23698fc9426a3c56e85cbd074e529a5a1158fe392b4882505f569cfa8dcfa9a", "drift_establishes_accuracy_loss": false, "drift_establishes_failure": false } }
+				64 button Token usage
+				65 button Thumbs up
+				66 button Thumbs down
+			67 scroll bar Description: Chat history minimap, Value: 48
+		68 text Ready
+		69 pop up button (collapsed) Description: Share this chat, Secondary Actions: Expand
+		70 container
+			71 text entry area (settable)
+			72 button Attach files
+			73 button Voice input
+			74 button (disabled) Send
+		18 text Agent Details
+		19 link Description: Edit agent iot-agents/iot-coordinator, Value: 127.0.0.1:18090/agents/new?edit=true&name=iot-coordinator&namespace=iot-agents
+		20 container
+			21 text iot-agents/iot-coordinator
+			22 text iot-qwen2.5-7b
+			23 text Delegate pump context and drift questions to the two bounded IoT specialists. Tools & Agents
+			24 content list
+				25 button (collapsed) iot-agents/iot-retrieval, Secondary Actions: Expand
+				26 button (collapsed) iot-agents/iot-drift, Secondary Actions: Expand
+	27 container
+		28 image
+		29 text is an open source project
+	30 container Notifications alt+T
+
+The focused UI element is 60 button Activity

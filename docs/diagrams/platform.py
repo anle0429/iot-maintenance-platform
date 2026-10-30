@@ -1,4 +1,4 @@
-"""Render original English architecture illustrations as SVG and PNG from the implemented IoT lab and declared LLM plan."""
+"""Render original English architecture illustrations as SVG and PNG from the recorded IoT data, ML and agent lab."""
 from pathlib import Path
 from html import escape
 from math import atan2, cos, sin, pi
@@ -129,35 +129,41 @@ def serving():
 
 
 def deployment():
-    """Show one physical VM and distinguish Kubernetes, Docker, host processes and retained storage."""
-    c=Canvas('platform-deployment','Deployment view','One Google Cloud VM; private administration through IAP and loopback forwards. No multi-host HA claim.',height=1140)
+    """Show separate control/data and GPU workers, including runtime boundaries and retained storage."""
+    c=Canvas('platform-deployment','Deployment view','Private control/data VM and dedicated GPU worker. Administration uses IAP; the control plane remains a single-host lab.',width=2320,height=1140)
     c.frame(35,155,300,850,'DEVELOPER PC')
     c.node('pc',60,265,250,160,'Local tools',['Git / Python','Editor / offline checks','IAP client'],'ops')
     c.node('browser',60,555,250,160,'Browser',['Swagger / Airflow','Grafana / DataHub','MLflow / Jenkins'],'ops')
     c.frame(380,155,1380,850,'GOOGLE CLOUD VM — 8 vCPU / 64 GiB RAM')
     c.frame(410,225,1320,245,'K3s — Kubernetes workloads')
-    for i,(key,title,body) in enumerate([('api','Feature / drift APIs',['Helm Deployments']),('kserve','KServe predictors',['ML inference / Eventing']),('kfp','Kubeflow Pipelines',['API / task Pods']),('mesh','Gateway / test mesh',['Ingress / identity tests'])]):c.node(key,435+320*i,290,285,145,title,body,'ml')
+    for i,(key,title,body) in enumerate([('api','Feature / drift APIs',['Helm Deployments']),('kserve','KServe predictors',['ML inference / Eventing']),('kfp','Kubeflow Pipelines',['API / task Pods']),('mesh','Agents / gateway',['MCP / workers / router'])]):c.node(key,435+320*i,290,285,145,title,body,'ml')
     c.frame(410,500,1320,210,'Docker containers and jobs')
     for i,(key,title) in enumerate([('batch','Spark / Kafka / Flink'),('orch','Airflow / DataHub'),('registry','MLflow / Jenkins')]):c.node(key,445+430*i,560,395,115,title,['Separate images, limits and state'],'data')
     c.frame(410,740,1320,210,'Host services')
     for i,(key,title) in enumerate([('metrics','Prometheus / Grafana'),('logs','Loki / Alloy / exporter'),('vault','Vault / Pushgateway')]):c.node(key,445+430*i,800,395,115,title,['Retained state; recovery CLI'],'ops')
+    c.frame(1810,155,470,850,'PRIVATE GPU WORKER')
+    c.node('gpu',1845,305,400,170,'GPU model serving',['4 vCPU / 15 GiB RAM','V100 / 16 GiB VRAM','llama.cpp / 7B + 1.5B'],'serving')
+    c.node('gpu-state',1845,610,400,150,'Retained GPU state',['50 GiB SSD / model assets','Private K3s agent + runtime','No public model endpoint'],'ops')
+    c.edge('D1',[(1537,435),(1537,482),(1780,482),(1780,390),(1845,390)],'Private model traffic',(1790,493))
     c.text(410,1035,'Storage: 50 GiB boot + 500 GiB data HDD + 150 GiB pd-balanced scratch. Datasets, registry and secrets stay on VM volumes.',17)
     c.text(45,1080,'Administration: IAP-forwarded SSH22; UI listeners use loopback. A Git clone contains code and documentation, not live service state.',17)
     return c.save()
 
 
 def llm_plan():
-    """Distinguish recorded inference/RAG/MCP work from the still-planned agent components."""
-    c=Canvas('platform-llm-plan','LLM / agents - native GPU execution','Recorded native conversations, GPU routing and MCP reads. Gray: work still open. Architecture illustration, not a screenshot.',width=2200,height=1400)
-    items=[('ui',60,200,290,145,'Agent chat UI',['VERIFIED: private gateway','TLS / auth / rate controls']),('gw',430,200,290,145,'Agent controller',['VERIFIED: private A2A','Shared model configuration']),('coord',800,200,300,145,'Coordinator agent',['VERIFIED: two delegates','KEDA: 2-4 workers']),('llmrouter',1370,200,330,145,'llm-d inference router',['VERIFIED: GPU route','Bounded tool-turn adapter']),('registry',1800,200,320,145,'Agent registry',['VERIFIED: version 0.2.2','Native resource identities']),('rag',60,500,290,145,'Airflow RAG job',['VERIFIED','Six tasks / DataHub']),('data',800,500,300,145,'Data / RAG agent',['VERIFIED: three MCP calls','Complete grounded answer']),('drift',1300,500,300,145,'Drift agent',['VERIFIED: one MCP call','32 unique machines']),('warm',1800,500,320,145,'Worker pools',['VERIFIED: 2-4 per role','Startup results mixed']),('embed',60,800,290,145,'Embedding job',['VERIFIED','MiniLM / 384 dimensions']),('mcpdata',800,800,300,145,'Data / chunk MCP',['VERIFIED: 2 replicas','Features / prediction / RAG']),('mcpdrift',1300,800,300,145,'Drift MCP server',['VERIFIED: 2 replicas','PSI / stable cohort replay']),('telemetry',1800,800,320,145,'Agent / LLM telemetry',['PLANNED','Tokens / TTFT / tool calls']),('kb',60,1100,290,145,'Knowledge store',['VERIFIED','Feast / Milvus / 18 chunks'])]
-    for key,x,y,w,h,title,body in items:c.node(key,x,y,w,h,title,body,'serving' if key in {'ui','gw','coord','llmrouter','registry','data','drift','rag','embed','kb','mcpdata','mcpdrift','warm'} else 'planned')
+    """Show the recorded agent/tool path and the separate observation/adapter boundary before GPU serving."""
+    c=Canvas('platform-llm-plan','LLM / agents - native GPU execution','Recorded private agents, tools, governance and monitoring. Logical component groups; architecture illustration, not a screenshot.',width=2200,height=1400)
+    items=[('ui',60,200,290,145,'Agent chat UI',['VERIFIED: private gateway','TLS / auth / rate controls']),('gw',430,200,290,145,'Agent controller',['VERIFIED: private A2A','Shared model configuration']),('coord',800,200,300,145,'Coordinator agent',['VERIFIED: two delegates','KEDA: 2-4 workers']),('llmrouter',1370,200,330,145,'llm-d inference router',['VERIFIED: GPU route','Private inference endpoint']),('registry',1800,200,320,145,'Agent registry',['VERIFIED: version 0.2.2','Native resource identities']),('rag',60,500,290,145,'Airflow RAG job',['VERIFIED','Six tasks / DataHub']),('data',800,500,300,145,'Data / RAG agent',['VERIFIED: three MCP calls','Complete grounded answer']),('drift',1300,500,300,145,'Drift agent',['VERIFIED: one MCP call','32 unique machines']),('warm',1800,500,320,145,'Worker pools',['VERIFIED: 2-4 per role','Startup results mixed']),('embed',60,800,290,145,'Embedding job',['VERIFIED','MiniLM / 384 dimensions']),('mcpdata',800,800,300,145,'Data / chunk MCP',['VERIFIED: 2 replicas','Features / prediction / RAG']),('mcpdrift',1300,800,300,145,'Drift MCP server',['VERIFIED: 2 replicas','PSI / stable cohort replay']),('telemetry',1800,800,320,145,'Observer + tool adapter',['Usage / TTFT / tool facts','Metrics / logs / private traces']),('kb',60,1100,290,145,'Knowledge store',['VERIFIED','Feast / Milvus / 18 chunks'])]
+    for key,x,y,w,h,title,body in items:c.node(key,x,y,w,h,title,body,'serving')
     # The platform router and custom backend are distinct deployable units.
-    c.node('customserver',1800,1100,320,145,'GPU model server',['V100 / Qwen2.5 7B','Serial tools / bounded turns'],'serving')
+    c.node('customserver',1800,1100,320,145,'GPU model server',['V100 / llama.cpp CUDA','7B production / 1.5B study'],'serving')
     c.node('feature',800,1100,300,145,'Existing Feature API',['Native MCP reads verified','Served model version: 6'],'store');c.node('driftapi',1300,1100,300,145,'Existing Drift API',['Native MCP calls verified','Pinned PSI reference'],'store')
     c.edge('A1',[(350,270),(430,270)],'Chat request',(390,170));c.edge('A2',[(720,270),(800,270)],'Dispatch',(760,170))
     c.edge('A3',[(1100,270),(1370,270)],'Shared model endpoint',(1235,235))
-    c.edge('G1',[(1700,270),(1740,270),(1740,1140),(1800,1140)],'Model request',(1890,980))
-    c.edge('G2',[(1800,1210),(1710,1210),(1710,370),(1530,370),(1530,345)],'Token stream',(1880,1030))
+    c.edge('G1',[(1700,270),(1740,270),(1740,870),(1800,870)],'Observed model request',(1910,740))
+    c.edge('G2',[(1960,945),(1960,1100)],'Model request',(1960,1010))
+    c.edge('G3',[(1800,1210),(1710,1210),(1710,920),(1800,920)],'Token stream',(1690,1060))
+    c.edge('G4',[(1800,820),(1760,820),(1760,370),(1530,370),(1530,345)],'Observed response',(1910,695))
     c.edge('A4',[(950,345),(950,500)],'Native A2A delegation',(810,410));c.edge('A5',[(1050,345),(1050,420),(1450,420),(1450,500)],'Native A2A delegation',(1300,390))
     c.edge('M1',[(950,645),(950,800)],'MCP tool call',(1090,710));c.edge('M2',[(1450,645),(1450,800)],'MCP tool call',(1600,710))
     c.edge('M3',[(950,945),(950,1100)],'Read features / inference',(1110,1010));c.edge('M4',[(1450,945),(1450,1100)],'Read drift result',(1610,1010))
@@ -165,12 +171,12 @@ def llm_plan():
     c.edge('K2',[(350,870),(450,870),(450,570),(350,570)],'Vector artifact',(550,710))
     c.edge('K3',[(60,575),(30,575),(30,1170),(60,1170)],'Chunks and vectors via Feast',(230,1010))
     c.edge('K4',[(350,1170),(650,1170),(650,870),(800,870)],'Retrieved chunks',(590,1135))
-    c.text(60,1300,'Remaining proof: A/B, full telemetry and extensions. Gateway: private TLS/auth/rate; CI: RAG + three agent pipelines.',20)
+    c.text(60,1300,'Recorded: RAG and stream CI, OPA admission, corpus MMD, two A/B studies and private observability. Single control VM; separate GPU worker.',20)
     return c.save()
 
 
 def monitoring():
-    """Separate native PSI monitoring and manually probed retraining from unimplemented LLM telemetry."""
+    """Show the recorded ML/API monitoring paths; LLM telemetry has its own observer and dashboards."""
     c=Canvas('platform-monitoring','Monitoring and guarded retraining','Recorded ML monitoring paths; the retraining integration test was a manual probe with drift=false.',height=1110)
     rows=[(170,'OFFLINE DRIFT — fixed model3 training reference, no labels',[
         ('schedule','Airflow scheduler',['Five-minute schedule']),('driftjob','Feast drift job',['Bounded 1024-row cohort']),('push','Pushgateway',['PSI / freshness gauges']),('prom','Prometheus',['Recorded query values']),('graf','Grafana',['Result age + PSI'])],['Comparison window','Gauges','Scrape','PromQL']),
@@ -185,7 +191,7 @@ def monitoring():
         for i,label in enumerate(labels):
             if row_index==1 and i==3:continue
             c.edge(('M' if row_index==0 else 'O' if row_index==1 else 'R')+str(i+1),[(335+350*i,y+130),(415+350*i,y+130)],label,(375+350*i,y+40))
-    c.text(45,1020,'Jaeger receives ML API spans. MCP tool counters are separate; full agent/LLM token, TTFT and safety telemetry remains open.',17)
+    c.text(45,1020,'This view covers ML/API workflows. Separate LLM dashboards record usage, TTFT and private agent/tool traces; SDK warnings remain visible.',17)
     c.edge('O4',[(200,660),(200,715),(1600,715),(1600,660)],'OTLP spans from API to Jaeger',(900,703))
     return c.save()
 
@@ -194,7 +200,7 @@ def main():
     """Render the five architecture views and inventory their actual nodes and arrows."""
     manifests=[overview(),serving(),deployment(),monitoring(),llm_plan()]
     (OUT/'diagram-index.json').write_text(json.dumps({'kind':'authored-architecture-illustrations','runtime_screenshot':False,'views':manifests},indent=2)+'\n',encoding='utf-8')
-    print(json.dumps({'rendered_views':len(manifests),'output':'docs/images','planned_llm_explicit':True}))
+    print(json.dumps({'rendered_views':len(manifests),'output':'docs/images','recorded_llm_path_explicit':True}))
 
 
 if __name__=='__main__':

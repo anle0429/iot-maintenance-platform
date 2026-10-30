@@ -1,6 +1,6 @@
 # Final rubric audit
 
-The selected submission includes **final ML and final LLM/agents**. The full coursework remains incomplete. Native workflows have recorded evidence; the remaining final row-by-row reconciliation and presentation/demo handover are listed below. Passing an artifact checker does not award a rubric score.
+The selected submission includes **final ML and final LLM/agents**. Native workflows, the requirement-by-requirement reconciliation and the presentation/demo handover are recorded. The runtime remains a retained private lab with the limits described below. Passing an artifact checker does not award a rubric score.
 
 The supplied workbook contains 57 weighted ML requirements and 60 weighted LLM requirements, with 100 source points per sheet. Original workbook cells, merged ranges and reviewed English translations are pinned separately. The [ML tracker](final-rubric-tracker.md), [LLM tracker](final-llm-rubric-tracker.md) and [implementation map](final-audit-matrix.md) retain the requirement-level detail.
 
@@ -21,13 +21,15 @@ The supplied workbook contains 57 weighted ML requirements and 60 weighted LLM r
 | Data contracts | [Separate sample/target tables, stream CI and original GPU answers](assistant-data-validation.md). One factual answer is wrong and remains in the result. Deployed validation rejects the incomplete predictor input. |
 | Retrieval HTTPS | [Private CA/SNI verification, native REST/MCP equality and original post-restart Swagger captures](mcp-gateway.md). Both connection boundaries are explicit: browser loopback HTTP over IAP, then verified private HTTPS. |
 
-## Remaining deliverables
+## Reconciliation and handover
 
-- Reconcile all original requirements against current sources, evidence and delivery files, then complete the presentation/demo handover. Do not infer completion from the number of green checks.
+The [implementation map](final-audit-matrix.md) now has one consistent five-column row for each of the 117 original requirements. The audit checks every ID, requirement text and code/evidence link. The [fresh rehearsal](learner-demo.md) records actual preparation, the original failed conversation, a narrow configuration repair and one accepted coordinator with two checked child histories/four MCP calls. The [ML runbook](demo-walkthrough.md), [agent runbook](agent-demo.md), [learning guide](llm-learning-guide.md) and [presentation guide](presentation-guide.md) explain how to repeat and defend the work.
+
+Recorded delivery is separate from learner mastery and mentor acceptance. Rehearse the code-tracing exercises before submission; do not infer a grade from green checks.
 
 ## Verification method
 
-The maintained audit registers **58 read-only artifact checkers**, plus nine separately inventoried native capsules. It checks original rubric wording/weights, source and payload identities and linked evidence. Each checker must cover the requirement it supports; a successful schema check or a 200 page alone is insufficient for a deployment or authenticated interaction claim.
+The maintained audit registers **59 read-only artifact checkers**, plus nine separately inventoried native capsules. It checks original rubric wording/weights, source and payload identities and linked evidence. Each checker must cover the requirement it supports; a successful schema check or a 200 page alone is insufficient for a deployment or authenticated interaction claim.
 
 The [retrieval HTTPS checker](../scripts/verify-mcp-gateway.py) authenticates 198 original native payloads, 24 historical source bindings, 13 HTTP outcomes, three matching MCP tool results and two original interface captures. Screenshot response values and raw-body digests are reconciled with the native TLS audit. The original failed deployments and the earlier checkpoint metadata remain intact.
 

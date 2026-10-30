@@ -64,7 +64,7 @@
     },
     {
       "name": "platform-deployment",
-      "width": 1800,
+      "width": 2320,
       "height": 1140,
       "nodes": [
         "pc",
@@ -78,9 +78,13 @@
         "registry",
         "metrics",
         "logs",
-        "vault"
+        "vault",
+        "gpu",
+        "gpu-state"
       ],
-      "arrows": []
+      "arrows": [
+        "D1"
+      ]
     },
     {
       "name": "platform-monitoring",
@@ -147,6 +151,8 @@
         "A3",
         "G1",
         "G2",
+        "G3",
+        "G4",
         "A4",
         "A5",
         "M1",

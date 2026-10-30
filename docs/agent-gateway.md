@@ -93,8 +93,8 @@ On the PC, forward both loopback ports through the existing private IAP connecti
 ```powershell
 gcloud compute ssh iot-cw-vm --zone us-central1-a --project YOUR_PROJECT_ID `
   --tunnel-through-iap `
-  --ssh-flag=-L18090:127.0.0.1:18090 `
-  --ssh-flag=-L18091:127.0.0.1:18091 `
+  --ssh-flag=-L --ssh-flag=127.0.0.1:18090:127.0.0.1:18090 `
+  --ssh-flag=-L --ssh-flag=127.0.0.1:18091:127.0.0.1:18091 `
   --command="sleep 3300"
 ```
 
@@ -116,4 +116,4 @@ The next probe correctly encountered an unknown-SNI handshake rejection, but its
 
 The browser relay also needed the official `X-User-Id` server-action forwarding setting, Next.js protocol headers and both new-chat and existing-session URL forms. Tests now cover these routing boundaries. The final original UI captures show the working session and its actual answer.
 
-For presentation, explain four decisions: why authentication belongs before the UI, why a Ready Pod does not prove an accepted ingress, why a completed task still needs fact checking, and why Vault consumers must fail when reading a different service's secret. Full token/TTFT/safety telemetry, A/B comparisons and the remaining [LLM rubric](final-llm-rubric-tracker.md) obligations stay open.
+For presentation, explain four decisions: why authentication belongs before the UI, why a Ready Pod does not prove an accepted ingress, why a completed task still needs fact checking, and why Vault consumers must fail when reading a different service's secret. Later [native monitoring](llm-monitoring-demo.md), [policy-frequency](llm-policy-window.md), [model A/B](llm-model-ab.md), [agent A/B](agent-configuration-ab.md) and [post-restart rehearsal](learner-demo.md) reports cover those separate milestones.

@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1140" viewBox="0 0 1800 1140" role="img" aria-labelledby="title desc">
-<title id="title">Deployment view</title><desc id="desc">One Google Cloud VM; private administration through IAP and loopback forwards. No multi-host HA claim.</desc><rect width="100%" height="100%" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="2320" height="1140" viewBox="0 0 2320 1140" role="img" aria-labelledby="title desc">
+<title id="title">Deployment view</title><desc id="desc">Private control/data VM and dedicated GPU worker. Administration uses IAP; the control plane remains a single-host lab.</desc><rect width="100%" height="100%" fill="white"/>
 <text x="44" y="78" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="34" font-weight="600" text-anchor="start" fill="#16273b">Deployment view</text>
-<text x="44" y="113" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="19" font-weight="400" text-anchor="start" fill="#526174">One Google Cloud VM; private administration through IAP and loopback forwards. No multi-host HA claim.</text>
+<text x="44" y="113" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="19" font-weight="400" text-anchor="start" fill="#526174">Private control/data VM and dedicated GPU worker. Administration uses IAP; the control plane remains a single-host lab.</text>
 <text x="44" y="1124" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#657386">Architecture illustration — not a runtime screenshot. Source: docs/diagrams/platform.py</text>
 <rect x="35" y="155" width="300" height="850" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
 <text x="55" y="191" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">DEVELOPER PC</text>
@@ -29,8 +29,8 @@
 <text x="1217.5" y="354.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Kubeflow Pipelines</text>
 <text x="1217.5" y="384.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">API / task Pods</text>
 <rect x="1395" y="290" width="285" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
-<text x="1537.5" y="354.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Gateway / test mesh</text>
-<text x="1537.5" y="384.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Ingress / identity tests</text>
+<text x="1537.5" y="354.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Agents / gateway</text>
+<text x="1537.5" y="384.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">MCP / workers / router</text>
 <rect x="410" y="500" width="1320" height="210" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
 <text x="430" y="536" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">Docker containers and jobs</text>
 <rect x="445" y="560" width="395" height="115" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
@@ -53,6 +53,22 @@
 <rect x="1305" y="800" width="395" height="115" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
 <text x="1502.5" y="849.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Vault / Pushgateway</text>
 <text x="1502.5" y="879.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Retained state; recovery CLI</text>
+<rect x="1810" y="155" width="470" height="850" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="1830" y="191" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">PRIVATE GPU WORKER</text>
+<rect x="1845" y="305" width="400" height="170" rx="12" fill="#e8f4fa" stroke="#327d9c" stroke-width="2"/>
+<text x="2045.0" y="357.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">GPU model serving</text>
+<text x="2045.0" y="387.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">4 vCPU / 15 GiB RAM</text>
+<text x="2045.0" y="412.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">V100 / 16 GiB VRAM</text>
+<text x="2045.0" y="437.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">llama.cpp / 7B + 1.5B</text>
+<rect x="1845" y="610" width="400" height="150" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="2045.0" y="652.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Retained GPU state</text>
+<text x="2045.0" y="682.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">50 GiB SSD / model assets</text>
+<text x="2045.0" y="707.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Private K3s agent + runtime</text>
+<text x="2045.0" y="732.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">No public model endpoint</text>
+<polyline points="1537,435 1537,482 1780,482 1780,390 1845,390" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="1845,390 1834.6076951545867,396.0 1834.6076951545867,384.0" fill="#596e86"/>
+<rect x="1703.0" y="491" width="174.0" height="25" rx="4" fill="white"/>
+<text x="1790" y="508" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">D1  Private model traffic</text>
 <text x="410" y="1052" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#16273b">Storage: 50 GiB boot + 500 GiB data HDD + 150 GiB pd-balanced scratch. Datasets, registry and secrets stay on VM volumes.</text>
 <text x="45" y="1097" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#16273b">Administration: IAP-forwarded SSH22; UI listeners use loopback. A Git clone contains code and documentation, not live service state.</text>
 </svg>
