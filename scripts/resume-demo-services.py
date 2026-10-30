@@ -16,6 +16,9 @@ import ssl
 import subprocess
 import time
 import uuid
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from infra.session_tokens import discovery_identity
 
 
 class NoRedirect(HTTPRedirectHandler):
@@ -173,16 +176,27 @@ def run(args):
     try:
         command(k + ['wait', '--for=condition=Ready', 'nodes', '--all', '--timeout=180s'])
         # One existing narrowly authorized identity; never broaden RBAC or print the minted value.
-        token = json.loads(command(k + ['create', 'token', 'iot-api-metrics', '-n', 'iot-observability', '--duration=' + str(remaining) + 's', '-o', 'json']))
-        expiry = token['status']['expirationTimestamp']
-        if datetime.fromisoformat(expiry.replace('Z', '+00:00')) >= datetime.fromisoformat(current['auto_stop_utc']): raise ValueError('Token exceeds approved VM session')
         config = json.loads((root / 'data/runtime/monitoring-28/prometheus.json').read_bytes())
         paths = token_files(config) | {str(root / 'data/runtime/log-discovery-28/auth/token')}
+        # Validate every retained subject before issuing or replacing anything. The LLM reader
+        # has its own RBAC and a group-readable file; the older metrics identity cannot replace it.
+        plan = {}
         for name in paths:
             path = Path(name).resolve()
             if not path.is_relative_to(root / 'data/runtime') or not path.is_file(): raise ValueError('Unexpected authorization file')
-            pending = path.with_suffix('.next'); pending.write_text(token['status']['token']); pending.chmod(0o400); pending.replace(path)
-        token = None; report['steps']['scoped_token'] = {'expires_utc': expiry, 'files': len(paths), 'value_saved_in_evidence': False}; save()
+            plan[path] = discovery_identity(root / 'data/runtime', path, path.read_bytes())
+        issued = {}; identities = {}
+        for identity in sorted(set(plan.values())):
+            token = json.loads(command(k + ['create', 'token', identity, '-n', 'iot-observability', '--duration=' + str(remaining) + 's', '-o', 'json']))
+            expiry = token['status']['expirationTimestamp']
+            if datetime.fromisoformat(expiry.replace('Z', '+00:00')) >= datetime.fromisoformat(current['auto_stop_utc']): raise ValueError('Token exceeds approved VM session')
+            issued[identity] = token['status']['token']
+            identities[identity] = {'expires_utc': expiry, 'files': sum(v == identity for v in plan.values())}
+        for path, identity in plan.items():
+            previous = path.stat(); pending = path.with_suffix('.next')
+            pending.write_text(issued[identity]); os.chown(pending, previous.st_uid, previous.st_gid)
+            pending.chmod(previous.st_mode & 0o777); pending.replace(path)
+        token = None; issued.clear(); report['steps']['scoped_token'] = {'identities': identities, 'files': len(paths), 'permissions_preserved': True, 'value_saved_in_evidence': False}; save()
         # Use the exact recipes that ran before STOP, excluding the superseded static-file Alloy collector.
         recipes = root / 'data/runtime/vm-session-28b/units'
         checkpoint = json.loads((recipes.parent / 'checkpoint.json').read_bytes())
