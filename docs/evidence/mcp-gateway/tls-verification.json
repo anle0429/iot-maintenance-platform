@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-30T04:48:53.004165+00:00",
+  "host": "retrieval.iot.test",
+  "gateway_ip": "10.53.22.203",
+  "tls": {
+    "ca_verified": true,
+    "hostname_verified": true,
+    "leaf_sha256": "c8b3b68a462d24fc6c82ae414098eac088ea3f92906e9db754dd34b1b6857b06",
+    "tls_version": "TLSv1.3"
+  },
+  "ingress_uid": "19a0b0d4-178b-4cc7-9f80-cf6986a8628a",
+  "existing_controller_and_network_preserved": true,
+  "source_sha256": {
+    "scripts/update-mcp-gateway-route.py": "236ee00a1ac44ef79fa5a2bddc1b3738046fa702fd484a7e5f8e4627e810f382",
+    "infra/gateway/mcp.py": "8a9097e99e944119fb3877f3425adf9ce2a880367e631460cca5c518e21794b8"
+  },
+  "scope": "Only the rejected new ingress header/auth annotations corrected. Native scoped Bearer authentication is passed unchanged; full REST/MCP probes follow separately."
+}
