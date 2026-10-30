@@ -31,7 +31,8 @@ class ModelReader(HttpUser):
                 assert any(choice.get('delta',{}).get('content') for chunk in chunks for choice in chunk.get('choices',[]))
                 assert any(choice.get('finish_reason') in {'stop','length'} for chunk in chunks for choice in chunk.get('choices',[]))
                 assert len(response.headers['x-iot-request-id'])==32
-                context.update({'request_id':response.headers['x-iot-request-id'],'usage':{n:usage[n] for n in ['prompt_tokens','completion_tokens','total_tokens']}})
+                response.request_meta['context'].update({'request_id':response.headers['x-iot-request-id'],
+                    'usage':{n:usage[n] for n in ['prompt_tokens','completion_tokens','total_tokens']}})
             except (ValueError,KeyError,AssertionError,StopIteration):response.failure('Incomplete stream, missing output or inconsistent provider usage')
 
 
