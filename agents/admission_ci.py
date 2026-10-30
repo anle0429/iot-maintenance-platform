@@ -2,6 +2,17 @@
 import re
 
 
+def production_agents(items):
+    """Select the three production roles while explicitly accounting for the retained, separately tested A/B pair."""
+    owned={'iot-retrieval','iot-drift','iot-coordinator'};experiments={'iot-ab-retrieval-a','iot-ab-retrieval-b'}
+    names=[v.get('metadata',{}).get('name') for v in items]
+    if len(names)!=len(set(names)) or not owned<=set(names) or set(names)-owned not in [set(),experiments]:
+        raise ValueError('Require all three production roles and only the known complete optional A/B pair')
+    if any(v.get('kind')!='SandboxAgent' or v.get('metadata',{}).get('namespace')!='iot-agents' for v in items):
+        raise ValueError('Unexpected agent object type or namespace')
+    return [v for v in items if v['metadata']['name'] in owned]
+
+
 def require_policy_phase(value,identity,source_digest):
     """A successful decision from another build, source, scenario or model identity cannot authorize production deployment."""
     if (value.get('schema_version')!=1 or value.get('phase')!='policy' or value.get('passed') is not True

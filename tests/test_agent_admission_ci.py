@@ -1,11 +1,23 @@
 """Refuse cross-build and counterfactual policy receipts before the production deployment controller is reached."""
 from copy import deepcopy
 import unittest
-from agents.admission_ci import require_policy_phase
+from agents.admission_ci import require_policy_phase,production_agents
 
 
 class AgentAdmissionCiTests(unittest.TestCase):
     """An OPA allow result is necessary but insufficient without the actual build/source/configuration identity."""
+    def test_retained_experiments_are_explicit_and_never_hide_unknown_agents(self):
+        """The accepted A/B pair does not change the three-role release, while incomplete or unfamiliar extras fail."""
+        def agent(name):
+            """Represent an independent namespace/type identity; readiness remains the retained controller's responsibility."""
+            return {'kind':'SandboxAgent','metadata':{'name':name,'namespace':'iot-agents'}}
+        baseline=[agent('iot-'+r) for r in ['retrieval','drift','coordinator']]
+        pair=[agent('iot-ab-retrieval-'+v) for v in ['a','b']];all_agents=deepcopy(baseline+pair)
+        self.assertEqual(production_agents(baseline),baseline);self.assertEqual(production_agents(all_agents),baseline)
+        self.assertEqual(all_agents,baseline+pair)
+        for bad in [baseline[:-1],baseline+[pair[0]],baseline+[agent('unreviewed')],baseline+[baseline[0]]]:
+            with self.subTest(items=bad),self.assertRaises(ValueError):production_agents(bad)
+
     def test_only_the_exact_production_phase_can_authorize_deployment(self):
         """A denied/cross-build/negative-test receipt cannot become a production approval."""
         identity={'component':'retrieval','build_number':'3','source_commit':'a'*40,'release':'llm-retrieval-jenkins-3'}

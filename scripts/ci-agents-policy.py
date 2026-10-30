@@ -5,9 +5,15 @@ from pathlib import Path
 import argparse,importlib.util,json,os,subprocess,sys
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from agents.admission import deployment_envelope,evaluate,require_same_admitted_input
-from agents.admission_ci import require_policy_phase
+from agents.admission_ci import require_policy_phase,production_agents
 SPEC=importlib.util.spec_from_file_location('retained_agent_release',ROOT/'scripts/ci-agents.py')
 BASE=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(BASE)
+ORIGINAL_READY_AGENTS=BASE.ready_agents
+
+
+def ready_production_agents(items,policy):
+    """Apply the retained exact readiness checks to production while explicitly validating the optional A/B inventory."""
+    return ORIGINAL_READY_AGENTS(production_agents(items),policy)
 
 
 class PolicyContext(BASE.Context):
@@ -60,6 +66,7 @@ def candidate(c,label):
 def run(phase):
     """Use the retained release stages with an explicit context injection; old pipeline source and historical receipts remain intact."""
     BASE.Context=PolicyContext
+    BASE.ready_agents=ready_production_agents
     if phase not in {'policy','policy-host','admitted-deploy-host'}:return BASE.run(phase)
     c=PolicyContext();c.prior('build');BASE.SHARED.real_admission(c,900)
     with (c.out/(phase+'.attempt')).open('x') as stream:stream.write(datetime.now(timezone.utc).isoformat())
@@ -82,8 +89,19 @@ def run(phase):
         require_same_admitted_input(receipt['decision'],envelope)
         decision=evaluate(ROOT,c.deploy/'data/runtime/policy-assets-28/opa',envelope,c.out/'policy-recheck-decision')
         require_same_admitted_input(decision,envelope)
+        before_agents=c.get('get','sandboxagents','-n','iot-agents');before_models=c.get('get','modelconfigs','-n','iot-agents')
+        BASE.SHARED.save(c.out/'all-agents-before-deploy.json',before_agents);BASE.SHARED.save(c.out/'all-models-before-deploy.json',before_models)
         # The original deployment procedure starts only after both policy checks and the exact-input comparison.
         BASE.deploy_host(c)
+        after_agents=c.get('get','sandboxagents','-n','iot-agents');after_models=c.get('get','modelconfigs','-n','iot-agents')
+        BASE.SHARED.save(c.out/'all-agents-after-deploy.json',after_agents);BASE.SHARED.save(c.out/'all-models-after-deploy.json',after_models)
+        def experimental_identity(values):
+            """Compare actual retained experiment UIDs/specs instead of assuming that a production reapply cannot affect them."""
+            return {v['metadata']['name']:{'uid':v['metadata']['uid'],'spec':v['spec']} for v in values['items'] if v['metadata']['name'].startswith('iot-ab-')}
+        if experimental_identity(before_agents)!=experimental_identity(after_agents) or experimental_identity(before_models)!=experimental_identity(after_models):
+            raise ValueError('The production release changed a retained experiment identity or specification')
+        BASE.SHARED.save(c.out/'retained-experiments.json',{'passed':True,'agent_identities':experimental_identity(after_agents),
+            'model_identities':experimental_identity(after_models),'scope':'The known optional A/B pair is accounted for and remains unchanged by the production release.'})
     c.source_check()
 
 
