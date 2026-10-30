@@ -10,9 +10,10 @@ ADDRESS = '10.52.0.1'
 UPSTREAM_PORT = 18200
 PORT = 21950
 AGENT_PATHS = {'iot/metadata', 'iot/metadata/agents', 'iot/metadata/agents/gateway', 'iot/metadata/agents/services'}
-UI_READS = {'/v1/auth/token/lookup-self', '/v1/sys/health', '/v1/sys/internal/ui/mounts',
+UI_READS = {'/v1/auth/token/lookup-self', '/v1/sys/health', '/v1/sys/seal-status', '/v1/sys/activation-flags', '/v1/sys/internal/ui/mounts',
             '/v1/sys/internal/ui/resultant-acl', '/v1/sys/internal/ui/feature-flags',
-            '/v1/sys/license/features', '/v1/sys/replication/status'}
+            '/v1/sys/license/features', '/v1/sys/replication/status', '/v1/sys/internal/ui/settings',
+            '/v1/sys/internal/ui/unauthenticated-messages', '/v1/sys/internal/ui/authenticated-messages'}
 
 
 def allowed_request(host, origin, target, method, port=PORT):
@@ -25,6 +26,9 @@ def allowed_request(host, origin, target, method, port=PORT):
         return method in {'GET', 'HEAD'}
     if method == 'POST': return path == '/v1/sys/capabilities-self' and not value.query
     if method not in {'GET', 'HEAD', 'LIST'}: return False
+    if path == '/v1/sys/health' and method in {'GET', 'HEAD'}:
+        parameters = parse_qs(value.query, keep_blank_values=True)
+        return set(parameters) <= {'standbyok', 'perfstandbyok', 'activecode', 'standbycode', 'drsecondarycode', 'performancestandbycode', 'sealedcode', 'uninitcode', 'haunhealthycode', 'removedcode'} and all(len(v) == 1 and (v[0] in {'true', 'false'} or v[0].isdigit() and 100 <= int(v[0]) <= 599) for v in parameters.values())
     if path in UI_READS: return method != 'LIST' and not value.query
     if path.startswith('/v1/sys/internal/ui/mounts/'):
         return method != 'LIST' and not value.query and path.removeprefix('/v1/sys/internal/ui/mounts/').rstrip('/') in {

@@ -18,7 +18,8 @@ class MetadataViewerTests(unittest.TestCase):
 
     def test_native_ui_and_dedicated_metadata(self):
         """Admit original UI resources, own-token inspection and exactly the required KV metadata."""
-        for path in ['/ui/', '/ui/assets/vault.js', '/v1/auth/token/lookup-self', '/v1/sys/internal/ui/mounts',
+        for path in ['/ui/', '/ui/assets/vault.js', '/v1/auth/token/lookup-self', '/v1/sys/internal/ui/mounts', '/v1/sys/seal-status',
+                     '/v1/sys/health?standbyok=true&perfstandbyok=true', '/v1/sys/internal/ui/unauthenticated-messages',
                      '/v1/iot/metadata/agents?list=true', '/v1/iot/metadata/agents/gateway', '/v1/iot/metadata/agents/services']:
             with self.subTest(path=path): self.assertTrue(VIEW.allowed_request('127.0.0.1:21950', '', path, 'GET'))
 
@@ -33,7 +34,7 @@ class MetadataViewerTests(unittest.TestCase):
     def test_foreign_origins_and_ambiguous_paths(self):
         """Reject encoded aliases, traversal, proxy URLs and alternate hosts before forwarding authentication."""
         for target in ['//foreign.invalid/ui/', 'https://foreign.invalid/ui/', '/ui/../v1/iot/data/agents/services',
-                       '/v1/iot/%64ata/agents/gateway', '/v1/iot/metadata/agents?list=true&list=true', '/ui\\assets', '/ui/#fragment']:
+                       '/v1/iot/%64ata/agents/gateway', '/v1/iot/metadata/agents?list=true&list=true', '/ui\\assets', '/ui/#fragment', '/v1/sys/health?target=foreign']:
             with self.subTest(target=target): self.assertFalse(VIEW.allowed_request('127.0.0.1:21950', '', target, 'GET'))
         self.assertFalse(VIEW.allowed_request('foreign.invalid', '', '/ui/', 'GET'))
         self.assertFalse(VIEW.allowed_request('127.0.0.1:21950', 'https://foreign.invalid', '/ui/', 'GET'))
