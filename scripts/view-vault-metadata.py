@@ -43,6 +43,11 @@ def allowed_body(body):
     return set(value) == {'paths'} and isinstance(paths, list) and 0 < len(paths) <= 8 and all(isinstance(v, str) and v.rstrip('/') in allowed for v in paths)
 
 
+def upstream_encoding(target):
+    """Request native gzip UI assets; this retained Vault build sends an empty body for identity UI requests."""
+    return 'gzip' if urlsplit(target).path.startswith('/ui') else 'identity'
+
+
 def run(args):
     """Forward unchanged native UI/metadata over fixed TLS; keep credentials and response bodies out of the audit."""
     context = ssl.create_default_context(cafile=str(args.ca))
@@ -69,7 +74,7 @@ def run(args):
             if self.command == 'POST' and (body is None or not allowed_body(body)): self.send_error(403); return
             connection = http.client.HTTPSConnection(ADDRESS, UPSTREAM_PORT, context=context, timeout=30)
             connection.connect(); leaf = sha256(connection.sock.getpeercert(binary_form=True)).hexdigest(); version = connection.sock.version()
-            headers = {'Host': ADDRESS+':'+str(UPSTREAM_PORT), 'Accept': self.headers.get('Accept', '*/*'), 'Accept-Encoding': 'identity'}
+            headers = {'Host': ADDRESS+':'+str(UPSTREAM_PORT), 'Accept': self.headers.get('Accept', '*/*'), 'Accept-Encoding': upstream_encoding(self.path)}
             for name in ['Content-Type', 'X-Vault-Token', 'X-Vault-Request', 'X-Vault-Namespace']:
                 if self.headers.get(name): headers[name] = self.headers[name]
             connection.request(self.command, self.path, body=body, headers=headers); response = connection.getresponse()

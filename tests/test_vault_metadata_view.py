@@ -10,6 +10,12 @@ VIEW = importlib.util.module_from_spec(SPEC); SPEC.loader.exec_module(VIEW)
 class MetadataViewerTests(unittest.TestCase):
     """Keep an administrative UI view from exposing credentials or changing retained Vault state."""
 
+    def test_original_ui_compression_is_preserved(self):
+        """Use the native nonempty gzip representation without recompressing or modifying response bytes."""
+        self.assertEqual(VIEW.upstream_encoding('/ui/'), 'gzip')
+        self.assertEqual(VIEW.upstream_encoding('/ui/assets/vault.js'), 'gzip')
+        self.assertEqual(VIEW.upstream_encoding('/v1/iot/metadata/agents/gateway'), 'identity')
+
     def test_native_ui_and_dedicated_metadata(self):
         """Admit original UI resources, own-token inspection and exactly the required KV metadata."""
         for path in ['/ui/', '/ui/assets/vault.js', '/v1/auth/token/lookup-self', '/v1/sys/internal/ui/mounts',
