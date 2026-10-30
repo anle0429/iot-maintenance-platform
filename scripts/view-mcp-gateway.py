@@ -5,7 +5,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from ipaddress import ip_address
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
-import argparse, base64, http.client, json, re, socket, ssl, threading
+import argparse, http.client, json, re, socket, ssl, threading
 
 HOST = 'retrieval.iot.test'
 PORT = 19111
@@ -27,9 +27,8 @@ def run(args):
     address = ip_address(args.gateway_ip)
     if address.version != 4 or not address.is_private or address.is_loopback or address.is_unspecified or address.is_multicast:
         raise ValueError('Use the retained private gateway ClusterIP')
-    credentials = json.loads(args.credentials.read_bytes()); token = json.loads(args.mcp_tokens.read_bytes())['retrieval']
-    assert credentials['username'] == 'coursework' and len(credentials['password']) >= 32 and len(token) >= 32
-    basic = 'Basic '+base64.b64encode((credentials['username']+':'+credentials['password']).encode()).decode()
+    token = json.loads(args.mcp_tokens.read_bytes())['retrieval']
+    assert len(token) >= 32
     context = ssl.create_default_context(cafile=str(args.ca)); lock = threading.Lock()
     args.audit.parent.mkdir(parents=True, exist_ok=True); audit = args.audit.open('x', encoding='utf-8')
 
@@ -56,7 +55,7 @@ def run(args):
             peer = context.wrap_socket(socket.create_connection((str(address), 443), timeout=15), server_hostname=HOST)
             peer.settimeout(90); leaf = sha256(peer.getpeercert(binary_form=True)).hexdigest(); version = peer.version()
             connection = http.client.HTTPSConnection(str(address), 443, context=context, timeout=90); connection.sock = peer
-            headers = {'Host': HOST, 'Authorization': basic, 'X-MCP-Authorization': 'Bearer '+token,
+            headers = {'Host': HOST, 'Authorization': 'Bearer '+token,
                        'Accept': self.headers.get('Accept', 'application/json')}
             if self.headers.get('Content-Type'): headers['Content-Type'] = self.headers['Content-Type']
             connection.request(self.command, self.path, body=body, headers=headers); response = connection.getresponse()
@@ -92,5 +91,5 @@ def run(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('--gateway-ip', required=True)
-    for name in ['credentials', 'mcp-tokens', 'ca', 'audit']: parser.add_argument('--'+name, type=Path, required=True)
+    for name in ['mcp-tokens', 'ca', 'audit']: parser.add_argument('--'+name, type=Path, required=True)
     run(parser.parse_args())

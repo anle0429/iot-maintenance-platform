@@ -1,8 +1,8 @@
-"""Exercise the real retrieval HTTPS route, both authentication layers, REST data and the native MCP SDK."""
+"""Exercise the real retrieval HTTPS route, scoped bearer authentication, REST data and the native MCP SDK."""
 from datetime import datetime, timezone
 from hashlib import sha256
 from pathlib import Path
-import argparse, asyncio, base64, http.client, json, socket, ssl, sys, time
+import argparse, asyncio, http.client, json, socket, ssl, sys, time
 import httpx2
 from mcp.client import ClientSession
 from mcp.client.streamable_http import streamable_http_client
@@ -13,16 +13,15 @@ HOST = 'retrieval.iot.test'
 async def run(args):
     """Read credentials only from stdin and retain original response bytes without request authorization values."""
     credentials = json.load(sys.stdin); out = args.output; out.mkdir(exist_ok=False)
-    basic = 'Basic '+base64.b64encode((credentials['gateway']['username']+':'+credentials['gateway']['password']).encode()).decode()
     bearer = 'Bearer '+credentials['mcp']; machine = credentials['machine_id']
-    assert len(credentials['mcp']) >= 32 and credentials['gateway']['username'] == 'coursework'
+    assert len(credentials['mcp']) >= 32 and len(credentials['other_role_token']) >= 32
     context = ssl.create_default_context(cafile=str(args.ca)); rows = []
 
     def save(name, value):
         """Keep response metadata and full bodies in immutable phase files, never incoming request headers."""
         (out/name).write_text(json.dumps(value, indent=2)+'\n')
 
-    def request(case, method, path, edge=basic, tool=bearer, body=None, tls=True, extra=None):
+    def request(case, method, path, auth=bearer, body=None, tls=True, extra=None):
         """Bind the actual private gateway address to the fixed verified DNS/SNI name without redirects or TLS bypass."""
         started = time.monotonic(); conn = http.client.HTTPConnection(args.gateway_ip, 80, timeout=30)
         peer = None
@@ -32,8 +31,7 @@ async def run(args):
             peer = {'ca_verified': True, 'hostname_verified': True, 'tls_version': conn.sock.version(),
                     'leaf_sha256': sha256(conn.sock.getpeercert(binary_form=True)).hexdigest()}
         headers = {'Host': HOST, 'Accept': 'application/json, text/event-stream', **(extra or {})}
-        if edge: headers['Authorization'] = edge
-        if tool: headers['X-MCP-Authorization'] = tool
+        if auth: headers['Authorization'] = auth
         raw = json.dumps(body).encode() if body is not None else None
         if raw is not None: headers['Content-Type'] = 'application/json'
         conn.request(method, path, body=raw, headers=headers)
@@ -44,13 +42,14 @@ async def run(args):
                'elapsed_seconds': time.monotonic()-started}
         conn.close(); rows.append(row); save('http.json', rows); return row
 
-    negative = [('missing-edge', None, bearer), ('incorrect-edge', 'Basic Y291cnNld29yazp3cm9uZw==', bearer),
-                ('bearer-is-not-edge-basic', bearer, bearer), ('missing-tool-token', basic, None),
-                ('incorrect-tool-token', basic, 'Bearer incorrect-native-test')]
-    for name, edge, tool in negative:
-        value = request(name, 'POST', '/v1/knowledge:search', edge, tool, {'question': 'Does high vibration alone prove failure?', 'top_k': 3})
+    negative = [('missing-token', None, {}), ('incorrect-token', 'Bearer incorrect-native-test', {}),
+                ('basic-is-not-bearer', 'Basic Y291cnNld29yazp3cm9uZw==', {}),
+                ('nonstandard-header-is-not-auth', None, {'X-MCP-Authorization': bearer}),
+                ('other-role-token', 'Bearer '+credentials['other_role_token'], {})]
+    for name, auth, extra in negative:
+        value = request(name, 'POST', '/v1/knowledge:search', auth, body={'question': 'Does high vibration alone prove failure?', 'top_k': 3}, extra=extra)
         assert value['status'] == 401, (name, value['status'])
-    redirect = request('plain-http-redirect', 'GET', '/docs', None, None, tls=False)
+    redirect = request('plain-http-redirect', 'GET', '/docs', None, tls=False)
     assert redirect['status'] == 308 and redirect['headers']['Location'] == 'https://'+HOST+':443/docs'
     docs = request('native-docs', 'GET', '/docs'); assert docs['status'] == 200 and 'swagger-ui' in docs['body']
     schema = request('native-openapi', 'GET', '/openapi.json'); assert schema['status'] == 200
@@ -81,7 +80,7 @@ async def run(args):
         else: raise AssertionError('An invalid TLS identity was accepted')
     save('tls-negative.json', tls_negative)
     capture = {'calls': []}
-    async with httpx2.AsyncClient(headers={'Authorization': basic, 'X-MCP-Authorization': bearer}, verify=context, timeout=90, trust_env=False) as client:
+    async with httpx2.AsyncClient(headers={'Authorization': bearer}, verify=context, timeout=90, trust_env=False) as client:
         async with streamable_http_client('https://'+HOST+'/mcp', http_client=client) as (incoming, outgoing):
             async with ClientSession(incoming, outgoing) as session:
                 capture['initialized'] = (await session.initialize()).model_dump(mode='json', by_alias=True)
@@ -98,11 +97,11 @@ async def run(args):
               'http_requests': len(rows), 'auth_rejections': 5, 'tls_rejections': 2, 'foreign_origin_rejected': True,
               'native_mcp_tools': 3, 'rest_and_mcp_results_equal': True, 'model_version': '6', 'machine_id': machine,
               'source_sha256': sha256(Path(__file__).read_bytes()).hexdigest(),
-              'scope': 'Actual CA/SNI-verified private NGINX route, two authentication layers, native REST and MCP SDK. Not public DNS, browser CA trust, a new model or a load benchmark.'}
+              'scope': 'Actual CA/SNI-verified private NGINX route, native role-scoped bearer authentication, REST and MCP SDK. Not public DNS, browser CA trust, a new model or a load benchmark.'}
     save('verification.json', report)
     for path in out.iterdir():
         raw = path.read_bytes()
-        assert not any(value.encode() in raw for value in [credentials['gateway']['password'], credentials['mcp'], basic, bearer])
+        assert not any(value.encode() in raw for value in [credentials['mcp'], credentials['other_role_token'], bearer])
     print(json.dumps(report, indent=2))
 
 
