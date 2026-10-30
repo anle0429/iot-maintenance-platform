@@ -2,7 +2,7 @@
 
 The retrieval service now answers REST and native MCP requests at `https://retrieval.iot.test` through the existing private NGINX gateway. The hostname belongs to this lab; no public DNS record, Internet listener or browser certificate exception was added.
 
-This is a restart checkpoint. Native transport and tool checks passed. The requested UI screenshots and final artifact-audit integration remain pending in [L47](final-llm-rubric-tracker.md).
+Native transport and tool checks passed, and the service was reopened successfully after a PC restart. Two original Swagger captures are reconciled with the native viewer's TLS audit. The [offline checker](../scripts/verify-mcp-gateway.py) is included in the final artifact audit. The remaining coursework requirements stay visible in the [LLM tracker](final-llm-rubric-tracker.md).
 
 ## Request path
 
@@ -33,6 +33,18 @@ The feature state was genuinely rematerialized for 200 machines at 04:43:57 UTC,
 
 The archive retains the original failures. The first deployment stopped before resource creation because the expired upstream lease made both retrieval replicas unready. The next created the three named resources but NGINX rejected its variable-valued header annotation. The accepted correction changed only that new ingress's annotations, retaining its UID, certificate, backend and NetworkPolicy. It uses native bearer authentication instead of translating credentials between headers.
 
+## Original interface evidence
+
+The same native viewer and feature lease were reused after the PC restarted. At 05:04 UTC, Swagger returned P-001's features and three reference passages. Each image is unedited. The full accessibility snapshots preserve response content that extends beyond the viewport.
+
+![Native feature response through the private administrative connection](evidence/mcp-gateway/ui/features.jpg)
+
+![Native knowledge response with document, revision and source identities](evidence/mcp-gateway/ui/knowledge.jpg)
+
+The [capture index](evidence/mcp-gateway/ui/index.json) explains the connection boundary. The browser displays loopback HTTP over IAP; the viewer verifies CA/SNI HTTPS to `retrieval.iot.test`. No browser certificate warning was bypassed.
+
+The checker matches the displayed JSON values to the actual viewer response digests in the [untouched supplemental archive](evidence/mcp-gateway/native-viewer-receipts.tar.gz). Two separately recorded HTTP readbacks preserve the matching wire bodies; they are labeled as subsequent requests, not browser interception. This matters because Swagger can display a JSON number such as `0.0` as `0`. No wire response was reconstructed from the display.
+
 The pinned NGINX version's [upstream Host template](https://github.com/nginx/kubernetes-ingress/blob/v5.7.0/internal/configs/version1/nginx.ingress.tmpl) documents the Host override used here. The actual rejected annotation event and rendered accepted configuration are preserved in the archive.
 
 ## Resume the demo
@@ -41,6 +53,8 @@ Use the [existing lab recovery procedure](demo-walkthrough.md) to check VM sessi
 
 The [administrative viewer](../scripts/view-mcp-gateway.py) runs only on loopback. On the VM, select a port that is free on both machines, pass the existing retrieval-token file and CA paths, then forward that same loopback port through IAP. Its `--port` option defaults to 19111; the recorded second viewer used 21947 because the PC already had other listeners. The viewer replaces incoming credentials with the local scoped token, rejects foreign browser origins and forwards only documentation, structured search, feature and prediction operations. It records upstream TLS facts and response hashes without credential values or question text.
 
-The browser sees loopback HTTP through this administrative connection; the viewer verifies private HTTPS upstream. This does not claim browser CA trust. Screenshots should be captured from an actual successful response and retain this distinction.
+The browser sees loopback HTTP through this administrative connection; the viewer verifies private HTTPS upstream. This does not claim browser CA trust.
 
 After a PC restart, reopen the project and reconnect the tunnel. If the VM has auto-stopped, recover the existing VM first. If the feature lease has expired, use a new genuine preparation. Source, evidence and Git history survive the restart; local tunnels and browser connections do not.
+
+For read-only local evidence verification, run `python -B -S scripts/verify-mcp-gateway.py`. This checks recorded transport and UI evidence without starting services or changing data. It does not assert that the service is live now.

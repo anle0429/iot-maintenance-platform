@@ -1,0 +1,55 @@
+{
+  "derived_from": "Decoded response visible in the original AX state. A separate subsequent raw HTTP readback has the same JSON values and exact original UI transport body hash. JSON number formatting may differ in Swagger; no wire body was reconstructed.",
+  "response": {
+    "matches": [
+      {
+        "chunk_id": "426386a246f608c2c2beb3a39aabebe06089e68b959690780093c5a0da77afa5",
+        "document_id": "assistant-policy",
+        "revision": 1,
+        "source_sha256": "1bafddd3595e088840bf9e53b28bd685fbaf20472b77ec40c89cff0c1c17aedb",
+        "source_file": "assistant-policy.md",
+        "section": "Explain limitations",
+        "text": "## Explain limitations\n\nSeparate observations, model scores and hypotheses. State that the dataset is synthetic when discussing applicability to real pumps. A stale feature response or unavailable service must be described as unavailable, not replaced with a remembered value.",
+        "cosine_similarity": 0.4038443902430622
+      },
+      {
+        "chunk_id": "a2bab1132dd65c3d7aa4850ac06c37007f2868d4b36602e14ca149450db43da4",
+        "document_id": "monitoring",
+        "revision": 1,
+        "source_sha256": "7a080ac6193902cf21bc22e1ff51eb22ce9466980a576a13803fc60ddae51218",
+        "source_file": "monitoring.md",
+        "section": "Vibration and operating load",
+        "text": "## Vibration and operating load\n\nVibration is measured in millimetres per second. In the simulator, vibration responds to wear, operating load and random measurement noise. A high vibration value alone does not prove that a failure has occurred. Compare its recent history with RPM, current, temperature and the operating-state flag. The coursework does not define a certified universal vibration alarm threshold.",
+        "cosine_similarity": 0.37416938711347314
+      },
+      {
+        "chunk_id": "cd1b36545d0a234e19f827acf4b62e02a9e5ad2001766374abf4281b17f210e6",
+        "document_id": "prediction",
+        "revision": 1,
+        "source_sha256": "d490874d40fa89aaa7a0669d00ca1f08e4175bff037244dab628682f14b62cea",
+        "source_file": "prediction.md",
+        "section": "Score and uncertainty",
+        "text": "## Score and uncertainty\n\nThe returned risk score comes from a model trained on synthetic data. It is not a calibrated probability for real industrial pumps. The assistant must identify the model version, feature timestamp and data provenance. It must not convert a high score into a claim that a physical failure is certain.",
+        "cosine_similarity": 0.3408796404726654
+      }
+    ],
+    "snapshot_sha256": "3538ac2e5d2a6c8b1cd1e7c4086e0bfd5e23edabffd0d82ed04062224ff899f1",
+    "embedding_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "source_type": "authored-synthetic-reference"
+  },
+  "native_transport_record": {
+    "utc": "2026-10-30T05:04:48.305688+00:00",
+    "host": "retrieval.iot.test",
+    "path": "/v1/knowledge:search",
+    "method": "POST",
+    "status": 200,
+    "ca_verified": true,
+    "hostname_verified": true,
+    "tls_version": "TLSv1.3",
+    "leaf_sha256": "c8b3b68a462d24fc6c82ae414098eac088ea3f92906e9db754dd34b1b6857b06",
+    "response_bytes": 2193,
+    "served_response_sha256": "b0fca192822364939600e54510e0b94027132e344c299f471e30ac77c7c5ec01",
+    "body_edited": false,
+    "credentials_logged": false
+  }
+}

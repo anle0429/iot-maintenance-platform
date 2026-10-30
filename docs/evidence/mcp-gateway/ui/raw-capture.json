@@ -1,0 +1,23 @@
+{
+  "scope": "Two separate read-only administrative HTTP requests after the original UI. Original bytes; not browser network interception. Used to match the original UI transport digest and decoded values.",
+  "requests": [
+    {
+      "name": "features",
+      "url": "http://127.0.0.1:21947/v1/machines/P-001/features",
+      "observed_utc": "2026-10-30T05:08:26.302684+00:00",
+      "status": 200,
+      "bytes": 812,
+      "body_sha256": "65ab49bcd68bc909513547764a4aa063ff224d399373ab6e34992c45ac2294d8",
+      "server_date": "Fri, 30 Oct 2026 05:08:49 GMT"
+    },
+    {
+      "name": "knowledge",
+      "url": "http://127.0.0.1:21947/v1/knowledge:search",
+      "observed_utc": "2026-10-30T05:08:26.591869+00:00",
+      "status": 200,
+      "bytes": 2193,
+      "body_sha256": "b0fca192822364939600e54510e0b94027132e344c299f471e30ac77c7c5ec01",
+      "server_date": "Fri, 30 Oct 2026 05:08:49 GMT"
+    }
+  ]
+}

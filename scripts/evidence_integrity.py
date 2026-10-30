@@ -1,8 +1,10 @@
 """Check exact native capsule payload bytes and historical Git source bindings without executing evidence."""
 from pathlib import Path
 from hashlib import sha256
-import json,subprocess,ast
+import json,subprocess,ast,sys
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
+from scripts.git_sources import git_blobs
 
 
 def verified(base,count,native_count):
@@ -18,7 +20,8 @@ def verified(base,count,native_count):
 
 def source_bindings(seal):
     """Verify every declared source/input against its immutable Git blob; return the checked count."""
-    for n,h in seal['files'].items():assert sha256(subprocess.check_output(['git','show',seal['commit']+':'+n],cwd=ROOT)).hexdigest()==h,n
+    blobs=git_blobs(ROOT,seal['commit'],seal['files'])
+    for n,h in seal['files'].items():assert sha256(blobs[n]).hexdigest()==h,n
     return len(seal['files'])
 
 

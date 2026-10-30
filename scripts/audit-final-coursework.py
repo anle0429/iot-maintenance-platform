@@ -22,7 +22,7 @@ VERIFIERS = (
     'drift-retraining', 'final-handover', 'focused-api', 'host-monitoring', 'iac-final',
     'joint-cohort', 'linux-host', 'linux-logs', 'log-discovery', 'native-serving',
     'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort', 'final-review', 'llm-inference',
-    'rag-foundation', 'llm-grounding', 'rag-orchestration', 'rag-corpus-drift', 'assistant-data', 'mcp-tools', 'agent-platform', 'agent-response-baseline', 'llm-model-ab', 'llm-agent-ab',
+    'rag-foundation', 'llm-grounding', 'rag-orchestration', 'rag-corpus-drift', 'assistant-data', 'mcp-tools', 'mcp-gateway', 'agent-platform', 'agent-response-baseline', 'llm-model-ab', 'llm-agent-ab',
     'mcp-quality', 'mcp-quality-native', 'gpu-inference', 'gpu-agents', 'agent-network', 'agent-scaling', 'agent-notebook', 'agent-warmup', 'ci-rag', 'ci-agents', 'agent-gateway', 'llm-observation', 'llm-observer', 'llm-agent-telemetry', 'llm-monitoring', 'llm-policy-window', 'agent-admission',
 )
 CAPSULES = (
@@ -162,7 +162,7 @@ def audit(output, workers):
             assert path.is_relative_to(ROOT) and path.is_file(), (key, target)
             links += 1
     capsules = {name: capsule_manifest(ROOT, name) for name in CAPSULES}
-    checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py', ROOT / 'scripts/integration_evidence.py', ROOT / 'agents/answer_acceptance.py', ROOT / 'agents/delegation_acceptance.py', ROOT / 'scripts/go-mutation-exec.py', ROOT / 'agents/probe.py']
+    checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py', ROOT / 'scripts/git_sources.py', ROOT / 'scripts/integration_evidence.py', ROOT / 'agents/answer_acceptance.py', ROOT / 'agents/delegation_acceptance.py', ROOT / 'scripts/go-mutation-exec.py', ROOT / 'agents/probe.py']
     source_before = {p.relative_to(ROOT).as_posix(): sha256(p.read_bytes()).hexdigest() for p in checkers}
     results = {}
     with ThreadPoolExecutor(max_workers=workers) as pool:
