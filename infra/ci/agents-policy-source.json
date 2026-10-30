@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "required": [
+    "infra/ci/agents-policy-source.json", "infra/ci/agents-source.json",
+    "infra/ci/AgentsPolicy.Jenkinsfile", "scripts/ci-agents-policy.py", "scripts/ci-agents.py",
+    "agents/admission.py", "agents/admission_ci.py", "agents/admission_cases.py", "agents/response-policy.json",
+    "infra/policy/agent-admission.rego", "infra/policy/agent-admission-approved.json", "infra/policy/opa-assets.json",
+    "tests/test_agent_admission.py", "tests/test_agent_admission_ci.py", "tests/fixtures/agent-admission-observed.json"
+  ]
+}

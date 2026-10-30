@@ -54,7 +54,8 @@ def evaluate(source,opa,envelope,output):
         (output/(label+'-exit.json')).write_text(json.dumps({'exit_code':result.returncode})+'\n');return result
     observed=call('decision','data.iot.agent_admission.result')
     if observed.returncode!=0:raise RuntimeError('OPA evaluation failed; no deployment is admitted')
-    decision=decision_value(json.loads(observed.stdout));gate=call('gate','data.iot.agent_admission.result.allowed == true',True)
+    # Unification has no result when allowed is false; a comparison can return a defined false value with exit zero.
+    decision=decision_value(json.loads(observed.stdout));gate=call('gate','data.iot.agent_admission.result.allowed = true',True)
     if gate.returncode!=(0 if decision['allowed'] else 1):raise RuntimeError('OPA gate exit disagrees with its explicit decision')
     for name,pin in pins.items():
         if sha256((source/name).read_bytes()).hexdigest()!=pin:raise RuntimeError('Admission policy changed during evaluation')
