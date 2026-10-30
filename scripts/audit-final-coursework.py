@@ -23,7 +23,7 @@ VERIFIERS = (
     'joint-cohort', 'linux-host', 'linux-logs', 'log-discovery', 'native-serving',
     'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort', 'final-review', 'llm-inference',
     'rag-foundation', 'llm-grounding', 'rag-orchestration', 'rag-corpus-drift', 'assistant-data', 'mcp-tools', 'mcp-gateway', 'agent-platform', 'agent-response-baseline', 'llm-model-ab', 'llm-agent-ab',
-    'mcp-quality', 'mcp-quality-native', 'gpu-inference', 'gpu-agents', 'agent-network', 'agent-scaling', 'agent-notebook', 'agent-warmup', 'ci-rag', 'ci-agents', 'agent-gateway', 'llm-observation', 'llm-observer', 'llm-agent-telemetry', 'llm-monitoring', 'llm-policy-window', 'agent-admission',
+    'mcp-quality', 'mcp-quality-native', 'mcp-quality-ui', 'gpu-inference', 'gpu-agents', 'agent-network', 'agent-scaling', 'agent-notebook', 'agent-warmup', 'ci-rag', 'ci-agents', 'agent-gateway', 'llm-observation', 'llm-observer', 'llm-agent-telemetry', 'llm-monitoring', 'llm-policy-window', 'agent-admission',
 )
 CAPSULES = (
     'drift-api', 'api-autoscale', 'notebook', 'notebook-parity', 'distributed-training',

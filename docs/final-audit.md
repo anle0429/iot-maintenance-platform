@@ -11,6 +11,7 @@ The supplied workbook contains 57 weighted ML requirements and 60 weighted LLM r
 | Data and ML | Measured large-source Bronze/Silver processing, separate time-aware training data, native feature serving, drift/retraining and CI. [ML tracker](final-rubric-tracker.md) links each requirement to its own run. |
 | Inference and agents | [GPU conversations](gpu-agent-routing.md), [direct MCP boundaries](agent-network-isolation.md), [automatic worker scaling](agent-scaling.md), an [executed notebook](agent-notebook.md) and a [matched startup study](agent-warmup.md). The startup results are mixed across roles. |
 | Knowledge and delivery | [Native RAG governance](rag-orchestration.md), [RAG delivery](ci-rag.md) and [three separate MCP/agent CI jobs](ci-agents.md). These are actual native releases, not YAML-only deployment claims. |
+| Testing techniques and design | [Seven original CI/source captures](mcp-quality-evidence.md) show 132 executed tests, fixtures/mocks, boundary partitions, source-bound mutation reuse and the replay property. [Application factory and dependency injection](mcp-application-design.md) share the production construction path. |
 | API quality | [MCP quality](mcp-quality.md) retains coverage and the 681/850 mutation result; [GPU adapter checks](gpu-agent-routing.md) retain 116/140, including non-test failures in the denominator. Unchanged-source reuse is explicit; these gates are not rerun for screenshots. |
 | Operations and security | [Private agent interfaces and scoped Vault consumers](agent-gateway.md), [native monitoring and real GPU load](llm-monitoring-demo.md), and a [separate policy-frequency window](llm-policy-window.md). Trace-context warnings remain visible. |
 | Comparisons | [Model-artifact A/B](llm-model-ab.md) and [agent-configuration A/B](agent-configuration-ab.md) preserve actual replies, denominators, timings and failed predecessors. The small studies do not establish general model quality. |
@@ -20,15 +21,13 @@ The supplied workbook contains 57 weighted ML requirements and 60 weighted LLM r
 
 ## Remaining deliverables
 
-- L27–L30: requested screenshots showing coverage, fixtures/mocks, parameterized boundary/partition cases, mutation and property-based techniques. Native test results already exist; the missing images must show those actual results and code.
 - L48–L49: requested Terraform and Ansible run captures, tied to the retained CPU/GPU resources and agent deployment.
 - L58: a native Vault UI capture that demonstrates centralized shared secrets without exposing values.
-- L59: a capture and explanation of an implemented LLM application pattern, such as the MCP application factory and dependency injection.
 - Reconcile all original requirements against current sources, evidence and delivery files, then complete the presentation/demo handover. Do not infer completion from the number of green checks.
 
 ## Verification method
 
-The maintained audit registers **55 read-only artifact checkers**, plus nine separately inventoried native capsules. It checks original rubric wording/weights, source and payload identities and linked evidence. Each checker must cover the requirement it supports; a successful schema check or a 200 page alone is insufficient for a deployment or authenticated interaction claim.
+The maintained audit registers **56 read-only artifact checkers**, plus nine separately inventoried native capsules. It checks original rubric wording/weights, source and payload identities and linked evidence. Each checker must cover the requirement it supports; a successful schema check or a 200 page alone is insufficient for a deployment or authenticated interaction claim.
 
 The [retrieval HTTPS checker](../scripts/verify-mcp-gateway.py) authenticates 198 original native payloads, 24 historical source bindings, 13 HTTP outcomes, three matching MCP tool results and two original interface captures. Screenshot response values and raw-body digests are reconciled with the native TLS audit. The original failed deployments and the earlier checkpoint metadata remain intact.
 

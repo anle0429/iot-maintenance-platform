@@ -84,3 +84,5 @@ The [native checker](../scripts/verify-mcp-quality-native.py) verifies this rele
 ## Remaining acceptance
 
 Add the required presentation captures and CI integration. Agent conversation, isolation, scaling, warm-up, telemetry and A/B requirements remain separate.
+
+The [technique evidence guide](mcp-quality-evidence.md) adds original CI/source screenshots and an official HTML re-export of retrieval build 5. It keeps fresh API measurements separate from unchanged-source mutation reuse.

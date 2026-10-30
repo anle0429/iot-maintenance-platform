@@ -1,0 +1,391 @@
+Browser tab: 5, Title: "Coverage for services/mcp_tools/app.py: 98%", URL: "http://127.0.0.1:21948/html/z_66e154b85a9f1067_app_py.html#t22".
+1 AXWebArea Coverage for services/mcp_tools/app.py: 98%, URL: 127.0.0.1:21948/html/z_66e154…
+	403 container
+		404 heading services/mcp_tools/app.py: 98%, Value: 1
+			405 text services / mcp_tools / app.py :  98%
+		406 image Description: Show/hide keyboard shortcuts, ID: keyboard_icon
+		407 heading 86 1 0 1, Value: 2
+			408 button 86, Help: Toggle lines run
+			409 button 1, Help: Toggle lines missing
+			410 button 0, Help: Toggle lines excluded
+			411 button 1, Help: Toggle lines partially run
+	25 container source
+		26 container
+			27 link Description: 1, Value: 127.0.0.1:21948/html/z_66e154…, ID: t1
+			28 text """Serve role-isolated asynchronous REST and native MCP tools with health, bearer auth and bounded telemetry."""
+		29 container
+			30 link Description: 2, Value: 127.0.0.1:21948/html/z_66e154…, ID: t2
+			31 text from contextlib import asynccontextmanager
+		32 container
+			33 link Description: 3, Value: 127.0.0.1:21948/html/z_66e154…, ID: t3
+			34 text from pathlib import Path as FilePath
+		35 container
+			36 link Description: 4, Value: 127.0.0.1:21948/html/z_66e154…, ID: t4
+			37 text from typing import Annotated
+		38 container
+			39 link Description: 5, Value: 127.0.0.1:21948/html/z_66e154…, ID: t5
+			40 text import os
+		41 container
+			42 link Description: 6, Value: 127.0.0.1:21948/html/z_66e154…, ID: t6
+			43 text import time
+		44 container
+			45 link Description: 7, Value: 127.0.0.1:21948/html/z_66e154…, ID: t7
+			46 text from fastapi import FastAPI , HTTPException , Path , Security
+		47 container
+			48 link Description: 8, Value: 127.0.0.1:21948/html/z_66e154…, ID: t8
+			49 text from fastapi . security import HTTPBearer
+		50 container
+			51 link Description: 9, Value: 127.0.0.1:21948/html/z_66e154…, ID: t9
+			52 text from fastapi . responses import Response
+		53 container
+			54 link Description: 10, Value: 127.0.0.1:21948/html/z_66e154…, ID: t10
+			55 text from mcp . server import MCPServer
+		56 container
+			57 link Description: 11, Value: 127.0.0.1:21948/html/z_66e154…, ID: t11
+			58 text from mcp . server . mcpserver . exceptions import ToolError
+		59 container
+			60 link Description: 12, Value: 127.0.0.1:21948/html/z_66e154…, ID: t12
+			61 text from mcp . server . transport_security import TransportSecuritySettings
+		62 container
+			63 link Description: 13, Value: 127.0.0.1:21948/html/z_66e154…, ID: t13
+			64 text from mcp . types import ToolAnnotations
+		65 container
+			66 link Description: 14, Value: 127.0.0.1:21948/html/z_66e154…, ID: t14
+			67 text from prometheus_client import CollectorRegistry , Counter , Histogram , generate_latest , CONTENT_TYPE_LATEST
+		68 container
+			69 link Description: 15, Value: 127.0.0.1:21948/html/z_66e154…, ID: t15
+			70 text from services . mcp_tools . auth import BoundedBearerMiddleware
+		71 container
+			72 link Description: 16, Value: 127.0.0.1:21948/html/z_66e154…, ID: t16
+			73 text from services . mcp_tools . contracts import MachineRequest , SearchRequest , DriftRequest , MACHINE_PATTERN
+		74 container
+			75 link Description: 17, Value: 127.0.0.1:21948/html/z_66e154…, ID: t17
+			76 text from services . mcp_tools . runtime import ToolRuntime , ToolFailure
+		77 container
+			78 link Description: 18, Value: 127.0.0.1:21948/html/z_66e154…, ID: t18
+		79 container
+			80 link Description: 19, Value: 127.0.0.1:21948/html/z_66e154…, ID: t19
+			81 text ROLE_TOOLS = { 'retrieval' : { 'get_machine_features' , 'predict_failure' , 'search_knowledge' } , 'drift' : { 'assess_feature_drift' } }
+		82 container
+			83 link Description: 20, Value: 127.0.0.1:21948/html/z_66e154…, ID: t20
+		84 container
+			85 link Description: 21, Value: 127.0.0.1:21948/html/z_66e154…, ID: t21
+		86 container
+			87 link Description: 22, Value: 127.0.0.1:21948/html/z_66e154…, ID: t22
+			88 text def create_app ( runtime = None , role = None , token = None ) :
+		89 container
+			90 link Description: 23, Value: 127.0.0.1:21948/html/z_66e154…, ID: t23
+			91 text """Inject bounded test adapters or bind the fixed native backends and mounted role-specific credential."""
+		92 container
+			93 link Description: 24, Value: 127.0.0.1:21948/html/z_66e154…, ID: t24
+			94 text role = role or os . environ . get ( 'IOT_MCP_ROLE' , 'retrieval' )
+		95 container
+			96 link Description: 25, Value: 127.0.0.1:21948/html/z_66e154…, ID: t25
+			97 text if role not in ROLE_TOOLS : raise ValueError ( 'Unknown MCP role' )
+		98 container
+			99 link Description: 26, Value: 127.0.0.1:21948/html/z_66e154…, ID: t26
+			100 text if token is None : token = FilePath ( os . environ [ 'IOT_MCP_TOKEN_FILE' ] ) . read_text ( ) . strip ( )
+		101 container
+			102 link Description: 27, Value: 127.0.0.1:21948/html/z_66e154…, ID: t27
+			103 text if len ( token ) < 32 : raise ValueError ( 'A scoped bearer secret is required' )
+		104 container
+			105 link Description: 28, Value: 127.0.0.1:21948/html/z_66e154…, ID: t28
+			106 text runtime = runtime or ToolRuntime ( role , os . environ . get ( 'IOT_DRIFT_REFERENCE_ID' , '' ) )
+		107 container
+			108 link Description: 29, Value: 127.0.0.1:21948/html/z_66e154…, ID: t29
+			109 text server = MCPServer ( 'iot-' + role , version = '1.0.0' , log_level = 'WARNING' )
+		110 container
+			111 link Description: 30, Value: 127.0.0.1:21948/html/z_66e154…, ID: t30
+			112 text registry = CollectorRegistry ( )
+		113 container
+			114 link Description: 31, Value: 127.0.0.1:21948/html/z_66e154…, ID: t31
+			115 text calls = Counter ( 'iot_mcp_tool_calls_total' , 'Completed tool calls by bounded name and result.' , [ 'role' , 'tool' , 'result' ] , registry = registry )
+		116 container
+			117 link Description: 32, Value: 127.0.0.1:21948/html/z_66e154…, ID: t32
+			118 text latency = Histogram ( 'iot_mcp_tool_seconds' , 'Tool execution time.' , [ 'role' , 'tool' ] , registry = registry )
+		119 container
+			120 link Description: 33, Value: 127.0.0.1:21948/html/z_66e154…, ID: t33
+			121 text child = server . streamable_http_app ( stateless_http = True , json_response = True , max_request_body_size = 65_536 ,
+		122 container
+			123 link Description: 34, Value: 127.0.0.1:21948/html/z_66e154…, ID: t34
+			124 text transport_security = TransportSecuritySettings ( allowed_hosts = [ 'testserver' , '127.0.0.1:*' , 'localhost:*' ,
+		125 container
+			126 link Description: 35, Value: 127.0.0.1:21948/html/z_66e154…, ID: t35
+			127 text 'iot-retrieval-mcp.iot-agents.svc.cluster.local' , 'iot-retrieval-mcp.iot-agents.svc.cluster.local:*' ,
+		128 container
+			129 link Description: 36, Value: 127.0.0.1:21948/html/z_66e154…, ID: t36
+			130 text 'iot-drift-mcp.iot-agents.svc.cluster.local' , 'iot-drift-mcp.iot-agents.svc.cluster.local:*' ] ,
+		131 container
+			132 link Description: 37, Value: 127.0.0.1:21948/html/z_66e154…, ID: t37
+			133 text allowed_origins = [ 'http://127.0.0.1:*' , 'http://localhost:*' ] ) )
+		134 container
+			135 link Description: 38, Value: 127.0.0.1:21948/html/z_66e154…, ID: t38
+		136 container
+			137 link Description: 39, Value: 127.0.0.1:21948/html/z_66e154…, ID: t39
+			138 text @ asynccontextmanager
+		139 container
+			140 link Description: 40, Value: 127.0.0.1:21948/html/z_66e154…, ID: t40
+			141 text async def lifespan ( app ) :
+		142 container
+			143 link Description: 41, Value: 127.0.0.1:21948/html/z_66e154…, ID: t41
+			144 text """Warm the native dependency once and run the MCP transport lifecycle inside the parent FastAPI app."""
+		145 container
+			146 link Description: 42, Value: 127.0.0.1:21948/html/z_66e154…, ID: t42
+			147 text await runtime . start ( )
+		148 container
+			149 link Description: 43, Value: 127.0.0.1:21948/html/z_66e154…, ID: t43
+			150 text try :
+		151 container
+			152 link Description: 44, Value: 127.0.0.1:21948/html/z_66e154…, ID: t44
+			153 text async with server . session_manager . run ( ) : yield
+		154 container
+			155 link Description: 45, Value: 127.0.0.1:21948/html/z_66e154…, ID: t45
+			156 text finally :
+		157 container
+			158 link Description: 46, Value: 127.0.0.1:21948/html/z_66e154…, ID: t46
+			159 text await runtime . close ( )
+		160 container
+			161 link Description: 47, Value: 127.0.0.1:21948/html/z_66e154…, ID: t47
+		162 container
+			163 link Description: 48, Value: 127.0.0.1:21948/html/z_66e154…, ID: t48
+			164 text app = FastAPI ( title = 'IoT ' + role + ' tools' , version = '1.0.0' , lifespan = lifespan )
+		165 container
+			166 link Description: 49, Value: 127.0.0.1:21948/html/z_66e154…, ID: t49
+			167 text app . add_middleware ( BoundedBearerMiddleware , token = token )
+		168 container
+			169 link Description: 50, Value: 127.0.0.1:21948/html/z_66e154…, ID: t50
+			170 text bearer = HTTPBearer ( auto_error = False )
+		171 container
+			172 link Description: 51, Value: 127.0.0.1:21948/html/z_66e154…, ID: t51
+		173 container
+			174 link Description: 52, Value: 127.0.0.1:21948/html/z_66e154…, ID: t52
+			175 text async def invoke ( name , payload ) :
+		176 container
+			177 link Description: 53, Value: 127.0.0.1:21948/html/z_66e154…, ID: t53
+			178 text """Dispatch only a role's declared tools and record bounded success/failure counters."""
+		179 container
+			180 link Description: 54, Value: 127.0.0.1:21948/html/z_66e154…, ID: t54
+			181 text if name not in ROLE_TOOLS [ role ] : raise ToolFailure ( 404 , 'Tool is not available in this role' ) 54 ↛ exit
+		182 container
+			183 link Description: 55, Value: 127.0.0.1:21948/html/z_66e154…, ID: t55
+			184 text method = { 'get_machine_features' : 'features' , 'predict_failure' : 'predict' , 'search_knowledge' : 'search' , 'assess_feature_drift' : 'drift' } [ name ]
+		185 container
+			186 link Description: 56, Value: 127.0.0.1:21948/html/z_66e154…, ID: t56
+			187 text started = time . perf_counter ( ) ; result = 'failure'
+		188 container
+			189 link Description: 57, Value: 127.0.0.1:21948/html/z_66e154…, ID: t57
+			190 text try :
+		191 container
+			192 link Description: 58, Value: 127.0.0.1:21948/html/z_66e154…, ID: t58
+			193 text value = await getattr ( runtime , method ) ( payload ) ; result = 'success' ; return value
+		194 container
+			195 link Description: 59, Value: 127.0.0.1:21948/html/z_66e154…, ID: t59
+			196 text finally :
+		197 container
+			198 link Description: 60, Value: 127.0.0.1:21948/html/z_66e154…, ID: t60
+			199 text calls . labels ( role , name , result ) . inc ( ) ; latency . labels ( role , name ) . observe ( time . perf_counter ( ) - started )
+		200 container
+			201 link Description: 61, Value: 127.0.0.1:21948/html/z_66e154…, ID: t61
+		202 container
+			203 link Description: 62, Value: 127.0.0.1:21948/html/z_66e154…, ID: t62
+			204 text async def rest ( name , payload ) :
+		205 container
+			206 link Description: 63, Value: 127.0.0.1:21948/html/z_66e154…, ID: t63
+			207 text """Map safe native failure categories to HTTP without returning private upstream diagnostics."""
+		208 container
+			209 link Description: 64, Value: 127.0.0.1:21948/html/z_66e154…, ID: t64
+			210 text try : return await invoke ( name , payload )
+		211 container
+			212 link Description: 65, Value: 127.0.0.1:21948/html/z_66e154…, ID: t65
+			213 text except ToolFailure as error : raise HTTPException ( error . status , str ( error ) ) from None
+		214 container
+			215 link Description: 66, Value: 127.0.0.1:21948/html/z_66e154…, ID: t66
+		216 container
+			217 link Description: 67, Value: 127.0.0.1:21948/html/z_66e154…, ID: t67
+			218 text async def mcp_call ( name , payload ) :
+		219 container
+			220 link Description: 68, Value: 127.0.0.1:21948/html/z_66e154…, ID: t68
+			221 text """Return a real MCP tool error when the operation fails rather than a successful-looking JSON error."""
+		222 container
+			223 link Description: 69, Value: 127.0.0.1:21948/html/z_66e154…, ID: t69
+			224 text try : return await invoke ( name , payload )
+		225 container
+			226 link Description: 70, Value: 127.0.0.1:21948/html/z_66e154…, ID: t70
+			227 text except ToolFailure as error : raise ToolError ( str ( error . status ) + ': ' + str ( error ) ) from None
+		228 container
+			229 link Description: 71, Value: 127.0.0.1:21948/html/z_66e154…, ID: t71
+		230 container
+			231 link Description: 72, Value: 127.0.0.1:21948/html/z_66e154…, ID: t72
+			232 text @ app . get ( '/health/live' )
+		233 container
+			234 link Description: 73, Value: 127.0.0.1:21948/html/z_66e154…, ID: t73
+			235 text async def live ( ) :
+		236 container
+			237 link Description: 74, Value: 127.0.0.1:21948/html/z_66e154…, ID: t74
+			238 text """Report process liveness independently of native backend readiness."""
+		239 container
+			240 link Description: 75, Value: 127.0.0.1:21948/html/z_66e154…, ID: t75
+			241 text return { 'live' : True , 'role' : role }
+		242 container
+			243 link Description: 76, Value: 127.0.0.1:21948/html/z_66e154…, ID: t76
+		244 container
+			245 link Description: 77, Value: 127.0.0.1:21948/html/z_66e154…, ID: t77
+			246 text @ app . get ( '/health/ready' )
+		247 container
+			248 link Description: 78, Value: 127.0.0.1:21948/html/z_66e154…, ID: t78
+			249 text async def ready ( ) :
+		250 container
+			251 link Description: 79, Value: 127.0.0.1:21948/html/z_66e154…, ID: t79
+			252 text """Refuse readiness when actual data/reference dependencies are unavailable."""
+		253 container
+			254 link Description: 80, Value: 127.0.0.1:21948/html/z_66e154…, ID: t80
+			255 text try : return dict ( await runtime . ready ( ) , pod = os . environ . get ( 'HOSTNAME' , 'local' ) )
+		256 container
+			257 link Description: 81, Value: 127.0.0.1:21948/html/z_66e154…, ID: t81
+			258 text except ToolFailure as error : raise HTTPException ( 503 , str ( error ) ) from None
+		259 container
+			260 link Description: 82, Value: 127.0.0.1:21948/html/z_66e154…, ID: t82
+		261 container
+			262 link Description: 83, Value: 127.0.0.1:21948/html/z_66e154…, ID: t83
+			263 text @ app . get ( '/metrics' )
+		264 container
+			265 link Description: 84, Value: 127.0.0.1:21948/html/z_66e154…, ID: t84
+			266 text async def metrics ( ) :
+		267 container
+			268 link Description: 85, Value: 127.0.0.1:21948/html/z_66e154…, ID: t85
+			269 text """Expose per-instance bounded tool counters and duration histograms without input text or IDs."""
+		270 container
+			271 link Description: 86, Value: 127.0.0.1:21948/html/z_66e154…, ID: t86
+			272 text return Response ( generate_latest ( registry ) , media_type = CONTENT_TYPE_LATEST )
+		273 container
+			274 link Description: 87, Value: 127.0.0.1:21948/html/z_66e154…, ID: t87
+		275 container
+			276 link Description: 88, Value: 127.0.0.1:21948/html/z_66e154…, ID: t88
+			277 text if role == 'retrieval' :
+		278 container
+			279 link Description: 89, Value: 127.0.0.1:21948/html/z_66e154…, ID: t89
+			280 text @ app . get ( '/v1/machines/{machine_id}/features' , dependencies = [ Security ( bearer ) ] )
+		281 container
+			282 link Description: 90, Value: 127.0.0.1:21948/html/z_66e154…, ID: t90
+			283 text async def features ( machine_id : Annotated [ str , Path ( pattern = MACHINE_PATTERN ) ] ) :
+		284 container
+			285 link Description: 91, Value: 127.0.0.1:21948/html/z_66e154…, ID: t91
+			286 text """Read one machine through the existing native Feature API."""
+		287 container
+			288 link Description: 92, Value: 127.0.0.1:21948/html/z_66e154…, ID: t92
+			289 text return await rest ( 'get_machine_features' , MachineRequest ( machine_id = machine_id ) )
+		290 container
+			291 link Description: 93, Value: 127.0.0.1:21948/html/z_66e154…, ID: t93
+		292 container
+			293 link Description: 94, Value: 127.0.0.1:21948/html/z_66e154…, ID: t94
+			294 text @ app . post ( '/v1/machines/{machine_id}:predict' , dependencies = [ Security ( bearer ) ] )
+		295 container
+			296 link Description: 95, Value: 127.0.0.1:21948/html/z_66e154…, ID: t95
+			297 text async def predict ( machine_id : Annotated [ str , Path ( pattern = MACHINE_PATTERN ) ] ) :
+		298 container
+			299 link Description: 96, Value: 127.0.0.1:21948/html/z_66e154…, ID: t96
+			300 text """Call the pinned prediction path while preserving operating-state/freshness rejection."""
+		301 container
+			302 link Description: 97, Value: 127.0.0.1:21948/html/z_66e154…, ID: t97
+			303 text return await rest ( 'predict_failure' , MachineRequest ( machine_id = machine_id ) )
+		304 container
+			305 link Description: 98, Value: 127.0.0.1:21948/html/z_66e154…, ID: t98
+		306 container
+			307 link Description: 99, Value: 127.0.0.1:21948/html/z_66e154…, ID: t99
+			308 text @ app . post ( '/v1/knowledge:search' , dependencies = [ Security ( bearer ) ] )
+		309 container
+			310 link Description: 100, Value: 127.0.0.1:21948/html/z_66e154…, ID: t100
+			311 text async def search ( request : SearchRequest ) :
+		312 container
+			313 link Description: 101, Value: 127.0.0.1:21948/html/z_66e154…, ID: t101
+			314 text """Return bounded source-traceable reference passages without exposing embedding vectors to the model."""
+		315 container
+			316 link Description: 102, Value: 127.0.0.1:21948/html/z_66e154…, ID: t102
+			317 text return await rest ( 'search_knowledge' , request )
+		318 container
+			319 link Description: 103, Value: 127.0.0.1:21948/html/z_66e154…, ID: t103
+		320 container
+			321 link Description: 104, Value: 127.0.0.1:21948/html/z_66e154…, ID: t104
+			322 text @ server . tool ( annotations = ToolAnnotations ( readOnlyHint = True , destructiveHint = False , idempotentHint = True , openWorldHint = False ) )
+		323 container
+			324 link Description: 105, Value: 127.0.0.1:21948/html/z_66e154…, ID: t105
+			325 text async def get_machine_features ( request : MachineRequest ) -> dict :
+		326 container
+			327 link Description: 106, Value: 127.0.0.1:21948/html/z_66e154…, ID: t106
+			328 text """Read a simulated pump's current feature snapshot with event time, preparation time and source provenance."""
+		329 container
+			330 link Description: 107, Value: 127.0.0.1:21948/html/z_66e154…, ID: t107
+			331 text return await mcp_call ( 'get_machine_features' , request )
+		332 container
+			333 link Description: 108, Value: 127.0.0.1:21948/html/z_66e154…, ID: t108
+		334 container
+			335 link Description: 109, Value: 127.0.0.1:21948/html/z_66e154…, ID: t109
+			336 text @ server . tool ( annotations = ToolAnnotations ( readOnlyHint = True , destructiveHint = False , idempotentHint = True , openWorldHint = False ) )
+		337 container
+			338 link Description: 110, Value: 127.0.0.1:21948/html/z_66e154…, ID: t110
+			339 text async def predict_failure ( request : MachineRequest ) -> dict :
+		340 container
+			341 link Description: 111, Value: 127.0.0.1:21948/html/z_66e154…, ID: t111
+			342 text """Read the synthetic failure-risk prediction for an operating pump; preserve stopped and stale-data errors."""
+		343 container
+			344 link Description: 112, Value: 127.0.0.1:21948/html/z_66e154…, ID: t112
+			345 text return await mcp_call ( 'predict_failure' , request )
+		346 container
+			347 link Description: 113, Value: 127.0.0.1:21948/html/z_66e154…, ID: t113
+		348 container
+			349 link Description: 114, Value: 127.0.0.1:21948/html/z_66e154…, ID: t114
+			350 text @ server . tool ( annotations = ToolAnnotations ( readOnlyHint = True , destructiveHint = False , idempotentHint = True , openWorldHint = False ) )
+		351 container
+			352 link Description: 115, Value: 127.0.0.1:21948/html/z_66e154…, ID: t115
+			353 text async def search_knowledge ( request : SearchRequest ) -> dict :
+		354 container
+			355 link Description: 116, Value: 127.0.0.1:21948/html/z_66e154…, ID: t116
+			356 text """Retrieve authored IoT reference passages and exact chunk/source identities for a bounded question."""
+		357 container
+			358 link Description: 117, Value: 127.0.0.1:21948/html/z_66e154…, ID: t117
+			359 text return await mcp_call ( 'search_knowledge' , request )
+		360 container
+			361 link Description: 118, Value: 127.0.0.1:21948/html/z_66e154…, ID: t118
+			362 text else :
+		363 container
+			364 link Description: 119, Value: 127.0.0.1:21948/html/z_66e154…, ID: t119
+			365 text @ app . post ( '/v1/drift:assess' , dependencies = [ Security ( bearer ) ] )
+		366 container
+			367 link Description: 120, Value: 127.0.0.1:21948/html/z_66e154…, ID: t120
+			368 text async def assess ( request : DriftRequest ) :
+		369 container
+			370 link Description: 121, Value: 127.0.0.1:21948/html/z_66e154…, ID: t121
+			371 text """Compare 32..200 distinct machines against the pinned training reference without accepting labels."""
+		372 container
+			373 link Description: 122, Value: 127.0.0.1:21948/html/z_66e154…, ID: t122
+			374 text return await rest ( 'assess_feature_drift' , request )
+		375 container
+			376 link Description: 123, Value: 127.0.0.1:21948/html/z_66e154…, ID: t123
+		377 container
+			378 link Description: 124, Value: 127.0.0.1:21948/html/z_66e154…, ID: t124
+			379 text @ server . tool ( annotations = ToolAnnotations ( readOnlyHint = False , destructiveHint = False , idempotentHint = True , openWorldHint = False ) )
+		380 container
+			381 link Description: 125, Value: 127.0.0.1:21948/html/z_66e154…, ID: t125
+			382 text async def assess_feature_drift ( request : DriftRequest ) -> dict :
+		383 container
+			384 link Description: 126, Value: 127.0.0.1:21948/html/z_66e154…, ID: t126
+			385 text """Assess label-free feature drift for a named cohort/window; input drift alone does not measure accuracy loss."""
+		386 container
+			387 link Description: 127, Value: 127.0.0.1:21948/html/z_66e154…, ID: t127
+			388 text return await mcp_call ( 'assess_feature_drift' , request )
+		389 container
+			390 link Description: 128, Value: 127.0.0.1:21948/html/z_66e154…, ID: t128
+		391 container
+			392 link Description: 129, Value: 127.0.0.1:21948/html/z_66e154…, ID: t129
+			393 text app . mount ( '/' , child )
+		394 container
+			395 link Description: 130, Value: 127.0.0.1:21948/html/z_66e154…, ID: t130
+			396 text return app
+	397 container
+		398 link Description: « prev, Value: 127.0.0.1:21948/html/z_66e154…
+		399 link Description: ^ index, Value: 127.0.0.1:21948/html/index.ht…
+		400 link Description: » next, Value: 127.0.0.1:21948/html/z_66e154…
+		401 link Description: coverage.py v7.17.0, Value: …
+		402 text , created at 2026-10-30 05:17 +0000
+
+The focused UI element is 87 link Description: 22, URL: 127.0.0.1:21948/html/z_66e154…, ID: t22
