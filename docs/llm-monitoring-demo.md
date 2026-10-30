@@ -31,6 +31,7 @@ If these ports already have the retained viewers, reuse them:
 | View | PC URL | What to inspect |
 |---|---|---|
 | Model and agents | [Runtime dashboard](http://127.0.0.1:18100/d/iot-llm-runtime) | HTTP outcomes, tokens, executor roots, MCP counters and policy hits |
+| Policy frequency | [Controlled prompt window](http://127.0.0.1:18100/d/iot-llm-policy-window) | Nine unique rejections, overlapping reasons and exact versus rolling-minute frequency; [method and offline check](llm-policy-window.md) |
 | GPU VM host | [Worker resources](http://127.0.0.1:18100/d/iot-llm-gpu-host) | Host CPU/RAM, root filesystem, disk and physical NIC rates |
 | Request log | [Approved model events](http://127.0.0.1:18101/d/iot-llm-requests) | Per-request usage, complete response duration, streaming TTFT and policy categories |
 | Agent trace | [Recorded coordinator graph](http://127.0.0.1:18102/trace/caee7d7a23dae19af7e76c39a18d8b26) | Coordinator, specialists, model calls and tool operations |

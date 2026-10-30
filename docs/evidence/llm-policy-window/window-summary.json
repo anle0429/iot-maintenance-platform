@@ -1,0 +1,27 @@
+{
+  "admissions": 12,
+  "allowed_prompts": 3,
+  "blocked_prompts": 9,
+  "category_hits": {
+    "hardware_command": 3,
+    "pii_email": 3,
+    "pii_phone": 3,
+    "secret_literal": 3
+  },
+  "total_category_hits": 12,
+  "blocked_fraction": 0.75,
+  "observed_seconds": 36.0001145289998,
+  "blocked_prompts_per_observed_minute": 14.999952279735231,
+  "category_hits_per_observed_minute": {
+    "hardware_command": 4.999984093245077,
+    "pii_email": 4.999984093245077,
+    "pii_phone": 4.999984093245077,
+    "secret_literal": 4.999984093245077
+  },
+  "provider_reported_tokens": {
+    "prompt_tokens": 108,
+    "completion_tokens": 6,
+    "total_tokens": 114
+  },
+  "scope": "Twelve controlled synthetic admissions, including one four-category prompt. Fixed-window event frequency is distinct from extrapolated Prometheus rate and from production prevalence."
+}

@@ -6,6 +6,8 @@ Run `python -B -S scripts/verify-llm-observer.py` to check the [quality report](
 
 ## Use the monitoring views
 
+The later [policy-frequency window](llm-policy-window.md) adds twelve controlled admissions, nine unique pre-inference rejections and separate exact-window versus rolling-minute frequencies. Its original screenshots and eight Grafana/Prometheus target comparisons complete the bounded policy-frequency evidence; the controls remain four explicit text patterns.
+
 The retained Prometheus and Grafana installation now discovers seven individual targets: four MCP Pods, the observation API, the llama.cpp model and the GPU VM host exporter. Existing jobs remain in place, including two unavailable historical ML A/B targets. Discovery has only Pod read/list/watch access in the two application namespaces; actual attempts to list Secrets return 403.
 
 ![Original model latency and streaming first-output dashboard after the GPU load test](evidence/llm-monitoring/ui/runtime-after-load.jpg)

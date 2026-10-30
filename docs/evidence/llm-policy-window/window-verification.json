@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-30T02:09:42.516923+00:00",
+  "source_commit": "24efae5c0cee654fbe4e96a4623f68ee791c63f6",
+  "started_utc": "2026-10-30T02:08:58.233636+00:00",
+  "finished_utc": "2026-10-30T02:09:34.233794+00:00",
+  "summary": {
+    "admissions": 12,
+    "allowed_prompts": 3,
+    "blocked_prompts": 9,
+    "category_hits": {
+      "hardware_command": 3,
+      "pii_email": 3,
+      "pii_phone": 3,
+      "secret_literal": 3
+    },
+    "total_category_hits": 12,
+    "blocked_fraction": 0.75,
+    "observed_seconds": 36.0001145289998,
+    "blocked_prompts_per_observed_minute": 14.999952279735231,
+    "category_hits_per_observed_minute": {
+      "hardware_command": 4.999984093245077,
+      "pii_email": 4.999984093245077,
+      "pii_phone": 4.999984093245077,
+      "secret_literal": 4.999984093245077
+    },
+    "provider_reported_tokens": {
+      "prompt_tokens": 108,
+      "completion_tokens": 6,
+      "total_tokens": 114
+    },
+    "scope": "Twelve controlled synthetic admissions, including one four-category prompt. Fixed-window event frequency is distinct from extrapolated Prometheus rate and from production prevalence."
+  },
+  "native_policy_counter_delta": {
+    "allowed": 3.0,
+    "blocked": 9.0
+  },
+  "native_category_counter_delta": {
+    "hardware_command": 3.0,
+    "pii_email": 3.0,
+    "pii_phone": 3.0,
+    "secret_literal": 3.0
+  },
+  "native_generated_token_delta": 6.0,
+  "unique_ledger_requests": 12,
+  "timestamped_request_logs": 12,
+  "pods_and_restart_counts_unchanged": true,
+  "prometheus_evaluation_unix": 1793326182.4819212,
+  "scope": "Controlled synthetic policy window. Four pattern categories, not universal PII/safety detection; unique blocked prompts differ from category hits. Exact ledger frequencies differ from extrapolated Prometheus rate. No feature lease, physical actuation, maximum-capacity or production-prevalence claim."
+}

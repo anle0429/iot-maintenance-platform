@@ -24,4 +24,6 @@ The [GPU worker report](gpu-inference.md) adds native Terraform/Ansible receipts
 
 ## Source preservation
 
+The [policy-frequency checkpoint](llm-policy-window.md) adds the L54 window evidence: twelve actual admissions, nine unique pre-inference rejections, overlapping category counts and an original native rate graph. It does not close the remaining novel-idea or shared-pipeline requirements.
+
 [Source notes](rubric-source.md) describe the original workbooks, cell references, English translation pins and the comparison with the provided ZIP. Original source-language criteria and native artifacts remain byte-exact in the reference/evidence areas. The former 93-row module tracker is [archived](../references/coursework/legacy-tracker-source-language.md); it is not added to the two final sheets or treated as a second grading total.
