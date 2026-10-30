@@ -6,7 +6,7 @@ This project follows pump telemetry from ingestion and validation through featur
 
 Built as an individual **Engineering for Data & AI — EDAI K11** coursework project. All equipment records, sensor readings and failure events are simulated.
 
-The selected scope includes **final ML and final LLM/agents**. The recorded lab covers data pipelines, ML serving and an assistant that retrieves machine data, references and drift results through bounded tools. GPU-backed agent conversations, CI releases and [authenticated private UI access](docs/agent-gateway.md) have runtime evidence. A/B comparisons and other items in the [rubric tracker](docs/final-llm-rubric-tracker.md) remain in progress.
+The selected scope includes **final ML and final LLM/agents**. The recorded lab covers data pipelines, ML serving and an assistant that retrieves machine data, references and drift results through bounded tools. GPU-backed conversations, CI releases, bounded A/B comparisons and [authenticated private UI access](docs/agent-gateway.md) have runtime evidence. Remaining work is listed in the [rubric tracker](docs/final-llm-rubric-tracker.md).
 
 [Demo guide](docs/demo-walkthrough.md) · [Architecture details](docs/architecture.md) · [Verification report](docs/final-audit.md)
 
@@ -117,6 +117,8 @@ The [private gateway](docs/agent-gateway.md) protects the chat and catalog with 
 
 An [OPA capability and budget gate](docs/agent-admission-policy.md) checks production agent configuration before deployment. Its native evidence includes an intentionally rejected tool change and three successful agent releases. The [five-class guide](docs/llm-class-design.md) explains how the assistant reaches validated machine data, predictions and reference passages.
 
+The RAG pipeline also [checks corpus embedding distance](docs/rag-corpus-drift.md) before publication. An actual CI run rejected a deliberate change to unrelated topics; the current IoT corpus passed and completed all six Airflow tasks. This four-document check requests review of substantial changes; it does not certify answer quality or safety.
+
 [Try the agent demo](docs/agent-demo.md) · [Learning guide](docs/llm-learning-guide.md) · [LLM tracker](docs/final-llm-rubric-tracker.md) · [Editable SVG](docs/images/platform-llm-plan.svg)
 
 ## Recorded results
@@ -173,7 +175,7 @@ $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-The audit checks both source rubrics, payload hashes and 43 offline verifiers. It writes `verification.json` and the verifier consoles to the output directory. It checks recorded results rather than rerunning the pipelines; successful RAG, inference and MCP checks do not mark the full agent track complete. The [GPU agent report](docs/gpu-agent-routing.md) verifies complete specialist answers and actual child delegation. Earlier failed runs remain preserved.
+The audit checks both source rubrics, payload hashes and 53 offline verifiers. It writes `verification.json` and the verifier consoles to the output directory. It checks recorded results rather than rerunning the pipelines; successful RAG, inference and MCP checks do not mark the full agent track complete. The [GPU agent report](docs/gpu-agent-routing.md) verifies complete specialist answers and actual child delegation. Earlier failed runs remain preserved.
 
 ### Call the lab API
 

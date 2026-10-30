@@ -1,5 +1,7 @@
 # RAG delivery through Jenkins and Airflow
 
+The retained job now uses an additional [corpus distance admission stage](rag-corpus-drift.md). Its current prepared source is `a4a69138740113c291a1f6bfe23c3705014a884b`; supply `CORPUS_SCENARIO=production` for a normal release. Build 4 demonstrates a controlled rejection and build 5 completes the extended pipeline. The build-3 evidence below remains the original delivery checkpoint, with its original source and scope.
+
 The private `iot-llm-rag` Jenkins job tests a pinned source revision, builds the RAG application image, deploys its Airflow DAG and waits for a fresh six-task run. Build **3** completed on 29 October 2026 with all seven Jenkins stages successful. Airflow run `rag-ci-9b77c06f-3` processed four authored documents into 18 chunks, passed ten persisted-data checks and published source-bound lineage to DataHub.
 
 ![Original Jenkins stage view, including the retained failed first build](evidence/ci-rag/ui/jenkins-stages.jpg)

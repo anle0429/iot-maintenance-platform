@@ -24,6 +24,7 @@ infra/mcp/Dockerfile.mutation text eol=lf
 *.dockerignore text eol=lf
 **/Jenkinsfile text eol=lf
 *.groovy text eol=lf
+*.Jenkinsfile text eol=lf
 *.dockerignore text eol=lf
 *.xlsx binary
 *.png binary
@@ -201,3 +202,6 @@ docs/evidence/llm-policy-window/** -text -whitespace
 
 # Preserve original OPA/agent CI receipts and unedited native Jenkins captures.
 docs/evidence/agent-admission/** -text -whitespace
+
+# Preserve original corpus distance vectors, native CI receipts and browser captures.
+docs/evidence/rag-corpus-drift/** -text -whitespace

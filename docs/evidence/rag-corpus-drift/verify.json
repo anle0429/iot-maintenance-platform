@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "phase": "verify",
+  "passed": true,
+  "component": "rag",
+  "build_number": "5",
+  "source_commit": "a4a69138740113c291a1f6bfe23c3705014a884b",
+  "release": "llm-rag-jenkins-5",
+  "dag_id": "iot_ci_rag_knowledge",
+  "run_id": "rag-ci-a4a69138-5",
+  "actual_successful_tasks": 6,
+  "native_containers": {
+    "fetch": {
+      "id": "1558699c684830390dd592011375721b7c503d61b96d4db469ca53e2060ae57f",
+      "image": "sha256:74a2883731e52c1f23c845b6c87ff67bab16a89094880edbd6e5a35cf3a13fa2",
+      "exit_code": 0
+    },
+    "chunk": {
+      "id": "0913992db9533fe13bb5c86781696b53a9cee676c6a93720468b3e8ade9ecff1",
+      "image": "sha256:74a2883731e52c1f23c845b6c87ff67bab16a89094880edbd6e5a35cf3a13fa2",
+      "exit_code": 0
+    },
+    "embed": {
+      "id": "3e9bd9e568d67d55ae8b97655bfb449fb0ad304a6a132bc9e32be46ffc48e69c",
+      "image": "sha256:74a2883731e52c1f23c845b6c87ff67bab16a89094880edbd6e5a35cf3a13fa2",
+      "exit_code": 0
+    },
+    "store": {
+      "id": "0de3d0177020fd47e0e74521a657452866d07eb385f78025c0b820cf40dbffb1",
+      "image": "sha256:74a2883731e52c1f23c845b6c87ff67bab16a89094880edbd6e5a35cf3a13fa2",
+      "exit_code": 0
+    },
+    "validate": {
+      "id": "9855b1d033016c75bd79eb7ae5b934543ffb50dd8f2a622308697873571a895b",
+      "image": "sha256:74a2883731e52c1f23c845b6c87ff67bab16a89094880edbd6e5a35cf3a13fa2",
+      "exit_code": 0
+    },
+    "publish": {
+      "id": "1d3815a937e663734b606afbf0c8df0872393ec0d18c2ed3ca33d04df66fbf80",
+      "image": "sha256:94f5777864f8a3413d7e2d01c6259d42f87bf9dd60a429909ebe9641cf935695",
+      "exit_code": 0
+    }
+  },
+  "quality_checks": 10,
+  "coursework_complete": false,
+  "scope": "Actual Jenkins RAG test/build/auto-deploy, fresh six-task Airflow execution and native Feast/DataHub readback."
+}

@@ -1,0 +1,90 @@
+{
+  "derived_from": "Original operator/suite/distance-report.json in native-receipts.tar.gz; full vectors retained there.",
+  "embedding_config": {
+    "model_id": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "dimensions": 384,
+    "normalize": true,
+    "device": "cpu",
+    "chunk_max_chars": 1100,
+    "overlap_chars": 160,
+    "online_store": "milvus",
+    "index_type": "FLAT",
+    "distance_metric": "COSINE",
+    "knowledge_ttl_days": 365,
+    "license": "Apache-2.0"
+  },
+  "protocol": {
+    "version": 1,
+    "unit": "normalized-document-centroid",
+    "kernel": "gaussian",
+    "sigma": 1.0,
+    "review_mmd_squared": 0.02,
+    "reference_sha256": "3e3777d904276de30d3fb7c631cfc49354aff6f7681b8100d5a34088df952e0c",
+    "embedding_config_sha256": "0f4856de84fd826dfd80f867e9c3a9d3ce4877ec6f8bdce10020edab1bf0702a",
+    "scope": "Engineering review tolerance, declared before native embeddings; not a calibrated significance threshold.",
+    "controls": [
+      "production",
+      "reordered",
+      "whitespace",
+      "out-of-domain"
+    ],
+    "expected_controls": {
+      "production": "allow",
+      "reordered": "allow",
+      "whitespace": "measure",
+      "out-of-domain": "review"
+    },
+    "source": "https://jmlr.org/papers/v13/gretton12a.html"
+  },
+  "decisions": {
+    "production": {
+      "mmd_squared": 0.0,
+      "review_mmd_squared": 0.02,
+      "sigma": 1.0,
+      "requires_review": false,
+      "allowed": true,
+      "reference_documents": 4,
+      "candidate_documents": 4,
+      "reference_fingerprint": "7ded20d3c1151ef98a78323be431654be831e446c550e0bfa862661437e8d027",
+      "candidate_fingerprint": "7ded20d3c1151ef98a78323be431654be831e446c550e0bfa862661437e8d027",
+      "interpretation": "Complete finite-corpus version distance; not a hypothesis test, accuracy metric or safety certificate."
+    },
+    "reordered": {
+      "mmd_squared": 0.0,
+      "review_mmd_squared": 0.02,
+      "sigma": 1.0,
+      "requires_review": false,
+      "allowed": true,
+      "reference_documents": 4,
+      "candidate_documents": 4,
+      "reference_fingerprint": "7ded20d3c1151ef98a78323be431654be831e446c550e0bfa862661437e8d027",
+      "candidate_fingerprint": "7ded20d3c1151ef98a78323be431654be831e446c550e0bfa862661437e8d027",
+      "interpretation": "Complete finite-corpus version distance; not a hypothesis test, accuracy metric or safety certificate."
+    },
+    "whitespace": {
+      "mmd_squared": 0.0,
+      "review_mmd_squared": 0.02,
+      "sigma": 1.0,
+      "requires_review": false,
+      "allowed": true,
+      "reference_documents": 4,
+      "candidate_documents": 4,
+      "reference_fingerprint": "7ded20d3c1151ef98a78323be431654be831e446c550e0bfa862661437e8d027",
+      "candidate_fingerprint": "1339e8c0f42969837f428616b9b58b59cbbd55b661594d4f8eae0e972e63d4d7",
+      "interpretation": "Complete finite-corpus version distance; not a hypothesis test, accuracy metric or safety certificate."
+    },
+    "out-of-domain": {
+      "mmd_squared": 0.4375155223734153,
+      "review_mmd_squared": 0.02,
+      "sigma": 1.0,
+      "requires_review": true,
+      "allowed": false,
+      "reference_documents": 4,
+      "candidate_documents": 4,
+      "reference_fingerprint": "7ded20d3c1151ef98a78323be431654be831e446c550e0bfa862661437e8d027",
+      "candidate_fingerprint": "831c6aad72dd7344a8155345aa66a3704e4ace54006337957376dbeaa526432f",
+      "interpretation": "Complete finite-corpus version distance; not a hypothesis test, accuracy metric or safety certificate."
+    }
+  }
+}
