@@ -1,0 +1,192 @@
+{
+  "agent_admission": {
+    "namespace": "iot-agents",
+    "expected_resources": {
+      "NetworkPolicy/iot-agent-actor-mcp": "networking.k8s.io/v1",
+      "NetworkPolicy/iot-agent-control-router": "networking.k8s.io/v1",
+      "RemoteMCPServer/iot-retrieval-tools": "kagent.dev/v1alpha2",
+      "RemoteMCPServer/iot-drift-tools": "kagent.dev/v1alpha2",
+      "SandboxAgent/iot-retrieval": "kagent.dev/v1alpha2",
+      "SandboxAgent/iot-drift": "kagent.dev/v1alpha2",
+      "SandboxAgent/iot-coordinator": "kagent.dev/v1alpha2",
+      "WorkerPool/iot-retrieval-pool": "ate.dev/v1alpha1",
+      "WorkerPool/iot-drift-pool": "ate.dev/v1alpha1",
+      "WorkerPool/iot-coordinator-pool": "ate.dev/v1alpha1",
+      "ModelConfig/default-model-config": "kagent.dev/v1alpha2"
+    },
+    "roles": {
+      "iot-retrieval": {
+        "pool": "iot-retrieval-pool",
+        "domains": [
+          "iot-router-epp.iot-llm.svc.cluster.local",
+          "iot-retrieval-mcp.iot-agents.svc.cluster.local"
+        ],
+        "tools": [
+          {
+            "type": "McpServer",
+            "mcpServer": {
+              "name": "iot-retrieval-tools",
+              "kind": "RemoteMCPServer",
+              "apiGroup": "kagent.dev",
+              "toolNames": [
+                "get_machine_features",
+                "predict_failure",
+                "search_knowledge"
+              ]
+            }
+          }
+        ]
+      },
+      "iot-drift": {
+        "pool": "iot-drift-pool",
+        "domains": [
+          "iot-router-epp.iot-llm.svc.cluster.local",
+          "iot-drift-mcp.iot-agents.svc.cluster.local"
+        ],
+        "tools": [
+          {
+            "type": "McpServer",
+            "mcpServer": {
+              "name": "iot-drift-tools",
+              "kind": "RemoteMCPServer",
+              "apiGroup": "kagent.dev",
+              "toolNames": [
+                "assess_feature_drift"
+              ]
+            }
+          }
+        ]
+      },
+      "iot-coordinator": {
+        "pool": "iot-coordinator-pool",
+        "domains": [
+          "iot-router-epp.iot-llm.svc.cluster.local",
+          "kagent-controller.iot-agents.svc.cluster.local",
+          "atenet-router.ate-system.svc"
+        ],
+        "tools": [
+          {
+            "type": "Agent",
+            "isolateSessions": true,
+            "agent": {
+              "name": "iot-retrieval",
+              "namespace": "iot-agents",
+              "kind": "SandboxAgent",
+              "apiGroup": "kagent.dev"
+            }
+          },
+          {
+            "type": "Agent",
+            "isolateSessions": true,
+            "agent": {
+              "name": "iot-drift",
+              "namespace": "iot-agents",
+              "kind": "SandboxAgent",
+              "apiGroup": "kagent.dev"
+            }
+          }
+        ]
+      }
+    },
+    "supplemental_specs": {
+      "NetworkPolicy/iot-agent-actor-mcp": {
+        "podSelector": {
+          "matchLabels": {
+            "app.kubernetes.io/part-of": "iot-mcp"
+          }
+        },
+        "policyTypes": [
+          "Ingress"
+        ],
+        "ingress": [
+          {
+            "from": [
+              {
+                "namespaceSelector": {
+                  "matchLabels": {
+                    "kubernetes.io/metadata.name": "ate-system"
+                  }
+                },
+                "podSelector": {
+                  "matchLabels": {
+                    "app": "atenet-router"
+                  }
+                }
+              }
+            ],
+            "ports": [
+              {
+                "protocol": "TCP",
+                "port": 8080
+              }
+            ]
+          }
+        ]
+      },
+      "NetworkPolicy/iot-agent-control-router": {
+        "podSelector": {
+          "matchLabels": {
+            "iot.coursework/agent-control": "true"
+          }
+        },
+        "policyTypes": [
+          "Egress"
+        ],
+        "egress": [
+          {
+            "to": [
+              {
+                "namespaceSelector": {
+                  "matchLabels": {
+                    "kubernetes.io/metadata.name": "ate-system"
+                  }
+                },
+                "podSelector": {
+                  "matchLabels": {
+                    "app": "atenet-router"
+                  }
+                }
+              }
+            ],
+            "ports": [
+              {
+                "protocol": "TCP",
+                "port": 8080
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "server_specs": {
+      "iot-retrieval-tools": {
+        "description": "Authenticated retrieval tools for the simulated IoT pump platform.",
+        "url": "http://iot-retrieval-mcp.iot-agents.svc.cluster.local:8080/mcp",
+        "protocol": "STREAMABLE_HTTP", "timeout": "30s", "terminateOnClose": true,
+        "allowedNamespaces": {"from": "Same"},
+        "headersFrom": [{"name": "Authorization", "valueFrom": {"type": "Secret", "name": "iot-agent-tool-headers", "key": "retrieval"}}]
+      },
+      "iot-drift-tools": {
+        "description": "Authenticated drift tools for the simulated IoT pump platform.",
+        "url": "http://iot-drift-mcp.iot-agents.svc.cluster.local:8080/mcp",
+        "protocol": "STREAMABLE_HTTP", "timeout": "30s", "terminateOnClose": true,
+        "allowedNamespaces": {"from": "Same"},
+        "headersFrom": [{"name": "Authorization", "valueFrom": {"type": "Secret", "name": "iot-agent-tool-headers", "key": "drift"}}]
+      }
+    },
+    "model_base_url": "http://iot-router-epp.iot-llm.svc.cluster.local:8081/v1",
+    "max_output_tokens": 768,
+    "max_model_timeout_seconds": 600,
+    "worker_image": "ghcr.io/kagent-dev/substrate/ateom-gvisor:v0.0.9",
+    "pool_resources": {
+      "requests": {
+        "cpu": "50m",
+        "memory": "256Mi"
+      },
+      "limits": {
+        "cpu": "2",
+        "memory": "3Gi"
+      }
+    }
+  }
+}
