@@ -84,3 +84,28 @@ def score_answer(text,expected):
         else:valid=type(got) is type(wanted) and got==wanted
         if not valid:return {'correct':False,'reason':'field:'+key,'actual':actual}
     return {'correct':True,'reason':'matched','actual':actual}
+
+
+def resume_prefix(previous_cases,carried,current_cases):
+    """Resume only a complete unchanged prefix, preserving wrong answers too; never select responses by their score."""
+    from hashlib import sha256
+    from llm.ab_experiment import reply_text
+    from llm_observability.contracts import StreamObservation
+    if previous_cases!=current_cases or not 0<len(carried)<len(current_cases):raise ValueError('Require the same unfinished cohort')
+    accepted=[];identities=set()
+    for index,item in enumerate(carried):
+        case=current_cases[index];record=item['result'];raw=item['wire']
+        if (item['request']!=request_body(case) or record['case_id']!=case['id'] or record['http_status']!=200
+                or not record['observation']['complete'] or not record['request_id'] or record['request_id'] in identities
+                or sha256(raw).hexdigest()!=record['wire_sha256']):raise ValueError('A carried response is incomplete or belongs to another request')
+        parser=StreamObservation();offset=0
+        for chunk in record['chunks']:
+            if chunk['offset']!=offset:raise ValueError('Carried chunk offsets differ')
+            end=offset+chunk['bytes'];parser.feed(raw[offset:end],chunk['elapsed_seconds']);offset=end
+        if offset!=len(raw) or parser.finish(record['elapsed_seconds'])!=record['observation']:
+            raise ValueError('Carried SSE timings/usage differ')
+        events=[json.loads(line[5:].strip()) for line in raw.decode().splitlines() if line.startswith('data:') and line[5:].strip()!='[DONE]']
+        text=reply_text(events)
+        if text!=record['reply'] or score_answer(text,case['expected'])!=record['score']:raise ValueError('Carried model output was edited')
+        identities.add(record['request_id']);accepted.append(record)
+    return accepted

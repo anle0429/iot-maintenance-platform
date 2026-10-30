@@ -5,12 +5,12 @@ from pathlib import Path
 from urllib.request import Request,ProxyHandler,build_opener
 import argparse,base64,http.client,json,os,subprocess,sys,time
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
-from llm.data_validation import cases,request_body,score_answer
+from llm.data_validation import cases,request_body,score_answer,resume_prefix
 from llm.ab_experiment import reply_text
 from llm_observability.contracts import StreamObservation
 
 
-def run(root,output):
+def run(root,output,resume=None):
     """Read completed native artifacts, require actual loaded GPU readiness, and evaluate exactly one unedited response per declared case."""
     root=root.resolve();output=output.resolve();os.umask(0o077)
     if not root.is_relative_to('/srv/iot-data') or not output.is_relative_to(root/'outputs'):
@@ -52,7 +52,7 @@ def run(root,output):
         (output/name).write_bytes(raw);return raw
     models=json.loads(fetch('models.json','/models'));states={v['id']:v['status']['value'] for v in models['data']}
     if states.get('iot-qwen2.5-7b')!='loaded':raise ValueError('The actual 7B model is not loaded')
-    metrics_before=fetch('gpu-before.prom','/metrics?model=iot-qwen2.5-7b')
+    metrics_before=fetch('gpu-at-entry.prom','/metrics?model=iot-qwen2.5-7b')
     props=json.loads(fetch('props.json','/props?model=iot-qwen2.5-7b'))
     if props['model_alias']!='iot-qwen2.5-7b':raise ValueError('Wrong model alias')
     inputs={}
@@ -67,11 +67,53 @@ def run(root,output):
         """Read the live request ledger through its own installed runtime API, without copying an open SQLite/WAL file."""
         code='from llm_observability.ledger import TelemetryLedger; import json; s=TelemetryLedger("/var/lib/iot-llm-observer/telemetry.sqlite"); print(json.dumps(s.rows())); s.close()'
         return json.loads(subprocess.check_output(k+['exec','-n','iot-llm',before['iot-llm-observer']['name'],'-c','observer','--','python','-B','-c',code],timeout=30,stderr=subprocess.PIPE))
-    previous=ledger();old_ids={r['event_id'] for r in previous if r['kind']=='request'};save('ledger-request-ids-before.json',sorted(old_ids));records=[]
+    previous=ledger();old_ids={r['event_id'] for r in previous if r['kind']=='request'};records=[]
+    if resume is not None:
+        resume=resume.resolve()
+        if not resume.is_relative_to(root/'outputs') or resume==output:raise ValueError('Use an existing owned unfinished cohort')
+        originals=sorted(resume.glob('case-*-result.json'));carried=[]
+        for index,path in enumerate(originals):
+            if path.name!='case-'+str(index)+'-result.json':raise ValueError('The existing response prefix has gaps')
+            label='case-'+str(index)
+            carried.append({'request':json.loads((resume/(label+'-request.json')).read_bytes()),
+                            'result':json.loads(path.read_bytes()),'wire':(resume/(label+'.wire')).read_bytes()})
+        records=resume_prefix(json.loads((resume/'cases.json').read_bytes()),carried,cohort)
+        if json.loads((resume/'pods-before.json').read_bytes())!=before:raise ValueError('The original cohort model/observer processes changed')
+        original_ids=set(json.loads((resume/'ledger-request-ids-before.json').read_bytes()))
+        if old_ids!=original_ids|{r['request_id'] for r in records}:raise ValueError('Unrelated model traffic entered the unfinished cohort')
+        old_ids=original_ids;metrics_before=(resume/'gpu-before.prom').read_bytes()
+        copied={}
+        for index in range(len(records)):
+            label='case-'+str(index)
+            for suffix in ['-request.json','-result.json','.wire']:
+                name=label+suffix;raw=(resume/name).read_bytes();(output/name).write_bytes(raw);copied[name]=sha256(raw).hexdigest()
+        save('resume-origin.json',{'directory':resume.relative_to(root).as_posix(),'original_source':json.loads((resume/'source.json').read_bytes()),
+                                  'carried_completed_responses':len(records),'selection_by_correctness':False,'original_bytes':copied})
+    (output/'gpu-before.prom').write_bytes(metrics_before);save('ledger-request-ids-before.json',sorted(old_ids))
+    readiness=(output/'readiness.jsonl').open('x')
+    def wait_ready(label):
+        """Wait for actual service readiness before each new request without issuing or retrying any generation."""
+        deadline=time.monotonic()+120
+        while True:
+            fact={'case':label,'observed_utc':datetime.now(timezone.utc).isoformat()}
+            try:
+                with opener.open('http://'+observer+':8081/health/ready',timeout=8) as response:fact['status']=response.status
+            except OSError as error:fact['error_type']=type(error).__name__
+            readiness.write(json.dumps(fact)+'\n');readiness.flush()
+            if fact.get('status')==200:return
+            if time.monotonic()>=deadline:raise TimeoutError('Observe the same unfinished cohort; the inference route is not ready')
+            time.sleep(2)
     for index,case in enumerate(cohort):
+        if index<len(records):continue
         body=request_body(case);label='case-'+str(index);save(label+'-request.json',body)
-        connection=http.client.HTTPConnection(observer,8081,timeout=120);began=time.perf_counter();parser=StreamObservation();chunks=[];wire=[];offset=0
-        connection.request('POST','/v1/chat/completions',body=json.dumps(body).encode(),headers={'Authorization':'Bearer '+token,'Content-Type':'application/json','Accept':'text/event-stream'})
+        for attempt in range(3):
+            wait_ready(label);connection=http.client.HTTPConnection(observer,8081,timeout=120);began=time.perf_counter()
+            try:
+                connection.request('POST','/v1/chat/completions',body=json.dumps(body).encode(),headers={'Authorization':'Bearer '+token,'Content-Type':'application/json','Accept':'text/event-stream'});break
+            except ConnectionRefusedError:
+                connection.close();readiness.write(json.dumps({'case':label,'connect_refused_before_request_sent':True,'attempt':attempt})+'\n');readiness.flush()
+                if attempt==2:raise
+        parser=StreamObservation();chunks=[];wire=[];offset=0
         response=connection.getresponse();request_id=response.getheader('X-Iot-Request-Id')
         while True:
             piece=response.read1(16384)
@@ -88,6 +130,7 @@ def run(root,output):
                 'wire_sha256':sha256(raw).hexdigest(),'chunks':chunks,'observation':observation,'reply':text,'score':scored}
         save(label+'-result.json',record);records.append(record)
     after=resource_snapshot();save('pods-after.json',after)
+    readiness.close()
     if before!=after:raise ValueError('Inference resources changed during the bounded cohort')
     new=[r for r in ledger() if r['kind']=='request' and r['event_id'] not in old_ids];save('ledger-new.json',new)
     if len(new)!=3 or {r['event_id'] for r in new}!={r['request_id'] for r in records}:raise ValueError('Ledger does not identify exactly these three real requests')
@@ -103,10 +146,11 @@ def run(root,output):
     report={'passed':True,'operational_requests':len(records),'factual_contracts_matched':sum(r['score']['correct'] for r in records),
             'all_factual_contracts_matched':all(r['score']['correct'] for r in records),'actual_gpu_output_tokens':delta,
             'source_commit':seal['commit'],'source_input_commits':{n:v.get('source_commit',v.get('commit')) for n,v in inputs.items()},
-            'scope':'Three original direct-model evidence-reading questions through the deployed observer/GPU route. No new MCP tool, continuous-live stream, model retraining or general quality claim. All first outcomes retained.'}
+            'carried_completed_responses':len(originals) if resume is not None else 0,
+            'scope':'Three original direct-model evidence-reading questions through the deployed observer/GPU route. Explicit exact-prefix continuation preserves earlier completed answers regardless of score. No new MCP tool, live-stream, model-retraining or general quality claim.'}
     save('verification.json',report);print(json.dumps(report))
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--runtime-root',type=Path,required=True);parser.add_argument('--output',type=Path,required=True)
-    args=parser.parse_args();run(args.runtime_root,args.output)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--runtime-root',type=Path,required=True);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--resume-from',type=Path)
+    args=parser.parse_args();run(args.runtime_root,args.output,args.resume_from)
