@@ -58,6 +58,13 @@ def run(args):
     assert len(current_workers) == 6 and all(v['status']['phase'] == 'Running' and all(c['ready'] for c in v['status'].get('containerStatuses', [])) for v in current_workers)
     registered = {v['workerPod']: v['ip'] for v in workers if v['workerNamespace'] == 'iot-agents' and v['workerPool'] in pools}
     assert registered == {v['metadata']['name']: v['status']['podIP'] for v in current_workers}
+    for role in ['retrieval', 'drift']:
+        name = 'iot-' + role + '-mcp'
+        backend = get(role + '-mcp-deployment', 'deployment', name, '-n', 'iot-agents')
+        assert backend['status']['observedGeneration'] == backend['metadata']['generation']
+        assert backend['status'].get('availableReplicas', 0) == backend['status'].get('updatedReplicas', 0) == backend['spec']['replicas'] == 2
+        slices = get(role + '-mcp-endpoints', 'endpointslices', '-n', 'iot-agents', '-l', 'kubernetes.io/service-name=' + name)
+        assert sum(e.get('conditions', {}).get('ready') is True for item in slices['items'] for e in item['endpoints']) == 2
     originals = get('production-agents-before', 'sandboxagents', '-n', 'iot-agents')
     shared = get('shared-model-before', 'modelconfig', 'default-model-config', '-n', 'iot-agents')
     model_route = {name: get(name + '-before', 'deployment', name, '-n', 'iot-llm') for name in ['iot-model-gpu', 'iot-model-control', 'iot-llm-observer']}
