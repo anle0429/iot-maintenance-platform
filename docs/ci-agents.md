@@ -1,5 +1,7 @@
 # Delivering MCP services and IoT agents
 
+The later [OPA admission checkpoint](agent-admission-policy.md) extends these same three owned jobs with model/tool/sandbox checks before deployment. It records an intentional denied build and three successful production releases; the historical runs below keep their original source and scope.
+
 Three private Jenkins jobs share a source-bound release procedure. Each job keeps its own build number, tests, chart packages, deployment receipts and original agent responses.
 
 | Job | Application delivered | Native acceptance |

@@ -115,6 +115,8 @@ A coordinator delegates machine context and drift analysis to two specialists. T
 
 The [private gateway](docs/agent-gateway.md) protects the chat and catalog with authentication, TLS and rate controls. Scoped Vault consumers supply credentials; [three CI pipelines](docs/ci-agents.md) test and deploy the services and agents. The recorded notebook and original UI captures let a reviewer follow a complete answer back to actual tool results. [Model/agent dashboards and bounded GPU load](docs/llm-observability.md#use-the-monitoring-views) have native evidence. A [controlled policy window](docs/llm-policy-window.md) reconciles nine pre-inference rejections with request logs and GPU token counters. A [paired 1.5B/7B experiment](docs/llm-model-ab.md) compares latency, token use and four contract cases, including wrong answers. A separate [agent configuration comparison](docs/agent-configuration-ab.md) checks six answers against 18 actual tool events. Other tracked requirements remain open.
 
+An [OPA capability and budget gate](docs/agent-admission-policy.md) checks production agent configuration before deployment. Its native evidence includes an intentionally rejected tool change and three successful agent releases. The [five-class guide](docs/llm-class-design.md) explains how the assistant reaches validated machine data, predictions and reference passages.
+
 [Try the agent demo](docs/agent-demo.md) · [Learning guide](docs/llm-learning-guide.md) · [LLM tracker](docs/final-llm-rubric-tracker.md) · [Editable SVG](docs/images/platform-llm-plan.svg)
 
 ## Recorded results

@@ -1,0 +1,1272 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-30T02:31:56.862577+00:00",
+  "source_commit": "727cb6db747ee0bc3d4c1af8cd5a0c1838eec561",
+  "cases": [
+    {
+      "case": "observed-production",
+      "expected_allowed": true,
+      "allowed": true,
+      "violations": [],
+      "gate_exit": 0,
+      "checked_utc": "2026-10-30T02:31:45.690248+00:00",
+      "input_sha256": "88c0745889709682eb53c9fe7c88195ff31906fc54550df6e49a3de0c1ca99d7",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "minimum-output-token-budget",
+      "expected_allowed": true,
+      "allowed": true,
+      "violations": [],
+      "gate_exit": 0,
+      "checked_utc": "2026-10-30T02:31:45.853927+00:00",
+      "input_sha256": "08e6e1a2a69472b001a605bebe359c75b4f71f7fb8f7ff9bb2734e916ac5a58d",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "minimum-positive-model-timeout",
+      "expected_allowed": true,
+      "allowed": true,
+      "violations": [],
+      "gate_exit": 0,
+      "checked_utc": "2026-10-30T02:31:46.022506+00:00",
+      "input_sha256": "dff4a8411ba83b60874da63676581aac835dbf068faf37dbf2c1294c4c40c304",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "same-private-domain-set-different-order",
+      "expected_allowed": true,
+      "allowed": true,
+      "violations": [],
+      "gate_exit": 0,
+      "checked_utc": "2026-10-30T02:31:46.171770+00:00",
+      "input_sha256": "dd1372ff174568db282e00145bd1c221f6646aa550c58d6b258c6bb54b01aad4",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "wrong-envelope-version",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:46.336070+00:00",
+      "input_sha256": "9e8a0e026e2b0cf215c9f2f1101f966e3b32694b7fec9d600d7dcb37fb06c0d6",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "missing-envelope-format",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:46.476352+00:00",
+      "input_sha256": "304d2ef630bdc50dbeae2cbc9dad5dfb64c9a2c0cef10c11adad3c888978acdc",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "cross-namespace-envelope",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:46.629577+00:00",
+      "input_sha256": "190ec956c353d96555ffe52cb1e6613751ed38e4deba6fae2be54fa564b04928",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "empty-resource-inventory",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:46.783704+00:00",
+      "input_sha256": "75297ab3b0add2fb084b3462893e020c3863b75e026e86b4307fea50573ad980",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "missing-shared-model-config",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:46.937197+00:00",
+      "input_sha256": "e1c04a7c6c7b136bf571dbededcaa6ce3b4fdb136e91ae80bc352a94d096c749",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "duplicate-object-replacing-required-object",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:47.084010+00:00",
+      "input_sha256": "dbec6269441d481860fad77db387f99abc7002021da41982acb9f05a641f9032",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "extra-object",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory",
+        "unapproved capability or missing required field: Pod/extra"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:47.234215+00:00",
+      "input_sha256": "127a9b267bdb592c31447b1a240ca0a06d367eaac398607aa9fbadc165e600d0",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "non-object-resource",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory",
+        "unapproved capability or missing required field: malformed resource"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:47.383519+00:00",
+      "input_sha256": "7330d50c9353297d69c7c27ad2c5aeda05c52e265144fa2066c369812409f343",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "non-array-inventory",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:47.529775+00:00",
+      "input_sha256": "85820cb6b973c0d6944924c34ef0013fab136068745e4ad9cd886395ea5ae634",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unknown-resource-api-version",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory",
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:47.686236+00:00",
+      "input_sha256": "6643916c248663db73a65135f74356c39631fc3a392201c986a98268fe7dfe4f",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "missing-object-namespace",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory",
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:47.849018+00:00",
+      "input_sha256": "4e0c7ca7a5c970ea0d9ae632052f78dca09358e7139fd9f302313776a537edef",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "cross-namespace-object",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory",
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:48.020249+00:00",
+      "input_sha256": "0b5d909c826a6a5cb5aa1cf16ca6b7f5e0feebb88b3ddd43b7f6b0630c5b1709",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "missing-resource-spec",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory",
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:48.164055+00:00",
+      "input_sha256": "ccdb7cdf003ad1930de7f3b16dae6eef9477b8d53c26d90e264cd467afa7d804",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "null-model-spec",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "incomplete, duplicate or unrecognized production release inventory",
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:48.319220+00:00",
+      "input_sha256": "f0b3ee65aeb7444f5db0e9499194a419e4925bee9d71daf02bfca343ede69c25",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "missing-model-credentials",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:48.465365+00:00",
+      "input_sha256": "71c3f37d9147e09496b9aa76a15400dba4d5a26218db6eef1a2aba2fd7389cd1",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "wrong-model-credential-key",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:48.618498+00:00",
+      "input_sha256": "fae027980eab05ea14602cac3591a30eb6e0af7df3f779bade7566d9859b0789",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "inline-model-credential",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:48.763065+00:00",
+      "input_sha256": "37aed9f0fbc366a44e676508c0671686d0303a2d2ac2994f8d177e6c7fbf3c35",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unapproved-model-provider",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:48.919724+00:00",
+      "input_sha256": "66256fb3f049ae2aa6f0320a69670a3f3167781a94334317f588aa96439c26d1",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unapproved-model-artifact",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:49.073824+00:00",
+      "input_sha256": "0720a248da2eb9accb4e58d89a76e43dcee5f71d984d1e0769fd73ecbe00cd86",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "external-model-destination",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:49.226861+00:00",
+      "input_sha256": "320c094cd72d65482ce9e0bf7bf82e7a85a04cdddb0fa70225332d7e6e957ca2",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "bypass-observer-route",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:49.370160+00:00",
+      "input_sha256": "f0fb991d981b4a50bbf191feeffd40b8ffe0b411b804ac279b5ac54940a9f5e7",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "missing-model-options",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:49.529094+00:00",
+      "input_sha256": "e92d846e292c344b45c0e1abb8d5b185df259b967a1d7f2c52a1ba35448900cd",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "null-model-options",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:49.690651+00:00",
+      "input_sha256": "ea706db10b7eafb875c71e5d7ed7486e3a0f480a0f8cd2327b6fff3f060a81c9",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "zero-output-budget",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:49.841395+00:00",
+      "input_sha256": "957f10b957a501d254137baae4e5d2a39b17407ccc53213a9752968daf7f59a2",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "over-output-budget",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:49.991229+00:00",
+      "input_sha256": "29c7ae3e70f24dd947a0f26909de7b70b2759268a733ab53c4f2248a0a652f47",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "fractional-output-budget",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:50.149738+00:00",
+      "input_sha256": "574c78cfad64ecd52506222f8a0b60b60c7ba01c254822fbd9cb8fa5e1e7ddb8",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "string-output-budget",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:50.318418+00:00",
+      "input_sha256": "4fe5be4b53528cdc93d1658cd40587d5eb51101841422897d81ab928c3ebe2c2",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "boolean-output-budget",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:50.473198+00:00",
+      "input_sha256": "4888972e5d1858ce01dab0d3f54649a93377d093a6940cef874f17eb534aca39",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "zero-model-timeout",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:50.632419+00:00",
+      "input_sha256": "7d48da54aadd3817b87bad796887f76274bc2f47b8457b1408b7147498ec984c",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "over-model-timeout",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:50.785435+00:00",
+      "input_sha256": "d262060f4bab846c9de4572f15ceeed89e0fcdac501259aa648837d3f3427ff2",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "string-model-timeout",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:50.951692+00:00",
+      "input_sha256": "7d43177bf8ed695f58def1ece565d0eab79e0d7ac0454d9a4ab86a2e436c78a4",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "changed-production-temperature",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:51.119608+00:00",
+      "input_sha256": "828f4a94018fcfa41f09008d1b4528ba4bfaccd981265fc978c64d1f741e57c8",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "changed-production-seed",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:51.301197+00:00",
+      "input_sha256": "c02bec3a031699592c95dbf87da6e3fe559b34e269910d5db1cae37129c8e457",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "additional-model-option",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: ModelConfig/default-model-config"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:51.473558+00:00",
+      "input_sha256": "88d129e340e2f58a6e5ae7cc5b90b4f9cb86dfb79a791caf3eff632327a24f0a",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "enable-arbitrary-code-blocks",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:51.653133+00:00",
+      "input_sha256": "dab7e39882cb3f98d3fc13db0b44e8b8a643fb6ddfdc8c67d6dfb1e049b05363",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "omit-code-execution-control",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:51.820331+00:00",
+      "input_sha256": "01f7717dadfbdd8f6be3834179df8a01e9083495bd1ca58d0cad41e0eae8af5b",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unreviewed-runtime",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:51.971360+00:00",
+      "input_sha256": "13d57d3a62c41a8f6980b0854a7a3941f9773a5c3f8e2afb2f16bffb4f9fc921",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unreviewed-model-config-reference",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:52.143059+00:00",
+      "input_sha256": "c4489763594f0e0849d2de85cbd9ee14a98e2946a670426bf742eba02403b802",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "changed-agent-system-prompt",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:52.313582+00:00",
+      "input_sha256": "aa57f28e9e025f0cded6a3eb21c510956b11de492d5abdf58c6e5e69f7a2945f",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "old-agent-policy-version",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:52.470533+00:00",
+      "input_sha256": "9cb694e9a8d4693a182c212057da7930cecb7f726e5272f3fbdd7c14ec020c12",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "cross-namespace-agent-access",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:52.636488+00:00",
+      "input_sha256": "a7b65c822651947d1a42688f9181ebc010b399d3bae10b705ee2d191218429c1",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "additional-egress-domain",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:52.817795+00:00",
+      "input_sha256": "6c6efe8d7534e72207f408d7b58245bc0af8061f6e543a3950c4a9563e8773f9",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "missing-sandbox-network",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:53.014643+00:00",
+      "input_sha256": "def75bc511d5fc55bac65dc2e3ae295336cf31c7aa19933495d3229abec38207",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "missing-private-domain",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:53.183238+00:00",
+      "input_sha256": "0a37d628c17725cebeaeb0d97e61ad97834b3d7aca318ef1cc55ceba0dd4ac6b",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "duplicate-private-domain",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:53.343613+00:00",
+      "input_sha256": "0c5c52f2613ffd94c0917c115f74b3c9176e4aca88afcbabfe625505b63d148f",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unapproved-worker-pool",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:53.524617+00:00",
+      "input_sha256": "983e6ad9275ad3cc3541fcb6b0d70f14a43b5fc2f7a5ec41601004bcc4617dae",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unsafe-hardware-tool",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:53.677473+00:00",
+      "input_sha256": "485aa0a32abac2aa2efa5eedfe237cf9482f835585c3b2331e4f15738043ffd8",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "missing-approved-tool",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:53.841697+00:00",
+      "input_sha256": "cb466194568af20ae00eb0293d6e8ff36d4869315652f89ee583da9eb9ee56b2",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unapproved-tool-server-reference",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:54.010437+00:00",
+      "input_sha256": "c4eb29c11214abd767c0ce45fdef3f64a7f98a0cce0b1d6b7e9583b1495588f1",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "arbitrary-tool-type",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-retrieval"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:54.163832+00:00",
+      "input_sha256": "1f5000b0621c253bb07298e1989eb3dd88b0dfa13adfa19aef63dc9b926141b3",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "shared-delegation-session",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-coordinator"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:54.326115+00:00",
+      "input_sha256": "c8884601267d013e92e621123dd850b2e093dbc08dbbd91f221777bcd4fdcf0d",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "cross-namespace-delegation",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-coordinator"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:54.484054+00:00",
+      "input_sha256": "77a64525315e4f80dad4670b74fdcefc8300b519e96b0535fe88e246d92d88ee",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unknown-specialist-delegation",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: SandboxAgent/iot-coordinator"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:54.663009+00:00",
+      "input_sha256": "036da14166d4dd4da510d194b66927478a9346ac7caa6e9488b4fff208ef45b0",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "external-mcp-destination",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: RemoteMCPServer/iot-retrieval-tools"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:54.835363+00:00",
+      "input_sha256": "cafd8f13629f31169b270fdaed75b2a5db5cd170778ea08f32d4cb8f859967f7",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "wrong-private-mcp-destination",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: RemoteMCPServer/iot-retrieval-tools"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:55.009847+00:00",
+      "input_sha256": "9523d59541c4bc4c2f23984432925b5a13a0b92d48c602b8d272a67a27757aaa",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "missing-mcp-auth-reference",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: RemoteMCPServer/iot-retrieval-tools"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:55.172407+00:00",
+      "input_sha256": "e8dcdf19f1da825274f44a7ef68fce1c7594ddfe9c936446c1fabcda0d5aadba",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "inline-mcp-auth-header",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: RemoteMCPServer/iot-retrieval-tools"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:55.345119+00:00",
+      "input_sha256": "9c0916a25d87b9fd3728bc13368837fad132d37da5ba5649c0f7ec0d54512091",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unreviewed-mcp-protocol",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: RemoteMCPServer/iot-retrieval-tools"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:55.525402+00:00",
+      "input_sha256": "a6f114227019e807a7778a88203ca753a5e0567154dccedbd34b51da8a265251",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "extended-mcp-timeout",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: RemoteMCPServer/iot-retrieval-tools"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:55.689065+00:00",
+      "input_sha256": "49c2a5f5f772e22ed018b1ebaaa324091d5fa3dd48cf0851b7b2ac04d396f55b",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unisolated-worker-runtime",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: WorkerPool/iot-retrieval-pool"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:55.865216+00:00",
+      "input_sha256": "8fbc367607f12e7a00faf58ecee61392b39a5088431ade9a197e2d92116a8a49",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unapproved-worker-image",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: WorkerPool/iot-retrieval-pool"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:56.033668+00:00",
+      "input_sha256": "06c42994e50d3f217dbc4ba1af0a71cbe7a68d7ff33f476f16ec6c6b592ead1c",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "over-worker-baseline",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: WorkerPool/iot-retrieval-pool"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:56.206251+00:00",
+      "input_sha256": "344f7cd45c3a18d5fc537d16a97966264dbdadb94c3dd216901145f12e7418f6",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "privileged-worker-template",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: WorkerPool/iot-retrieval-pool"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:56.361926+00:00",
+      "input_sha256": "29f9da12fce6f0b97d081c6b6010dc8458248a17fe5f31b7a82806f43803a9d6",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "host-network-worker-template",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: WorkerPool/iot-retrieval-pool"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:56.522455+00:00",
+      "input_sha256": "d31547f0ef18e3eeadf178290a8bae2de01ac032f1a3e4cb7aef7b96a5372480",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "unapproved-worker-resource-budget",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: WorkerPool/iot-retrieval-pool"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:56.683572+00:00",
+      "input_sha256": "4d026ead2f7d96f9f7322af613ea9eee677d32399513d15a74c0b382b839fd0e",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    },
+    {
+      "case": "changed-network-policy",
+      "expected_allowed": false,
+      "allowed": false,
+      "violations": [
+        "unapproved capability or missing required field: NetworkPolicy/iot-agent-actor-mcp"
+      ],
+      "gate_exit": 1,
+      "checked_utc": "2026-10-30T02:31:56.861597+00:00",
+      "input_sha256": "aa3e060c306140252d189e527132eb460a6bfbe0ec517f5fb67f5ff6f61409a7",
+      "policy_files": {
+        "infra/policy/agent-admission.rego": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+        "infra/policy/agent-admission-approved.json": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+        "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+      },
+      "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+      "opa_version": "1.21.4"
+    }
+  ],
+  "allowed_cases": 4,
+  "denied_cases": 66,
+  "post_admission_tool_edit_rejected": true,
+  "deployment_commands_run": 0,
+  "model_requests": 0,
+  "scope": "Actual OPA evaluation of the complete eleven-resource production agent release and explicit known-answer counterexamples. CI integration and real deployment evidence are separate; no admission-webhook or universal security claim."
+}
