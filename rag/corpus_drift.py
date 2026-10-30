@@ -30,6 +30,7 @@ def mmd_squared(left, right, sigma):
     dimensions = len(left[0]) if left else 0
     validate_vectors(left, dimensions); validate_vectors(right, dimensions)
     def kernel(a, b):
+        """Measure Gaussian similarity between two validated document vectors."""
         return math.exp(-math.fsum((x-y)**2 for x, y in zip(a, b, strict=True))/(2*sigma*sigma))
     xx = math.fsum(kernel(a, b) for a in left for b in left)/(len(left)**2)
     yy = math.fsum(kernel(a, b) for a in right for b in right)/(len(right)**2)

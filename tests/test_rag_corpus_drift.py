@@ -41,7 +41,10 @@ class CorpusDistanceTests(unittest.TestCase):
         documents = [{'document_id': name, 'revision': 1, 'sha256': name, 'file': name+'.md', 'text': text}
                      for name, text in [('short', '# Short\nA short document.\n'), ('long', '# Long\n'+'Many words. '*180)]]
         class Encoder:
-            def encode(self, texts): return [[1., 0.] if 'Short' in t else [0., 1.] for t in texts]
+            """Supply known orthogonal vectors for the document-weighting contract."""
+            def encode(self, texts):
+                """Represent the short document separately from every long-document chunk."""
+                return [[1., 0.] if 'Short' in t else [0., 1.] for t in texts]
         result = document_vectors(documents, {'dimensions': 2, 'chunk_max_chars': 200, 'overlap_chars': 30}, Encoder())
         self.assertEqual(len(result['documents']), 2)
         self.assertGreater(result['documents'][0]['chunk_count'], 1)

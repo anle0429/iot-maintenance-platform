@@ -53,6 +53,8 @@ python -B -S scripts/verify-rag-corpus-drift.py
 
 Expect seven test methods and `passed: true`. The verifier authenticates 161 original native payloads, 50 source inputs, container exit states, both CI builds and the six-task Airflow run.
 
+The archived source is byte-exact as executed. Two current files subsequently gained missing helper/fixture docstrings: `rag/corpus_drift.py` and `tests/test_rag_corpus_drift.py`. The verifier pins both original/current hashes and checks identical executable syntax trees after removing docstrings. The other 48 inputs match the executed source exactly. This documentation correction did not rerun the native workload or change its recorded results.
+
 For a new live run on the retained lab, follow the [demo recovery guide](demo-walkthrough.md), open **iot-llm-rag → Build with Parameters**, and explicitly supply:
 
 ```text

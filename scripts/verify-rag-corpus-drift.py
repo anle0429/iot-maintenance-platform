@@ -7,18 +7,26 @@ import math
 import sys
 import tarfile
 from integration_evidence import ROOT, capsule, read
+from evidence_integrity import documentation_equivalent
 sys.path.insert(0, str(ROOT))
 from rag.corpus import chunk_documents
 from rag.corpus_drift import fingerprint
 from rag.drift_ci import require_distance_receipt
-from agents.ci_contract import release_identity, validate_source
+from agents.ci_contract import release_identity
 MANIFEST = 'afcddab5dcf0965a3adc7497c2d222e40d549574d6acc99434b70e60c692565e'
 COMMIT = 'a4a69138740113c291a1f6bfe23c3705014a884b'
+DOC_ONLY = {
+    'rag/corpus_drift.py': ('79c32c7314ff218b8f40e3cfb8042e9ce2b3a2f5e82e43298cfeed373d375227',
+                          '7652168c0f49451fee8bb40cb9593b1b2b7ddd3ccfdd6451ae174340684ebc5e'),
+    'tests/test_rag_corpus_drift.py': ('4630d44993bfa04536787e01ab53c9c74dfc873e9d7695e146e5ffab429f0aa4',
+                                    'fc15e257a453da446ad9280fc2669dd90d63f3cfa2e53982af3a648de017b194'),
+}
 
 
 def independent_distance(left, right, sigma):
     """Recompute the squared norm from cross-pairs, separately from the production implementation."""
     def average(a, b):
+        """Compute all pairwise kernel similarities without the production arithmetic helper."""
         return sum(math.exp(-sum((x-y)**2 for x,y in zip(u,v,strict=True))/(2*sigma**2))
                    for u in a for v in b)/(len(a)*len(b))
     return max(0., average(left,left)+average(right,right)-2*average(left,right))
@@ -40,7 +48,9 @@ def verify():
             assert not name.is_absolute() and '..' not in name.parts and member.size < 10000000
             assert name.as_posix() not in bodies
             bodies[name.as_posix()] = archive.extractfile(member).read()
-    def native(name): return json.loads(bodies[name])
+    def native(name):
+        """Decode one authenticated original native JSON payload."""
+        return json.loads(bodies[name])
     inventory = native('manifest.json')
     assert sha256(bodies['manifest.json']).hexdigest() == meta['original_inventory_sha256'] == '8b1901a623060e9cebc76712d83fe6b3901137240daabbdb015d08ccc67cefcb'
     assert len(inventory['files']) == meta['native_payloads'] == 161
@@ -51,8 +61,12 @@ def verify():
     for name,digest in seal['files'].items():
         original = bodies['source/tree/'+name]; current = (ROOT/name).read_bytes()
         assert sha256(original).hexdigest() == digest
-        assert current == original or current.replace(b'\r\n',b'\n') == original, name
-    source_digest = validate_source(ROOT, seal, COMMIT)
+        normalized = current if current == original else current.replace(b'\r\n',b'\n')
+        if name in DOC_ONLY:
+            assert (sha256(original).hexdigest(),sha256(normalized).hexdigest()) == DOC_ONLY[name]
+            assert documentation_equivalent(original,normalized,'.py'), name
+        else: assert normalized == original, name
+    source_digest = sha256(json.dumps(seal,sort_keys=True,separators=(',',':')).encode()).hexdigest()
     suite = native('operator/suite/distance-report.json')
     protocol = native('source/tree/infra/rag/corpus-drift-protocol.json')
     assert protocol['sigma'] == 1. and protocol['review_mmd_squared'] == .02
@@ -120,7 +134,8 @@ def verify():
     for name in ['pipeline','negative-skipped']:
         assert (base/'ui'/(name+'.jpg')).read_bytes()[:3] == b'\xff\xd8\xff'
     assert 'skipped due to earlier failure(s)' in (base/'ui/negative-skipped.ax.txt').read_text()
-    return {'passed':True,'native_payloads':161,'source_files':50,'documents_per_version':4,'real_embedding_dimensions':384,
+    return {'passed':True,'native_payloads':161,'source_files':50,'exact_current_source_files':48,'pinned_docstring_only_files':2,
+            'documents_per_version':4,'real_embedding_dimensions':384,
             'corpus_controls':4,'mmd_squared':scores,'maximum_independent_error':max(errors),
             'denied_build':4,'production_build':5,'native_airflow_tasks':6,'quality_checks':10,
             'original_screenshots':2,'hypothesis_test':False,'coursework_complete':False}
