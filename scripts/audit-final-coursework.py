@@ -127,6 +127,28 @@ def capsule_manifest(root, name):
     return {'verified_payloads': len(files) - len(excluded), 'declared_nonessential_exclusions': sorted(excluded)}
 
 
+def implementation_map():
+    """Require one consistent code/evidence mapping for every pinned ML and LLM requirement, without awarding scores."""
+    expected = english_view(ROOT/'docs/rubric/final-ml-english.json', 'ML') | english_view(ROOT/'docs/rubric/final-llm-english.json', 'LLM')
+    rows = {}
+    for line in (ROOT/'docs/final-audit-matrix.md').read_text(encoding='utf-8').splitlines():
+        if not re.match(r'\| [FL]\d+ \|', line): continue
+        columns = [value.strip() for value in re.split(r'(?<!\\)\|', line)[1:-1]]
+        key = columns[0]; assert len(columns) == 5 and key in expected and key not in rows, key
+        assert normalize(columns[1]) == normalize(expected[key]['requirement']), key
+        for column in columns[2:4]:
+            targets = re.findall(r'\]\(([^)]+)\)', column); assert targets, key
+            for target in targets:
+                if '://' in target: continue
+                path = (ROOT/'docs'/target.split('#')[0]).resolve()
+                assert path.is_relative_to(ROOT) and path.is_file(), (key, target)
+        assert columns[-1], key
+        rows[key] = columns
+    assert set(rows) == set(expected) and len(rows) == 117
+    return {'rows': len(rows), 'ml': 57, 'llm': 60, 'original_requirement_texts_matched': True,
+            'scope': 'Code and evidence navigation coverage; native correctness remains the responsibility of the separate recorded proofs.'}
+
+
 def execute_verifier(name, output):
     """Run one explicitly whitelisted offline checker with bounded time and retain its unmodified console."""
     assert name in VERIFIERS
@@ -153,6 +175,7 @@ def audit(output, workers):
     llm_raw = (ROOT / 'docs/evidence/rubric-llm/source.json').read_bytes()
     if sha256(llm_raw).hexdigest() != LLM_SNAPSHOT_SHA256: raise ValueError('The original LLM source snapshot changed')
     llm_rows = rubric_rows(json.loads(llm_raw), (ROOT / 'docs/final-llm-rubric-tracker.md').read_text(encoding='utf-8'), 'LLM')
+    mapped = implementation_map()
     links = 0
     for key, columns in (rows | llm_rows).items():
         for target in re.findall(r'\]\(([^)]+)\)', columns[-1]):
@@ -162,7 +185,7 @@ def audit(output, workers):
             assert path.is_relative_to(ROOT) and path.is_file(), (key, target)
             links += 1
     capsules = {name: capsule_manifest(ROOT, name) for name in CAPSULES}
-    checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py', ROOT / 'scripts/git_sources.py', ROOT / 'scripts/integration_evidence.py', ROOT / 'agents/answer_acceptance.py', ROOT / 'agents/delegation_acceptance.py', ROOT / 'scripts/go-mutation-exec.py', ROOT / 'agents/probe.py', ROOT / 'scripts/view-vault-metadata.py', ROOT / 'tests/test_vault_metadata_view.py']
+    checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py', ROOT / 'scripts/git_sources.py', ROOT / 'scripts/integration_evidence.py', ROOT / 'agents/answer_acceptance.py', ROOT / 'agents/delegation_acceptance.py', ROOT / 'scripts/go-mutation-exec.py', ROOT / 'agents/probe.py', ROOT / 'scripts/view-vault-metadata.py', ROOT / 'tests/test_vault_metadata_view.py', ROOT / 'docs/final-audit-matrix.md', ROOT / 'docs/final-llm-rubric-tracker.md', ROOT / 'docs/final-rubric-tracker.md']
     source_before = {p.relative_to(ROOT).as_posix(): sha256(p.read_bytes()).hexdigest() for p in checkers}
     results = {}
     with ThreadPoolExecutor(max_workers=workers) as pool:
@@ -189,7 +212,7 @@ def audit(output, workers):
               'native_agent_notebook_verified': results['agent-notebook']['exit'] == 0,
               'native_agent_startup_comparison_verified': results['agent-warmup']['exit'] == 0,
               'llm_runtime_verified': False, 'coursework_complete': False,
-              'local_evidence_links': links, 'additional_capsule_payloads': capsules, 'verifiers': results,
+              'local_evidence_links': links, 'implementation_map': mapped, 'additional_capsule_payloads': capsules, 'verifiers': results,
               'live_readiness_checked': False, 'scope': 'Recorded ML, inference/RAG/MCP, GPU routing, strict mutation audits and real specialist/coordinator conversations plus both rubric presentations. The full agent track remains incomplete. This is not a grade, current live readiness, full100GB ML or laptop verification.'}
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(report, indent=2))
