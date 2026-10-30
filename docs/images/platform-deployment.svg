@@ -1,74 +1,185 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2320" height="1140" viewBox="0 0 2320 1140" role="img" aria-labelledby="title desc">
-<title id="title">Deployment view</title><desc id="desc">Private control/data VM and dedicated GPU worker. Administration uses IAP; the control plane remains a single-host lab.</desc><rect width="100%" height="100%" fill="white"/>
-<text x="44" y="78" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="34" font-weight="600" text-anchor="start" fill="#16273b">Deployment view</text>
-<text x="44" y="113" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="19" font-weight="400" text-anchor="start" fill="#526174">Private control/data VM and dedicated GPU worker. Administration uses IAP; the control plane remains a single-host lab.</text>
-<text x="44" y="1124" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#657386">Architecture illustration — not a runtime screenshot. Source: docs/diagrams/platform.py</text>
-<rect x="35" y="155" width="300" height="850" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="2600" height="2150" viewBox="0 0 2600 2150" role="img" aria-labelledby="title desc">
+<title id="title">Deployment view — workload boundaries</title><desc id="desc">Recorded private lab: one CPU control/data VM and one GPU worker. Boxes identify individual workload resources.</desc><rect width="100%" height="100%" fill="white"/>
+<text x="44" y="78" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="34" font-weight="600" text-anchor="start" fill="#16273b">Deployment view — workload boundaries</text>
+<text x="44" y="113" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="19" font-weight="400" text-anchor="start" fill="#526174">Recorded private lab: one CPU control/data VM and one GPU worker. Boxes identify individual workload resources.</text>
+<text x="44" y="2134" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#657386">Architecture illustration — not a runtime screenshot. Source: docs/diagrams/platform.py</text>
+<rect x="35" y="155" width="290" height="470" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
 <text x="55" y="191" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">DEVELOPER PC</text>
-<rect x="60" y="265" width="250" height="160" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
-<text x="185.0" y="312.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Local tools</text>
-<text x="185.0" y="342.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Git / Python</text>
-<text x="185.0" y="367.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Editor / offline checks</text>
-<text x="185.0" y="392.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">IAP client</text>
-<rect x="60" y="555" width="250" height="160" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
-<text x="185.0" y="602.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Browser</text>
-<text x="185.0" y="632.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Swagger / Airflow</text>
-<text x="185.0" y="657.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Grafana / DataHub</text>
-<text x="185.0" y="682.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">MLflow / Jenkins</text>
-<rect x="380" y="155" width="1380" height="850" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
-<text x="400" y="191" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">GOOGLE CLOUD VM — 8 vCPU / 64 GiB RAM</text>
-<rect x="410" y="225" width="1320" height="245" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
-<text x="430" y="261" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">K3s — Kubernetes workloads</text>
-<rect x="435" y="290" width="285" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
-<text x="577.5" y="354.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Feature / drift APIs</text>
-<text x="577.5" y="384.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Helm Deployments</text>
-<rect x="755" y="290" width="285" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
-<text x="897.5" y="354.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">KServe predictors</text>
-<text x="897.5" y="384.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">ML inference / Eventing</text>
-<rect x="1075" y="290" width="285" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
-<text x="1217.5" y="354.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Kubeflow Pipelines</text>
-<text x="1217.5" y="384.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">API / task Pods</text>
-<rect x="1395" y="290" width="285" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
-<text x="1537.5" y="354.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Agents / gateway</text>
-<text x="1537.5" y="384.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">MCP / workers / router</text>
-<rect x="410" y="500" width="1320" height="210" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
-<text x="430" y="536" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">Docker containers and jobs</text>
-<rect x="445" y="560" width="395" height="115" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
-<text x="642.5" y="609.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Spark / Kafka / Flink</text>
-<text x="642.5" y="639.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Separate images, limits and state</text>
-<rect x="875" y="560" width="395" height="115" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
-<text x="1072.5" y="609.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Airflow / DataHub</text>
-<text x="1072.5" y="639.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Separate images, limits and state</text>
-<rect x="1305" y="560" width="395" height="115" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
-<text x="1502.5" y="609.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">MLflow / Jenkins</text>
-<text x="1502.5" y="639.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Separate images, limits and state</text>
-<rect x="410" y="740" width="1320" height="210" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
-<text x="430" y="776" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">Host services</text>
-<rect x="445" y="800" width="395" height="115" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
-<text x="642.5" y="849.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Prometheus / Grafana</text>
-<text x="642.5" y="879.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Retained state; recovery CLI</text>
-<rect x="875" y="800" width="395" height="115" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
-<text x="1072.5" y="849.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Loki / Alloy / exporter</text>
-<text x="1072.5" y="879.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Retained state; recovery CLI</text>
-<rect x="1305" y="800" width="395" height="115" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
-<text x="1502.5" y="849.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Vault / Pushgateway</text>
-<text x="1502.5" y="879.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Retained state; recovery CLI</text>
-<rect x="1810" y="155" width="470" height="850" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
-<text x="1830" y="191" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">PRIVATE GPU WORKER</text>
-<rect x="1845" y="305" width="400" height="170" rx="12" fill="#e8f4fa" stroke="#327d9c" stroke-width="2"/>
-<text x="2045.0" y="357.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">GPU model serving</text>
-<text x="2045.0" y="387.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">4 vCPU / 15 GiB RAM</text>
-<text x="2045.0" y="412.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">V100 / 16 GiB VRAM</text>
-<text x="2045.0" y="437.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">llama.cpp / 7B + 1.5B</text>
-<rect x="1845" y="610" width="400" height="150" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
-<text x="2045.0" y="652.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Retained GPU state</text>
-<text x="2045.0" y="682.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">50 GiB SSD / model assets</text>
-<text x="2045.0" y="707.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Private K3s agent + runtime</text>
-<text x="2045.0" y="732.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">No public model endpoint</text>
-<polyline points="1537,435 1537,482 1780,482 1780,390 1845,390" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="1845,390 1834.6076951545867,396.0 1834.6076951545867,384.0" fill="#596e86"/>
-<rect x="1703.0" y="491" width="174.0" height="25" rx="4" fill="white"/>
-<text x="1790" y="508" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">D1  Private model traffic</text>
-<text x="410" y="1052" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#16273b">Storage: 50 GiB boot + 500 GiB data HDD + 150 GiB pd-balanced scratch. Datasets, registry and secrets stay on VM volumes.</text>
-<text x="45" y="1097" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#16273b">Administration: IAP-forwarded SSH22; UI listeners use loopback. A Git clone contains code and documentation, not live service state.</text>
+<rect x="60" y="285" width="240" height="135" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="180.0" y="344.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Web browser</text>
+<text x="180.0" y="374.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Private lab UIs</text>
+<rect x="60" y="455" width="240" height="110" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="180.0" y="502.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">IAP client</text>
+<text x="180.0" y="532.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">SSH22 / loopback</text>
+<rect x="365" y="155" width="1770" height="1845" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="385" y="191" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">GOOGLE CLOUD VM — 8 vCPU / 64 GiB RAM</text>
+<rect x="395" y="225" width="1710" height="870" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="415" y="261" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">K3s — selected workload resources</text>
+<rect x="420" y="285" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="615.0" y="332.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">NGINX ingress</text>
+<text x="615.0" y="362.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Deployment</text>
+<text x="615.0" y="387.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Private HTTPS / auth</text>
+<rect x="840" y="285" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1035.0" y="332.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Feature API</text>
+<text x="1035.0" y="362.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Helm Deployment</text>
+<text x="1035.0" y="387.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">FastAPI / Feast SDK inside</text>
+<rect x="1260" y="285" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1455.0" y="332.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Drift API</text>
+<text x="1455.0" y="362.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Helm Deployment</text>
+<text x="1455.0" y="387.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">FastAPI / PSI</text>
+<rect x="1680" y="285" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1875.0" y="332.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Pump predictor</text>
+<text x="1875.0" y="362.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">KServe workload</text>
+<text x="1875.0" y="387.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Recorded serving model: 6</text>
+<rect x="420" y="480" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="615.0" y="527.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Kubeflow Pipelines API</text>
+<text x="615.0" y="557.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">API server Deployment</text>
+<text x="615.0" y="582.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Five-task training runs</text>
+<rect x="840" y="480" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1035.0" y="527.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Redis API store</text>
+<text x="1035.0" y="557.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Online store Deployment</text>
+<text x="1035.0" y="582.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Eight inputs / native times</text>
+<rect x="1260" y="480" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1455.0" y="527.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Retrieval MCP</text>
+<text x="1455.0" y="557.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Helm Deployment</text>
+<text x="1455.0" y="582.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Two API replicas</text>
+<rect x="1680" y="480" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1875.0" y="527.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Drift MCP</text>
+<text x="1875.0" y="557.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Helm Deployment</text>
+<text x="1875.0" y="582.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Two API replicas</text>
+<rect x="420" y="675" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="615.0" y="722.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Agent controller</text>
+<text x="615.0" y="752.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">kagent Deployment</text>
+<text x="615.0" y="777.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Private A2A dispatch</text>
+<rect x="840" y="675" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1035.0" y="722.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Agent chat UI</text>
+<text x="1035.0" y="752.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">kagent UI Deployment</text>
+<text x="1035.0" y="777.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Gateway-protected frontend</text>
+<rect x="1260" y="675" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1455.0" y="722.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Agent registry</text>
+<text x="1455.0" y="752.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Registry server workload</text>
+<text x="1455.0" y="777.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Versioned catalog / UI</text>
+<rect x="1680" y="675" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1875.0" y="722.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">llm-d router</text>
+<text x="1875.0" y="752.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Inference router workload</text>
+<text x="1875.0" y="777.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Private model endpoint</text>
+<rect x="420" y="870" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="615.0" y="917.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Retrieval workers</text>
+<text x="615.0" y="947.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">WorkerPool resource / gVisor</text>
+<text x="615.0" y="972.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Recorded 2-4 worker Pods</text>
+<rect x="840" y="870" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1035.0" y="917.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Drift workers</text>
+<text x="1035.0" y="947.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">WorkerPool resource / gVisor</text>
+<text x="1035.0" y="972.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Recorded 2-4 worker Pods</text>
+<rect x="1260" y="870" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1455.0" y="917.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Coordinator workers</text>
+<text x="1455.0" y="947.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">WorkerPool resource / gVisor</text>
+<text x="1455.0" y="972.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Recorded 2-4 worker Pods</text>
+<rect x="1680" y="870" width="390" height="135" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
+<text x="1875.0" y="917.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">LLM observer</text>
+<text x="1875.0" y="947.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">One Deployment / two containers</text>
+<text x="1875.0" y="972.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Observer + turn adapter</text>
+<rect x="395" y="1130" width="1710" height="425" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="415" y="1166" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">Docker — independent containers and on-demand jobs</text>
+<rect x="420" y="1195" width="390" height="130" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
+<text x="615.0" y="1239.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Spark batch job</text>
+<text x="615.0" y="1269.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Compose: ingest</text>
+<text x="615.0" y="1294.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">On-demand driver container</text>
+<rect x="840" y="1195" width="390" height="130" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
+<text x="1035.0" y="1239.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Kafka broker</text>
+<text x="1035.0" y="1269.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Compose: kafka</text>
+<text x="1035.0" y="1294.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Arrival-ordered replay</text>
+<rect x="1260" y="1195" width="390" height="130" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
+<text x="1455.0" y="1239.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Flink job</text>
+<text x="1455.0" y="1269.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Compose: flink</text>
+<text x="1455.0" y="1294.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Bounded stream workload</text>
+<rect x="1680" y="1195" width="390" height="130" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
+<text x="1875.0" y="1239.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">MLflow server</text>
+<text x="1875.0" y="1269.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Registry server container</text>
+<text x="1875.0" y="1294.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Run / data / model artifacts</text>
+<rect x="420" y="1370" width="390" height="130" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
+<text x="615.0" y="1414.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Airflow API</text>
+<text x="615.0" y="1444.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Compose: airflow-api</text>
+<text x="615.0" y="1469.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Web / execution endpoints</text>
+<rect x="840" y="1370" width="390" height="130" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
+<text x="1035.0" y="1414.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Airflow scheduler</text>
+<text x="1035.0" y="1444.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Compose: airflow-scheduler</text>
+<text x="1035.0" y="1469.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">DAG scheduling process</text>
+<rect x="1260" y="1370" width="390" height="130" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
+<text x="1455.0" y="1414.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">DataHub GMS</text>
+<text x="1455.0" y="1444.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Compose: datahub-gms</text>
+<text x="1455.0" y="1469.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Schemas / lineage / assertions</text>
+<rect x="1680" y="1370" width="390" height="130" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
+<text x="1875.0" y="1414.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Jenkins controller</text>
+<text x="1875.0" y="1444.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">CI controller container</text>
+<text x="1875.0" y="1469.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Test / build / auto-deploy</text>
+<text x="420" y="1537" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#16273b">Supporting databases, DAG processors and secondary UI services are omitted; consult the linked runtime manifests.</text>
+<rect x="395" y="1590" width="1710" height="370" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="415" y="1626" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">Host services — separate retained processes</text>
+<rect x="420" y="1650" width="390" height="110" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="615.0" y="1697.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Prometheus</text>
+<text x="615.0" y="1727.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Metric collection</text>
+<rect x="840" y="1650" width="390" height="110" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="1035.0" y="1697.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Grafana</text>
+<text x="1035.0" y="1727.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Metric / log dashboards</text>
+<rect x="1260" y="1650" width="390" height="110" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="1455.0" y="1697.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Loki</text>
+<text x="1455.0" y="1727.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Timestamped log storage</text>
+<rect x="1680" y="1650" width="390" height="110" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="1875.0" y="1697.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Alloy</text>
+<text x="1875.0" y="1727.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Log discovery / forwarding</text>
+<rect x="420" y="1810" width="390" height="110" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="615.0" y="1857.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Vault</text>
+<text x="615.0" y="1887.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Scoped secret consumers</text>
+<rect x="840" y="1810" width="390" height="110" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="1035.0" y="1857.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Pushgateway</text>
+<text x="1035.0" y="1887.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Completed-job gauges</text>
+<rect x="1260" y="1810" width="390" height="110" rx="12" fill="#fff1df" stroke="#b97a25" stroke-width="2"/>
+<text x="1455.0" y="1857.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Node exporter</text>
+<text x="1455.0" y="1887.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">CPU / RAM / disk / network</text>
+<text x="1710" y="1818" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="18" font-weight="600" text-anchor="start" fill="#16273b">RETAINED HOST VOLUMES</text>
+<text x="1710" y="1852" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">50 GiB boot / 500 GiB data HDD</text>
+<text x="1710" y="1878" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">150 GiB pd-balanced scratch</text>
+<text x="1710" y="1904" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">Datasets, artifacts and private state</text>
+<rect x="2180" y="155" width="380" height="620" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="2200" y="191" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">PRIVATE GPU WORKER</text>
+<text x="2200" y="243" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="18" font-weight="400" text-anchor="start" fill="#16273b">4 vCPU / 15 GiB RAM</text>
+<text x="2200" y="273" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="18" font-weight="400" text-anchor="start" fill="#16273b">V100 / 16 GiB VRAM</text>
+<rect x="2210" y="320" width="320" height="165" rx="12" fill="#e8f4fa" stroke="#327d9c" stroke-width="2"/>
+<text x="2370.0" y="369.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">LLM model server</text>
+<text x="2370.0" y="399.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">K3s Deployment / one GPU</text>
+<text x="2370.0" y="424.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">llama.cpp / 7B + 1.5B</text>
+<text x="2370.0" y="449.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Private ClusterIP endpoint</text>
+<text x="2210" y="572" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#16273b">50 GiB SSD; cached model assets</text>
+<text x="2210" y="602" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#16273b">Weights and state stay on the VM.</text>
+<rect x="2180" y="1150" width="380" height="570" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
+<text x="2200" y="1186" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">READING THIS VIEW</text>
+<text x="2200" y="1237" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">One box: one workload resource.</text>
+<text x="2200" y="1279" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">Frames: host / runtime boundaries.</text>
+<text x="2200" y="1321" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">Replicas stay within their unit.</text>
+<text x="2200" y="1363" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">Only selected units are shown.</text>
+<text x="2200" y="1405" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">Supporting controllers and stores</text>
+<text x="2200" y="1447" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">remain in the runtime manifests.</text>
+<text x="2200" y="1489" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">Labels describe recorded topology.</text>
+<text x="2200" y="1531" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">Use the runbook for live readiness.</text>
+<text x="2200" y="1573" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">Warm workers share the CPU VM.</text>
+<text x="2200" y="1615" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#3c5066">Host-level HA was not measured.</text>
+<polyline points="300,350 420,350" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="420,350 409.60769515458674,356.0 409.60769515458674,344.0" fill="#596e86"/>
+<rect x="330.0" y="250" width="60.0" height="25" rx="4" fill="white"/>
+<text x="360" y="267" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">U1  IAP</text>
+<polyline points="1875,810 1875,870" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="1875,870 1869.0,859.6076951545867 1881.0,859.6076951545867" fill="#596e86"/>
+<rect x="1864.5" y="828" width="201.0" height="25" rx="4" fill="white"/>
+<text x="1965" y="845" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">G1  Observed model request</text>
+<polyline points="2070,925 2160,925 2160,397 2210,397" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="2210,397 2199.6076951545865,403.0 2199.6076951545865,391.0" fill="#596e86"/>
+<rect x="2258.5" y="898" width="183.0" height="25" rx="4" fill="white"/>
+<text x="2350" y="915" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">G2  Private model request</text>
+<polyline points="2530,435 2570,435 2570,1040 1950,1040 1950,1005" fill="none" stroke="#596e86" stroke-width="2.5"/>
+<polygon points="1950,1005 1956.0,1015.3923048454133 1944.0,1015.3923048454133" fill="#596e86"/>
+<rect x="2286.5078125" y="1058" width="126.984375" height="25" rx="4" fill="white"/>
+<text x="2350" y="1075" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">G3  Token stream</text>
+<text x="395" y="2048" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="18" font-weight="400" text-anchor="start" fill="#16273b">U: IAP access to a loopback viewer; the VM viewer verifies gateway HTTPS. G: private model request/response.</text>
+<text x="45" y="2098" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="18" font-weight="400" text-anchor="start" fill="#16273b">Data, training and telemetry handoffs have separate workflow views. This recorded topology does not establish live readiness or host-level failover.</text>
 </svg>

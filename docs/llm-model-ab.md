@@ -2,7 +2,7 @@
 
 The same V100 served Qwen2.5 1.5B and 7B for a small, paired reasoning experiment. The smaller model answered faster; the larger model matched more of the four expected answers. Both mishandled the inclusive one-hour boundary. The selected agent model remains 7B.
 
-This addresses the model-version experiment in L57. Agent configuration A/B in L56 is a separate experiment and remains open.
+This addresses the model-version experiment in L57. The separate [agent-configuration experiment for L56](agent-configuration-ab.md) records six checked answers and 18 successful MCP events. Its end-to-end agent timings are distinct from the direct model measurements on this page.
 
 ## What was held constant
 

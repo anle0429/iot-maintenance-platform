@@ -3,6 +3,7 @@ from pathlib import Path
 from html import escape
 from math import atan2, cos, sin, pi
 import json
+import argparse
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -129,24 +130,80 @@ def serving():
 
 
 def deployment():
-    """Show separate control/data and GPU workers, including runtime boundaries and retained storage."""
-    c=Canvas('platform-deployment','Deployment view','Private control/data VM and dedicated GPU worker. Administration uses IAP; the control plane remains a single-host lab.',width=2320,height=1140)
-    c.frame(35,155,300,850,'DEVELOPER PC')
-    c.node('pc',60,265,250,160,'Local tools',['Git / Python','Editor / offline checks','IAP client'],'ops')
-    c.node('browser',60,555,250,160,'Browser',['Swagger / Airflow','Grafana / DataHub','MLflow / Jenkins'],'ops')
-    c.frame(380,155,1380,850,'GOOGLE CLOUD VM — 8 vCPU / 64 GiB RAM')
-    c.frame(410,225,1320,245,'K3s — Kubernetes workloads')
-    for i,(key,title,body) in enumerate([('api','Feature / drift APIs',['Helm Deployments']),('kserve','KServe predictors',['ML inference / Eventing']),('kfp','Kubeflow Pipelines',['API / task Pods']),('mesh','Agents / gateway',['MCP / workers / router'])]):c.node(key,435+320*i,290,285,145,title,body,'ml')
-    c.frame(410,500,1320,210,'Docker containers and jobs')
-    for i,(key,title) in enumerate([('batch','Spark / Kafka / Flink'),('orch','Airflow / DataHub'),('registry','MLflow / Jenkins')]):c.node(key,445+430*i,560,395,115,title,['Separate images, limits and state'],'data')
-    c.frame(410,740,1320,210,'Host services')
-    for i,(key,title) in enumerate([('metrics','Prometheus / Grafana'),('logs','Loki / Alloy / exporter'),('vault','Vault / Pushgateway')]):c.node(key,445+430*i,800,395,115,title,['Retained state; recovery CLI'],'ops')
-    c.frame(1810,155,470,850,'PRIVATE GPU WORKER')
-    c.node('gpu',1845,305,400,170,'GPU model serving',['4 vCPU / 15 GiB RAM','V100 / 16 GiB VRAM','llama.cpp / 7B + 1.5B'],'serving')
-    c.node('gpu-state',1845,610,400,150,'Retained GPU state',['50 GiB SSD / model assets','Private K3s agent + runtime','No public model endpoint'],'ops')
-    c.edge('D1',[(1537,435),(1537,482),(1780,482),(1780,390),(1845,390)],'Private model traffic',(1790,493))
-    c.text(410,1035,'Storage: 50 GiB boot + 500 GiB data HDD + 150 GiB pd-balanced scratch. Datasets, registry and secrets stay on VM volumes.',17)
-    c.text(45,1080,'Administration: IAP-forwarded SSH22; UI listeners use loopback. A Git clone contains code and documentation, not live service state.',17)
+    """Give each selected workload its own resource box; runtime frames, clients and storage remain explicit context."""
+    c=Canvas('platform-deployment','Deployment view — workload boundaries',
+             'Recorded private lab: one CPU control/data VM and one GPU worker. Boxes identify individual workload resources.',width=2600,height=2150)
+    c.frame(35,155,290,470,'DEVELOPER PC')
+    c.node('browser',60,285,240,135,'Web browser',['Private lab UIs'],'ops')
+    c.node('iap',60,455,240,110,'IAP client',['SSH22 / loopback'],'ops')
+    c.frame(365,155,1770,1845,'GOOGLE CLOUD VM — 8 vCPU / 64 GiB RAM')
+    c.frame(395,225,1710,870,'K3s — selected workload resources')
+    rows=[
+        [('ingress','NGINX ingress',['Deployment','Private HTTPS / auth']),
+         ('feature','Feature API',['Helm Deployment','FastAPI / Feast SDK inside']),
+         ('drift','Drift API',['Helm Deployment','FastAPI / PSI']),
+         ('predictor','Pump predictor',['KServe workload','Recorded serving model: 6'])],
+        [('kfp','Kubeflow Pipelines API',['API server Deployment','Five-task training runs']),
+         ('redis','Redis API store',['Online store Deployment','Eight inputs / native times']),
+         ('retrieval-mcp','Retrieval MCP',['Helm Deployment','Two API replicas']),
+         ('drift-mcp','Drift MCP',['Helm Deployment','Two API replicas'])],
+        [('controller','Agent controller',['kagent Deployment','Private A2A dispatch']),
+         ('chat','Agent chat UI',['kagent UI Deployment','Gateway-protected frontend']),
+         ('registry','Agent registry',['Registry server workload','Versioned catalog / UI']),
+         ('router','llm-d router',['Inference router workload','Private model endpoint'])],
+        [('retrieval-pool','Retrieval workers',['WorkerPool resource / gVisor','Recorded 2-4 worker Pods']),
+         ('drift-pool','Drift workers',['WorkerPool resource / gVisor','Recorded 2-4 worker Pods']),
+         ('coordinator-pool','Coordinator workers',['WorkerPool resource / gVisor','Recorded 2-4 worker Pods']),
+         ('observer','LLM observer',['One Deployment / two containers','Observer + turn adapter'])],
+    ]
+    for row,values in enumerate(rows):
+        for column,(key,title,body) in enumerate(values):
+            c.node(key,420+420*column,285+195*row,390,135,title,body,'ml')
+    c.frame(395,1130,1710,425,'Docker — independent containers and on-demand jobs')
+    docker=[
+        [('spark','Spark batch job',['Compose: ingest','On-demand driver container']),
+         ('kafka','Kafka broker',['Compose: kafka','Arrival-ordered replay']),
+         ('flink','Flink job',['Compose: flink','Bounded stream workload']),
+         ('mlflow','MLflow server',['Registry server container','Run / data / model artifacts'])],
+        [('airflow-api','Airflow API',['Compose: airflow-api','Web / execution endpoints']),
+         ('airflow-scheduler','Airflow scheduler',['Compose: airflow-scheduler','DAG scheduling process']),
+         ('datahub','DataHub GMS',['Compose: datahub-gms','Schemas / lineage / assertions']),
+         ('jenkins','Jenkins controller',['CI controller container','Test / build / auto-deploy'])],
+    ]
+    for row,values in enumerate(docker):
+        for column,(key,title,body) in enumerate(values):
+            c.node(key,420+420*column,1195+175*row,390,130,title,body,'data')
+    c.text(420,1520,'Supporting databases, DAG processors and secondary UI services are omitted; consult the linked runtime manifests.',17)
+    c.frame(395,1590,1710,370,'Host services — separate retained processes')
+    hosts=[('prometheus','Prometheus','Metric collection'),('grafana','Grafana','Metric / log dashboards'),
+           ('loki','Loki','Timestamped log storage'),('alloy','Alloy','Log discovery / forwarding'),
+           ('vault','Vault','Scoped secret consumers'),('pushgateway','Pushgateway','Completed-job gauges'),
+           ('exporter','Node exporter','CPU / RAM / disk / network')]
+    for index,(key,title,body) in enumerate(hosts):
+        c.node(key,420+420*(index%4),1650+160*(index//4),390,110,title,[body],'ops')
+    c.text(1710,1800,'RETAINED HOST VOLUMES',18,True)
+    for index,line in enumerate(['50 GiB boot / 500 GiB data HDD','150 GiB pd-balanced scratch','Datasets, artifacts and private state']):
+        c.text(1710,1835+26*index,line,17,color='#3c5066')
+    c.frame(2180,155,380,620,'PRIVATE GPU WORKER')
+    c.text(2200,225,'4 vCPU / 15 GiB RAM',18)
+    c.text(2200,255,'V100 / 16 GiB VRAM',18)
+    c.node('gpu',2210,320,320,165,'LLM model server',
+           ['K3s Deployment / one GPU','llama.cpp / 7B + 1.5B','Private ClusterIP endpoint'],'serving')
+    c.text(2210,555,'50 GiB SSD; cached model assets',17)
+    c.text(2210,585,'Weights and state stay on the VM.',17)
+    c.frame(2180,1150,380,570,'READING THIS VIEW')
+    for index,line in enumerate([
+            'One box: one workload resource.','Frames: host / runtime boundaries.','Replicas stay within their unit.',
+            'Only selected units are shown.','Supporting controllers and stores','remain in the runtime manifests.',
+            'Labels describe recorded topology.','Use the runbook for live readiness.',
+            'Warm workers share the CPU VM.','Host-level HA was not measured.']):
+        c.text(2200,1220+42*index,line,17,color='#3c5066')
+    c.edge('U1',[(300,350),(420,350)],'IAP',(360,252))
+    c.edge('G1',[(1875,810),(1875,870)],'Observed model request',(1965,830))
+    c.edge('G2',[(2070,925),(2160,925),(2160,397),(2210,397)],'Private model request',(2350,900))
+    c.edge('G3',[(2530,435),(2570,435),(2570,1040),(1950,1040),(1950,1005)],'Token stream',(2350,1060))
+    c.text(395,2030,'U: IAP access to a loopback viewer; the VM viewer verifies gateway HTTPS. G: private model request/response.',18)
+    c.text(45,2080,'Data, training and telemetry handoffs have separate workflow views. This recorded topology does not establish live readiness or host-level failover.',18)
     return c.save()
 
 
@@ -197,10 +254,19 @@ def monitoring():
 
 
 def main():
-    """Render the five architecture views and inventory their actual nodes and arrows."""
-    manifests=[overview(),serving(),deployment(),monitoring(),llm_plan()]
-    (OUT/'diagram-index.json').write_text(json.dumps({'kind':'authored-architecture-illustrations','runtime_screenshot':False,'views':manifests},indent=2)+'\n',encoding='utf-8')
-    print(json.dumps({'rendered_views':len(manifests),'output':'docs/images','recorded_llm_path_explicit':True}))
+    """Render all views or one selected view while retaining the other recorded image/index entries."""
+    renderers={'overview':overview,'serving':serving,'deployment':deployment,'monitoring':monitoring,'llm':llm_plan}
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--view',choices=['all',*renderers],default='all')
+    args=parser.parse_args()
+    if args.view=='all':
+        manifests=[renderer() for renderer in renderers.values()]; rendered=len(manifests)
+    else:
+        original=json.loads((OUT/'diagram-index.json').read_bytes()); result=renderers[args.view]()
+        assert sum(view['name']==result['name'] for view in original['views'])==1
+        manifests=[result if view['name']==result['name'] else view for view in original['views']]; rendered=1
+    (OUT/'diagram-index.json').write_bytes((json.dumps({'kind':'authored-architecture-illustrations','runtime_screenshot':False,'views':manifests},indent=2)+'\n').encode())
+    print(json.dumps({'rendered_views':rendered,'inventoried_views':len(manifests),'output':'docs/images','recorded_llm_path_explicit':True}))
 
 
 if __name__=='__main__':

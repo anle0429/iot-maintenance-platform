@@ -77,17 +77,19 @@ The retrieval specialist obtains machine features, the model score and cited ref
 | Delivery and controls | Separate RAG/retrieval/drift/coordinator releases, scoped credentials and bounded gateway access | [CI/CD](docs/ci-agents.md), [gateway](docs/agent-gateway.md), [Vault](docs/vault-agent-ui.md) |
 | Evaluation | Original replies, child/tool histories, token/TTFT telemetry and small paired comparisons | [Monitoring](docs/llm-monitoring-demo.md), [model A/B](docs/llm-model-ab.md), [agent A/B](docs/agent-configuration-ab.md) |
 
+The [warm-up comparison](docs/agent-warmup.md#l26-evidence-boundary) reports mixed startup timings; cloud-cost savings were not measured.
+
 The two researched LLM extensions are [OPA capability/budget admission](docs/agent-admission-policy.md) and [document-weighted corpus MMD review](docs/rag-corpus-drift.md). Each has accepted and intentionally rejected native cases, with its limits documented.
 
 ### Deployment
 
 The control/data lab runs on an **8-vCPU / 64-GiB CPU VM**. A separate private **4-vCPU / 15-GiB worker with a 16-GiB V100** serves the LLM. K3s hosts Kubernetes workloads; retained host services and Docker containers supply the remaining components. Administration uses IAP and loopback ports, with authenticated CA-verified HTTPS on the private gateway hop.
 
-![CPU/GPU deployment and private administration boundaries](docs/images/platform-deployment.png)
+![Individual workload resources on the CPU VM and private GPU worker](docs/images/platform-deployment.png)
 
 [Editable SVG](docs/images/platform-deployment.svg) · [Infrastructure](docs/llm-infrastructure-evidence.md) · [Operations](docs/operations.md)
 
-These drawings describe the recorded lab, not simultaneous execution or current endpoint readiness. Two executor Pods on one physical CPU host do not establish multi-host high availability.
+Each deployment box identifies one selected workload resource; frames mark its host/runtime. Replicas and containers within that resource stay in the same box. Supporting services are detailed in the [runtime configuration](docs/architecture.md#deployment-and-security). The drawings describe the recorded lab and its connection boundaries; they do not establish simultaneous execution or current endpoint readiness. Two executor Pods on one physical CPU host do not establish multi-host high availability.
 
 ## Recorded results
 

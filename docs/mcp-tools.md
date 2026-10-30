@@ -113,6 +113,6 @@ sudo k3s kubectl exec -n iot-agents deployment/iot-drift-mcp -- \
 
 Use a new drift run/window identity after genuine feature rematerialization. Features have a one-hour wall-clock lease; stale data should fail readiness until refreshed through the existing materialization command. Tokens remain mounted inside the role's Pod. Do not copy them into commands, notebooks or chat.
 
-## Remaining work
+## Later integration evidence
 
-Global agent model configuration, registry publication, two specialists and a coordinator, autoscaling, a genuine security sandbox, warm worker-pool measurements, notebooks, CI releases, complete agent/LLM telemetry and A/B checks remain separate obligations. A passing MCP probe is not evidence that an agent chose or coordinated the tools. The [LLM tracker](final-llm-rubric-tracker.md) keeps those distinctions explicit.
+This MCP foundation is followed by the [agent control plane and catalog](agent-platform.md), [checked GPU conversations](gpu-agent-routing.md), [sandbox boundaries](agent-network-isolation.md), [autoscaling](agent-scaling.md), [warm-up measurements](agent-warmup.md), [notebook](agent-notebook.md), [CI releases](ci-agents.md), [monitoring](llm-monitoring-demo.md) and the separate [agent](agent-configuration-ab.md)/[model](llm-model-ab.md) A/B studies. Each report preserves its own source and captures. A passing MCP probe alone does not establish that an agent selected or coordinated the tools; the [LLM tracker](final-llm-rubric-tracker.md) links those distinct proofs.

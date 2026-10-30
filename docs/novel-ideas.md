@@ -4,7 +4,7 @@ The confirmed ML extensions are MMD for joint sensor-distribution changes and OP
 
 MMD is an offline diagnostic with fixed kernel/permutation policy; it does not imply improved classifier accuracy or automatic retraining. OPA is a CI gate with allowed/denied native cases; it is not claimed as a cluster admission webhook.
 
-The selected submission now includes both final ML and final LLM/agents. LLM-specific idea selection and native evidence remain open. Class schedules are supporting context, not proof of what was actually taught, and an idea from another project must not be relabeled as an implemented IoT feature.
+The selected submission now includes both final ML and final LLM/agents. The LLM-specific applications have separate native evidence: [OPA capability/budget admission](agent-admission-policy.md) in agent CI and [document-weighted corpus MMD](rag-corpus-drift.md) in RAG CI. Their accepted and intentionally denied releases are preserved; corpus MMD uses four authored documents and is not a calibrated production drift test. Class schedules are supporting context, not proof of what was actually taught, and an idea from another project must not be relabeled as an implemented IoT feature.
 
 ## Implementation and evidence
 

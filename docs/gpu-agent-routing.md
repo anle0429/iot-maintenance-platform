@@ -58,9 +58,9 @@ go test -v -cover ./...
 
 For a live demonstration, follow the [agent demo](operations.md). Check both VM sessions and genuinely refresh the feature lease first. A repository clone contains source and captured evidence; model weights, running services, secrets and prepared feature data are local runtime state.
 
-## Remaining work
+## Later milestones
 
-Autoscaling, warm-up comparisons, notebooks, LLM CI, authenticated gateway access, complete telemetry and A/B evidence remain open. Screenshots required by the rubric also need their own captures.
+This GPU checkpoint established the conversations described above. Subsequent reports supply their own original captures for [autoscaling](agent-scaling.md), [warm-up](agent-warmup.md), the [executed notebook](agent-notebook.md), [CI](ci-agents.md), [authenticated gateway](agent-gateway.md), [monitoring](llm-monitoring-demo.md), [agent A/B](agent-configuration-ab.md) and [model A/B](llm-model-ab.md). The [requirement map](final-audit-matrix.md) identifies the evidence for each rubric row. Earlier failed conversations and their timings remain part of this report.
 
 The original gVisor diagnostic reached both MCP services and failed its egress check. A later [worker-policy experiment](agent-network-isolation.md) closes the direct specialist MCP boundary with actual allow/deny/allow-control receipts and post-policy conversations. The original failure remains unchanged. PID 1 is UID 0 inside gVisor; non-root execution and production multitenant isolation are not established.
 

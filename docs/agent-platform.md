@@ -28,7 +28,7 @@ One retained 4-GiB PostgreSQL volume backs separate kagent and registry database
 
 Substrate keeps six 1-GiB Valkey volumes and a 16-GiB local object-store volume on the existing SSD. A guarded Ansible bind mount puts the runtime's canonical host directory on that SSD. The second application reported zero changes. No VM, disk, cloud bucket or Internet-facing port was added.
 
-The controller, registry and UI remain private ClusterIP services. The screenshots use temporary loopback forwarding through IAP. Gateway authentication for the complete agent product remains open; these internal pages are not presented as a finished public application.
+The controller, registry and UI remain private ClusterIP services. The screenshots use temporary loopback forwarding through IAP. These foundation screenshots precede the [authenticated agent gateway](agent-gateway.md), which records private HTTPS, identity forwarding, rate limiting and a checked coordinator conversation. Internal ClusterIP access and the later gateway are separate connection boundaries.
 
 ## Registry publication
 

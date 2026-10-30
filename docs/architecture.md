@@ -126,6 +126,8 @@ The deployment also has API metrics and OTLP traces, host/Pod logs, and a separa
 
 ## Deployment and security
 
+The [deployment view](images/platform-deployment.svg) separates the Feature and Drift APIs, each MCP service, controller/UI/catalog, worker pools, router, Docker workloads and host processes. Each box names one selected workload resource. Frames group resources by host and runtime; they are not additional services. A WorkerPool can own multiple worker Pods. The observer and turn adapter share one Deployment with two containers, so they remain one deployment box. Feast SDK runs inside consuming jobs/APIs. Supporting databases, controllers, DAG processors and secondary UIs are omitted from this high-level view and remain separately defined in the configurations below. Numbered U/G arrows show private frontend access and the model request/response; the other views describe data/training/telemetry flows.
+
 | Runtime | Components and state | Configuration or report |
 |---|---|---|
 | Google Cloud VM | One 8-vCPU/64-GiB host; separate boot, data and scratch disks | [Terraform](../infra/gcp/vm/), [IaC verification](iac-verification.md) |

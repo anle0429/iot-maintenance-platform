@@ -24,6 +24,17 @@ All individual values are shown in the plot; the black marks are medians. Four p
 
 Warm capacity also has a cost: worker Pods reserve resources while idle, and snapshots consume retained storage. This experiment measures elapsed startup time, not a reduction in cloud charges. The existing pool configuration remains in place; no VM, disk or public endpoint was added for this test.
 
+## L26 evidence boundary
+
+| Requirement aspect | Recorded evidence | Limit |
+|---|---|---|
+| Warm-up configuration | Golden templates and two idle workers per role; native identities and readbacks retained | Configuration alone does not measure a benefit |
+| Startup benchmark | 24 fresh actors, four alternating boot/golden pairs per role | Retrieval and drift were slower with golden restoration; coordinator was slightly faster on this small sample |
+| Cost optimization | Idle reservation and retained snapshot storage are described | No matched cloud-cost measurement was collected; a cost reduction is not established |
+| HA explanation | Worker-pool replicas and their scaling are documented | Workers share a control VM; host-level failover was not demonstrated |
+
+The evidence establishes the configuration and this bounded comparison. It does not establish a general startup or cost improvement. The [LLM tracker](final-llm-rubric-tracker.md) retains that qualification; these measurements cannot support a universal performance claim.
+
 ## Replicas and HA
 
 Each role has two idle worker slots and can [scale to four](agent-scaling.md) when demand increases. Idle actors suspend and release their slots. More than one worker provides spare process capacity; the recorded scaling experiment establishes elasticity under its workload.

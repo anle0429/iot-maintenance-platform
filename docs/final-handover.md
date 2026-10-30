@@ -2,7 +2,7 @@
 
 ## Submission scope
 
-The submission now includes both final ML and final LLM/agents. This page records the completed ML lab workloads. It does not establish LLM inference, RAG, MCP/agent deployment or the new LLM rubric requirements; those remain open in the LLM tracker.
+The submission now includes both final ML and final LLM/agents. This page records the completed ML lab workloads. Its ML receipts have their own scope. Later LLM inference, RAG, MCP/agent, CI and monitoring results are indexed separately in the [LLM tracker](final-llm-rubric-tracker.md) and [117-requirement map](final-audit-matrix.md).
 
 The source 102.45 GB Bronze/Silver result, the 60-day feature/training cohort, the retained stream-window workload and the short-lived API demo are separate measurements. A successful historical receipt does not establish current endpoint readiness.
 
