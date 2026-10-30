@@ -64,14 +64,14 @@ def run(args):
         def forward(self):
             """Apply method/path/origin/body guards and record safe transport facts for accepted requests."""
             if len(self.headers.get_all('Host', [])) != 1 or not allowed_request(self.headers.get('Host', ''), self.headers.get('Origin', ''), self.path, self.command, args.port):
-                self.send_error(403); return
+                self.deny(); return
             lengths = self.headers.get_all('Content-Length', [])
             if len(lengths) > 1 or self.headers.get('Transfer-Encoding'): self.send_error(400); return
             declared = lengths[0] if lengths else '0'
             if not declared.isascii() or not declared.isdigit() or len(declared) > 6 or int(declared) > 16384:
                 self.send_error(413); return
             body = self.rfile.read(int(declared)) if int(declared) else None
-            if self.command == 'POST' and (body is None or not allowed_body(body)): self.send_error(403); return
+            if self.command == 'POST' and (body is None or not allowed_body(body)): self.deny(); return
             connection = http.client.HTTPSConnection(ADDRESS, UPSTREAM_PORT, context=context, timeout=30)
             connection.connect(); leaf = sha256(connection.sock.getpeercert(binary_form=True)).hexdigest(); version = connection.sock.version()
             headers = {'Host': ADDRESS+':'+str(UPSTREAM_PORT), 'Accept': self.headers.get('Accept', '*/*'), 'Accept-Encoding': upstream_encoding(self.path)}
@@ -96,6 +96,15 @@ def run(args):
                         'method': self.command, 'status': response.status, 'ca_verified': True, 'hostname_verified': True,
                         'tls_version': version, 'leaf_sha256': leaf, 'response_bytes': size,
                         'response_sha256': digest.hexdigest(), 'body_edited': False, 'credentials_logged': False})+'\n'); audit.flush()
+
+        def deny(self):
+            """Return a bounded JSON refusal and safe path-only diagnostics without contacting Vault."""
+            raw = b'{"errors":["Metadata viewer blocks this operation"]}'
+            self.send_response(403); self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(raw))); self.end_headers(); self.wfile.write(raw)
+            with lock:
+                audit.write(json.dumps({'utc': datetime.now(timezone.utc).isoformat(), 'path': urlsplit(self.path).path[:512],
+                    'method': self.command, 'status': 403, 'upstream_contacted': False, 'credentials_logged': False})+'\n'); audit.flush()
 
         do_GET = forward
         do_HEAD = forward
