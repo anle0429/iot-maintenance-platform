@@ -17,6 +17,11 @@ def run(args):
     accepted=json.loads((study/'verification.json').read_bytes());summary=accepted['summary']
     assert accepted['passed'] and summary['admissions']==12 and summary['blocked_prompts']==9 and summary['total_category_hits']==12
     assert re.fullmatch('policy-window-[a-z0-9-]+',study.name)
+    previous=None
+    if args.previous_view:
+        assert args.previous_view.resolve().is_relative_to(root/'outputs')
+        previous=json.loads(args.previous_view.joinpath('verification.json').read_bytes())
+        assert previous['passed'] and previous['study_run']==study.name and previous['dashboard_uid']=='iot-llm-policy-window'
     os.umask(0o077);out.mkdir(exist_ok=False);opener=build_opener(ProxyHandler({}))
     def save(name,value):
         """Preserve finite original batch and monitoring observations."""
@@ -27,16 +32,19 @@ def run(args):
         (out/name).write_bytes(raw);return json.loads(raw)
     save('source.json',seal);save('study-acceptance.json',accepted)
     config=root/'data/runtime/monitoring-28/prometheus.json';original=config.read_bytes();planned=json.loads(original)
-    assert not any(v['job_name']=='iot-llm-policy-window' for v in planned['scrape_configs'])
-    planned['scrape_configs'].append({'job_name':'iot-llm-policy-window','honor_labels':True,'scrape_interval':'2s','scrape_timeout':'1s','sample_limit':1000,
-        'static_configs':[{'targets':['127.0.0.1:19092']}],'metric_relabel_configs':[{'source_labels':['__name__'],'regex':'iot_llm_policy_window_.*','action':'keep'}]})
+    job={'job_name':'iot-llm-policy-window','honor_labels':True,'scrape_interval':'2s','scrape_timeout':'1s','sample_limit':1000,
+        'static_configs':[{'targets':['127.0.0.1:19092']}],'metric_relabel_configs':[{'source_labels':['__name__'],'regex':'iot_llm_policy_window_.*','action':'keep'}]}
+    matches=[v for v in planned['scrape_configs'] if v['job_name']==job['job_name']]
+    assert matches==([job] if previous else [])
+    if not previous:planned['scrape_configs'].append(job)
     (out/'prometheus-before.json').write_bytes(original);save('prometheus-planned.json',planned)
     tool=root/'data/runtime/monitoring-assets-28/prometheus/prometheus-3.13.5.linux-amd64/promtool'
     result=subprocess.run([str(tool),'check','config',str(out/'prometheus-planned.json')],capture_output=True,timeout=30)
     (out/'promtool.stdout').write_bytes(result.stdout);(out/'promtool.stderr').write_bytes(result.stderr);assert result.returncode==0
     prom_pid=subprocess.check_output(['systemctl','show','iot-prometheus-28','-p','MainPID','--value']).strip();assert int(prom_pid)>0 and config.read_bytes()==original
-    temporary=config.with_suffix('.policy-window.pending');temporary.write_bytes((out/'prometheus-planned.json').read_bytes());temporary.chmod(0o644);temporary.replace(config)
-    subprocess.run(['systemctl','kill','--kill-who=main','--signal=HUP','iot-prometheus-28'],check=True,timeout=30)
+    if not previous:
+        temporary=config.with_suffix('.policy-window.pending');temporary.write_bytes((out/'prometheus-planned.json').read_bytes());temporary.chmod(0o644);temporary.replace(config)
+        subprocess.run(['systemctl','kill','--kill-who=main','--signal=HUP','iot-prometheus-28'],check=True,timeout=30)
     numbers={'admissions':12,'blocked_prompts':9,'category_hits_total':12,'seconds':summary['observed_seconds'],'blocked_per_minute':summary['blocked_prompts_per_observed_minute']}
     lines=[]
     for name,value in numbers.items():lines+=['# TYPE iot_llm_policy_window_'+name+' gauge','iot_llm_policy_window_'+name+' '+format(value,'.17g')]
@@ -47,31 +55,40 @@ def run(args):
     with opener.open(Request('http://127.0.0.1:19092/metrics/job/iot-llm-policy-window/run/'+study.name,data=metrics,method='PUT',headers={'Content-Type':'text/plain; version=0.0.4'}),timeout=15) as response:assert response.status==200
     save('batch-gauge-publication.json',{'original_study_run':study.name,'original_completed_utc':accepted['checked_utc'],'published_utc':datetime.now(timezone.utc).isoformat(),
         'new_model_requests':0,'metric_type':'gauge','scope':'A completed bounded batch result, not a live policy counter or another model run.'})
-    asset=json.loads((ROOT/'infra/llm-ab/policy-dashboard.json').read_bytes());asset['templating']['list'][0]['current']={'text':study.name,'value':study.name}
-    start=datetime.fromisoformat(accepted['started_utc']).timestamp()-10;end=accepted['prometheus_evaluation_unix']
-    asset['time']={'from':datetime.fromtimestamp(start,timezone.utc).isoformat(),'to':datetime.fromtimestamp(end,timezone.utc).isoformat()}
-    before=fetch('dashboards-before.json','http://127.0.0.1:13001/api/search?type=dash-db');assert not any(v['uid']==asset['uid'] for v in before)
-    grafana_pid=subprocess.check_output(['systemctl','show','iot-grafana-28','-p','MainPID','--value']).strip();assert int(grafana_pid)>0
-    destination=root/'data/runtime/monitoring-28/dashboards/policy-window.json';assert not destination.exists();save('dashboard-planned.json',asset)
-    destination.write_bytes((out/'dashboard-planned.json').read_bytes());destination.chmod(0o644)
-    for attempt in range(30):
-        listing=fetch('dashboards-after-'+str(attempt)+'.json','http://127.0.0.1:13001/api/search?type=dash-db')
-        if any(v['uid']==asset['uid'] for v in listing):break
-        time.sleep(2)
-    else:raise ValueError('The policy-window dashboard was not provisioned')
-    assert {v['uid'] for v in before}<={v['uid'] for v in listing}
-    actual=fetch('dashboard-native.json','http://127.0.0.1:13001/api/dashboards/uid/'+asset['uid'])['dashboard'];assert actual['panels']==asset['panels']
     query='iot_llm_policy_window_admissions{run="'+study.name+'"}'
     for attempt in range(20):
         values=fetch('scrape-readback-'+str(attempt)+'.json','http://127.0.0.1:19091/api/v1/query?'+urlencode({'query':query}))['data']['result']
         if len(values)==1 and float(values[0]['value'][1])==12:break
         time.sleep(2)
     else:raise ValueError('Actual completed window gauges were not scraped')
+    asset=json.loads((ROOT/'infra/llm-ab/policy-dashboard.json').read_bytes());asset['templating']['list'][0]['current']={'text':study.name,'value':study.name}
+    # The display includes the later batch publication; it does not change the original 36-second experiment clock.
+    start=datetime.fromisoformat(accepted['started_utc']).timestamp()-10;end=time.time()
+    save('display-clocks.json',{'original_window_finished_utc':accepted['finished_utc'],'display_end_unix':end,
+        'reason':'Completed batch gauges were first scraped after the original request window. The display must include that later ingestion.'})
+    asset['time']={'from':datetime.fromtimestamp(start,timezone.utc).isoformat(),'to':datetime.fromtimestamp(end,timezone.utc).isoformat()}
+    before=fetch('dashboards-before.json','http://127.0.0.1:13001/api/search?type=dash-db');assert any(v['uid']==asset['uid'] for v in before)==bool(previous)
+    grafana_pid=subprocess.check_output(['systemctl','show','iot-grafana-28','-p','MainPID','--value']).strip();assert int(grafana_pid)>0
+    destination=root/'data/runtime/monitoring-28/dashboards/policy-window.json';assert destination.exists()==bool(previous)
+    if previous:
+        old=json.loads(destination.read_bytes());actual=fetch('dashboard-before-repair.json','http://127.0.0.1:13001/api/dashboards/uid/'+asset['uid'])['dashboard']
+        assert old==json.loads(args.previous_view.joinpath('dashboard-planned.json').read_bytes()) and old['panels']==actual['panels']==asset['panels']
+        save('dashboard-file-before-repair.json',old)
+    save('dashboard-planned.json',asset)
+    destination.write_bytes((out/'dashboard-planned.json').read_bytes());destination.chmod(0o644)
+    for attempt in range(30):
+        listing=fetch('dashboards-after-'+str(attempt)+'.json','http://127.0.0.1:13001/api/search?type=dash-db')
+        ready=fetch('dashboard-poll-'+str(attempt)+'.json','http://127.0.0.1:13001/api/dashboards/uid/'+asset['uid']) if any(v['uid']==asset['uid'] for v in listing) else None
+        if ready and ready['dashboard']['time']==asset['time']:break
+        time.sleep(2)
+    else:raise ValueError('The policy-window dashboard was not provisioned')
+    assert {v['uid'] for v in before}<={v['uid'] for v in listing}
+    actual=fetch('dashboard-native.json','http://127.0.0.1:13001/api/dashboards/uid/'+asset['uid'])['dashboard'];assert actual['panels']==asset['panels']
     panels=[]
     for panel in asset['panels']:
         for target in panel.get('targets',[]):
             expression=target['expr'].replace('$run',study.name);is_range=panel['type']=='timeseries'
-            query_args={'query':expression,'start':start,'end':end,'step':2} if is_range else {'query':expression,'time':time.time()}
+            query_args={'query':expression,'start':start,'end':end,'step':2} if is_range else {'query':expression,'time':end}
             suffix='/api/v1/'+('query_range' if is_range else 'query')+'?'+urlencode(query_args);label='panel-'+str(panel['id'])
             direct=fetch(label+'-prometheus.json','http://127.0.0.1:19091'+suffix)
             proxy=fetch(label+'-grafana.json','http://127.0.0.1:13001/api/datasources/proxy/uid/iot-host-prometheus'+suffix)
@@ -94,4 +111,5 @@ def run(args):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     for name in ['runtime-root','output','study']:parser.add_argument('--'+name,type=Path,required=True)
+    parser.add_argument('--previous-view',type=Path,help='Repair the time range of this exact previously accepted view, retaining its original receipts.')
     run(parser.parse_args())
