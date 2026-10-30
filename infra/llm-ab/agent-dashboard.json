@@ -1,0 +1,210 @@
+{
+  "uid": "iot-agent-ab",
+  "title": "IoT / Agent configuration A/B",
+  "schemaVersion": 42,
+  "version": 1,
+  "editable": false,
+  "timezone": "utc",
+  "description": "Completed paired retrieval-agent questions with actual tool-grounded answer checks; a small fixed-seed configuration study.",
+  "tags": [
+    "iot",
+    "agents",
+    "ab"
+  ],
+  "refresh": "5s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "run",
+        "label": "Completed run",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "iot-host-prometheus"
+        },
+        "refresh": 1,
+        "query": {
+          "query": "label_values(iot_agent_ab_requests, run)",
+          "refId": "run-list"
+        },
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "multi": false,
+        "includeAll": false
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "text",
+      "title": "Compare one sampling setting",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 4
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "**Agent configurations:** a uses temperature 0; b uses 0.3. Both retain Qwen2.5 7B, seed 7, the same prompt, tools and retrieval worker pool. The same three operating-machine questions are paired in alternating order. A grounded answer must match its actual feature, prediction and knowledge-tool results. Failed answers remain in the denominator. Elapsed time includes actor allocation, tools, generation and transport. This completed six-request study is not a general quality ranking or an automatic promotion."
+      }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Paired questions per variant",
+      "description": "Three distinct machine questions for each configuration.",
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 8,
+        "h": 10
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "iot_agent_ab_requests{run=\"$run\"}",
+          "legendFormat": "{{variant}}",
+          "instant": true,
+          "range": false,
+          "editorMode": "code"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Answers verified against actual tools",
+      "description": "Complete compact answers compared with their own native MCP histories.",
+      "gridPos": {
+        "x": 8,
+        "y": 4,
+        "w": 8,
+        "h": 10
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "iot_agent_ab_grounded_answers{run=\"$run\"} / iot_agent_ab_requests{run=\"$run\"}",
+          "legendFormat": "{{variant}}",
+          "instant": true,
+          "range": false,
+          "editorMode": "code"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Complete request time: median",
+      "description": "Includes actor allocation, tool calls, model generation and A2A transport.",
+      "gridPos": {
+        "x": 16,
+        "y": 4,
+        "w": 8,
+        "h": 10
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "iot_agent_ab_median_complete_seconds{run=\"$run\"}",
+          "legendFormat": "{{variant}}",
+          "instant": true,
+          "range": false,
+          "editorMode": "code"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        }
+      }
+    }
+  ]
+}
