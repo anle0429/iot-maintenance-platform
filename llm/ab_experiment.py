@@ -28,10 +28,24 @@ def active_model_pod(objects,deployment):
     active=[p for p in objects['items'] if p['status']['phase'] not in {'Failed','Succeeded'} and not p['metadata'].get('deletionTimestamp')]
     if len(active)!=1:raise ValueError('Require exactly one nonterminal model Pod')
     pod=active[0];expected=deployment['spec']['template']['spec']['containers'][0]
-    if pod['status']['phase']!='Running' or not pod['metadata'].get('uid') or not all(v['ready'] for v in pod['status']['containerStatuses']):raise ValueError('The current model Pod is not ready')
+    statuses=pod['status'].get('containerStatuses',[])
+    if (pod['status']['phase']!='Running' or not pod['metadata'].get('uid') or len(statuses)!=1
+            or statuses[0].get('name')!=expected['name'] or statuses[0].get('ready') is not True):raise ValueError('The current model Pod is not ready')
     containers=pod['spec']['containers']
     if len(containers)!=1 or any(containers[0].get(k)!=expected.get(k) for k in ['name','image','args']):raise ValueError('The ready Pod differs from the deployed model process')
     return pod
+
+
+def reply_text(events):
+    """Skip null content in SSE role/terminal frames while preserving every actual text fragment unchanged."""
+    fragments=[]
+    for event in events:
+        for choice in event.get('choices',[]):
+            content=choice.get('delta',{}).get('content')
+            if content is None:continue
+            if not isinstance(content,str):raise ValueError('Invalid text delta')
+            fragments.append(content)
+    return ''.join(fragments)
 
 
 def request_body(variant,case_index):

@@ -7,7 +7,7 @@ from urllib.parse import urlsplit,urlencode
 from urllib.request import Request,build_opener,ProxyHandler
 import argparse,http.client,json,os,subprocess,sys,time
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
-from llm.ab_experiment import MODELS,CASES,request_body,score_answer,summarize,prometheus_metrics,active_model_pod
+from llm.ab_experiment import MODELS,CASES,request_body,score_answer,summarize,prometheus_metrics,active_model_pod,reply_text
 from llm_observability.contracts import StreamObservation
 
 
@@ -59,7 +59,7 @@ def run(args):
         assert {v['model'] for v in events if 'model' in v}=={MODELS[variant]}
         assert {v['system_fingerprint'] for v in events if 'system_fingerprint' in v}=={'b11977-7ac5727d6'}
         usage=next(v['usage'] for v in reversed(events) if v.get('usage'));assert usage['prompt_tokens_details']['cached_tokens']==0
-        text=''.join(choice.get('delta',{}).get('content','') for event in events for choice in event.get('choices',[]))
+        text=reply_text(events)
         row={'phase':phase,'variant':variant,'repeat':repeat,'case_index':case,'request_body':body,'model':MODELS[variant],
             'status':response.status,'complete':observed['complete'],'text':text,'usage':observed['usage'],'cached_tokens':0,
             'ttft_seconds':observed['ttft_seconds'],'elapsed_seconds':elapsed,'score':score_answer(case,text),
