@@ -21,7 +21,9 @@ def allowed_request(host, origin, target, method, port=PORT):
     hosts = {'127.0.0.1:'+str(port), 'localhost:'+str(port)}
     if host not in hosts or origin and origin not in {'http://'+v for v in hosts}: return False
     value = urlsplit(target); path = value.path
-    if value.scheme or value.netloc or value.fragment or unquote(path) != path or '\\' in path or '..' in path.split('/') or '//' in path: return False
+    aliases = {'/v1/iot/metadata/agents%2Fgateway', '/v1/iot/metadata/agents%2Fservices'}
+    if value.scheme or value.netloc or value.fragment or unquote(path) != path and path not in aliases or '\\' in path or '..' in path.split('/') or '//' in path: return False
+    if path in aliases: path = unquote(path)
     if path == '/ui' or path.startswith('/ui/'):
         return method in {'GET', 'HEAD'}
     if method == 'POST': return path == '/v1/sys/capabilities-self' and not value.query
@@ -43,7 +45,7 @@ def allowed_body(body):
     except (ValueError, UnicodeError): return False
     if not isinstance(value, dict): return False
     paths = value.get('paths')
-    allowed = AGENT_PATHS | {'iot/data/agents/gateway', 'iot/data/agents/services'}
+    allowed = AGENT_PATHS | {'iot/'+operation+'/agents/'+name for operation in ['data', 'delete', 'undelete', 'destroy'] for name in ['gateway', 'services']}
     return set(value) == {'paths'} and isinstance(paths, list) and 0 < len(paths) <= 8 and all(isinstance(v, str) and v.rstrip('/') in allowed for v in paths)
 
 
