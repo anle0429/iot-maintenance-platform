@@ -48,10 +48,31 @@ def run(args):
     assert model['spec']['apiKeySecret'] == 'iot-local-model-client'
     policy = json.loads((ROOT / 'agents/response-policy.json').read_bytes())
     planned = configuration_plan(model, agent, policy); save('planned.json', planned); save('source.json', seal)
-    for item in planned:
-        assert not subprocess.check_output(k + ['get', item['kind'], item['metadata']['name'], '-n', 'iot-agents', '--ignore-not-found', '-o', 'name']).strip()
-    result = subprocess.run(k + ['create', '-f', '-', '-o', 'json'], input=json.dumps({'apiVersion': 'v1', 'kind': 'List', 'items': planned}).encode(), capture_output=True, timeout=60)
-    keep('create.stdout', result.stdout); keep('create.stderr', result.stderr); save('create-exit.json', {'exit': result.returncode}); assert result.returncode == 0
+    if args.resume_from is None:
+        for item in planned:
+            assert not subprocess.check_output(k + ['get', item['kind'], item['metadata']['name'], '-n', 'iot-agents', '--ignore-not-found', '-o', 'name']).strip()
+        result = subprocess.run(k + ['create', '-f', '-', '-o', 'json'], input=json.dumps({'apiVersion': 'v1', 'kind': 'List', 'items': planned}).encode(), capture_output=True, timeout=60)
+        keep('create.stdout', result.stdout); keep('create.stderr', result.stderr); save('create-exit.json', {'exit': result.returncode}); assert result.returncode == 0
+    else:
+        prior = args.resume_from.resolve(); assert prior.is_relative_to(root / 'outputs') and prior != out
+        assert json.loads((prior / 'planned.json').read_bytes()) == planned
+        assert json.loads((prior / 'create-exit.json').read_bytes())['exit'] == 0
+        original_source = json.loads((prior / 'source.json').read_bytes()); assert original_source['format'] == seal['format']
+        original_tree = root / 'data/llm-source' / ('agent-ab-' + original_source['commit'][:8]) / 'tree'
+        for name, pin in original_source['files'].items(): assert sha256((original_tree / name).read_bytes()).hexdigest() == pin
+        # kubectl can render a List or consecutive JSON objects. Read its original
+        # server response, then require the same four UIDs and exact desired specs.
+        remaining = (prior / 'create.stdout').read_text().strip(); created = []
+        while remaining:
+            item, end = json.JSONDecoder().raw_decode(remaining)
+            created.extend(item['items'] if item.get('kind') == 'List' else [item]); remaining = remaining[end:].lstrip()
+        assert len(created) == 4
+        for item in planned:
+            name = item['metadata']['name']; previous = next(v for v in created if v['kind'] == item['kind'] and v['metadata']['name'] == name)
+            current = get('resumed-' + name, item['kind'], name, '-n', 'iot-agents')
+            assert current['metadata']['uid'] == previous['metadata']['uid'] and current['spec'] == item['spec']
+            assert current['metadata']['labels'] == item['metadata']['labels']
+        save('resume-origin.json', {'output': str(prior), 'source_commit': original_source['commit'], 'same_four_uids_verified': True, 'resources_recreated_or_patched': False})
     observed = {}
     for attempt in range(180):
         ready = True
@@ -99,6 +120,7 @@ def run(args):
         retained = next(v for v in after['items'] if v['metadata']['uid'] == before['metadata']['uid']); assert retained['spec'] == before['spec']
     assert {v['metadata']['uid']: v['spec'] for v in pools['items']} == {v['metadata']['uid']: v['spec'] for v in pool_after['items']}
     report = {'passed': True, 'checked_utc': datetime.now(timezone.utc).isoformat(), 'source_commit': seal['commit'], 'variants': projections,
+        'resumed_existing_variants': args.resume_from is not None,
         'production_specs_preserved': True, 'pool_specs_preserved': True, 'scope': 'Actual accepted ModelConfigs and current-generation Ready sandbox templates with compiled temperature projections. Conversations and A/B outcomes require a separate native run.'}
     save('verification.json', report); print(json.dumps(report), flush=True)
 
@@ -106,4 +128,5 @@ def run(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ['runtime-root', 'output']: parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--resume-from', type=Path, help='Verify and resume the same four UIDs from a retained partial creation; never overwrite unknown resources')
     run(parser.parse_args())
