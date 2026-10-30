@@ -1,6 +1,6 @@
 # CPU inference through llm-d
 
-The first LLM milestone ran a real model behind the llm-d router on the existing coursework VM. It establishes inference and a measured configuration change for the **1.5B prototype**. The current backend is the [7B grounding candidate](llm-grounding.md); the prototype results below remain unchanged.
+The first LLM milestone ran a real model behind the llm-d router on the existing coursework VM. It establishes inference and a measured configuration change for the **1.5B prototype**. The selected agents now use the [private 7B GPU route](gpu-agent-routing.md). The CPU prototype is in standby; the [restart recovery report](agent-restart-recovery.md) explains how to restore it for a CPU experiment. The original measurements below remain unchanged.
 
 The later [V100 experiment](gpu-inference.md) compares zero versus GPU offload for the 7B model on a separate worker. Its source, image, hardware and measurements are recorded separately from the prototype below.
 

@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-30T01:20:16.471077+00:00",
+  "source_commit": "f10af11aa4eb3bb2c1ee968d135e4fc61c5bf30b",
+  "legacy_cpu_replicas_before": 1,
+  "legacy_cpu_replicas_after": 0,
+  "gpu_models_loaded": 2,
+  "selected_agent_model": "iot-qwen2.5-7b",
+  "cpu_container_requests_preserved": {
+    "cpu": "1500m",
+    "memory": "4Gi"
+  },
+  "scope": "Only the idle legacy CPU-model replica was parked. Its files, Deployment UID and Service are retained. The accepted GPU adapter/observer specs and shared model selection are unchanged. Restore with kubectl scale deployment/iot-model -n iot-llm --replicas=1 if the CPU prototype is needed."
+}

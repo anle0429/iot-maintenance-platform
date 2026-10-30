@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-30T01:42:04.631343+00:00",
+  "source_commit": "2015d649ed80ca134d69e2adf22745644b99fc31",
+  "summary": {
+    "a": {
+      "requests": 3,
+      "tool_grounded_answers": 3,
+      "median_complete_seconds": 16.591251070999988,
+      "temperature": "0",
+      "model": "iot-qwen2.5-7b"
+    },
+    "b": {
+      "requests": 3,
+      "tool_grounded_answers": 3,
+      "median_complete_seconds": 16.676803368000037,
+      "temperature": "0.3",
+      "model": "iot-qwen2.5-7b"
+    }
+  },
+  "requests": 6,
+  "distinct_machine_questions": 3,
+  "failed_answers_retained": true,
+  "production_specs_unchanged": true,
+  "scope": "Paired retrieval-agent temperature configurations on the same 7B model and real feature lease. Outcomes use original A2A/MCP histories, not fluent text alone. Six requests do not establish a general agent-quality ranking; no automatic promotion."
+}

@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "before": {
+    "iot-coordinator-pool-deployment-86f64978bd-4p58g": "10.52.0.199",
+    "iot-coordinator-pool-deployment-86f64978bd-qxdgv": "10.52.0.200",
+    "iot-drift-pool-deployment-79868b9b6d-5qwnc": "10.52.0.202",
+    "iot-drift-pool-deployment-79868b9b6d-wrp4r": "10.52.0.201",
+    "iot-retrieval-pool-deployment-5c46bc4cdd-5h7bq": "10.52.0.204",
+    "iot-retrieval-pool-deployment-5c46bc4cdd-d4t6h": "10.52.0.203"
+  },
+  "expected": {
+    "iot-coordinator-pool-deployment-86f64978bd-4p58g": "10.52.0.33",
+    "iot-coordinator-pool-deployment-86f64978bd-qxdgv": "10.52.0.241",
+    "iot-drift-pool-deployment-79868b9b6d-5qwnc": "10.52.0.238",
+    "iot-drift-pool-deployment-79868b9b6d-wrp4r": "10.52.0.43",
+    "iot-retrieval-pool-deployment-5c46bc4cdd-5h7bq": "10.52.0.246",
+    "iot-retrieval-pool-deployment-5c46bc4cdd-d4t6h": "10.52.0.22"
+  },
+  "after": {
+    "iot-coordinator-pool-deployment-66dcf458b4-8pfqm": "10.52.0.73",
+    "iot-coordinator-pool-deployment-66dcf458b4-m8865": "10.52.0.72",
+    "iot-drift-pool-deployment-568949649f-5chbj": "10.52.0.74",
+    "iot-drift-pool-deployment-568949649f-w89jw": "10.52.0.75",
+    "iot-retrieval-pool-deployment-5dd79dfc89-75vbp": "10.52.0.77",
+    "iot-retrieval-pool-deployment-5dd79dfc89-ddddj": "10.52.0.76"
+  },
+  "expected_after": {
+    "iot-coordinator-pool-deployment-66dcf458b4-8pfqm": "10.52.0.73",
+    "iot-coordinator-pool-deployment-66dcf458b4-m8865": "10.52.0.72",
+    "iot-drift-pool-deployment-568949649f-5chbj": "10.52.0.74",
+    "iot-drift-pool-deployment-568949649f-w89jw": "10.52.0.75",
+    "iot-retrieval-pool-deployment-5dd79dfc89-75vbp": "10.52.0.77",
+    "iot-retrieval-pool-deployment-5dd79dfc89-ddddj": "10.52.0.76"
+  },
+  "annotation_applied": false,
+  "checked_utc": "2026-10-30T01:25:30.007938+00:00",
+  "source_sha256": "d3a926c17feaef40af235b5278262edf1f930701505124f997811503e02b57e9",
+  "actors_reset": false,
+  "pods_restarted": true,
+  "scope": "Current six-worker registration addresses only. Actor routing and complete conversations require separate requests."
+}
