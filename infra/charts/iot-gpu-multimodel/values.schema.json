@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "image",
+    "imagePullPolicy",
+    "configName",
+    "modelDirectory",
+    "threads",
+    "contextTokens",
+    "gpuLayers",
+    "resources"
+  ],
+  "properties": {
+    "image": {
+      "const": "ghcr.io/ggml-org/llama.cpp@sha256:d854233e9f043046f363953047ff518a9792b044cea1d53f86d299e88344cd5f"
+    },
+    "imagePullPolicy": {
+      "const": "IfNotPresent"
+    },
+    "configName": {
+      "type": "string",
+      "pattern": "^iot-gpu-model-presets-[a-z0-9-]{1,30}$"
+    },
+    "modelDirectory": {
+      "const": "/srv/iot-inference/models"
+    },
+    "threads": {
+      "const": 3
+    },
+    "contextTokens": {
+      "const": 8192
+    },
+    "gpuLayers": {
+      "const": 99
+    },
+    "resources": {
+      "type": "object",
+      "properties": {
+        "requests": {
+          "const": {
+            "cpu": "1",
+            "memory": "4Gi",
+            "nvidia.com/gpu": "1"
+          }
+        },
+        "limits": {
+          "const": {
+            "cpu": "3",
+            "memory": "10Gi",
+            "nvidia.com/gpu": "1"
+          }
+        }
+      },
+      "required": [
+        "requests",
+        "limits"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

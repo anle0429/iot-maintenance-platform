@@ -1,0 +1,13 @@
+# Only fixed local model artifacts are eligible; no runtime download URL or credential is present.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.configName }}
+immutable: true
+data:
+  models.ini: |
+    version = 1
+    [iot-qwen2.5-7b]
+    model = /models/iot-qwen2.5-7b/qwen2.5-7b-instruct-q4_k_m-00001-of-00002.gguf
+    [iot-qwen2.5-1.5b]
+    model = /models/iot-qwen2.5-1.5b/qwen2.5-1.5b-instruct-q4_k_m.gguf
