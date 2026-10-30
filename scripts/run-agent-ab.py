@@ -82,7 +82,9 @@ def run(args):
         keep('feature-preflight-' + machine + '.json', body); assert status == 200
         if json.loads(body)['operating_context']['status'] == 'operating': machines.append(machine)
         if len(machines) == 3: break
-    assert len(machines) == 3; save('machines.json', machines); rows = []
+    assert len(machines) == 3
+    assert (datetime.fromisoformat(lease['lease_expires_utc']) - datetime.now(timezone.utc)).total_seconds() > 6 * 180 + 60
+    save('machines.json', machines); rows = []
     for case, machine in enumerate(machines):
         for variant in (['a', 'b'] if case % 2 == 0 else ['b', 'a']):
             settings = VARIANTS[variant]; label = str(case) + '-' + variant; context = str(uuid4()); request_id = str(uuid4())
@@ -92,7 +94,7 @@ def run(args):
             save(label + '/request.json', payload)
             row = {'variant': variant, 'machine_id': machine, 'context_id': context, 'request_id': request_id, 'passed': False}
             try:
-                status, body, elapsed = request(opener, base + '/api/a2a-sandboxes/iot-agents/' + settings['agent'], payload, user_id=identity, timeout=240)
+                status, body, elapsed = request(opener, base + '/api/a2a-sandboxes/iot-agents/' + settings['agent'], payload, user_id=identity, timeout=180)
                 keep(label + '/response.json', body); row.update(http_status=status, elapsed_seconds=elapsed, response_complete=True)
                 reply = json.loads(body)
                 assert status == 200 and reply.get('result', {}).get('contextId') == context
