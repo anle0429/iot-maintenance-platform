@@ -25,6 +25,7 @@ def run(args):
     seal = json.loads((ROOT.parent / 'manifest.json').read_bytes()); assert seal['format'] == 'iot-agent-ab-study-source-v1'
     for name, pin in seal['files'].items(): assert sha256((ROOT / name).read_bytes()).hexdigest() == pin, name
     deployment = json.loads(args.deployment.joinpath('verification.json').read_bytes()); assert deployment['passed']
+    planned = json.loads(args.deployment.joinpath('planned.json').read_bytes())
     lease = json.loads(args.feature_lease.joinpath('verification.json').read_bytes()); now = datetime.now(timezone.utc)
     assert lease['passed'] and lease['machines'] == 200 and datetime.fromisoformat(lease['prepared_wall_utc']) <= now
     assert (datetime.fromisoformat(lease['lease_expires_utc']) - now).total_seconds() > 1200
@@ -59,12 +60,17 @@ def run(args):
     assert registered == {v['metadata']['name']: v['status']['podIP'] for v in current_workers}
     originals = get('production-agents-before', 'sandboxagents', '-n', 'iot-agents')
     shared = get('shared-model-before', 'modelconfig', 'default-model-config', '-n', 'iot-agents')
+    model_route = {name: get(name + '-before', 'deployment', name, '-n', 'iot-llm') for name in ['iot-model-gpu', 'iot-model-control', 'iot-llm-observer']}
     variants = {}
     for variant, settings in VARIANTS.items():
         agent = get('agent-' + variant + '-before', 'sandboxagent', settings['agent'], '-n', 'iot-agents')
         model = get('model-' + variant + '-before', 'modelconfig', settings['model_config'], '-n', 'iot-agents')
         assert agent['metadata']['uid'] == deployment['variants'][variant]['agent_uid']
         assert model['metadata']['uid'] == deployment['variants'][variant]['model_config_uid'] and model['spec']['openAI']['temperature'] == settings['temperature']
+        assert agent['spec'] == next(v['spec'] for v in planned if v['metadata']['name'] == settings['agent'])
+        assert model['spec'] == next(v['spec'] for v in planned if v['metadata']['name'] == settings['model_config'])
+        assert agent['status']['observedGeneration'] == agent['metadata']['generation']
+        assert any(c['type'] == 'Ready' and c['status'] == 'True' and c['observedGeneration'] == agent['metadata']['generation'] for c in agent['status']['conditions'])
         variants[variant] = {'agent': agent, 'model': model}
         status, body, _ = request(opener, base + '/api/a2a-sandboxes/iot-agents/' + settings['agent'] + '/.well-known/agent-card.json', user_id=identity)
         keep('agent-' + variant + '-card.json', body); card = json.loads(body)
@@ -102,6 +108,9 @@ def run(args):
     after = get('production-agents-after', 'sandboxagents', '-n', 'iot-agents')
     assert {v['metadata']['uid']: v['spec'] for v in originals['items']} == {v['metadata']['uid']: v['spec'] for v in after['items']}
     assert get('shared-model-after', 'modelconfig', 'default-model-config', '-n', 'iot-agents')['spec'] == shared['spec']
+    for name, before in model_route.items():
+        current = get(name + '-after', 'deployment', name, '-n', 'iot-llm')
+        assert current['metadata']['uid'] == before['metadata']['uid'] and current['spec'] == before['spec']
     for variant, settings in VARIANTS.items():
         for kind, name in [('sandboxagent', settings['agent']), ('modelconfig', settings['model_config'])]:
             current = get(variant + '-' + kind + '-after', kind, name, '-n', 'iot-agents')
