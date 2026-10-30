@@ -1,0 +1,460 @@
+{
+  "uid": "iot-llm-ab",
+  "title": "IoT / LLM A/B experiments",
+  "schemaVersion": 42,
+  "version": 1,
+  "editable": false,
+  "timezone": "utc",
+  "description": "Last completed source-bound experiments. Model-version comparison uses four synthetic contract cases repeated three times on the same GPU; it is not real-world ML accuracy.",
+  "tags": [
+    "iot",
+    "llm",
+    "ab"
+  ],
+  "refresh": "5s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "run",
+        "label": "Completed run",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "iot-host-prometheus"
+        },
+        "refresh": 1,
+        "query": {
+          "query": "label_values(iot_llm_ab_measured_requests, run)",
+          "refId": "run-list"
+        },
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "multi": false,
+        "includeAll": false
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "text",
+      "title": "Compare the same questions",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 4
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "**Model artifacts:** small = Qwen2.5 1.5B; large = Qwen2.5 7B. Both use the same GPU, image, 8,192-token context and deterministic uncached requests. Four hand-checked contract cases are repeated three times per model. Warm-up is excluded. Incorrect answers remain in the denominator. These figures describe a completed synthetic batch; they are not live RPS, general model quality or pump-prediction accuracy. The selected agent model is unchanged."
+      }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Measured requests per variant",
+      "description": "Twelve measured requests for each model: four scenarios repeated three times.",
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 12,
+        "h": 7
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "iot_llm_ab_measured_requests{run=\"$run\"}",
+          "legendFormat": "{{variant}}",
+          "instant": true,
+          "range": false,
+          "editorMode": "code"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Exact contract-answer match",
+      "description": "Strict typed JSON fields and the hand-specified labeling rule; this is not prediction accuracy.",
+      "gridPos": {
+        "x": 12,
+        "y": 4,
+        "w": 12,
+        "h": 7
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "iot_llm_ab_contract_answers_correct{run=\"$run\"} / iot_llm_ab_measured_requests{run=\"$run\"}",
+          "legendFormat": "{{variant}}",
+          "instant": true,
+          "range": false,
+          "editorMode": "code"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Full response time: median",
+      "description": "Actual client round trip until the final streamed reply ends; warm-up excluded.",
+      "gridPos": {
+        "x": 0,
+        "y": 11,
+        "w": 12,
+        "h": 7
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "iot_llm_ab_median_full_seconds{run=\"$run\"}",
+          "legendFormat": "{{variant}}",
+          "instant": true,
+          "range": false,
+          "editorMode": "code"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "First generated output: median",
+      "description": "Actual generated text, excluding role announcements and headers.",
+      "gridPos": {
+        "x": 12,
+        "y": 11,
+        "w": 12,
+        "h": 7
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "iot_llm_ab_median_ttft_seconds{run=\"$run\"}",
+          "legendFormat": "{{variant}}",
+          "instant": true,
+          "range": false,
+          "editorMode": "code"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "stat",
+      "title": "Provider-reported input tokens",
+      "description": "Reported usage over measured requests only.",
+      "gridPos": {
+        "x": 0,
+        "y": 18,
+        "w": 12,
+        "h": 7
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "iot_llm_ab_input_tokens{run=\"$run\"}",
+          "legendFormat": "{{variant}}",
+          "instant": true,
+          "range": false,
+          "editorMode": "code"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": "stat",
+      "title": "Provider-reported output tokens",
+      "description": "Reply length varies by model even with an equal output budget.",
+      "gridPos": {
+        "x": 12,
+        "y": 18,
+        "w": 12,
+        "h": 7
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "iot_llm_ab_output_tokens{run=\"$run\"}",
+          "legendFormat": "{{variant}}",
+          "instant": true,
+          "range": false,
+          "editorMode": "code"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": "stat",
+      "title": "Provider-reported total tokens",
+      "description": "Input plus output; do not add all three panels together.",
+      "gridPos": {
+        "x": 0,
+        "y": 25,
+        "w": 12,
+        "h": 7
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "iot_llm_ab_total_tokens{run=\"$run\"}",
+          "legendFormat": "{{variant}}",
+          "instant": true,
+          "range": false,
+          "editorMode": "code"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": "stat",
+      "title": "Output tokens per measured reply",
+      "description": "Interpret response latency alongside the actual reply length.",
+      "gridPos": {
+        "x": 12,
+        "y": 25,
+        "w": 12,
+        "h": 7
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "iot_llm_ab_output_tokens{run=\"$run\"} / iot_llm_ab_measured_requests{run=\"$run\"}",
+          "legendFormat": "{{variant}}",
+          "instant": true,
+          "range": false,
+          "editorMode": "code"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "color": {
+            "mode": "palette-classic"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "textMode": "value_and_name",
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        }
+      }
+    }
+  ]
+}
