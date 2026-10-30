@@ -56,7 +56,8 @@ def run(args):
     gateway = before['gateway-service']; assert gateway['spec']['type'] == 'ClusterIP' and not gateway['spec'].get('externalIPs')
     backend = next(v for v in before['services']['items'] if v['metadata']['name'] == SERVICE)
     assert backend['spec']['type'] == 'ClusterIP' and not backend['spec'].get('externalIPs')
-    assert next(v for v in before['deployments']['items'] if v['metadata']['name'] == SERVICE)['status']['availableReplicas'] == 2
+    if next(v for v in before['deployments']['items'] if v['metadata']['name'] == SERVICE).get('status', {}).get('availableReplicas', 0) != 2:
+        raise ValueError('Require two actually ready retrieval replicas and a genuinely fresh upstream feature lease')
     for kind, name in [('secret', 'mcp-gateway-tls'), ('ingress', 'iot-mcp-retrieval'), ('networkpolicy', 'iot-mcp-gateway')]:
         if command(k+['get', kind, name, '-n', NAMESPACE, '--ignore-not-found', '-o', 'name']).strip():
             raise ValueError('Preserve an existing owned resource; inspect the preceding release')
