@@ -73,6 +73,7 @@ def verify():
     assert bodies[prefix + 'experiment.prom'] == prometheus_metrics(summary)
     for variant in MODELS:
         def predicted(when):
+            """Read a single original generated-token counter from the model-specific native exporter."""
             lines = [s for s in bodies[prefix + 'metrics-' + when + '-' + variant + '.prom'].decode().splitlines() if s.startswith('llamacpp:tokens_predicted_total ')]
             assert len(lines) == 1
             return float(lines[0].split()[-1])
@@ -91,6 +92,7 @@ def verify():
     view = 'native/llm-ab-view-30a/'; panels = native(view + 'panels.json'); assert len(panels) == 8
     for panel in panels:
         def values(kind):
+            """Compare vector values by actual variant labels rather than relying on presentation order."""
             result = native(view + 'panel-' + str(panel['id']) + '-' + kind + '.json')
             assert result['status'] == 'success'
             return {v['metric']['variant']: float(v['value'][1]) for v in result['data']['result']}
