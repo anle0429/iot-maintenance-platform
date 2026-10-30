@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-30T00:43:22.844960+00:00",
+  "source_commit": "0c8d00c2d1f65d8e14f8ff4ea1b0e169b98fe0ca",
+  "measured_requests": 24,
+  "warmup_requests": 8,
+  "distinct_contract_cases": 4,
+  "repeats_per_case": 3,
+  "summary": {
+    "small": {
+      "model": "iot-qwen2.5-1.5b",
+      "measured_requests": 12,
+      "warmup_requests": 4,
+      "correct_contract_answers": 3,
+      "distinct_contract_cases": 4,
+      "median_full_seconds": 0.1420913974998257,
+      "mean_full_seconds": 0.14229922949986454,
+      "median_ttft_seconds": 0.03414171850090497,
+      "input_tokens": 1920,
+      "output_tokens": 348,
+      "total_tokens": 2268
+    },
+    "large": {
+      "model": "iot-qwen2.5-7b",
+      "measured_requests": 12,
+      "warmup_requests": 4,
+      "correct_contract_answers": 9,
+      "distinct_contract_cases": 4,
+      "median_full_seconds": 0.29048351799974625,
+      "mean_full_seconds": 0.29004985441648995,
+      "median_ttft_seconds": 0.11439218749910651,
+      "input_tokens": 1920,
+      "output_tokens": 270,
+      "total_tokens": 2190
+    }
+  },
+  "native_generated_token_counter_deltas": {
+    "small": 464.0,
+    "large": 360.0
+  },
+  "primary_model_config_unchanged": true,
+  "model_pod_uid": "67296c46-2e92-403a-8d84-53a9b818eed2",
+  "retained_terminal_pods": [
+    {
+      "uid": "0719f81b-3ae8-4150-8f1e-fbfac248f69a",
+      "phase": "Failed",
+      "reason": "UnexpectedAdmissionError"
+    }
+  ],
+  "scope": "Two genuinely different pinned model artifacts, same GPU/image/context/threads, four synthetic contract questions repeated three times, balanced paired order, no prompt caching. Contract-case results are not real-world predictive accuracy or a general model-quality ranking. No automatic model promotion."
+}

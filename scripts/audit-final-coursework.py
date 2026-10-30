@@ -22,7 +22,7 @@ VERIFIERS = (
     'drift-retraining', 'final-handover', 'focused-api', 'host-monitoring', 'iac-final',
     'joint-cohort', 'linux-host', 'linux-logs', 'log-discovery', 'native-serving',
     'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort', 'final-review', 'llm-inference',
-    'rag-foundation', 'llm-grounding', 'rag-orchestration', 'mcp-tools', 'agent-platform', 'agent-response-baseline',
+    'rag-foundation', 'llm-grounding', 'rag-orchestration', 'mcp-tools', 'agent-platform', 'agent-response-baseline', 'llm-model-ab',
     'mcp-quality', 'mcp-quality-native', 'gpu-inference', 'gpu-agents', 'agent-network', 'agent-scaling', 'agent-notebook', 'agent-warmup', 'ci-rag', 'ci-agents', 'agent-gateway', 'llm-observation', 'llm-observer', 'llm-agent-telemetry', 'llm-monitoring',
 )
 CAPSULES = (

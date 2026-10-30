@@ -188,3 +188,6 @@ infra/llm-observability/*.lock text eol=lf
 
 # Preserve original LLM monitoring receipts, Locust HTML and browser captures byte-for-byte.
 docs/evidence/llm-monitoring/** -text -whitespace
+
+# Preserve original model comparison receipts and browser captures byte-for-byte.
+docs/evidence/llm-model-ab/** -text -whitespace
