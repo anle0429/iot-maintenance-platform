@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-30T00:09:19.081081+00:00",
+  "source_commit": "f802aae6721b379e2afa2471b0eeb2d87498110f",
+  "profiles": {
+    "1": {
+      "passed": true,
+      "sla": {
+        "minimum_requests": 20,
+        "maximum_failures": 0,
+        "p95_ms": 5000
+      },
+      "requests": 30,
+      "failures": 0,
+      "requests_per_second": 0.9974437184898465,
+      "p50_ms": 720,
+      "p95_ms": 970,
+      "p99_ms": 1500,
+      "scope": "Paced clients on the CPU VM, authenticated observer and actual GPU streaming generation capped at 16 output tokens. No maximum capacity, external-network SLA, agent/MCP or generic prompt-quality claim."
+    },
+    "4": {
+      "passed": true,
+      "sla": {
+        "minimum_requests": 20,
+        "maximum_failures": 0,
+        "p95_ms": 5000
+      },
+      "requests": 78,
+      "failures": 0,
+      "requests_per_second": 2.525859551829158,
+      "p50_ms": 1500,
+      "p95_ms": 2300,
+      "p99_ms": 2700,
+      "scope": "Paced clients on the CPU VM, authenticated observer and actual GPU streaming generation capped at 16 output tokens. No maximum capacity, external-network SLA, agent/MCP or generic prompt-quality claim."
+    }
+  },
+  "request_delta": 108,
+  "all_request_ids_usage_and_timings_reconciled": true,
+  "observer_pod_uid": "5490d542-f65a-468d-96a3-27ad176c3785",
+  "source_files": {
+    "tests/load/llm_observer.py": "e8ee8573ee8fa16e0c4d6ae0b797f18a79acb281be295ac48829f34be63b6dd5",
+    "scripts/run-llm-observer-load.py": "84396dd0e83e01772f4c210d9776bcf9afde81ab13e96909ea4f61e15eb7be41"
+  },
+  "scope": "Two paced 30-second profiles with 1 and 4 clients, actual GPU SSE generation, native Locust HTML/CSV and independent durable request reconciliation. No maximum capacity or whole-agent load claim."
+}

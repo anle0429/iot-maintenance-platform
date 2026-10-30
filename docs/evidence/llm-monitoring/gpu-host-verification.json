@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "checked_utc": "2026-10-29T23:35:37.300367+00:00",
+  "hostname": "iot-cw-gpu",
+  "node_ip": "10.42.0.7",
+  "pod_ip": "10.52.1.9",
+  "physical_interface": "ens5",
+  "logical_processors": 4,
+  "memory_total_bytes": 15705165824.0,
+  "http_seconds": 0.03846227600115526,
+  "all_five_collectors_succeeded": true,
+  "declared_sampling_tolerances": {
+    "cpu_seconds": 0.01,
+    "available_memory_bytes": 4194304,
+    "available_filesystem_bytes": 1048576
+  },
+  "scope": "One real exporter response agrees with independently bracketed GPU-host kernel counters and root capacity, including the host interface. Cumulative disk/network counters are not instantaneous throughput; Prometheus rates and Grafana remain separate."
+}

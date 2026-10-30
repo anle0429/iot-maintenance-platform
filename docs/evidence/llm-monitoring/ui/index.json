@@ -1,0 +1,86 @@
+{
+  "capture_method": "CUA browser getScreenshot; original JPEG bytes, no overlays, compositing or image edits",
+  "browser_scope": "PC loopback administrative viewers over IAP. Upstream NGINX HTTPS/authentication established by native request receipts; browser trust of the private CA is not claimed.",
+  "files": [
+    {
+      "file": "runtime-top.jpg",
+      "url": "http://127.0.0.1:18100/d/iot-llm-runtime",
+      "captured_utc": "2026-10-30T00:04:22.110606+00:00",
+      "bytes": 95516,
+      "sha256": "81d3523df33e08e47008e9b3f2fdc3e539c6bcc72f008efa8f4a592e5c4dc70f",
+      "description": "Runtime target and request dashboard"
+    },
+    {
+      "file": "runtime-tokens.jpg",
+      "url": "http://127.0.0.1:18100/d/iot-llm-runtime",
+      "captured_utc": "2026-10-30T00:04:45.214205+00:00",
+      "bytes": 70838,
+      "sha256": "9363654395a39b4e2871f9154afb296ea035f0a022c13bbe053915a47693cc34",
+      "description": "Provider-reported token totals before the bounded load"
+    },
+    {
+      "file": "runtime-agents.jpg",
+      "url": "http://127.0.0.1:18100/d/iot-llm-runtime",
+      "captured_utc": "2026-10-30T00:05:56.922280+00:00",
+      "bytes": 84899,
+      "sha256": "2ec43f45c4c04ba22807645d9150359054c83fa78c77fa1be8794844213a0684",
+      "description": "Separate executor and actual MCP counters; native statuses unchanged"
+    },
+    {
+      "file": "runtime-after-load.jpg",
+      "url": "http://127.0.0.1:18100/d/iot-llm-runtime",
+      "captured_utc": "2026-10-30T00:10:18.939233+00:00",
+      "bytes": 85489,
+      "sha256": "1749ac928f95aa7435607a342692c8d418c4d4bd33e621dcce264c3f1371cf90",
+      "description": "Mean generation and streaming first-output measurements after native load"
+    },
+    {
+      "file": "policy-checks.jpg",
+      "url": "http://127.0.0.1:18100/d/iot-llm-runtime",
+      "captured_utc": "2026-10-30T00:10:24.980410+00:00",
+      "bytes": 85787,
+      "sha256": "b1bacbffd67d591ed6dd38d066f5eda2785167cdda1fc2d58cb4fc8eb29d8720",
+      "description": "Actual bounded admission checks and policy hits"
+    },
+    {
+      "file": "request-log.jpg",
+      "url": "http://127.0.0.1:18101/d/iot-llm-requests",
+      "captured_utc": "2026-10-30T00:06:20.976934+00:00",
+      "bytes": 64658,
+      "sha256": "a1510a60157bdd255bd646c4c163c621ee8f4513b646ea6c60ebf5c58c9de6c2",
+      "description": "One original approved model event with usage, duration and TTFT"
+    },
+    {
+      "file": "gpu-host-final.jpg",
+      "url": "http://127.0.0.1:18100/d/iot-llm-gpu-host",
+      "captured_utc": "2026-10-30T00:10:25.020419+00:00",
+      "bytes": 74901,
+      "sha256": "80d4815448eae7c9230a7e1ed6828e2782f74ed8fdf312454cfcbf5e0d754c81",
+      "description": "GPU VM host CPU, RAM and root filesystem"
+    },
+    {
+      "file": "gpu-network.jpg",
+      "url": "http://127.0.0.1:18100/d/iot-llm-gpu-host",
+      "captured_utc": "2026-10-30T00:10:28.915447+00:00",
+      "bytes": 75240,
+      "sha256": "ecceac69011993a016aaeff7364d31c4fc2163b77199b0582be6c8048e1b4b35",
+      "description": "GPU VM host disk and physical NIC rates"
+    },
+    {
+      "file": "coordinator-trace.jpg",
+      "url": "http://127.0.0.1:18102/trace/caee7d7a23dae19af7e76c39a18d8b26",
+      "captured_utc": "2026-10-30T00:06:58.973659+00:00",
+      "bytes": 96139,
+      "sha256": "0d5a3a39f0d1fd6d312959c65c488f38e044ec7ccb7752cc8604004b6b1b8f0b",
+      "description": "Native Jaeger graph with its Incomplete and missing-service-name warnings"
+    },
+    {
+      "file": "locust-four-users.jpg",
+      "url": "http://127.0.0.1:18103/users-4.html",
+      "captured_utc": "2026-10-30T00:13:21.845476+00:00",
+      "bytes": 61058,
+      "sha256": "13602ba75ee455481168af5ebb244b509b1593b3c1a578a54f5643df69cbe733",
+      "description": "Unmodified native Locust HTML served on PC loopback: 78 streamed GPU requests, zero failures, p95 2300 ms. This is a static report, not a live gateway UI."
+    }
+  ]
+}

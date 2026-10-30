@@ -6,7 +6,7 @@ This project follows pump telemetry from ingestion and validation through featur
 
 Built as an individual **Engineering for Data & AI — EDAI K11** coursework project. All equipment records, sensor readings and failure events are simulated.
 
-The selected scope includes **final ML and final LLM/agents**. The recorded lab covers data pipelines, ML serving and an assistant that retrieves machine data, references and drift results through bounded tools. GPU-backed agent conversations, CI releases and [authenticated private UI access](docs/agent-gateway.md) have runtime evidence. Full LLM telemetry, A/B comparisons and other items in the [rubric tracker](docs/final-llm-rubric-tracker.md) remain in progress.
+The selected scope includes **final ML and final LLM/agents**. The recorded lab covers data pipelines, ML serving and an assistant that retrieves machine data, references and drift results through bounded tools. GPU-backed agent conversations, CI releases and [authenticated private UI access](docs/agent-gateway.md) have runtime evidence. A/B comparisons and other items in the [rubric tracker](docs/final-llm-rubric-tracker.md) remain in progress.
 
 [Demo guide](docs/demo-walkthrough.md) · [Architecture details](docs/architecture.md) · [Verification report](docs/final-audit.md)
 
@@ -113,7 +113,7 @@ llm-d routes agent requests through a bounded tool-turn adapter to the pinned Qw
 
 A coordinator delegates machine context and drift analysis to two specialists. The [agent platform](docs/agent-platform.md) uses gVisor templates, versioned registry entries and a shared model configuration. The [scaling experiment](docs/agent-scaling.md) checked 18 coordinator requests and 36 child sessions while all three pools grew from two to four workers and returned to two. Capacity rejections and mixed cold/snapshot startup results are retained in the reports.
 
-The [private gateway](docs/agent-gateway.md) protects the chat and catalog with authentication, TLS and rate controls. Scoped Vault consumers supply credentials; [three CI pipelines](docs/ci-agents.md) test and deploy the services and agents. The recorded notebook and original UI captures let a reviewer follow a complete answer back to actual tool results. Full telemetry and A/B evaluation remain open.
+The [private gateway](docs/agent-gateway.md) protects the chat and catalog with authentication, TLS and rate controls. Scoped Vault consumers supply credentials; [three CI pipelines](docs/ci-agents.md) test and deploy the services and agents. The recorded notebook and original UI captures let a reviewer follow a complete answer back to actual tool results. [Model/agent dashboards and bounded GPU load](docs/llm-observability.md#use-the-monitoring-views) now have native evidence. A/B evaluation and other tracked requirements remain open.
 
 [Try the agent demo](docs/agent-demo.md) · [Learning guide](docs/llm-learning-guide.md) · [LLM tracker](docs/final-llm-rubric-tracker.md) · [Editable SVG](docs/images/platform-llm-plan.svg)
 
@@ -140,6 +140,7 @@ The [private gateway](docs/agent-gateway.md) protects the chat and catalog with 
 | Stream measurement pilot | Three actual router requests, provider-reported usage, original first-output/full-response clocks and replay after database reopening | [Measurements, scope and offline check](docs/llm-observability.md) |
 | Observation API canary | Fresh native coverage/mutation gates; nine real GPU-backed request outcomes reconciled with durable facts, logs and counters | [Source-tested canary and original proof](docs/llm-observability.md#source-tested-canary) |
 | Active agent telemetry | One complete HTTPS coordinator cohort; three executor roots, four MCP calls and nine model requests reconciled with original Jaeger/counter/usage readbacks | [Private route and native graph](docs/llm-observability.md#trace-an-actual-coordinator-request) |
+| LLM monitoring and GPU load | Seven discovered targets; 128 exact CRI/Loki events, 24 matching panel queries and 108 real streamed requests across 1/4-client profiles | [Dashboards, original captures and load reports](docs/llm-observability.md#use-the-monitoring-views) |
 
 The 100 GB run covers source ingestion through Bronze/Silver. Feature engineering and ML use the separate 60-day dataset. API coverage, mutation scores and load-test measurements are recorded with their workloads in [serving CI](docs/ci-serving.md), [API validation](docs/api-validation.md) and [load testing](docs/observed-api-load.md).
 

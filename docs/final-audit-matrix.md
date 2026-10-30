@@ -108,21 +108,21 @@ The detailed status and source deliverables are in the [ML tracker](final-rubric
 | L38 | CI/CD | [Agent CI driver](../scripts/ci-agents.py) | [Native coordinator build 3 and original stages](ci-agents.md) | ci-agents |
 | L39 | CI/CD | Provide CI/CD for the stream-feature OFFLINE-store job. | Open: native LLM evidence missing |
 | L40 | CI/CD | Provide CI/CD for the stream-feature ONLINE-store job. | Open: native LLM evidence missing |
-| L41 | Routing and gateway | Place the metrics-viewing service behind the NGINX gateway. | Open: native LLM evidence missing |
-| L42 | Routing and gateway | Place the log-viewing service behind the gateway. | Open: native LLM evidence missing |
-| L43 | Routing and gateway | Place the trace-viewing service behind the gateway. | Open: native LLM evidence missing |
+| L41 | Routing and gateway | Place the metrics-viewing service behind the NGINX gateway. | [Native gateway/data checks and original runtime dashboard](llm-observability.md#use-the-monitoring-views) |
+| L42 | Routing and gateway | Place the log-viewing service behind the gateway. | [128 exact CRI/Loki events through the protected log viewer](llm-observability.md#use-the-monitoring-views); [original request view](evidence/llm-monitoring/ui/request-log.jpg) |
+| L43 | Routing and gateway | Place the trace-viewing service behind the gateway. | [Protected Jaeger route and original SDK graph](llm-observability.md#use-the-monitoring-views); Incomplete/missing-service-name warnings remain visible |
 | L44 | Routing and gateway | [Gateway/Vault implementation and scope](agent-gateway.md) | [Authenticated UI, complete coordinator session and original captures](agent-gateway.md); [offline checker](../scripts/verify-agent-gateway.py) | agent-gateway; Recorded native gateway and original UI |
 | L45 | Routing and gateway | [Gateway/Vault implementation and scope](agent-gateway.md) | [Protected catalog and versioned resource identities](agent-gateway.md); [original registry](evidence/agent-gateway/ui/registry-final.jpg) | agent-gateway; Recorded native gateway and original registry UI |
 | L46 | Routing and gateway | [Gateway/Vault implementation and scope](agent-gateway.md) | [Eight 401 rejections, TLS negatives, 320-request burst/recovery and working UI](agent-gateway.md); no multi-tenant authorization claim | agent-gateway; Recorded private single-operator controls |
 | L47 | Routing and gateway | Configure a domain and HTTPS for the data-retrieval Web API. | Open: native LLM evidence missing |
 | L48 | Infrastructure as code | Use Terraform to provision GKE or other cloud services with a suitable directory layout. | Open: native LLM evidence missing |
 | L49 | Infrastructure as code | Use Ansible roles to configure the VM and deploy services. | Open: native LLM evidence missing |
-| L50 | Observability | Monitor Web API request rate, request counts, failures and related metrics. | [Partial: MCP counters](mcp-tools.md); agent/dashboard export open |
-| L51 | Observability | Collect and visualize CPU, RAM, disk and network metrics through Prometheus/Grafana or equivalent tools. | Open: native LLM evidence missing |
-| L52 | Observability | Collect and visualize logs. | Open: native LLM evidence missing |
-| L53 | Observability | Collect and visualize traces. | Open: native LLM evidence missing |
-| L54 | Observability | Collect at least input/output/total tokens per request, full generation round-trip time, TTFT and counts/frequency of prompts caught by safety or PII controls. | Open: native LLM evidence missing |
-| L55 | Observability | Collect at least per-agent call counts, per-MCP-tool call counts and failures for each tool call. | [Partial: MCP counters](mcp-tools.md); agent/dashboard export open |
+| L50 | Observability | Monitor Web API request rate, request counts, failures and related metrics. | [24 numerical panel matches, per-Pod HTTP/MCP metrics and 108 streamed load requests](llm-observability.md#use-the-monitoring-views) |
+| L51 | Observability | Collect and visualize CPU, RAM, disk and network metrics through Prometheus/Grafana or equivalent tools. | [Independent CPU/RAM/root-disk/physical-NIC checks](llm-observability.md#use-the-monitoring-views); [original host and network captures](evidence/llm-monitoring/ui/index.json); host RAM is not VRAM |
+| L52 | Observability | Collect and visualize logs. | [128 exact native log events and original viewer capture](llm-observability.md#use-the-monitoring-views); prompt/answer/auth text excluded |
+| L53 | Observability | Collect and visualize traces. | [Exact source graph identities and current trace view](llm-observability.md#use-the-monitoring-views); native statuses and incomplete-context warnings are preserved |
+| L54 | Observability | Collect at least input/output/total tokens per request, full generation round-trip time, TTFT and counts/frequency of prompts caught by safety or PII controls. | [Provider usage, per-request log, real streaming load and explicit policy counts](llm-observability.md#use-the-monitoring-views); policy frequency over a new monitored test window remains separate |
+| L55 | Observability | Collect at least per-agent call counts, per-MCP-tool call counts and failures for each tool call. | [Three real executor roots, actual per-Pod tool counters and failures](llm-observability.md#use-the-monitoring-views); unset SDK status and unknown proxy roles are not relabeled |
 | L56 | A/B testing | A/B-test agents using different model configurations and monitor both variants. | Open: native LLM evidence missing |
 | L57 | A/B testing | A/B-test different LLM versions on the inference platform. | Open: native LLM evidence missing |
 | L58 | Security | [Gateway/Vault implementation and scope](agent-gateway.md) | [Two scoped Vault AppRoles, denied cross-service reads, revoked tokens and four unchanged Secret UIDs](agent-gateway.md#centralize-credentials-without-rotating-them); centralized-secret UI capture remains open | agent-gateway; Native agent integration; requested UI capture open |

@@ -1,8 +1,53 @@
 # Measuring model and agent activity
 
-The observation API now sits on the active private model route. Its initial canary produced exactly nine durable facts: three completed generations, four policy rejections and two invalid requests. A later [coordinator cohort](#trace-an-actual-coordinator-request) verifies the active integration against actual specialist histories, per-Pod MCP counters and stored Jaeger traces. Dashboard and load acceptance remain separate.
+The observation API now sits on the active private model route. Its initial canary produced exactly nine durable facts: three completed generations, four policy rejections and two invalid requests. A later [coordinator cohort](#trace-an-actual-coordinator-request) verifies the active integration against actual specialist histories, per-Pod MCP counters and stored Jaeger traces. The [monitoring checkpoint](#use-the-monitoring-views) adds native dashboards, exact log reconciliation and a bounded GPU load test.
 
 Run `python -B -S scripts/verify-llm-observer.py` to check the [quality report](evidence/llm-observer/quality-verification.json), [ready canary](evidence/llm-observer/canary-verification.json), [request results](evidence/llm-observer/probe-verification.json) and [original native archive](evidence/llm-observer/native-receipts.tar.gz). The checker requires only Python's standard library. It authenticates 894 original payloads, then independently checks mutation exits, reported usage, chunk clocks, request identities and the log/counter readbacks. This is recorded execution evidence, not a claim that a stopped VM is currently serving traffic.
+
+## Use the monitoring views
+
+The retained Prometheus and Grafana installation now discovers seven individual targets: four MCP Pods, the observation API, the llama.cpp model and the GPU VM host exporter. Existing jobs remain in place, including two unavailable historical ML A/B targets. Discovery has only Pod read/list/watch access in the two application namespaces; actual attempts to list Secrets return 403.
+
+![Original model latency and streaming first-output dashboard after the GPU load test](evidence/llm-monitoring/ui/runtime-after-load.jpg)
+
+Three English dashboards are maintained as [reviewable JSON assets](../infra/llm-observability/dashboards/runtime.json). Twenty-four numeric panel queries returned exactly the same vectors through Grafana and directly from Prometheus. The final readback contains 128 model-request facts and 20,693 provider-reported tokens: 17,648 input and 3,045 output. These are cumulative facts across the canary, routing checks, one coordinator conversation and the bounded load; they are not the token total of one answer.
+
+![Separate native executor and MCP execution counters](evidence/llm-monitoring/ui/runtime-agents.jpg)
+
+The observer's approved JSON events pass from native CRI files through Alloy to Loki. All 128 messages and nanosecond timestamps match the original files exactly. Request and trace IDs remain log fields, not high-cardinality Loki labels. The application schema excludes prompt text, answer text and credentials. Per-request usage, full response time, streaming TTFT and policy categories remain inspectable.
+
+![An original model request with provider usage, response duration and TTFT](evidence/llm-monitoring/ui/request-log.jpg)
+
+The host exporter runs on the existing GPU worker with read-only host mounts. An independent reading on that VM brackets the exporter response with Linux CPU, memory, disk and network counters. All five collectors agree within the declared sampling tolerances. Its host RAM is 15,705,165,824 bytes; its root filesystem is 50,884,108,288 bytes. The physical NIC is `ens5`, identified from the VM's private address. These measurements do not include GPU utilization or VRAM.
+
+![Original GPU VM host resource dashboard](evidence/llm-monitoring/ui/gpu-host-final.jpg)
+
+![Original disk and physical NIC rates](evidence/llm-monitoring/ui/gpu-network.jpg)
+
+The existing private NGINX routes serve the LLM metrics, log and trace viewers. Native checks require CA/hostname verification: six missing/incorrect-login requests return 401, three authenticated data requests return 200, and all three original UI pages load. The [Jaeger capture](evidence/llm-monitoring/ui/coordinator-trace.jpg) retains its `Incomplete` warning and `missing-service-name` fallback. A visible trace is useful execution evidence, but it is not a claim that every parent/context boundary in the pinned SDK is complete. Jaeger's generated icon for a tool span does not turn A2A delegation into an MCP execution.
+
+### Bounded GPU load
+
+| Clients | Duration per profile | Final requests | Failures | Requests/s | p50 | p95 | p99 |
+|---|---|---:|---:|---:|---:|---:|---:|
+| 1 | 30 s | 30 | 0 | 0.997 | 720 ms | 970 ms | 1,500 ms |
+| 4 | 30 s | 78 | 0 | 2.526 | 1,500 ms | 2,300 ms | 2,700 ms |
+
+Both profiles use a fixed synthetic question, streamed replies, deterministic generation settings and a 16-token output limit. The declared lab gate requires at least 20 requests, zero failures and p95 at most 5 seconds. Every one of the 108 request IDs, usage records and server timings matches the running durable ledger; the observer Pod and restart counts remain unchanged.
+
+![Original four-client Locust report](evidence/llm-monitoring/ui/locust-four-users.jpg)
+
+The [one-client HTML](evidence/llm-monitoring/load/users-1.html) and [four-client HTML](evidence/llm-monitoring/load/users-4.html) are original Locust outputs. The periodic CSV files stop at 29 and 75 requests; final HTML/summary/event records include the requests completed during graceful shutdown, giving 30 and 78. The offline check preserves that distinction. A first attempt made zero requests because the load user could not traverse the separate discovery identity's private directory. The accepted attempt gives the load client its own temporary 0700/0600 credential path without widening discovery permissions.
+
+These are paced clients on the CPU VM reaching actual GPU inference through the observer. They do not establish maximum capacity, a public-network SLA, whole-agent throughput or the quality of a long answer.
+
+Verify the [original native capsule](evidence/llm-monitoring/native-receipts.tar.gz), [dashboard result](evidence/llm-monitoring/dashboard-verification.json), [host comparison](evidence/llm-monitoring/gpu-host-verification.json), [load result](evidence/llm-monitoring/load-verification.json) and ten [unedited captures](evidence/llm-monitoring/ui/index.json):
+
+```powershell
+python -B -S scripts/verify-llm-monitoring.py
+```
+
+The checker authenticates 403 original CPU-side payloads and a nested 20-payload GPU archive. Follow the [demo walkthrough](llm-monitoring-demo.md) to inspect the recorded run or open the retained private viewers. The [Alloy process stages](https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/) and [supported reload mechanism](https://grafana.com/docs/alloy/latest/reference/cli/run/) describe the configuration model used here.
 
 ## Source-tested canary
 
@@ -74,7 +119,7 @@ python -B -S scripts/verify-llm-agent-telemetry.py
 
 The checker authenticates 2,104 original payloads and rechecks the complete parent/child answer contract, source identities, native routing transitions, per-Pod counter differences, reported usage and exact stored graph identities. An initial promotion attempt returned to the original route after its probe incorrectly expected an empty OTLP batch to succeed. The corrected run retains the expected HTTP 400 rejection and its original bytes before enabling controller tracing. Both attempts and their original journals remain in the archive; the retained launcher filename issue is explicitly documented in its capture notes.
 
-Prometheus/Loki export, host-resource measurements, native load checks and original monitoring captures still need separate acceptance. This checkpoint does not close rows that require visible dashboards.
+The later [monitoring checkpoint](#use-the-monitoring-views) verifies Prometheus/Loki export, host resources, bounded native load and original viewer captures. Its cumulative counters and load cohort are separate from the nine-generation conversation above.
 
 ## Earlier router pilot
 
@@ -130,11 +175,11 @@ These exercise fragmented Unicode streams, missing or conflicting usage, replay 
 
 The local API exercises use controlled backends and temporary databases. Native GPU requests are recorded in the separate pilot archive. The complete fresh mutation gate runs in the retained Linux test image.
 
-## What is being integrated next
+## API boundaries and remaining limits
 
 The new observation API sits in front of the retained model-control adapter. It reads streaming bytes while forwarding them, exposes metrics and projects native OTLP traces onto an approved metadata schema. Prompt checks cover four explicit pattern categories: email, labeled telephone numbers, credential assignments and direct hardware-control commands. They are bounded coursework controls, not a universal PII detector or safety classifier.
 
-A separate Helm release runs the tested observer behind an internal ClusterIP service and a narrow network policy. The subsequent accepted rollout selects that Pod for active model traffic and enables private agent tracing while retaining the old adapter deployment. Native load checks, Prometheus/Loki integration and original dashboard captures remain separate acceptance steps.
+A separate Helm release runs the tested observer behind an internal ClusterIP service and a narrow network policy. The subsequent accepted rollout selects that Pod for active model traffic and enables private agent tracing while retaining the old adapter deployment. The [later monitoring acceptance](#use-the-monitoring-views) independently verifies its native load, Prometheus/Loki integration and original dashboard captures. A/B evaluation and the remaining rubric obligations are separate work.
 
 The prepared internal API has explicit machine-readable failures. These response bodies are checked locally alongside their HTTP statuses:
 
@@ -149,6 +194,6 @@ The prepared internal API has explicit machine-readable failures. These response
 
 Agent counts need special care: the pinned Go ADK creates one root `invocation` for an executor run, alongside nested agent/model/tool spans. Counting every nested span as another agent call would inflate the result. An unset trace status also stays unset; it is not evidence of success. Actual MCP execution failures remain visible through the MCP services' own counters.
 
-For a presentation, explain the three distinctions first: provider-reported tokens versus estimates; first generated output versus HTTP headers; unique executions versus repeated telemetry delivery. Full LLM observability rows L50–L55 remain open until the live integrations and required captures have been verified.
+For a presentation, explain the three distinctions first: provider-reported tokens versus estimates; first generated output versus HTTP headers; unique executions versus repeated telemetry delivery. The [monitoring checkpoint](#use-the-monitoring-views) records the integrations and captures for these metrics; SDK graph/identity limits remain explicit, and the full LLM track is still incomplete.
 
 The API separates shared adapters (`ObserverRuntime`) from each request's state (`ModelExchange`) and ASGI response status (`HttpObservation`). The mutation admission gate requires actual mutants for the request admission, stream, finalization, trace receiver and middleware methods. A factory-only inventory cannot qualify as API mutation evidence. Explicit malformed credentials and malformed tool declarations also have regression cases; neither may fall through to an unrelated private-file read or crash the role classifier.

@@ -11,6 +11,7 @@ go.mod text eol=lf
 *.tf text eol=lf
 *.hcl text eol=lf
 *.tfvars.example text eol=lf
+*.alloy text eol=lf
 *.txt text eol=lf
 .gitignore text eol=lf
 .gitattributes text eol=lf
@@ -184,3 +185,6 @@ infra/ci/Rag.Jenkinsfile text eol=lf
 infra/ci/Agents.Jenkinsfile text eol=lf
 docs/evidence/llm-observation/** -text -whitespace
 infra/llm-observability/*.lock text eol=lf
+
+# Preserve original LLM monitoring receipts, Locust HTML and browser captures byte-for-byte.
+docs/evidence/llm-monitoring/** -text -whitespace
