@@ -51,6 +51,12 @@ def run(args):
     status, body, _ = request(opener, base + '/api/me'); keep('identity.json', body); identity = json.loads(body)['sub']; assert status == 200
     status, body, _ = request(opener, base + '/api/substrate/status'); keep('actors-before.json', body); assert status == 200
     assert not any(v['atespace'] == 'iot-agents' and v['status'] == 'Running' for v in json.loads(body)['data']['actors'])
+    workers = json.loads(body)['data']['workers']; pools = {'iot-' + role + '-pool' for role in ['retrieval', 'drift', 'coordinator']}
+    pods = get('workers-before', 'pods', '-n', 'iot-agents', '-l', 'ate.dev/worker-pool in (' + ','.join(sorted(pools)) + ')')['items']
+    current_workers = [v for v in pods if not v['metadata'].get('deletionTimestamp')]
+    assert len(current_workers) == 6 and all(v['status']['phase'] == 'Running' and all(c['ready'] for c in v['status'].get('containerStatuses', [])) for v in current_workers)
+    registered = {v['workerPod']: v['ip'] for v in workers if v['workerNamespace'] == 'iot-agents' and v['workerPool'] in pools}
+    assert registered == {v['metadata']['name']: v['status']['podIP'] for v in current_workers}
     originals = get('production-agents-before', 'sandboxagents', '-n', 'iot-agents')
     shared = get('shared-model-before', 'modelconfig', 'default-model-config', '-n', 'iot-agents')
     variants = {}
