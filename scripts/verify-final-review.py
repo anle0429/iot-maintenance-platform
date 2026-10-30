@@ -1,4 +1,5 @@
 """Verify the original after-restart recovery, fresh inference, credential CI and renewed TLS receipts without contacting services."""
+from git_sources import historical_blob
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
 import importlib.util
@@ -66,7 +67,7 @@ def verify():
     """Bind executed operators to immutable Git blobs, recompute inference and preserve scope and historical failures."""
     base, read = capsule(); operators = read('operator-source.json')
     for name, source in operators.items():
-        original = subprocess.check_output(['git', 'show', source['commit'] + ':' + name], cwd=ROOT)
+        original = historical_blob(ROOT, source['commit'] + ':' + name)
         assert sha256(original).hexdigest() == source['sha256'], name
     for name, receipt in [('resume-demo-services.py', 'resume-release/verification.json'), ('refresh-demo-feature.py', 'feature-refresh/verification.json'),
                           ('demo-feature-api.py', 'pc-http/verification.json'), ('renew-demo-certificates.py', 'certificates/verification.json')]:

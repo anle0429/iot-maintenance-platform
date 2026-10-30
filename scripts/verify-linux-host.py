@@ -1,4 +1,5 @@
 """Audit saved genuine Linux host metrics, original native hashes and same-time numeric readbacks; starts no service."""
+from git_sources import historical_blob
 from pathlib import Path,PurePosixPath
 from hashlib import sha256
 import json,re,subprocess,sys
@@ -25,7 +26,7 @@ def main():
     assert len(sources[0]['files'])==5 and len(sources[1]['files'])==4
     for source in sources:
         for name,h in source['files'].items():
-            raw=subprocess.check_output(['git','show',source['commit']+':'+name],cwd=root);current=(root/name).read_bytes()
+            raw=historical_blob(root, source['commit']+':'+name);current=(root/name).read_bytes()
             assert digest(raw)==h and documentation_equivalent(raw,current.replace(b'\r\n',b'\n'),Path(name).suffix),name
     assert read('runtime/dashboards/host.json')==dashboard('linux','vm-linux','Linux VM actual metrics')
     raw=read('host/raw-samples.json');end=proof['evaluation_time'];expected=expected_linux(raw,end);native=read('host/native-os-sanity.json')

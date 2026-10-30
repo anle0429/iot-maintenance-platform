@@ -1,4 +1,5 @@
 """Audit current maintainable Python documentation and exact docstring-only edits without rewriting historical evidence."""
+from git_sources import historical_blob
 from pathlib import Path
 from hashlib import sha256
 from datetime import datetime,timezone
@@ -19,7 +20,7 @@ def audit(output,edit_proof):
                 if not ast.get_docstring(node):missing.append({'path':name,'line':node.lineno,'name':node.name})
     proof=json.loads(edit_proof.read_bytes());assert proof['added_docstrings']==419
     for row in proof['files']:
-        name=row['path'];original=subprocess.check_output(['git','show',proof['base_commit']+':'+name],cwd=ROOT);current=(ROOT/name).read_bytes()
+        name=row['path'];original=historical_blob(ROOT, proof['base_commit']+':'+name);current=(ROOT/name).read_bytes()
         assert sha256(original).hexdigest()==row['before_git_sha256'] and sha256(current).hexdigest()==row['after_sha256'],name
         if row['documentation_only']:assert documentation_equivalent(original,current,'.py'),name
         else:assert name=='scripts/verify-ab-monitoring.py' and row['added_docstrings']==1

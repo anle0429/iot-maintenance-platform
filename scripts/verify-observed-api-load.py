@@ -1,4 +1,5 @@
 """Audit the real instrumented-API Locust reports, fresh model6 features, fixed replica identity and preserved failed guard offline."""
+from git_sources import historical_blob
 from datetime import datetime
 from hashlib import sha256
 from pathlib import Path
@@ -27,7 +28,7 @@ def main():
     source=read('locust-fixed1/source-manifest.json')
     assert set(source['files'])=={'tests/load/feature_api.py','tests/load/requirements.txt'}
     for name,wanted in source['files'].items():
-        raw=subprocess.check_output(['git','show',source['commit']+':'+name],cwd=ROOT)
+        raw=historical_blob(ROOT, source['commit']+':'+name)
         assert sha256(raw).hexdigest()==wanted==sha256((BASE/'locust-fixed1/source'/name).read_bytes()).hexdigest()
     assert 'locust==2.47.0' in (BASE/'locust-fixed1/requirements-installed.lock').read_text().lower()
     for users,requests,p95 in [(1,598,6),(10,5767,28)]:

@@ -1,4 +1,5 @@
 """Audit saved actual-PC host telemetry, source identities, same-time arithmetic and privacy filters; starts no service."""
+from git_sources import historical_blob
 from pathlib import Path,PurePosixPath
 from hashlib import sha256
 from xml.etree import ElementTree
@@ -20,7 +21,7 @@ def main():
     assert proof['execution_bytes_equal_git'] and len(proof['source_files'])==10
     for name,expected in proof['source_files'].items():
         assert not PurePosixPath(name).is_absolute() and '..' not in PurePosixPath(name).parts
-        raw=subprocess.check_output(['git','show',commit+':'+name],cwd=root);assert digest(raw)==expected,name
+        raw=historical_blob(root, commit+':'+name);assert digest(raw)==expected,name
         assert documentation_equivalent(raw,(root/name).read_bytes(),Path(name).suffix),name
     fixture=json.loads((root/'tests/fixtures/host-monitoring-promql.json').read_text(encoding='utf-8'))
     assert len(fixture['tests'])==proof['promtool_groups']==5

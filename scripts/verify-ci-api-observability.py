@@ -1,4 +1,5 @@
 """Verify native telemetry Jenkins2, its complete fresh gate, unchanged model and actual deployed image identities offline."""
+from git_sources import historical_blob
 from collections import Counter
 from hashlib import sha256
 from pathlib import Path
@@ -23,7 +24,7 @@ def main():
     source=read('source/current.json');assert source['commit']=='372163145c9e5d56fa02c868cf85a587981ce70c'
     assert len(source['files'])==92 and source['files']==read('source/after.json')['files']
     for name,wanted in source['files'].items():
-        raw=subprocess.check_output(['git','show',source['commit']+':'+name],cwd=ROOT)
+        raw=historical_blob(ROOT, source['commit']+':'+name)
         assert sha256(raw).hexdigest()==wanted,name
     build=read('jenkins/build-2.json');assert build['number']==2 and not build['building'] and build['result']=='SUCCESS' and build['duration']==274304
     parameters={p['name']:p['value'] for a in build['actions'] for p in a.get('parameters',[])}

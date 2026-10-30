@@ -29,7 +29,7 @@ Recorded delivery and mentor grading are separate. Each report retains its actua
 
 ## Verification method
 
-The maintained audit registers **59 read-only artifact checkers**, plus nine separately inventoried native capsules. It checks original rubric wording/weights, source and payload identities and linked evidence. Each checker must cover the requirement it supports; a successful schema check or a 200 page alone is insufficient for a deployment or authenticated interaction claim.
+The maintained audit registers **60 read-only artifact checkers**, plus nine separately inventoried native capsules. It checks original rubric wording/weights, source and payload identities and linked evidence. Each checker must cover the requirement it supports; a successful schema check or a 200 page alone is insufficient for a deployment or authenticated interaction claim.
 
 The [retrieval HTTPS checker](../scripts/verify-mcp-gateway.py) authenticates 198 original native payloads, 24 historical source bindings, 13 HTTP outcomes, three matching MCP tool results and two original interface captures. Screenshot response values and raw-body digests are reconciled with the native TLS audit. The original failed deployments and the earlier checkpoint metadata remain intact.
 
@@ -58,6 +58,6 @@ Native runs and local checks have their own machine/source identities. A clean P
 
 ## Earlier checkpoints
 
-[The previous audit page](https://github.com/anle0429/iot-maintenance-platform/blob/078adc9d66fcee406a190eedc31f565471e36d55/docs/final-audit.md) retains the historical test counts, unsuccessful response iterations and earlier open work. Those counts are not added together or presented as the current regression. Original evidence, failed outcomes and native captures have not been translated or rewritten.
+[The previous audit page](https://github.com/anle0429/iot-maintenance-platform/blob/f8a64e5dcf5f54a17e5d6a72225a042217524266/docs/final-audit.md) retains the historical test counts, unsuccessful response iterations and earlier open work. Those counts are not added together or presented as the current regression. Original evidence, failed outcomes and native captures have not been translated or rewritten.
 
 [Architecture](architecture.md) · [Demo and recovery](operations.md) · [LLM learning guide](README.md) · [Rubric source](rubric-source.md)

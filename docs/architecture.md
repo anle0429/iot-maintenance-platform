@@ -144,7 +144,7 @@ Database, artifact and registry state stays on VM volumes. A Git clone does not 
 3. Open the [final audit](final-audit.md) and [rubric matrix](final-audit-matrix.md) to locate the relevant code, reports and screenshots.
 4. Run `python -S scripts/audit-final-coursework.py --output outputs/<new-run>` from the repository root to verify recorded artifacts without starting the platform.
 
-Earlier design sketches and model versions are retained in [Git history](https://github.com/anle0429/iot-maintenance-platform/blob/1c9d1932ea652f09b1b2b77caa001b082a2b4be7/docs/architecture.md). They describe earlier milestones, not the current lab design.
+Earlier design sketches and model versions are retained in [Git history](https://github.com/anle0429/iot-maintenance-platform/blob/6fe5cff9217a9e470170a0c12fc0398670d492ad/docs/architecture.md). They describe earlier milestones, not the current lab design.
 
 The supplied rubrics govern scope. [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform) is a presentation reference; the illustrations and code walkthrough describe this repository's IoT implementation.
 

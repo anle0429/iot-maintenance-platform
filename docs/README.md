@@ -22,3 +22,5 @@ The platform has three connected layers: pump data, model development/serving, a
 A component page identifies its input/output boundary, code, runtime location and recorded validation. Relative code links point to the maintained checkout. Commit-pinned links and native receipts refer to historical executions with their original versions. Failed outcomes, wrong answers and measurement limits are retained.
 
 Run examples from the repository root. The [operations runbook](operations.md) describes the retained private lab; a clone contains no runtime credentials, bulk data, service state or LLM weights. For standalone offline verifiers, first run `python -B -S scripts/unpack-evidence.py`. The full audit does this automatically.
+
+[Source history migration](history-rewrite.md) explains changed commit identities and verification of original source bindings.

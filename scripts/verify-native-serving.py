@@ -1,4 +1,5 @@
 """Independently audit retained native serving CI, complete mutation provenance, A/B math, rollback and load reports."""
+from git_sources import historical_blob
 from collections import Counter
 from datetime import datetime
 from hashlib import sha256
@@ -31,7 +32,7 @@ def source_packet(source):
     with tarfile.open(fileobj=packet, mode='w') as archive:
         for name, expected in sorted(source['files'].items()):
             assert not PurePosixPath(name).is_absolute() and '..' not in PurePosixPath(name).parts
-            raw = subprocess.check_output(['git', 'show', source['commit'] + ':' + name], cwd=ROOT)
+            raw = historical_blob(ROOT, source['commit'] + ':' + name)
             assert digest(raw) == expected, name
             item = tarfile.TarInfo('tree/' + name); item.size = len(raw); item.mode = 0o644
             archive.addfile(item, io.BytesIO(raw))
@@ -160,7 +161,7 @@ def main():
     assert session['max_run_seconds'] == 28800 and admitted['auto_stop_utc'] == session['auto_stop_utc']
     assert admitted['seconds_before_actual_stop'] >= 5400 and admitted['ram_available_bytes'] >= 12 * 1024 ** 3 and min(admitted['disk_free_bytes']) >= 20_000_000_000
     selected = read('selected-model6/model-pin.json'); candidate = read('selected-model6/portable.json')
-    legacy = json.loads(subprocess.check_output(['git', 'show', commit + ':models/pump-failure-v1/portable.json'], cwd=ROOT))
+    legacy = json.loads(historical_blob(ROOT, commit + ':models/pump-failure-v1/portable.json'))
     assert selected['version'] == '6' and selected['production'] is True and digest((BASE / 'selected-model6/portable.json').read_bytes()) == selected['portable_sha256']
     assert read('ci/selection.json')['pin'] == read('mutation-parent5/selection.json')['pin'] == selected
     images = read('ci/build.json')['images']; selection = read('ci/selection.json'); pair = read('ci/plan.json'); stage = read('ci/staged.json')

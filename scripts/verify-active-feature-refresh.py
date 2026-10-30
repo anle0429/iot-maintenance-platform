@@ -1,4 +1,5 @@
 """Audit the real model6 cache refresh, corrected metadata check and preserved failed rollback offline."""
+from git_sources import historical_blob
 from datetime import datetime
 from hashlib import sha256
 from pathlib import Path
@@ -24,7 +25,7 @@ def main():
     source=read('source-manifest.json')
     assert source['commit']=='99d6dcc2994f55f06133eace53ecff523f6fc3cb'
     for name,wanted in source['files'].items():
-        assert sha256(subprocess.check_output(['git','show',source['commit']+':'+name],cwd=ROOT)).hexdigest()==wanted,name
+        assert sha256(historical_blob(ROOT, source['commit']+':'+name)).hexdigest()==wanted,name
     spec=importlib.util.spec_from_file_location('native_serving_audit',ROOT/'scripts/verify-native-serving.py')
     audit=importlib.util.module_from_spec(spec);spec.loader.exec_module(audit)
     report=read('verification.json');pin=read('model-pin.json');model=read('portable.json')

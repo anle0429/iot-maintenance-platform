@@ -35,4 +35,4 @@ finally { Remove-Item Env:IOT_AB_CI_PROOF_DIR }
 
 [Current architecture](architecture.md) · [Demo and recovery](operations.md) · [Rubric index](rubric-tracker.md)
 
-[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/ci-ab-deployment.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.
+[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/a395c4ea47b8f8e235556ab93de3d699ed9df18b/docs/ci-ab-deployment.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

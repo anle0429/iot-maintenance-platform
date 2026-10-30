@@ -1,4 +1,5 @@
 """Independently check saved PC monitoring receipts, source hashes and all26 plotted values without project imports."""
+from git_sources import historical_blob
 from evidence_integrity import documentation_equivalent,executable_python_tree
 from collections import Counter
 from hashlib import sha256
@@ -20,7 +21,7 @@ def main():
     changed=[];superseded=[]
     for name,expected in proof['source_files'].items():
         assert not PurePosixPath(name).is_absolute() and '..' not in PurePosixPath(name).parts
-        git=subprocess.check_output(['git','show',commit+':'+name],cwd=root);assert digest(git)==expected,name
+        git=historical_blob(root, commit+':'+name);assert digest(git)==expected,name
         raw=(root/name).read_bytes()
         if raw!=git and raw.replace(b'\r\n',b'\n')!=git and not documentation_equivalent(git,raw,Path(name).suffix):
             # Native CI later changed export permissions and mutation workspace copying, outside this PC HTTP experiment.

@@ -1,4 +1,5 @@
 """Independently audit genuine private gateway routing/auth/TLS/rate evidence and unchanged model6 math."""
+from git_sources import historical_blob
 from pathlib import Path
 from evidence_integrity import current_source_bindings
 from hashlib import sha256
@@ -24,7 +25,7 @@ def main():
     native=read('native-manifest.json');assert len(native['files'])==77 and all(manifest['files'][n]==v for n,v in native['files'].items())
     for source in (BASE/'sources').glob('*.json'):
         seal=json.loads(source.read_bytes())
-        for n,h in seal['files'].items():assert sha256(subprocess.check_output(['git','show',seal['commit']+':'+n],cwd=ROOT)).hexdigest()==h
+        for n,h in seal['files'].items():assert sha256(historical_blob(ROOT, seal['commit']+':'+n)).hexdigest()==h
     final_source=read('sources/gateway-source-v4.json');assert len(final_source['files'])==5
     current_source_bindings(final_source)
     assets=json.loads((ROOT/'infra/gateway/assets.json').read_bytes());before=read('deploy/before.json');rendered=read('header-guard-fixed/manifests.json')['items']

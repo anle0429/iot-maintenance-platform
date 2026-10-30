@@ -53,4 +53,4 @@ These are original captures from the runs described above. Their timestamps, mod
 
 [Current architecture](architecture.md) · [Demo and recovery](operations.md) · [Rubric index](rubric-tracker.md)
 
-[Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/day3-streaming.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.
+[Source history and recorded evidence](history-rewrite.md) explain the filtered commit identities. Original native receipts retain their captured bytes and outcomes.

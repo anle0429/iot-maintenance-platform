@@ -127,7 +127,7 @@ $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -B -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-The audit restores the byte-pinned historical receipt bundle into ignored local files, validates both original rubric views and runs **59 offline artifact checks**. It writes the result and original verifier consoles under `outputs/`. No service starts and no model request is sent. To run an individual verifier first, restore once with `python -B -S scripts/unpack-evidence.py`. See [evidence storage](docs/evidence-guide.md).
+The audit restores the byte-pinned historical receipt bundle into ignored local files, validates both original rubric views and runs **60 offline artifact checks**. It writes the result and original verifier consoles under `outputs/`. No service starts and no model request is sent. To run an individual verifier first, restore once with `python -B -S scripts/unpack-evidence.py`. See [evidence storage](docs/evidence-guide.md).
 
 ### Use the live lab
 

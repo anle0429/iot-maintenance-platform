@@ -1,4 +1,5 @@
 """Export a trusted committed materialization source packet without working files, secrets or runtime data."""
+from git_sources import resolve_revision
 import argparse
 from hashlib import sha256
 import io
@@ -12,7 +13,7 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def package(commit,output):
     """Use exact Git blobs and a fixed source allowlist; refuse overwriting an earlier packet."""
-    resolved=subprocess.check_output(['git','rev-parse','--verify',commit+'^{commit}'],cwd=ROOT,text=True).strip()
+    resolved=resolve_revision(ROOT, commit)
     files=subprocess.check_output(['git','ls-tree','-r','--name-only',resolved,'feature_store'],cwd=ROOT,text=True).splitlines()
     files+=['ml/__init__.py','ml/protocol.py','ml/protocols/medium-60d-v1.json',
         'infra/ci/Materialization.Dockerfile','infra/ci/Materialization.Dockerfile.dockerignore',

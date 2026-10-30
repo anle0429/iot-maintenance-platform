@@ -1,4 +1,5 @@
 """Audit genuine source lineage, separate native stream-store jobs, process-boundary faults and exact runtime parity offline."""
+from git_sources import historical_blob
 from datetime import datetime,timezone
 from hashlib import sha256
 from pathlib import Path
@@ -27,7 +28,7 @@ def main():
     commit=manifest['ci_source_commit'];seal=read('sources/'+commit+'.json');assert len(seal['files'])==124
     for path in [*sorted(BASE.rglob('sources/*.json')),BASE/'history/prior/native-prototype/source-manifest.json']:
         source=json.loads(path.read_bytes())
-        for n,h in source['files'].items():assert sha256(subprocess.check_output(['git','show',source['commit']+':'+n],cwd=ROOT)).hexdigest()==h
+        for n,h in source['files'].items():assert sha256(historical_blob(ROOT, source['commit']+':'+n)).hexdigest()==h
     fixture=json.loads((ROOT/'tests/fixtures/stream-finalized-native.json').read_bytes());parent=(ROOT/fixture['parent']).read_bytes()
     assert sha256(parent).hexdigest()==fixture['parent_sha256'] and json.loads(parent)['windows']==fixture['windows']
     for n,h in fixture['code_sha256'].items():assert sha256((ROOT/n).read_bytes()).hexdigest()==h

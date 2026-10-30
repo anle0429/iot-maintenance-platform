@@ -1,4 +1,5 @@
 """Export only committed serving application/CI/chart/test inputs; never include runtime bundles or credentials."""
+from git_sources import resolve_revision
 import argparse,io,json,subprocess,tarfile
 from hashlib import sha256
 from pathlib import Path
@@ -8,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def package(commit,output):
     """Make a deterministic Git-only packet, preserving existing archives and working files."""
     git=lambda *args:subprocess.check_output(['git',*args],cwd=ROOT)
-    resolved=git('rev-parse','--verify',commit+'^{commit}').decode().strip()
+    resolved=resolve_revision(ROOT, commit)
     names=git('ls-tree','-r','--name-only',resolved,'services/predictor','services/feature_api','infra/charts/iot-api').decode().splitlines()
     names+=['services/__init__.py','ml/__init__.py','ml/protocol.py','ml/training_contract.py','ml/serving_release.py','ml/serving_ci.py',
         'ml/protocols/medium-60d-v1.json','pyproject.toml','tests/__init__.py','tests/api/test_predictor.py','tests/api/test_feature_api.py',

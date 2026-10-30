@@ -1,4 +1,5 @@
 """Verify preserved native Airflow/Feast/Pushgateway/Grafana evidence with standard-library arithmetic and Git."""
+from git_sources import historical_blob
 from datetime import datetime,timezone
 from hashlib import sha256
 import json,math,re,struct,subprocess,sys
@@ -27,7 +28,7 @@ def verify():
     for name,commit_key in [('runtime/execution-source.json','execution_commit'),('runtime/audit-source.json','dashboard_oracle_commit')]:
         source=read(name);assert source['commit']==manifest[commit_key]
         for path,pin in source['files'].items():
-            raw=subprocess.check_output(['git','show',source['commit']+':'+path],cwd=ROOT)
+            raw=historical_blob(ROOT, source['commit']+':'+path)
             assert sha256(raw).hexdigest()==pin,(path,source['commit'])
             bindings+=1
     assert bindings==26

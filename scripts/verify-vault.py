@@ -1,4 +1,5 @@
 """Audit real Vault AppRole consumers, HMAC audit records, credential rotation and Raft restart without secrets or network."""
+from git_sources import historical_blob
 from collections import defaultdict
 from evidence_integrity import current_source_bindings
 from hashlib import sha256
@@ -23,7 +24,7 @@ def main():
     total=0
     for path in (BASE/'sources').glob('*.json'):
         seal=json.loads(path.read_bytes())
-        for n,h in seal['files'].items():assert sha256(subprocess.check_output(['git','show',seal['commit']+':'+n],cwd=ROOT)).hexdigest()==h;total+=1
+        for n,h in seal['files'].items():assert sha256(historical_blob(ROOT, seal['commit']+':'+n)).hexdigest()==h;total+=1
     assert total==41
     for number,commit,result,duration in [(1,'b390efe8c99189d7615bb1275354471a923b6a47','FAILURE',3282),(2,'a4ef8fdcba62babea563fc388aa8b86e067191fc','SUCCESS',2977)]:
         seal=read('sources/ci-'+str(number)+'.json');assert seal['commit']==commit and len(seal['files'])==10

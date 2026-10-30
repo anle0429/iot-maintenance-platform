@@ -1,4 +1,5 @@
 """Audit the saved Linux logging snapshot and strict source-clock comparisons using Git and the standard library only."""
+from git_sources import historical_blob
 from collections import Counter
 from hashlib import sha256
 from pathlib import Path
@@ -21,7 +22,7 @@ def main():
     assert len(old['files'])==6 and len(current['files'])==8 and current==read('oracle-source.json')
     for source in [old,current]:
         for name,expected in source['files'].items():
-            raw=subprocess.check_output(['git','show',source['commit']+':'+name],cwd=root);assert digest(raw)==expected,name
+            raw=historical_blob(root, source['commit']+':'+name);assert digest(raw)==expected,name
     # The independent arithmetic being executed must still equal its recorded source.
     raw=(root/'tests/log_monitoring_oracle.py').read_bytes().replace(b'\r\n',b'\n')
     assert digest(raw)==current['files']['tests/log_monitoring_oracle.py']

@@ -6,6 +6,7 @@ import json
 import sys
 import tarfile
 from integration_evidence import ROOT, capsule, read
+from git_sources import rewrite_project_links
 sys.path.insert(0, str(ROOT))
 from llm.ab_experiment import MODELS, CASES, summarize, reply_text, active_model_pod, prometheus_metrics
 from llm_observability.contracts import StreamObservation
@@ -17,6 +18,8 @@ def current_source_matches(name, original, current):
     """Permit only the declared navigation-link relocation in two documents; all experimental content stays exact."""
     current = current.replace(b'\r\n', b'\n')
     if current == original: return True
+    if name not in {'docs/data-contract.md', 'docs/ml-evaluation-protocol.md'}: return False
+    original = rewrite_project_links(original)
     old = b'[Demo and recovery](demo-walkthrough.md)'
     new = b'[Demo and recovery](operations.md)'
     return (name in {'docs/data-contract.md', 'docs/ml-evaluation-protocol.md'}

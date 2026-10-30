@@ -4,7 +4,7 @@ from hashlib import sha256
 import json,subprocess,ast,sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from scripts.git_sources import git_blobs
+from scripts.git_sources import git_blobs, historical_blob
 
 
 def verified(base,count,native_count):
@@ -77,7 +77,7 @@ def current_source_bindings(seal):
     """First verify immutable as-run Git bytes, then allow only explicitly documented docstring changes in current Python."""
     source_bindings(seal)
     for name in seal['files']:
-        original=subprocess.check_output(['git','show',seal['commit']+':'+name],cwd=ROOT);path=ROOT/name
+        original=historical_blob(ROOT, seal['commit']+':'+name);path=ROOT/name
         current=path.read_bytes()
         assert documentation_equivalent(original,current,path.suffix) or dashboard_labels_equivalent(original,current,name),name
     return len(seal['files'])

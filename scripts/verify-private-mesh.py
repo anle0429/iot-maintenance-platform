@@ -1,4 +1,5 @@
 """Verify original native mTLS identity/authorization receipts, math and isolation with stdlib and Git only."""
+from git_sources import historical_blob
 from pathlib import Path
 from evidence_integrity import current_source_bindings
 from hashlib import sha256
@@ -23,7 +24,7 @@ def main():
     total=0
     for label,commit,count in [('control','818271ee2a0c11800b45bfd8cce2f46e5fe48ac8',7),('first-workload','17e08d7c5fd7f65535a6b896c67de659448235c1',8),('second-workload','bcd757c08a99b0a5ef164c7236baf779c474f946',8),('resume','56dbf0faa7ca34b2d8f2eea183d8888b42d4069a',8)]:
         seal=read('sources/'+label+'.json');assert seal['commit']==commit and len(seal['files'])==count
-        for n,h in seal['files'].items():assert sha256(subprocess.check_output(['git','show',commit+':'+n],cwd=ROOT)).hexdigest()==h;total+=1
+        for n,h in seal['files'].items():assert sha256(historical_blob(ROOT, commit+':'+n)).hexdigest()==h;total+=1
     assert total==31
     current_source_bindings(read('sources/resume.json'))
     pins=json.loads((ROOT/'infra/mesh/assets.json').read_bytes());asset=read('preflight/download.json');assert asset['archive_sha256']==pins['archive_sha256'] and asset['archive_bytes']==30393605 and asset['version']['version']=='1.31.3'

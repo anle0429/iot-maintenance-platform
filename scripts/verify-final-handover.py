@@ -1,4 +1,5 @@
 """Independently verify frozen repository tests, actual Airflow task graphs and refreshed model6 predictions offline."""
+from git_sources import historical_blob, resolve_commit
 from pathlib import Path
 from hashlib import sha256
 from datetime import datetime,timezone
@@ -24,7 +25,7 @@ def repository():
     audit=read('frozen/audit/verification.json');assert audit['passed'] and audit['python_files']==307 and audit['definitions']==1637 and audit['missing_docstrings']==audit['forbidden_tracked_paths']==[]
     edits=read('docstring-edits.json');assert edits['added_docstrings']==419 and len(edits['files'])==75 and sum(r['added_docstrings'] for r in edits['files'] if r['documentation_only'])==418
     for row in edits['files']:
-        old=subprocess.check_output(['git','show',edits['base_commit']+':'+row['path']],cwd=ROOT);new=subprocess.check_output(['git','show',seal['commit']+':'+row['path']],cwd=ROOT)
+        old=historical_blob(ROOT, edits['base_commit']+':'+row['path']);new=historical_blob(ROOT, seal['commit']+':'+row['path'])
         assert sha256(old).hexdigest()==row['before_git_sha256'] and sha256(new).hexdigest()==row['after_sha256']
         if row['documentation_only']:assert documentation_equivalent(old,new,'.py'),row['path']
         else:assert row['path']=='scripts/verify-ab-monitoring.py' and row['added_docstrings']==1
@@ -77,7 +78,7 @@ def release():
     """Verify the published PC clone's full test suite and six checks without claiming a new Linux or laptop deployment."""
     base=ROOT/'docs/evidence/final-release-pc';read=payload(base,14);report=read('verification.json')
     assert report['passed'] and report['clone_clean'] and len(report['results'])==6 and all(v==0 for v in report['results'].values())
-    assert subprocess.check_output(['git','rev-parse',report['source_commit']+'^{commit}'],cwd=ROOT,text=True).strip()==report['source_commit']
+    assert len(resolve_commit(ROOT, report['source_commit'])) == 40
     suite=ET.parse(base/'junit.xml');assert len(suite.findall('.//testcase'))==743 and len(suite.findall('.//skipped'))==7
     assert int(suite.find('testsuite').attrib['tests'])==1040 and not suite.findall('.//failure') and not suite.findall('.//error')
     console=(base/'pytest.stdout').read_bytes();assert b'736 passed, 7 skipped' in console and b'297 subtests passed' in console

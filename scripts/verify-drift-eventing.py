@@ -1,4 +1,5 @@
 """Audit native Eventing CI, production/reference lineage, exact delivery/replay and original paced load reports offline."""
+from git_sources import historical_blob
 from datetime import datetime,timezone
 from hashlib import sha256
 from pathlib import Path
@@ -42,7 +43,7 @@ def main():
         if path.name=='actual-workspace-after.json':continue
         seal=json.loads(path.read_bytes())
         for name,wanted in seal['files'].items():
-            raw=subprocess.check_output(['git','show',seal['commit']+':'+name],cwd=ROOT);assert sha256(raw).hexdigest()==wanted
+            raw=historical_blob(ROOT, seal['commit']+':'+name);assert sha256(raw).hexdigest()==wanted
     assert read('sources/actual-workspace-after.json')['files']==source['files']
     for number in [1,2,3]:
         build=read(f'jenkins/build-{number}.json');assert build['number']==number and build['building'] is False and build['result']==('SUCCESS' if number==3 else 'FAILURE')
@@ -107,7 +108,7 @@ def main():
     load=read('load/fixed1/verification.json');assert load['passed'] is True and load['api_source_commit']==commit
     loadsource=read('load/fixed1/source-manifest.json')
     for n,h in loadsource['files'].items():
-        assert sha256(subprocess.check_output(['git','show',loadsource['commit']+':'+n],cwd=ROOT)).hexdigest()==h==sha256((BASE/'load/fixed1/source'/n).read_bytes()).hexdigest()
+        assert sha256(historical_blob(ROOT, loadsource['commit']+':'+n)).hexdigest()==h==sha256((BASE/'load/fixed1/source'/n).read_bytes()).hexdigest()
     requests=0
     for users in [1,10]:
         summary=read(f'load/fixed1/users-{users}-summary.json');text=(BASE/f'load/fixed1/users-{users}.html').read_text(encoding='utf-8')

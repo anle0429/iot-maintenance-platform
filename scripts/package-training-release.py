@@ -1,4 +1,5 @@
 """Export only committed training application, CI configuration and tests for a trusted private Jenkins release."""
+from git_sources import resolve_revision
 import argparse
 import ast
 from hashlib import sha256
@@ -13,7 +14,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def package(commit,output):
     """Keep all runtime imports sealed and preserve previous packets and working changes."""
     git=lambda *args:subprocess.check_output(['git',*args],cwd=ROOT)
-    resolved=git('rev-parse','--verify',commit+'^{commit}').decode().strip()
+    resolved=resolve_revision(ROOT, commit)
     contract=ast.parse(git('show',resolved+':ml/versioned_contract.py').decode())
     guarded=next(ast.literal_eval(node.value) for node in contract.body if isinstance(node,ast.Assign)
         and any(isinstance(target,ast.Name) and target.id=='SOURCE_FILES' for target in node.targets))

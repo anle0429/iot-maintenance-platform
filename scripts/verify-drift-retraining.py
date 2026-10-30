@@ -1,4 +1,5 @@
 """Independently audit native Airflow-to-KFP admission, PSI inputs, complete training lineage and replay guards."""
+from git_sources import historical_blob
 from collections import Counter, defaultdict
 from datetime import datetime
 from hashlib import sha256
@@ -43,7 +44,7 @@ def git_source(source,packet=False):
     with tarfile.open(fileobj=buffer,mode='w') as archive:
         for name,expected in sorted(source['files'].items()):
             path=PurePosixPath(name);assert not path.is_absolute() and '..' not in path.parts
-            raw=subprocess.check_output(['git','show',source['commit']+':'+name],cwd=ROOT)
+            raw=historical_blob(ROOT, source['commit']+':'+name)
             assert digest(raw)==expected,name
             item=tarfile.TarInfo('tree/'+name);item.mode=0o644;item.size=len(raw);archive.addfile(item,io.BytesIO(raw))
     if packet:assert digest(buffer.getvalue())==source['archive_sha256']

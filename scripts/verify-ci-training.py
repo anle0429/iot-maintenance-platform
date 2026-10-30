@@ -1,4 +1,5 @@
 """Audit retained native Jenkins training evidence and historical Git source without starting services or retraining."""
+from git_sources import historical_blob
 from datetime import datetime,timedelta
 from hashlib import sha256
 from pathlib import Path,PurePosixPath
@@ -24,7 +25,7 @@ def main():
     packet=io.BytesIO()
     with tarfile.open(fileobj=packet,mode='w') as archive:
         for name,expected in sorted(source['files'].items()):
-            raw=subprocess.check_output(['git','show',commit+':'+name],cwd=root);assert digest(raw)==expected,name
+            raw=historical_blob(root, commit+':'+name);assert digest(raw)==expected,name
             member=tarfile.TarInfo('tree/'+name);member.size=len(raw);member.mode=0o644;archive.addfile(member,io.BytesIO(raw))
     assert len(packet.getvalue())==481280 and digest(packet.getvalue())==source['archive_sha256']=='58ab60b566a7278463a8cf811a9f0e9543d3a0e037b14e48b40509d6394c5526'
     build=read('ci/build.json');deploy=read('ci/deployment.json');snapshot=read('source-snapshot.json');pre=read('ci/preflight.json')

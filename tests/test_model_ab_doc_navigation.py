@@ -16,6 +16,19 @@ class NavigationBoundaryTests(unittest.TestCase):
         for name in ['docs/data-contract.md', 'docs/ml-evaluation-protocol.md']:
             self.assertTrue(MODULE.current_source_matches(name, old, new))
 
+    def test_filtered_source_url_and_footer_only(self):
+        """Accept mapped own-repository source URLs while rejecting changed contract text or foreign URLs."""
+        from git_sources import history_manifest, rewrite_project_links
+        old_id = next(iter(history_manifest(ROOT)['commits']))
+        old = (b'target=(t,t+1h]\nhttps://github.com/anle0429/iot-maintenance-platform/blob/'
+               + old_id.encode() + b'/docs/data-contract.md\n[Demo and recovery](demo-walkthrough.md)\n')
+        new = rewrite_project_links(old).replace(b'(demo-walkthrough.md)', b'(operations.md)')
+        for name in ['docs/data-contract.md', 'docs/ml-evaluation-protocol.md']:
+            self.assertTrue(MODULE.current_source_matches(name, old, new))
+            self.assertFalse(MODULE.current_source_matches(name, old, new.replace(b'1h', b'2h')))
+            self.assertFalse(MODULE.current_source_matches(name, old, new.replace(b'anle0429', b'other')))
+        self.assertFalse(MODULE.current_source_matches('llm/ab_experiment.py', old, new))
+
     def test_contract_edits_and_other_paths_are_rejected(self):
         """A changed horizon, extra text, repeated footer or another file cannot use the navigation exception."""
         old = b'target=(t,t+1h]\n[Demo and recovery](demo-walkthrough.md)\n'

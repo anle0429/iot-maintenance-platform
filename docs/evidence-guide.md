@@ -27,6 +27,8 @@ $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -B -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-This runs the same 59 recorded-evidence checks and the 117-row requirement map. It starts no platform service and sends no model request. A successful offline check establishes the captured result and its scope, not current endpoint readiness or a mentor-awarded grade.
+This runs the 59 recorded-evidence checks plus the history migration check and the 117-row requirement map. It starts no platform service and sends no model request. A successful offline check establishes the captured result and its scope, not current endpoint readiness or a mentor-awarded grade.
 
 Images and native measurements were not edited. Failed predecessor tasks, censored observations, wrong model answers, mixed startup timings and trace warnings remain part of the evidence. Runtime credentials, Terraform state, datasets, weights and personal learning notes are excluded from the submission.
+
+Original source commit identities are resolved through the authenticated [history migration map](history-rewrite.md). The recorded receipt and payload bytes remain unchanged.

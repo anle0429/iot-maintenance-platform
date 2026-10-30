@@ -1,4 +1,5 @@
 """Recalculate the sealed native API metrics, trace graph, regression gate and rollout evidence offline."""
+from git_sources import historical_blob
 from collections import Counter, defaultdict
 from datetime import datetime
 from hashlib import sha256
@@ -36,7 +37,7 @@ def source(name):
     """Bind recorded source hashes to actual Git objects, without trusting the working tree."""
     seal = read(name)
     for path, wanted in seal['files'].items():
-        raw = subprocess.check_output(['git', 'show', seal['commit'] + ':' + path], cwd=ROOT)
+        raw = historical_blob(ROOT, seal['commit'] + ':' + path)
         assert sha256(raw).hexdigest() == wanted, path
     return seal
 
@@ -199,7 +200,7 @@ def main():
     assert seal == read('native/source/api.json') and seal['files'] == read('gate/source-after.json')['files']
     source('native/source/config.json')
     probe = read('native/workload/verification.json')
-    assert sha256(subprocess.check_output(['git', 'show', probe['workload_commit'] + ':tests/load/api_observability.py'], cwd=ROOT)).hexdigest() == probe['workload_source_sha256']
+    assert sha256(historical_blob(ROOT, probe['workload_commit'] + ':tests/load/api_observability.py')).hexdigest() == probe['workload_source_sha256']
     meta = read('gate/current/observed.py.meta')['exit_code_by_key']
     assert len(meta) == 250 and Counter(meta.values()) == {1: 221, 0: 29}
     assert all(k.startswith('services.observed.') and re.search(r'__mutmut_\d+$', k) for k in meta)
