@@ -5,7 +5,7 @@ from hashlib import sha256
 from pathlib import Path
 from urllib.request import Request,build_opener,ProxyHandler
 from urllib.error import HTTPError
-import argparse,json,os,subprocess,sys,time
+import argparse,base64,json,os,subprocess,sys,time
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from infra.llm_ab_models import monitoring_configuration,MODELS
 
@@ -84,8 +84,14 @@ def run(args):
             http('metrics-'+model,'/metrics?model='+model)
         primary_elapsed=time.monotonic()-began
         router=get('router-service','service','iot-router-epp','-n','iot-llm')
-        with opener.open('http://'+router['spec']['clusterIP']+':8081/health/ready',timeout=30) as response:ready=response.read();assert response.status==200
-        (out/'active-observer-ready.json').write_bytes(ready)
+        private=json.loads(subprocess.check_output(k+['get','secret','iot-llm-observer-client','-n','iot-llm','-o','json'],timeout=30,stderr=subprocess.PIPE))
+        token=base64.b64decode(private['data']['API_KEY']).decode();private=None
+        body={'model':MODELS[0],'messages':[{'role':'user','content':'Name one common industrial pump sensor.'}],'max_tokens':16,'temperature':0,'seed':7,'cache_prompt':False}
+        request=Request('http://'+router['spec']['clusterIP']+':8081/v1/chat/completions',data=json.dumps(body).encode(),
+            headers={'Content-Type':'application/json','Authorization':'Bearer '+token})
+        with opener.open(request,timeout=180) as response:active=response.read(1048576);assert response.status==200
+        (out/'active-primary-response.json').write_bytes(active);accepted=json.loads(active)
+        assert accepted['model']==MODELS[0] and accepted['usage']['completion_tokens']>0 and accepted['choices'][0]['message']['content']
         reload('monitoring-final',(out/'prometheus-planned.json').read_bytes())
         for attempt in range(20):
             with opener.open('http://127.0.0.1:19091/api/v1/targets',timeout=15) as response:raw=response.read()
@@ -103,7 +109,7 @@ def run(args):
         command('gpu-after',k+['exec','deployment/iot-model-gpu','-n','iot-llm','--','nvidia-smi','--query-gpu=name,memory.total,memory.used,utilization.gpu','--format=csv,noheader'])
         report={'passed':True,'checked_utc':datetime.now(timezone.utc).isoformat(),'source_commit':source['commit'],'models':list(MODELS),
             'deployment_uid_preserved':True,'service_spec_preserved':True,'observer_and_adapter_specs_preserved':True,
-            'upgrade_to_both_warm_seconds':primary_elapsed,'primary_readiness_status':200,'model_specific_targets_up':3,'prometheus_main_pid':pid,
+            'upgrade_to_both_warm_seconds':primary_elapsed,'authenticated_primary_generation_status':200,'model_specific_targets_up':3,'prometheus_main_pid':pid,
             'scope':'Two pinned artifact sizes in one existing one-GPU server-router container, explicit local presets, native model-specific replies/metrics and preserved primary route. Recreate has downtime; this is not an A/B outcome or zero-downtime claim.'}
         save('verification.json',report);print(json.dumps(report))
     except Exception as error:
