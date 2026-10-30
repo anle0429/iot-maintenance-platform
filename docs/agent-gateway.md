@@ -49,7 +49,7 @@ The provisioning step reused the existing credential bytes and wrote two dedicat
 
 Each consumer logged in over CA-verified HTTPS, obtained a 300-second token, read its own version-1 secret and revoked the token. Reads of the other agent path, Airflow credentials and the older gateway path returned 403. Reading with the revoked token also returned 403. The roles have no default policy; their maximum token TTL is 900 seconds and SecretIDs have bounded lifetime and use counts.
 
-All four Kubernetes Secret UIDs and credential bytes remained unchanged. This milestone demonstrates actual Vault consumers and restricted access. Automatic rotation, continuous agent injection, Vault high availability and the rubric's separate centralized-secret UI capture remain outside this evidence.
+All four Kubernetes Secret UIDs and credential bytes remained unchanged. This milestone demonstrates actual Vault consumers and restricted access. Automatic rotation, continuous agent injection and Vault high availability remain outside this evidence. The later [native metadata UI capture](vault-agent-ui.md) supplies the requested interface evidence while preserving this consumer test's original scope.
 
 ## Inspect the recorded result first
 

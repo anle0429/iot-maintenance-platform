@@ -214,3 +214,9 @@ docs/evidence/mcp-gateway/** -text -whitespace
 
 # Preserve the official coverage export, original CI sources and seven untouched technique captures.
 docs/evidence/mcp-quality-ui/** -text -whitespace
+
+# Preserve original infrastructure log/source captures without changing bytes.
+docs/evidence/llm-iac-ui/** -text -whitespace
+
+# Preserve original native Vault metadata receipts and untouched UI captures.
+docs/evidence/vault-agent-ui/** -text -whitespace

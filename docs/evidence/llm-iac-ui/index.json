@@ -1,0 +1,31 @@
+{
+  "scope": "Original execution logs displayed unchanged in a local plain-text browser view. Historical Terraform no-op and native Ansible executions; no new apply/configuration run for capture.",
+  "captures": [
+    {
+      "name": "terraform-noop",
+      "source": "docs/evidence/gpu-inference/cloud/gpu-worker-29r-noop-plan.txt",
+      "source_sha256": "378a72df0ffb199a15a115a4bb20a46e1be56c1450891b7b9b8531826350876c",
+      "capture_url": "http://127.0.0.1:21949/terraform-noop.txt",
+      "unedited": true,
+      "format": "JPEG"
+    },
+    {
+      "name": "ansible-runtime",
+      "source": "docs/evidence/gpu-inference/runtime/native/ansible.stdout",
+      "source_sha256": "2297e6a2a0b311baa8121e756d6d774e2fb73e8341f152d31e67ac1e5ae53f3b",
+      "capture_url": "http://127.0.0.1:21949/ansible-runtime.txt",
+      "unedited": true,
+      "format": "JPEG"
+    },
+    {
+      "name": "ansible-node-role",
+      "source": "docs/evidence/gpu-agents/gpu/native/ansible.stdout",
+      "source_sha256": "91ce72410cb7beea32a5035a1e016022bf1f2a6d8300a43595dc86e9df824353",
+      "capture_url": "http://127.0.0.1:21949/ansible-node-role.txt",
+      "unedited": true,
+      "format": "JPEG"
+    }
+  ],
+  "cloud_resources_added": false,
+  "configuration_rerun": false
+}

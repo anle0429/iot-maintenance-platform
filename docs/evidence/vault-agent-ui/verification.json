@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "native_unit_tests": 5,
+  "metadata_readbacks": 2,
+  "guarded_negative_cases": 4,
+  "vault_service_unchanged": true,
+  "root_credential_used_only_in_memory": true,
+  "secret_values_read": false,
+  "vault_policies_or_roles_written": false,
+  "scope": "Actual native Vault UI and later safe operator readbacks. Operator root login is separate from earlier narrowly scoped AppRole consumer tests. Metadata only; no secret values in capture."
+}

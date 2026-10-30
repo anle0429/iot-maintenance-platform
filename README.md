@@ -129,6 +129,7 @@ The RAG pipeline also [checks corpus embedding distance](docs/rag-corpus-drift.m
 | Feature dataset | 3,456,000 snapshots over 60 days; 3,132,184 training rows after protocol filters | [Feature dataset](docs/medium-feature-dataset.md) |
 | Streaming stores | 5,760 windows and 57,600 readings across 20 machines, written and replayed through offline/online stores | [Window cohort](docs/window-cohort.md) |
 | Inference | Model version 6 demo: 195 valid predictions and 5 stopped-machine HTTP 409 responses across 200 machines | [Serving handover](docs/final-handover.md) |
+| Infrastructure and secrets | Original Terraform/Ansible run captures; native Vault paths, metadata and current version, with restricted consumers checked separately | [Infrastructure](docs/llm-infrastructure-evidence.md) · [Vault UI](docs/vault-agent-ui.md) |
 | API testing and design | 132 passing MCP cases, official coverage report, strict source-bound mutation reuse, fixture/boundary/property captures and application factory | [Testing techniques](docs/mcp-quality-evidence.md) · [Implemented pattern](docs/mcp-application-design.md) |
 | PC verification | Source-bound offline checks validate runtime artifacts, original captures and both final rubric presentations | [Final audit and commands](docs/final-audit.md) |
 | CPU LLM inference | Same-workload median response 5.047 → 1.682 s with 1 → 4 threads; actual llm-d routing and a structured tool-selection response | [Inference report](docs/llm-inference.md) |

@@ -1,6 +1,6 @@
 # Final rubric audit
 
-The selected submission includes **final ML and final LLM/agents**. The full coursework remains incomplete. Native workflows have recorded evidence; the remaining requested captures and final row-by-row reconciliation are listed below. Passing an artifact checker does not award a rubric score.
+The selected submission includes **final ML and final LLM/agents**. The full coursework remains incomplete. Native workflows have recorded evidence; the remaining final row-by-row reconciliation and presentation/demo handover are listed below. Passing an artifact checker does not award a rubric score.
 
 The supplied workbook contains 57 weighted ML requirements and 60 weighted LLM requirements, with 100 source points per sheet. Original workbook cells, merged ranges and reviewed English translations are pinned separately. The [ML tracker](final-rubric-tracker.md), [LLM tracker](final-llm-rubric-tracker.md) and [implementation map](final-audit-matrix.md) retain the requirement-level detail.
 
@@ -13,6 +13,8 @@ The supplied workbook contains 57 weighted ML requirements and 60 weighted LLM r
 | Knowledge and delivery | [Native RAG governance](rag-orchestration.md), [RAG delivery](ci-rag.md) and [three separate MCP/agent CI jobs](ci-agents.md). These are actual native releases, not YAML-only deployment claims. |
 | Testing techniques and design | [Seven original CI/source captures](mcp-quality-evidence.md) show 132 executed tests, fixtures/mocks, boundary partitions, source-bound mutation reuse and the replay property. [Application factory and dependency injection](mcp-application-design.md) share the production construction path. |
 | API quality | [MCP quality](mcp-quality.md) retains coverage and the 681/850 mutation result; [GPU adapter checks](gpu-agent-routing.md) retain 116/140, including non-test failures in the denominator. Unchanged-source reuse is explicit; these gates are not rerun for screenshots. |
+| Infrastructure captures | [Original Terraform no-op and successful Ansible runtime/cluster role recaps](llm-infrastructure-evidence.md), tied to retained resource and worker identities. |
+| Centralized-secret interface | [Native Vault paths, metadata and current version](vault-agent-ui.md), with root operator inspection distinguished from scoped AppRole consumers. |
 | Operations and security | [Private agent interfaces and scoped Vault consumers](agent-gateway.md), [native monitoring and real GPU load](llm-monitoring-demo.md), and a [separate policy-frequency window](llm-policy-window.md). Trace-context warnings remain visible. |
 | Comparisons | [Model-artifact A/B](llm-model-ab.md) and [agent-configuration A/B](agent-configuration-ab.md) preserve actual replies, denominators, timings and failed predecessors. The small studies do not establish general model quality. |
 | Researched extensions | [OPA configuration admission](agent-admission-policy.md) and [document-weighted corpus MMD](rag-corpus-drift.md), with accepted and intentionally rejected native releases. |
@@ -21,13 +23,11 @@ The supplied workbook contains 57 weighted ML requirements and 60 weighted LLM r
 
 ## Remaining deliverables
 
-- L48–L49: requested Terraform and Ansible run captures, tied to the retained CPU/GPU resources and agent deployment.
-- L58: a native Vault UI capture that demonstrates centralized shared secrets without exposing values.
 - Reconcile all original requirements against current sources, evidence and delivery files, then complete the presentation/demo handover. Do not infer completion from the number of green checks.
 
 ## Verification method
 
-The maintained audit registers **56 read-only artifact checkers**, plus nine separately inventoried native capsules. It checks original rubric wording/weights, source and payload identities and linked evidence. Each checker must cover the requirement it supports; a successful schema check or a 200 page alone is insufficient for a deployment or authenticated interaction claim.
+The maintained audit registers **58 read-only artifact checkers**, plus nine separately inventoried native capsules. It checks original rubric wording/weights, source and payload identities and linked evidence. Each checker must cover the requirement it supports; a successful schema check or a 200 page alone is insufficient for a deployment or authenticated interaction claim.
 
 The [retrieval HTTPS checker](../scripts/verify-mcp-gateway.py) authenticates 198 original native payloads, 24 historical source bindings, 13 HTTP outcomes, three matching MCP tool results and two original interface captures. Screenshot response values and raw-body digests are reconciled with the native TLS audit. The original failed deployments and the earlier checkpoint metadata remain intact.
 

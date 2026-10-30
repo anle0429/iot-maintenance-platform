@@ -1,0 +1,94 @@
+Browser tab: 9, Title: "Vault", URL: "http://127.0.0.1:21950/ui/vault/dashboard".
+1 AXWebArea Vault, URL: 127.0.0.1:21950/ui/vault/dashboard
+	35 container
+		36 link Description: HashiCorp Vault Home Menu, Value: 127.0.0.1:21950/ui/vault/dashboard, ID: ember21
+		37 container hds-menu-content-ember20
+			38 button Console toggle
+			39 button (collapsed) Description: help menu, Secondary Actions: Expand
+			40 button (collapsed) Description: User menu, Secondary Actions: Expand
+	41 container
+		42 heading Application local navigation, Value: 2, ID: hds-app-side-nav-header
+			43 text Application local navigation
+		44 button (expanded) Secondary Actions: Collapse
+		45 container Cluster Navigation Links
+			46 content list Vault Monitoring
+				47 text Vault
+				48 link Description: Dashboard, Value: 127.0.0.1:21950/ui/vault/dashboard, ID: nav-dashboard
+				49 link Description: Secrets, Value: 127.0.0.1:21950/ui/vault/secrets-engines, ID: nav-secrets
+				50 link Description: Resilience and recovery, Value: 127.0.0.1:21950/ui/vault/resilience-recovery, ID: nav-resilience-recovery
+				51 link Description: Access control, Value: 127.0.0.1:21950/ui/vault/policies/acl, ID: nav-access-control
+				52 link Description: Operational tools, Value: 127.0.0.1:21950/ui/vault/tools/wrap, ID: nav-operational-tools
+				53 text Monitoring
+				54 link Description: Client count, Value: 127.0.0.1:21950/ui/vault/clients, ID: nav-client-count
+				55 link Description: Raft storage, Value: 127.0.0.1:21950/ui/vault/storage/raft, ID: nav-raft-storage
+		56 link Description: Submit feedback, Value: forms.monday.com/forms/bf07ba387fe3334491f6953a9a311efa?r=use1
+	2 container app-main-content
+		57 container Warning
+			58 text Warning
+			59 text You have logged in with a root token. As a security precaution, this root token will not be stored by your browser and you will need to re-authenticate after the window is closed or refreshed.
+			60 button Dismiss
+		61 container
+			62 container
+				63 heading Vault v2.2.1, Value: 1, ID: ember43
+					64 text Vault v2.2.1
+				65 text Review the status of your Vault cluster, including: currently enabled secrets engines and authentication methods, and system configurations.
+			66 container ember45
+				67 container ember46
+					68 container ember47
+						69 text Secrets engines
+						70 link Description: View all, Value: 127.0.0.1:21950/ui/vault/secrets-engines, ID: dashboard-secrets-engine-view-all
+					71 table Five secrets engines
+						72 text Five secrets engines
+						73 row
+							74 cell
+								75 text Path
+							76 cell
+								77 text Type
+							78 cell
+								79 text Accessor
+						80 row
+							81 cell
+								82 image cubbyhole type backend, ID: icon-ember54
+								83 link Description: cubbyhole/, Value: 127.0.0.1:21950/ui/vault/secrets-engines/cubbyhole/list, ID: ember55
+							84 cell
+								85 text cubbyhole
+							86 cell
+								87 text cubbyhole_061967db
+						88 row
+							89 cell
+								90 image kv type backend, ID: icon-ember56
+								91 link Description: iot/, Value: 127.0.0.1:21950/ui/vault/secrets-engines/iot/kv/list, ID: ember57
+							92 cell
+								93 text kv
+							94 cell
+								95 text kv_c25cd32e
+				96 container ember58
+					97 text Quick actions
+					98 container
+						99 link Description: Create ACL policy, Value: 127.0.0.1:21950/ui/vault/policies/acl/create, ID: ember60
+						100 link Description: Secrets sync, Value: 127.0.0.1:21950/ui/vault/sync/secrets/overview, ID: ember62
+						101 link Description: API explorer, Value: 127.0.0.1:21950/ui/vault/tools/api-explorer, ID: ember64
+						102 link Description: Set up MFA, Value: 127.0.0.1:21950/ui/vault/access/mfa/methods/create, ID: ember66
+						103 link Description: Usage metrics, Value: 127.0.0.1:21950/ui/vault/usage-reporting, ID: ember68
+					104 text Select secret engine mount
+					105 text Supported engines include databases, KV version 2, and PKI.
+					106 combo box (collapsed) Select secret engine mount, Value: Select a mount, ID: ember70, Secondary Actions: Expand
+						107 text Select a mount
+					108 text Learn more
+					109 text Explore the features of Vault and learn advance practices with the following tutorials and documentation.
+					110 link Description: Secrets Management, Value: developer.hashicorp.com/vault/tutorials/secrets-management
+					111 link Description: Monitor & Troubleshooting, Value: developer.hashicorp.com/vault/tutorials/monitoring
+					112 link Description: Build your own Certificate Authority (CA), Value: developer.hashicorp.com/vault/tutorials/secrets-management/pki-engine
+		24 content list Footer items
+			25 link Description: Vault 2.2.1, Value: github.com/hashicorp/vault/blob/main/CHANGELOG.md#221
+			26 link Description: Upgrade to Vault Enterprise, Value: hashicorp.com/products/vault/trial?source=vaultui
+			27 link Description: Documentation, Value: developer.hashicorp.com/vault
+			28 content list Legal links
+				29 link Description: Support, Value: hashicorp.com/support
+				30 link Description: Terms, Value: hashicorp.com/terms-of-service
+				31 link Description: Privacy, Value: hashicorp.com/privacy
+				32 link Description: Security, Value: hashicorp.com/security
+				33 link Description: Accessibility, Value: hashicorp.com/accessibility
+		34 text © 2026 HashiCorp, an IBM Company
+
+The focused UI element is 1 AXWebArea Vault, URL: 127.0.0.1:21950/ui/vault/dashboard

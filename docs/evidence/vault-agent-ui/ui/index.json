@@ -1,0 +1,32 @@
+{
+  "captures": [
+    {
+      "name": "dashboard",
+      "url": "http://127.0.0.1:21950/ui/vault/dashboard",
+      "format": "JPEG",
+      "unedited": true
+    },
+    {
+      "name": "agent-paths",
+      "url": "http://127.0.0.1:21950/ui/vault/secrets-engines/iot/kv/list/agents/",
+      "format": "JPEG",
+      "unedited": true
+    },
+    {
+      "name": "services-version",
+      "url": "http://127.0.0.1:21950/ui/vault/secrets-engines/iot/kv/agents%2Fservices/metadata/versions",
+      "format": "JPEG",
+      "unedited": true
+    },
+    {
+      "name": "services-metadata",
+      "url": "http://127.0.0.1:21950/ui/vault/secrets-engines/iot/kv/agents%2Fservices/metadata",
+      "format": "JPEG",
+      "unedited": true
+    }
+  ],
+  "scope": "Native Vault UI through loopback/IAP and CA-verified TLS. Existing root operator login for metadata capture; this is separate from native AppRole consumer authorization. No secret data tab opened. Root login warning retained. Window closed after capture; temporary PC credential file deleted.",
+  "screenshots_edited": false,
+  "secret_values_displayed": false,
+  "root_browser_session_closed": true
+}
