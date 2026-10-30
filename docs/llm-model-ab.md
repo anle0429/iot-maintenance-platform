@@ -75,3 +75,7 @@ To repeat inference on the retained VM, first check its approved session, both l
 - Study B completed one warm-up but its client mishandled a null SSE role frame. The raw response and clocks are retained. The failure occurred before its request-summary row was written; no replacement row was manufactured.
 
 These predecessors explain the corrections. Their results are not mixed into the accepted C batch.
+
+## Source navigation after repository cleanup
+
+The original model-study inputs, request bodies, evaluation cases and source hashes remain in the unchanged native archive. Two maintained input documents now point their single “Demo and recovery” footer link to `operations.md`. The verifier permits only that exact link substitution in `data-contract.md` and `ml-evaluation-protocol.md`; any contract, horizon, other text or executable-source change still fails. This documentation move is not a new model run.

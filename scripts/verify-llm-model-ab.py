@@ -13,6 +13,16 @@ from llm_observability.contracts import StreamObservation
 MANIFEST = '36ac8a66135aab39a3d6c644215b5cb10654ce3fa4899d9083bca01fb901e9a4'
 
 
+def current_source_matches(name, original, current):
+    """Permit only the declared navigation-link relocation in two documents; all experimental content stays exact."""
+    current = current.replace(b'\r\n', b'\n')
+    if current == original: return True
+    old = b'[Demo and recovery](demo-walkthrough.md)'
+    new = b'[Demo and recovery](operations.md)'
+    return (name in {'docs/data-contract.md', 'docs/ml-evaluation-protocol.md'}
+            and original.count(old) == 1 and current == original.replace(old, new, 1))
+
+
 def verify():
     """Authenticate original attempts and independently reconcile every accepted request with its raw response and clock."""
     base, count = capsule('llm-model-ab', MANIFEST)
@@ -44,7 +54,7 @@ def verify():
             original = bodies[prefix + 'tree/' + name]
             assert sha256(original).hexdigest() == pin, name
             if folder in ['ab-models-a617c658', 'model-study-0c8d00c2', 'ab-view-92b667d3']:
-                assert (ROOT / name).read_bytes().replace(b'\r\n', b'\n') == original, name
+                assert current_source_matches(name, original, (ROOT / name).read_bytes()), name
     prefix = 'native/llm-model-study-30c/'
     rows = native(prefix + 'requests.json'); assert native(prefix + 'cases.json') == CASES
     for row in rows:
