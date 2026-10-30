@@ -52,7 +52,7 @@
           "refId": "A",
           "expr": "1 - avg(rate(node_cpu_seconds_total{job=\"iot-llm-gpu-host\",mode=\"idle\"}[1m]))",
           "editorMode": "code",
-          "legendFormat": "{{device}}",
+          "legendFormat": "GPU worker",
           "range": true
         }
       ],
@@ -96,7 +96,7 @@
           "refId": "A",
           "expr": "1 - node_memory_MemAvailable_bytes{job=\"iot-llm-gpu-host\"} / node_memory_MemTotal_bytes{job=\"iot-llm-gpu-host\"}",
           "editorMode": "code",
-          "legendFormat": "{{device}}",
+          "legendFormat": "GPU worker",
           "range": true
         }
       ],
@@ -140,7 +140,7 @@
           "refId": "A",
           "expr": "node_filesystem_avail_bytes{job=\"iot-llm-gpu-host\",mountpoint=\"/\"}",
           "editorMode": "code",
-          "legendFormat": "{{device}}",
+          "legendFormat": "GPU worker",
           "range": true
         }
       ],
@@ -184,7 +184,7 @@
           "refId": "A",
           "expr": "node_filesystem_size_bytes{job=\"iot-llm-gpu-host\",mountpoint=\"/\"}",
           "editorMode": "code",
-          "legendFormat": "{{device}}",
+          "legendFormat": "GPU worker",
           "range": true
         }
       ],
@@ -228,7 +228,7 @@
           "refId": "A",
           "expr": "rate(node_disk_read_bytes_total{job=\"iot-llm-gpu-host\"}[1m])",
           "editorMode": "code",
-          "legendFormat": "{{device}}",
+          "legendFormat": "GPU worker",
           "range": true
         }
       ],
@@ -272,7 +272,7 @@
           "refId": "A",
           "expr": "rate(node_disk_written_bytes_total{job=\"iot-llm-gpu-host\"}[1m])",
           "editorMode": "code",
-          "legendFormat": "{{device}}",
+          "legendFormat": "GPU worker",
           "range": true
         }
       ],
@@ -316,7 +316,7 @@
           "refId": "A",
           "expr": "rate(node_network_receive_bytes_total{job=\"iot-llm-gpu-host\",device=\"ens5\"}[1m])",
           "editorMode": "code",
-          "legendFormat": "{{device}}",
+          "legendFormat": "GPU worker",
           "range": true
         }
       ],
@@ -360,7 +360,7 @@
           "refId": "A",
           "expr": "rate(node_network_transmit_bytes_total{job=\"iot-llm-gpu-host\",device=\"ens5\"}[1m])",
           "editorMode": "code",
-          "legendFormat": "{{device}}",
+          "legendFormat": "GPU worker",
           "range": true
         }
       ],
