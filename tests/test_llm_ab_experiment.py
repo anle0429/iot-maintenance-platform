@@ -1,11 +1,22 @@
 """Check known labeling boundaries, ambiguous model answers and the complete paired comparison denominator."""
 from copy import deepcopy
 import json,unittest
-from llm.ab_experiment import CASES,MODELS,request_body,score_answer,summarize,prometheus_metrics
+from llm.ab_experiment import CASES,MODELS,request_body,score_answer,summarize,prometheus_metrics,active_model_pod
 
 
 class ModelExperimentTests(unittest.TestCase):
     """Reject truncated, duplicated, incorrectly typed or selectively omitted model outcomes."""
+    def test_terminal_diagnostics_are_retained_but_pending_replacements_are_not_hidden(self):
+        """An old failed Pod cannot serve requests; an extra live/pending model or changed process invalidates a paired experiment."""
+        container={'name':'model','image':'pinned-image','args':['--models-preset','/config/models.ini']}
+        deployment={'spec':{'template':{'spec':{'containers':[container]}}}}
+        running={'metadata':{'uid':'actual-current'},'status':{'phase':'Running','containerStatuses':[{'ready':True}]},'spec':{'containers':[deepcopy(container)]}}
+        terminal={'metadata':{'uid':'retained-failure'},'status':{'phase':'Failed','reason':'UnexpectedAdmissionError'}}
+        objects={'items':[terminal,running]};self.assertIs(active_model_pod(objects,deployment),running);self.assertEqual(len(objects['items']),2)
+        for altered in [{'items':[terminal]},{'items':[running,deepcopy(running)]},{'items':[running,{'metadata':{},'status':{'phase':'Pending'}}]}]:
+            with self.assertRaises(ValueError):active_model_pod(altered,deployment)
+        wrong=deepcopy(objects);wrong['items'][1]['spec']['containers'][0]['args']=['foreign']
+        with self.assertRaises(ValueError):active_model_pod(wrong,deployment)
     def test_four_hand_checked_contract_cases(self):
         """The inclusive upper horizon, true negative, censored observation and downtime are distinct decisions."""
         self.assertEqual([v['expected']['label'] for v in CASES],[1,0,None,None])

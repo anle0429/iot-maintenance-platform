@@ -23,6 +23,17 @@ RULES=('Classify only the supplied synthetic pump observation. The horizon is th
        'Return exactly one JSON object with keys label, machine_operating and reason. No additional fields or prose.')
 
 
+def active_model_pod(objects,deployment):
+    """Retain terminal diagnostics while requiring exactly one current ready model Pod, with no pending concurrent replacement."""
+    active=[p for p in objects['items'] if p['status']['phase'] not in {'Failed','Succeeded'} and not p['metadata'].get('deletionTimestamp')]
+    if len(active)!=1:raise ValueError('Require exactly one nonterminal model Pod')
+    pod=active[0];expected=deployment['spec']['template']['spec']['containers'][0]
+    if pod['status']['phase']!='Running' or not pod['metadata'].get('uid') or not all(v['ready'] for v in pod['status']['containerStatuses']):raise ValueError('The current model Pod is not ready')
+    containers=pod['spec']['containers']
+    if len(containers)!=1 or any(containers[0].get(k)!=expected.get(k) for k in ['name','image','args']):raise ValueError('The ready Pod differs from the deployed model process')
+    return pod
+
+
 def request_body(variant,case_index):
     """Change only the model identity across the paired inference bodies; use identical uncached deterministic controls."""
     if variant not in MODELS or type(case_index) is not int or not 0<=case_index<len(CASES):raise ValueError('Unknown comparison variant or case')

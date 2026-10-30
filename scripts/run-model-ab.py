@@ -7,7 +7,7 @@ from urllib.parse import urlsplit,urlencode
 from urllib.request import Request,build_opener,ProxyHandler
 import argparse,http.client,json,os,subprocess,sys,time
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
-from llm.ab_experiment import MODELS,CASES,request_body,score_answer,summarize,prometheus_metrics
+from llm.ab_experiment import MODELS,CASES,request_body,score_answer,summarize,prometheus_metrics,active_model_pod
 from llm_observability.contracts import StreamObservation
 
 
@@ -26,7 +26,7 @@ def run(args):
         """Retain actual non-secret native resource identities around the experiment."""
         raw=subprocess.check_output(k+['get',*query,'-o','json'],timeout=30,stderr=subprocess.PIPE);(out/(name+'.json')).write_bytes(raw);return json.loads(raw)
     model=get('model-before','deployment','iot-model-gpu','-n','iot-llm');pods=get('pods-before','pods','-n','iot-llm','-l','app.kubernetes.io/instance=iot-model-gpu')
-    assert len(pods['items'])==1 and all(v['ready'] for v in pods['items'][0]['status']['containerStatuses'])
+    running=active_model_pod(pods,model);save('active-pod.json',running)
     primary_config=get('shared-model-before','modelconfig','default-model-config','-n','iot-agents')
     service=get('service','service','iot-model-gpu','-n','iot-llm');assert service['spec']['type']=='ClusterIP';address=service['spec']['clusterIP']
     def fetch(name,path):
@@ -77,8 +77,8 @@ def run(args):
     for variant,alias in MODELS.items():after_metrics[variant]=fetch('metrics-after-'+variant+'.prom','/metrics?model='+alias)
     current=get('model-after','deployment','iot-model-gpu','-n','iot-llm');now_pods=get('pods-after','pods','-n','iot-llm','-l','app.kubernetes.io/instance=iot-model-gpu')
     assert model['metadata']['uid']==current['metadata']['uid'] and model['spec']==current['spec']
-    assert len(now_pods['items'])==1 and now_pods['items'][0]['metadata']['uid']==pods['items'][0]['metadata']['uid']
-    assert {v['name']:v['restartCount'] for v in now_pods['items'][0]['status']['containerStatuses']}=={v['name']:v['restartCount'] for v in pods['items'][0]['status']['containerStatuses']}
+    after_pod=active_model_pod(now_pods,current);assert after_pod['metadata']['uid']==running['metadata']['uid']
+    assert {v['name']:v['restartCount'] for v in after_pod['status']['containerStatuses']}=={v['name']:v['restartCount'] for v in running['status']['containerStatuses']}
     assert get('shared-model-after','modelconfig','default-model-config','-n','iot-agents')['spec']==primary_config['spec']
     def predicted(raw):
         """Read the actual native generated-token counter, independently of the client usage parser."""
@@ -94,7 +94,8 @@ def run(args):
     else:raise ValueError('Actual experiment metrics were not scraped')
     report={'passed':True,'checked_utc':datetime.now(timezone.utc).isoformat(),'source_commit':seal['commit'],'measured_requests':24,'warmup_requests':8,
         'distinct_contract_cases':4,'repeats_per_case':3,'summary':summary,'native_generated_token_counter_deltas':counter_deltas,
-        'primary_model_config_unchanged':True,'model_pod_uid':pods['items'][0]['metadata']['uid'],
+        'primary_model_config_unchanged':True,'model_pod_uid':running['metadata']['uid'],
+        'retained_terminal_pods':[{'uid':v['metadata']['uid'],'phase':v['status']['phase'],'reason':v['status'].get('reason')} for v in pods['items'] if v['status']['phase'] in {'Failed','Succeeded'}],
         'scope':'Two genuinely different pinned model artifacts, same GPU/image/context/threads, four synthetic contract questions repeated three times, balanced paired order, no prompt caching. Contract-case results are not real-world predictive accuracy or a general model-quality ranking. No automatic model promotion.'}
     save('verification.json',report);print(json.dumps(report),flush=True)
 
