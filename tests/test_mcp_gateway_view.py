@@ -14,6 +14,8 @@ class ViewerBoundaryTests(unittest.TestCase):
         """Allow native Swagger and its same-origin actions while denying another site's browser requests."""
         self.assertTrue(module.allowed_request('127.0.0.1:19111', '', '/docs', 'GET'))
         self.assertTrue(module.allowed_request('localhost:19111', 'http://localhost:19111', '/v1/knowledge:search', 'POST'))
+        self.assertTrue(module.allowed_request('127.0.0.1:21947', 'http://127.0.0.1:21947', '/docs', 'GET', port=21947))
+        self.assertFalse(module.allowed_request('127.0.0.1:19111', '', '/docs', 'GET', port=21947))
         for host, origin in [('localhost:19112', ''), ('127.0.0.1:19111.evil', ''), ('127.0.0.1:19111', 'https://foreign.invalid'), ('127.0.0.1:19111', 'null')]:
             with self.subTest(host=host, origin=origin): self.assertFalse(module.allowed_request(host, origin, '/docs', 'GET'))
 

@@ -11,9 +11,9 @@ HOST = 'retrieval.iot.test'
 PORT = 19111
 
 
-def allowed_request(host, origin, path, method):
+def allowed_request(host, origin, path, method, port=PORT):
     """Reject foreign origins, proxy targets, path aliases and operations outside the fixed retrieval API."""
-    hosts = {'127.0.0.1:'+str(PORT), 'localhost:'+str(PORT)}
+    hosts = {'127.0.0.1:'+str(port), 'localhost:'+str(port)}
     if host not in hosts or origin and origin not in {'http://'+v for v in hosts}: return False
     parsed = urlsplit(path)
     if parsed.scheme or parsed.netloc or parsed.query or parsed.fragment or unquote(path) != path or '\\' in path: return False
@@ -42,7 +42,7 @@ def run(args):
 
         def forward(self):
             """Check the local browser boundary before adding credentials to one fixed CA/SNI-verified peer."""
-            if len(self.headers.get_all('Host', [])) != 1 or not allowed_request(self.headers.get('Host', ''), self.headers.get('Origin', ''), self.path, self.command):
+            if len(self.headers.get_all('Host', [])) != 1 or not allowed_request(self.headers.get('Host', ''), self.headers.get('Origin', ''), self.path, self.command, args.port):
                 self.send_error(403); return
             lengths = self.headers.get_all('Content-Length', [])
             if self.headers.get('Transfer-Encoding') or len(lengths) > 1:
@@ -82,8 +82,9 @@ def run(args):
         do_HEAD = forward
         do_POST = forward
 
-    server = ThreadingHTTPServer(('127.0.0.1', PORT), Handler)
-    print(json.dumps({'listen': 'http://127.0.0.1:'+str(PORT), 'upstream': 'https://'+HOST, 'ca_verified': True,
+    if not 1024 <= args.port <= 65535: raise ValueError('Use an unprivileged local viewer port')
+    server = ThreadingHTTPServer(('127.0.0.1', args.port), Handler)
+    print(json.dumps({'listen': 'http://127.0.0.1:'+str(args.port), 'upstream': 'https://'+HOST, 'ca_verified': True,
                       'scope': 'Administrative loopback HTTP relay over IAP; upstream is verified HTTPS. No browser CA bypass or public listener.'}), flush=True)
     try: server.serve_forever()
     finally: server.server_close(); audit.close()
@@ -91,5 +92,6 @@ def run(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('--gateway-ip', required=True)
+    parser.add_argument('--port', type=int, default=PORT)
     for name in ['mcp-tokens', 'ca', 'audit']: parser.add_argument('--'+name, type=Path, required=True)
     run(parser.parse_args())
