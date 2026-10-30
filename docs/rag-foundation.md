@@ -48,6 +48,6 @@ The [69-payload capsule](evidence/rag-foundation/manifest.json) retains the orig
 
 ## Remaining acceptance work
 
-The [Airflow/governance run](rag-orchestration.md) now includes the successful DAG, a rejected source, native lineage/readback and original UI captures for L08/L09. The [grounded probe](llm-grounding.md) adds native post-replay entity counts, independent rankings and generated citations. The next boundary is authenticated, validated MCP execution and the remaining agent requirements. See the [learning guide](llm-learning-guide.md) and [LLM tracker](final-llm-rubric-tracker.md).
+The [Airflow/governance run](rag-orchestration.md) now includes the successful DAG, a rejected source, native lineage/readback and original UI captures for L08/L09. The [grounded probe](llm-grounding.md) adds native post-replay entity counts, independent rankings and generated citations. The next boundary is authenticated, validated MCP execution and the remaining agent requirements. See the [documentation index](README.md) and [LLM tracker](final-llm-rubric-tracker.md).
 
 The implementation follows the [Feast vector-RAG API](https://docs.feast.dev/tutorials/rag-with-docling) using the project's authored Markdown corpus and section chunker; it does not claim to have executed the tutorial's Docling/PDF example.

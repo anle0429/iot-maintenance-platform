@@ -48,7 +48,7 @@ python -m pytest tests/test_agent_notebook.py tests/test_agent_notebook_evidence
 
 Read the executed notebook first, then follow one task ID from its displayed answer into the captured MCP events. The offline checker recomputes every displayed JSON result from those original events, checks all seven execution counts and rejects changed source, truncated output or contradictory summaries.
 
-To repeat it on the retained VM, first complete a new genuine [feature preparation](agent-demo.md#1-check-the-vm-and-data-lease). Set `FEATURE_PREPARATION_RUN` to that successful report's directory name. At least 20 minutes must remain on its lease and 30 minutes in the approved VM session. Wait for prior actors to be idle and choose a new output name. From the VM project root:
+To repeat it on the retained VM, first complete a new genuine [feature preparation](operations.md). Set `FEATURE_PREPARATION_RUN` to that successful report's directory name. At least 20 minutes must remain on its lease and 30 minutes in the approved VM session. Wait for prior actors to be idle and choose a new output name. From the VM project root:
 
 ```bash
 SOURCE="$PWD/data/llm-source/agent-notebook-29a/tree"

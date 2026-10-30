@@ -1,8 +1,0 @@
-[cosmic-ray]
-module-path = [ "services/mcp_tools/auth.py", "services/mcp_tools/contracts.py", "services/mcp_tools/runtime.py", "services/mcp_tools/app.py",]
-timeout = 60.0
-excluded-modules = []
-test-command = "\"C:/Users/thien/projects/edai-k11-cw-v0.0.2/iot-maintenance-platform/outputs/venv-mcp-cosmic/Scripts/python.exe\" -m pytest tests/mcp -x -q"
-
-[cosmic-ray.distributor]
-name = "local"

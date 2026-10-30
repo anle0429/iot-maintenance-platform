@@ -1,5 +1,0 @@
-# Restart only the dedicated worker's agent; never restart the control-plane service.
-- name: Restart GPU K3s agent
-  ansible.builtin.systemd_service:
-    name: k3s-agent
-    state: restarted

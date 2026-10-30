@@ -59,4 +59,4 @@ python -m unittest tests.test_agent_probe -q
 
 The first command checks 528 source, command, readback and image payloads. It verifies applied configuration, native Ready states, catalog identities, tool-result provenance and the retained failed/partial outcomes. It explicitly reports complete chat, boundary probes, autoscaling, warm-up and overall coursework completion as unverified. The nine client tests check protocol/error handling with fixtures; they are not native model evidence. Captures retain the exact historical client, and the verifier separately reports whether it matches the current source.
 
-[Agent learning guide](llm-learning-guide.md) · [Live demo steps](agent-demo.md) · [LLM requirements](final-llm-rubric-tracker.md) · [Original capture inventory](evidence/agent-platform/capture.json)
+[Agent learning guide](README.md) · [Live demo steps](operations.md) · [LLM requirements](final-llm-rubric-tracker.md) · [Original capture inventory](evidence/agent-platform/capture.json)

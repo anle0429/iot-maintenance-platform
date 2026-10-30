@@ -1,9 +1,0 @@
-Oct 27 19:07:12 iot-cw-vm systemd[1]: Started iot-automatic-versioning-prepare-27-v3.service - /usr/bin/python3 /tmp/prepare-auto-versioning-27-v3.py.
-Oct 27 19:07:25 iot-cw-vm python3[900240]: Traceback (most recent call last):
-Oct 27 19:07:25 iot-cw-vm python3[900240]:   File "/tmp/prepare-auto-versioning-27-v3.py", line 43, in <module>
-Oct 27 19:07:25 iot-cw-vm python3[900240]:     (out/'route-probe-pod.json').write_text(json.dumps(state,indent=2)+'\n');call('route-probe-console',k+['logs',probe['metadata']['name'],'-n','kubeflow']);assert phase=='Succeeded'
-Oct 27 19:07:25 iot-cw-vm python3[900240]:                                                                                                                                                                      ^^^^^^^^^^^^^^^^^^
-Oct 27 19:07:25 iot-cw-vm python3[900240]: AssertionError
-Oct 27 19:07:25 iot-cw-vm systemd[1]: iot-automatic-versioning-prepare-27-v3.service: Main process exited, code=exited, status=1/FAILURE
-Oct 27 19:07:25 iot-cw-vm systemd[1]: iot-automatic-versioning-prepare-27-v3.service: Failed with result 'exit-code'.
-Oct 27 19:07:25 iot-cw-vm systemd[1]: iot-automatic-versioning-prepare-27-v3.service: Consumed 6.499s CPU time, 67.8M memory peak, 0B memory swap peak.

@@ -4,7 +4,7 @@ English presentation of the supplied source rubric. Original cells, merged range
 
 The selected submission includes both final ML and final LLM/agents. ML evidence is scoped to the recorded lab. Each LLM row below distinguishes recorded native evidence from remaining implementation work.
 
-[Rubric source and scope](rubric-source.md) · [Architecture](architecture.md) · [LLM implementation plan](llm-agent-plan.md)
+[Rubric source and scope](rubric-source.md) · [Architecture](architecture.md) · [LLM implementation plan](llm-platform.md)
 
 | ID | Source cells | Group | Requirement | Deliverable | Source points | Evidence status | Implementation and evidence |
 |---|---|---|---|---|---:|---|---|

@@ -49,7 +49,7 @@ The pinned NGINX version's [upstream Host template](https://github.com/nginx/kub
 
 ## Resume the demo
 
-Use the [existing lab recovery procedure](demo-walkthrough.md) to check VM sessions, service readiness and a fresh feature lease. Do not rerun provisioning or the 100 GB workload to reopen this demo.
+Use the [existing lab recovery procedure](operations.md) to check VM sessions, service readiness and a fresh feature lease. Do not rerun provisioning or the 100 GB workload to reopen this demo.
 
 The [administrative viewer](../scripts/view-mcp-gateway.py) runs only on loopback. On the VM, select a port that is free on both machines, pass the existing retrieval-token file and CA paths, then forward that same loopback port through IAP. Its `--port` option defaults to 19111; the recorded second viewer used 21947 because the PC already had other listeners. The viewer replaces incoming credentials with the local scoped token, rejects foreign browser origins and forwards only documentation, structured search, feature and prediction operations. It records upstream TLS facts and response hashes without credential values or question text.
 

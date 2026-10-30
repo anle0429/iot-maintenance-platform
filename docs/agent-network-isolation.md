@@ -47,7 +47,7 @@ sudo k3s kubectl describe networkpolicy iot-retrieval-worker-egress -n iot-agent
 sudo k3s kubectl get workerpools -n iot-agents
 ```
 
-For normal conversations, follow the [agent demo](agent-demo.md). The [guarded installer](../scripts/configure-agent-network.py) requires sealed project source, an idle actor inventory, the observed private control address and a fresh Helm release. Preserve the installed release when inspecting the lab; do not reinstall it to repeat a demo.
+For normal conversations, follow the [agent demo](operations.md). The [guarded installer](../scripts/configure-agent-network.py) requires sealed project source, an idle actor inventory, the observed private control address and a fresh Helm release. Preserve the installed release when inspecting the lab; do not reinstall it to repeat a demo.
 
 ## Scope and presentation
 

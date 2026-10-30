@@ -96,6 +96,6 @@ The checker pins the [94-payload capsule](evidence/llm-inference/manifest.json),
 
 ## Next dependency
 
-The [LLM learning guide](llm-learning-guide.md) follows the full request. [RAG orchestration](rag-orchestration.md) and [grounded responses](llm-grounding.md) now have separate native proof. The [workstream](llm-agent-plan.md) tracks remaining global model configuration, MCP, specialist/coordinator agents, registry, sandbox, warm-up, CI, telemetry and A/B requirements.
+The [LLM learning guide](README.md) follows the full request. [RAG orchestration](rag-orchestration.md) and [grounded responses](llm-grounding.md) now have separate native proof. The [workstream](llm-platform.md) tracks remaining global model configuration, MCP, specialist/coordinator agents, registry, sandbox, warm-up, CI, telemetry and A/B requirements.
 
 Official references: [llm-d quickstart](https://llm-d.ai/docs/getting-started/quickstart), [llama.cpp server](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md), [Qwen model](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF).

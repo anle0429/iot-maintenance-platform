@@ -1,5 +1,12 @@
 # Delivering MCP services and IoT agents
 
+| Boundary | Implementation / execution |
+|---|---|
+| Code | [Jenkins assets](../infra/ci/), [release contract](../agents/ci_contract.py), [release implementation](../agents/release_ci.py) |
+| Runs on | Retained Jenkins, Airflow and K3s lab with component-specific immutable releases |
+| Input → output | Sealed source/job/build identity → tested image, deployed component and original runtime verification |
+| Validation | Separate retrieval, drift and coordinator builds; unchanged-source mutation reuse and actual role/child checks are distinguished |
+
 The later [OPA admission checkpoint](agent-admission-policy.md) extends these same three owned jobs with model/tool/sandbox checks before deployment. It records an intentional denied build and three successful production releases; the historical runs below keep their original source and scope.
 
 Three private Jenkins jobs share a source-bound release procedure. Each job keeps its own build number, tests, chart packages, deployment receipts and original agent responses.
@@ -50,7 +57,7 @@ The original failed builds, deployment plans, rollback receipts and successful r
 
 ## Run and explain it
 
-Use the retained lab and its [recovery procedure](demo-walkthrough.md), with the private Jenkins port forwarded through IAP. Sign in with the locally maintained operator account, open one job and choose **Build with Parameters**. The prepared application revision is:
+Use the retained lab and its [recovery procedure](operations.md), with the private Jenkins port forwarded through IAP. Sign in with the locally maintained operator account, open one job and choose **Build with Parameters**. The prepared application revision is:
 
 ```text
 SOURCE_COMMIT=daee5d3ff335917ffb7f1705e17bf1e723aa20ad

@@ -1,180 +1,0 @@
-#0 building with "default" instance using docker driver
-
-#1 [internal] load build definition from Jenkins.Dockerfile
-#1 transferring dockerfile: 1.08kB 0.0s done
-#1 DONE 0.0s
-
-#2 [internal] load metadata for docker.io/jenkins/jenkins:2.580.1-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1
-#2 DONE 0.0s
-
-#3 [internal] load build context
-#3 transferring context:
-#3 transferring context: 5.29kB done
-#3 DONE 0.0s
-
-#4 [1/5] FROM docker.io/jenkins/jenkins:2.580.1-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1
-#4 resolve docker.io/jenkins/jenkins:2.580.1-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1 0.0s done
-#4 DONE 0.3s
-
-#4 [1/5] FROM docker.io/jenkins/jenkins:2.580.1-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1
-#4 extracting sha256:6eefb2f5d3e91a6cfc577476bbec26bb63f0d0fc31f904493f400833783aa2c2
-#4 extracting sha256:6eefb2f5d3e91a6cfc577476bbec26bb63f0d0fc31f904493f400833783aa2c2 1.3s done
-#4 DONE 1.6s
-
-#4 [1/5] FROM docker.io/jenkins/jenkins:2.580.1-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1
-#4 extracting sha256:408777b27aa931e1b620b49cc2b18c0e1009edd4b79251e1a83457a51e7c526d
-#4 extracting sha256:408777b27aa931e1b620b49cc2b18c0e1009edd4b79251e1a83457a51e7c526d 1.6s done
-#4 DONE 3.3s
-
-#4 [1/5] FROM docker.io/jenkins/jenkins:2.580.1-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1
-#4 extracting sha256:810008851f3a99a556a3add6aaf28655612e9b5700fc9f67652eb052aff22b1b 0.1s done
-#4 extracting sha256:d89089c8a5a353820d6c418420a4130b815236a3f2207c214f9bbadab6b2a626 0.0s done
-#4 DONE 3.4s
-
-#4 [1/5] FROM docker.io/jenkins/jenkins:2.580.1-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1
-#4 extracting sha256:701ded2f9b337f28c79dd3dd4573df3ecd2cf32b0fa132f24a1a1655ae219684 0.0s done
-#4 extracting sha256:968c36a3b2c58b9de7da06a9457f73bd1ff5f8baf6584937f2013167a791617b 0.0s done
-#4 extracting sha256:3dd4a99993ab093b6d8cf6bfa4d885f395bff3a02e291caefd852a0dc4a2b6a3 0.1s done
-#4 DONE 3.5s
-
-#4 [1/5] FROM docker.io/jenkins/jenkins:2.580.1-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1
-#4 extracting sha256:a20a14499a3ea28b383fd4f33455d726780b20905a0d717222a72abf9f34e585
-#4 extracting sha256:a20a14499a3ea28b383fd4f33455d726780b20905a0d717222a72abf9f34e585 0.6s done
-#4 DONE 4.1s
-
-#4 [1/5] FROM docker.io/jenkins/jenkins:2.580.1-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1
-#4 extracting sha256:463a574793f8bf3ab6f97a705e99e0e8a6565ef73d610f0358970f51de9fc8a1
-#4 extracting sha256:463a574793f8bf3ab6f97a705e99e0e8a6565ef73d610f0358970f51de9fc8a1 0.3s done
-#4 DONE 4.4s
-
-#4 [1/5] FROM docker.io/jenkins/jenkins:2.580.1-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1
-#4 extracting sha256:f9e31fab50e854aad573dd832349945a2270c153a23abb72f3e2a947b16a8e51 0.0s done
-#4 extracting sha256:95bc7464aaea79c8148fadd51b963995cd9e67d50db71f4138953d43a4aa4ea7 0.0s done
-#4 extracting sha256:a91427fe0e3ff2cba4d0f29ec048684ac04f00320c1563a726d9a5d677bf24bc 0.0s done
-#4 DONE 4.4s
-
-#5 [2/5] RUN apt-get update && apt-get install -y --no-install-recommends python3     && rm -rf /var/lib/apt/lists/*
-#5 0.386 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
-#5 0.423 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
-#5 0.431 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
-#5 0.454 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9678 kB]
-#5 0.571 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [720 B]
-#5 0.572 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [270 kB]
-#5 1.364 Fetched 10.2 MB in 1s (10.1 MB/s)
-#5 1.364 Reading package lists...
-#5 2.170 Reading package lists...
-#5 3.025 Building dependency tree...
-#5 3.272 Reading state information...
-#5 3.632 The following additional packages will be installed:
-#5 3.633   libpython3-stdlib libpython3.13-minimal libpython3.13-stdlib libreadline8t64
-#5 3.633   media-types netbase python3-minimal python3.13 python3.13-minimal
-#5 3.633   readline-common
-#5 3.635 Suggested packages:
-#5 3.635   python3-doc python3-tk python3-venv python3.13-venv python3.13-doc binutils
-#5 3.635   binfmt-support readline-doc
-#5 3.756 The following NEW packages will be installed:
-#5 3.756   libpython3-stdlib libpython3.13-minimal libpython3.13-stdlib libreadline8t64
-#5 3.757   media-types netbase python3 python3-minimal python3.13 python3.13-minimal
-#5 3.757   readline-common
-#5 3.824 0 upgraded, 11 newly installed, 0 to remove and 10 not upgraded.
-#5 3.824 Need to get 6149 kB of archives.
-#5 3.824 After this operation, 23.4 MB of additional disk space will be used.
-#5 3.824 Get:1 http://deb.debian.org/debian trixie/main amd64 libpython3.13-minimal amd64 3.13.5-2+deb13u5 [863 kB]
-#5 3.882 Get:2 http://deb.debian.org/debian trixie/main amd64 python3.13-minimal amd64 3.13.5-2+deb13u5 [2225 kB]
-#5 3.901 Get:3 http://deb.debian.org/debian trixie/main amd64 python3-minimal amd64 3.13.5-1 [27.2 kB]
-#5 3.901 Get:4 http://deb.debian.org/debian trixie/main amd64 media-types all 13.0.0 [29.3 kB]
-#5 3.902 Get:5 http://deb.debian.org/debian trixie/main amd64 netbase all 6.5 [12.4 kB]
-#5 3.902 Get:6 http://deb.debian.org/debian trixie/main amd64 readline-common all 8.2-6 [69.4 kB]
-#5 3.903 Get:7 http://deb.debian.org/debian trixie/main amd64 libreadline8t64 amd64 8.2-6 [169 kB]
-#5 3.904 Get:8 http://deb.debian.org/debian trixie/main amd64 libpython3.13-stdlib amd64 3.13.5-2+deb13u5 [1959 kB]
-#5 3.925 Get:9 http://deb.debian.org/debian trixie/main amd64 python3.13 amd64 3.13.5-2+deb13u5 [757 kB]
-#5 3.929 Get:10 http://deb.debian.org/debian trixie/main amd64 libpython3-stdlib amd64 3.13.5-1 [10.2 kB]
-#5 3.929 Get:11 http://deb.debian.org/debian trixie/main amd64 python3 amd64 3.13.5-1 [28.2 kB]
-#5 4.138 debconf: unable to initialize frontend: Dialog
-#5 4.138 debconf: (TERM is not set, so the dialog frontend is not usable.)
-#5 4.138 debconf: falling back to frontend: Readline
-#5 4.152 debconf: unable to initialize frontend: Readline
-#5 4.152 debconf: (This frontend requires a controlling tty.)
-#5 4.152 debconf: falling back to frontend: Teletype
-#5 4.160 debconf: unable to initialize frontend: Teletype
-#5 4.160 debconf: (This frontend requires a controlling tty.)
-#5 4.160 debconf: falling back to frontend: Noninteractive
-#5 5.093 Fetched 6149 kB in 0s (40.5 MB/s)
-#5 5.130 Selecting previously unselected package libpython3.13-minimal:amd64.
-#5 5.130 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 9624 files and directories currently installed.)
-#5 5.141 Preparing to unpack .../libpython3.13-minimal_3.13.5-2+deb13u5_amd64.deb ...
-#5 5.146 Unpacking libpython3.13-minimal:amd64 (3.13.5-2+deb13u5) ...
-#5 5.276 Selecting previously unselected package python3.13-minimal.
-#5 5.279 Preparing to unpack .../python3.13-minimal_3.13.5-2+deb13u5_amd64.deb ...
-#5 5.290 Unpacking python3.13-minimal (3.13.5-2+deb13u5) ...
-#5 5.445 Setting up libpython3.13-minimal:amd64 (3.13.5-2+deb13u5) ...
-#5 5.468 Setting up python3.13-minimal (3.13.5-2+deb13u5) ...
-#5 6.339 Selecting previously unselected package python3-minimal.
-#5 6.339 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 9949 files and directories currently installed.)
-#5 6.348 Preparing to unpack .../0-python3-minimal_3.13.5-1_amd64.deb ...
-#5 6.354 Unpacking python3-minimal (3.13.5-1) ...
-#5 6.409 Selecting previously unselected package media-types.
-#5 6.413 Preparing to unpack .../1-media-types_13.0.0_all.deb ...
-#5 6.419 Unpacking media-types (13.0.0) ...
-#5 6.478 Selecting previously unselected package netbase.
-#5 6.481 Preparing to unpack .../2-netbase_6.5_all.deb ...
-#5 6.486 Unpacking netbase (6.5) ...
-#5 6.539 Selecting previously unselected package readline-common.
-#5 6.543 Preparing to unpack .../3-readline-common_8.2-6_all.deb ...
-#5 6.550 Unpacking readline-common (8.2-6) ...
-#5 6.614 Selecting previously unselected package libreadline8t64:amd64.
-#5 6.617 Preparing to unpack .../4-libreadline8t64_8.2-6_amd64.deb ...
-#5 6.633 Adding 'diversion of /lib/x86_64-linux-gnu/libhistory.so.8 to /lib/x86_64-linux-gnu/libhistory.so.8.usr-is-merged by libreadline8t64'
-#5 6.645 Adding 'diversion of /lib/x86_64-linux-gnu/libhistory.so.8.2 to /lib/x86_64-linux-gnu/libhistory.so.8.2.usr-is-merged by libreadline8t64'
-#5 6.654 Adding 'diversion of /lib/x86_64-linux-gnu/libreadline.so.8 to /lib/x86_64-linux-gnu/libreadline.so.8.usr-is-merged by libreadline8t64'
-#5 6.663 Adding 'diversion of /lib/x86_64-linux-gnu/libreadline.so.8.2 to /lib/x86_64-linux-gnu/libreadline.so.8.2.usr-is-merged by libreadline8t64'
-#5 6.669 Unpacking libreadline8t64:amd64 (8.2-6) ...
-#5 6.720 Selecting previously unselected package libpython3.13-stdlib:amd64.
-#5 6.723 Preparing to unpack .../5-libpython3.13-stdlib_3.13.5-2+deb13u5_amd64.deb ...
-#5 6.728 Unpacking libpython3.13-stdlib:amd64 (3.13.5-2+deb13u5) ...
-#5 6.891 Selecting previously unselected package python3.13.
-#5 6.894 Preparing to unpack .../6-python3.13_3.13.5-2+deb13u5_amd64.deb ...
-#5 6.900 Unpacking python3.13 (3.13.5-2+deb13u5) ...
-#5 6.949 Selecting previously unselected package libpython3-stdlib:amd64.
-#5 6.952 Preparing to unpack .../7-libpython3-stdlib_3.13.5-1_amd64.deb ...
-#5 6.957 Unpacking libpython3-stdlib:amd64 (3.13.5-1) ...
-#5 7.006 Setting up python3-minimal (3.13.5-1) ...
-#5 7.199 Selecting previously unselected package python3.
-#5 7.199 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 10442 files and directories currently installed.)
-#5 7.212 Preparing to unpack .../python3_3.13.5-1_amd64.deb ...
-#5 7.223 Unpacking python3 (3.13.5-1) ...
-#5 7.274 Setting up media-types (13.0.0) ...
-#5 7.295 Setting up netbase (6.5) ...
-#5 7.330 Setting up readline-common (8.2-6) ...
-#5 7.349 Setting up libreadline8t64:amd64 (8.2-6) ...
-#5 7.363 Setting up libpython3.13-stdlib:amd64 (3.13.5-2+deb13u5) ...
-#5 7.378 Setting up libpython3-stdlib:amd64 (3.13.5-1) ...
-#5 7.396 Setting up python3.13 (3.13.5-2+deb13u5) ...
-#5 8.290 Setting up python3 (3.13.5-1) ...
-#5 8.306 running python rtupdate hooks for python3.13...
-#5 8.306 running python post-rtupdate hooks for python3.13...
-#5 8.397 Processing triggers for libc-bin (2.41-12+deb13u4) ...
-#5 DONE 10.9s
-
-#6 [3/5] RUN JAVA_OPTS=-Xmx768m jenkins-plugin-cli --plugins     workflow-aggregator:608.v67378e9d3db_1     pipeline-model-definition:2.2293.v6e7193cec599     credentials-binding:728.v902a_273b_8947     credentials:1514.vb_01eb_014e7d4     plain-credentials:199.v9f8e1f741799     pipeline-stage-view:2.41
-#6 6.154 Done
-#6 DONE 6.4s
-
-#7 [4/5] COPY infra/ci/Jenkinsfile /opt/iot-ci/Jenkinsfile
-#7 DONE 0.1s
-
-#8 [5/5] COPY infra/ci/jenkins-bootstrap.groovy /usr/share/jenkins/ref/init.groovy.d/coursework.groovy
-#8 DONE 0.1s
-
-#9 exporting to image
-#9 exporting layers
-#9 exporting layers 2.4s done
-#9 exporting manifest sha256:88bc97c1b740cce17de79073ce066ef8a56ee7a8e6ae247e055a71ec5fd1c491 0.0s done
-#9 exporting config sha256:f1743b1f1936c79a6e844ece4fb753ac79d7339f9ef83550143e48b7a1bdacd5 0.0s done
-#9 exporting attestation manifest sha256:5e770ef19faaaaf7f05e71ca13c69664c2232dcdd0335b853af8985722b83be7 0.0s done
-#9 exporting manifest list sha256:20db61b33708da74bf789ff2a5935577c01414b1ca050fd25cf00d6d06e2436b 0.0s done
-#9 naming to docker.io/library/iot-coursework-jenkins:2.580.1-27
-#9 naming to docker.io/library/iot-coursework-jenkins:2.580.1-27 done
-#9 unpacking to docker.io/library/iot-coursework-jenkins:2.580.1-27
-#9 unpacking to docker.io/library/iot-coursework-jenkins:2.580.1-27 0.7s done
-#9 DONE 3.2s

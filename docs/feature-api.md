@@ -1,5 +1,12 @@
 # Feature API: eligibility, inference and provenance
 
+| Boundary | Implementation / execution |
+|---|---|
+| Code | [FastAPI app](../services/feature_api/app.py), [runtime/backend](../services/feature_api/runtime.py) |
+| Runs on | K3s `iot-features`; Feast SDK reads the native online store and calls the pinned KServe model |
+| Input → output | Machine ID → validated eight-feature trace or version-attributed prediction |
+| Validation | [Native serving](model-serving.md), [current serving CI](ci-serving.md), [post-restart agent path](agent-runtime-validation.md) |
+
 The FastAPI service reads eight native Feast features by machine ID, validates their event timestamps and arrival context, then calls a fixed private KServe endpoint. Async routes offload synchronous SDK/network work and bound in-flight backend operations.
 
 The runtime separately checks the simulated event clock and the real preparation lease. It rejects stale/future/incomplete features, mismatched model pins and stopped-machine inference. Native cohort checks cover 200 machines:195 valid predictions and five stopped-machine 409 responses, plus malformed/unknown IDs and unavailable upstream state.
@@ -12,7 +19,7 @@ Run commands from the repository root unless the example explicitly changes the 
 
 ```bash
 sudo k3s kubectl get pods,svc -n iot-features
-sudo k3s kubectl port-forward -n iot-features svc/feature-api --address=127.0.0.1 18082:80
+sudo k3s kubectl port-forward -n iot-features svc/iot-feature-api --address=127.0.0.1 18082:80
 ```
 
 ## Implementation and evidence
@@ -64,6 +71,6 @@ These are original captures from the runs described above. Their timestamps, mod
 
 ## Related documentation
 
-[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+[Current architecture](architecture.md) · [Demo and recovery](operations.md) · [Rubric index](rubric-tracker.md)
 
 [Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/feature-api.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

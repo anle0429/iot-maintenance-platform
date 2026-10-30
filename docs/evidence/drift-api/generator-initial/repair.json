@@ -1,5 +1,0 @@
-{
-  "initial_failed_console_sha256": "bf4f00ecf1fd1b565885d098225a9ddbc0e30f987be52994245069baf94294c4",
-  "cause": "Docker tmpfs /tmp is noexec; Snappy extracted native .so there and could not load it.",
-  "change": "Set JVM org.xerial.snappy.tempdir=/scratch (existing private HDD bind). Keep read-only root, noexec tmpfs, UID185 and all code unchanged. New output directory; no overwrite/resume claim."
-}

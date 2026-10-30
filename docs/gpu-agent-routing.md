@@ -56,7 +56,7 @@ cd tools/model-control
 go test -v -cover ./...
 ```
 
-For a live demonstration, follow the [agent demo](agent-demo.md). Check both VM sessions and genuinely refresh the feature lease first. A repository clone contains source and captured evidence; model weights, running services, secrets and prepared feature data are local runtime state.
+For a live demonstration, follow the [agent demo](operations.md). Check both VM sessions and genuinely refresh the feature lease first. A repository clone contains source and captured evidence; model weights, running services, secrets and prepared feature data are local runtime state.
 
 ## Remaining work
 

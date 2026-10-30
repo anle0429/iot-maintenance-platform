@@ -10,6 +10,7 @@ import re
 import subprocess
 import sys
 import time
+from evidence_bundle import materialize
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_SNAPSHOT_SHA256 = '66b8c73d65bb101b2966e1155898d080901002a6fcbd2c1432063befca871ae3'
@@ -169,6 +170,7 @@ def audit(output, workers):
     if not output.is_relative_to(ROOT / 'outputs'):
         raise ValueError('Choose a new audit directory under outputs/')
     output.mkdir(parents=True, exist_ok=False)
+    restored_evidence = materialize(ROOT, verify_sources=True)
     snapshot_path = ROOT / 'docs/evidence/rubric-final/source.json'
     snapshot = original_snapshot(snapshot_path)
     rows = rubric_rows(snapshot, (ROOT / 'docs/final-rubric-tracker.md').read_text(encoding='utf-8'))
@@ -185,7 +187,7 @@ def audit(output, workers):
             assert path.is_relative_to(ROOT) and path.is_file(), (key, target)
             links += 1
     capsules = {name: capsule_manifest(ROOT, name) for name in CAPSULES}
-    checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py', ROOT / 'scripts/git_sources.py', ROOT / 'scripts/integration_evidence.py', ROOT / 'agents/answer_acceptance.py', ROOT / 'agents/delegation_acceptance.py', ROOT / 'scripts/go-mutation-exec.py', ROOT / 'agents/probe.py', ROOT / 'scripts/view-vault-metadata.py', ROOT / 'tests/test_vault_metadata_view.py', ROOT / 'infra/llm_steady_state.py', ROOT / 'scripts/resume-gpu-services.py', ROOT / 'tests/test_gpu_resume_session.py', ROOT / 'scripts/run-agent-demo.py', ROOT / 'scripts/refresh-agent-features.py', ROOT / 'scripts/configure-llm-steady-state.py', ROOT / 'docs/final-audit-matrix.md', ROOT / 'docs/final-llm-rubric-tracker.md', ROOT / 'docs/final-rubric-tracker.md']
+    checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py', ROOT / 'scripts/git_sources.py', ROOT / 'scripts/integration_evidence.py', ROOT / 'scripts/evidence_bundle.py', ROOT / 'scripts/unpack-evidence.py', ROOT / 'tests/test_evidence_bundle.py', ROOT / 'docs/evidence-archive/manifest.json', ROOT / 'agents/answer_acceptance.py', ROOT / 'agents/delegation_acceptance.py', ROOT / 'scripts/go-mutation-exec.py', ROOT / 'agents/probe.py', ROOT / 'scripts/view-vault-metadata.py', ROOT / 'tests/test_vault_metadata_view.py', ROOT / 'infra/llm_steady_state.py', ROOT / 'scripts/resume-gpu-services.py', ROOT / 'tests/test_gpu_resume_session.py', ROOT / 'scripts/run-agent-demo.py', ROOT / 'scripts/refresh-agent-features.py', ROOT / 'scripts/configure-llm-steady-state.py', ROOT / 'docs/final-audit-matrix.md', ROOT / 'docs/final-llm-rubric-tracker.md', ROOT / 'docs/final-rubric-tracker.md']
     source_before = {p.relative_to(ROOT).as_posix(): sha256(p.read_bytes()).hexdigest() for p in checkers}
     results = {}
     with ThreadPoolExecutor(max_workers=workers) as pool:
@@ -212,7 +214,7 @@ def audit(output, workers):
               'native_agent_notebook_verified': results['agent-notebook']['exit'] == 0,
               'native_agent_startup_comparison_verified': results['agent-warmup']['exit'] == 0,
               'llm_runtime_verified': False, 'coursework_complete': False,
-              'local_evidence_links': links, 'implementation_map': mapped, 'additional_capsule_payloads': capsules, 'verifiers': results,
+              'local_evidence_links': links, 'implementation_map': mapped, 'evidence_bundle': restored_evidence, 'additional_capsule_payloads': capsules, 'verifiers': results,
               'live_readiness_checked': False, 'scope': 'Recorded ML, inference/RAG/MCP, GPU routing, strict mutation audits and real specialist/coordinator conversations plus both rubric presentations. Requirement navigation and the separately authenticated learner demo are recorded. This audit is not a grade, current live readiness, full100GB ML or laptop verification.'}
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(report, indent=2))

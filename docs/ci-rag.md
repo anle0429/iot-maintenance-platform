@@ -46,7 +46,7 @@ python -B -S scripts/verify-ci-rag.py
 
 Expect `passed: true`, six native tasks and ten quality checks. This verifies the recorded packet without starting services. It checks 260 original native payloads, 41 current source files and both original screenshots.
 
-To run a new release, first recover the retained lab using the [demo runbook](demo-walkthrough.md). It must already contain its dependency images, embedding cache, DataHub, Airflow and Jenkins state. On the private Jenkins interface, sign in with the locally maintained operator account, open **iot-llm-rag → Build with Parameters**, and explicitly select this prepared revision:
+To run a new release, first recover the retained lab using the [demo runbook](operations.md). It must already contain its dependency images, embedding cache, DataHub, Airflow and Jenkins state. On the private Jenkins interface, sign in with the locally maintained operator account, open **iot-llm-rag → Build with Parameters**, and explicitly select this prepared revision:
 
 ```text
 SOURCE_COMMIT=9b77c06fe872d588e4f7e55af8c5834f2b03448e

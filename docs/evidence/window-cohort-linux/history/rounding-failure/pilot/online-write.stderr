@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "/src/scripts/replay-window-cohort.py", line 68, in <module>
-    run(p.parse_args())
-  File "/src/scripts/replay-window-cohort.py", line 59, in run
-    if actual.keys()!=expected.keys() or any(any(actual[m][f]!=expected[m][f] for f in FIELDS) for m in expected):raise ValueError('Latest native vectors differ from the retained source oracle')
-                                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-ValueError: Latest native vectors differ from the retained source oracle

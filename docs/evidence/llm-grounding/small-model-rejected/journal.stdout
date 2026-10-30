@@ -1,8 +1,0 @@
-Started iot-rag-grounded-29a.service - /usr/bin/python3 /tmp/iot-launch-rag-probe-29a.py.
-Traceback (most recent call last):
-  File "/tmp/iot-launch-rag-probe-29a.py", line 25, in <module>
-    assert result.returncode==0 and not json.loads(inspected)[0]['State']['OOMKilled']
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError
-iot-rag-grounded-29a.service: Main process exited, code=exited, status=1/FAILURE
-iot-rag-grounded-29a.service: Failed with result 'exit-code'.

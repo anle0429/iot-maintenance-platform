@@ -38,11 +38,11 @@ python scripts/audit-repository.py --output outputs/my-repository-audit --edit-p
 - [Source: infra/observability/requirements.lock](../infra/observability/requirements.lock)
 - [Recorded artifact: repository-audit/initial-collection/console.stdout](evidence/repository-audit/initial-collection/console.stdout)
 - [Recorded artifact: repository-audit/frozen/freeze.stdout](evidence/repository-audit/frozen/freeze.stdout)
-- [Source: README.md](../README.md#system-diagram)
+- [Source: README.md](../README.md#architecture)
 - [Recorded artifact: final-release-pc/manifest.json](evidence/final-release-pc/manifest.json)
 
 ## Related documentation
 
-[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+[Current architecture](architecture.md) · [Demo and recovery](operations.md) · [Rubric index](rubric-tracker.md)
 
 [Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/repository-quality.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

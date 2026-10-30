@@ -55,7 +55,7 @@ Expect seven test methods and `passed: true`. The verifier authenticates 161 ori
 
 The archived source is byte-exact as executed. Two current files subsequently gained missing helper/fixture docstrings: `rag/corpus_drift.py` and `tests/test_rag_corpus_drift.py`. The verifier pins both original/current hashes and checks identical executable syntax trees after removing docstrings. The other 48 inputs match the executed source exactly. This documentation correction did not rerun the native workload or change its recorded results.
 
-For a new live run on the retained lab, follow the [demo recovery guide](demo-walkthrough.md), open **iot-llm-rag → Build with Parameters**, and explicitly supply:
+For a new live run on the retained lab, follow the [demo recovery guide](operations.md), open **iot-llm-rag → Build with Parameters**, and explicitly supply:
 
 ```text
 SOURCE_COMMIT=a4a69138740113c291a1f6bfe23c3705014a884b

@@ -70,7 +70,7 @@ sudo k3s kubectl get workerpools,scaledobjects,hpa -n iot-agents
 sudo k3s kubectl get pods -n iot-autoscale
 ```
 
-Use the [agent demo](agent-demo.md) to open the private UI and ask questions. For a repeated burst, the client requires a fresh feature-preparation report with at least 20 minutes left, adequate RAM/SSD, an approved VM session and two idle Ready workers per role. Choose a fresh output directory and a sealed source bundle. Preserve the installed KEDA release when inspecting or demonstrating the lab.
+Use the [agent demo](operations.md) to open the private UI and ask questions. For a repeated burst, the client requires a fresh feature-preparation report with at least 20 minutes left, adequate RAM/SSD, an approved VM session and two idle Ready workers per role. Choose a fresh output directory and a sealed source bundle. Preserve the installed KEDA release when inspecting or demonstrating the lab.
 
 Explain the graph in this order: requests occupy actors, running-actor metrics cause HPA to add workers, Ready capacity catches up, and workers shrink after the stabilization window. Explain the separate admission wait while a completed actor saves its snapshot.
 

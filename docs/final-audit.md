@@ -23,9 +23,9 @@ The supplied workbook contains 57 weighted ML requirements and 60 weighted LLM r
 
 ## Reconciliation and handover
 
-The [implementation map](final-audit-matrix.md) now has one consistent five-column row for each of the 117 original requirements. The audit checks every ID, requirement text and code/evidence link. The [fresh rehearsal](learner-demo.md) records actual preparation, the original failed conversation, a narrow configuration repair and one accepted coordinator with two checked child histories/four MCP calls. The [ML runbook](demo-walkthrough.md), [agent runbook](agent-demo.md), [learning guide](llm-learning-guide.md) and [presentation guide](presentation-guide.md) explain how to repeat and defend the work.
+The [implementation map](final-audit-matrix.md) now has one consistent five-column row for each of the 117 original requirements. The audit checks every ID, requirement text and code/evidence link. The [fresh rehearsal](agent-runtime-validation.md) records actual preparation, the original failed conversation, a narrow configuration repair and one accepted coordinator with two checked child histories/four MCP calls. The [operations runbook](operations.md) provides retained-lab execution and recovery commands; the [documentation index](README.md) provides component and source navigation.
 
-Recorded delivery is separate from learner mastery and mentor acceptance. Rehearse the code-tracing exercises before submission; do not infer a grade from green checks.
+Recorded delivery and mentor grading are separate. Each report retains its actual source, workload, failed outcomes and practical limits.
 
 ## Verification method
 
@@ -60,4 +60,4 @@ Native runs and local checks have their own machine/source identities. A clean P
 
 [The previous audit page](https://github.com/anle0429/iot-maintenance-platform/blob/078adc9d66fcee406a190eedc31f565471e36d55/docs/final-audit.md) retains the historical test counts, unsuccessful response iterations and earlier open work. Those counts are not added together or presented as the current regression. Original evidence, failed outcomes and native captures have not been translated or rewritten.
 
-[Architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [LLM learning guide](llm-learning-guide.md) · [Rubric source](rubric-source.md)
+[Architecture](architecture.md) · [Demo and recovery](operations.md) · [LLM learning guide](README.md) · [Rubric source](rubric-source.md)

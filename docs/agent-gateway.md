@@ -65,7 +65,7 @@ Open the [capture index](evidence/agent-gateway/ui/index.json), then compare the
 
 ## Run the private demo again
 
-Use the retained lab and its [recovery procedure](demo-walkthrough.md). Confirm actual CPU/GPU readiness and a genuinely fresh one-hour feature lease first. A clone contains code and evidence, but not model weights, runtime credentials, images, data or these prepared native source packets.
+Use the retained lab and its [recovery procedure](operations.md). Confirm actual CPU/GPU readiness and a genuinely fresh one-hour feature lease first. A clone contains code and evidence, but not model weights, runtime credentials, images, data or these prepared native source packets.
 
 The recorded deployment has the following routes:
 
@@ -116,4 +116,4 @@ The next probe correctly encountered an unknown-SNI handshake rejection, but its
 
 The browser relay also needed the official `X-User-Id` server-action forwarding setting, Next.js protocol headers and both new-chat and existing-session URL forms. Tests now cover these routing boundaries. The final original UI captures show the working session and its actual answer.
 
-For presentation, explain four decisions: why authentication belongs before the UI, why a Ready Pod does not prove an accepted ingress, why a completed task still needs fact checking, and why Vault consumers must fail when reading a different service's secret. Later [native monitoring](llm-monitoring-demo.md), [policy-frequency](llm-policy-window.md), [model A/B](llm-model-ab.md), [agent A/B](agent-configuration-ab.md) and [post-restart rehearsal](learner-demo.md) reports cover those separate milestones.
+For presentation, explain four decisions: why authentication belongs before the UI, why a Ready Pod does not prove an accepted ingress, why a completed task still needs fact checking, and why Vault consumers must fail when reading a different service's secret. Later [native monitoring](llm-monitoring-demo.md), [policy-frequency](llm-policy-window.md), [model A/B](llm-model-ab.md), [agent A/B](agent-configuration-ab.md) and [post-restart rehearsal](agent-runtime-validation.md) reports cover those separate milestones.

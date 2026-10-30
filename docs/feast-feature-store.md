@@ -72,6 +72,6 @@ docker compose -f infra/feast.compose.yaml run --rm tools \
 
 ## Related documentation
 
-[Current architecture](architecture.md) · [Demo and recovery](demo-walkthrough.md) · [Rubric index](rubric-tracker.md)
+[Current architecture](architecture.md) · [Demo and recovery](operations.md) · [Rubric index](rubric-tracker.md)
 
 [Original run notes](https://github.com/anle0429/iot-maintenance-platform/blob/f4da7bd21667a8bfca5715a7456bc2bcc813b0fc/docs/feast-feature-store.md) retain the full historical narrative. Raw evidence files have not been translated or rewritten.

@@ -22,7 +22,7 @@ The final four-client report has **78 requests, zero failures and p95 2,300 ms**
 
 ## Open the retained live viewers
 
-Use the existing lab after its [recovery and session checks](demo-walkthrough.md). The VM needs its original runtime state, private credentials and model image; a Git clone contains none of those. Readiness and certificate expiry must be checked again for a later session.
+Use the existing lab after its [recovery and session checks](operations.md). The VM needs its original runtime state, private credentials and model image; a Git clone contains none of those. Readiness and certificate expiry must be checked again for a later session.
 
 The administrative viewer is [source-controlled](../scripts/view-llm-monitoring.py). It listens only on VM loopback and verifies the existing NGINX gateway's private CA, hostname and authentication. An IAP tunnel brings that viewer to PC loopback. The browser displays HTTP on loopback; it does not establish trust in the private lab certificate itself.
 

@@ -1,8 +1,8 @@
 # Architecture
 
-This document describes the IoT lab implemented in this repository: the prediction request, the data and training jobs behind it, and the controls around deployment. The [README](../README.md#system-diagram) provides the platform overview; the [demo guide](demo-walkthrough.md) provides the operating commands.
+This document describes the IoT lab implemented in this repository: the prediction request, the data and training jobs behind it, and the controls around deployment. The [README](../README.md#architecture) provides the platform overview; the [demo guide](operations.md) provides the operating commands.
 
-The selected coursework scope includes both final ML and final LLM/agents. This page describes recorded Data/ML behavior and the recorded [LLM workstream](llm-agent-plan.md): inference, RAG and MCP have native evidence, and the [GPU checkpoint](gpu-agent-routing.md) verifies specialist answers and real coordinator delegation. The [requirement map](final-audit-matrix.md) and [post-restart rehearsal](learner-demo.md) connect those components to their own source-bound evidence.
+The selected coursework scope includes both final ML and final LLM/agents. This page describes recorded Data/ML behavior and the recorded [LLM workstream](llm-platform.md): inference, RAG and MCP have native evidence, and the [GPU checkpoint](gpu-agent-routing.md) verifies specialist answers and real coordinator delegation. The [requirement map](final-audit-matrix.md) and [post-restart rehearsal](agent-runtime-validation.md) connect those components to their own source-bound evidence.
 
 ## Scope and runtime
 
@@ -87,7 +87,7 @@ Kafka receives telemetry replayed in arrival order. Flink performs event-time ag
 - The online job reads the verified windows and pushes the latest eligible monitoring vectors through Feast.
 - Both paths retain state so an acknowledged replay does not increase counts or renew Redis keys.
 
-These are bounded replay checks of real retained Kafka/Flink output. The native 5,760-window run is separate from the three-window CI/Airflow demonstration. They do not establish exactly-once behavior under every crash or a new continuous live source. See [stream pipeline](day3-streaming.md), [CI deployment](ci-stream-push.md) and [full window cohort](window-cohort.md).
+These are bounded replay checks of real retained Kafka/Flink output. The native 5,760-window run is separate from the three-window CI/Airflow demonstration. They do not establish exactly-once behavior under every crash or a new continuous live source. See [stream pipeline](streaming.md), [CI deployment](ci-stream-push.md) and [full window cohort](window-cohort.md).
 
 ## Training and model lifecycle
 
@@ -131,7 +131,7 @@ The deployment also has API metrics and OTLP traces, host/Pod logs, and a separa
 | Google Cloud VM | One 8-vCPU/64-GiB host; separate boot, data and scratch disks | [Terraform](../infra/gcp/vm/), [IaC verification](iac-verification.md) |
 | K3s | APIs, KServe, Kubeflow Pipelines, ingress and selected security/Eventing workloads | [Helm charts](../infra/charts/), [KServe config](../infra/kserve/pump-failure.yaml) |
 | Docker | Spark jobs, Kafka/Flink, Airflow, DataHub, MLflow and Jenkins | [Orchestration Compose](../infra/orchestration.compose.yaml), [MLflow Compose](../infra/mlflow.compose.yaml) |
-| Host services | Prometheus, Grafana, Loki, Alloy, Pushgateway, exporter and Vault processes | [Host metrics](host-monitoring.md), [recovery](demo-walkthrough.md) |
+| Host services | Prometheus, Grafana, Loki, Alloy, Pushgateway, exporter and Vault processes | [Host metrics](host-monitoring.md), [recovery](operations.md) |
 
 The gateway provides authentication, rate limiting and private-CA HTTPS. Vault supplies scoped credentials to Jenkins and gateway synchronization. The [agent gateway milestone](agent-gateway.md) adds two dedicated AppRoles for the agent gateway and MCP/model-client Secret synchronization, preserving existing credential bytes. Mesh authorization was tested with workload identities in a separate namespace. OPA checks a deployment plan in CI; it is a policy gate, not a cluster admission webhook.
 
@@ -140,7 +140,7 @@ Database, artifact and registry state stays on VM volumes. A Git clone does not 
 ## Review and reproduce
 
 1. Follow [one inference request](#inference-request) from the route to the model and inspect its trace.
-2. Use the [demo guide](demo-walkthrough.md) for actual service access, feature refresh and expected HTTP results.
+2. Use the [demo guide](operations.md) for actual service access, feature refresh and expected HTTP results.
 3. Open the [final audit](final-audit.md) and [rubric matrix](final-audit-matrix.md) to locate the relevant code, reports and screenshots.
 4. Run `python -S scripts/audit-final-coursework.py --output outputs/<new-run>` from the repository root to verify recorded artifacts without starting the platform.
 
@@ -152,4 +152,4 @@ The supplied rubrics govern scope. [Card Fraud Platform](https://github.com/cvin
 
 ![Recorded GPU routing, MCP tools and verified agent delegation](images/platform-llm-plan.png)
 
-The llm-d router and CPU backend have [native inference evidence](llm-inference.md). The [RAG pipeline](rag-orchestration.md), [source-cited generation](llm-grounding.md) and [authenticated MCP services](mcp-tools.md) are separately verified; the [native controller/catalog and gVisor templates](agent-platform.md) are recorded, and [complete specialist/coordinator conversations on the GPU route](gpu-agent-routing.md) are verified. [Worker-level direct MCP isolation](agent-network-isolation.md) is verified with reversible native controls. [Automatic worker scaling](agent-scaling.md) is verified for all three roles. The [executed notebook](agent-notebook.md) demonstrates Feast-backed features, RAG and drift. The [matched startup experiment](agent-warmup.md) records mixed snapshot timings and the single-host HA limit. [RAG delivery](ci-rag.md) and [three MCP/agent pipelines](ci-agents.md) have native CI proof. [Private gateways](agent-gateway.md), [native telemetry](llm-monitoring-demo.md), [model A/B](llm-model-ab.md), [agent A/B](agent-configuration-ab.md) and the [fresh rehearsal](learner-demo.md) have separate recorded proofs. See the [learning guide](llm-learning-guide.md), [workstream](llm-agent-plan.md), [source rubric](rubric-source.md) and [LLM tracker](final-llm-rubric-tracker.md). The drawing itself is not runtime evidence.
+The llm-d router and CPU backend have [native inference evidence](llm-inference.md). The [RAG pipeline](rag-orchestration.md), [source-cited generation](llm-grounding.md) and [authenticated MCP services](mcp-tools.md) are separately verified; the [native controller/catalog and gVisor templates](agent-platform.md) are recorded, and [complete specialist/coordinator conversations on the GPU route](gpu-agent-routing.md) are verified. [Worker-level direct MCP isolation](agent-network-isolation.md) is verified with reversible native controls. [Automatic worker scaling](agent-scaling.md) is verified for all three roles. The [executed notebook](agent-notebook.md) demonstrates Feast-backed features, RAG and drift. The [matched startup experiment](agent-warmup.md) records mixed snapshot timings and the single-host HA limit. [RAG delivery](ci-rag.md) and [three MCP/agent pipelines](ci-agents.md) have native CI proof. [Private gateways](agent-gateway.md), [native telemetry](llm-monitoring-demo.md), [model A/B](llm-model-ab.md), [agent A/B](agent-configuration-ab.md) and the [fresh rehearsal](agent-runtime-validation.md) have separate recorded proofs. See the [documentation index](README.md), [workstream](llm-platform.md), [source rubric](rubric-source.md) and [LLM tracker](final-llm-rubric-tracker.md). The drawing itself is not runtime evidence.

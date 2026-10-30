@@ -1,5 +1,0 @@
-[tool.mutmut]
-source_paths = ["services/predictor/"]
-pytest_add_cli_args_test_selection = ["tests/api/"]
-also_copy = ["models/", "ml/", "tests/fixtures/", "services/__init__.py"]
-process_isolation = "forkserver"

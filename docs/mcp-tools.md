@@ -1,6 +1,13 @@
 # Machine and knowledge tools over MCP
 
-Two private MCP services now expose the existing IoT APIs and knowledge snapshot. Native SDK clients discovered and executed the tools on Kubernetes, including rejected requests and replay after an automatic Helm rollback. This milestone establishes tool execution. The specialist agents and coordinator are a separate, unfinished integration.
+| Boundary | Implementation / execution |
+|---|---|
+| Code | [Application factory](../services/mcp_tools/app.py), [typed contracts](../services/mcp_tools/contracts.py), [runtime](../services/mcp_tools/runtime.py) |
+| Runs on | Two retrieval and two drift MCP replicas in K3s `iot-agents` |
+| Input → output | Authenticated role-specific tool call → validated native feature/model/reference/drift facts |
+| Validation | Original SDK/rollout cases below; [current API quality](mcp-quality-evidence.md) and [agent delegation](agent-runtime-validation.md) are separately scoped |
+
+Two private MCP services now expose the existing IoT APIs and knowledge snapshot. Native SDK clients discovered and executed the tools on Kubernetes, including rejected requests and replay after an automatic Helm rollback. This milestone establishes tool execution. [Specialist answers and coordinator delegation](gpu-agent-routing.md) have separate native validation. This page retains the original MCP-service workload and version scope.
 
 ## Follow one request
 

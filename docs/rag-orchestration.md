@@ -1,5 +1,12 @@
 # Airflow RAG pipeline and DataHub governance
 
+| Boundary | Implementation / execution |
+|---|---|
+| Code | [Pipeline](../rag/pipeline.py), [Airflow tasks](../rag/airflow_tasks.py), [quality](../rag/quality.py) |
+| Runs on | Native Airflow tasks with a pinned CPU encoder and versioned Feast/Milvus snapshot |
+| Input → output | Authored documents/catalog → source-bound chunks, embeddings, validation and DataHub lineage |
+| Validation | Six executed tasks, ten persisted checks and rejected invalid input; [delivery CI](ci-rag.md) has its own release proof |
+
 The knowledge pipeline now runs as six real Airflow tasks on the coursework VM. It validates persisted data before publishing five datasets, their schemas, lineage, jobs and assertion results to DataHub. The recorded corpus contains four authored references and 18 chunks; this is a bounded knowledge workload, separate from the 100-GB telemetry source.
 
 ## Task responsibilities

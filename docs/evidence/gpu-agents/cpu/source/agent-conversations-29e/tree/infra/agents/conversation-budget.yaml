@@ -1,9 +1,0 @@
-# Pending VM acceptance: allow complete compact answers and two slow CPU-backed specialist delegations.
-# Apply over the existing TLS-verified Helm values; this file contains no endpoint, credential or resource change.
-controller:
-  a2aClientTimeout: 1800s
-providers:
-  openAI:
-    config:
-      maxTokens: 768
-      timeout: 600
