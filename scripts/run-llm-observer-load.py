@@ -33,10 +33,12 @@ def run(args):
         (out/name).write_bytes(raw);return json.loads(raw)
     old=ledger('ledger-before.json');old_ids={v['event_id'] for v in old if v['kind']=='request'}
     secret=get('secret','iot-llm-observer-client','-n','iot-llm');token=base64.b64decode(secret['data']['API_KEY'])
-    private=root/'data/runtime/llm-monitoring-29a/load-token';assert not private.exists();private.write_bytes(token);os.chown(private,10001,10001);private.chmod(0o600)
+    private_dir=root/'data/runtime'/(out.name+'-private');private_dir.mkdir(exist_ok=False);os.chown(private_dir,10001,10001);private_dir.chmod(0o700)
+    private=private_dir/'token';private.write_bytes(token);os.chown(private,10001,10001);private.chmod(0o600)
     executable=root/'data/runtime/locust-venv/bin/locust';command('locust-version',[str(executable),'--version'])
     save('source.json',seal)
     try:
+        command('load-user-can-read-private-token',['test','-r',str(private)],user=10001,group=10001)
         for users in [1,4]:
             prefix=out/('users-'+str(users));env={**os.environ,'HOME':'/tmp','PYTHONDONTWRITEBYTECODE':'1',
                 'IOT_LLM_LOAD_TOKEN_FILE':str(private),'IOT_LLM_LOAD_SUMMARY':str(prefix)+'-summary.json'}
@@ -63,7 +65,7 @@ def run(args):
         for p in out.rglob('*'):
             if p.is_file():assert token not in p.read_bytes() and base64.b64encode(token) not in p.read_bytes()
         print(json.dumps(report))
-    finally:private.unlink()
+    finally:private.unlink();private_dir.rmdir()
 
 
 if __name__=='__main__':
