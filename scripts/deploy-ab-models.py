@@ -51,6 +51,7 @@ def run(args):
     spec=before['spec']['template']['spec'];assert spec['nodeSelector']['kubernetes.io/hostname']=='iot-cw-gpu' and len(spec['containers'])==1
     assert spec['containers'][0]['image']=='ghcr.io/ggml-org/llama.cpp@sha256:d854233e9f043046f363953047ff518a9792b044cea1d53f86d299e88344cd5f'
     assert '--model' in spec['containers'][0]['args'] and '--models-preset' not in spec['containers'][0]['args']
+    assert before['status'].get('availableReplicas')==1
     base='http://'+service['spec']['clusterIP']+':8080'
     history=json.loads(command('history-before',helm+['history','iot-model-gpu','-n','iot-llm','-o','json']).stdout);revision=history[-1]['revision'];assert history[-1]['status']=='deployed'
     command('gpu-before',k+['exec','deployment/iot-model-gpu','-n','iot-llm','--','nvidia-smi','--query-gpu=name,memory.total,memory.used,utilization.gpu','--format=csv,noheader'])
@@ -76,7 +77,14 @@ def run(args):
         began=time.monotonic();rollout=True
         command('upgrade',helm+['upgrade','iot-model-gpu',str(chart),'-n','iot-llm','--atomic','--wait','--timeout=10m'],timeout=660)
         for model in MODELS:http('load-'+model,'/models/load',{'model':model})
-        models=http('loaded-models','/models');save('loaded-models-decoded.json',models)
+        for attempt in range(100):
+            models=http('model-status-'+str(attempt),'/models');states={v['id']:v['status']['value'] for v in models['data']}
+            assert set(states)==set(MODELS)
+            if all(v=='loaded' for v in states.values()):break
+            if any(v not in {'loading','loaded'} for v in states.values()):raise ValueError('An explicitly loaded model entered an unexpected state')
+            time.sleep(2)
+        else:raise ValueError('Explicit model loads did not become ready in the bounded warm-up window')
+        save('loaded-models-decoded.json',models)
         for model in MODELS:
             result=http('smoke-'+model,'/v1/chat/completions',{'model':model,'messages':[{'role':'user','content':'Name one common industrial pump sensor.'}],
                 'max_tokens':16,'temperature':0,'seed':7,'cache_prompt':False})
@@ -113,6 +121,7 @@ def run(args):
             'scope':'Two pinned artifact sizes in one existing one-GPU server-router container, explicit local presets, native model-specific replies/metrics and preserved primary route. Recreate has downtime; this is not an A/B outcome or zero-downtime claim.'}
         save('verification.json',report);print(json.dumps(report))
     except Exception as error:
+        command('model-logs-on-error',k+['logs','deployment/iot-model-gpu','-n','iot-llm','--tail=250'],check=False)
         if rollout:
             latest=get('model-on-error','deployment','iot-model-gpu','-n','iot-llm')
             if latest['spec']!=before['spec']:
