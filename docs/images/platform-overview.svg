@@ -1,131 +1,384 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1210" viewBox="0 0 1800 1210" role="img" aria-labelledby="title desc">
-<title id="title">IoT Maintenance Platform</title><desc id="desc">Data and ML workflows verified in separate lab runs; the LLM extension is shown separately.</desc><rect width="100%" height="100%" fill="white"/>
-<text x="44" y="78" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="34" font-weight="600" text-anchor="start" fill="#16273b">IoT Maintenance Platform</text>
-<text x="44" y="113" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="19" font-weight="400" text-anchor="start" fill="#526174">Data and ML workflows verified in separate lab runs; the LLM extension is shown separately.</text>
-<text x="44" y="1194" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#657386">Architecture illustration — not a runtime screenshot. Source: docs/diagrams/platform.py</text>
-<rect x="35" y="150" width="1730" height="270" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
-<text x="55" y="186" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">DATA PLATFORM — persisted JSONL / Parquet handoffs</text>
-<rect x="55" y="225" width="245" height="145" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
-<text x="177.5" y="277.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Generator job</text>
-<text x="177.5" y="307.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Seeded pump simulation</text>
-<text x="177.5" y="332.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Immutable source parts</text>
-<rect x="343" y="225" width="245" height="145" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
-<text x="465.5" y="277.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">DP1 Spark ingest</text>
-<text x="465.5" y="307.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Bronze Parquet</text>
-<text x="465.5" y="332.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">100 GB source verified</text>
-<rect x="631" y="225" width="245" height="145" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
-<text x="753.5" y="277.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">DP2 Spark job</text>
-<text x="753.5" y="307.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Dedup and cleaning</text>
-<text x="753.5" y="332.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Silver / curated outputs</text>
-<rect x="919" y="225" width="245" height="145" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
-<text x="1041.5" y="277.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">DP3 feature job</text>
-<text x="1041.5" y="307.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Eight rolling inputs</text>
-<text x="1041.5" y="332.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">60-day ML dataset</text>
-<rect x="1207" y="225" width="245" height="145" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
-<text x="1329.5" y="277.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Materialization job</text>
-<text x="1329.5" y="307.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Feast SDK inside job</text>
-<text x="1329.5" y="332.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Incremental / replay</text>
-<rect x="1495" y="225" width="245" height="145" rx="12" fill="#e5f4ed" stroke="#368168" stroke-width="2"/>
-<text x="1617.5" y="277.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Redis online store</text>
-<text x="1617.5" y="307.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Batch-stream project</text>
-<text x="1617.5" y="332.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Separate API namespace</text>
-<polyline points="300,295 343,295" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="343,295 332.60769515458674,301.0 332.60769515458674,289.0" fill="#596e86"/>
-<rect x="263.5" y="193" width="115.0" height="25" rx="4" fill="white"/>
-<text x="321" y="210" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">D1  Source files</text>
-<polyline points="588,295 631,295" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="631,295 620.6076951545867,301.0 620.6076951545867,289.0" fill="#596e86"/>
-<rect x="539.0" y="193" width="140.0" height="25" rx="4" fill="white"/>
-<text x="609" y="210" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">D2  Bronze Parquet</text>
-<polyline points="876,295 919,295" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="919,295 908.6076951545867,301.0 908.6076951545867,289.0" fill="#596e86"/>
-<rect x="836.5" y="193" width="121.0" height="25" rx="4" fill="white"/>
-<text x="897" y="210" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">D3  Silver / Gold</text>
-<polyline points="1164,295 1207,295" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="1207,295 1196.6076951545867,301.0 1196.6076951545867,289.0" fill="#596e86"/>
-<rect x="1113.5" y="193" width="143.0" height="25" rx="4" fill="white"/>
-<text x="1185" y="210" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">D4  Feature Parquet</text>
-<polyline points="1452,295 1495,295" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="1495,295 1484.6076951545867,301.0 1484.6076951545867,289.0" fill="#596e86"/>
-<rect x="1406.5" y="193" width="133.0" height="25" rx="4" fill="white"/>
-<text x="1473" y="210" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">D5  Online vectors</text>
-<rect x="35" y="485" width="1730" height="290" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
-<text x="55" y="521" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">ML PLATFORM — five pipeline tasks; two executor Pods on the same VM</text>
-<rect x="65" y="560" width="270" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
-<text x="200.0" y="624.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Kubeflow API</text>
-<text x="200.0" y="654.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Orchestrates five tasks</text>
-<rect x="415" y="560" width="270" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
-<text x="550.0" y="612.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">ML task Pods</text>
-<text x="550.0" y="642.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Fresh Feast retrieval</text>
-<text x="550.0" y="667.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Two-executor Spark fit</text>
-<rect x="765" y="560" width="270" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
-<text x="900.0" y="612.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">MLflow registry</text>
-<text x="900.0" y="642.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Data / model versions</text>
-<text x="900.0" y="667.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Model 7 is a candidate</text>
-<rect x="1115" y="560" width="270" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
-<text x="1250.0" y="612.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Jenkins controller</text>
-<text x="1250.0" y="642.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Tests, build and gates</text>
-<text x="1250.0" y="667.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">A/B / Helm rollback</text>
-<rect x="1465" y="560" width="270" height="145" rx="12" fill="#f0ebff" stroke="#7959ad" stroke-width="2"/>
-<text x="1600.0" y="612.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">KServe predictor</text>
-<text x="1600.0" y="642.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Recorded serving pin: 6</text>
-<text x="1600.0" y="667.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Model artifact in image</text>
-<polyline points="335,625 415,625" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="415,625 404.60769515458674,631.0 404.60769515458674,619.0" fill="#596e86"/>
-<rect x="305.0" y="528" width="140.0" height="25" rx="4" fill="white"/>
-<text x="375" y="545" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">T1  Run parameters</text>
-<polyline points="685,625 765,625" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="765,625 754.6076951545867,631.0 754.6076951545867,619.0" fill="#596e86"/>
-<rect x="679.5" y="528" width="91.0" height="25" rx="4" fill="white"/>
-<text x="725" y="545" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">T2  Artifacts</text>
-<polyline points="1035,625 1115,625" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="1115,625 1104.6076951545867,631.0 1104.6076951545867,619.0" fill="#596e86"/>
-<rect x="1003.0" y="528" width="144.0" height="25" rx="4" fill="white"/>
-<text x="1075" y="545" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">C1  Selected bundle</text>
-<polyline points="1385,625 1465,625" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="1465,625 1454.6076951545867,631.0 1454.6076951545867,619.0" fill="#596e86"/>
-<rect x="1355.0" y="528" width="140.0" height="25" rx="4" fill="white"/>
-<text x="1425" y="545" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">C2  Image / release</text>
-<polyline points="1041,370 1041,455 550,455 550,560" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="550,560 544.0,549.6076951545867 556.0,549.6076951545867" fill="#596e86"/>
-<rect x="683.0" y="436" width="234.0" height="25" rx="4" fill="white"/>
-<text x="800" y="453" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">D6  Offline features via Feast SDK</text>
-<rect x="35" y="830" width="1730" height="265" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>
-<text x="55" y="866" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="start" fill="#16273b">STREAM STORE CHECKS — retained Kafka/Flink windows; separate bounded replay workload</text>
-<rect x="65" y="900" width="270" height="145" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
-<text x="200.0" y="964.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Kafka broker</text>
-<text x="200.0" y="994.5" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Arrival-ordered replay</text>
-<rect x="415" y="900" width="270" height="145" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
-<text x="550.0" y="952.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Flink job</text>
-<text x="550.0" y="982.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Event-time windows</text>
-<text x="550.0" y="1007.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Dedup / late side output</text>
-<rect x="765" y="900" width="270" height="145" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
-<text x="900.0" y="952.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Offline writer job</text>
-<text x="900.0" y="982.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Parquet history</text>
-<text x="900.0" y="1007.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Replay is a no-op</text>
-<rect x="1115" y="900" width="270" height="145" rx="12" fill="#eaf2ff" stroke="#3c68aa" stroke-width="2"/>
-<text x="1250.0" y="952.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Online writer job</text>
-<text x="1250.0" y="982.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Latest monitoring vector</text>
-<text x="1250.0" y="1007.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">No label substitution</text>
-<rect x="1465" y="900" width="270" height="145" rx="12" fill="#e5f4ed" stroke="#368168" stroke-width="2"/>
-<text x="1600.0" y="952.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="21" font-weight="600" text-anchor="middle" fill="#16273b">Redis online store</text>
-<text x="1600.0" y="982.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Finalized-window project</text>
-<text x="1600.0" y="1007.0" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="middle" fill="#3c5066">Different feature schema</text>
-<polyline points="335,970 415,970" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="415,970 404.60769515458674,976.0 404.60769515458674,964.0" fill="#596e86"/>
-<rect x="326.5" y="870" width="97.0" height="25" rx="4" fill="white"/>
-<text x="375" y="887" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">S1  Readings</text>
-<polyline points="685,970 765,970" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="765,970 754.6076951545867,976.0 754.6076951545867,964.0" fill="#596e86"/>
-<rect x="646.5" y="870" width="157.0" height="25" rx="4" fill="white"/>
-<text x="725" y="887" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">S2  Finalized windows</text>
-<polyline points="1035,970 1115,970" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="1115,970 1104.6076951545867,976.0 1104.6076951545867,964.0" fill="#596e86"/>
-<rect x="1007.0078125" y="870" width="135.984375" height="25" rx="4" fill="white"/>
-<text x="1075" y="887" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">S3  Verified history</text>
-<polyline points="1385,970 1465,970" fill="none" stroke="#596e86" stroke-width="2.5"/>
-<polygon points="1465,970 1454.6076951545867,976.0 1454.6076951545867,964.0" fill="#596e86"/>
-<rect x="1362.0" y="870" width="126.0" height="25" rx="4" fill="white"/>
-<text x="1425" y="887" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#16273b">S4  Latest vectors</text>
-<text x="45" y="1147" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#16273b">100 GB covers Bronze/Silver. Feature engineering and ML use a separate 60-day source. Repeated store boxes are workflow views.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1710" viewBox="0 0 2200 1710" role="img" aria-labelledby="title desc">
+<title id="title">Data to decisions</title><desc id="desc">Batch processing, time-aware ML and bounded streaming share a governed IoT data foundation. Agent execution has its own detailed view.</desc>
+<defs><filter id="card-shadow" x="-10%" y="-20%" width="120%" height="150%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#142D40" flood-opacity="0.07"/></filter></defs>
+<rect x="0" y="0" width="2200" height="1710" rx="0" fill="#F7F9FC"/>
+<rect x="0" y="0" width="2200" height="208" rx="0" fill="#102B3C"/>
+<text x="64" y="42" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#B8CAD6">IOT MAINTENANCE PLATFORM / 01 OF 05</text>
+<text x="64" y="98" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="42" font-weight="600" fill="#FFFFFF">Data to decisions</text>
+<text x="64" y="146" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="18" font-weight="400" fill="#B8CAD6">Batch processing, time-aware ML and bounded streaming share a governed IoT data foundation. Agent execution has its own detailed view.</text>
+<g id="boundary-batch">
+<rect x="56" y="430" width="2088" height="390" rx="18" fill="#EAF7F3" stroke="#DCE5ED"/>
+<text x="80" y="460" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#127A74">01</text>
+<text x="128" y="463" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="21" font-weight="600" fill="#142D40">Batch data and online features</text>
+</g>
+<g id="boundary-ml">
+<rect x="56" y="865" width="2088" height="330" rx="18" fill="#F4F0FB" stroke="#DCE5ED"/>
+<text x="80" y="895" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#7055B5">02</text>
+<text x="128" y="898" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="21" font-weight="600" fill="#142D40">Training and controlled serving</text>
+</g>
+<g id="boundary-stream">
+<rect x="56" y="1240" width="2088" height="330" rx="18" fill="#EEF4FC" stroke="#DCE5ED"/>
+<text x="80" y="1270" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#2764B5">03</text>
+<text x="128" y="1273" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="21" font-weight="600" fill="#142D40">Finalized stream features</text>
+</g>
+<g id="node-airflow" aria-label="Airflow scheduler"><title>CONTAINER / LOCAL EXECUTOR: Airflow scheduler</title>
+<rect x="80" y="270" width="252" height="108" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="80" y="284" width="3" height="80" rx="1" fill="#536B82"/>
+<text x="92" y="287" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="10" font-weight="400" fill="#536B82">CONTAINER / LOCAL EXECUTOR</text>
+<g transform="translate(92 300)" fill="none" stroke="#536B82" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="1,13 6,13 10,3 15,21 19,13 23,13"/>
+</g>
+<text x="126" y="314" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="17" font-weight="600" fill="#142D40">Airflow scheduler</text>
+<text x="92" y="341" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="400" fill="#526579">Bounded DP1–DP3, RAG and drift</text>
+<text x="92" y="358" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="400" fill="#526579">DAGs</text>
+</g>
+<g id="node-datahub" aria-label="DataHub GMS"><title>METADATA SERVICE: DataHub GMS</title>
+<rect x="412" y="270" width="252" height="108" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="412" y="284" width="3" height="80" rx="1" fill="#536B82"/>
+<text x="424" y="286" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="10" font-weight="400" fill="#536B82">METADATA SERVICE</text>
+<g transform="translate(424 300)" fill="none" stroke="#536B82" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="1,13 6,13 10,3 15,21 19,13 23,13"/>
+</g>
+<text x="458" y="313" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="17" font-weight="600" fill="#142D40">DataHub GMS</text>
+<text x="424" y="341" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="400" fill="#526579">Schemas, lineage and assertions</text>
+</g>
+<g id="node-gen" aria-label="Generator job"><title>SEEDED JOB: Generator job</title>
+<rect x="80" y="515" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="80" y="529" width="3" height="124" rx="1" fill="#127A74"/>
+<text x="96" y="536" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#127A74">SEEDED JOB</text>
+<g transform="translate(96 553)" fill="none" stroke="#127A74" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="5,3 5,21"/>
+<polyline points="5,13 18,6 18,2"/>
+<polyline points="2,3 8,3"/>
+<polyline points="2,21 8,21"/>
+<polyline points="15,2 21,2"/>
+</g>
+<text x="130" y="568" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Generator job</text>
+<text x="96" y="601" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Pump readings, states, faults</text>
+<text x="96" y="623" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">and arrival-order events</text>
+</g>
+<g id="node-ingest" aria-label="Bronze ingest"><title>SPARK JOB: Bronze ingest</title>
+<rect x="432" y="515" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="432" y="529" width="3" height="124" rx="1" fill="#127A74"/>
+<text x="448" y="536" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#127A74">SPARK JOB</text>
+<g transform="translate(448 553)" fill="none" stroke="#127A74" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="5,3 5,21"/>
+<polyline points="5,13 18,6 18,2"/>
+<polyline points="2,3 8,3"/>
+<polyline points="2,21 8,21"/>
+<polyline points="15,2 21,2"/>
+</g>
+<text x="482" y="568" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Bronze ingest</text>
+<text x="448" y="601" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">102.45 GB source milestone</text>
+<text x="448" y="623" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Chunked Parquet ingestion</text>
+</g>
+<g id="node-clean" aria-label="Silver cleaning"><title>SPARK JOB: Silver cleaning</title>
+<rect x="784" y="515" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="784" y="529" width="3" height="124" rx="1" fill="#127A74"/>
+<text x="800" y="536" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#127A74">SPARK JOB</text>
+<g transform="translate(800 553)" fill="none" stroke="#127A74" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="5,3 5,21"/>
+<polyline points="5,13 18,6 18,2"/>
+<polyline points="2,3 8,3"/>
+<polyline points="2,21 8,21"/>
+<polyline points="15,2 21,2"/>
+</g>
+<text x="834" y="568" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Silver cleaning</text>
+<text x="800" y="601" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Deduplication and validation</text>
+<text x="800" y="623" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Large-source Silver output</text>
+</g>
+<g id="node-feature" aria-label="Feature job"><title>SEPARATE 60-DAY COHORT: Feature job</title>
+<rect x="1136" y="515" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="1136" y="529" width="3" height="124" rx="1" fill="#127A74"/>
+<text x="1152" y="536" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#127A74">SEPARATE 60-DAY COHORT</text>
+<g transform="translate(1152 553)" fill="none" stroke="#127A74" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="5,3 5,21"/>
+<polyline points="5,13 18,6 18,2"/>
+<polyline points="2,3 8,3"/>
+<polyline points="2,21 8,21"/>
+<polyline points="15,2 21,2"/>
+</g>
+<text x="1186" y="568" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Feature job</text>
+<text x="1152" y="601" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Eight rolling inputs</text>
+<text x="1152" y="623" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Sample IDs and two-column labels</text>
+</g>
+<g id="node-materialize" aria-label="Materialization"><title>FEAST SDK / JOB: Materialization</title>
+<rect x="1488" y="515" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="1488" y="529" width="3" height="124" rx="1" fill="#127A74"/>
+<text x="1504" y="537" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#127A74">FEAST SDK / JOB</text>
+<g transform="translate(1504 553)" fill="none" stroke="#127A74" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="5,3 5,21"/>
+<polyline points="5,13 18,6 18,2"/>
+<polyline points="2,3 8,3"/>
+<polyline points="2,21 8,21"/>
+<polyline points="15,2 21,2"/>
+</g>
+<text x="1538" y="568" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Materialization</text>
+<text x="1504" y="601" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Incremental offline-to-online</text>
+<text x="1504" y="623" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Real timestamp and TTL checks</text>
+</g>
+<g id="node-redis" aria-label="Redis online store"><title>BATCH FEATURE PROJECT: Redis online store</title>
+<rect x="1840" y="515" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="1840" y="529" width="3" height="124" rx="1" fill="#AF681A"/>
+<text x="1856" y="536" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#AF681A">BATCH FEATURE PROJECT</text>
+<g transform="translate(1856 553)" fill="none" stroke="#AF681A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="2,5 5,2 19,2 22,5 19,8 5,8 2,5 2,19 5,22 19,22 22,19 22,5"/>
+<polyline points="2,12 5,15 19,15 22,12"/>
+</g>
+<text x="1890" y="568" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Redis online store</text>
+<text x="1856" y="601" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Latest eligible feature vectors</text>
+<text x="1856" y="623" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Separate serving preparation</text>
+</g>
+<g id="node-kfp" aria-label="Kubeflow API"><title>KUBERNETES API: Kubeflow API</title>
+<rect x="100" y="930" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="100" y="944" width="3" height="124" rx="1" fill="#7055B5"/>
+<text x="116" y="951" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#7055B5">KUBERNETES API</text>
+<g transform="translate(116 968)" fill="none" stroke="#7055B5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="5,5 19,5 19,19 5,19 5,5"/>
+<polyline points="9,9 15,9 15,15 9,15 9,9"/>
+<polyline points="9,1 9,5"/>
+<polyline points="15,1 15,5"/>
+<polyline points="9,19 9,23"/>
+<polyline points="15,19 15,23"/>
+<polyline points="1,9 5,9"/>
+<polyline points="19,9 23,9"/>
+<polyline points="1,15 5,15"/>
+<polyline points="19,15 23,15"/>
+</g>
+<text x="150" y="983" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Kubeflow API</text>
+<text x="116" y="1016" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Five-step ML pipeline</text>
+<text x="116" y="1038" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Task/run orchestration</text>
+</g>
+<g id="node-tasks" aria-label="ML task Pods"><title>PIPELINE TASKS: ML task Pods</title>
+<rect x="524" y="930" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="524" y="944" width="3" height="124" rx="1" fill="#7055B5"/>
+<text x="540" y="951" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#7055B5">PIPELINE TASKS</text>
+<g transform="translate(540 968)" fill="none" stroke="#7055B5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="5,5 19,5 19,19 5,19 5,5"/>
+<polyline points="9,9 15,9 15,15 9,15 9,9"/>
+<polyline points="9,1 9,5"/>
+<polyline points="15,1 15,5"/>
+<polyline points="9,19 9,23"/>
+<polyline points="15,19 15,23"/>
+<polyline points="1,9 5,9"/>
+<polyline points="19,9 23,9"/>
+<polyline points="1,15 5,15"/>
+<polyline points="19,15 23,15"/>
+</g>
+<text x="574" y="983" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">ML task Pods</text>
+<text x="540" y="1016" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Feast retrieval and temporal split</text>
+<text x="540" y="1038" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Two-executor Spark training</text>
+</g>
+<g id="node-mlflow" aria-label="MLflow registry"><title>MODEL / DATA ARTIFACTS: MLflow registry</title>
+<rect x="948" y="930" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="948" y="944" width="3" height="124" rx="1" fill="#7055B5"/>
+<text x="964" y="952" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#7055B5">MODEL / DATA ARTIFACTS</text>
+<g transform="translate(964 968)" fill="none" stroke="#7055B5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="5,5 19,5 19,19 5,19 5,5"/>
+<polyline points="9,9 15,9 15,15 9,15 9,9"/>
+<polyline points="9,1 9,5"/>
+<polyline points="15,1 15,5"/>
+<polyline points="9,19 9,23"/>
+<polyline points="15,19 15,23"/>
+<polyline points="1,9 5,9"/>
+<polyline points="19,9 23,9"/>
+<polyline points="1,15 5,15"/>
+<polyline points="19,15 23,15"/>
+</g>
+<text x="998" y="983" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">MLflow registry</text>
+<text x="964" y="1016" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Weights and hyperparameters</text>
+<text x="964" y="1038" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Incremental data versions</text>
+</g>
+<g id="node-jenkins" aria-label="Jenkins controller"><title>CI / CD: Jenkins controller</title>
+<rect x="1372" y="930" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="1372" y="944" width="3" height="124" rx="1" fill="#536B82"/>
+<text x="1388" y="952" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#536B82">CI / CD</text>
+<g transform="translate(1388 968)" fill="none" stroke="#536B82" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="1,13 6,13 10,3 15,21 19,13 23,13"/>
+</g>
+<text x="1422" y="983" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Jenkins controller</text>
+<text x="1388" y="1016" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Test, build and auto-deploy</text>
+<text x="1388" y="1038" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Model pin, A/B and rollback</text>
+</g>
+<g id="node-serve" aria-label="KServe predictor"><title>INFERENCE WORKLOAD: KServe predictor</title>
+<rect x="1796" y="930" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="1796" y="944" width="3" height="124" rx="1" fill="#7055B5"/>
+<text x="1812" y="951" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#7055B5">INFERENCE WORKLOAD</text>
+<g transform="translate(1812 968)" fill="none" stroke="#7055B5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="5,5 19,5 19,19 5,19 5,5"/>
+<polyline points="9,9 15,9 15,15 9,15 9,9"/>
+<polyline points="9,1 9,5"/>
+<polyline points="15,1 15,5"/>
+<polyline points="9,19 9,23"/>
+<polyline points="15,19 15,23"/>
+<polyline points="1,9 5,9"/>
+<polyline points="19,9 23,9"/>
+<polyline points="1,15 5,15"/>
+<polyline points="19,15 23,15"/>
+</g>
+<text x="1846" y="983" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">KServe predictor</text>
+<text x="1812" y="1016" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Recorded serving model: 6</text>
+<text x="1812" y="1038" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Model 7 remains a candidate</text>
+</g>
+<g id="node-kafka" aria-label="Kafka broker"><title>KRAFT BROKER: Kafka broker</title>
+<rect x="100" y="1310" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="100" y="1324" width="3" height="124" rx="1" fill="#2764B5"/>
+<text x="116" y="1331" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#2764B5">KRAFT BROKER</text>
+<g transform="translate(116 1348)" fill="none" stroke="#2764B5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="2,3 22,3 22,10 2,10 2,3"/>
+<polyline points="2,14 22,14 22,21 2,21 2,14"/>
+<polyline points="6,6 7,6"/>
+<polyline points="6,17 7,17"/>
+</g>
+<text x="150" y="1363" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Kafka broker</text>
+<text x="116" y="1396" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Telemetry replayed in arrival order</text>
+</g>
+<g id="node-flink" aria-label="Flink job"><title>STREAM CONTAINER: Flink job</title>
+<rect x="524" y="1310" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="524" y="1324" width="3" height="124" rx="1" fill="#127A74"/>
+<text x="540" y="1331" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#127A74">STREAM CONTAINER</text>
+<g transform="translate(540 1348)" fill="none" stroke="#127A74" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="5,3 5,21"/>
+<polyline points="5,13 18,6 18,2"/>
+<polyline points="2,3 8,3"/>
+<polyline points="2,21 8,21"/>
+<polyline points="15,2 21,2"/>
+</g>
+<text x="574" y="1363" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Flink job</text>
+<text x="540" y="1396" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Event-time windows</text>
+<text x="540" y="1418" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Deduplication and late output</text>
+</g>
+<g id="node-offline" aria-label="Offline writer"><title>INDEPENDENT JOB: Offline writer</title>
+<rect x="948" y="1310" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="948" y="1324" width="3" height="124" rx="1" fill="#127A74"/>
+<text x="964" y="1331" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#127A74">INDEPENDENT JOB</text>
+<g transform="translate(964 1348)" fill="none" stroke="#127A74" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="5,3 5,21"/>
+<polyline points="5,13 18,6 18,2"/>
+<polyline points="2,3 8,3"/>
+<polyline points="2,21 8,21"/>
+<polyline points="15,2 21,2"/>
+</g>
+<text x="998" y="1363" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Offline writer</text>
+<text x="964" y="1396" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Validated Parquet window history</text>
+<text x="964" y="1418" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Replay does not add rows</text>
+</g>
+<g id="node-online" aria-label="Online writer"><title>INDEPENDENT JOB: Online writer</title>
+<rect x="1372" y="1310" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="1372" y="1324" width="3" height="124" rx="1" fill="#127A74"/>
+<text x="1388" y="1331" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#127A74">INDEPENDENT JOB</text>
+<g transform="translate(1388 1348)" fill="none" stroke="#127A74" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="5,3 5,21"/>
+<polyline points="5,13 18,6 18,2"/>
+<polyline points="2,3 8,3"/>
+<polyline points="2,21 8,21"/>
+<polyline points="15,2 21,2"/>
+</g>
+<text x="1422" y="1363" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Online writer</text>
+<text x="1388" y="1396" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Push eligible finalized windows</text>
+<text x="1388" y="1418" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Replayed writes keep their TTL</text>
+</g>
+<g id="node-streamredis" aria-label="Redis stream store"><title>STREAM FEATURE PROJECT: Redis stream store</title>
+<rect x="1796" y="1310" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
+<rect x="1796" y="1324" width="3" height="124" rx="1" fill="#AF681A"/>
+<text x="1812" y="1331" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="11" font-weight="400" fill="#AF681A">STREAM FEATURE PROJECT</text>
+<g transform="translate(1812 1348)" fill="none" stroke="#AF681A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="2,5 5,2 19,2 22,5 19,8 5,8 2,5 2,19 5,22 19,22 22,19 22,5"/>
+<polyline points="2,12 5,15 19,15 22,12"/>
+</g>
+<text x="1846" y="1363" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Redis stream store</text>
+<text x="1812" y="1396" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Finalized monitoring vectors</text>
+<text x="1812" y="1418" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Different schema from ML inputs</text>
+</g>
+<g id="edge-D1" aria-label="Source chunks"><path d="M360 591 L432 591" fill="none" stroke="#127A74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="432,591 422.2430558494279,596.0795709309563 422.2430558494279,585.9204290690437" fill="#127A74"/>
+<rect x="328.5" y="480" width="135.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="336.5" y="491" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#127A74">D1 Source chunks</text>
+</g>
+<g id="edge-D2" aria-label="Bronze Parquet"><path d="M712 591 L784 591" fill="none" stroke="#127A74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="784,591 774.2430558494278,596.0795709309563 774.2430558494278,585.9204290690437" fill="#127A74"/>
+<rect x="677.0" y="480" width="142.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="685.0" y="491" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#127A74">D2 Bronze Parquet</text>
+</g>
+<g id="edge-F1" aria-label="Separate 60-day source"><path d="M220 667 L220.0 733.0 Q220 745 232.0 745.0 L1264.0 745.0 Q1276 745 1276.0 733.0 L1276 667" fill="none" stroke="#127A74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1276,667 1281.0795709309564,676.7569441505722 1270.9204290690436,676.7569441505722" fill="#127A74"/>
+<rect x="631.0" y="750" width="198.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="639.0" y="761" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#127A74">F1 Separate 60-day source</text>
+</g>
+<g id="edge-F2" aria-label="Feature Parquet"><path d="M1416 591 L1488 591" fill="none" stroke="#127A74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1488,591 1478.243055849428,596.0795709309563 1478.243055849428,585.9204290690437" fill="#127A74"/>
+<rect x="1377.5" y="480" width="149.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="1385.5" y="491" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#127A74">F2 Feature Parquet</text>
+</g>
+<g id="edge-F3" aria-label="Online vectors"><path d="M1768 591 L1840 591" fill="none" stroke="#127A74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1840,591 1830.243055849428,596.0795709309563 1830.243055849428,585.9204290690437" fill="#127A74"/>
+<rect x="1733.0" y="480" width="142.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="1741.0" y="492" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#127A74">F3 Online vectors</text>
+</g>
+<g id="edge-C1" aria-label="Bounded DAG tasks"><path d="M332 324 L358.0 324.0 Q370 324 370.0 336.0 L370.0 402.0 Q370 414 382.0 414.0 L1218.0 414.0 Q1230 414 1230.0 426.0 L1230 515" fill="none" stroke="#536B82" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 6"/>
+<polygon points="1230,515 1224.9204290690436,505.2430558494279 1235.0795709309564,505.2430558494279" fill="#536B82"/>
+<rect x="718.5" y="420" width="163.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="726.5" y="431" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#536B82">C1 Bounded DAG tasks</text>
+</g>
+<g id="edge-G1" aria-label="Metadata via task publisher"><path d="M1300 515 L1300.0 406.0 Q1300 394 1288.0 394.0 L546.0 394.0 Q538 394 538.0 386.0 L538 378" fill="none" stroke="#536B82" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 6"/>
+<polygon points="538,378 543.0795709309563,387.7569441505721 532.9204290690437,387.7569441505721" fill="#536B82"/>
+<rect x="973.5" y="369" width="233.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="981.5" y="381" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#536B82">G1 Metadata via task publisher</text>
+</g>
+<g id="edge-T0" aria-label="Offline retrieval via Feast SDK"><path d="M1380 667 L1380.0 838.0 Q1380 850 1368.0 850.0 L676.0 850.0 Q664 850 664.0 862.0 L664 930" fill="none" stroke="#7055B5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="664,930 658.9204290690437,920.2430558494278 669.0795709309563,920.2430558494278" fill="#7055B5"/>
+<rect x="869.5" y="826" width="261.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="877.5" y="838" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#7055B5">T0 Offline retrieval via Feast SDK</text>
+</g>
+<g id="edge-T1" aria-label="Run config"><path d="M380 1006 L524 1006" fill="none" stroke="#7055B5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="524,1006 514.2430558494278,1011.0795709309563 514.2430558494278,1000.9204290690437" fill="#7055B5"/>
+<rect x="395.0" y="1030" width="114.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="403.0" y="1042" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#7055B5">T1 Run config</text>
+</g>
+<g id="edge-T2" aria-label="Artifacts"><path d="M804 1006 L948 1006" fill="none" stroke="#7055B5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="948,1006 938.2430558494278,1011.0795709309563 938.2430558494278,1000.9204290690437" fill="#7055B5"/>
+<rect x="822.5" y="1030" width="107.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="830.5" y="1042" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#7055B5">T2 Artifacts</text>
+</g>
+<g id="edge-C2" aria-label="Model pin"><path d="M1228 1006 L1372 1006" fill="none" stroke="#536B82" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1372,1006 1362.243055849428,1011.0795709309563 1362.243055849428,1000.9204290690437" fill="#536B82"/>
+<rect x="1246.5" y="1030" width="107.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="1254.5" y="1042" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#536B82">C2 Model pin</text>
+</g>
+<g id="edge-C3" aria-label="Release image"><path d="M1652 1006 L1796 1006" fill="none" stroke="#536B82" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1796,1006 1786.243055849428,1011.0795709309563 1786.243055849428,1000.9204290690437" fill="#536B82"/>
+<rect x="1656.5" y="1030" width="135.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="1664.5" y="1042" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#536B82">C3 Release image</text>
+</g>
+<g id="edge-S0" aria-label="Arrival-ordered replay"><path d="M80 591 L40.0 591.0 Q28 591 28.0 603.0 L28.0 1374.0 Q28 1386 40.0 1386.0 L100 1386" fill="none" stroke="#2764B5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="100,1386 90.24305584942788,1391.0795709309564 90.24305584942788,1380.9204290690436" fill="#2764B5"/>
+<rect x="131.0" y="1208" width="198.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="139.0" y="1220" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#2764B5">S0 Arrival-ordered replay</text>
+</g>
+<g id="edge-S1" aria-label="Readings"><path d="M380 1386 L524 1386" fill="none" stroke="#2764B5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="524,1386 514.2430558494278,1391.0795709309564 514.2430558494278,1380.9204290690436" fill="#2764B5"/>
+<rect x="402.0" y="1410" width="100.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="410.0" y="1422" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#2764B5">S1 Readings</text>
+</g>
+<g id="edge-S2" aria-label="Windows"><path d="M804 1386 L948 1386" fill="none" stroke="#127A74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="948,1386 938.2430558494278,1391.0795709309564 938.2430558494278,1380.9204290690436" fill="#127A74"/>
+<rect x="829.5" y="1410" width="93.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="837.5" y="1422" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#127A74">S2 Windows</text>
+</g>
+<g id="edge-S3" aria-label="History"><path d="M1228 1386 L1372 1386" fill="none" stroke="#127A74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1372,1386 1362.243055849428,1391.0795709309564 1362.243055849428,1380.9204290690436" fill="#127A74"/>
+<rect x="1253.5" y="1410" width="93.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="1261.5" y="1422" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#127A74">S3 History</text>
+</g>
+<g id="edge-S4" aria-label="Vectors"><path d="M1652 1386 L1796 1386" fill="none" stroke="#127A74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="1796,1386 1786.243055849428,1391.0795709309564 1786.243055849428,1380.9204290690436" fill="#127A74"/>
+<rect x="1677.5" y="1410" width="93.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="1685.5" y="1421" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#127A74">S4 Vectors</text>
+</g>
+<text x="760" y="288" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Three workloads, distinct scopes</text>
+<text x="760" y="322" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">100 GB: Bronze/Silver. ML: a separate 60-day cohort.</text>
+<text x="760" y="344" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Streaming: retained finalized windows.</text>
+<rect x="64" y="1612" width="2072" height="1" rx="0" fill="#DCE5ED"/>
+<text x="64" y="1644" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400" fill="#526579">Solid arrows: data/artifact flow. Dotted arrows: orchestration/governance. No direct 100 GB Silver-to-training claim; storage handoffs are files, not service RPCs.</text>
+<text x="64" y="1690" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="10" font-weight="400" fill="#526579">ARCHITECTURE ILLUSTRATION / EDITABLE VECTOR SOURCE</text>
 </svg>

@@ -20,20 +20,15 @@ The 100 GB result does not cover feature engineering or model training at that s
 
 ![Data and ML workflow overview](images/platform-overview.png)
 
+[Editable SVG](images/platform-overview.svg) · [All five views and handoff legend](diagrams/README.md)
+
 ## Inference request
 
 The API accepts a machine ID, retrieves its features through Feast, checks whether they can support the prediction, and calls the pinned KServe model. Failed or maintenance-state machines can still have monitoring features, but the one-hour failure target is undefined for them.
 
-```mermaid
-flowchart LR
-    Client["Client"] -->|U1 HTTPS machine request| Gateway["NGINX Ingress Controller"]
-    Gateway -->|U2 Authenticated and rate-limited request| API["Feature API Deployment"]
-    API -->|U3 Machine feature lookup| Redis["Redis API Deployment"]
-    Redis -->|U4 Values and native timestamps| API
-    API -->|U5 Validated eight-feature vector| Predictor["KServe predictor Deployment"]
-    Predictor -->|U6 Score and model identity| API
-    API -->|U7 Prediction and feature trace| Client
-```
+![Authenticated prediction request, online lookup and model response](images/platform-serving.png)
+
+[Editable SVG](images/platform-serving.svg) · U1–U7 follow the incoming request, feature lookup, model call and logical return through the gateway.
 
 Feast SDK runs inside the API process. The [runtime](../services/feature_api/runtime.py) validates the schema, event time, arrival context, protocol and one-hour demo lease. Before returning a prediction, it also checks the model version, run, data version and threshold against the selected pin.
 
@@ -109,16 +104,9 @@ Jenkins serving CI retrieves the selected model bundle, runs gates, builds image
 
 Offline drift monitoring reads a bounded cohort through Feast, compares eight feature distributions with a fixed training reference using PSI, and publishes metrics through Pushgateway. Prometheus scrapes these metrics and Grafana displays them alongside the age of the last successful comparison.
 
-```mermaid
-flowchart LR
-    Airflow["Airflow scheduler"] -->|M1 Submit comparison window| Drift["Offline drift job"]
-    Drift -->|M2 PSI and freshness gauges| Push["Pushgateway"]
-    Push -->|M3 Scraped metrics| Prom["Prometheus"]
-    Prom -->|M4 PromQL results| Grafana["Grafana"]
-    Airflow -->|R1 Report path and retraining policy| Controller["Retrain controller container"]
-    Controller -->|R2 Admitted package and run parameters| KFP["Kubeflow Pipelines API"]
-    KFP -->|R3 Backend run status| Controller
-```
+![Separate telemetry paths and guarded retraining integration](images/platform-monitoring.png)
+
+[Editable SVG](images/platform-monitoring.svg) · H/M/L/O labels distinguish host metrics, API/job metrics, logs and traces; R1–R4 expand the drift-to-candidate integration. Arrows show signal/artifact flow, including query responses, rather than every underlying HTTP request.
 
 The comparison uses a fixed model 3 training reference. Its PSI values are not accuracy measurements for the served model 6. The recorded retraining test was a manual probe with `drift=false`; it demonstrated a real KFP run and the admission/replay/cooldown controls. It did not establish a naturally occurring drift alarm or automatic promotion.
 
@@ -126,7 +114,7 @@ The deployment also has API metrics and OTLP traces, host/Pod logs, and a separa
 
 ## Deployment and security
 
-The [deployment view](images/platform-deployment.svg) separates the Feature and Drift APIs, each MCP service, controller/UI/catalog, worker pools, router, Docker workloads and host processes. Each box names one selected workload resource. Frames group resources by host and runtime; they are not additional services. A WorkerPool can own multiple worker Pods. The observer and turn adapter share one Deployment with two containers, so they remain one deployment box. Feast SDK runs inside consuming jobs/APIs. Supporting databases, controllers, DAG processors and secondary UIs are omitted from this high-level view and remain separately defined in the configurations below. Numbered U/G arrows show private frontend access and the model request/response; the other views describe data/training/telemetry flows.
+The [deployment view](images/platform-deployment.svg) shows forty selected workload/client resources: the Feature and Drift APIs, each MCP service, controller/UI/catalog, worker pools, router, substrate state, Docker workloads and host processes. Frames group resources by host and runtime; they are not additional services. A WorkerPool can own multiple worker Pods. The observer and turn adapter share one Deployment with two containers, so they remain one deployment box. Feast SDK runs inside consuming jobs/APIs. PostgreSQL, the six-member Valkey cluster, RustFS snapshots, the Airflow DAG processor and the DataHub frontend have their own boxes. Framework-internal controllers and other supporting databases remain in the source manifests. Numbered U/G arrows show private frontend access and the model request/response; the other views describe data/training/telemetry flows.
 
 | Runtime | Components and state | Configuration or report |
 |---|---|---|

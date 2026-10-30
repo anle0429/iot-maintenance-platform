@@ -2,6 +2,8 @@
 
 The platform has three connected layers: pump data, model development/serving, and tool-grounded agents. Start with one request and follow its source records, feature values, model pin and tool results. The diagrams describe the recorded lab; they are separate from runtime screenshots.
 
+The [architecture gallery](diagrams/README.md) contains five coordinated views with editable SVGs: platform overview, prediction request, deployment topology, observability/retraining, and RAG/agents.
+
 ## Review path
 
 | Review question | Start here | Implementation |

@@ -35,7 +35,7 @@ Three layers share explicit data contracts. Batch and stream jobs publish retain
 
 ![Data, feature and ML workflows with numbered handoffs](docs/images/platform-overview.png)
 
-[Editable SVG](docs/images/platform-overview.svg) · [Architecture and arrow definitions](docs/architecture.md)
+[Editable SVG](docs/images/platform-overview.svg) · [All five architecture views](docs/diagrams/README.md) · [Architecture](docs/architecture.md)
 
 ### Data platform
 

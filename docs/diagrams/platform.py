@@ -1,273 +1,212 @@
-"""Render original English architecture illustrations as SVG and PNG from the recorded IoT data, ML and agent lab."""
+"""Render the five authored architecture views as editable SVG and matching PNG.
+
+Requires Pillow. SVG groups retain semantic node and handoff IDs; all labels
+remain text. The drawings explain recorded workflows, not current readiness.
+"""
 from pathlib import Path
 from html import escape
-from math import atan2, cos, sin, pi
-import json
+from math import atan2, cos, sin, hypot
+from functools import lru_cache
 import argparse
-from PIL import Image, ImageDraw, ImageFont
+import json
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / 'docs/images'
-COLORS = {'data': ('#eaf2ff', '#3c68aa'), 'ml': ('#f0ebff', '#7959ad'), 'store': ('#e5f4ed', '#368168'),
-          'ops': ('#fff1df', '#b97a25'), 'planned': ('#f1f3f6', '#7d8795'), 'serving': ('#e8f4fa', '#327d9c')}
+OUT = ROOT/'docs/images'
+MODELS = json.loads(Path(__file__).with_suffix('.json').read_bytes())
+PALETTE = dict(canvas='#F7F9FC', surface='#FFFFFF', ink='#142D40', muted='#526579', border='#DCE5ED', header='#102B3C',
+               headerMuted='#B8CAD6', white='#FFFFFF', service='#2764B5', serviceTint='#EEF4FC', store='#AF681A',
+               storeTint='#FFF7E9', ml='#7055B5', mlTint='#F4F0FB', data='#127A74', dataTint='#EAF7F3', ops='#536B82',
+               opsTint='#EEF2F6', security='#A34E63', securityTint='#FBF0F3', client='#34566F', clientTint='#EDF4F8')
 
 
-def font(size, bold=False):
-    """Use a readable TrueType font on Windows or Linux without writing to system font directories."""
-    names = [Path('C:/Windows/Fonts/seguisb.ttf' if bold else 'C:/Windows/Fonts/segoeui.ttf'),
-             Path('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf' if bold else '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf')]
-    for path in names:
+@lru_cache(maxsize=64)
+def face(size, bold=False, mono=False):
+    """Use installed system fonts without redistributing proprietary font files."""
+    filename = 'consola.ttf' if mono else ('seguisb.ttf' if bold else 'segoeui.ttf')
+    candidates = [Path('C:/Windows/Fonts')/filename,
+                  Path('/usr/share/fonts/truetype/dejavu')/('DejaVuSansMono.ttf' if mono else 'DejaVuSans-Bold.ttf' if bold else 'DejaVuSans.ttf')]
+    for path in candidates:
         if path.is_file():
             return ImageFont.truetype(str(path), size)
-    return ImageFont.load_default(size=size)
+    raise RuntimeError('Install Segoe UI or DejaVu Sans/Mono to render the diagrams.')
 
 
 class Canvas:
-    """Keep vector and raster versions aligned by rendering the same explicit drawing primitives."""
-    def __init__(self, name, title, subtitle, width=1800, height=1120):
-        """Start a white architecture canvas with an English title and an explicit illustration label."""
-        self.name = name; self.width = width; self.height = height
-        self.image = Image.new('RGB', (width, height), '#ffffff'); self.draw = ImageDraw.Draw(self.image)
-        self.svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
-                    f'<title id="title">{escape(title)}</title><desc id="desc">{escape(subtitle)}</desc><rect width="100%" height="100%" fill="white"/>']
-        self.nodes = {}; self.edges = []
-        self.text(44, 44, title, 34, bold=True); self.text(44, 94, subtitle, 19, color='#526174')
-        self.text(44, height - 32, 'Architecture illustration — not a runtime screenshot. Source: docs/diagrams/platform.py', 16, color='#657386')
+    """Share geometry, typography and semantic IDs between vector and raster outputs."""
+    def __init__(self, model):
+        """Create a diagram canvas, accessible SVG description and local drawing inventory."""
+        self.model = model
+        self.width, self.height = model['width'], model['height']
+        self.image = Image.new('RGBA', (self.width, self.height), PALETTE['canvas'])
+        self.draw = ImageDraw.Draw(self.image)
+        self.svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.width}" height="{self.height}" viewBox="0 0 {self.width} {self.height}" role="img" aria-labelledby="title desc">',
+                    f'<title id="title">{escape(model["title"])}</title><desc id="desc">{escape(model["subtitle"])}</desc>',
+                    '<defs><filter id="card-shadow" x="-10%" y="-20%" width="120%" height="150%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#142D40" flood-opacity="0.07"/></filter></defs>']
+        self.text_bounds, self.label_bounds = [], []
+        self.rect(0, 0, self.width, self.height, 'canvas')
 
-    def text(self, x, y, value, size=18, bold=False, color='#16273b', center=False):
-        """Draw the same single-line English text with aligned baselines in both output formats."""
-        face = font(size, bold); length = self.draw.textlength(value, font=face)
-        left = x - length / 2 if center else x
-        self.draw.text((left, y), value, font=face, fill=color)
-        anchor = 'middle' if center else 'start'; weight = '600' if bold else '400'
-        self.svg.append(f'<text x="{x}" y="{y + size}" font-family="Segoe UI,DejaVu Sans,sans-serif" font-size="{size}" font-weight="{weight}" text-anchor="{anchor}" fill="{color}">{escape(value)}</text>')
+    def rect(self, x, y, w, h, fill, radius=0, stroke=None, shadow=False):
+        """Draw a rounded surface with an optional restrained card shadow."""
+        if shadow:
+            layer = Image.new('RGBA', (int(w)+32, int(h)+32))
+            ImageDraw.Draw(layer).rounded_rectangle((16,16,w+16,h+16), radius=radius, fill=(20,45,64,18))
+            self.image.alpha_composite(layer.filter(ImageFilter.GaussianBlur(4)), (int(x)-16,int(y)-13))
+            self.draw = ImageDraw.Draw(self.image)
+        color, line = PALETTE.get(fill,fill), PALETTE.get(stroke,stroke)
+        self.draw.rounded_rectangle((x,y,x+w,y+h), radius=radius, fill=color, outline=line, width=1)
+        self.svg.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{radius}" fill="{color}"'+(f' stroke="{line}"' if line else '')+(' filter="url(#card-shadow)"' if shadow else '')+'/>')
 
-    def frame(self, x, y, w, h, title):
-        """Draw a runtime/workflow grouping frame rather than pretending the group is a service."""
-        self.draw.rounded_rectangle((x, y, x+w, y+h), radius=16, fill='#fafbfd', outline='#d8e0e9', width=2)
-        self.svg.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="16" fill="#fafbfd" stroke="#d8e0e9" stroke-width="2"/>')
-        self.text(x+20, y+15, title, 21, bold=True)
+    def wrap(self, value, width, size, bold=False, mono=False):
+        """Wrap explicit paragraphs at word boundaries using the actual rendering font."""
+        rows = []
+        for paragraph in value.split('\n'):
+            line = ''
+            for word in paragraph.split():
+                candidate = (line+' '+word).strip()
+                if line and self.draw.textlength(candidate, font=face(size,bold,mono)) > width:
+                    rows.append(line)
+                    line = word
+                else:
+                    line = candidate
+            rows.append(line)
+        return rows
 
-    def node(self, key, x, y, w, h, title, lines=(), kind='data'):
-        """Place one deployable unit with bounded text, retaining a box lookup for connector endpoints."""
-        fill, stroke = COLORS[kind]; self.nodes[key] = (x, y, w, h)
-        self.draw.rounded_rectangle((x, y, x+w, y+h), radius=12, fill=fill, outline=stroke, width=2)
-        self.svg.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="12" fill="{fill}" stroke="{stroke}" stroke-width="2"/>')
-        title_lines = self.wrap(title, w-28, 21, True); content = list(lines)
-        needed = len(title_lines)*27 + len(content)*25 + 24
-        if needed > h: raise ValueError(f'Clipped node text: {key}')
-        at = y+(h-needed)/2+9
-        for line in title_lines:
-            self.text(x+w/2, at, line, 21, True, center=True); at += 27
-        at += 7
-        for line in content:
-            if self.draw.textlength(line, font=font(17)) > w-20: raise ValueError(f'Wide node line: {key}: {line}')
-            self.text(x+w/2, at, line, 17, color='#3c5066', center=True); at += 25
+    def text(self, x, y, value, width, size=16, tone='muted', bold=False, mono=False, line=None, owner=''):
+        """Render editable SVG text and identical raster line breaks with measurable bounds."""
+        line = line or int(size*1.35+0.5)
+        rows = self.wrap(value,width,size,bold,mono)
+        color = PALETTE[tone]
+        family = 'Consolas,DejaVu Sans Mono,monospace' if mono else 'Segoe UI,DejaVu Sans,Arial,sans-serif'
+        for i, row in enumerate(rows):
+            measured = self.draw.textlength(row,font=face(size,bold,mono))
+            if measured > width+0.1:
+                raise ValueError(f'Text exceeds its column: {owner}: {row}')
+            self.draw.text((x,y+i*line),row,font=face(size,bold,mono),fill=color,anchor='lt')
+            ascent = face(size,bold,mono).getmetrics()[0]
+            # The top anchor and SVG baseline account for the font's real ink bounds.
+            top = face(size,bold,mono).getbbox(row or ' ')[1]
+            baseline = y+i*line+ascent-top
+            self.svg.append(f'<text x="{x}" y="{baseline}" font-family="{family}" font-size="{size}" font-weight="{600 if bold else 400}" fill="{color}">{escape(row)}</text>')
+        height = len(rows)*line
+        self.text_bounds.append(dict(owner=owner,x=x,y=y,width=width,height=height,rows=rows))
+        return height
 
-    def wrap(self, value, width, size, bold=False):
-        """Wrap only at word boundaries, using the actual raster font to detect overflow."""
-        rows = []; line = ''
-        for word in value.split():
-            candidate = (line+' '+word).strip()
-            if line and self.draw.textlength(candidate, font=font(size, bold)) > width:
-                rows.append(line); line = word
-            else: line = candidate
-        return rows+[line]
+    def icon(self, role, x, y):
+        """Draw small original line icons for workload roles rather than vendor logos."""
+        paths = {
+            'service': [[(2,3),(22,3),(22,10),(2,10),(2,3)],[(2,14),(22,14),(22,21),(2,21),(2,14)],[(6,6),(7,6)],[(6,17),(7,17)]],
+            'store': [[(2,5),(5,2),(19,2),(22,5),(19,8),(5,8),(2,5),(2,19),(5,22),(19,22),(22,19),(22,5)],[(2,12),(5,15),(19,15),(22,12)]],
+            'ml': [[(5,5),(19,5),(19,19),(5,19),(5,5)],[(9,9),(15,9),(15,15),(9,15),(9,9)],[(9,1),(9,5)],[(15,1),(15,5)],[(9,19),(9,23)],[(15,19),(15,23)],[(1,9),(5,9)],[(19,9),(23,9)],[(1,15),(5,15)],[(19,15),(23,15)]],
+            'data': [[(5,3),(5,21)],[(5,13),(18,6),(18,2)],[(2,3),(8,3)],[(2,21),(8,21)],[(15,2),(21,2)]],
+            'ops': [[(1,13),(6,13),(10,3),(15,21),(19,13),(23,13)]],
+            'security': [[(12,2),(22,6),(20,15),(16,20),(12,23),(8,20),(4,15),(2,6),(12,2)],[(7,12),(11,16),(17,9)]],
+            'client': [[(3,3),(21,3),(21,17),(9,17),(3,22),(3,3)]]}
+        color = PALETTE[role]
+        self.svg.append(f'<g transform="translate({x} {y})" fill="none" stroke="{color}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">')
+        for points in paths[role]:
+            self.draw.line([(x+a,y+b) for a,b in points],fill=color,width=2,joint='curve')
+            self.svg.append('<polyline points="'+' '.join(f'{a},{b}' for a,b in points)+'"/>')
+        self.svg.append('</g>')
 
-    def edge(self, identity, points, label, label_at=None, color='#596e86'):
-        """Draw an explicitly routed numbered connector without running a layout algorithm over evidence."""
-        if identity in self.edges: raise ValueError('Duplicate arrow identity')
-        self.edges.append(identity)
-        self.draw.line(points, fill=color, width=3, joint='curve')
-        self.svg.append('<polyline points="'+' '.join(f'{x},{y}' for x,y in points)+f'" fill="none" stroke="{color}" stroke-width="2.5"/>')
-        x,y = points[-1]; a,b = points[-2]; angle = atan2(y-b,x-a)
-        head = [(x,y),(x-12*cos(angle-pi/6),y-12*sin(angle-pi/6)),(x-12*cos(angle+pi/6),y-12*sin(angle+pi/6))]
-        self.draw.polygon(head, fill=color); self.svg.append('<polygon points="'+' '.join(f'{a},{b}' for a,b in head)+f'" fill="{color}"/>')
-        if label_at:
-            lx,ly = label_at; value = identity+'  '+label; width = self.draw.textlength(value,font=font(15))
-            self.draw.rounded_rectangle((lx-width/2-6,ly-2,lx+width/2+6,ly+23),radius=4,fill='white')
-            self.svg.append(f'<rect x="{lx-width/2-6}" y="{ly-2}" width="{width+12}" height="25" rx="4" fill="white"/>')
-            self.text(lx,ly,value,15,center=True)
+    def card(self, node):
+        """Place a semantic workload card and reject any text extending beyond its surface."""
+        x,y,w,h = [node[k] for k in ['x','y','width','height']]
+        compact, tone = node['compact'], node['tone']
+        pad, title_size, body_size = (12,17,13) if compact else (16,20,16)
+        self.svg.append(f'<g id="node-{node["id"]}" aria-label="{escape(node["title"])}"><title>{escape(node["meta"]+": "+node["title"])}</title>')
+        self.rect(x,y,w,h,'surface',12,'border',True)
+        self.rect(x,y+14,3,h-28,tone,1)
+        at = y+(10 if compact else 14)
+        at += self.text(x+pad,at,node['meta'],w-2*pad,10 if compact else 11,tone,mono=True,owner=node['id']+'/meta')+(6 if compact else 9)
+        self.icon(tone,x+pad,at)
+        title_h = self.text(x+pad+34,at,node['title'],w-2*pad-34,title_size,'ink',True,line=23 if compact else 26,owner=node['id']+'/title')
+        at += max(24,title_h)+(7 if compact else 10)
+        bottom = at+self.text(x+pad,at,node['body'],w-2*pad,body_size,'muted',line=18 if compact else 22,owner=node['id']+'/body')
+        if bottom > y+h-7:
+            raise ValueError(f'Card text is clipped: {self.model["name"]}/{node["id"]}: {bottom-y} > {h}')
+        self.svg.append('</g>')
 
-    def save(self):
-        """Save editable vectors and a matching raster image, reporting dimensions and graph identities."""
-        OUT.mkdir(parents=True,exist_ok=True)
-        (OUT/(self.name+'.svg')).write_text('\n'.join(self.svg+['</svg>'])+'\n',encoding='utf-8')
-        self.image.save(OUT/(self.name+'.png'),optimize=True)
-        return {'name':self.name,'width':self.width,'height':self.height,'nodes':list(self.nodes),'arrows':self.edges}
+    def edge(self, e):
+        """Route an explicit rounded arrow and keep its numbered label independently editable."""
+        points, color = e['points'], PALETTE[e['tone']]
+        path = f'M{points[0][0]} {points[0][1]}'
+        for a,b,c in zip(points,points[1:],points[2:]):
+            ab,bc = hypot(b[0]-a[0],b[1]-a[1]), hypot(c[0]-b[0],c[1]-b[1])
+            r = min(12,ab/2,bc/2)
+            u = (b[0]-(b[0]-a[0])*r/ab,b[1]-(b[1]-a[1])*r/ab)
+            v = (b[0]+(c[0]-b[0])*r/bc,b[1]+(c[1]-b[1])*r/bc)
+            path += f' L{u[0]} {u[1]} Q{b[0]} {b[1]} {v[0]} {v[1]}'
+        path += f' L{points[-1][0]} {points[-1][1]}'
+        self.svg.append(f'<g id="edge-{e["id"]}" aria-label="{escape(e["label"])}"><path d="{path}" fill="none" stroke="{color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"'+(' stroke-dasharray="5 6"' if e['dashed'] else '')+'/>')
+        for a,b in zip(points,points[1:]):
+            if e['dashed']:
+                distance = hypot(b[0]-a[0],b[1]-a[1])
+                for t in range(0,int(distance),11):
+                    end = min(t+5,distance)
+                    self.draw.line([(a[0]+(b[0]-a[0])*s/distance,a[1]+(b[1]-a[1])*s/distance) for s in [t,end]],fill=color,width=3)
+            else:
+                self.draw.line([tuple(a),tuple(b)],fill=color,width=3)
+        tip,before = points[-1],points[-2]
+        angle = atan2(tip[1]-before[1],tip[0]-before[0])
+        head = [tip]+[[tip[0]-11*cos(angle+delta),tip[1]-11*sin(angle+delta)] for delta in [-.48,.48]]
+        self.draw.polygon([tuple(p) for p in head],fill=color)
+        self.svg.append('<polygon points="'+' '.join(f'{x},{y}' for x,y in head)+f'" fill="{color}"/>')
+        value = e['id']+'  '+e['label']
+        length = self.draw.textlength(value,font=face(12,mono=True))
+        x,y = e['labelAt'][0]-length/2-8,e['labelAt'][1]
+        self.rect(x,y,length+16,23,'canvas',5)
+        self.text(x+8,y+3,value,length+.1,12,e['tone'],mono=True,line=17,owner='edge-'+e['id'])
+        self.label_bounds.append(dict(id=e['id'],x=x,y=y,width=length+16,height=23))
+        self.svg.append('</g>')
 
-
-def overview():
-    """Show the measured Data/ML workflows while keeping file handoffs and separate stream runs explicit."""
-    c = Canvas('platform-overview','IoT Maintenance Platform','Data and ML workflows verified in separate lab runs; the LLM extension is shown separately.',height=1210)
-    c.frame(35,150,1730,270,'DATA PLATFORM — persisted JSONL / Parquet handoffs')
-    items=[('gen','Generator job',['Seeded pump simulation','Immutable source parts']),('dp1','DP1 Spark ingest',['Bronze Parquet','100 GB source verified']),('dp2','DP2 Spark job',['Dedup and cleaning','Silver / curated outputs']),('dp3','DP3 feature job',['Eight rolling inputs','60-day ML dataset']),('mat','Materialization job',['Feast SDK inside job','Incremental / replay']),('redis','Redis online store',['Batch-stream project','Separate API namespace'])]
-    for i,(key,title,body) in enumerate(items):c.node(key,55+288*i,225,245,145,title,body,'store' if key=='redis' else 'data')
-    for i,label in enumerate(['Source files','Bronze Parquet','Silver / Gold','Feature Parquet','Online vectors']):c.edge('D'+str(i+1),[(300+288*i,295),(343+288*i,295)],label,(321+288*i,195))
-    c.frame(35,485,1730,290,'ML PLATFORM — five pipeline tasks; two executor Pods on the same VM')
-    for i,(key,title,body) in enumerate([('kfp','Kubeflow API',['Orchestrates five tasks']),('tasks','ML task Pods',['Fresh Feast retrieval','Two-executor Spark fit']),('mlflow','MLflow registry',['Data / model versions','Model 7 is a candidate']),('ci','Jenkins controller',['Tests, build and gates','A/B / Helm rollback']),('serve','KServe predictor',['Recorded serving pin: 6','Model artifact in image'])]):c.node(key,65+350*i,560,270,145,title,body,'ml')
-    c.edge('T1',[(335,625),(415,625)],'Run parameters',(375,530));c.edge('T2',[(685,625),(765,625)],'Artifacts',(725,530))
-    c.edge('C1',[(1035,625),(1115,625)],'Selected bundle',(1075,530));c.edge('C2',[(1385,625),(1465,625)],'Image / release',(1425,530))
-    c.edge('D6',[(1041,370),(1041,455),(550,455),(550,560)],'Offline features via Feast SDK',(800,438))
-    c.frame(35,830,1730,265,'STREAM STORE CHECKS — retained Kafka/Flink windows; separate bounded replay workload')
-    values=[('kafka','Kafka broker',['Arrival-ordered replay']),('flink','Flink job',['Event-time windows','Dedup / late side output']),('off','Offline writer job',['Parquet history','Replay is a no-op']),('on','Online writer job',['Latest monitoring vector','No label substitution']),('streamredis','Redis online store',['Finalized-window project','Different feature schema'])]
-    for i,(key,title,body) in enumerate(values):c.node(key,65+350*i,900,270,145,title,body,'store' if key=='streamredis' else 'data')
-    for i,label in enumerate(['Readings','Finalized windows','Verified history','Latest vectors']):c.edge('S'+str(i+1),[(335+350*i,970),(415+350*i,970)],label,(375+350*i,872))
-    c.text(45,1130,'100 GB covers Bronze/Silver. Feature engineering and ML use a separate 60-day source. Repeated store boxes are workflow views.',17)
-    return c.save()
-
-
-def serving():
-    """Draw the actual feature-to-KServe path and its distinct request/response directions."""
-    c=Canvas('platform-serving','One inference request','Feature API validates schema, both clocks, operating state and the pinned model before returning a score.',height=900)
-    for args in [('user',50,285,260,145,'Client',['machine_id: P-001'],'serving'),('gateway',400,285,260,145,'NGINX gateway',['Private CA / Basic auth','Rate limiting'],'serving'),('api',750,285,300,145,'Feature API',['FastAPI + Feast SDK','Async bounded dispatch'],'serving'),('predictor',1320,285,350,145,'KServe predictor',['Portable logistic model','Recorded model version 6'],'ml'),('redis',750,535,300,140,'Redis API store',['Eight inputs + timestamps','Sealed serving context'],'store')]:c.node(*args)
-    c.edge('U1',[(310,350),(400,350)],'HTTPS request',(355,250));c.edge('U2',[(660,350),(750,350)],'Routed request',(705,250))
-    c.edge('U3',[(830,430),(830,535)],'Lookup',(755,475));c.edge('U4',[(960,535),(960,430)],'Values + times',(1080,475))
-    c.edge('U5',[(1050,325),(1320,325)],'Eight-feature vector',(1185,280));c.edge('U6',[(1320,395),(1050,395)],'Score + model identity',(1185,420))
-    c.edge('U7',[(750,405),(700,405),(700,730),(180,730),(180,430)],'Prediction + feature trace',(430,710))
-    c.text(50,785,'Checks: stopped machine ->409; unknown machine ->404; malformed ID ->422; stale or unavailable data ->503.',19)
-    return c.save()
-
-
-def deployment():
-    """Give each selected workload its own resource box; runtime frames, clients and storage remain explicit context."""
-    c=Canvas('platform-deployment','Deployment view — workload boundaries',
-             'Recorded private lab: one CPU control/data VM and one GPU worker. Boxes identify individual workload resources.',width=2600,height=2150)
-    c.frame(35,155,290,470,'DEVELOPER PC')
-    c.node('browser',60,285,240,135,'Web browser',['Private lab UIs'],'ops')
-    c.node('iap',60,455,240,110,'IAP client',['SSH22 / loopback'],'ops')
-    c.frame(365,155,1770,1845,'GOOGLE CLOUD VM — 8 vCPU / 64 GiB RAM')
-    c.frame(395,225,1710,870,'K3s — selected workload resources')
-    rows=[
-        [('ingress','NGINX ingress',['Deployment','Private HTTPS / auth']),
-         ('feature','Feature API',['Helm Deployment','FastAPI / Feast SDK inside']),
-         ('drift','Drift API',['Helm Deployment','FastAPI / PSI']),
-         ('predictor','Pump predictor',['KServe workload','Recorded serving model: 6'])],
-        [('kfp','Kubeflow Pipelines API',['API server Deployment','Five-task training runs']),
-         ('redis','Redis API store',['Online store Deployment','Eight inputs / native times']),
-         ('retrieval-mcp','Retrieval MCP',['Helm Deployment','Two API replicas']),
-         ('drift-mcp','Drift MCP',['Helm Deployment','Two API replicas'])],
-        [('controller','Agent controller',['kagent Deployment','Private A2A dispatch']),
-         ('chat','Agent chat UI',['kagent UI Deployment','Gateway-protected frontend']),
-         ('registry','Agent registry',['Registry server workload','Versioned catalog / UI']),
-         ('router','llm-d router',['Inference router workload','Private model endpoint'])],
-        [('retrieval-pool','Retrieval workers',['WorkerPool resource / gVisor','Recorded 2-4 worker Pods']),
-         ('drift-pool','Drift workers',['WorkerPool resource / gVisor','Recorded 2-4 worker Pods']),
-         ('coordinator-pool','Coordinator workers',['WorkerPool resource / gVisor','Recorded 2-4 worker Pods']),
-         ('observer','LLM observer',['One Deployment / two containers','Observer + turn adapter'])],
-    ]
-    for row,values in enumerate(rows):
-        for column,(key,title,body) in enumerate(values):
-            c.node(key,420+420*column,285+195*row,390,135,title,body,'ml')
-    c.frame(395,1130,1710,425,'Docker — independent containers and on-demand jobs')
-    docker=[
-        [('spark','Spark batch job',['Compose: ingest','On-demand driver container']),
-         ('kafka','Kafka broker',['Compose: kafka','Arrival-ordered replay']),
-         ('flink','Flink job',['Compose: flink','Bounded stream workload']),
-         ('mlflow','MLflow server',['Registry server container','Run / data / model artifacts'])],
-        [('airflow-api','Airflow API',['Compose: airflow-api','Web / execution endpoints']),
-         ('airflow-scheduler','Airflow scheduler',['Compose: airflow-scheduler','DAG scheduling process']),
-         ('datahub','DataHub GMS',['Compose: datahub-gms','Schemas / lineage / assertions']),
-         ('jenkins','Jenkins controller',['CI controller container','Test / build / auto-deploy'])],
-    ]
-    for row,values in enumerate(docker):
-        for column,(key,title,body) in enumerate(values):
-            c.node(key,420+420*column,1195+175*row,390,130,title,body,'data')
-    c.text(420,1520,'Supporting databases, DAG processors and secondary UI services are omitted; consult the linked runtime manifests.',17)
-    c.frame(395,1590,1710,370,'Host services — separate retained processes')
-    hosts=[('prometheus','Prometheus','Metric collection'),('grafana','Grafana','Metric / log dashboards'),
-           ('loki','Loki','Timestamped log storage'),('alloy','Alloy','Log discovery / forwarding'),
-           ('vault','Vault','Scoped secret consumers'),('pushgateway','Pushgateway','Completed-job gauges'),
-           ('exporter','Node exporter','CPU / RAM / disk / network')]
-    for index,(key,title,body) in enumerate(hosts):
-        c.node(key,420+420*(index%4),1650+160*(index//4),390,110,title,[body],'ops')
-    c.text(1710,1800,'RETAINED HOST VOLUMES',18,True)
-    for index,line in enumerate(['50 GiB boot / 500 GiB data HDD','150 GiB pd-balanced scratch','Datasets, artifacts and private state']):
-        c.text(1710,1835+26*index,line,17,color='#3c5066')
-    c.frame(2180,155,380,620,'PRIVATE GPU WORKER')
-    c.text(2200,225,'4 vCPU / 15 GiB RAM',18)
-    c.text(2200,255,'V100 / 16 GiB VRAM',18)
-    c.node('gpu',2210,320,320,165,'LLM model server',
-           ['K3s Deployment / one GPU','llama.cpp / 7B + 1.5B','Private ClusterIP endpoint'],'serving')
-    c.text(2210,555,'50 GiB SSD; cached model assets',17)
-    c.text(2210,585,'Weights and state stay on the VM.',17)
-    c.frame(2180,1150,380,570,'READING THIS VIEW')
-    for index,line in enumerate([
-            'One box: one workload resource.','Frames: host / runtime boundaries.','Replicas stay within their unit.',
-            'Only selected units are shown.','Supporting controllers and stores','remain in the runtime manifests.',
-            'Labels describe recorded topology.','Use the runbook for live readiness.',
-            'Warm workers share the CPU VM.','Host-level HA was not measured.']):
-        c.text(2200,1220+42*index,line,17,color='#3c5066')
-    c.edge('U1',[(300,350),(420,350)],'IAP',(360,252))
-    c.edge('G1',[(1875,810),(1875,870)],'Observed model request',(1965,830))
-    c.edge('G2',[(2070,925),(2160,925),(2160,397),(2210,397)],'Private model request',(2350,900))
-    c.edge('G3',[(2530,435),(2570,435),(2570,1040),(1950,1040),(1950,1005)],'Token stream',(2350,1060))
-    c.text(395,2030,'U: IAP access to a loopback viewer; the VM viewer verifies gateway HTTPS. G: private model request/response.',18)
-    c.text(45,2080,'Data, training and telemetry handoffs have separate workflow views. This recorded topology does not establish live readiness or host-level failover.',18)
-    return c.save()
-
-
-def llm_plan():
-    """Show the recorded agent/tool path and the separate observation/adapter boundary before GPU serving."""
-    c=Canvas('platform-llm-plan','LLM / agents - native GPU execution','Recorded private agents, tools, governance and monitoring. Logical component groups; architecture illustration, not a screenshot.',width=2200,height=1400)
-    items=[('ui',60,200,290,145,'Agent chat UI',['VERIFIED: private gateway','TLS / auth / rate controls']),('gw',430,200,290,145,'Agent controller',['VERIFIED: private A2A','Shared model configuration']),('coord',800,200,300,145,'Coordinator agent',['VERIFIED: two delegates','KEDA: 2-4 workers']),('llmrouter',1370,200,330,145,'llm-d inference router',['VERIFIED: GPU route','Private inference endpoint']),('registry',1800,200,320,145,'Agent registry',['VERIFIED: version 0.2.2','Native resource identities']),('rag',60,500,290,145,'Airflow RAG job',['VERIFIED','Six tasks / DataHub']),('data',800,500,300,145,'Data / RAG agent',['VERIFIED: three MCP calls','Complete grounded answer']),('drift',1300,500,300,145,'Drift agent',['VERIFIED: one MCP call','32 unique machines']),('warm',1800,500,320,145,'Worker pools',['VERIFIED: 2-4 per role','Startup results mixed']),('embed',60,800,290,145,'Embedding job',['VERIFIED','MiniLM / 384 dimensions']),('mcpdata',800,800,300,145,'Data / chunk MCP',['VERIFIED: 2 replicas','Features / prediction / RAG']),('mcpdrift',1300,800,300,145,'Drift MCP server',['VERIFIED: 2 replicas','PSI / stable cohort replay']),('telemetry',1800,800,320,145,'Observer + tool adapter',['Usage / TTFT / tool facts','Metrics / logs / private traces']),('kb',60,1100,290,145,'Knowledge store',['VERIFIED','Feast / Milvus / 18 chunks'])]
-    for key,x,y,w,h,title,body in items:c.node(key,x,y,w,h,title,body,'serving')
-    # The platform router and custom backend are distinct deployable units.
-    c.node('customserver',1800,1100,320,145,'GPU model server',['V100 / llama.cpp CUDA','7B production / 1.5B study'],'serving')
-    c.node('feature',800,1100,300,145,'Existing Feature API',['Native MCP reads verified','Served model version: 6'],'store');c.node('driftapi',1300,1100,300,145,'Existing Drift API',['Native MCP calls verified','Pinned PSI reference'],'store')
-    c.edge('A1',[(350,270),(430,270)],'Chat request',(390,170));c.edge('A2',[(720,270),(800,270)],'Dispatch',(760,170))
-    c.edge('A3',[(1100,270),(1370,270)],'Shared model endpoint',(1235,235))
-    c.edge('G1',[(1700,270),(1740,270),(1740,870),(1800,870)],'Observed model request',(1910,740))
-    c.edge('G2',[(1960,945),(1960,1100)],'Model request',(1960,1010))
-    c.edge('G3',[(1800,1210),(1710,1210),(1710,920),(1800,920)],'Token stream',(1690,1060))
-    c.edge('G4',[(1800,820),(1760,820),(1760,370),(1530,370),(1530,345)],'Observed response',(1910,695))
-    c.edge('A4',[(950,345),(950,500)],'Native A2A delegation',(810,410));c.edge('A5',[(1050,345),(1050,420),(1450,420),(1450,500)],'Native A2A delegation',(1300,390))
-    c.edge('M1',[(950,645),(950,800)],'MCP tool call',(1090,710));c.edge('M2',[(1450,645),(1450,800)],'MCP tool call',(1600,710))
-    c.edge('M3',[(950,945),(950,1100)],'Read features / inference',(1110,1010));c.edge('M4',[(1450,945),(1450,1100)],'Read drift result',(1610,1010))
-    c.edge('K1',[(205,645),(205,800)],'Chunk artifact',(220,710))
-    c.edge('K2',[(350,870),(450,870),(450,570),(350,570)],'Vector artifact',(550,710))
-    c.edge('K3',[(60,575),(30,575),(30,1170),(60,1170)],'Chunks and vectors via Feast',(230,1010))
-    c.edge('K4',[(350,1170),(650,1170),(650,870),(800,870)],'Retrieved chunks',(590,1135))
-    c.text(60,1300,'Recorded: RAG and stream CI, OPA admission, corpus MMD, two A/B studies and private observability. Single control VM; separate GPU worker.',20)
-    return c.save()
-
-
-def monitoring():
-    """Show the recorded ML/API monitoring paths; LLM telemetry has its own observer and dashboards."""
-    c=Canvas('platform-monitoring','Monitoring and guarded retraining','Recorded ML monitoring paths; the retraining integration test was a manual probe with drift=false.',height=1110)
-    rows=[(170,'OFFLINE DRIFT — fixed model3 training reference, no labels',[
-        ('schedule','Airflow scheduler',['Five-minute schedule']),('driftjob','Feast drift job',['Bounded 1024-row cohort']),('push','Pushgateway',['PSI / freshness gauges']),('prom','Prometheus',['Recorded query values']),('graf','Grafana',['Result age + PSI'])],['Comparison window','Gauges','Scrape','PromQL']),
-        (460,'API AND LOG TELEMETRY — original source-bound workloads',[
-        ('api','API deployments',['HTTP metrics / spans']),('collector','Alloy collector',['Pod discovery / state']),('loki','Loki',['Timestamped log rows']),('dashboard','Grafana',['LogQL / metrics panels']),('jaeger','Jaeger',['OTLP trace graph'])],['CRI log files','Labeled records','LogQL','Trace view separate']),
-        (750,'RETRAINING — admission, persistent intent, replay and cooldown',[
-        ('airflow','Airflow task',['Sealed report + policy']),('control','Retrain controller',['Admit / hold / skip']),('kfp','Kubeflow API',['Actual five-task run']),('pods','ML task Pods',['Same fixed protocol']),('candidate','MLflow registry',['Model 7 candidate','No automatic promotion'])],['Report / policy','Run parameters','Task orchestration','Candidate artifacts'])]
-    for row_index,(y,title,items,labels) in enumerate(rows):
-        c.frame(35,y,1730,235,title)
-        for i,(key,name,body) in enumerate(items):
-            c.node(key,65+350*i,y+65,270,135,name,body,'ml' if row_index==2 else 'ops')
-        for i,label in enumerate(labels):
-            if row_index==1 and i==3:continue
-            c.edge(('M' if row_index==0 else 'O' if row_index==1 else 'R')+str(i+1),[(335+350*i,y+130),(415+350*i,y+130)],label,(375+350*i,y+40))
-    c.text(45,1020,'This view covers ML/API workflows. Separate LLM dashboards record usage, TTFT and private agent/tool traces; SDK warnings remain visible.',17)
-    c.edge('O4',[(200,660),(200,715),(1600,715),(1600,660)],'OTLP spans from API to Jaeger',(900,703))
-    return c.save()
+    def render(self):
+        """Compose boundaries, cards, handoffs and annotations in their reviewed reading order."""
+        m = self.model
+        self.rect(0,0,self.width,208,'header')
+        self.text(64,34,'IOT MAINTENANCE PLATFORM   /   '+m['number']+' OF 05',self.width-128,12,'headerMuted',mono=True)
+        self.text(64,66,m['title'],self.width-128,42,'white',True,line=52)
+        self.text(64,132,m['subtitle'],self.width-128,18,'headerMuted',line=25)
+        for p in m['panels']:
+            self.svg.append(f'<g id="boundary-{p["id"]}">')
+            self.rect(p['x'],p['y'],p['w'],p['h'],p['tone']+'Tint',18,'border')
+            tag = p['number']
+            self.text(p['x']+24,p['y']+22,tag,50,12,p['tone'],mono=True)
+            self.text(p['x']+72,p['y']+17,p['title'],p['w']-96,21,'ink',True,line=28)
+            self.svg.append('</g>')
+        for node in m['nodes']:
+            self.card(node)
+        for edge in m['edges']:
+            self.edge(edge)
+        for note in m['notes']:
+            at = note['y']
+            for value,size,tone,weight in note['lines']:
+                at += self.text(note['x'],at,value,note['w'],size,tone,weight=='SemiBold',owner='note')+10
+        self.rect(64,self.height-98,self.width-128,1,'border')
+        self.text(64,self.height-76,m['footer'],self.width-128,14,'muted',line=20,owner='footer')
+        self.text(64,self.height-27,'ARCHITECTURE ILLUSTRATION  /  EDITABLE VECTOR SOURCE',self.width-128,10,'muted',mono=True,owner='caption')
+        self.svg.append('</svg>')
+        OUT.mkdir(exist_ok=True,parents=True)
+        (OUT/(m['name']+'.svg')).write_text('\n'.join(self.svg)+'\n',encoding='utf-8',newline='\n')
+        self.image.convert('RGB').save(OUT/(m['name']+'.png'),optimize=True)
+        return dict(name=m['name'],width=self.width,height=self.height,nodes=[n['id'] for n in m['nodes']],arrows=[e['id'] for e in m['edges']])
 
 
 def main():
-    """Render all views or one selected view while retaining the other recorded image/index entries."""
-    renderers={'overview':overview,'serving':serving,'deployment':deployment,'monitoring':monitoring,'llm':llm_plan}
-    parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--view',choices=['all',*renderers],default='all')
-    args=parser.parse_args()
-    if args.view=='all':
-        manifests=[renderer() for renderer in renderers.values()]; rendered=len(manifests)
-    else:
-        original=json.loads((OUT/'diagram-index.json').read_bytes()); result=renderers[args.view]()
-        assert sum(view['name']==result['name'] for view in original['views'])==1
-        manifests=[result if view['name']==result['name'] else view for view in original['views']]; rendered=1
-    (OUT/'diagram-index.json').write_bytes((json.dumps({'kind':'authored-architecture-illustrations','runtime_screenshot':False,'views':manifests},indent=2)+'\n').encode())
-    print(json.dumps({'rendered_views':rendered,'inventoried_views':len(manifests),'output':'docs/images','recorded_llm_path_explicit':True}))
+    """Render selected views and update the diagram inventory without touching native evidence."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--view',action='append',choices=[m['name'] for m in MODELS],help='Render only selected views; default: all five.')
+    args = parser.parse_args()
+    inventory_path = OUT/'diagram-index.json'
+    old = json.loads(inventory_path.read_bytes()) if inventory_path.exists() else dict(views=[])
+    rendered = {m['name']:Canvas(m).render() for m in MODELS if not args.view or m['name'] in args.view}
+    existing = {v['name']:v for v in old['views']}
+    existing.update(rendered)
+    inventory = dict(kind='authored-architecture-illustrations',runtime_screenshot=False,source='docs/diagrams/platform.py',
+                     views=[existing[m['name']] for m in MODELS if m['name'] in existing])
+    inventory_path.write_text(json.dumps(inventory,indent=2)+'\n',encoding='utf-8',newline='\n')
+    print(json.dumps({'rendered':list(rendered),'views':len(inventory['views']),'native_evidence_modified':False}))
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     main()

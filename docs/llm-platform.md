@@ -4,7 +4,7 @@
 
 ![Recorded LLM and agent routes through llm-d, observer and the private GPU backend](images/platform-llm-plan.png)
 
-[Editable SVG](images/platform-llm-plan.svg) · [Source](diagrams/platform.py) · [LLM rubric](final-llm-rubric-tracker.md)
+[Editable SVG](images/platform-llm-plan.svg) · [View legend and source](diagrams/README.md) · [LLM rubric](final-llm-rubric-tracker.md)
 
 ## IoT interaction
 
