@@ -335,6 +335,119 @@
       ],
       "native": "../diagrams/platform-llm-plan.excalidraw",
       "animated": "platform-llm-plan.animated.svg"
+    },
+    {
+      "name": "agent-admission",
+      "title": "Agent release admission",
+      "width": 2300,
+      "height": 1430,
+      "nodes": [
+        "chart",
+        "input",
+        "decision",
+        "stop",
+        "seal",
+        "recheck",
+        "deploy"
+      ],
+      "arrows": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ],
+      "native": "../diagrams/agent-admission.excalidraw",
+      "animated": "agent-admission.animated.svg"
+    },
+    {
+      "name": "assistant-classes",
+      "title": "Assistant code boundaries",
+      "width": 2440,
+      "height": 1710,
+      "nodes": [
+        "agents",
+        "tools",
+        "reader",
+        "encoder",
+        "knowledge",
+        "feature",
+        "backend",
+        "drift"
+      ],
+      "arrows": [
+        "Q1",
+        "C1",
+        "C2",
+        "D1",
+        "H1",
+        "H2",
+        "H3"
+      ],
+      "native": "../diagrams/assistant-classes.excalidraw",
+      "animated": "assistant-classes.animated.svg"
+    },
+    {
+      "name": "agent-traces",
+      "title": "Agent trace paths",
+      "width": 2440,
+      "height": 1760,
+      "nodes": [
+        "gateway",
+        "coord",
+        "ret",
+        "drift",
+        "rmcp",
+        "dmcp",
+        "router",
+        "observer",
+        "gpu",
+        "jaeger"
+      ],
+      "arrows": [
+        "A1",
+        "A2",
+        "A3",
+        "M1",
+        "M2",
+        "G1",
+        "G2",
+        "G3",
+        "G4",
+        "G5",
+        "G6",
+        "G7",
+        "T0",
+        "T1",
+        "T2"
+      ],
+      "native": "../diagrams/agent-traces.excalidraw",
+      "animated": "agent-traces.animated.svg"
+    },
+    {
+      "name": "prompt-policy",
+      "title": "Prompt policy cohort",
+      "width": 2300,
+      "height": 1430,
+      "nodes": [
+        "requests",
+        "policy",
+        "blocked",
+        "gpu",
+        "reconcile",
+        "report"
+      ],
+      "arrows": [
+        "P1",
+        "P2",
+        "P3",
+        "P4",
+        "P5",
+        "P6"
+      ],
+      "native": "../diagrams/prompt-policy.excalidraw",
+      "animated": "prompt-policy.animated.svg"
     }
   ]
 }

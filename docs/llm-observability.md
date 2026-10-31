@@ -76,21 +76,14 @@ The canary's prompt checks cover four explicit patterns: email addresses, labele
 
 The accepted rollout adds one exact private OTLP route to the existing Envoy listener and selects the observation Pod for model requests. The deployed Envoy 1.33.2 binary validates the new configuration before cutover. The old adapter deployment remains available, and the original GPU, shared model and agent business specifications remain unchanged. Tracing settings create three new Ready actor templates with message capture disabled.
 
-```mermaid
-flowchart LR
-    Gateway[Private HTTPS gateway] --> Coordinator
-    Coordinator -->|A2A| Retrieval
-    Coordinator -->|A2A| Drift
-    Retrieval -->|3 tools| RetrievalMCP[Retrieval MCP]
-    Drift -->|1 tool| DriftMCP[Drift MCP]
-    Coordinator -->|model| Router[llm-d router]
-    Retrieval -->|model| Router
-    Drift -->|model| Router
-    Router --> Observer[Observation API]
-    Observer --> Adapter[Retained tool-turn adapter]
-    Adapter --> GPU[Qwen 2.5 7B on V100]
-    Observer -. approved trace metadata .-> Jaeger
-```
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="images/agent-traces.png">
+  <img alt="Logical agent work, shared model generation and approved trace metadata" src="images/agent-traces.gif">
+</picture>
+
+[Editable Excalidraw](diagrams/agent-traces.excalidraw) · [Full-resolution PNG](images/agent-traces.png) · [Interactive viewer](diagrams/architecture.html)
+
+Moving markers illustrate direction with arbitrary timing. Reduced-motion visitors receive a static image.
 
 This is the recorded application flow, not a runtime screenshot. Agents also export OTLP through the router's exact private trace path to the observer. Only that trace route bypasses model selection; the original model route still uses the endpoint picker.
 

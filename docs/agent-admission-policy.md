@@ -12,15 +12,14 @@ A correct tool name is only part of the configuration. An agent could still poin
 
 The learner confirmed OPA/Rego had not been covered in class. This LLM application evaluates the actual production agent chart and live shared model. The earlier ML deployment-policy experiment remains separate evidence. The official [OPA CI/CD guide](https://www.openpolicyagent.org/docs/cicd) describes configuration checks and command exit codes; this bounded CLI gate needs no additional policy server.
 
-```mermaid
-flowchart LR
-    A[Tested chart and live ModelConfig] --> B[Complete 11-resource input]
-    B --> C[OPA decision]
-    C -->|Denied| D[Stop before deployment]
-    C -->|Allowed| E[Bind source, model UID and hashes]
-    E --> F[Rebuild input and check again]
-    F --> G[Deploy and verify actual answers]
-```
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="images/agent-admission.png">
+  <img alt="Source-bound agent release admission before deployment" src="images/agent-admission.gif">
+</picture>
+
+[Editable Excalidraw](diagrams/agent-admission.excalidraw) · [Full-resolution PNG](images/agent-admission.png) · [Interactive viewer](diagrams/architecture.html)
+
+Moving markers illustrate direction with arbitrary timing. Reduced-motion visitors receive a static image.
 
 ## What it checks
 

@@ -16,16 +16,14 @@ The assistant obtains structured machine data and source-bound reference passage
 
 ## How they collaborate
 
-```mermaid
-flowchart LR
-    A[Retrieval or drift agent] --> B[ToolRuntime]
-    B --> C[KnowledgeReader]
-    C --> D[TextEncoder]
-    C --> E[Versioned Feast and Milvus knowledge]
-    B -->|Private Feature API| F[FeatureRuntime]
-    F -->|Injected backend| G[Feast and KServe model]
-    B -->|Private Drift API| H[DriftDetector]
-```
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="images/assistant-classes.png">
+  <img alt="Five assistant classes, embedded retrieval and private API boundaries" src="images/assistant-classes.gif">
+</picture>
+
+[Editable Excalidraw](diagrams/assistant-classes.excalidraw) · [Full-resolution PNG](images/assistant-classes.png) · [Interactive viewer](diagrams/architecture.html)
+
+Moving markers illustrate direction with arbitrary timing. Reduced-motion visitors receive a static image.
 
 The two API arrows cross process boundaries. `ToolRuntime` calls their fixed endpoints; it does not construct `FeatureRuntime` or `DriftDetector` inside the MCP process. Prediction uses the existing trained pump model. The LLM composes an answer from returned tool data and references.
 

@@ -7,14 +7,19 @@ import re
 from PIL import Image
 
 
-def encode(folder, output, fps):
+def encode(folder, output, fps, scene_name):
     """Use one palette so stationary text remains stable across the illustration's motion frames."""
     paths = sorted(folder.glob('frame-*.png'))
     if len(paths) != 36 or fps != 6:
         raise ValueError('The reviewed preview uses 36 captured frames at six frames per second')
     frames = []
     here = Path(__file__).resolve().parent
-    scene = json.loads((here/'platform-system.excalidraw').read_bytes())
+    if scene_name not in {p.stem for p in here.glob('*.excalidraw')}:
+        raise ValueError('Select an existing native architecture scene')
+    scene = json.loads((here/(scene_name+'.excalidraw')).read_bytes())
+    canvas = next(e for e in scene['elements'] if e['id'].endswith('-canvas'))
+    width = min(1920, canvas['width'])
+    height = round(canvas['height'] * width / canvas['width'])
     bank = json.loads((here/'icons/brands.json').read_bytes())
     colors = set()
     for element in scene['elements']:
@@ -37,7 +42,7 @@ def encode(folder, output, fps):
     for path in paths:
         with Image.open(path) as raw:
             frame = raw.convert('RGB').quantize(palette=palette, dither=Image.Dither.NONE)
-            if frame.size != (1920, 1980):
+            if frame.size != (width, height):
                 raise ValueError('Unexpected preview frame size')
             frames.append(frame)
     # GIF uses centiseconds; distribute rounding rather than shortening a six-second loop.
@@ -51,12 +56,12 @@ def encode(folder, output, fps):
             saved.seek(i)
             actual_duration += saved.info.get('duration', 0)
             identities.add(sha256(saved.convert('RGB').tobytes()).hexdigest())
-        if count != 36 or len(identities) != 36 or actual_duration != 6000 or saved.size != (1920, 1980):
+        if count != 36 or len(identities) != 36 or actual_duration != 6000 or saved.size != (width, height):
             raise ValueError('Encoded GIF does not preserve the reviewed frames and duration')
     if output.stat().st_size > 8 * 1024 * 1024:
         raise ValueError('Preview exceeds the eight-MiB documentation budget')
     return {'frames': count, 'distinct_frames': len(identities), 'duration_ms': actual_duration, 'reserved_source_colors': len(reserved),
-            'width': 1920, 'height': 1980, 'bytes': output.stat().st_size, 'sha256': sha256(output.read_bytes()).hexdigest()}
+            'width': width, 'height': height, 'bytes': output.stat().st_size, 'sha256': sha256(output.read_bytes()).hexdigest()}
 
 
 if __name__ == '__main__':
@@ -64,5 +69,6 @@ if __name__ == '__main__':
     parser.add_argument('frames', type=Path)
     parser.add_argument('output', type=Path)
     parser.add_argument('--fps', type=int, default=6)
+    parser.add_argument('--scene', default='platform-system')
     args = parser.parse_args()
-    print(json.dumps(encode(args.frames, args.output, args.fps)))
+    print(json.dumps(encode(args.frames, args.output, args.fps, args.scene)))

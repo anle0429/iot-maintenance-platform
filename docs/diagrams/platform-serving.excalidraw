@@ -68,6 +68,108 @@
       "index": "a0"
     },
     {
+      "id": "platform-serving-access-region",
+      "type": "rectangle",
+      "x": 55,
+      "y": 220,
+      "width": 790,
+      "height": 340,
+      "strokeColor": "#c2410c",
+      "backgroundColor": "#fff7ed",
+      "strokeWidth": 1.5,
+      "roundness": {
+        "type": 3
+      },
+      "customData": {
+        "region": "access",
+        "meaning": "Logical responsibility, not an additional workload"
+      },
+      "angle": 0,
+      "fillStyle": "solid",
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 1180575534,
+      "version": 1,
+      "versionNonce": 1776671087,
+      "isDeleted": false,
+      "groupIds": [],
+      "frameId": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "updated": 1,
+      "index": "a0G"
+    },
+    {
+      "id": "platform-serving-feature-region",
+      "type": "rectangle",
+      "x": 940,
+      "y": 245,
+      "width": 415,
+      "height": 790,
+      "strokeColor": "#6d28d9",
+      "backgroundColor": "#f8f0fc",
+      "strokeWidth": 1.5,
+      "roundness": {
+        "type": 3
+      },
+      "customData": {
+        "region": "feature",
+        "meaning": "Logical responsibility, not an additional workload"
+      },
+      "angle": 0,
+      "fillStyle": "solid",
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 1332598321,
+      "version": 1,
+      "versionNonce": 1957170963,
+      "isDeleted": false,
+      "groupIds": [],
+      "frameId": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "updated": 1,
+      "index": "a0V"
+    },
+    {
+      "id": "platform-serving-prediction-region",
+      "type": "rectangle",
+      "x": 1410,
+      "y": 245,
+      "width": 690,
+      "height": 465,
+      "strokeColor": "#1e40af",
+      "backgroundColor": "#eff6ff",
+      "strokeWidth": 1.5,
+      "roundness": {
+        "type": 3
+      },
+      "customData": {
+        "region": "prediction",
+        "meaning": "Logical responsibility, not an additional workload"
+      },
+      "angle": 0,
+      "fillStyle": "solid",
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 1996019666,
+      "version": 1,
+      "versionNonce": 417084925,
+      "isDeleted": false,
+      "groupIds": [],
+      "frameId": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "updated": 1,
+      "index": "a0l"
+    },
+    {
       "id": "serving-title",
       "type": "text",
       "x": 72,
@@ -186,7 +288,7 @@
       "width": 260,
       "height": 100,
       "strokeColor": "#c2410c",
-      "backgroundColor": "#fed7aa",
+      "backgroundColor": "#ffffff",
       "groupIds": [
         "group-client"
       ],
@@ -201,7 +303,7 @@
       },
       "angle": 0,
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 1.5,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -271,7 +373,7 @@
       "text": "API client",
       "fontSize": 20,
       "fontFamily": 3,
-      "strokeColor": "#374151",
+      "strokeColor": "#1e3a5f",
       "groupIds": [
         "group-client"
       ],
@@ -313,7 +415,7 @@
         "type": 3
       },
       "strokeColor": "#1e3a5f",
-      "backgroundColor": "transparent",
+      "backgroundColor": "#ffffff",
       "groupIds": [
         "group-gateway"
       ],
@@ -327,7 +429,7 @@
       },
       "angle": 0,
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 1.5,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -396,7 +498,7 @@
       "text": "NGINX\ngateway",
       "fontSize": 20,
       "fontFamily": 3,
-      "strokeColor": "#374151",
+      "strokeColor": "#1e3a5f",
       "groupIds": [
         "group-gateway"
       ],
@@ -477,7 +579,7 @@
         "type": 3
       },
       "strokeColor": "#1e3a5f",
-      "backgroundColor": "#93c5fd",
+      "backgroundColor": "#ffffff",
       "groupIds": [
         "group-api"
       ],
@@ -492,7 +594,7 @@
       },
       "angle": 0,
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 1.5,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -577,7 +679,7 @@
       "text": "Feature API",
       "fontSize": 22,
       "fontFamily": 3,
-      "strokeColor": "#374151",
+      "strokeColor": "#1e3a5f",
       "groupIds": [
         "group-api"
       ],
@@ -658,7 +760,7 @@
         "type": 3
       },
       "strokeColor": "#6d28d9",
-      "backgroundColor": "#ddd6fe",
+      "backgroundColor": "#ffffff",
       "groupIds": [
         "group-model"
       ],
@@ -674,7 +776,7 @@
       },
       "angle": 0,
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 1.5,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -743,7 +845,7 @@
       "text": "KServe\npredictor",
       "fontSize": 22,
       "fontFamily": 3,
-      "strokeColor": "#374151",
+      "strokeColor": "#1e3a5f",
       "groupIds": [
         "group-model"
       ],
@@ -1080,7 +1182,7 @@
       "width": 300,
       "height": 100,
       "strokeColor": "#047857",
-      "backgroundColor": "#a7f3d0",
+      "backgroundColor": "#ffffff",
       "groupIds": [
         "group-redis"
       ],
@@ -1095,7 +1197,7 @@
       },
       "angle": 0,
       "fillStyle": "solid",
-      "strokeWidth": 2,
+      "strokeWidth": 1.5,
       "strokeStyle": "solid",
       "roughness": 0,
       "opacity": 100,
@@ -1104,7 +1206,9 @@
       "versionNonce": 2040380232,
       "isDeleted": false,
       "frameId": null,
-      "roundness": null,
+      "roundness": {
+        "type": 3
+      },
       "boundElements": [
         {
           "id": "U3",
@@ -1225,7 +1329,7 @@
       "text": "Redis API\nonline store",
       "fontSize": 20,
       "fontFamily": 3,
-      "strokeColor": "#374151",
+      "strokeColor": "#1e3a5f",
       "groupIds": [
         "group-redis"
       ],

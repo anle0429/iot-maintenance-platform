@@ -18,17 +18,23 @@ Three workloads have different boundaries:
 
 The 100 GB result does not cover feature engineering or model training at that scale. Diagrams summarize recorded workflows; they do not assert that all jobs run concurrently or that endpoints are currently ready.
 
-The [system map](images/platform-system.svg) ([Excalidraw source](diagrams/platform-system.excalidraw)) brings the data, ML, serving, agent and operating layers together. It groups logical jobs and responsibilities; the [deployment view](images/platform-deployment.svg) separates actual workload resources. See the [diagram guide](diagrams/README.md) for all six views and the animated presentation.
+The [system map](images/platform-system.svg) ([Excalidraw source](diagrams/platform-system.excalidraw)) brings the data, ML, serving, agent and operating layers together. It groups logical jobs and responsibilities; the [deployment view](images/platform-deployment.svg) separates actual workload resources. See the [diagram guide](diagrams/README.md) for all ten views and the animated presentation.
 
-![Data and ML workflow overview](images/platform-overview.png)
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="images/platform-overview.png">
+  <img alt="Data and ML workflow overview" src="images/platform-overview.gif">
+</picture>
 
-[Excalidraw source](diagrams/platform-overview.excalidraw) · [SVG](images/platform-overview.svg) · [Animated viewer](diagrams/architecture.html) · [All five views and handoff legend](diagrams/README.md)
+[Excalidraw source](diagrams/platform-overview.excalidraw) · [SVG](images/platform-overview.svg) · [Animated viewer](diagrams/architecture.html) · [All ten views and handoff legend](diagrams/README.md)
 
 ## Inference request
 
 The API accepts a machine ID, retrieves its features through Feast, checks whether they can support the prediction, and calls the pinned KServe model. Failed or maintenance-state machines can still have monitoring features, but the one-hour failure target is undefined for them.
 
-![Authenticated prediction request, online lookup and model response](images/platform-serving.png)
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="images/platform-serving.png">
+  <img alt="Authenticated prediction request, online lookup and model response" src="images/platform-serving.gif">
+</picture>
 
 [Excalidraw source](diagrams/platform-serving.excalidraw) · [SVG](images/platform-serving.svg) · U1–U7 follow the incoming request, feature lookup, model call and logical return through the gateway.
 
@@ -106,7 +112,10 @@ Jenkins serving CI retrieves the selected model bundle, runs gates, builds image
 
 Offline drift monitoring reads a bounded cohort through Feast, compares eight feature distributions with a fixed training reference using PSI, and publishes metrics through Pushgateway. Prometheus scrapes these metrics and Grafana displays them alongside the age of the last successful comparison.
 
-![Separate telemetry paths and guarded retraining integration](images/platform-monitoring.png)
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="images/platform-monitoring.png">
+  <img alt="Separate telemetry paths and guarded retraining integration" src="images/platform-monitoring.gif">
+</picture>
 
 [Excalidraw source](diagrams/platform-monitoring.excalidraw) · [SVG](images/platform-monitoring.svg) · H/M/L/O labels distinguish host metrics, API/job metrics, logs and traces; R1–R4 expand the drift-to-candidate integration. Arrows show signal/artifact flow, including query responses, rather than every underlying HTTP request.
 
@@ -142,6 +151,9 @@ The supplied rubrics govern scope. [Card Fraud Platform](https://github.com/cvin
 
 ## Selected LLM workstream
 
-![Recorded GPU routing, MCP tools and verified agent delegation](images/platform-llm-plan.png)
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="images/platform-llm-plan.png">
+  <img alt="Recorded GPU routing, MCP tools and verified agent delegation" src="images/platform-llm-plan.gif">
+</picture>
 
 The llm-d router and CPU backend have [native inference evidence](llm-inference.md). The [RAG pipeline](rag-orchestration.md), [source-cited generation](llm-grounding.md) and [authenticated MCP services](mcp-tools.md) are separately verified; the [native controller/catalog and gVisor templates](agent-platform.md) are recorded, and [complete specialist/coordinator conversations on the GPU route](gpu-agent-routing.md) are verified. [Worker-level direct MCP isolation](agent-network-isolation.md) is verified with reversible native controls. [Automatic worker scaling](agent-scaling.md) is verified for all three roles. The [executed notebook](agent-notebook.md) demonstrates Feast-backed features, RAG and drift. The [matched startup experiment](agent-warmup.md) records mixed snapshot timings and the single-host HA limit. [RAG delivery](ci-rag.md) and [three MCP/agent pipelines](ci-agents.md) have native CI proof. [Private gateways](agent-gateway.md), [native telemetry](llm-monitoring-demo.md), [model A/B](llm-model-ab.md), [agent A/B](agent-configuration-ab.md) and the [fresh rehearsal](agent-runtime-validation.md) have separate recorded proofs. See the [documentation index](README.md), [workstream](llm-platform.md), [source rubric](rubric-source.md) and [LLM tracker](final-llm-rubric-tracker.md). The drawing itself is not runtime evidence.

@@ -2,7 +2,10 @@
 
 **Status: native workflows and requirement-level evidence are recorded.** GPU-backed specialist/coordinator answers, RAG governance, private MCP, network controls, scaling, notebooks, warm-up measurements, CI, monitoring and bounded A/B studies have separate evidence. [Generator/target-table and stream-store validation](assistant-data-validation.md) connects actual results to a direct-model evidence-reading exercise, retaining its wrong answer and deployed schema rejection. [OPA agent admission](agent-admission-policy.md) and [corpus MMD review](rag-corpus-drift.md) are recorded researched extensions. [Private retrieval HTTPS and original post-restart responses](mcp-gateway.md) have source-bound transport/UI checks. [Testing techniques and application design](mcp-quality-evidence.md) have original report/source captures. [Infrastructure run captures](llm-infrastructure-evidence.md) and [native Vault metadata UI](vault-agent-ui.md) are also recorded. The [117-row map](final-audit-matrix.md) reconciles the requirements. The [post-restart rehearsal](agent-runtime-validation.md), [self-run guide](operations.md) and [documentation index](README.md) provide component and operating references; see the [row-level tracker](final-llm-rubric-tracker.md) for precise scopes. Start with the [documentation index](README.md) to follow the information flow.
 
-![Recorded LLM and agent routes through llm-d, observer and the private GPU backend](images/platform-llm-plan.png)
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="images/platform-llm-plan.png">
+  <img alt="Recorded LLM and agent routes through llm-d, observer and the private GPU backend" src="images/platform-llm-plan.gif">
+</picture>
 
 [Excalidraw source](diagrams/platform-llm-plan.excalidraw) · [SVG](images/platform-llm-plan.svg) · [Animated viewer](diagrams/architecture.html) · [View legend and source](diagrams/README.md) · [LLM rubric](final-llm-rubric-tracker.md)
 

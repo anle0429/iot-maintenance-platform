@@ -23,15 +23,14 @@ The multi-category case contains a synthetic email, a reserved example telephone
 
 The 75% rejection fraction is deliberately chosen test composition. It does not estimate how often a real user would submit an unsafe prompt. The controls implement four explicit text patterns; they do not prove general toxicity detection, universal PII recognition or complete prompt-injection protection. No physical equipment is connected or operated.
 
-```mermaid
-flowchart LR
-    A[12 synthetic requests] --> B[Existing prompt policy]
-    B -->|9 rejected| C[422 response and durable metadata]
-    B -->|3 allowed| D[GPU model: 6 output tokens]
-    C --> E[Reconcile IDs, logs and counters]
-    D --> E
-    E --> F[Exact batch result and native rate graph]
-```
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="images/prompt-policy.png">
+  <img alt="Controlled prompt cohort with rejection before generation and exact reconciliation" src="images/prompt-policy.gif">
+</picture>
+
+[Editable Excalidraw](diagrams/prompt-policy.excalidraw) · [Full-resolution PNG](images/prompt-policy.png) · [Interactive viewer](diagrams/architecture.html)
+
+Moving markers illustrate direction with arbitrary timing. Reduced-motion visitors receive a static image.
 
 ## Read the frequency graph separately
 

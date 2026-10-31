@@ -2,7 +2,10 @@
 
 The private V100 worker now serves the three IoT agents through the shared llm-d endpoint. The recorded final run completed retrieval, drift and coordinator requests. Each specialist answer was checked against its own MCP results; the coordinator was checked against the actual child sessions it created.
 
-![Recorded agent and GPU architecture](images/platform-llm-plan.png)
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="images/platform-llm-plan.png">
+  <img alt="Recorded agent and GPU architecture" src="images/platform-llm-plan.gif">
+</picture>
 
 The diagram describes the implementation. Original runtime payloads and process receipts are stored in the [evidence capsule](evidence/gpu-agents/manifest.json).
 
