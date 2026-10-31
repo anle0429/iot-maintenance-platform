@@ -50,6 +50,10 @@ for(const [i,v]of figures.views.entries()){
     }
   }
   for(const set of[nodes,texts])for(let a=0;a<set.length;a++)for(let b=a+1;b<set.length;b++)assert(!overlap(set[a],set[b]),'Overlapping elements: '+set[a].id+' / '+set[b].id);
+  for(const r of elements.filter(e=>e.type==='rectangle'&&(e.customData?.region||e.id.endsWith('-region')||e.id.endsWith('-boundary')))){
+    const border=[[r.x,r.y],[r.x+r.width,r.y],[r.x+r.width,r.y+r.height],[r.x,r.y+r.height],[r.x,r.y]];
+    for(let p=1;p<border.length;p++)for(const t of texts)assert(!crosses(border[p-1],border[p],t),'Frame border crosses text: '+r.id+'/'+t.id);
+  }
   const svg=fs.readFileSync(path.join(root,'docs/images',v.name+'.svg'),'utf8');
   const animated=fs.readFileSync(path.join(root,'docs/images',v.name+'.animated.svg'),'utf8');
   for(const xml of[svg,animated]){

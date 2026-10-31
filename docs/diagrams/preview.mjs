@@ -15,6 +15,16 @@ const selected=process.argv.indexOf('--view');
 const names=process.argv.includes('--all')?index.views:index.views.filter(v=>v.name===(selected<0?'platform-system':process.argv[selected+1]));
 assert(names.length,'Select an existing view with --view NAME or use --all');
 const sha=b=>createHash('sha256').update(b).digest('hex');
+/** Allow a brief Windows reader lock; never silently skip an unwritten manifest. */
+async function writeReceipt(filename,body){
+ for(let attempt=0;;attempt++){
+  try{fs.writeFileSync(filename,body);return;}
+  catch(error){
+   if(attempt>=5||!['EBUSY','EPERM','UNKNOWN'].includes(error.code))throw error;
+   await new Promise(resolve=>setTimeout(resolve,150*(attempt+1)));
+  }
+ }
+}
 const browser=await chromium.launch({headless:true});
 try{
  for(const v of names){
@@ -47,7 +57,7 @@ try{
    if(encoded.status!==0)throw Error(encoded.stderr||encoded.error?.message||'GIF encoding failed');
    const facts=JSON.parse(encoded.stdout);
    const receipt={kind:'authored-architecture-preview',runtime_screenshot:false,runtime_telemetry:false,source:v.name+'.animated.svg',source_hash_encoding:'UTF-8 SVG with CRLF canonicalized to LF',source_sha256:sourceHash,marker_count:v.arrows.length,motion:'Illustrative direction only; independent staggered phases; arbitrary six-second loop; no execution chronology',...facts};
-   fs.writeFileSync(receiptPath,JSON.stringify(receipt,null,2)+'\n');
+   await writeReceipt(receiptPath,JSON.stringify(receipt,null,2)+'\n');
    console.log(JSON.stringify({view:v.name,...receipt}));
   }finally{
    await context.close();
