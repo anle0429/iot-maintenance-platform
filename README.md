@@ -172,4 +172,4 @@ Maintained prose and code descriptions use English. Original workbooks, native l
 ## Contributors
 
 - [An Le](https://github.com/anle0429) — project owner.
-- [OpenAI Codex](https://developers.openai.com/codex/) — AI assistance with implementation, testing, documentation and architecture diagrams.
+- [OpenAI Codex](https://developers.openai.com/codex/) — AI assistance with documentation and architecture diagrams.
