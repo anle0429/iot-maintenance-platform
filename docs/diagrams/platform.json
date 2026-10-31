@@ -244,7 +244,7 @@
         "x": 948,
         "y": 1310,
         "meta": "INDEPENDENT JOB",
-        "body": "Validated Parquet window history\nReplay does not add rows",
+        "body": "Sealed Parquet window history\nReplay does not add rows",
         "parent": "stream",
         "compact": false,
         "width": 280,
@@ -257,7 +257,7 @@
         "x": 1372,
         "y": 1310,
         "meta": "INDEPENDENT JOB",
-        "body": "Push eligible finalized windows\nReplayed writes keep their TTL",
+        "body": "Read verified offline release\nLatest vector; replay is a no-op",
         "parent": "stream",
         "compact": false,
         "width": 280,
@@ -624,7 +624,7 @@
       },
       {
         "id": "S3",
-        "label": "History",
+        "label": "History + pin",
         "points": [
           [
             1228,
@@ -931,7 +931,7 @@
       },
       {
         "id": "U7",
-        "label": "Prediction + feature trace",
+        "label": "Response via gateway",
         "points": [
           [
             1044,
@@ -1039,7 +1039,7 @@
       },
       {
         "id": "k8s",
-        "title": "CPU VM · Kubernetes workloads",
+        "title": "CPU VM · K3s server workloads",
         "number": "01",
         "tone": "ml",
         "x": 400,
@@ -1072,7 +1072,7 @@
       },
       {
         "id": "gpu-host",
-        "title": "Private GPU worker",
+        "title": "GPU VM · K3s worker",
         "number": "04",
         "tone": "ml",
         "x": 2000,
@@ -1115,7 +1115,7 @@
         "tone": "ml",
         "x": 2056,
         "y": 410,
-        "meta": "ONE GPU DEPLOYMENT",
+        "meta": "HELM DEPLOYMENT",
         "body": "llama.cpp / 7B + 1.5B",
         "parent": "gpu-host",
         "compact": true,
@@ -1753,19 +1753,19 @@
         "w": 360,
         "lines": [
           [
-            "Retained resources",
+            "One K3s cluster, two nodes",
             22,
             "ink",
             "SemiBold"
           ],
           [
-            "Control/data VM: 8 vCPU / 64 GiB RAM",
+            "CPU server: 8 vCPU / 64 GiB RAM",
             15,
             "muted",
             "Regular"
           ],
           [
-            "GPU VM: 4 vCPU / 15 GiB RAM",
+            "GPU worker: 4 vCPU / 15 GiB RAM",
             15,
             "muted",
             "Regular"
@@ -1789,7 +1789,13 @@
             "Regular"
           ],
           [
-            "Private IAP administration",
+            "IAP carries loopback UI access",
+            15,
+            "muted",
+            "Regular"
+          ],
+          [
+            "VM viewer verifies gateway CA/SNI.",
             15,
             "muted",
             "Regular"
@@ -1828,7 +1834,7 @@
         ]
       }
     ],
-    "footer": "Selected recorded workloads. Private UI viewers verify gateway HTTPS after the loopback/IAP hop. Single CPU control/data host; no cross-host control-plane HA or uninterrupted GPU rollout is established."
+    "footer": "One K3s cluster across CPU server and GPU worker; selected workloads. Private UI viewers verify upstream gateway HTTPS after loopback/IAP access. No host-level control-plane HA or uninterrupted GPU rollout is established."
   },
   {
     "name": "platform-monitoring",
@@ -2493,7 +2499,7 @@
         "x": 88,
         "y": 700,
         "meta": "GATEWAY-PROTECTED UI",
-        "body": "IAP viewer to private HTTPS\nAuthentication and rate limiting",
+        "body": "Private HTTP viewer over IAP\nCA-verified upstream HTTPS",
         "parent": "agents",
         "compact": false,
         "width": 280,
@@ -3039,6 +3045,19 @@
           [
             "Registry records identities; it does not deploy the agents.",
             14,
+            "muted",
+            "Regular"
+          ]
+        ]
+      },
+      {
+        "x": 88,
+        "y": 886,
+        "w": 500,
+        "lines": [
+          [
+            "Specialist results return to the coordinator.\nIts final answer returns through the controller/UI.",
+            16,
             "muted",
             "Regular"
           ]

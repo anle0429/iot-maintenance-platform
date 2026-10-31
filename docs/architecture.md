@@ -6,7 +6,7 @@ The selected coursework scope includes both final ML and final LLM/agents. This 
 
 ## Scope and runtime
 
-The control and data lab runs on an 8-vCPU/64-GiB Google Cloud VM. A separate private 4-vCPU/15-GiB worker with one 16-GiB V100 serves the agent model. K3s hosts Kubernetes workloads; Docker containers and host services provide the remaining components. Shared data and scratch volumes hold datasets, model artifacts and service state. Administration uses loopback ports and IAP.
+The control and data lab runs on an 8-vCPU/64-GiB Google Cloud VM. A separate private 4-vCPU/15-GiB worker with one 16-GiB V100 serves the agent model. The CPU VM hosts the K3s server and the GPU VM joins the same cluster as a worker. Docker containers and host services provide the remaining components. Shared data and scratch volumes hold datasets, model artifacts and service state. Administration uses loopback ports and IAP.
 
 Three workloads have different boundaries:
 

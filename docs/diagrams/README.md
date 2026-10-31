@@ -27,13 +27,27 @@ Arrows show the direction of data, results, artifacts or task submission. They d
 
 | View | Handoff IDs |
 |---|---|
-| Overview | D1–D2: large-source ingestion; F1–F3: separate ML source/materialization; C1/G1: control and metadata; T0–T2/C2–C3: training/release; S0–S4: stream replay/writes |
+| Overview | D1–D2: large-source ingestion; F1–F3: separate ML source/materialization; C1/G1: control and metadata; T0–T2/C2–C3: training/release; S0–S4: stream replay/writes, with S3 carrying verified offline history and its release pin |
 | Prediction | U1–U2: incoming request; U3–U4: online lookup/values; U5–U6: model request/result; U7: logical response through the gateway |
 | Deployment | U1–U2: browser, loopback viewer and IAP-backed access; G1–G2: router/observer/private GPU request; G3: token stream |
 | Observability | H1/M1/M3: metric sources; L1–L3: logs/query results; M2: metric queries; O1–O2: traces/private viewer; R1–R4: drift gauges and admitted training |
 | RAG/agents | K0–K2: reference preparation/retrieval; A1–A4: controller/delegation; M1–M4: MCP/API calls; G1–G5: shared generation and return stream |
 
 The 102.45 GB result covers Bronze/Silver, while feature engineering and ML use a separate 60-day cohort. The serving pin remains model 6; model 7 is a candidate. Stream aggregates have a different schema. Additional worker replicas and the separate GPU host do not establish host-level HA. See [architecture](../architecture.md) and the [evidence map](../final-audit-matrix.md) for implementation and measurement boundaries.
+
+## Implementation boundaries
+
+These source checks explain the choices in the drawings. They distinguish logical handoffs from physical routing and current deployment from earlier experiments.
+
+| Boundary | Source check | Reading consequence |
+|---|---|---|
+| Offline and online stream jobs | [OnlineStage](../../feature_store/staged_push.py) validates the completed offline receipt, reads its Parquet history and selects the latest vector | S3 is a sealed data/release dependency, not a direct RPC between two running services. Replaying acknowledged windows does not renew their TTL. |
+| One cluster, two physical nodes | [GPU chart](../../infra/charts/iot-gpu-model/templates/model.yaml) selects the GPU node; the [deployment operator](../../scripts/deploy-gpu-backend.py) validates that worker through the existing control cluster | The GPU frame is a worker in the same K3s cluster as the CPU server. The earlier standalone Docker benchmark is a separate experiment. |
+| Browser access and TLS | The [private viewer](../../scripts/view-agent-gateway.py) listens on loopback HTTP and verifies the gateway's CA and hostname on its upstream HTTPS connection | U1–U2 summarize the IAP/viewer access path. The browser's loopback HTTP address does not describe the gateway's upstream transport. |
+| Prediction response | The [Feature API](../../services/feature_api/runtime.py) uses Feast and the pinned predictor; the gateway remains the external entry point | U7 is the logical return through the gateway. It does not imply direct public access to the API or predictor. |
+| Delegation and answer acceptance | The [coordinator checker](../../agents/delegation_acceptance.py) compares the parent answer, actual child sessions and their MCP results | A1–A4 show task dispatch. Specialist answers return to the coordinator and then through the controller/UI; a completed task alone is insufficient evidence of a correct answer. |
+
+The monitoring view shows signal and query-result direction. For example, a Prometheus-to-Grafana arrow represents returned query data; it does not imply that Prometheus initiates a Grafana request. The same convention applies to the protected trace-view response.
 
 ## Vector source and rendering
 

@@ -14,7 +14,7 @@
 <g id="boundary-k8s">
 <rect x="400" y="280" width="1560" height="900" rx="18" fill="#F4F0FB" stroke="#DCE5ED"/>
 <text x="424" y="310" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#7055B5">01</text>
-<text x="472" y="313" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="21" font-weight="600" fill="#142D40">CPU VM · Kubernetes workloads</text>
+<text x="472" y="313" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="21" font-weight="600" fill="#142D40">CPU VM · K3s server workloads</text>
 </g>
 <g id="boundary-docker">
 <rect x="400" y="1220" width="1560" height="490" rx="18" fill="#EAF7F3" stroke="#DCE5ED"/>
@@ -29,7 +29,7 @@
 <g id="boundary-gpu-host">
 <rect x="2000" y="280" width="392" height="650" rx="18" fill="#F4F0FB" stroke="#DCE5ED"/>
 <text x="2024" y="310" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#7055B5">04</text>
-<text x="2072" y="313" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="21" font-weight="600" fill="#142D40">Private GPU worker</text>
+<text x="2072" y="313" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="21" font-weight="600" fill="#142D40">GPU VM · K3s worker</text>
 </g>
 <g id="node-browser" aria-label="Web browser"><title>CLIENT PROCESS: Web browser</title>
 <rect x="80" y="355" width="252" height="108" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
@@ -51,10 +51,10 @@
 <text x="126" y="589" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="17" font-weight="600" fill="#142D40">IAP client</text>
 <text x="92" y="616" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="13" font-weight="400" fill="#526579">SSH22 / loopback viewers</text>
 </g>
-<g id="node-gpu" aria-label="LLM model server"><title>ONE GPU DEPLOYMENT: LLM model server</title>
+<g id="node-gpu" aria-label="LLM model server"><title>HELM DEPLOYMENT: LLM model server</title>
 <rect x="2056" y="410" width="252" height="108" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
 <rect x="2056" y="424" width="3" height="80" rx="1" fill="#7055B5"/>
-<text x="2068" y="426" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="10" font-weight="400" fill="#7055B5">ONE GPU DEPLOYMENT</text>
+<text x="2068" y="426" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="10" font-weight="400" fill="#7055B5">HELM DEPLOYMENT</text>
 <g transform="translate(2068 440)" fill="none" stroke="#7055B5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
 <polyline points="5,5 19,5 19,19 5,19 5,5"/>
 <polyline points="9,9 15,9 15,15 9,15 9,9"/>
@@ -582,13 +582,14 @@
 <rect x="2096.0" y="1155" width="128.0" height="23" rx="5" fill="#F7F9FC"/>
 <text x="2104.0" y="1166" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#7055B5">G3 Token stream</text>
 </g>
-<text x="2000" y="1337" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="22" font-weight="600" fill="#142D40">Retained resources</text>
-<text x="2000" y="1371" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">Control/data VM: 8 vCPU / 64 GiB RAM</text>
-<text x="2000" y="1401" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">GPU VM: 4 vCPU / 15 GiB RAM</text>
+<text x="2000" y="1337" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="22" font-weight="600" fill="#142D40">One K3s cluster, two nodes</text>
+<text x="2000" y="1371" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">CPU server: 8 vCPU / 64 GiB RAM</text>
+<text x="2000" y="1401" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">GPU worker: 4 vCPU / 15 GiB RAM</text>
 <text x="2000" y="1431" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">One V100 / 16 GiB VRAM</text>
 <text x="2000" y="1461" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">CPU disks: 50 GiB boot, 500 GiB data, 150 GiB scratch</text>
 <text x="2000" y="1491" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">GPU disk: 50 GiB SSD</text>
-<text x="2000" y="1521" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">Private IAP administration</text>
+<text x="2000" y="1521" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">IAP carries loopback UI access</text>
+<text x="2000" y="1551" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">VM viewer verifies gateway CA/SNI.</text>
 <text x="64" y="930" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="21" font-weight="600" fill="#142D40">Read the boundaries</text>
 <text x="64" y="963" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">One box is one workload or client process.</text>
 <text x="64" y="993" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">Frameworks and SDKs stay inside the</text>
@@ -596,6 +597,6 @@
 <text x="64" y="1043" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">Supporting controllers/databases remain</text>
 <text x="64" y="1063" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="15" font-weight="400" fill="#526579">in their source manifests.</text>
 <rect x="64" y="2102" width="2312" height="1" rx="0" fill="#DCE5ED"/>
-<text x="64" y="2134" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400" fill="#526579">Selected recorded workloads. Private UI viewers verify gateway HTTPS after the loopback/IAP hop. Single CPU control/data host; no cross-host control-plane HA or uninterrupted GPU rollout is established.</text>
+<text x="64" y="2134" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400" fill="#526579">One K3s cluster across CPU server and GPU worker; selected workloads. Private UI viewers verify upstream gateway HTTPS after loopback/IAP access. No host-level control-plane HA or uninterrupted GPU rollout is established.</text>
 <text x="64" y="2180" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="10" font-weight="400" fill="#526579">ARCHITECTURE ILLUSTRATION / EDITABLE VECTOR SOURCE</text>
 </svg>

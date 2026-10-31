@@ -80,8 +80,8 @@
 <polyline points="3,3 21,3 21,17 9,17 3,22 3,3"/>
 </g>
 <text x="138" y="753" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Private chat UI</text>
-<text x="104" y="786" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">IAP viewer to private HTTPS</text>
-<text x="104" y="808" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Authentication and rate limiting</text>
+<text x="104" y="786" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Private HTTP viewer over IAP</text>
+<text x="104" y="808" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">CA-verified upstream HTTPS</text>
 </g>
 <g id="node-control" aria-label="Agent controller"><title>KAGENT DEPLOYMENT: Agent controller</title>
 <rect x="440" y="700" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
@@ -337,6 +337,8 @@
 <text x="88" y="1782" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Worker pools scaled 2 → 4 → 2 per role. SDKs stay inside jobs/services; the knowledge store is mounted state, not a separate Milvus server.</text>
 <text x="1460" y="366" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400" fill="#526579">Registry records identities; it does</text>
 <text x="1460" y="385" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400" fill="#526579">not deploy the agents.</text>
+<text x="88" y="898" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Specialist results return to the coordinator.</text>
+<text x="88" y="920" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Its final answer returns through the controller/UI.</text>
 <rect x="64" y="1822" width="2072" height="1" rx="0" fill="#DCE5ED"/>
 <text x="64" y="1854" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="14" font-weight="400" fill="#526579">The shared generation path is drawn once; all roles use it. Tool facts are checked independently of task completion. One control VM and one GPU worker do not establish host-level HA.</text>
 <text x="64" y="1900" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="10" font-weight="400" fill="#526579">ARCHITECTURE ILLUSTRATION / EDITABLE VECTOR SOURCE</text>

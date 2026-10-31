@@ -260,7 +260,7 @@
 <polyline points="15,2 21,2"/>
 </g>
 <text x="998" y="1363" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Offline writer</text>
-<text x="964" y="1396" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Validated Parquet window history</text>
+<text x="964" y="1396" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Sealed Parquet window history</text>
 <text x="964" y="1418" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Replay does not add rows</text>
 </g>
 <g id="node-online" aria-label="Online writer"><title>INDEPENDENT JOB: Online writer</title>
@@ -275,8 +275,8 @@
 <polyline points="15,2 21,2"/>
 </g>
 <text x="1422" y="1363" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="20" font-weight="600" fill="#142D40">Online writer</text>
-<text x="1388" y="1396" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Push eligible finalized windows</text>
-<text x="1388" y="1418" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Replayed writes keep their TTL</text>
+<text x="1388" y="1396" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Read verified offline release</text>
+<text x="1388" y="1418" font-family="Segoe UI,DejaVu Sans,Arial,sans-serif" font-size="16" font-weight="400" fill="#526579">Latest vector; replay is a no-op</text>
 </g>
 <g id="node-streamredis" aria-label="Redis stream store"><title>STREAM FEATURE PROJECT: Redis stream store</title>
 <rect x="1796" y="1310" width="280" height="152" rx="12" fill="#FFFFFF" stroke="#DCE5ED" filter="url(#card-shadow)"/>
@@ -365,10 +365,10 @@
 <rect x="829.5" y="1410" width="93.0" height="23" rx="5" fill="#F7F9FC"/>
 <text x="837.5" y="1422" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#127A74">S2 Windows</text>
 </g>
-<g id="edge-S3" aria-label="History"><path d="M1228 1386 L1372 1386" fill="none" stroke="#127A74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="edge-S3" aria-label="History + pin"><path d="M1228 1386 L1372 1386" fill="none" stroke="#127A74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <polygon points="1372,1386 1362.243055849428,1391.0795709309564 1362.243055849428,1380.9204290690436" fill="#127A74"/>
-<rect x="1253.5" y="1410" width="93.0" height="23" rx="5" fill="#F7F9FC"/>
-<text x="1261.5" y="1422" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#127A74">S3 History</text>
+<rect x="1232.5" y="1410" width="135.0" height="23" rx="5" fill="#F7F9FC"/>
+<text x="1240.5" y="1422" font-family="Consolas,DejaVu Sans Mono,monospace" font-size="12" font-weight="400" fill="#127A74">S3 History + pin</text>
 </g>
 <g id="edge-S4" aria-label="Vectors"><path d="M1652 1386 L1796 1386" fill="none" stroke="#127A74" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <polygon points="1796,1386 1786.243055849428,1391.0795709309564 1786.243055849428,1380.9204290690436" fill="#127A74"/>
