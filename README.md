@@ -166,3 +166,8 @@ Start with a package's README or the [command index](scripts/README.md). Runtime
 The [technical documentation index](docs/README.md) provides a review path through each layer. The [ML tracker](docs/final-rubric-tracker.md), [LLM tracker](docs/final-llm-rubric-tracker.md) and [final audit](docs/final-audit.md) preserve the source requirements and their verification scope.
 
 Maintained prose and code descriptions use English. Original workbooks, native logs and screenshots retain their capture language and bytes. Presentation references: [RecSys-MLops](https://github.com/itsmekhoathekid/RecSys-MLops/tree/6bd6e99f481f2a8d5886d6f0e8356540dc20e135) and [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform/tree/cc34515304815774a5dad6f796683b46c27f93ac). This project's diagrams, measurements and implementation describe the IoT lab; the supplied rubric governs its requirements.
+
+## Contributors
+
+- [An Le](https://github.com/anle0429) — project owner.
+- [OpenAI Codex](https://developers.openai.com/codex/) — AI assistance with implementation, testing, documentation and architecture diagrams.
