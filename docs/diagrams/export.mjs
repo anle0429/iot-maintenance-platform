@@ -14,8 +14,8 @@ const modules=process.env.DIAGRAM_NODE_MODULES||path.join(here,'node_modules');
 const require=createRequire(path.join(modules,'../package.json'));
 const {build}=require('esbuild');
 const {chromium}=require('playwright');
-const views=['platform-overview','platform-serving','platform-deployment','platform-monitoring','platform-llm-plan'];
-const labels=['Platform overview','Prediction request','Deployment topology','Observability & retraining','RAG & agents'];
+const views=['platform-system','platform-overview','platform-serving','platform-deployment','platform-monitoring','platform-llm-plan'];
+const labels=['System architecture','Platform overview','Prediction request','Deployment topology','Observability & retraining','RAG & agents'];
 const bank=JSON.parse(fs.readFileSync(path.join(here,'icons/brands.json')));
 const escapeXML=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
 const digest=s=>createHash('sha256').update(s).digest('hex');
@@ -38,7 +38,7 @@ function prepare(scene){
     if(e.type==='text')Object.assign(e,{fontFamily:3,textAlign:e.textAlign??'left',verticalAlign:'top',lineHeight:e.lineHeight??1.25,containerId:e.containerId??null,originalText:e.text,autoResize:true});
     if(e.type==='image'){
       const icon=bank[e.fileId];if(!icon)throw Error('Unknown icon '+e.fileId);
-      scene.files[e.fileId]={id:e.fileId,mimeType:'image/svg+xml',dataURL:'data:image/svg+xml;base64,'+Buffer.from(icon.svg).toString('base64'),created:1};
+      scene.files[e.fileId]={id:e.fileId,mimeType:icon.mimeType??'image/svg+xml',dataURL:icon.dataURL??('data:image/svg+xml;base64,'+Buffer.from(icon.svg).toString('base64')),created:1};
     }
   }
   for(const e of scene.elements.filter(e=>e.type==='arrow')){

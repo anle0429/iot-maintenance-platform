@@ -12,6 +12,8 @@ A user asks about a machine's recent condition, risk or a relevant technical doc
 
 The retrieval MCP reads a verified local knowledge snapshot copied into each replica. The drift MCP first gathers 32 machine snapshots from Feature API and checks a shared source identity, then submits the cohort to Drift API. The drawing exposes that input dependency as M5. Specialist answers return to the coordinator and through controller/UI; task completion alone is insufficient for answer acceptance.
 
+The deployed Drift API and MCP response expose PSI diagnostics. The [MMD sensor study](joint-cohort.md) is a separate offline diagnostic, rather than another statistic returned by this tool call. The [system map](images/platform-system.svg) places these tool and generation paths alongside the data/ML platform.
+
 ## Components
 
 | Area | Required work | Existing baseline |

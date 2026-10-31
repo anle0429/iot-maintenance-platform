@@ -31,13 +31,16 @@ The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 h
 
 ## Architecture
 
-Three layers share explicit data contracts. Batch and stream jobs publish retained datasets or finalized windows; Feast is used through its SDK inside the jobs and API processes. Models and references keep their own version/source identities.
+The system map follows data through batch and stream jobs, feature delivery, training and serving, then into the agent workflow. The detailed views expand request, deployment and observability boundaries. SDKs run inside consuming jobs and APIs; models and references retain their own source identities.
 
-![Data, feature and ML workflows with numbered handoffs](docs/images/platform-overview.png)
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/platform-system.png">
+  <img alt="IoT platform architecture: data governance, batch and streaming pipelines, features, ML, serving, infrastructure, security and agents" src="docs/images/platform-system.gif">
+</picture>
 
-[Excalidraw source](docs/diagrams/platform-overview.excalidraw) · [SVG](docs/images/platform-overview.svg) · [Animated viewer](docs/diagrams/architecture.html) · [All five views](docs/diagrams/README.md) · [Architecture](docs/architecture.md)
+[Excalidraw source](docs/diagrams/platform-system.excalidraw) · [Full-resolution PNG](docs/images/platform-system.png) · [SVG](docs/images/platform-system.svg) · [Interactive viewer](docs/diagrams/architecture.html) · [Five detailed views](docs/diagrams/README.md) · [Architecture](docs/architecture.md)
 
-The offline viewer animates each handoff and links it to its implementation. Open the HTML file from a local clone; motion illustrates direction, not live traffic or measured timing. The diagrams remain editable in Excalidraw.
+The animation illustrates direction with arbitrary timing. It is not live traffic or an execution schedule. Reduced-motion visitors receive the static image. Open the HTML viewer from a local clone to pause, change speed, zoom and inspect each arrow's implementation sources. The diagrams remain editable in Excalidraw.
 
 ### Data platform
 

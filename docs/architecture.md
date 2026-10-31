@@ -18,6 +18,8 @@ Three workloads have different boundaries:
 
 The 100 GB result does not cover feature engineering or model training at that scale. Diagrams summarize recorded workflows; they do not assert that all jobs run concurrently or that endpoints are currently ready.
 
+The [system map](images/platform-system.svg) ([Excalidraw source](diagrams/platform-system.excalidraw)) brings the data, ML, serving, agent and operating layers together. It groups logical jobs and responsibilities; the [deployment view](images/platform-deployment.svg) separates actual workload resources. See the [diagram guide](diagrams/README.md) for all six views and the animated presentation.
+
 ![Data and ML workflow overview](images/platform-overview.png)
 
 [Excalidraw source](diagrams/platform-overview.excalidraw) · [SVG](images/platform-overview.svg) · [Animated viewer](diagrams/architecture.html) · [All five views and handoff legend](diagrams/README.md)

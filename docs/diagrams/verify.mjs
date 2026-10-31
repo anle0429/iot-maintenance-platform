@@ -10,6 +10,7 @@ const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'
 const figures=JSON.parse(fs.readFileSync(path.join(root,'docs/images/diagram-index.json')));
 const bank=JSON.parse(fs.readFileSync(path.join(here,'icons/brands.json')));
 const expected=[
+  [47,'O1 O2 D1 D2 Q1 S0 S1 S2 S3 S4 S5 F1 O3 F2 T0 T1 I1 I2 T2 C1 C2 M1 L1 L2 F3 V1 P0 P1 P2 P3 P4 P5 C3 H1 O4 R0 R1 R2 K1 K2 Q2 A1 A2 A3 A4 A5 M2 M4 M5 G0 G1 G2 G3 G4 H2 H3'],
   [18,'D1 D2 F1 F2 F3 C1 G1 T0 T1 T2 C2 C3 S0 S1 S2 S3 S4'],
   [5,'U1 U2 U3 U4 U5 U6 U7'],[42,'U1 U2 U3 G1 G2 G3 G4'],
   [14,'H1 M1 L1 L2 M2 L3 M3 O1 O2 R1 R2 R3 R4'],
@@ -27,7 +28,7 @@ function crosses(a,b,r){
 }
 function overlap(a,b){return a.x+2<b.x+b.width&&a.x+a.width-2>b.x&&a.y+2<b.y+b.height&&a.y+a.height-2>b.y;}
 
-assert.equal(figures.runtime_screenshot,false);assert.equal(figures.views.length,5);
+assert.equal(figures.runtime_screenshot,false);assert.equal(figures.views.length,6);
 for(const [i,v]of figures.views.entries()){
   const s=JSON.parse(fs.readFileSync(path.join(here,v.name+'.excalidraw'))),elements=s.elements;
   assert.equal(s.type,'excalidraw');assert.equal(s.version,2);assert.equal(new Set(elements.map(e=>e.id)).size,elements.length);
@@ -41,8 +42,9 @@ for(const [i,v]of figures.views.entries()){
     if(e.type==='text')assert.equal(e.fontFamily,3);
     for(const source of e.customData?.sources??[]){const f=path.resolve(root,source);assert(f.startsWith(root+path.sep)&&fs.statSync(f).isFile());sources.set(source,sha(fs.readFileSync(f)));}
     if(e.type==='image'){
-      assert(bank[e.fileId]);const file=s.files[e.fileId];assert.equal(file.mimeType,'image/svg+xml');assert.equal(Buffer.from(file.dataURL.split(',')[1],'base64').toString(),bank[e.fileId].svg);
-      assert(e.width<=64&&e.height<=64,'Native scene must not be flattened into a screenshot');
+      assert(bank[e.fileId]);const icon=bank[e.fileId],file=s.files[e.fileId];assert.equal(file.mimeType,icon.mimeType??'image/svg+xml');
+      if(icon.dataURL)assert.equal(file.dataURL,icon.dataURL);else assert.equal(Buffer.from(file.dataURL.split(',')[1],'base64').toString(),icon.svg);
+      assert(e.width<=(i===0?360:64)&&e.height<=(i===0?96:64),'Native scene must not be flattened into a screenshot');
     }
   }
   for(const set of[nodes,texts])for(let a=0;a<set.length;a++)for(let b=a+1;b<set.length;b++)assert(!overlap(set[a],set[b]),'Overlapping elements: '+set[a].id+' / '+set[b].id);
@@ -72,8 +74,19 @@ for(const [i,v]of figures.views.entries()){
   }
   checks.push({name:v.name,nodes:nodes.length,arrows:arrows.length,native_elements:elements.length,embedded_icons:Object.keys(s.files).length,passed:true});
 }
-assert.equal(checks.reduce((n,v)=>n+v.nodes,0),95);assert.equal(checks.reduce((n,v)=>n+v.arrows,0),61);
+assert.equal(checks.reduce((n,v)=>n+v.nodes,0),142);assert.equal(checks.reduce((n,v)=>n+v.arrows,0),117);
 report.source_bindings=Object.fromEntries([...sources.entries()].sort());
+const preview=JSON.parse(fs.readFileSync(path.join(root,'docs/images/platform-system.preview.json')));
+const gif=fs.readFileSync(path.join(root,'docs/images/platform-system.gif'));
+assert.equal(preview.runtime_screenshot,false);assert.equal(preview.runtime_telemetry,false);
+assert.equal(preview.source_hash_encoding,'UTF-8 SVG with CRLF canonicalized to LF');
+assert.equal(preview.source_sha256,sha(fs.readFileSync(path.join(root,'docs/images/platform-system.animated.svg'),'utf8').replaceAll('\r\n','\n')));
+assert.equal(preview.sha256,sha(gif));assert.equal(preview.marker_count,56);
+assert.equal(gif.subarray(0,6).toString(),'GIF89a');assert.equal(gif.readUInt16LE(6),1920);assert.equal(gif.readUInt16LE(8),1980);
+assert.equal(preview.frames,36);assert.equal(preview.distinct_frames,36);assert.equal(preview.duration_ms,6000);
+const readme=fs.readFileSync(path.join(root,'README.md'),'utf8'),picture=readme.match(/<picture>[\s\S]*?<\/picture>/)?.[0];
+assert(picture?.includes('prefers-reduced-motion: reduce')&&picture.includes('docs/images/platform-system.png')&&picture.includes('docs/images/platform-system.gif'));
+report.readme_preview={passed:true,frames:36,duration_ms:6000,markers:56,bytes:gif.length,sha256:preview.sha256};
 
 if(process.argv.includes('--browser')){
   const require=createRequire(path.join(process.env.DIAGRAM_NODE_MODULES||path.join(here,'node_modules'),'../package.json'));
@@ -84,7 +97,7 @@ if(process.argv.includes('--browser')){
     await context.route(/^https?:/,route=>{requests.push(route.request().url());return route.abort();});
     await page.goto(pathToFileURL(path.join(here,'architecture.html')).href);await page.waitForSelector('article.active svg');
     const moving=[];
-    for(let i=0;i<5;i++){
+    for(let i=0;i<6;i++){
       await page.selectOption('#view',String(i));assert.equal(await page.locator('#edge option').count(),expected[i][1].split(' ').length+1);
       const before=await page.locator('article.active .flow-particle').evaluateAll(es=>es.map(e=>{const m=e.getCTM();return[m.e,m.f];}));
       await page.waitForTimeout(320);
@@ -114,10 +127,21 @@ if(process.argv.includes('--browser')){
     assert(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     await mobile.click('#play');assert.equal(await mobile.locator('article.active .flow-particle').first().evaluate(e=>getComputedStyle(e).display),'block');
     if(out)await mobile.screenshot({path:path.join(path.dirname(out),'viewer-mobile.png'),fullPage:true});
+    const hero=await context.newPage();hero.on('pageerror',e=>errors.push(e.message));
+    const heroHTML='<style>body{margin:0}img{display:block;max-width:960px;height:auto}</style>'+picture;
+    await hero.goto(pathToFileURL(path.join(root,'README.md')).href);await hero.setContent(heroHTML);
+    await hero.locator('img').evaluate(e=>e.decode());
+    assert((await hero.locator('img').evaluate(e=>e.currentSrc)).endsWith('platform-system.gif'));
+    const first=await hero.locator('img').screenshot();await hero.waitForTimeout(550);
+    const second=await hero.locator('img').screenshot();assert.notEqual(sha(first),sha(second),'README GIF must actually animate');
+    if(out)await hero.screenshot({path:path.join(path.dirname(out),'readme-preview.png'),fullPage:true});
+    const still=await reduced.newPage();still.on('pageerror',e=>errors.push(e.message));
+    await still.goto(pathToFileURL(path.join(root,'README.md')).href);await still.setContent(heroHTML);await still.locator('img').evaluate(e=>e.decode());
+    assert((await still.locator('img').evaluate(e=>e.currentSrc)).endsWith('platform-system.png'));
     assert.deepEqual(errors,[]);assert.deepEqual(requests,[]);
-    report.browser={passed:true,actual_moving_particles_by_view:moving,total:61,all_arrow_details:true,click_path:true,pause_resume:true,speed:true,zoom_fit:true,reduced_motion:true,mobile_layout:true,external_requests:requests,page_errors:errors};
+    report.browser={passed:true,actual_moving_particles_by_view:moving,total:117,all_arrow_details:true,click_path:true,pause_resume:true,speed:true,zoom_fit:true,reduced_motion:true,mobile_layout:true,readme_gif_actually_animates:true,readme_reduced_motion_selects_png:true,external_requests:requests,page_errors:errors};
   }finally{await browser.close();}
 }
 report.passed=true;
 if(out)fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n');
-console.log(JSON.stringify({passed:true,views:checks,nodes:95,arrows:61,source_files:sources.size,browser:report.browser},null,2));
+console.log(JSON.stringify({passed:true,views:checks,nodes:142,arrows:117,source_files:sources.size,browser:report.browser},null,2));
