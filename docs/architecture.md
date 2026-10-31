@@ -20,7 +20,7 @@ The 100 GB result does not cover feature engineering or model training at that s
 
 ![Data and ML workflow overview](images/platform-overview.png)
 
-[Editable SVG](images/platform-overview.svg) · [All five views and handoff legend](diagrams/README.md)
+[Excalidraw source](diagrams/platform-overview.excalidraw) · [SVG](images/platform-overview.svg) · [Animated viewer](diagrams/architecture.html) · [All five views and handoff legend](diagrams/README.md)
 
 ## Inference request
 
@@ -28,7 +28,7 @@ The API accepts a machine ID, retrieves its features through Feast, checks wheth
 
 ![Authenticated prediction request, online lookup and model response](images/platform-serving.png)
 
-[Editable SVG](images/platform-serving.svg) · U1–U7 follow the incoming request, feature lookup, model call and logical return through the gateway.
+[Excalidraw source](diagrams/platform-serving.excalidraw) · [SVG](images/platform-serving.svg) · U1–U7 follow the incoming request, feature lookup, model call and logical return through the gateway.
 
 Feast SDK runs inside the API process. The [runtime](../services/feature_api/runtime.py) validates the schema, event time, arrival context, protocol and one-hour demo lease. Before returning a prediction, it also checks the model version, run, data version and threshold against the selected pin.
 
@@ -106,7 +106,7 @@ Offline drift monitoring reads a bounded cohort through Feast, compares eight fe
 
 ![Separate telemetry paths and guarded retraining integration](images/platform-monitoring.png)
 
-[Editable SVG](images/platform-monitoring.svg) · H/M/L/O labels distinguish host metrics, API/job metrics, logs and traces; R1–R4 expand the drift-to-candidate integration. Arrows show signal/artifact flow, including query responses, rather than every underlying HTTP request.
+[Excalidraw source](diagrams/platform-monitoring.excalidraw) · [SVG](images/platform-monitoring.svg) · H/M/L/O labels distinguish host metrics, API/job metrics, logs and traces; R1–R4 expand the drift-to-candidate integration. Arrows show signal/artifact flow, including query responses, rather than every underlying HTTP request.
 
 The comparison uses a fixed model 3 training reference. Its PSI values are not accuracy measurements for the served model 6. The recorded retraining test was a manual probe with `drift=false`; it demonstrated a real KFP run and the admission/replay/cooldown controls. It did not establish a naturally occurring drift alarm or automatic promotion.
 
@@ -114,7 +114,7 @@ The deployment also has API metrics and OTLP traces, host/Pod logs, and a separa
 
 ## Deployment and security
 
-The [deployment view](images/platform-deployment.svg) shows forty selected workload/client resources: the Feature and Drift APIs, each MCP service, controller/UI/catalog, worker pools, router, substrate state, Docker workloads and host processes. Frames group resources by host and runtime; they are not additional services. A WorkerPool can own multiple worker Pods. The observer and turn adapter share one Deployment with two containers, so they remain one deployment box. Feast SDK runs inside consuming jobs/APIs. PostgreSQL, the six-member Valkey cluster, RustFS snapshots, the Airflow DAG processor and the DataHub frontend have their own boxes. Framework-internal controllers and other supporting databases remain in the source manifests. Numbered U/G arrows show private frontend access and the model request/response; the other views describe data/training/telemetry flows.
+The [deployment view](images/platform-deployment.svg) ([Excalidraw source](diagrams/platform-deployment.excalidraw)) shows 42 selected workload/client resources: the Feature and Drift APIs, each MCP service, controller/UI/catalog, worker pools, router, substrate state, Docker workloads and host processes. Frames group resources by host and runtime; they are not additional services. A WorkerPool can own multiple worker Pods. The observer and turn adapter share one Deployment with two containers. Feast SDK runs inside consuming jobs/APIs. PostgreSQL, the six-member Valkey cluster, RustFS snapshots, Jaeger, the Airflow DAG processor and the DataHub frontend have their own labels. The VM's loopback viewer is separate from NGINX: U1–U3 follow browser access through IAP/SSH to the viewer and its CA/SNI-verified upstream HTTPS connection. G1–G4 show the model request and return. Framework-internal controllers and other supporting databases remain in the source manifests; this is a selected inventory.
 
 | Runtime | Components and state | Configuration or report |
 |---|---|---|

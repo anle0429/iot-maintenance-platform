@@ -4,11 +4,13 @@
 
 ![Recorded LLM and agent routes through llm-d, observer and the private GPU backend](images/platform-llm-plan.png)
 
-[Editable SVG](images/platform-llm-plan.svg) · [View legend and source](diagrams/README.md) · [LLM rubric](final-llm-rubric-tracker.md)
+[Excalidraw source](diagrams/platform-llm-plan.excalidraw) · [SVG](images/platform-llm-plan.svg) · [Animated viewer](diagrams/architecture.html) · [View legend and source](diagrams/README.md) · [LLM rubric](final-llm-rubric-tracker.md)
 
 ## IoT interaction
 
 A user asks about a machine's recent condition, risk or a relevant technical document. A coordinator delegates structured feature/RAG retrieval and drift analysis to two specialists. Authenticated MCP tools read the existing machine APIs and a separate versioned knowledge store. Responses identify source records and retrieved chunks. The design has no physical actuator tool.
+
+The retrieval MCP reads a verified local knowledge snapshot copied into each replica. The drift MCP first gathers 32 machine snapshots from Feature API and checks a shared source identity, then submits the cohort to Drift API. The drawing exposes that input dependency as M5. Specialist answers return to the coordinator and through controller/UI; task completion alone is insufficient for answer acceptance.
 
 ## Components
 

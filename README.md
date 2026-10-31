@@ -35,7 +35,9 @@ Three layers share explicit data contracts. Batch and stream jobs publish retain
 
 ![Data, feature and ML workflows with numbered handoffs](docs/images/platform-overview.png)
 
-[Editable SVG](docs/images/platform-overview.svg) · [All five architecture views](docs/diagrams/README.md) · [Architecture](docs/architecture.md)
+[Excalidraw source](docs/diagrams/platform-overview.excalidraw) · [SVG](docs/images/platform-overview.svg) · [Animated viewer](docs/diagrams/architecture.html) · [All five views](docs/diagrams/README.md) · [Architecture](docs/architecture.md)
+
+The offline viewer animates each handoff and links it to its implementation. Open the HTML file from a local clone; motion illustrates direction, not live traffic or measured timing. The diagrams remain editable in Excalidraw.
 
 ### Data platform
 

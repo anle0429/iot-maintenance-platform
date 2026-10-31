@@ -1,12 +1,15 @@
 {
   "kind": "authored-architecture-illustrations",
   "runtime_screenshot": false,
-  "source": "docs/diagrams/platform.py",
+  "source": "docs/diagrams/*.excalidraw",
+  "renderer": "@excalidraw/excalidraw@0.18.0",
+  "motion": "illustrative direction only; not live telemetry or measured timing",
   "views": [
     {
       "name": "platform-overview",
-      "width": 2200,
-      "height": 1710,
+      "title": "Platform overview",
+      "width": 2440,
+      "height": 1670,
       "nodes": [
         "airflow",
         "datahub",
@@ -45,12 +48,15 @@
         "S2",
         "S3",
         "S4"
-      ]
+      ],
+      "native": "../diagrams/platform-overview.excalidraw",
+      "animated": "platform-overview.animated.svg"
     },
     {
       "name": "platform-serving",
-      "width": 1920,
-      "height": 1160,
+      "title": "Prediction request",
+      "width": 2160,
+      "height": 1280,
       "nodes": [
         "client",
         "gateway",
@@ -66,16 +72,19 @@
         "U5",
         "U6",
         "U7"
-      ]
+      ],
+      "native": "../diagrams/platform-serving.excalidraw",
+      "animated": "platform-serving.animated.svg"
     },
     {
       "name": "platform-deployment",
-      "width": 2440,
-      "height": 2200,
+      "title": "Deployment topology",
+      "width": 3000,
+      "height": 2040,
       "nodes": [
         "browser",
         "iap",
-        "gpu",
+        "viewer",
         "ingress",
         "feature",
         "drift",
@@ -96,6 +105,8 @@
         "valkey",
         "snapshots",
         "training",
+        "jaeger",
+        "gpu",
         "spark",
         "kafka",
         "flink",
@@ -117,15 +128,20 @@
       "arrows": [
         "U1",
         "U2",
+        "U3",
         "G1",
         "G2",
-        "G3"
-      ]
+        "G3",
+        "G4"
+      ],
+      "native": "../diagrams/platform-deployment.excalidraw",
+      "animated": "platform-deployment.animated.svg"
     },
     {
       "name": "platform-monitoring",
-      "width": 2200,
-      "height": 1530,
+      "title": "Observability & retraining",
+      "width": 2440,
+      "height": 1760,
       "nodes": [
         "exporter",
         "apis",
@@ -149,19 +165,22 @@
         "L2",
         "M2",
         "L3",
-        "M3",
         "O1",
         "O2",
+        "M3",
         "R1",
         "R2",
         "R3",
         "R4"
-      ]
+      ],
+      "native": "../diagrams/platform-monitoring.excalidraw",
+      "animated": "platform-monitoring.animated.svg"
     },
     {
       "name": "platform-llm-plan",
-      "width": 2200,
-      "height": 1920,
+      "title": "RAG & agents",
+      "width": 2800,
+      "height": 2160,
       "nodes": [
         "airflow",
         "rag",
@@ -187,17 +206,20 @@
         "A2",
         "A3",
         "A4",
+        "K2",
         "M1",
         "M2",
         "M3",
         "M4",
-        "K2",
+        "M5",
         "G1",
         "G2",
         "G3",
         "G4",
         "G5"
-      ]
+      ],
+      "native": "../diagrams/platform-llm-plan.excalidraw",
+      "animated": "platform-llm-plan.animated.svg"
     }
   ]
 }
