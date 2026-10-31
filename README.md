@@ -2,9 +2,9 @@
 
 Data pipelines, failure prediction and tool-grounded answers for industrial pumps.
 
-The platform follows simulated pump telemetry from source records to validated features, a versioned model and an API prediction. A coordinator can retrieve that same machine context, consult versioned reference documents and request a drift assessment through bounded MCP tools.
+The platform connects pump telemetry to validated features, versioned models and API predictions. Its agents use the same machine context, technical references and drift diagnostics to investigate equipment health with traceable sources.
 
-Built as an individual **Engineering for Data & AI — EDAI K11** coursework project, covering **final ML and final LLM/agents**. All equipment, sensor readings and failure events are simulated.
+The reference deployment uses Google Cloud VMs and K3s, with a GPU-backed model server for agents. Equipment, sensor readings and failure events are simulated for reproducible evaluation.
 
 ## Contents
 
@@ -158,7 +158,7 @@ tests/                 Unit, integration, property and load tests
 docs/                  Technical reports, runbooks and review indexes
   evidence/            Browsable captures, manifests and selected results
   evidence-archive/    Checked archive of original machine-readable receipts
-references/coursework/ Original coursework specification and rubric
+references/            Original specifications and validation criteria
 ```
 
 Start with a package's README or the [command index](scripts/README.md). Runtime libraries, command entry points and captured evidence have separate roles. `data/`, `outputs/`, environments and credentials stay outside Git.
@@ -167,7 +167,7 @@ Start with a package's README or the [command index](scripts/README.md). Runtime
 
 The [technical documentation index](docs/README.md) provides a review path through each layer. The [ML tracker](docs/final-rubric-tracker.md), [LLM tracker](docs/final-llm-rubric-tracker.md) and [final audit](docs/final-audit.md) preserve the source requirements and their verification scope.
 
-Maintained prose and code descriptions use English. Original workbooks, native logs and screenshots retain their capture language and bytes. Presentation references: [RecSys-MLops](https://github.com/itsmekhoathekid/RecSys-MLops/tree/6bd6e99f481f2a8d5886d6f0e8356540dc20e135) and [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform/tree/cc34515304815774a5dad6f796683b46c27f93ac). This project's diagrams, measurements and implementation describe the IoT lab; the supplied rubric governs its requirements.
+Maintained prose and code descriptions use English. Original workbooks, native logs and screenshots retain their capture language and bytes. Presentation references: [RecSys-MLops](https://github.com/itsmekhoathekid/RecSys-MLops/tree/6bd6e99f481f2a8d5886d6f0e8356540dc20e135) and [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform/tree/cc34515304815774a5dad6f796683b46c27f93ac). The diagrams and measurements describe this repository's implementation and the limits of its recorded experiments.
 
 ## Contributors
 
