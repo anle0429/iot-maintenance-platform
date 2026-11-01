@@ -1,0 +1,103 @@
+{
+  "base_commit": "0fa85c13df2ed5d9df7d5927316dcf4656af661d",
+  "overlay_paths": [
+    "airflow/dags/iot_data_benchmarks.py",
+    "pipelines/benchmark_airflow.py",
+    "pipelines/data_corrections_benchmark.py",
+    "scripts/run-data-benchmarks.py",
+    "tests/test_benchmark_airflow.py",
+    "tests/test_data_corrections_benchmark.py"
+  ],
+  "files": [
+    {
+      "path": "airflow/dags/iot_data_benchmarks.py",
+      "bytes": 2351,
+      "sha256": "0283573e8b5c8d5ee092d26dd4afd452651200839af80f8bd45e2f860a5af758"
+    },
+    {
+      "path": "pipelines/__init__.py",
+      "bytes": 75,
+      "sha256": "3fa18d7c6802d683dbcc51d2e39ebc899374ed8cba9eeee50bd5eb00ba57f90c"
+    },
+    {
+      "path": "pipelines/benchmark_airflow.py",
+      "bytes": 15285,
+      "sha256": "bfcec8e9c7f98d2ebb95a6f0e7e02710991ba5348778a6284f6f3ca7c561cce9"
+    },
+    {
+      "path": "pipelines/data_corrections_benchmark.py",
+      "bytes": 22819,
+      "sha256": "00560739cc3ec386a118845c97e699189aae6e737930f52213a861a7f7c2fdc7"
+    },
+    {
+      "path": "pipelines/skew_job.py",
+      "bytes": 14798,
+      "sha256": "37f42bbf7f72a350b56d92c10c0d8a782d13d3727e4254d5303b76d41bc71c65"
+    },
+    {
+      "path": "pipelines/skew_metrics.py",
+      "bytes": 5450,
+      "sha256": "7a5cf4e004b7e2606016d546c911c154bc4b09c307861f456a559350736c274e"
+    },
+    {
+      "path": "pipelines/orchestration_contract.py",
+      "bytes": 3188,
+      "sha256": "ba13ec6b1083fa84a65488f3de4192eae48bd7768f8a877363cfc808f12e977a"
+    },
+    {
+      "path": "pipelines/factory_policy.py",
+      "bytes": 2586,
+      "sha256": "5d996c0f0b6f8f010f89c152f086688e5319b9cbd90d70d682f3a091d5d3365e"
+    },
+    {
+      "path": "pipelines/transforms.py",
+      "bytes": 4943,
+      "sha256": "a05a8aa054cedd4f6da194f487a93601e3d9a8dd1f0bfc359305396279fcaf33"
+    },
+    {
+      "path": "pipelines/configs/factory-risk-policies.json",
+      "bytes": 306,
+      "sha256": "d304dab39bc50a0daa2e101f40568448aa756d367ff3797bee3f5a3343f65f3d"
+    },
+    {
+      "path": "generator/__init__.py",
+      "bytes": 103,
+      "sha256": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172"
+    },
+    {
+      "path": "generator/storage.py",
+      "bytes": 3001,
+      "sha256": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d"
+    },
+    {
+      "path": "scripts/run-data-benchmarks.py",
+      "bytes": 9922,
+      "sha256": "1e6a717503e6cabc2efa7b4fbba409679c9eadfa5964e6e5cc9eb4da2913f17a"
+    },
+    {
+      "path": "infra/spark/Dockerfile",
+      "bytes": 618,
+      "sha256": "c22f0c3433a6574c4dd16e862165c5edd482839bbf382d53a431603e82b33d62"
+    },
+    {
+      "path": "generator/config.py",
+      "bytes": 4565,
+      "sha256": "087682ae48dceb64865cdca983b7642ab9d256bb0083da165d296196c21cb3de"
+    },
+    {
+      "path": "generator/simulation.py",
+      "bytes": 8045,
+      "sha256": "1179f67674b71c3c9b1b09d3a72f32f24df30647004b0ccf82fecebe673a360c"
+    },
+    {
+      "path": "tests/test_benchmark_airflow.py",
+      "bytes": 3744,
+      "sha256": "6e4aad8c78c633bf43405b600d80807ead290fa0dfcbc022b972f0d1642571a9"
+    },
+    {
+      "path": "tests/test_data_corrections_benchmark.py",
+      "bytes": 6344,
+      "sha256": "ea747859350b3aceec75016a93d179750a8e014ce9c99ae6b231b1ea36e0f70b"
+    }
+  ]
+}

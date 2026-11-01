@@ -14,7 +14,7 @@ Source points are not earned marks. No combined weighting is assumed. Mini-cours
 
 ## Evidence status
 
-The [1 November data-platform review](data-processing-review.md) adds the Docker size comparison, native Spark/Flink captures, schema notebook and the previously missing DP1/DP2 DataHub views. SQL join inspection and the separate skew benchmark are identified precisely; no additional graphical editor or Airflow benchmark task is implied by these captures. Final-track artifact checks are not grading decisions.
+The [1 November data-platform review](data-processing-review.md) adds the Docker size comparison, native Spark/Flink captures, schema notebook and the previously missing DP1/DP2 DataHub views. The later [five-task benchmark DAG](batch-corrections-benchmark.md) supplies separate native Airflow proof and three-pair schema/dedup/skew measurements, with independently reproduced results. SQL join inspection is not presented as an enforced graphical relationship editor. Final-track artifact checks are not grading decisions.
 
 The [source-tested observation canary](llm-observability.md#source-tested-canary) records fresh native coverage/mutation gates and nine real request outcomes. The [active coordinator cohort](llm-observability.md#trace-an-actual-coordinator-request) adds an actual private trace/model route, complete parent/child histories, three native executor roots, four independently counted MCP calls and nine model generations. The earlier pilot remains unchanged. The later [monitoring checkpoint](llm-observability.md#use-the-monitoring-views) adds seven discovered targets, 128 exact logs, 24 numerical panel comparisons, original private viewer captures and 108 GPU load requests. Native SDK trace limitations remain explicit.
 

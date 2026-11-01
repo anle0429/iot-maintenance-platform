@@ -22,7 +22,7 @@ The native Spark History Server now renders the original `iot-batch-day2-final` 
 
 [The complete unedited query capture](evidence/data-platform-review/screenshots/spark-dedup-query26.jpg) includes the application/query header and full plan. [Native SQL notebook captures](schema-design.md#native-table-and-relationship-inspection) independently read the persisted schema/duplicate results. This is one correctness transformation viewed before and after its operators, not two independent timing benchmarks.
 
-Schema evolution and deduplication here are **correctness transformations**. No independent timing comparison isolating either transformation was recorded. The measured join-speed improvement is a separate [skew benchmark](skew-benchmark.md#before-and-after-on-the-same-input).
+Schema evolution and deduplication in those original receipts are **correctness transformations**. A later [controlled timing study](batch-corrections-benchmark.md) now compares equivalent schema readers and deterministic winner selectors, with full-result equality and three measured pairs. Its separate experimental source does not change the original DP2 implementation or its receipts.
 
 ## Follow the review questions
 
@@ -33,6 +33,7 @@ Schema evolution and deduplication here are **correctness transformations**. No 
 | What did the unoptimized stream get wrong? | [Same-fixture baseline and correction](streaming.md#baseline-problems-and-corrected-results) |
 | Where are the original Spark before/after screenshots? | [Sort/merge versus broadcast](skew-benchmark.md#before-and-after-on-the-same-input) |
 | Where are DP1–DP3 in Airflow? | [All three original native DAG screenshots](orchestration.md#airflow-integration-each-pipeline-in-the-ui) |
+| Are schema/dedup timings and the skew query executed through Airflow? | [Five-task native benchmark run](orchestration.md#measured-benchmark-dag), [all paired measurements](batch-corrections-benchmark.md#results) |
 | Which DataHub screenshots establish each stage? | [Stage-specific coverage and gaps](orchestration.md#datahub-lineage-and-validation-evidence-by-stage) |
 | Does Redis hold historical training data? | No: [Redis is online; DuckDB reads Parquet offline](feast-feature-store.md#what-redis-stores-and-where-the-offline-store-lives) |
 | How do features reach KFP? | [Mounted input paths, native Feast lookup and typed cohort descriptor](training-notebook.md#how-features-reach-kubeflow) |
@@ -45,14 +46,15 @@ The CPU-session review added a controlled Docker measurement, paired native Flin
 
 The three previously missing DataHub views are now [captured directly](orchestration.md#dp1-and-dp2-native-captures): original DP1 task lineage, original DP2 task lineage, and Silver telemetry Quality with evaluation history. They show retained metadata, including the later CI evaluation date; taking a screenshot is not a new validation run.
 
-Two interpretation limits remain explicit. The [schema captures](schema-design.md) show real SQL joins and table records, rather than a graphical foreign-key editor. The intermediate skew benchmark remains a separate job; existing DP1–DP3 execute real Spark processing, but that benchmark has not itself been added as another Airflow task.
+The [schema captures](schema-design.md) show real SQL joins and table records, rather than a graphical foreign-key editor. The skew query now also runs as a real task in the separately admitted [benchmark DAG](orchestration.md#measured-benchmark-dag); it remains a distinct workload from DP1–DP3 and the 100 GB ingest.
 
-There is no independently timed schema/dedup optimization study. These transformations establish correctness; the three-pair [skew experiment](skew-benchmark.md) measures join optimization on its own fixed input. Original evidence, failures and measurement scopes remain unchanged.
+The [new three-pair study](batch-corrections-benchmark.md) records schema medians of 0.927→0.764 seconds, warmed-input dedup medians of 0.581→0.603 seconds, and a separate skew median of 14.258→9.170 seconds. The aggregate dedup candidate was slower by its median, so the production window selector is retained. These are scoped experiments, not an end-to-end or 100 GB speedup. Original evidence, failures and measurement scopes remain unchanged.
 
 ## Verify the review artifacts
 
 ```bash
 python scripts/verify-data-platform-review.py --output outputs/data-review-check.json
+python scripts/verify-batch-benchmarks.py --output outputs/batch-benchmarks-check.json
 ```
 
-This standard-library check needs no live VM. It authenticates the capsule files, checks the two actual HTTP responses against all 32 Spark golden samples, reads the retained SQLite window snapshots, and checks executed notebook output tables. It verifies recorded evidence, not current service health or a rubric grade.
+These standard-library checks need no live VM. The review check authenticates actual HTTP responses against all 32 Spark golden samples, retained SQLite windows and executed notebook tables. The benchmark check additionally regenerates the small source, independently reproduces every full-result checksum and recomputes task metrics from complete event logs. They verify recorded evidence, not current service health or a rubric grade.

@@ -54,7 +54,25 @@ For `orchestration-recovery-26`, [the original readback](evidence/orchestration/
 
 These captures were taken on 1 November from retained indexed metadata. The selected lineage tasks are `iot_dp1_bronze/ingest` and `iot_dp2_warehouse/ingest`, whose external run links identify `orchestration-recovery-26`. The catalog also contains CI DAGs. Dataset properties and the latest Quality links identify the later `iot_ci_dp2_warehouse` run `jenkins-2-1`, evaluated on 27 October. That is seven assertions on **one dataset**, not all 32 stage rules. The [capture receipt and native DOM records](evidence/data-platform-review/datahub/capture.json) preserve these distinctions. No metadata was republished and no new validation run was claimed for taking the images.
 
-The separate skew benchmark and full-scale runner remain distinct from these three pilot DAGs. [The data review](data-processing-review.md) separates correctness transformations, measured join optimization and their workload sizes.
+The original standalone skew benchmark and full-scale runner remain distinct from these three pilot DAGs. The later benchmark DAG below gives the skew query its own actual Airflow execution. [The data review](data-processing-review.md) separates correctness transformations, measured alternatives and their workload sizes.
+
+## Measured benchmark DAG
+
+[iot_data_benchmarks.py](../airflow/dags/iot_data_benchmarks.py) adds a separate serial experimental workflow, using the same one-slot Spark pool:
+
+| Task | Actual work in the final run | State |
+|---|---|---|
+| `preflight` | Verify code/input hashes, session deadline and host RAM/disk reserves | Success |
+| `schema_dedup_pairs` | Execute three equivalent pairs per experiment in a bounded Spark container | Success |
+| `validate_corrections` | Check report/marker binding and completed event-log task metrics | Success |
+| `skew_pairs` | Execute three sort-merge/broadcast pairs on the retained 17.28M Silver rows | Success |
+| `validate_skew` | Verify full aggregate equality, unchanged inputs and actual task metrics | Success |
+
+![Five native successful benchmark tasks in Airflow](evidence/batch-benchmarks/screenshots/airflow-final-graph.jpg)
+
+The final run is `bench-paired-20261101a`, with actual scheduler times 20:40:27–20:43:58 UTC on 1 November. Its [API snapshot](evidence/batch-benchmarks/final/airflow.json), task logs and distinct real container IDs are retained. A one-pair pilot passed first; two failed predecessors remain visible and were not cleared. [The comparison report](batch-corrections-benchmark.md) explains the measured boundaries and why the slower aggregate dedup candidate was not promoted into production DP2.
+
+The benchmark workflow is manually triggered after admission. It measures experimental alternatives separately from normal DP1–DP3 publication and the full-scale ingest. The native capture establishes Airflow execution; output equality and completed event logs establish the measured results.
 
 ## Commands and recorded examples
 

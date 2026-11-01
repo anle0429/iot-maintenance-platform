@@ -29,6 +29,8 @@ The [original batch receipt](evidence/day2-final/batch-report.json) records 21 m
 
 This changed-machine batch is separate from the orchestration pilot, whose receipt has 20 dimension rows and three factories. Mixing those counts would conceal the absence of the change fixture in that pilot.
 
+The later [schema/dedup experiment](batch-corrections-benchmark.md) measures equivalent reader and winner-selection alternatives on the same small source. It separately exposes the lost v2 pressure under a v1-only reader, preserves unknown v1 pressure as NULL, and independently verifies every complete result. The aggregate dedup candidate's median was higher than the window baseline, so these experiments do not change the production table-building functions above.
+
 ## Feature timestamps and naming
 
 `feat_machine_10m` includes `machine_id`, `event_timestamp`, `created`, eight model inputs and audit times such as `max_feature_event_ts`/`max_received_ts`. Event and arrival times bound eligible inputs; `created` is a build timestamp, not a future feature or first arrival. The [native receipt](evidence/day2-final/batch-report.json) records 11,520 feature snapshots. [Feast registration](../feature_store/repository.py) declares the two timestamp columns explicitly and excludes the future label from the feature view.

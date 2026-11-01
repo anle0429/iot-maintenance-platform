@@ -1,0 +1,18 @@
+{
+  "kind": "native-airflow-batch-benchmarks",
+  "final_run": "bench-paired-20261101a",
+  "successful_pilot_run": "bench-pilot-20261101d",
+  "final_source_packet": "source-d.tar.gz",
+  "failed_runs": [
+    "bench-pilot-20261101b",
+    "bench-pilot-20261101c"
+  ],
+  "source_base_commit": "0fa85c13df2ed5d9df7d5927316dcf4656af661d",
+  "failure_history": {
+    "bench-pilot-20261101b": "Preflight resource probe returned None under default local Docker logging; TypeError prevented all Spark tasks. Explicit json-file logging is scoped to new probe containers.",
+    "bench-pilot-20261101c": "Correction pairs and metrics passed; skew failed loading pinned Snappy JNI from noexec /tmp. Dedicated Java scratch temporary directory fixed it; /tmp remains noexec."
+  },
+  "timing_scope": "Schema reader construction+all-column action; dedup winner selection on shared warmed normalized input after common conflict validation; separate 17.28M factory-policy join. Every final pair retained, no speed threshold.",
+  "production_dp2_changed": false,
+  "scope": "Native five-task scheduler execution and controlled finite comparisons; no full100GB timing extrapolation, production promotion, or rubric grade."
+}

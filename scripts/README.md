@@ -7,6 +7,8 @@ Run commands from the project root. Library code lives in the domain packages; t
 | Generate and inspect a small source | `python -S -m generator generate`, `python -S -m generator inspect` | [Generator guide](../generator/README.md); writes local `data/` and `outputs/` |
 | Plan/run large ingestion | [plan-large-ingest.py](plan-large-ingest.py), [run-large-ingest.py](run-large-ingest.py) | [Measured resource gates](../docs/scale-100gb.md); unique run and actual session deadline |
 | Run data pipelines | [start-orchestration.py](start-orchestration.py) | [Airflow runbook](../docs/orchestration.md); retained images and service state |
+| Run paired batch benchmarks in Airflow | [run-data-benchmarks.py](run-data-benchmarks.py) | [Measured comparisons](../docs/batch-corrections-benchmark.md); retained small/Silver inputs, matching source packet and current CPU descriptor |
+| Verify complete batch experiments offline | [verify-batch-benchmarks.py](verify-batch-benchmarks.py) | Independent source regeneration, full-result checksums, Airflow/task identity and complete event-log metrics; no live VM |
 | Measure predictor image size | [benchmark-predictor-image.py](benchmark-predictor-image.py) | [Controlled Docker comparison](../docs/docker-optimization.md); exact source packet and current VM descriptor |
 | Run the bounded Linux stream study | [run-stream-review.py](run-stream-review.py) | [Native fixture verification](../docs/streaming.md#fresh-paired-native-ui-verification); separate Compose project, source manifest and CPU descriptor |
 | Verify data-platform review receipts | [verify-data-platform-review.py](verify-data-platform-review.py) | [Docker/Flink/schema evidence](../docs/data-processing-review.md); standard library, no live VM |

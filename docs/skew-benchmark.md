@@ -28,7 +28,35 @@ The plot derives from the original receipt. The following are **original Spark U
 | ![Baseline physical plan](evidence/skew-benchmark/screenshots/baseline-sql-18.png) | ![Optimized physical plan](evidence/skew-benchmark/screenshots/broadcast-sql-19.png) |
 | ![Baseline hot tasks](evidence/skew-benchmark/screenshots/baseline-hot-tasks.png) | ![Broadcast stage tasks](evidence/skew-benchmark/screenshots/broadcast-stage-85.png) |
 
-Both settings disable AQE and automatic broadcasting to isolate the explicit join change; shuffle partitions remain 32. OS caches and other VM services were not isolated. This benchmark is a separate analytical query: the DP1–DP3 Airflow pilot has UI proof, but this exact skew benchmark was **not integrated as an Airflow task**. That integration remains a distinct review item.
+Both settings disable AQE and automatic broadcasting to isolate the explicit join change; shuffle partitions remain 32. OS caches and other VM services were not isolated. These original measurements came from a standalone analytical job. The same query now also has a separately recorded [native Airflow execution](#airflow-benchmark-execution); the original result above has not been replaced.
+
+## Airflow benchmark execution
+
+The new [iot_data_benchmarks DAG](../airflow/dags/iot_data_benchmarks.py) runs source/resource admission, schema/dedup pairs and their validation before executing `skew_pairs → validate_skew`. Both skew tasks occupy the existing single-slot `spark_jobs` pool. [The adapter](../pipelines/benchmark_airflow.py) calls the unchanged `skew_job.py` in a real 6-CPU / 28-GiB Spark container, with a 20-GiB driver heap and 32 shuffle partitions.
+
+Run `bench-paired-20261101a` completed all five tasks on 1 November, after a separate successful pilot. Its skew application is `local-1793565724983`. The [actual Airflow snapshot](evidence/batch-benchmarks/final/airflow.json), [native benchmark report](evidence/batch-benchmarks/final/skew.json) and [validation receipt](evidence/batch-benchmarks/final/skew-verification.json) identify the execution. Original failed pilots remain in the same evidence capsule.
+
+![Actual Airflow benchmark tasks, including skew and metrics validation](evidence/batch-benchmarks/screenshots/airflow-final-graph.jpg)
+
+| New Airflow pair | Sort-merge baseline, seconds | Broadcast, seconds |
+|---|---:|---:|
+| 1 | 16.807852 | 9.215180 |
+| 2 | 14.258209 | 8.507135 |
+| 3 | 14.249135 | 9.169817 |
+| Median | 14.258209 | 9.169817 |
+
+The median is 35.7% lower (1.555× baseline/candidate ratio) for this new execution. All six complete results again contain the same 4,320 rows and the same SHA-256 as the original experiment. The source remains 17,280,000 Silver rows with the same 70% / 15% / 15% factory distribution. [Source bindings](evidence/batch-benchmarks/final/input-spec.json) and complete event logs support independent readback; the old and new medians describe separate executions with uncontrolled OS caches and shared VM services.
+
+<details>
+<summary>Native final Spark plans: policy SortMergeJoin versus BroadcastHashJoin</summary>
+
+| Baseline: query 18 | Broadcast: query 19 |
+|---|---|
+| ![Native final policy sort-merge plan](evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg) | ![Native final policy broadcast plan](evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg) |
+
+</details>
+
+Both plans also broadcast the shared 200-row machine snapshot. The changed join is the **three-row factory policy**: the baseline shuffles/sorts that join, while the candidate broadcasts it. The factory imbalance is preserved, not removed. See the [combined experiment methodology and offline verifier](batch-corrections-benchmark.md) for timing boundaries, all observations and source reproduction.
 
 ## Commands and recorded examples
 

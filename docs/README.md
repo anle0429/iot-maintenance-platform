@@ -6,13 +6,14 @@ The [architecture gallery](diagrams/README.md) contains ten coordinated Excalidr
 
 ## Review path
 
-For the data-platform review, [input characteristics and before/after evidence](data-processing-review.md) brings together generator measurements, native Spark/Flink views, an executed schema notebook and stage-specific Airflow/DataHub coverage. [Container image optimization](docker-optimization.md) records an 85.5% full/slim size reduction with identical HTTP predictions. Remaining capture gaps are listed explicitly.
+For the data-platform review, [input characteristics and before/after evidence](data-processing-review.md) brings together generator measurements, native Spark/Flink views, an executed schema notebook and stage-specific Airflow/DataHub coverage. [Container image optimization](docker-optimization.md) records an 85.5% full/slim size reduction with identical HTTP predictions. [Controlled batch experiments](batch-corrections-benchmark.md) add three paired measurements per comparison and an actual five-task Airflow run, including the slower dedup candidate and unchanged production choice.
 
 | Review question | Start here | Implementation |
 |---|---|---|
 | What problem does the system solve? | [Business domain](../README.md#business-domain), [data contract](data-contract.md) | [Generator](../generator/README.md) |
 | How does data become features? | [Architecture](architecture.md), [batch/stream entry points](../pipelines/README.md), [Airflow and DataHub](orchestration.md) | [Pipelines](../pipelines/), [DAGs](../airflow/dags/) |
 | What actually ran at 100 GB? | [Full-scale ingest](full-scale-ingest.md), [resource protocol](scale-100gb.md) | [Chunk ingestion](../pipelines/chunk_source.py) |
+| Which batch changes improved the measured workload? | [Schema/dedup comparisons](batch-corrections-benchmark.md), [Airflow skew execution](skew-benchmark.md#airflow-benchmark-execution) | [Benchmark job](../pipelines/data_corrections_benchmark.py), [DAG](../airflow/dags/iot_data_benchmarks.py) |
 | How are labels, splits and model versions controlled? | [Evaluation protocol](ml-evaluation-protocol.md), [five ML classes](ml-class-design.md), [notebook](training-notebook.md) | [ML library](../ml/), [feature store](../feature_store/) |
 | What serves a prediction? | [Feature API](feature-api.md), [model serving](model-serving.md), [serving CI](ci-serving.md) | [Services](../services/README.md) |
 | How does the assistant use data and references? | [LLM platform](llm-platform.md), [RAG](rag-orchestration.md), [MCP](mcp-tools.md), [agent routing](gpu-agent-routing.md) | [Agents](../agents/), [RAG](../rag/), [knowledge](../knowledge/) |

@@ -1,0 +1,32 @@
+test_changed_runtime_input_rejected (test_benchmark_airflow.BenchmarkAdmissionTests.test_changed_runtime_input_rejected)
+A source edit cannot silently reuse a prepared experiment's identity. ... ok
+test_missing_or_changed_admission_rejected (test_benchmark_airflow.BenchmarkAdmissionTests.test_missing_or_changed_admission_rejected)
+Deleting admission or changing a prepared spec cannot authorize a heavy job. ... ok
+test_prepared_session_limits_are_mandatory (test_benchmark_airflow.BenchmarkAdmissionTests.test_prepared_session_limits_are_mandatory)
+Matching run names alone do not authorize another machine or an unbounded cloud session. ... ok
+test_traversal_and_nonstring_run_ids_rejected (test_benchmark_airflow.BenchmarkAdmissionTests.test_traversal_and_nonstring_run_ids_rejected)
+A run identifier cannot choose an arbitrary output path or executable argument. ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.009s
+
+OK
+test_bad_pressure_unknown_version_and_nonfinite_values_fail (test_data_corrections_benchmark.DataCorrectionOracleTests.test_bad_pressure_unknown_version_and_nonfinite_values_fail)
+Malformed inputs cannot appear as a schema-performance win by silently discarding values. ... ok
+test_checksum_mutation_fails_before_oracle_comparison (test_data_corrections_benchmark.DataCorrectionOracleTests.test_checksum_mutation_fails_before_oracle_comparison)
+Even valid added JSON must fail its original manifest rather than change the benchmark's input silently. ... ok
+test_conflicting_duplicate_is_rejected_not_silently_ranked (test_data_corrections_benchmark.DataCorrectionOracleTests.test_conflicting_duplicate_is_rejected_not_silently_ranked)
+A changed immutable sensor measurement cannot become a harmless retry by having a later export time. ... ok
+test_envelope_preserves_original_payload_path_and_line (test_data_corrections_benchmark.DataCorrectionOracleTests.test_envelope_preserves_original_payload_path_and_line)
+Dedup's untimed preparation records physical source provenance, not invented partition-local row IDs. ... ok
+test_large_manifest_is_rejected_without_reading_partitions (test_data_corrections_benchmark.DataCorrectionOracleTests.test_large_manifest_is_rejected_without_reading_partitions)
+The small study must not accidentally scan the retained 100 GB source. ... ok
+test_latest_microsecond_and_last_source_line_win (test_data_corrections_benchmark.DataCorrectionOracleTests.test_latest_microsecond_and_last_source_line_win)
+The oracle selects the last export even when input order first presents the newest timestamp. ... ok
+test_unknown_pressure_is_not_zero_and_dates_remain_exact (test_data_corrections_benchmark.DataCorrectionOracleTests.test_unknown_pressure_is_not_zero_and_dates_remain_exact)
+Both schemas retain their meaning, and timestamp precision/time-zone conversion cannot lose a winner. ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.010s
+
+OK

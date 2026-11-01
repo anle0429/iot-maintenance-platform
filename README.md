@@ -107,6 +107,8 @@ Each deployment box identifies one selected workload resource; frames mark its h
 | Workload | Recorded result | Report |
 |---|---|---|
 | Large ingestion | 102,447,847,856 uncompressed JSONL bytes; 316.8 million unique Silver rows; 13 Spark checks | [Full-scale ingest](docs/full-scale-ingest.md) |
+| Schema and dedup experiments | Three pairs each: declared-schema median 0.927→0.764 s; aggregate dedup candidate 0.603 s versus window 0.581 s, so the window method is retained | [Controlled comparisons](docs/batch-corrections-benchmark.md) |
+| Airflow skew benchmark | Five successful tasks; 17.28M Silver rows; median 14.258→9.170 s with identical 4,320-row results | [Native Airflow run](docs/skew-benchmark.md#airflow-benchmark-execution) |
 | ML feature dataset | Separate 60-day source; 3,456,000 snapshots and 3,132,184 eligible training rows | [Feature dataset](docs/medium-feature-dataset.md) |
 | Streaming stores | 5,760 finalized windows / 57,600 unique readings across 20 machines, with replay checks | [Window cohort](docs/window-cohort.md) |
 | Native feature serving | Model 6: 195 valid predictions and five stopped-machine HTTP 409 responses across 200 machines | [Serving record](docs/final-handover.md) |

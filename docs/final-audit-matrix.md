@@ -4,7 +4,7 @@ Both final ML and final LLM/agents are selected. The tables connect each origina
 
 ## Final ML
 
-Shared mini-coursework dependencies also require their own deliverables. [Data-platform review](data-processing-review.md) records the controlled Docker result, native Spark/Flink views, schema notebook and stage-specific DataHub captures; it preserves the limits of SQL relationship inspection and the separate skew benchmark.
+Shared mini-coursework dependencies also require their own deliverables. [Data-platform review](data-processing-review.md) records the controlled Docker result, native Spark/Flink views, schema notebook and stage-specific DataHub captures. [Controlled batch experiments](batch-corrections-benchmark.md) add actual five-task Airflow execution, three paired measurements per comparison, full-result equivalence and preserved failed pilots. SQL relationship inspection and experimental timing boundaries remain explicit; the aggregate dedup candidate was not promoted into DP2.
 
 | ID | Requirement | Code entry | Evidence | Offline checker |
 |---|---|---|---|---|

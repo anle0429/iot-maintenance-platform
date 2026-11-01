@@ -6,7 +6,7 @@ The supplied workbook contains 57 weighted ML requirements and 60 weighted LLM r
 
 ## Recorded work
 
-The 1 November data-platform review identified presentation and deliverable gaps outside what the 117-row artifact integrity check proves. [The data review](data-processing-review.md) adds measured generator characteristics, an equivalent-behavior Docker size comparison, paired native Flink captures, original Spark query inspection, an executed schema notebook and stage-specific DP1/DP2 DataHub captures. SQL relationship inspection and the separately run skew benchmark retain their stated limits. Artifact checks do not establish a rubric grade.
+The 1 November data-platform review identified presentation and deliverable gaps outside what the 117-row artifact integrity check proves. [The data review](data-processing-review.md) adds measured generator characteristics, an equivalent-behavior Docker size comparison, paired native Flink captures, original Spark query inspection, an executed schema notebook and stage-specific DP1/DP2 DataHub captures. A later [five-task Airflow benchmark](batch-corrections-benchmark.md) adds three-pair schema/dedup comparisons and a fresh skew execution, with independent full-result checksums and complete event logs. The slower aggregate dedup candidate was not promoted; SQL relationship inspection retains its stated scope. Artifact checks do not establish a rubric grade.
 
 | Area | Evidence and its scope |
 |---|---|

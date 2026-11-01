@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "collected_utc": "2026-11-01T20:44:18.060151+00:00",
+  "runs": [
+    "bench-pilot-20261101b",
+    "bench-pilot-20261101c",
+    "bench-pilot-20261101d",
+    "bench-paired-20261101a"
+  ],
+  "native_files": 115,
+  "events": [
+    {
+      "phase": "corrections",
+      "application_id": "local-1793565635088",
+      "bytes": 13690876,
+      "sha256": "f7d70c904d1003e2fd0cfcc74b3539d9234854f6573049e665a0107e5a67610d",
+      "gzip_bytes": 920658,
+      "gzip_sha256": "96fbec223c0384d8caf9bd6833699be3ac64f9678b2e9313769697bb83fb897d",
+      "history_hardlink_same_inode": true
+    },
+    {
+      "phase": "skew",
+      "application_id": "local-1793565724983",
+      "bytes": 6269695,
+      "sha256": "c4eed079c6ba85de7f07f485e91c6234fc1207c3c01d9b73c54e06f42c98c7d0",
+      "gzip_bytes": 351098,
+      "gzip_sha256": "3af0bdee29e4445e534c3d5a1d06bc2aaef61f154315d60d23476d037ea2c97d",
+      "history_hardlink_same_inode": true
+    }
+  ],
+  "event_compression": "Lossless gzip of complete original event log; no re-execution",
+  "history_viewer": "Existing History Server /history read-only mount; new completed event logs hardlinked, old logs unchanged",
+  "scope": "Actual five-task Airflow runs, original failed predecessors, real container exits/results and complete final Spark event logs."
+}
