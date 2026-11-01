@@ -1,0 +1,646 @@
+{
+  "reviewed_utc": "2026-11-01T22:28:04.169989+00:00",
+  "starting_commit": "61b9a8aa215045b2516e7f2eb572fdcf7f5747c5",
+  "topics": [
+    {
+      "id": "R01",
+      "topic": "Redis and Feast offline storage",
+      "status": "addressed_at_recorded_scope",
+      "code": [
+        "feature_store/common.py",
+        "feature_store/repository.py",
+        "feature_store/staged_push.py"
+      ],
+      "documentation": [
+        "docs/feast-feature-store.md"
+      ],
+      "visual_evidence": [
+        "docs/images/platform-system.png"
+      ],
+      "receipts": [
+        "docs/evidence/feast/batch/registration.json",
+        "docs/evidence/feast/full-load/result/report.json",
+        "docs/evidence/feast/native/report.json"
+      ],
+      "limits": "Redis is online, including batch-materialized vectors. Historical features are Parquet queried by DuckDB; the registry holds metadata. Rolling prediction and finalized monitoring views remain separate."
+    },
+    {
+      "id": "R02",
+      "topic": "Features entering Kubeflow",
+      "status": "addressed_at_recorded_scope",
+      "code": [
+        "ml/kfp_cluster.py",
+        "ml/kfp_notebook.py",
+        "ml/notebook_load.py"
+      ],
+      "documentation": [
+        "docs/training-notebook.md"
+      ],
+      "visual_evidence": [
+        "docs/evidence/notebook/screenshots/native-feast-label-merge.jpg",
+        "docs/evidence/distributed-training/screenshots/five-tasks-succeeded.jpg"
+      ],
+      "receipts": [],
+      "limits": "The load Pod retrieves offline history, writes a cohort and passes its typed descriptor to downstream tasks. It does not train from Redis."
+    },
+    {
+      "id": "R03",
+      "topic": "All three agents calling LLM inference",
+      "status": "addressed_at_recorded_scope",
+      "code": [
+        "infra/agents/kagent-values.yaml",
+        "infra/charts/iot-agents/templates/agents.yaml"
+      ],
+      "documentation": [
+        "docs/gpu-agent-routing.md",
+        "docs/llm-observability.md"
+      ],
+      "visual_evidence": [
+        "docs/images/platform-llm-plan.png"
+      ],
+      "receipts": [
+        "docs/evidence/llm-agent-telemetry/conversation-verification.json",
+        "docs/evidence/llm-agent-telemetry/rollout-verification.json"
+      ],
+      "limits": "Retrieval, drift and coordinator share the model route. Tool calls and delegation remain distinct from generation; nine generations in the recorded coordinator cohort. No fresh GPU request was made for this review."
+    },
+    {
+      "id": "R04",
+      "topic": "Docker optimization",
+      "status": "addressed_at_recorded_scope",
+      "code": [
+        "infra/predictor/Dockerfile",
+        "scripts/benchmark-predictor-image.py"
+      ],
+      "documentation": [
+        "docs/docker-optimization.md"
+      ],
+      "visual_evidence": [
+        "docs/images/docker-image-size.png"
+      ],
+      "receipts": [],
+      "limits": "Full/slim comparison: 1,495,600,805 → 216,150,820 bytes, 32 identical known-answer HTTP responses per image. No multi-stage or serving-speed claim."
+    },
+    {
+      "id": "R05",
+      "topic": "Offline generator characteristics",
+      "status": "addressed_at_recorded_scope",
+      "code": [
+        "generator/quality.py",
+        "generator/simulation.py"
+      ],
+      "documentation": [
+        "generator/README.md"
+      ],
+      "visual_evidence": [
+        "docs/images/generator-characteristics.png"
+      ],
+      "receipts": [],
+      "limits": "Factory distribution 70/15/15%; event-ID cardinality 57,600/58,752; v2 adds pressure; 1,152 extra exports. Small and 100 GB sources are distinguished."
+    },
+    {
+      "id": "R06",
+      "topic": "Streaming generator faults",
+      "status": "addressed_at_recorded_scope",
+      "code": [
+        "generator/simulation.py",
+        "pipelines/stream_contract.py"
+      ],
+      "documentation": [
+        "generator/README.md"
+      ],
+      "visual_evidence": [
+        "docs/images/generator-characteristics.png",
+        "docs/evidence/data-review-audit/screenshots/stream-late-watermarks.jpg"
+      ],
+      "receipts": [
+        "docs/evidence/day1/quality.json"
+      ],
+      "limits": "2,880/57,600 late unique events, 300–600 seconds; 864 extra stream deliveries, or 1.5% of unique events. The six-ID Flink fixture is separate."
+    },
+    {
+      "id": "R07",
+      "topic": "Batch skew, schema and dedup before/after",
+      "status": "addressed_at_recorded_scope",
+      "code": [
+        "pipelines/data_corrections_benchmark.py",
+        "pipelines/skew_job.py",
+        "pipelines/transforms.py"
+      ],
+      "documentation": [
+        "docs/batch-corrections-benchmark.md"
+      ],
+      "visual_evidence": [
+        "docs/evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg",
+        "docs/evidence/batch-benchmarks/screenshots/schema-declared-full.jpg",
+        "docs/evidence/batch-benchmarks/screenshots/dedup-window-full.jpg",
+        "docs/evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg",
+        "docs/evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg",
+        "docs/evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg"
+      ],
+      "receipts": [],
+      "limits": "Schema median 0.927→0.764 s; dedup candidate 0.581→0.603 s, so retain the window selector; skew 14.258→9.170 s on 17.28M rows. All measured pairs retained; not a full-100-GB speedup."
+    },
+    {
+      "id": "R08",
+      "topic": "DP1–DP3 visible in Airflow",
+      "status": "addressed_at_recorded_scope",
+      "code": [
+        "airflow/dags/iot_data_benchmarks.py",
+        "airflow/dags/iot_data_pipelines.py",
+        "pipelines/airflow_tasks.py"
+      ],
+      "documentation": [
+        "docs/orchestration.md"
+      ],
+      "visual_evidence": [
+        "docs/evidence/orchestration/screenshots/airflow-dp1-success.jpg",
+        "docs/evidence/orchestration/screenshots/airflow-dp2-success.jpg",
+        "docs/evidence/orchestration/screenshots/airflow-dp3-success.jpg",
+        "docs/evidence/batch-benchmarks/screenshots/airflow-final-graph.jpg"
+      ],
+      "receipts": [],
+      "limits": "Each pipeline has its own native capture. Original DP screenshots show `orchestration-good-26`; later recovery receipts and the new benchmark run retain their own identities."
+    },
+    {
+      "id": "R09",
+      "topic": "Streaming baseline issues and before/after proof",
+      "status": "addressed_at_recorded_scope",
+      "code": [
+        "pipelines/stream_contract.py",
+        "pipelines/stream_job.py"
+      ],
+      "documentation": [
+        "docs/streaming.md"
+      ],
+      "visual_evidence": [
+        "docs/evidence/data-platform-review/screenshots/flink-baseline.jpg",
+        "docs/evidence/data-platform-review/screenshots/flink-corrected.jpg",
+        "docs/evidence/data-review-audit/screenshots/stream-final-windows.jpg",
+        "docs/evidence/data-review-audit/screenshots/stream-late-watermarks.jpg",
+        "docs/evidence/data-review-audit/screenshots/stream-replay-expiry.jpg"
+      ],
+      "receipts": [],
+      "limits": "Native Flink topology plus final-window, late-event and expiry/replay query captures. The new notebook reads complete run D, not the RUNNING-phase pair B images. Correctness comparison; no isolated Flink performance benefit established."
+    },
+    {
+      "id": "R10",
+      "topic": "DP1 lineage; DP2 lineage and validation",
+      "status": "addressed_at_recorded_scope",
+      "code": [
+        "pipelines/metadata_publish.py",
+        "pipelines/orchestrated_job.py"
+      ],
+      "documentation": [
+        "docs/orchestration.md"
+      ],
+      "visual_evidence": [
+        "docs/evidence/data-platform-review/screenshots/datahub-dp1-lineage-all-tables.jpg",
+        "docs/evidence/data-platform-review/screenshots/datahub-dp2-lineage.jpg",
+        "docs/evidence/data-platform-review/screenshots/datahub-dp2-quality.jpg",
+        "docs/evidence/data-platform-review/screenshots/datahub-dp2-quality-history.jpg"
+      ],
+      "receipts": [
+        "docs/evidence/orchestration/orchestration-recovery-26/dp2/validation.json"
+      ],
+      "limits": "DP1 has 4→4 lineage, DP2 4→8. Silver telemetry Quality displays seven dataset assertions from later CI, not all 32 DP2 stage rules or a new validation run."
+    },
+    {
+      "id": "R11",
+      "topic": "Every schema-design item",
+      "status": "addressed_at_recorded_scope",
+      "code": [
+        "notebooks/05_data_review.ipynb",
+        "pipelines/features.py",
+        "pipelines/transforms.py"
+      ],
+      "documentation": [
+        "docs/schema-design.md"
+      ],
+      "visual_evidence": [
+        "docs/evidence/data-platform-review/screenshots/schema-evolution-dedup.jpg",
+        "docs/evidence/data-platform-review/screenshots/schema-relationships.jpg",
+        "docs/evidence/data-platform-review/screenshots/schema-feature-schema.jpg",
+        "docs/evidence/data-platform-review/screenshots/schema-feature-times.jpg",
+        "docs/evidence/data-review-audit/screenshots/schema-all-zones.jpg",
+        "docs/evidence/data-review-audit/screenshots/schema-relationship-graph.jpg",
+        "docs/evidence/data-review-audit/screenshots/schema-key-readbacks.jpg"
+      ],
+      "receipts": [],
+      "limits": "Every zone, effective-dated dimension, feature timestamps, dim/fact link and prefix has a native inspection view. Logical joins are verified; Parquet has no SQL-enforced foreign keys."
+    }
+  ],
+  "files": [
+    {
+      "path": "airflow/dags/iot_data_benchmarks.py",
+      "mode": "lf_text",
+      "sha256": "0283573e8b5c8d5ee092d26dd4afd452651200839af80f8bd45e2f860a5af758"
+    },
+    {
+      "path": "airflow/dags/iot_data_pipelines.py",
+      "mode": "lf_text",
+      "sha256": "930c89c802261a241d75b6667e14f0a4a96ea5808a757fac93bd3b318471b970"
+    },
+    {
+      "path": "docs/batch-corrections-benchmark.md",
+      "mode": "lf_text",
+      "sha256": "db7ff7ad50b2f27334db42f5416f1948e85933b340830cf8572d571a7a051cc1"
+    },
+    {
+      "path": "docs/data-review-audit.md",
+      "mode": "lf_text",
+      "sha256": "0a7cab0b0159e8714c1882d9c51669e706101bbe9a619306397213da189f42f3"
+    },
+    {
+      "path": "docs/docker-optimization.md",
+      "mode": "lf_text",
+      "sha256": "74375bdd6fc6aa3b47fa2c4027e22918afee8b4e2cf747b72cdc09deaafb9e86"
+    },
+    {
+      "path": "docs/evidence/batch-benchmarks/review.json",
+      "mode": "exact_bytes",
+      "sha256": "6ede8b7600ff9630224f423ed2f1f1e206acb2d3bca7199d795c7393fbfe98af"
+    },
+    {
+      "path": "docs/evidence/batch-benchmarks/screenshots/airflow-final-graph.jpg",
+      "mode": "exact_bytes",
+      "sha256": "fabfa59c10bea2d2d800ecf4b639da147b34b9432de5e927afe536225e6642b5"
+    },
+    {
+      "path": "docs/evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg",
+      "mode": "exact_bytes",
+      "sha256": "719ddc86ce08c1638ab41bd2d97032e8c0bb778a4f4c25e59b52a4b70cd9b9cc"
+    },
+    {
+      "path": "docs/evidence/batch-benchmarks/screenshots/dedup-window-full.jpg",
+      "mode": "exact_bytes",
+      "sha256": "5a48a89a0526aeee1b6484cd0bc3f5d64bd5b8a331dc2d9378bdfd7c54473d58"
+    },
+    {
+      "path": "docs/evidence/batch-benchmarks/screenshots/schema-declared-full.jpg",
+      "mode": "exact_bytes",
+      "sha256": "0c7a1eed3ad43db542bce2984fe883e064ff682ef13d24066140947b551504ae"
+    },
+    {
+      "path": "docs/evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg",
+      "mode": "exact_bytes",
+      "sha256": "9dbb60f84c16d39be8cb8dd01731cb5fa7a108f81fa1a5bf1a67813c819fce90"
+    },
+    {
+      "path": "docs/evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg",
+      "mode": "exact_bytes",
+      "sha256": "abb7c43b20d14a5e09f53b9158162bbf8be02527f5de62903b195f6c2e68789b"
+    },
+    {
+      "path": "docs/evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg",
+      "mode": "exact_bytes",
+      "sha256": "a4b692814c64d3189c2a12823a90a33473138ed1bbd4326fce7677710b43cc7f"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/review.json",
+      "mode": "exact_bytes",
+      "sha256": "5649c9968f5fe094ba031da45db69f35a3ab8ff55276c27fae64ef43b76c76a3"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/schema/input-files.json",
+      "mode": "exact_bytes",
+      "sha256": "fab1671cd8692ed0a03302157cc1b40c85fffee42cc125e6eda80a3ba6c0a287"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/schema/vm-inventory.json",
+      "mode": "exact_bytes",
+      "sha256": "e05783e265b4b023c3d0d78ddfcf99e884f27f4af8f4f2ea85ea144ecb2caa21"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/screenshots/datahub-dp1-lineage-all-tables.jpg",
+      "mode": "exact_bytes",
+      "sha256": "29af9bb5f4705c536e7d613fcab4c3f7e43fbb6cb6087eba721be91b54c6f8b5"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/screenshots/datahub-dp2-lineage.jpg",
+      "mode": "exact_bytes",
+      "sha256": "d2119f7f738066ce707d887b87828dc36e972d78f11636c0236bb498617c8bd3"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/screenshots/datahub-dp2-quality-history.jpg",
+      "mode": "exact_bytes",
+      "sha256": "f16b0a17ea89c6899d9479639209373969b0e64a1be019566e262765d7202a49"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/screenshots/datahub-dp2-quality.jpg",
+      "mode": "exact_bytes",
+      "sha256": "1601bcc6c1d25274b4c6b47a77f3cca5cbd7bd736113f933df5d6f275aa52b09"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/screenshots/flink-baseline.jpg",
+      "mode": "exact_bytes",
+      "sha256": "c68952eb991339aa5c08e9350c651b1c124f4990e475d15b5ff9faaebf3bbc95"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/screenshots/flink-corrected.jpg",
+      "mode": "exact_bytes",
+      "sha256": "adbf79201513b511768560ec8c70b693a10f2abc08c9869b722c888a323f9a6f"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/screenshots/schema-evolution-dedup.jpg",
+      "mode": "exact_bytes",
+      "sha256": "c602417fe044c120d1f664cbfc7d65e029477b4a3b59910e05064be231005e78"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/screenshots/schema-feature-schema.jpg",
+      "mode": "exact_bytes",
+      "sha256": "a059b264c7747ac340ad9f346dda6240a0f52f01ec3220d5fd7ffb5feef2af2a"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/screenshots/schema-feature-times.jpg",
+      "mode": "exact_bytes",
+      "sha256": "d69d94e4b917760b5f5b669ea24b36a69c4c412c7b04daad33686f881c14220a"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/screenshots/schema-relationships.jpg",
+      "mode": "exact_bytes",
+      "sha256": "7366fb20be31c50a3a4433b46e52e92cba7e4c69a5ca13efd4315d4c022262c1"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/stream-entrypoint/native.tar.gz",
+      "mode": "exact_bytes",
+      "sha256": "654af20c869b918cf8d1470933a18ba8e212f6da7024b3657995abee04538fe3"
+    },
+    {
+      "path": "docs/evidence/data-platform-review/stream-entrypoint/verification.json",
+      "mode": "exact_bytes",
+      "sha256": "2dc974ad9559e9849f757a2253f90b19e43e0a8fec46f7ec6cf58e9d7600cfa5"
+    },
+    {
+      "path": "docs/evidence/data-review-audit/screenshots/schema-all-zones.jpg",
+      "mode": "exact_bytes",
+      "sha256": "7f4e9fe1f3af668f4987f7f3cc2fad1b82cff56a4b76d245ba0169d02bc91962"
+    },
+    {
+      "path": "docs/evidence/data-review-audit/screenshots/schema-key-readbacks.jpg",
+      "mode": "exact_bytes",
+      "sha256": "ef4b9c07c8c0dd02c04fccb3acb655de1089b2da635c4f0ce9715e908c637b9f"
+    },
+    {
+      "path": "docs/evidence/data-review-audit/screenshots/schema-relationship-graph.jpg",
+      "mode": "exact_bytes",
+      "sha256": "34326ede1b7a9cc182935a1fe0099195686057e15e45595fc0265c6f5a628ccf"
+    },
+    {
+      "path": "docs/evidence/data-review-audit/screenshots/stream-final-windows.jpg",
+      "mode": "exact_bytes",
+      "sha256": "41fa3bbc95dd58ca720a0d52606906caa1af47bbc68ff9d0fd38bcc6b3bc52b9"
+    },
+    {
+      "path": "docs/evidence/data-review-audit/screenshots/stream-late-watermarks.jpg",
+      "mode": "exact_bytes",
+      "sha256": "d30fc1d4bf4427b3d7c0cedebf042cfcb7d08668f8d2d1911eb8ac044231d6f1"
+    },
+    {
+      "path": "docs/evidence/data-review-audit/screenshots/stream-replay-expiry.jpg",
+      "mode": "exact_bytes",
+      "sha256": "967e4da18ddc1fdf3ad4b1b966f40067666f579645f49e2ea4d2783b68e51b52"
+    },
+    {
+      "path": "docs/evidence/day1/quality.json",
+      "mode": "exact_bytes",
+      "sha256": "7af519bad6306e124355efc62270e580fc3ee0de3c6e6c5a96511b3b609f651f"
+    },
+    {
+      "path": "docs/evidence/day2-final/batch-report.json",
+      "mode": "exact_bytes",
+      "sha256": "d212447a89efcae1f3b49ada58be43e0a5e504d2691ba95474d99e0b9168e539"
+    },
+    {
+      "path": "docs/evidence/distributed-training/screenshots/five-tasks-succeeded.jpg",
+      "mode": "exact_bytes",
+      "sha256": "0d9b9a2c672425b5093abb727500e8b87b35afa01588b12b80cab81b754db5f1"
+    },
+    {
+      "path": "docs/evidence/feast/batch/registration.json",
+      "mode": "exact_bytes",
+      "sha256": "669eb3a0238b3988702a42fde3e9451e04e79cdd1f725b06a37d10b5678dbc7c"
+    },
+    {
+      "path": "docs/evidence/feast/full-load/result/report.json",
+      "mode": "exact_bytes",
+      "sha256": "6131355b4843b56f17b6cc77504a5263c9299aef37486b3624f5e95b83d8e50e"
+    },
+    {
+      "path": "docs/evidence/feast/native/report.json",
+      "mode": "exact_bytes",
+      "sha256": "ab29049143016329362b8960c4767f9c76ccf15a4d593e23750d39ad5e254eb7"
+    },
+    {
+      "path": "docs/evidence/llm-agent-telemetry/conversation-verification.json",
+      "mode": "exact_bytes",
+      "sha256": "21ef5155ff1a0cf0dfd1d6e3cc81271bafd240e28d306e1a6b32dc43e7bb8da1"
+    },
+    {
+      "path": "docs/evidence/llm-agent-telemetry/rollout-verification.json",
+      "mode": "exact_bytes",
+      "sha256": "23b64ed6d13b03ee00100e2001cba8adcb8c2e8f0f1e116b8aac2480a7010c18"
+    },
+    {
+      "path": "docs/evidence/notebook/screenshots/native-feast-label-merge.jpg",
+      "mode": "exact_bytes",
+      "sha256": "a900ae6bb65af2de3c9edbc38b40d451934e2cce916d467c462a01469298c729"
+    },
+    {
+      "path": "docs/evidence/orchestration/orchestration-recovery-26/dp2/validation.json",
+      "mode": "exact_bytes",
+      "sha256": "b36ab6a67e80458522a2fe87bc3d9c4f1b4391deca2f3adf58e2f2f3144c9367"
+    },
+    {
+      "path": "docs/evidence/orchestration/screenshots/airflow-dp1-success.jpg",
+      "mode": "exact_bytes",
+      "sha256": "64e6382051e3fb946af5b0ebfa490610df98f3159117043913a5232f45266626"
+    },
+    {
+      "path": "docs/evidence/orchestration/screenshots/airflow-dp2-success.jpg",
+      "mode": "exact_bytes",
+      "sha256": "fd6f7a0379d87881215e1baad55a036890553740aaafe21551655be9ae876874"
+    },
+    {
+      "path": "docs/evidence/orchestration/screenshots/airflow-dp3-success.jpg",
+      "mode": "exact_bytes",
+      "sha256": "b609f9b04fb2b1cc5c9045a8cdc926cef8d8389eb3d33a36b031019229a12c71"
+    },
+    {
+      "path": "docs/feast-feature-store.md",
+      "mode": "lf_text",
+      "sha256": "ec68850df51c7380632866ca437d21a953f985f5919a2b00398e61c8fd9d1d69"
+    },
+    {
+      "path": "docs/gpu-agent-routing.md",
+      "mode": "lf_text",
+      "sha256": "2fcbf764a6831dedcd52ef7c46bda55f208a7e38f5c5218fcec31d93fc81ab8e"
+    },
+    {
+      "path": "docs/images/docker-image-size.png",
+      "mode": "exact_bytes",
+      "sha256": "6cffc4c46866e119856b9d9ac5f213a770dafa2e74cd958502de36f7bec8d045"
+    },
+    {
+      "path": "docs/images/generator-characteristics.png",
+      "mode": "exact_bytes",
+      "sha256": "b33242da2ee60e599e2fe9043009ed3d601949e8a4546f358ea5a7beb52b2894"
+    },
+    {
+      "path": "docs/images/platform-llm-plan.png",
+      "mode": "exact_bytes",
+      "sha256": "4e2aeea6a73803f6ff7169520b2d83fc2b3699f45bbc1d7a04b8f5986fc5ef79"
+    },
+    {
+      "path": "docs/images/platform-system.png",
+      "mode": "exact_bytes",
+      "sha256": "fe31c0fa33df7c30fa98a20b43ad92bbb7f5006271cbfbeacb77b5eff688492f"
+    },
+    {
+      "path": "docs/llm-observability.md",
+      "mode": "lf_text",
+      "sha256": "78c4b96c4044f38b108f86d58a6a0ff29e215b56122ff457267783b1bdd08b64"
+    },
+    {
+      "path": "docs/orchestration.md",
+      "mode": "lf_text",
+      "sha256": "2597cb437093a7d17801926f8eecc936183d733a99f8a4f27b6209c2eed28a2d"
+    },
+    {
+      "path": "docs/schema-design.md",
+      "mode": "lf_text",
+      "sha256": "02862ad78c6ee532d5c7fbd5e69d951c483f103782dcb0fe03f150d80eb98fc8"
+    },
+    {
+      "path": "docs/streaming.md",
+      "mode": "lf_text",
+      "sha256": "7df41e35ae3c8d8312294ea5df608167a3973fc08affc0935271ac4a12f73a13"
+    },
+    {
+      "path": "docs/training-notebook.md",
+      "mode": "lf_text",
+      "sha256": "3f4c2c40baed93a25ada53cc27f9238dcc03a633ff09d109d3d971a2acc35ac2"
+    },
+    {
+      "path": "feature_store/common.py",
+      "mode": "lf_text",
+      "sha256": "1763fa6da99f357256dd6bb5c6521224796240aa61ee59be422c9ff32be18441"
+    },
+    {
+      "path": "feature_store/repository.py",
+      "mode": "lf_text",
+      "sha256": "aa34bdb2470d02c41d43bf4a20a3be28e8075d5b0885301e7ee3d35204f5b382"
+    },
+    {
+      "path": "feature_store/staged_push.py",
+      "mode": "lf_text",
+      "sha256": "6e038fe4380f8cc3313f4f4387ae19831264f9623a7def206f703be2428694a6"
+    },
+    {
+      "path": "generator/README.md",
+      "mode": "lf_text",
+      "sha256": "14a2505a0b1d1dd5223edc32957516540b34f847fd84264c2e8966f703a39b16"
+    },
+    {
+      "path": "generator/quality.py",
+      "mode": "lf_text",
+      "sha256": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000"
+    },
+    {
+      "path": "generator/simulation.py",
+      "mode": "lf_text",
+      "sha256": "1179f67674b71c3c9b1b09d3a72f32f24df30647004b0ccf82fecebe673a360c"
+    },
+    {
+      "path": "infra/agents/kagent-values.yaml",
+      "mode": "lf_text",
+      "sha256": "da77440f84a6a3efab43b6cf4d4325f7083cc652aa18e79c1264a0eeb12f1d63"
+    },
+    {
+      "path": "infra/charts/iot-agents/templates/agents.yaml",
+      "mode": "lf_text",
+      "sha256": "0f4ea2bb712ba77c6461851409c9e102d8764a5ac1fcfa50c1ee9ebfd8c533c7"
+    },
+    {
+      "path": "infra/predictor/Dockerfile",
+      "mode": "lf_text",
+      "sha256": "2261121b9525005dea980932cda7335e73bf034fdde03e23f88d45eab13e8ccd"
+    },
+    {
+      "path": "ml/kfp_cluster.py",
+      "mode": "lf_text",
+      "sha256": "c055c84e566564515155a0bf2a53169fde5801923b78260b9dbf8a84508300c6"
+    },
+    {
+      "path": "ml/kfp_notebook.py",
+      "mode": "lf_text",
+      "sha256": "233aba528f371e7c9bcc418c5725fbe4c8dc4e25729efefc9ef8b9197b598abb"
+    },
+    {
+      "path": "ml/notebook_load.py",
+      "mode": "lf_text",
+      "sha256": "8ce3b33bc5976f6fcfa2ef6119e33c99749322cdfead42d01bd3e96ca1391f34"
+    },
+    {
+      "path": "notebooks/04_data_model_inspection.ipynb",
+      "mode": "lf_text",
+      "sha256": "c499af0035730c1c0cb6ea7b471ec42f85fca60e7be60e15d5371efdb3bc26e6"
+    },
+    {
+      "path": "notebooks/05_data_review.ipynb",
+      "mode": "lf_text",
+      "sha256": "4b3b2fc902ad005137849d06f106aab778899a62aab033b1e6363e6101ae55f1"
+    },
+    {
+      "path": "pipelines/airflow_tasks.py",
+      "mode": "lf_text",
+      "sha256": "c657b418c10c5e0fe7345b2b3d7550c965a4cf3dfaf8f0095d5f37b0e97fdedc"
+    },
+    {
+      "path": "pipelines/data_corrections_benchmark.py",
+      "mode": "lf_text",
+      "sha256": "00560739cc3ec386a118845c97e699189aae6e737930f52213a861a7f7c2fdc7"
+    },
+    {
+      "path": "pipelines/features.py",
+      "mode": "lf_text",
+      "sha256": "701f8b979d10da87724945fc79e625978d0807f3ffe0ece35a045069bbd37af4"
+    },
+    {
+      "path": "pipelines/metadata_publish.py",
+      "mode": "lf_text",
+      "sha256": "348edd61be0956c29cb4d944e6d3910093016b569395cbf36527db65cc05bff3"
+    },
+    {
+      "path": "pipelines/orchestrated_job.py",
+      "mode": "lf_text",
+      "sha256": "0b52842cb7130c3352263dbf9b69996e5c77869552728656d37b8ed832452f0c"
+    },
+    {
+      "path": "pipelines/skew_job.py",
+      "mode": "lf_text",
+      "sha256": "37f42bbf7f72a350b56d92c10c0d8a782d13d3727e4254d5303b76d41bc71c65"
+    },
+    {
+      "path": "pipelines/stream_contract.py",
+      "mode": "lf_text",
+      "sha256": "cd2a85c2bd8dda070ac0e174d12ac787201412425f75899a63c4580d69f9de06"
+    },
+    {
+      "path": "pipelines/stream_job.py",
+      "mode": "lf_text",
+      "sha256": "478c4c9c7b38e56a93e53fd5236c432016e7fe2c3ee829202a4dc7979a9c46db"
+    },
+    {
+      "path": "pipelines/transforms.py",
+      "mode": "lf_text",
+      "sha256": "a05a8aa054cedd4f6da194f487a93601e3d9a8dd1f0bfc359305396279fcaf33"
+    },
+    {
+      "path": "scripts/benchmark-predictor-image.py",
+      "mode": "lf_text",
+      "sha256": "273833e0ddea1b6c91d39e52d359e4d11a776f4bdf1d7c9040492229cd3815c4"
+    }
+  ],
+  "scope": "Implementation, documentation and visible evidence review. Scope qualifiers are retained; not mentor acceptance or awarded marks."
+}

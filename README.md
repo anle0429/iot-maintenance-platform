@@ -104,6 +104,8 @@ Each deployment box identifies one selected workload resource; frames mark its h
 
 ## Recorded results
 
+The [data-platform review checklist](docs/data-review-audit.md) connects the storage boundaries, generator characteristics, measured alternatives and pipeline/schema screenshots to their implementation and exact workload scopes.
+
 | Workload | Recorded result | Report |
 |---|---|---|
 | Large ingestion | 102,447,847,856 uncompressed JSONL bytes; 316.8 million unique Silver rows; 13 Spark checks | [Full-scale ingest](docs/full-scale-ingest.md) |

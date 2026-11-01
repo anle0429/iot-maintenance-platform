@@ -1,0 +1,39 @@
+{
+  "url": "http://127.0.0.1:19907/notebooks/05_data_review.executed.ipynb",
+  "application": "Jupyter Notebook 7.3.2",
+  "source_run": "mentor-stream-20261101d",
+  "table_source": "day2-final",
+  "native_flink_rerun": false,
+  "captures": [
+    {
+      "file": "stream-final-windows.jpg",
+      "topic": "Exact six final window rows; retained run D",
+      "captured_utc": "2026-11-01T22:25:25.646Z"
+    },
+    {
+      "file": "stream-late-watermarks.jpg",
+      "topic": "D/E keyed late audit and actual dated watermark barriers",
+      "captured_utc": "2026-11-01T22:25:28.543Z"
+    },
+    {
+      "file": "stream-replay-expiry.jpg",
+      "topic": "Retained duplicate/expiry audits and final counts; baseline does not emit unique-ID audits",
+      "captured_utc": "2026-11-01T22:25:32.795Z"
+    },
+    {
+      "file": "schema-all-zones.jpg",
+      "topic": "All 13 original persisted tables, row counts and column counts",
+      "captured_utc": "2026-11-01T22:25:36.806Z"
+    },
+    {
+      "file": "schema-relationship-graph.jpg",
+      "topic": "Diagram derived after real key uniqueness and null/missing-parent queries",
+      "captured_utc": "2026-11-01T22:25:47.143Z"
+    },
+    {
+      "file": "schema-key-readbacks.jpg",
+      "topic": "All four dim/fact checks and six cross-table key checks",
+      "captured_utc": "2026-11-01T22:25:51.406Z"
+    }
+  ]
+}

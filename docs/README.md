@@ -6,6 +6,8 @@ The [architecture gallery](diagrams/README.md) contains ten coordinated Excalidr
 
 ## Review path
 
+The [data review checklist](data-review-audit.md) checks eleven specific architecture, generator, optimization, orchestration and schema questions against code and original evidence. It includes the final stream-output inspection and the query-derived table relationship view.
+
 For the data-platform review, [input characteristics and before/after evidence](data-processing-review.md) brings together generator measurements, native Spark/Flink views, an executed schema notebook and stage-specific Airflow/DataHub coverage. [Container image optimization](docker-optimization.md) records an 85.5% full/slim size reduction with identical HTTP predictions. [Controlled batch experiments](batch-corrections-benchmark.md) add three paired measurements per comparison and an actual five-task Airflow run, including the slower dedup candidate and unchanged production choice.
 
 | Review question | Start here | Implementation |

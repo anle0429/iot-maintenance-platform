@@ -60,6 +60,22 @@ Start Kafka in a separate Compose project first and use that same `COMPOSE_PROJE
 
 On the generated-source replay, 58,464 deliveries per pass × two passes = 116,928 messages. The job accepts 57,600 unique readings and rejects 59,328 duplicate deliveries; all 5,760 finalized windows match the independent source oracle. This demonstrates replay idempotency for that bounded workload, rather than general crash-safe exactly-once delivery.
 
+## Final-output inspection
+
+[Notebook 05](../notebooks/05_data_review.ipynb) reads the complete run D snapshots directly from the retained native archive, opens SQLite read-only and checks its final rows against the native report. On 1 November its kernel was restarted and all seven code cells ran in Jupyter. The [executed notebook](evidence/data-review-audit/executed.ipynb) and [capture receipt](evidence/data-review-audit/capture.json) preserve that inspection. This did not rerun Flink or relabel the pair B topology images above.
+
+![Native SQLite final baseline and corrected windows](evidence/data-review-audit/screenshots/stream-final-windows.jpg)
+
+All six displayed rows are finalized sink values. The first window changes from count 6 / sum 100 to count 3 / sum 60. C remains in the next half-open window, and P-002 remains a separate key.
+
+![Native late-event audit and observed watermark barriers](evidence/data-review-audit/screenshots/stream-late-watermarks.jpg)
+
+D is quarantined by the baseline and accepted by the corrected job; E is quarantined by both. The first corrected watermark is **30 September 23:55:59.999 UTC**, before the fixture's start on 1 October. Full dates avoid mistaking that barrier for a later time on the same day. The baseline report counts late delivery occurrences; the displayed keyed audit lists distinct late event IDs.
+
+![Native duplicate and retention-probe result queries](evidence/data-review-audit/screenshots/stream-replay-expiry.jpg)
+
+The corrected job records six unique-ID audits, thirteen duplicate deliveries and five accepted readings across the three windows; E is the sixth unique ID and is excluded. Baseline zero unique-ID audits means that tracking is disabled, not that no unique readings arrived. The separate retention probe has two cache expirations, one disk-ledger duplicate and final count 1. These results establish the bounded correctness fix; no isolated Flink latency or throughput improvement is claimed.
+
 ## Commands and recorded examples
 
 Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.

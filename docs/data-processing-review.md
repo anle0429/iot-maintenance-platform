@@ -2,6 +2,8 @@
 
 This review makes the data-platform results visible without treating an artifact audit as a grading decision. Measurements and native screenshots refer to their original workloads. A newly drawn chart explains the receipts; it is not a newly captured service interface.
 
+The [current eleven-topic evidence checklist](data-review-audit.md) links each reported issue to code, explanation and visible proof. It also includes the later timing/Airflow work and the new final SQLite and query-derived relationship captures; historical review receipts retain their original then-open items.
+
 ## Offline normalization
 
 The development source has 58,752 telemetry exports for 57,600 readings. The [recorded Spark run](evidence/day2-final/batch-report.json) preserves raw exports in Bronze, then parses a declared union schema and resolves repeated event IDs into Silver.

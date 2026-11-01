@@ -55,4 +55,32 @@ The historical change resolves 1,440 P-001 facts to F-01 on the first day and 1,
 
 `created` still shows the original 22 October build time; inspecting the files did not rebuild them. The 11,520 snapshot keys are unique and no populated input event/arrival timestamp exceeds its snapshot time. Empty history remains NULL/NaT. This timestamp check supplements the pipeline's leakage tests; it does not by itself establish all availability semantics.
 
-A separate read-only VM catalog inventoried 27 tables across the original batch and later staged pilot. DuckDB UI initialization failed on both attempted inspection versions, so none of its pages are presented as successful native proof. Feast's deployed dependency version was unchanged. The successful captures above are from Jupyter with DuckDB 1.4.3, not DataHub, DBeaver or a generated ER interface. A specifically required graphical relationship editor would still need its own capture.
+A separate read-only VM catalog inventoried 27 tables across the original batch and later staged pilot. DuckDB UI initialization failed on both attempted inspection versions, so none of its pages are presented as successful native proof. Feast's deployed dependency version was unchanged. The successful captures above are from Jupyter with DuckDB 1.4.3. The later query-derived relationship view below supplies the missing graphical presentation without inventing SQL foreign-key constraints.
+
+## Query-derived relationship view
+
+[Notebook 05](../notebooks/05_data_review.ipynb) queries the same 31 original Parquet files and generates the relationship view only after checking parent-key uniqueness, child null keys, missing parents and join row preservation. All seven cells were also run in the actual Jupyter interface. [The saved executed notebook](evidence/data-review-audit/executed.ipynb) retains the SQL and SVG output.
+
+![Native inventory of every original Bronze, Silver and Gold table](evidence/data-review-audit/screenshots/schema-all-zones.jpg)
+
+There are thirteen persisted tables: one Bronze envelope table, four Silver tables and eight Gold tables. Gold includes 9,910 eligible/purged training snapshots, a subset of the 11,520 feature/label snapshot keys. The Bronze total of 58,843 includes all source record types; it must not be confused with its 58,752 telemetry exports.
+
+![Native query-derived diagram of Gold fact and dimension relationships](evidence/data-review-audit/screenshots/schema-relationship-graph.jpg)
+
+The arrows point from child to parent. Each fact's `machine_sk` resolves one `dim_machine` version, and each dimension row's `factory_id` resolves one `dim_factory`. The row counts come from the files, not an authored estimate. This is a query-generated logical relationship graph, rather than a capture of an enforced database constraint editor.
+
+![Native parent-key, Silver/fact and snapshot-key readbacks](evidence/data-review-audit/screenshots/schema-key-readbacks.jpg)
+
+The six additional key checks compare all Silver/fact keys and feature/label/training snapshot membership, with zero unmatched keys. No source archive, report, SQLite snapshot or Parquet bytes changed during inspection. Bronze-to-Silver is a parsing/dedup transformation; Silver-to-fact enrichment and snapshot joins are distinct relationships.
+
+## Schema-design evidence map
+
+| Source criterion | Actual implementation | Native visible proof |
+|---|---|---|
+| M1-34: tables and relationships across zones | [Zone/grain table](#zones-and-grains); original batch has one Bronze, four Silver and eight Gold tables | [Complete zone inventory](evidence/data-review-audit/screenshots/schema-all-zones.jpg), [cross-table key readback](evidence/data-review-audit/screenshots/schema-key-readbacks.jpg); DP1–DP3 has its [separate lineage layout](orchestration.md#datahub-lineage-and-validation-evidence-by-stage) |
+| M1-35: SCD2 dimension | `machine_sk`, `valid_from_ts`, `valid_to_ts`, `is_current`; half-open temporal enrichment | [Original P-001 change and dimension records](evidence/data-platform-review/screenshots/schema-evolution-dedup.jpg), [21 versions / 20 current and historical fact counts](evidence/data-platform-review/screenshots/schema-relationships.jpg) |
+| M1-36: feature event/build timestamps | Unique `(machine_id,event_timestamp)` with `created`; future labels outside the view | [Native feature types](evidence/data-platform-review/screenshots/schema-feature-schema.jpg), [records and input-time bounds](evidence/data-platform-review/screenshots/schema-feature-times.jpg) |
+| M1-37: dim/fact relationships | Three fact tables reference a unique effective machine key; machine versions reference a unique factory key | [Query-derived graph](evidence/data-review-audit/screenshots/schema-relationship-graph.jpg), [zero null/missing parents and unchanged join counts](evidence/data-review-audit/screenshots/schema-key-readbacks.jpg) |
+| M1-38: naming convention | `raw_`, `stg_`, `dim_`, `fact_`, `feat_`; label/training tables explicitly separate | [All thirteen actual table names](evidence/data-review-audit/screenshots/schema-all-zones.jpg), [role/grain explanation](#zones-and-grains) |
+
+These are evidence mappings to the preserved source criteria, not awarded marks. No new SQL warehouse or constraint enforcement is claimed.
