@@ -1,0 +1,39 @@
+{
+  "completed_utc": "2026-11-01T19:02:24.354175+00:00",
+  "exact_http_responses_equal": true,
+  "http_checks": {
+    "baseline": {
+      "http_response_sha256": "4ad01130818df9c4f569dd9ead4a1ccdcdc012b3a317f0cdcaf79bfb7072898f",
+      "maximum_golden_score_delta": 2.220446049250313e-16,
+      "native_http_predictions": 32,
+      "passed": true
+    },
+    "optimized": {
+      "http_response_sha256": "4ad01130818df9c4f569dd9ead4a1ccdcdc012b3a317f0cdcaf79bfb7072898f",
+      "maximum_golden_score_delta": 2.220446049250313e-16,
+      "native_http_predictions": 32,
+      "passed": true
+    }
+  },
+  "images": {
+    "baseline": {
+      "application_layer_build_seconds": 10.004422823000027,
+      "bytes": 1495600805,
+      "id": "sha256:67d070dea077691f0064aac4d5c73ec819ec53d35db70674dfa3015caf55fb42",
+      "platform": "linux/amd64",
+      "python_version": "3.12.16"
+    },
+    "optimized": {
+      "application_layer_build_seconds": 9.003870876000065,
+      "bytes": 216150820,
+      "id": "sha256:7c76754534da558b4e67037965037d27e1d3b91e1bb3d9e66b7a03f96f14e9e4",
+      "platform": "linux/amd64",
+      "python_version": "3.12.16"
+    }
+  },
+  "passed": true,
+  "reduction_percent": 85.54755926331559,
+  "saved_bytes": 1279449985,
+  "scope": "Constructed full-Python baseline vs scoped slim serving image; only base-image choice differs. Same Python patch, application, lock and model. App layers rebuilt without cache; base pull excluded from build timing. Uncompressed local Docker Size, not compressed transfer bytes or production latency.",
+  "source_unchanged": true
+}

@@ -4,6 +4,28 @@ Feast names the entity, feature schema and retrieval interfaces shared by traini
 
 Offline features are immutable Parquet; online features are Redis. The view's ten-minute event-time TTL differs from the Redis key's 3,600-second wall-clock expiry. The SDK runs inside jobs/services, not in a separate Feast HTTP server.
 
+## What Redis stores, and where the offline store lives
+
+**Redis is an online store even when its values were computed by a batch job.** The earlier system-map label "Redis batch store" described the producer, not an offline storage technology. It should be read as "Redis online / batch materialized". Redis provides low-latency entity lookups of the latest prepared vectors; it is not the historical training-data source.
+
+| Boundary | Actual storage / provider | Reader or writer |
+|---|---|---|
+| Batch offline features | `data/feast/batch-medium-27/machine_rolling.parquet`, plus `registry/registry.db`; persisted on the VM and mounted under `/workspace` | Feast `FileSource` (`machine_rolling_batch`) backed by the DuckDB offline provider |
+| Batch online values | Separate Redis instance/namespace populated by the bounded materialization job | `feature_store/materialize.py` → Feast online writes |
+| Streaming offline features | Validated Parquet history and its source registry, written by `OfflineStage` | `feature_store/staged_push.py` registers `machine_tumbling_final_10m` |
+| Streaming online values | Separate Redis namespace holding the latest finalized monitoring vector | `OnlineStage` verifies and reads the offline history, selects latest values and writes through Feast |
+| Feature API online values | Separate serving-preparation state and Redis namespace | `feature_store/serving.py` prepares the eight-input prediction view; the API uses `get_online_features()` |
+
+The [actual RepoConfig](../feature_store/common.py) specifies `offline_store={'type': 'duckdb'}` and `online_store={'type': 'redis', ...}`. [register_batch()](../feature_store/repository.py) binds the Parquet file using `FileSource`, `timestamp_field='event_timestamp'` and `created_timestamp_column='created'`. A local registry stores Feast metadata; it is not the feature-history database. The paths above identify the recorded deployment, not files shipped in a clone.
+
+The write paths are:
+
+1. **Batch:** Spark feature Parquet → verified compact FileSource → bounded Feast materialization → Redis online values.
+2. **Streaming:** Kafka → Flink finalized output → offline validation/Parquet/registry → online job reading that sealed history → Redis monitoring values.
+3. **Training:** offline Parquet + registry → Feast historical retrieval inside the KFP load Pod → persisted cohort → split/train/validate/evaluate. Training does **not** load its history from Redis.
+
+The two views are not interchangeable. The rolling prediction view has eight model inputs; the finalized stream view has four monitoring aggregates. The implemented prediction model does not combine the latter into its eight-input vector. See [KFP data loading](training-notebook.md#how-features-reach-kubeflow) and [the write/TTL policy](feature-jobs-and-ttl.md).
+
 The native SDK fixture passed eight checks for point-in-time boundaries, corrections and arrival availability, unknown entities, older writes, replay and physical key expiry. It also demonstrates why a point-in-time join alone does not prove availability. The 60-day backfill uses `filter_by_created_timestamp=False` explicitly because `created` is build time; upstream arrival guards establish historical eligibility.
 
 Compaction retained all 3,456,000 feature rows while changing 128 files/row groups into one file with 13 row groups. Full historical retrieval preserved 3,132,184 eligible rows and their fixed labels/splits. Source, protocol, feature and compacted-artifact hashes bind the result.

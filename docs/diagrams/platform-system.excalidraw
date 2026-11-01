@@ -1574,7 +1574,7 @@
       "type": "text",
       "x": 1400,
       "y": 690,
-      "text": "Parquet\n+ registries",
+      "text": "Parquet files\nFeast offline",
       "fontSize": 35,
       "fontFamily": 3,
       "strokeColor": "#374151",
@@ -1601,11 +1601,11 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Parquet\n+ registries",
+      "originalText": "Parquet files\nFeast offline",
       "autoResize": true,
       "index": "aZ",
       "backgroundColor": "transparent",
-      "width": 246.09375,
+      "width": 266.6015625,
       "height": 87.5
     },
     {
@@ -3053,7 +3053,7 @@
       "type": "text",
       "x": 2710,
       "y": 977,
-      "text": "Redis\nstream store",
+      "text": "Redis online\nstream values",
       "fontSize": 27,
       "fontFamily": 3,
       "strokeColor": "#374151",
@@ -3080,11 +3080,11 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Redis\nstream store",
+      "originalText": "Redis online\nstream values",
       "autoResize": true,
       "index": "b07",
       "backgroundColor": "transparent",
-      "width": 189.84375,
+      "width": 205.6640625,
       "height": 67.5
     },
     {
@@ -4045,8 +4045,8 @@
       "type": "text",
       "x": 740,
       "y": 1205,
-      "text": "Redis\nbatch store",
-      "fontSize": 27,
+      "text": "Redis online\nbatch values",
+      "fontSize": 25,
       "fontFamily": 3,
       "strokeColor": "#374151",
       "groupIds": [
@@ -4072,20 +4072,20 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Redis\nbatch store",
+      "originalText": "Redis online\nbatch values",
       "autoResize": true,
       "index": "b0S",
       "backgroundColor": "transparent",
-      "width": 174.0234375,
-      "height": 67.5
+      "width": 175.78125,
+      "height": 62.5
     },
     {
       "id": "batchredis-body",
       "type": "text",
       "x": 650,
       "y": 1310,
-      "text": "Immutable backfill namespace\nEvent-time bounds + key expiry",
-      "fontSize": 17,
+      "text": "Batch job writes online values\nHistory stays in Parquet",
+      "fontSize": 15,
       "fontFamily": 3,
       "strokeColor": "#64748b",
       "groupIds": [
@@ -4111,12 +4111,12 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Immutable backfill namespace\nEvent-time bounds + key expiry",
+      "originalText": "Batch job writes online values\nHistory stays in Parquet",
       "autoResize": true,
       "index": "b0T",
       "backgroundColor": "transparent",
-      "width": 298.828125,
-      "height": 42.5
+      "width": 263.671875,
+      "height": 37.5
     },
     {
       "id": "feature-note",
@@ -8009,8 +8009,8 @@
       "type": "text",
       "x": 755,
       "y": 1970,
-      "text": "Redis\nserving store",
-      "fontSize": 26,
+      "text": "Redis online\nserving values",
+      "fontSize": 24,
       "fontFamily": 3,
       "strokeColor": "#374151",
       "groupIds": [
@@ -8036,12 +8036,12 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Redis\nserving store",
+      "originalText": "Redis online\nserving values",
       "autoResize": true,
       "index": "b1w",
       "backgroundColor": "transparent",
-      "width": 198.046875,
-      "height": 65
+      "width": 196.875,
+      "height": 60
     },
     {
       "id": "apiredis-body",
@@ -11244,6 +11244,10 @@
         {
           "id": "A3",
           "type": "arrow"
+        },
+        {
+          "id": "G5",
+          "type": "arrow"
         }
       ],
       "link": null,
@@ -11496,6 +11500,10 @@
         },
         {
           "id": "A5",
+          "type": "arrow"
+        },
+        {
+          "id": "G6",
           "type": "arrow"
         }
       ],
@@ -11958,6 +11966,14 @@
         },
         {
           "id": "G4",
+          "type": "arrow"
+        },
+        {
+          "id": "G5",
+          "type": "arrow"
+        },
+        {
+          "id": "G6",
           "type": "arrow"
         }
       ],
@@ -13597,13 +13613,13 @@
         "from": "retrieval",
         "to": "router",
         "label": "Shared generation route",
-        "kind": "representative model request",
+        "kind": "model generation request",
         "sources": [
           "infra/agents/kagent-values.yaml",
           "infra/llm_observer_routing.py",
           "agents/ab_configuration.py"
         ],
-        "note": "Generation is drawn once from the retrieval role for readability. Coordinator and drift roles use the same ModelConfig and route; this is not a retrieval-only model path."
+        "note": "Retrieval generation uses the shared ModelConfig. G5 and G6 show the coordinator and drift generation requests separately; MCP calls and A2A delegation are distinct."
       },
       "angle": 0,
       "fillStyle": "solid",
@@ -13632,7 +13648,7 @@
       "type": "text",
       "x": 1420,
       "y": 2775,
-      "text": "G0 Shared ModelConfig",
+      "text": "G0 Retrieval generation",
       "fontSize": 14,
       "fontFamily": 3,
       "strokeColor": "#6d28d9",
@@ -13657,11 +13673,11 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "G0 Shared ModelConfig",
+      "originalText": "G0 Retrieval generation",
       "autoResize": true,
       "index": "b3s",
       "backgroundColor": "transparent",
-      "width": 172.265625,
+      "width": 188.671875,
       "height": 17.5
     },
     {
@@ -14373,6 +14389,234 @@
       "backgroundColor": "transparent",
       "width": 1339.453125,
       "height": 45
+    },
+    {
+      "id": "G5",
+      "type": "arrow",
+      "x": 690,
+      "y": 2898,
+      "width": 1232,
+      "height": 295,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          122
+        ],
+        [
+          1190,
+          122
+        ],
+        [
+          1190,
+          -173
+        ],
+        [
+          1232,
+          -173
+        ]
+      ],
+      "strokeColor": "#6d28d9",
+      "endArrowhead": "arrow",
+      "startBinding": {
+        "elementId": "coord",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "router",
+        "focus": 0,
+        "gap": 8
+      },
+      "customData": {
+        "edge": "G5",
+        "from": "coord",
+        "to": "router",
+        "label": "Coordinator generation",
+        "kind": "model generation request",
+        "sources": [
+          "infra/agents/kagent-values.yaml",
+          "infra/llm_observer_routing.py"
+        ],
+        "note": "This role uses the same ModelConfig and observed llm-d route. The request is separate from MCP tool calls and controller-routed A2A delegation. Generation returns through the same route to the requesting role; marker timing is illustrative."
+      },
+      "angle": 0,
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 1112741957,
+      "version": 1,
+      "versionNonce": 1650794185,
+      "isDeleted": false,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "updated": 1,
+      "index": "b47",
+      "backgroundColor": "transparent",
+      "lastCommittedPoint": null,
+      "startArrowhead": null
+    },
+    {
+      "id": "G5-label",
+      "type": "text",
+      "x": 740,
+      "y": 3028,
+      "text": "G5 Coordinator generation",
+      "originalText": "G5 Coordinator generation",
+      "fontSize": 14,
+      "fontFamily": 3,
+      "strokeColor": "#6d28d9",
+      "angle": 0,
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 901400761,
+      "version": 1,
+      "versionNonce": 1687596607,
+      "isDeleted": false,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "updated": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "lineHeight": 1.25,
+      "containerId": null,
+      "autoResize": true,
+      "index": "b48",
+      "backgroundColor": "transparent",
+      "width": 205.078125,
+      "height": 17.5
+    },
+    {
+      "id": "G6",
+      "type": "arrow",
+      "x": 1368,
+      "y": 2900,
+      "width": 554,
+      "height": 225,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          42,
+          0
+        ],
+        [
+          42,
+          35
+        ],
+        [
+          472,
+          35
+        ],
+        [
+          472,
+          -190
+        ],
+        [
+          554,
+          -190
+        ]
+      ],
+      "strokeColor": "#6d28d9",
+      "endArrowhead": "arrow",
+      "startBinding": {
+        "elementId": "drift-worker",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "router",
+        "focus": 0,
+        "gap": 8
+      },
+      "customData": {
+        "edge": "G6",
+        "from": "drift-worker",
+        "to": "router",
+        "label": "Drift generation",
+        "kind": "model generation request",
+        "sources": [
+          "infra/agents/kagent-values.yaml",
+          "infra/llm_observer_routing.py"
+        ],
+        "note": "This role uses the same ModelConfig and observed llm-d route. The request is separate from MCP tool calls and controller-routed A2A delegation. Generation returns through the same route to the requesting role; marker timing is illustrative."
+      },
+      "angle": 0,
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 190123385,
+      "version": 1,
+      "versionNonce": 1409980134,
+      "isDeleted": false,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "updated": 1,
+      "index": "b49",
+      "backgroundColor": "transparent",
+      "lastCommittedPoint": null,
+      "startArrowhead": null
+    },
+    {
+      "id": "G6-label",
+      "type": "text",
+      "x": 1510,
+      "y": 2940,
+      "text": "G6 Drift generation",
+      "originalText": "G6 Drift generation",
+      "fontSize": 14,
+      "fontFamily": 3,
+      "strokeColor": "#6d28d9",
+      "angle": 0,
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 108233113,
+      "version": 1,
+      "versionNonce": 552145458,
+      "isDeleted": false,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "updated": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "lineHeight": 1.25,
+      "containerId": null,
+      "autoResize": true,
+      "index": "b4A",
+      "backgroundColor": "transparent",
+      "width": 155.859375,
+      "height": 17.5
     }
   ]
 }

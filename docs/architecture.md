@@ -80,6 +80,8 @@ The two feature views serve different purposes:
 
 Batch/stream Redis and API Redis are configured separately. Materialization and serving-preparation jobs populate the appropriate store. Finalized stream aggregates are not substituted for the predictor's eight inputs.
 
+All three Redis roles are **online stores**. "Batch" identifies a producer/materialization path, not an offline store. Feast's DuckDB offline provider reads the registered Parquet file/history on the shared VM volumes; KFP's load Pod mounts that history and performs historical retrieval. See the [explicit storage boundaries](feast-feature-store.md#what-redis-stores-and-where-the-offline-store-lives) and [Pod inputs and handoff](training-notebook.md#how-features-reach-kubeflow).
+
 There are also separate time limits: a feature's event-time age, Redis key expiry and the demo's wall-clock lease. A Redis key can exist while its event-time data is too old. Offline Parquet history does not expire with the Redis key. See [Feast](feast-feature-store.md), [materialization](feast-materialization.md) and [TTL policy](feature-jobs-and-ttl.md).
 
 ## Streaming writes and replay

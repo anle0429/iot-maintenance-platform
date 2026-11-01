@@ -1,0 +1,153 @@
+- textbox "Find tables, dashboards, people, and more"
+- generic: ⌘
+- generic: K
+- button:
+- button "Discover":
+  - generic: Discover
+- link:
+  - /url: /
+- button "Navbar toggler":
+- menu:
+  - menuitem "Home":
+    - generic: Home
+- menu:
+  - generic "Context"
+  - list:
+    - menuitem "Documents":
+      - generic: Documents
+  - generic "Govern"
+  - list:
+    - menuitem "Glossary":
+      - generic: Glossary
+    - menuitem "Tags":
+      - generic: Tags
+    - menuitem "Domains":
+      - generic: Domains
+    - menuitem "Structured Properties":
+      - generic: Structured Properties
+  - generic "Admin"
+  - list:
+    - menuitem "Data Sources":
+      - generic: Data Sources
+    - menuitem "Analytics":
+      - generic: Analytics
+- menu:
+  - generic "Account"
+  - list:
+    - menuitem "Profile":
+      - generic: Profile
+    - menuitem "Settings":
+      - generic: Settings
+    - menuitem "Resources":
+      - generic: Resources
+    - link "Sign out":
+      - /url: /logOut
+      - menuitem "Sign out":
+        - generic: Sign out
+- tabpanel "Lineage":
+  - button "Platform Dataset iot raw raw/telemetry":
+    - img "Platform"
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: raw
+    - button:
+    - generic: raw/telemetry
+  - button "Platform Dataset iot raw raw/maintenance":
+    - img "Platform"
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: raw
+    - button:
+    - generic: raw/maintenance
+  - button "Platform Dataset iot raw raw/machines":
+    - img "Platform"
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: raw
+    - button:
+    - generic: raw/machines
+  - button "Platform Dataset iot raw raw/failures":
+    - img "Platform"
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: raw
+    - button:
+    - generic: raw/failures
+  - button "Home Platform Task iot_dp1_bronze ingest":
+    - text: Home
+    - img "Platform"
+    - generic "Task":
+      - generic: Task
+      - separator
+    - generic: iot_dp1_bronze
+    - button:
+    - generic: ingest
+  - button "Dataset iot bronze bronze/raw_failures Columns 8":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: bronze
+    - button:
+    - generic: bronze/raw_failures
+    - text: Columns
+    - generic: "8"
+  - button "Dataset iot bronze bronze/raw_machines Columns 10":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: bronze
+    - button:
+    - generic: bronze/raw_machines
+    - text: Columns
+    - generic: "10"
+  - button "Dataset iot bronze bronze/raw_maintenance Columns 9":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: bronze
+    - button:
+    - generic: bronze/raw_maintenance
+    - text: Columns
+    - generic: "9"
+  - button "Dataset iot bronze bronze/raw_telemetry Columns 14":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: bronze
+    - button:
+    - generic: bronze/raw_telemetry
+    - text: Columns
+    - generic: "14"
+  - button "zoom-in":
+    - img "zoom-in":
+  - button "zoom-out":
+    - img "zoom-out":
+  - img "search":
+  - textbox
+  - button "vertical-left":
+    - img "vertical-left":
+  - separator
+  - button "home":
+    - img "home":
+  - separator
+  - button "filter":
+    - img "filter":
+  - button "calendar":
+    - img "calendar":
+  - separator
+  - button "camera":
+    - img "camera":
+  - button "shrink":
+    - img "shrink":

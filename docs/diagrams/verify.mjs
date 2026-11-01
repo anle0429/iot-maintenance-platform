@@ -10,11 +10,11 @@ const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'
 const figures=JSON.parse(fs.readFileSync(path.join(root,'docs/images/diagram-index.json')));
 const bank=JSON.parse(fs.readFileSync(path.join(here,'icons/brands.json')));
 const expected=[
-  [47,'O1 O2 D1 D2 Q1 S0 S1 S2 S3 S4 S5 F1 O3 F2 T0 T1 I1 I2 T2 C1 C2 M1 L1 L2 F3 V1 P0 P1 P2 P3 P4 P5 C3 H1 O4 R0 R1 R2 K1 K2 Q2 A1 A2 A3 A4 A5 M2 M4 M5 G0 G1 G2 G3 G4 H2 H3'],
+  [47,'O1 O2 D1 D2 Q1 S0 S1 S2 S3 S4 S5 F1 O3 F2 T0 T1 I1 I2 T2 C1 C2 M1 L1 L2 F3 V1 P0 P1 P2 P3 P4 P5 C3 H1 O4 R0 R1 R2 K1 K2 Q2 A1 A2 A3 A4 A5 M2 M4 M5 G0 G1 G2 G3 G4 G5 G6 H2 H3'],
   [18,'D1 D2 F1 F2 F3 C1 G1 T0 T1 T2 C2 C3 S0 S1 S2 S3 S4'],
   [5,'U1 U2 U3 U4 U5 U6 U7'],[42,'U1 U2 U3 G1 G2 G3 G4'],
   [14,'H1 M1 L1 L2 M2 L3 M3 O1 O2 R1 R2 R3 R4'],
-  [16,'K0 K1 K2 A1 A2 A3 A4 M1 M2 M3 M4 M5 G1 G2 G3 G4 G5'],
+  [16,'K0 K1 K2 A1 A2 A3 A4 M1 M2 M3 M4 M5 G1 G2 G3 G4 G5 G6 G7'],
   [7,'C1 C2 C3 C4 C5 C6'],[8,'Q1 C1 C2 D1 H1 H2 H3'],
   [10,'A1 A2 A3 M1 M2 G1 G2 G3 G4 G5 G6 G7 T0 T1 T2'],[6,'P1 P2 P3 P4 P5 P6']
 ];
@@ -80,19 +80,19 @@ for(const [i,v]of figures.views.entries()){
   }
   checks.push({name:v.name,nodes:nodes.length,arrows:arrows.length,native_elements:elements.length,embedded_icons:Object.keys(s.files).length,passed:true});
 }
-assert.equal(checks.reduce((n,v)=>n+v.nodes,0),173);assert.equal(checks.reduce((n,v)=>n+v.arrows,0),151);
+assert.equal(checks.reduce((n,v)=>n+v.nodes,0),173);assert.equal(checks.reduce((n,v)=>n+v.arrows,0),155);
 report.source_bindings=Object.fromEntries([...sources.entries()].sort());
 const preview=JSON.parse(fs.readFileSync(path.join(root,'docs/images/platform-system.preview.json')));
 const gif=fs.readFileSync(path.join(root,'docs/images/platform-system.gif'));
 assert.equal(preview.runtime_screenshot,false);assert.equal(preview.runtime_telemetry,false);
 assert.equal(preview.source_hash_encoding,'UTF-8 SVG with CRLF canonicalized to LF');
 assert.equal(preview.source_sha256,sha(fs.readFileSync(path.join(root,'docs/images/platform-system.animated.svg'),'utf8').replaceAll('\r\n','\n')));
-assert.equal(preview.sha256,sha(gif));assert.equal(preview.marker_count,56);
+assert.equal(preview.sha256,sha(gif));assert.equal(preview.marker_count,58);
 assert.equal(gif.subarray(0,6).toString(),'GIF89a');assert.equal(gif.readUInt16LE(6),1920);assert.equal(gif.readUInt16LE(8),1980);
 assert.equal(preview.frames,36);assert.equal(preview.distinct_frames,36);assert.equal(preview.duration_ms,6000);
 const readme=fs.readFileSync(path.join(root,'README.md'),'utf8'),picture=readme.match(/<picture>[\s\S]*?<\/picture>/)?.[0];
 assert(picture?.includes('prefers-reduced-motion: reduce')&&picture.includes('docs/images/platform-system.png')&&picture.includes('docs/images/platform-system.gif'));
-report.readme_preview={passed:true,frames:36,duration_ms:6000,markers:56,bytes:gif.length,sha256:preview.sha256};
+report.readme_preview={passed:true,frames:36,duration_ms:6000,markers:58,bytes:gif.length,sha256:preview.sha256};
 report.previews=[];
 for(const v of figures.views){
   const receipt=JSON.parse(fs.readFileSync(path.join(root,'docs/images',v.name+'.preview.json')));
@@ -174,9 +174,9 @@ if(process.argv.includes('--browser')){
       gifViews.push(v.name);
     }
     assert.deepEqual(errors,[]);assert.deepEqual(requests,[]);
-    report.browser={passed:true,actual_moving_particles_by_view:moving,total:151,all_arrow_details:true,click_path:true,pause_resume:true,speed:true,zoom_fit:true,reduced_motion:true,mobile_layout:true,mobile_reduced_motion_views:figures.views.length,readme_gif_actually_animates:true,readme_reduced_motion_selects_png:true,all_gif_previews_animate:gifViews,all_gif_reduced_motion_fallbacks:true,external_requests:requests,page_errors:errors};
+    report.browser={passed:true,actual_moving_particles_by_view:moving,total:155,all_arrow_details:true,click_path:true,pause_resume:true,speed:true,zoom_fit:true,reduced_motion:true,mobile_layout:true,mobile_reduced_motion_views:figures.views.length,readme_gif_actually_animates:true,readme_reduced_motion_selects_png:true,all_gif_previews_animate:gifViews,all_gif_reduced_motion_fallbacks:true,external_requests:requests,page_errors:errors};
   }finally{await browser.close();}
 }
 report.passed=true;
 if(out)fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n');
-console.log(JSON.stringify({passed:true,views:checks,nodes:173,arrows:151,source_files:sources.size,browser:report.browser},null,2));
+console.log(JSON.stringify({passed:true,views:checks,nodes:173,arrows:155,source_files:sources.size,browser:report.browser},null,2));

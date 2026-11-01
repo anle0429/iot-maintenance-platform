@@ -16,6 +16,24 @@ Executed notebooks, original HTML, source bindings and screenshots remain in the
 
 ## Commands and recorded examples
 
+### How features reach Kubeflow
+
+Kubeflow orchestrates containers; it does not receive a training dataset from the Redis service. [notebook_load()](../ml/kfp_notebook.py) starts a Feast-image Pod with these recorded inputs:
+
+| Input | Path inside the load Pod |
+|---|---|
+| Offline feature source and Feast registry | `/workspace/data/feast/batch-medium-27/machine_rolling.parquet` and `registry/registry.db` |
+| Batch readiness/provenance report | `/workspace/outputs/feast-batch-27/batch/report.json` |
+| Eligible entity timestamps and separate labels | `/workspace/data/feature-datasets/feature-medium-27-v2/artifacts/training/eligible_entities/` |
+| Fixed feature allowlist and split protocol | `/workspace/ml/protocols/medium-60d-v1.json` |
+| Run workspace | `/ml-data/<run>/` |
+
+[configure()](../ml/kfp_cluster.py) mounts the existing `iot-ml-code` PVC at `/workspace`, `iot-ml-workspace` at `/ml-data`, and scratch at `/ml-scratch`. [The PV/PVC manifests](../infra/kfp/training-volumes.yaml) define that shared VM storage. This is a single-host lab mount, not a dataset uploaded through the KFP UI.
+
+[ml.notebook_load.run()](../ml/notebook_load.py) checks source/report/registry hashes, builds daily entity frames with only `machine_id,event_timestamp`, and calls `store.get_historical_features(entity_df=queries, features=service, filter_by_created_timestamp=False).to_df()`. Build-time `created` is not first availability; upstream arrival checks establish eligibility. The loader writes separate `id,label` files, validates a one-to-one merge and persists `feast-cohort/day=.../data.parquet`. The KFP `Output[Dataset]` carries a descriptor whose `path` points to that persisted cohort. The next `Input[Dataset]` resolves it; [artifact transport](../ml/kfp_artifacts.py) publishes the descriptor through KFP's executor contract. The training Pod reads the resulting partitions and submits work to two Spark executor Pods.
+
+The [native load report](evidence/notebook/dataset/input/load-report.json), [label-merge screenshot](evidence/notebook/screenshots/native-feast-label-merge.jpg) and [five-task KFP screenshot](evidence/distributed-training/screenshots/five-tasks-succeeded.jpg) show the data and execution separately. Later CI uses a versioned source copy with the same data contract; these fixed historical paths should not be mistaken for a new release's source identity.
+
 Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.
 
 ```bash

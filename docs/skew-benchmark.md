@@ -6,6 +6,30 @@ Broadcasting the small factory-policy relation reduced the recorded median from 
 
 The synthetic factory distribution is skewed by construction, but that alone is not optimization evidence. Only this measured query/workload supports the comparison. The result does not establish the same speedup for all joins,100 GB feature engineering or an otherwise different cluster.
 
+## Before and after on the same input
+
+The input has 17,280,000 unique readings: F-01 has 12,096,000 (70%), while F-02 and F-03 have 2,592,000 each. A factory-key partition diagnostic placed all 12,096,000 F-01 rows in partition 22. The baseline sorts/shuffles the large relation for a `SortMergeJoin`; the optimized query broadcasts the **three-row policy relation** and uses `BroadcastHashJoin`. It does not rebalance factories or remove data.
+
+| Same-input pair | Baseline, seconds | Broadcast, seconds |
+|---|---:|---:|
+| 1 | 18.243 | 9.115 |
+| 2 | 15.338 | 8.444 |
+| 3 | 15.339 | 8.577 |
+| Median | 15.339 | 8.577 |
+
+The median reduction is 44.1% (1.788× observed speedup). Each execution returns the same 4,320 rows and SHA-256 `7709e19ad539bcff7eeab3c17925c9a18d406dd9f9b69af0c01822d9ca41f877`. Across each run's recorded jobs, shuffle-read bytes change from 302,603,711 to 1,076,691; both strategies have 47 task attempts, zero failed attempts and zero disk spill. These are [event-log measurements](evidence/skew-benchmark/task-metrics.json), not estimates from the picture.
+
+![Paired elapsed times on the same immutable Silver input](images/skew-before-after.png)
+
+The plot derives from the original receipt. The following are **original Spark UI screenshots**, with the before and after identified explicitly:
+
+| Before: sort/merge strategy and hot tasks | After: broadcast strategy |
+|---|---|
+| ![Baseline physical plan](evidence/skew-benchmark/screenshots/baseline-sql-18.png) | ![Optimized physical plan](evidence/skew-benchmark/screenshots/broadcast-sql-19.png) |
+| ![Baseline hot tasks](evidence/skew-benchmark/screenshots/baseline-hot-tasks.png) | ![Broadcast stage tasks](evidence/skew-benchmark/screenshots/broadcast-stage-85.png) |
+
+Both settings disable AQE and automatic broadcasting to isolate the explicit join change; shuffle partitions remain 32. OS caches and other VM services were not isolated. This benchmark is a separate analytical query: the DP1–DP3 Airflow pilot has UI proof, but this exact skew benchmark was **not integrated as an Airflow task**. That integration remains a distinct review item.
+
 ## Commands and recorded examples
 
 Run commands from the repository root unless the example explicitly changes the working directory. Use a fresh output/run name and check the linked runbook before starting platform services. Examples belong to the recorded workload on this page.

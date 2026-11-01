@@ -1,0 +1,302 @@
+- textbox "Find tables, dashboards, people, and more"
+- generic: ⌘
+- generic: K
+- button:
+- button "Discover":
+  - generic: Discover
+- link:
+  - /url: /
+- button "Navbar toggler":
+- menu:
+  - menuitem "Home":
+    - generic: Home
+- menu:
+  - generic "Context"
+  - list:
+    - menuitem "Documents":
+      - generic: Documents
+  - generic "Govern"
+  - list:
+    - menuitem "Glossary":
+      - generic: Glossary
+    - menuitem "Tags":
+      - generic: Tags
+    - menuitem "Domains":
+      - generic: Domains
+    - menuitem "Structured Properties":
+      - generic: Structured Properties
+  - generic "Admin"
+  - list:
+    - menuitem "Data Sources":
+      - generic: Data Sources
+    - menuitem "Analytics":
+      - generic: Analytics
+- menu:
+  - generic "Account"
+  - list:
+    - menuitem "Profile":
+      - generic: Profile
+    - menuitem "Settings":
+      - generic: Settings
+    - menuitem "Resources":
+      - generic: Resources
+    - link "Sign out":
+      - /url: /logOut
+      - menuitem "Sign out":
+        - generic: Sign out
+- button:
+- generic: silver/stg_telemetry
+- generic "Dataset":
+  - generic: Dataset
+  - separator
+- generic: iot
+- generic: silver
+- button:
+- tablist:
+  - tab "Columns 14":
+    - text: Columns
+    - generic: "14"
+  - tab "Documentation":
+    - generic: Documentation
+  - tab "Lineage":
+    - generic: Lineage
+  - tab "Properties 4":
+    - text: Properties
+    - generic: "4"
+  - tab "Queries":
+    - generic: Queries
+  - tab "Stats":
+    - generic: Stats
+  - tab "Quality" [selected]:
+    - generic: Quality
+  - tab "Governance":
+    - generic: Governance
+  - tab "Incidents":
+    - generic: Incidents
+  - button:
+- tabpanel "Quality":
+  - generic: Summary
+  - generic: Assertions
+  - generic: Data Contract
+  - heading "Assertions" [level=4]
+  - text: View and manage data quality checks for this table
+  - textbox "Search..."
+  - generic: Filter
+  - generic: "1"
+  - generic: Passing
+  - generic: (7)
+  - generic: SPARK PERSISTED-DATA CONTRACT
+  - generic: (7)
+  - generic: External
+  - generic: (7)
+  - table:
+    - rowgroup:
+      - row "Name Category Last Run caret-up caret-down Tags":
+        - columnheader "Name":
+          - generic: Name
+          - generic "caret-up":
+          - generic "caret-down":
+        - columnheader "Category":
+          - generic: Category
+          - generic "caret-up":
+          - generic "caret-down":
+        - columnheader "Last Run caret-up caret-down":
+          - generic: Last Run
+          - generic "caret-up":
+          - generic "caret-down":
+        - columnheader "Tags"
+        - columnheader
+        - columnheader
+  - table:
+    - rowgroup:
+      - row "persisted_row_count SPARK PERSISTED-DATA CONTRACT 5 days ago":
+        - cell "persisted_row_count":
+          - generic: persisted_row_count
+          - link:
+            - /url: http://localhost:18480/dags/iot_ci_dp2_warehouse/runs/jenkins-2-1
+        - cell "SPARK PERSISTED-DATA CONTRACT":
+          - generic: SPARK PERSISTED-DATA CONTRACT
+        - cell "5 days ago":
+          - generic: 5 days ago
+        - cell:
+        - cell:
+          - button:
+      - row "persisted_schema SPARK PERSISTED-DATA CONTRACT 5 days ago":
+        - cell "persisted_schema":
+          - generic: persisted_schema
+          - link:
+            - /url: http://localhost:18480/dags/iot_ci_dp2_warehouse/runs/jenkins-2-1
+        - cell "SPARK PERSISTED-DATA CONTRACT":
+          - generic: SPARK PERSISTED-DATA CONTRACT
+        - cell "5 days ago":
+          - generic: 5 days ago
+        - cell:
+        - cell:
+          - button:
+      - row "expected_unique_events SPARK PERSISTED-DATA CONTRACT 5 days ago":
+        - cell "expected_unique_events":
+          - generic: expected_unique_events
+          - link:
+            - /url: http://localhost:18480/dags/iot_ci_dp2_warehouse/runs/jenkins-2-1
+        - cell "SPARK PERSISTED-DATA CONTRACT":
+          - generic: SPARK PERSISTED-DATA CONTRACT
+        - cell "5 days ago":
+          - generic: 5 days ago
+        - cell:
+        - cell:
+          - button:
+      - row "unique_event_id SPARK PERSISTED-DATA CONTRACT 5 days ago":
+        - cell "unique_event_id":
+          - generic: unique_event_id
+          - link:
+            - /url: http://localhost:18480/dags/iot_ci_dp2_warehouse/runs/jenkins-2-1
+        - cell "SPARK PERSISTED-DATA CONTRACT":
+          - generic: SPARK PERSISTED-DATA CONTRACT
+        - cell "5 days ago":
+          - generic: 5 days ago
+        - cell:
+        - cell:
+          - button:
+      - row "replay_idempotent SPARK PERSISTED-DATA CONTRACT 5 days ago":
+        - cell "replay_idempotent":
+          - generic: replay_idempotent
+          - link:
+            - /url: http://localhost:18480/dags/iot_ci_dp2_warehouse/runs/jenkins-2-1
+        - cell "SPARK PERSISTED-DATA CONTRACT":
+          - generic: SPARK PERSISTED-DATA CONTRACT
+        - cell "5 days ago":
+          - generic: 5 days ago
+        - cell:
+        - cell:
+          - button:
+      - row "exact_multiset_readback SPARK PERSISTED-DATA CONTRACT 5 days ago":
+        - cell "exact_multiset_readback":
+          - generic: exact_multiset_readback
+          - link:
+            - /url: http://localhost:18480/dags/iot_ci_dp2_warehouse/runs/jenkins-2-1
+        - cell "SPARK PERSISTED-DATA CONTRACT":
+          - generic: SPARK PERSISTED-DATA CONTRACT
+        - cell "5 days ago":
+          - generic: 5 days ago
+        - cell:
+        - cell:
+          - button:
+      - row "latest_created_export SPARK PERSISTED-DATA CONTRACT 5 days ago":
+        - cell "latest_created_export":
+          - generic: latest_created_export
+          - link:
+            - /url: http://localhost:18480/dags/iot_ci_dp2_warehouse/runs/jenkins-2-1
+        - cell "SPARK PERSISTED-DATA CONTRACT":
+          - generic: SPARK PERSISTED-DATA CONTRACT
+        - cell "5 days ago":
+          - generic: 5 days ago
+        - cell:
+        - cell:
+          - button:
+  - list:
+    - listitem "Previous Page":
+      - button "left" [disabled]:
+        - img "left":
+    - listitem "1":
+      - generic: "1"
+    - listitem "Next Page":
+      - button "right" [disabled]:
+        - img "right":
+- generic: Summary
+- generic: silver/stg_telemetry
+- generic "Dataset":
+  - generic: Dataset
+  - separator
+- generic: iot
+- generic: silver
+- generic: Rows
+- generic: 57.6k rows
+- generic: Columns
+- generic: 14 columns
+- generic: Documentation
+- button:
+- textbox:
+  - paragraph: Validated Bronze to unique Silver readings and Gold machine dimensions/facts. Produced by iot_ci_dp2_warehouse.
+- generic: Lineage
+- button:
+- generic: UPSTREAM
+- text: Depends on
+- generic: 2 tasks,
+- generic: 1 dataset
+- generic: DOWNSTREAM
+- text: Used by
+- generic: 4 tasks,
+- generic: 3 datasets
+- generic: Owners
+- button:
+- generic: No owners yet.
+- generic: Domain
+- button:
+- generic: No domain yet.
+- generic: Data Products
+- button:
+- generic: No product yet.
+- generic: Tags
+- button:
+- generic: No tags yet.
+- generic: Terms
+- button:
+- generic: No terms yet.
+- tablist:
+  - tab:
+  - tab "Summary" [selected]:
+    - generic: Summary
+  - tab "Lineage":
+    - generic: Lineage
+  - tab "Columns":
+    - generic: Columns
+  - tab "Props":
+    - generic: Props
+- dialog:
+  - button "arrow-right":
+    - img "arrow-right":
+  - button "View in Airflow.":
+  - button "plus":
+    - img "plus":
+  - button "link":
+    - img "link":
+  - button "copy":
+    - img "copy":
+  - generic: unique_event_id
+  - generic: Passing
+  - strong: Oct 25 - Nov 1
+  - generic: 1 hour
+  - generic: 1 day
+  - generic: 1 week
+  - generic: 1 month
+  - generic: 3 months
+  - generic: 1 year
+  - separator
+  - generic: Activity
+  - generic: 5 days ago
+  - generic: Oct 27
+  - generic: Passed
+  - generic: The expected conditions were met
+  - generic: 6 days ago
+  - generic: Oct 26
+  - generic: Passed
+  - generic: The expected conditions were met
+  - generic: 6 days ago
+  - generic: Oct 26
+  - generic: Passed
+  - generic: The expected conditions were met
+  - separator
+  - generic: Schedule details
+  - img "clock-circle":
+  - text: Last evaluated
+  - text: Last evaluated on 10/27/2026 at 1:03:26 PM (America/Chicago)
+  - separator
+  - text: Provided by Airflow
+  - text: This assertion and its results are provided by Airflow.
+  - separator
+  - img "bell":
+  - text: When things go wrong, be the first to know.
+  - text: Sign up to receive notifications when this assertion passes or fails by
+  - link "subscribing to this table.":
+    - /url: https://docs.datahub.com/docs/next/managed-datahub/subscription-and-notification/
+- generic: "1"

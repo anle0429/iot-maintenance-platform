@@ -1,0 +1,277 @@
+- textbox "Find tables, dashboards, people, and more"
+- generic: ⌘
+- generic: K
+- button:
+- button "Discover":
+  - generic: Discover
+- link:
+  - /url: /
+- button "Navbar toggler":
+- menu:
+  - menuitem "Home":
+    - generic: Home
+- menu:
+  - generic "Context"
+  - list:
+    - menuitem "Documents":
+      - generic: Documents
+  - generic "Govern"
+  - list:
+    - menuitem "Glossary":
+      - generic: Glossary
+    - menuitem "Tags":
+      - generic: Tags
+    - menuitem "Domains":
+      - generic: Domains
+    - menuitem "Structured Properties":
+      - generic: Structured Properties
+  - generic "Admin"
+  - list:
+    - menuitem "Data Sources":
+      - generic: Data Sources
+    - menuitem "Analytics":
+      - generic: Analytics
+- menu:
+  - generic "Account"
+  - list:
+    - menuitem "Profile":
+      - generic: Profile
+    - menuitem "Settings":
+      - generic: Settings
+    - menuitem "Resources":
+      - generic: Resources
+    - link "Sign out":
+      - /url: /logOut
+      - menuitem "Sign out":
+        - generic: Sign out
+- button:
+- img "Platform Logo"
+- generic: ingest
+- generic "Task":
+  - generic: Task
+  - separator
+- link "iot_dp2_warehouse":
+  - /url: /pipelines/urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm)
+  - generic: iot_dp2_warehouse
+- link "View in Airflow":
+  - /url: http://localhost:18480/dags/iot_dp2_warehouse/runs/orchestration-recovery-26
+  - generic: View in Airflow
+- button:
+- tablist:
+  - tab "Documentation":
+    - generic: Documentation
+  - tab "Pipeline":
+    - generic: Pipeline
+  - tab "Lineage" [selected]:
+    - generic: Lineage
+  - tab "Properties":
+    - generic: Properties
+  - tab "Runs" [disabled]:
+    - generic: Runs
+  - tab "Incidents":
+    - generic: Incidents
+- tabpanel "Lineage":
+  - generic: Explorer
+  - generic: Impact Analysis
+  - button "Dataset iot bronze bronze/raw_telemetry Columns 14":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: bronze
+    - button:
+    - generic: bronze/raw_telemetry
+    - text: Columns
+    - generic: "14"
+  - button "Dataset iot bronze bronze/raw_maintenance Columns 9":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: bronze
+    - button:
+    - generic: bronze/raw_maintenance
+    - text: Columns
+    - generic: "9"
+  - button "Dataset iot bronze bronze/raw_machines Columns 10":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: bronze
+    - button:
+    - generic: bronze/raw_machines
+    - text: Columns
+    - generic: "10"
+  - button "Dataset iot bronze bronze/raw_failures Columns 8":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: bronze
+    - button:
+    - generic: bronze/raw_failures
+    - text: Columns
+    - generic: "8"
+  - button "Home Platform Task iot_dp2_warehouse ingest":
+    - text: Home
+    - img "Platform"
+    - generic "Task":
+      - generic: Task
+      - separator
+    - generic: iot_dp2_warehouse
+    - button:
+    - generic: ingest
+  - button "8 of 8 shown Show Less 8 8" [active]:
+    - generic: 8 of 8 shown
+    - generic: Show Less
+    - textbox "Search children"
+    - generic "Parquet (VM files)":
+      - generic: "8"
+    - generic "Datasets":
+      - generic: "8"
+  - button "Dataset iot gold gold/fact_telemetry Columns 16":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: gold
+    - button:
+    - generic: gold/fact_telemetry
+    - text: Columns
+    - generic: "16"
+  - button "Dataset iot silver silver/stg_failures Columns 8":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: silver
+    - button:
+    - generic: silver/stg_failures
+    - text: Columns
+    - generic: "8"
+  - button "Dataset iot silver silver/stg_maintenance Columns 9":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: silver
+    - button:
+    - generic: silver/stg_maintenance
+    - text: Columns
+    - generic: "9"
+  - button "Dataset iot silver silver/stg_telemetry Columns 14":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: silver
+    - button:
+    - generic: silver/stg_telemetry
+    - text: Columns
+    - generic: "14"
+  - button "Dataset iot gold gold/dim_factory Columns 1":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: gold
+    - button:
+    - generic: gold/dim_factory
+    - text: Columns
+    - generic: "1"
+  - button "Dataset iot gold gold/dim_machine Columns 11":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: gold
+    - button:
+    - generic: gold/dim_machine
+    - text: Columns
+    - generic: "11"
+  - button "Dataset iot gold gold/fact_failure Columns 10":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: gold
+    - button:
+    - generic: gold/fact_failure
+    - text: Columns
+    - generic: "10"
+  - button "Dataset iot gold gold/fact_maintenance Columns 11":
+    - generic "Dataset":
+      - generic: Dataset
+      - separator
+    - generic: iot
+    - generic: gold
+    - button:
+    - generic: gold/fact_maintenance
+    - text: Columns
+    - generic: "11"
+  - button "zoom-in":
+    - img "zoom-in":
+  - button "zoom-out":
+    - img "zoom-out":
+  - img "search":
+  - textbox
+  - button "vertical-left":
+    - img "vertical-left":
+  - separator
+  - button "home":
+    - img "home":
+  - separator
+  - button "filter":
+    - img "filter":
+  - button "calendar":
+    - img "calendar":
+  - separator
+  - button "camera":
+    - img "camera":
+  - button "arrows-alt":
+    - img "arrows-alt":
+- generic: Summary
+- img "Platform Logo"
+- generic: ingest
+- generic "Task":
+  - generic: Task
+  - separator
+- link "iot_dp2_warehouse":
+  - /url: /pipelines/urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm)
+  - generic: iot_dp2_warehouse
+- generic: Documentation
+- button:
+- textbox:
+  - paragraph: Validated Bronze to unique Silver readings and Gold machine dimensions/facts.
+- generic: Lineage
+- button:
+- generic: UPSTREAM
+- text: Depends on
+- generic: 4 datasets
+- generic: DOWNSTREAM
+- text: Used by
+- generic: 8 datasets
+- generic: Owners
+- button:
+- generic: No owners yet.
+- generic: Domain
+- button:
+- generic: No domain yet.
+- generic: Data Products
+- button:
+- generic: No product yet.
+- generic: Terms
+- button:
+- generic: No terms yet.
+- generic: Tags
+- button:
+- generic: No tags yet.
+- tablist:
+  - tab:
+  - tab "Summary" [selected]:
+    - generic: Summary
+  - tab "Lineage":
+    - generic: Lineage
+  - tab "Props":
+    - generic: Props

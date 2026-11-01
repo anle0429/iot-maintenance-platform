@@ -1,0 +1,2754 @@
+{
+  "created_utc": "2026-11-01T19:08:13.307503+00:00",
+  "duckdb_version": "1.4.3",
+  "scope": "Separate native inspection catalog. Views read original mounted Parquet; not a production SQL warehouse or enforced Parquet foreign keys.",
+  "files": [
+    {
+      "dataset": "day2",
+      "path": "bronze/raw_department_records/part-00000-c5db1e5b-6b09-40de-bbcf-09007774a654-c000.snappy.parquet",
+      "bytes": 3482410,
+      "sha256": "ce4f400ee6bb6f91757e4b74f00c7d8f1d61ddfdde83117268bab1950e4050ea"
+    },
+    {
+      "dataset": "day2",
+      "path": "silver/stg_failure/part-00000-289a1809-dded-4f1e-964e-484998425dfd-c000.snappy.parquet",
+      "bytes": 4012,
+      "sha256": "1e38db18702feb0ca4c3d2320c82ee9075f48649f7c3fa49601a56bf911d16b4"
+    },
+    {
+      "dataset": "day2",
+      "path": "silver/stg_machine_snapshots/part-00000-7348d044-b24e-4ca9-8716-1c3729eb733d-c000.snappy.parquet",
+      "bytes": 3189,
+      "sha256": "64203b0b5f88cf77b2c09b57fa8447953509229f4ffc5927e0bc1f0f8cae24b9"
+    },
+    {
+      "dataset": "day2",
+      "path": "silver/stg_maintenance/part-00000-02c840c3-a5aa-4a68-9332-956b528d2ad9-c000.snappy.parquet",
+      "bytes": 4564,
+      "sha256": "9fedc0043b82cebf4e5c3dba7fdf4217a13824516efc020c1892930dadd891e5"
+    },
+    {
+      "dataset": "day2",
+      "path": "silver/stg_telemetry/part-00000-55d8ebe2-b578-472d-960c-36a734a00ba2-c000.snappy.parquet",
+      "bytes": 600201,
+      "sha256": "79047180513e41f9449d1570b5dde93c0fa7c5b75337d04a9d3229e7d536b525"
+    },
+    {
+      "dataset": "day2",
+      "path": "silver/stg_telemetry/part-00001-55d8ebe2-b578-472d-960c-36a734a00ba2-c000.snappy.parquet",
+      "bytes": 594032,
+      "sha256": "b3e9eac8004991a47bd00bb9ff386b8da5abe203bb031436d3e67d90363290b9"
+    },
+    {
+      "dataset": "day2",
+      "path": "silver/stg_telemetry/part-00002-55d8ebe2-b578-472d-960c-36a734a00ba2-c000.snappy.parquet",
+      "bytes": 601744,
+      "sha256": "36a0595dcaa25ac4172ccc7e119e28a7d037d7ee128dc9658a999b95719d9aee"
+    },
+    {
+      "dataset": "day2",
+      "path": "silver/stg_telemetry/part-00003-55d8ebe2-b578-472d-960c-36a734a00ba2-c000.snappy.parquet",
+      "bytes": 612029,
+      "sha256": "5525d6f568bfa14d863d92d996fd738c78406b4dca7257aa8b11c36e977c168d"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/dim_factory/part-00000-b28ad88b-e22e-4f6c-a565-40293c0b1429-c000.snappy.parquet",
+      "bytes": 490,
+      "sha256": "31b0c45f74e786395852203c1c87b0c2b4514bd02d29752b5bf76251cffa23eb"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/dim_machine/part-00000-d73980a1-5abf-4ba0-a234-8b9fec17861d-c000.snappy.parquet",
+      "bytes": 3798,
+      "sha256": "59b7fb52875c1184299663094665b3379e2302172dd3421262f573736abf07b9"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/dim_machine/part-00001-d73980a1-5abf-4ba0-a234-8b9fec17861d-c000.snappy.parquet",
+      "bytes": 3286,
+      "sha256": "a52d036287b2cc73c0a67dacb571a0e0e4705aa1de2452ca461edd0ee360b59f"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/dim_machine/part-00002-d73980a1-5abf-4ba0-a234-8b9fec17861d-c000.snappy.parquet",
+      "bytes": 3684,
+      "sha256": "94a67ffab9d0a189abb1b3afe23f8ceed823caafaffc6026d555b3ceb6bde42b"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/dim_machine/part-00003-d73980a1-5abf-4ba0-a234-8b9fec17861d-c000.snappy.parquet",
+      "bytes": 3444,
+      "sha256": "cd3bc9cc3e5dcdef636162b38ae3c29a590184db65706a8876981317a14c53dc"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/fact_failure/part-00000-c145508e-45c0-4039-a0ae-e3b12cb9f760-c000.snappy.parquet",
+      "bytes": 6135,
+      "sha256": "c51400d56f0224fac53b77a6d4412f336908dcfa65c95b903ef763131846534c"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/fact_maintenance/part-00000-5174410b-49f1-4311-938b-ff0e726b1fa3-c000.snappy.parquet",
+      "bytes": 6828,
+      "sha256": "e0e466452d55c3d4ea21ad24bf3b8144f6fc963aaa3246be51f58742fc370f74"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/fact_telemetry/part-00000-30b9f7c3-fe04-47b2-90cf-910eef07ec6f-c000.snappy.parquet",
+      "bytes": 793307,
+      "sha256": "12db97877f826b09eed6601db421db4f295d9099969c6760c88342e54a3795a5"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/fact_telemetry/part-00001-30b9f7c3-fe04-47b2-90cf-910eef07ec6f-c000.snappy.parquet",
+      "bytes": 294338,
+      "sha256": "5c7fa4580098e82206a5411eef9c1232f6217f6244b388477a0ed2534f01dad8"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/fact_telemetry/part-00002-30b9f7c3-fe04-47b2-90cf-910eef07ec6f-c000.snappy.parquet",
+      "bytes": 792623,
+      "sha256": "ed0e1accced9ebfadd7e7aa61b85bd46677ab30fdf34da21be2823a6051bdcbc"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/fact_telemetry/part-00003-30b9f7c3-fe04-47b2-90cf-910eef07ec6f-c000.snappy.parquet",
+      "bytes": 512173,
+      "sha256": "af8dbb1423b3e13a6fe180bfb40fbbe2df867b9d084a90fdce75877b416e2a9e"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/feat_machine_10m/part-00000-bb7baa66-0da1-42bb-94a4-ffcebc54ed17-c000.snappy.parquet",
+      "bytes": 150887,
+      "sha256": "10854e4d6b9565d3d6330b4c916e2b1e28820f9d4c921a8068d829f6f1c2837c"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/feat_machine_10m/part-00001-bb7baa66-0da1-42bb-94a4-ffcebc54ed17-c000.snappy.parquet",
+      "bytes": 153209,
+      "sha256": "70678f8fb4e04c46414dac38cbf1c92c945ddca7886c86956b24d705db3c150f"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/feat_machine_10m/part-00002-bb7baa66-0da1-42bb-94a4-ffcebc54ed17-c000.snappy.parquet",
+      "bytes": 144747,
+      "sha256": "8e611699da7b5e986ec045a48a51ee103eba8930a9a8af5151c4632c8c5e9941"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/feat_machine_10m/part-00003-bb7baa66-0da1-42bb-94a4-ffcebc54ed17-c000.snappy.parquet",
+      "bytes": 147263,
+      "sha256": "40b56b7c8cd5545daa4b0c61fa1e3d02c8a78ad3dc2892aacb6db13e7ff2d0c8"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/label_failure_1h/part-00000-5e402d50-b816-4c58-ba3a-7d7306625faf-c000.snappy.parquet",
+      "bytes": 27064,
+      "sha256": "da55746628bd484de32856abe814ae157584dec427d1434cd9341ada6b85e579"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/label_failure_1h/part-00001-5e402d50-b816-4c58-ba3a-7d7306625faf-c000.snappy.parquet",
+      "bytes": 27288,
+      "sha256": "c58e0861209732467f46ffac6a8569fa07f211f2878fac01a195de604df4d0df"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/label_failure_1h/part-00002-5e402d50-b816-4c58-ba3a-7d7306625faf-c000.snappy.parquet",
+      "bytes": 26732,
+      "sha256": "be1d1e4595ef0a17827a3f7649cd1d873e094f4979020b9c72335ebb2ce7df32"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/label_failure_1h/part-00003-5e402d50-b816-4c58-ba3a-7d7306625faf-c000.snappy.parquet",
+      "bytes": 26658,
+      "sha256": "988389266afc243a29678892df40d97beed58c196e122cdaf688ad387c00a309"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/training_failure_1h/part-00000-4c586f9f-393b-4e19-8e52-2812909239b6-c000.snappy.parquet",
+      "bytes": 149439,
+      "sha256": "18a6ef415f5161a33dd41b7f28d9cc39e06495e3db19986a4ff87992dfaec2b4"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/training_failure_1h/part-00001-4c586f9f-393b-4e19-8e52-2812909239b6-c000.snappy.parquet",
+      "bytes": 149835,
+      "sha256": "1b81df95ac07c22892d7d5c1208e7fa005c2636b0ad3a20d3e99c9491bb21ae6"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/training_failure_1h/part-00002-4c586f9f-393b-4e19-8e52-2812909239b6-c000.snappy.parquet",
+      "bytes": 142658,
+      "sha256": "fd2a52b3269d5af40be7cfaf5176da0352c298740921b6b802ffe3ec61d8e25d"
+    },
+    {
+      "dataset": "day2",
+      "path": "gold/training_failure_1h/part-00003-4c586f9f-393b-4e19-8e52-2812909239b6-c000.snappy.parquet",
+      "bytes": 144462,
+      "sha256": "41bb9413525f772d6a26aae09f3cac289a5de7bf2380e095290a495ef8debce3"
+    },
+    {
+      "dataset": "pilot_dp1",
+      "path": "bronze/raw_failures/part-00000-bed0687a-688f-4d23-9bb2-40e7d08c7658-c000.snappy.parquet",
+      "bytes": 4367,
+      "sha256": "52de02b1f2e3f6cb169cb3f0f33fbbc27bcf252b0c08c4704c3769863b71808c"
+    },
+    {
+      "dataset": "pilot_dp1",
+      "path": "bronze/raw_machines/part-00000-e04e8c63-e60b-4cd9-a62e-a6bf961041cc-c000.snappy.parquet",
+      "bytes": 3742,
+      "sha256": "f927a2423ab8dfa3a7e74bc229ba339b82e624299b4cd0ed2c780351ccf13a39"
+    },
+    {
+      "dataset": "pilot_dp1",
+      "path": "bronze/raw_maintenance/part-00000-bfb597b0-ac42-4b36-9df6-3cb4d4b55d37-c000.snappy.parquet",
+      "bytes": 4863,
+      "sha256": "f79a501f26a84f742a27f77c025f6e563aca51a4f620a3e90059df5d5905c52a"
+    },
+    {
+      "dataset": "pilot_dp1",
+      "path": "bronze/raw_telemetry/part-00000-6d2fb9f1-9bfd-4383-9a94-a2d515fdccb1-c000.snappy.parquet",
+      "bytes": 574365,
+      "sha256": "195dd49a4ca889401d91ce271ee8f0a32123c600a3bbda1cd9294b5a035b63fe"
+    },
+    {
+      "dataset": "pilot_dp1",
+      "path": "bronze/raw_telemetry/part-00001-6d2fb9f1-9bfd-4383-9a94-a2d515fdccb1-c000.snappy.parquet",
+      "bytes": 566469,
+      "sha256": "7104c4edd08bc6ef7d1058f267e54963305de51f08dd48d8236a533f7ed89340"
+    },
+    {
+      "dataset": "pilot_dp1",
+      "path": "bronze/raw_telemetry/part-00002-6d2fb9f1-9bfd-4383-9a94-a2d515fdccb1-c000.snappy.parquet",
+      "bytes": 566010,
+      "sha256": "ba11f3fbeaa8ea66fcd1a0d7ef8e8abbd6418cd86281abcdffe681e27f198782"
+    },
+    {
+      "dataset": "pilot_dp1",
+      "path": "bronze/raw_telemetry/part-00003-6d2fb9f1-9bfd-4383-9a94-a2d515fdccb1-c000.snappy.parquet",
+      "bytes": 565337,
+      "sha256": "5232ce260b26cd6fdf77999db849f66c8bfea00ff72390210226257c858af37a"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "silver/stg_failures/part-00000-cef66dab-fa04-46d9-84ad-6ad3a4809b37-c000.snappy.parquet",
+      "bytes": 4379,
+      "sha256": "80ad28f64445bd0bce41e5964bc81d3ab61245476b9e61ceed76c88327178783"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "silver/stg_maintenance/part-00000-a0f47403-0678-47d8-8063-afe63c91879d-c000.snappy.parquet",
+      "bytes": 4875,
+      "sha256": "b76ff876d1af08ab05729b187e46018d571f95a0bd1bfa78d4426c0948c4e6b7"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "silver/stg_telemetry/part-00000-151992f1-1338-426c-af97-1684e166eb20-c000.snappy.parquet",
+      "bytes": 587635,
+      "sha256": "97cf310f38d96b5a9051779fe0b404043898ca9977c9dd5e48523948649326e9"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "silver/stg_telemetry/part-00001-151992f1-1338-426c-af97-1684e166eb20-c000.snappy.parquet",
+      "bytes": 588631,
+      "sha256": "3acc828ecda9e29e0fff5c4e756ace154a82083c85c5e7856127f8cbfe44dfdb"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "silver/stg_telemetry/part-00002-151992f1-1338-426c-af97-1684e166eb20-c000.snappy.parquet",
+      "bytes": 586058,
+      "sha256": "8b759da10257d73318d59431831920f7982cac2994b465a8be7a41ada517c5fe"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "silver/stg_telemetry/part-00003-151992f1-1338-426c-af97-1684e166eb20-c000.snappy.parquet",
+      "bytes": 587885,
+      "sha256": "b40e7fb46736e0e0215d204b9d0c544c11c71c0d1173cec3777f7d21ccddfc60"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "gold/dim_factory/part-00000-f1281fac-291b-42ee-ae31-2823602fb4c4-c000.snappy.parquet",
+      "bytes": 486,
+      "sha256": "74d73c70781161f499934b88da7724a8a5c874f0d14a568dbc235ead67310dbb"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "gold/dim_machine/part-00000-d4cfb375-992a-4830-90c5-2a8c04bcee58-c000.snappy.parquet",
+      "bytes": 5434,
+      "sha256": "29c67b85000ba7b4e64db0bd1cd4f4db641996078f0bb843921404637ef1cae4"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "gold/fact_failure/part-00000-78ea47f4-7285-4673-9c2b-ececbc73c62f-c000.snappy.parquet",
+      "bytes": 6429,
+      "sha256": "518c3020660dd2e5381753df2e8c080cd1fcb3d17dfb88c68c972807699f2187"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "gold/fact_maintenance/part-00000-e93c0ac6-e9a1-40bb-882d-6def0e0a2076-c000.snappy.parquet",
+      "bytes": 7066,
+      "sha256": "03e3a9862b93ebd710b64e43ac7f64cad069c342a42269b23ac30801d306caef"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "gold/fact_telemetry/part-00000-0fc66e78-abfe-4cda-96cc-62adede3c095-c000.snappy.parquet",
+      "bytes": 602518,
+      "sha256": "0262f8ffd52757a7741ff31a048ef65fc94b049f6bd716d10c319f58d0988c00"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "gold/fact_telemetry/part-00001-0fc66e78-abfe-4cda-96cc-62adede3c095-c000.snappy.parquet",
+      "bytes": 602888,
+      "sha256": "a4d5294c13338bb65eaee5571d52f6d4d335396a46f615f192f3183fe08e8460"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "gold/fact_telemetry/part-00002-0fc66e78-abfe-4cda-96cc-62adede3c095-c000.snappy.parquet",
+      "bytes": 602828,
+      "sha256": "df55d323de3b488515998e7209998f9400f6cbe4304f8e24d4fe048ca59a5957"
+    },
+    {
+      "dataset": "pilot_dp2",
+      "path": "gold/fact_telemetry/part-00003-0fc66e78-abfe-4cda-96cc-62adede3c095-c000.snappy.parquet",
+      "bytes": 602779,
+      "sha256": "9e5b6da1785ecbaba226e0086d1869b32967be8c373750764edee4336fc3a47c"
+    },
+    {
+      "dataset": "pilot_dp3",
+      "path": "features/feat_machine_10m/part-00000-9b82d081-e08a-4aaa-a600-b10edce95612-c000.snappy.parquet",
+      "bytes": 510985,
+      "sha256": "b75591d7fa837b8d486d15ad2f7495a5a903c5ecff51be76f06d36c6d405c3a0"
+    },
+    {
+      "dataset": "pilot_dp3",
+      "path": "features/label_failure_1h/part-00000-87667dab-f6fb-4797-b4d8-4ceea5478a04-c000.snappy.parquet",
+      "bytes": 72197,
+      "sha256": "2c0cc71c7661ac43f36505cbd063181ad5eaa77b0558c2349625c30b2c1b12ab"
+    }
+  ],
+  "tables": [
+    {
+      "schema": "day2_bronze",
+      "name": "raw_department_records",
+      "rows": 58843,
+      "columns": [
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_line",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "payload",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_run",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "ingested_at",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "day2_silver",
+      "name": "stg_failure",
+      "rows": 31,
+      "columns": [
+        [
+          "failure_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_start_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recovered_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recorded_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_line",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "day2_silver",
+      "name": "stg_machine_snapshots",
+      "rows": 21,
+      "columns": [
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "factory_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "installed_at",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "valid_from_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recorded_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "rated_rpm",
+          "INTEGER",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_line",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "day2_silver",
+      "name": "stg_maintenance",
+      "rows": 39,
+      "columns": [
+        [
+          "maintenance_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "maintenance_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "component",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "start_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "end_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_line",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "day2_silver",
+      "name": "stg_telemetry",
+      "rows": 57600,
+      "columns": [
+        [
+          "event_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "operating_status",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "event_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "received_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "temperature_c",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "vibration_rms_mm_s",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "current_a",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "rpm",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "pressure_bar",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "schema_version",
+          "INTEGER",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_line",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "day2_gold",
+      "name": "dim_factory",
+      "rows": 4,
+      "columns": [
+        [
+          "factory_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "day2_gold",
+      "name": "dim_machine",
+      "rows": 21,
+      "columns": [
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "factory_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "installed_at",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "valid_from_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recorded_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "rated_rpm",
+          "INTEGER",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "valid_to_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "is_current",
+          "BOOLEAN",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_sk",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "day2_gold",
+      "name": "fact_failure",
+      "rows": 31,
+      "columns": [
+        [
+          "failure_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_start_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recovered_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recorded_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_line",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_sk",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "factory_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "day2_gold",
+      "name": "fact_maintenance",
+      "rows": 39,
+      "columns": [
+        [
+          "maintenance_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "maintenance_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "component",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "start_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "end_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_line",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_sk",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "factory_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "day2_gold",
+      "name": "fact_telemetry",
+      "rows": 57600,
+      "columns": [
+        [
+          "event_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "operating_status",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "event_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "received_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "temperature_c",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "vibration_rms_mm_s",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "current_a",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "rpm",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "pressure_bar",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "schema_version",
+          "INTEGER",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_line",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_sk",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "factory_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "day2_gold",
+      "name": "feat_machine_10m",
+      "rows": 11520,
+      "columns": [
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "event_timestamp",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "temperature_mean_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "vibration_max_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "current_mean_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "current_std_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "rpm_mean_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "reading_count_10m",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "max_received_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "max_feature_event_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "prior_failures_24h",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_age_days",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "day2_gold",
+      "name": "label_failure_1h",
+      "rows": 11520,
+      "columns": [
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "event_timestamp",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "operating_status",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "next_failure_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "interventions",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "label_end_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "label_available_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "label_status",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_in_next_1h",
+          "INTEGER",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "day2_gold",
+      "name": "training_failure_1h",
+      "rows": 9910,
+      "columns": [
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "event_timestamp",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "temperature_mean_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "vibration_max_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "current_mean_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "current_std_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "rpm_mean_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "reading_count_10m",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "max_received_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "max_feature_event_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "prior_failures_24h",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_age_days",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "operating_status",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "next_failure_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "interventions",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "label_end_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "label_available_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "label_status",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_in_next_1h",
+          "INTEGER",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "split",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp1_bronze",
+      "name": "raw_failures",
+      "rows": 31,
+      "columns": [
+        [
+          "failure_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_start_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recovered_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recorded_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_manifest_sha256",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp1_bronze",
+      "name": "raw_machines",
+      "rows": 20,
+      "columns": [
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "factory_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "installed_at",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "valid_from_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "valid_to_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "rated_rpm",
+          "INTEGER",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "is_current",
+          "BOOLEAN",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_manifest_sha256",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp1_bronze",
+      "name": "raw_maintenance",
+      "rows": 39,
+      "columns": [
+        [
+          "maintenance_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "maintenance_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "component",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "start_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "end_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_manifest_sha256",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp1_bronze",
+      "name": "raw_telemetry",
+      "rows": 58752,
+      "columns": [
+        [
+          "event_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "operating_status",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "event_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "received_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "temperature_c",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "vibration_rms_mm_s",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "current_a",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "rpm",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "pressure_bar",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "schema_version",
+          "INTEGER",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_manifest_sha256",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp2_silver",
+      "name": "stg_failures",
+      "rows": 31,
+      "columns": [
+        [
+          "failure_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_start_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recovered_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recorded_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_manifest_sha256",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp2_silver",
+      "name": "stg_maintenance",
+      "rows": 39,
+      "columns": [
+        [
+          "maintenance_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "maintenance_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "component",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "start_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "end_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_manifest_sha256",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp2_silver",
+      "name": "stg_telemetry",
+      "rows": 57600,
+      "columns": [
+        [
+          "event_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "operating_status",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "event_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "received_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "temperature_c",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "vibration_rms_mm_s",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "current_a",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "rpm",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "pressure_bar",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "schema_version",
+          "INTEGER",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_manifest_sha256",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp2_gold",
+      "name": "dim_factory",
+      "rows": 3,
+      "columns": [
+        [
+          "factory_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp2_gold",
+      "name": "dim_machine",
+      "rows": 20,
+      "columns": [
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "factory_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "installed_at",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "valid_from_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "valid_to_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "rated_rpm",
+          "INTEGER",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "is_current",
+          "BOOLEAN",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_manifest_sha256",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recorded_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_sk",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp2_gold",
+      "name": "fact_failure",
+      "rows": 31,
+      "columns": [
+        [
+          "failure_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_start_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recovered_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "recorded_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_manifest_sha256",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_sk",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "factory_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp2_gold",
+      "name": "fact_maintenance",
+      "rows": 39,
+      "columns": [
+        [
+          "maintenance_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "maintenance_type",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "component",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "start_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "end_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_manifest_sha256",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_sk",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "factory_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp2_gold",
+      "name": "fact_telemetry",
+      "rows": 57600,
+      "columns": [
+        [
+          "event_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "operating_status",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "event_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "received_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "temperature_c",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "vibration_rms_mm_s",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "current_a",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "rpm",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "pressure_bar",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "schema_version",
+          "INTEGER",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_path",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "source_manifest_sha256",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_sk",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "factory_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp3_features",
+      "name": "feat_machine_10m",
+      "rows": 11520,
+      "columns": [
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "event_timestamp",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "temperature_mean_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "vibration_max_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "current_mean_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "current_std_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "rpm_mean_10m",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "reading_count_10m",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "max_received_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "max_feature_event_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "prior_failures_24h",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "machine_age_days",
+          "DOUBLE",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "created",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    {
+      "schema": "pilot_dp3_features",
+      "name": "label_failure_1h",
+      "rows": 11520,
+      "columns": [
+        [
+          "machine_id",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "event_timestamp",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "operating_status",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "next_failure_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "interventions",
+          "BIGINT",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "label_end_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "label_available_ts",
+          "TIMESTAMP",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "label_status",
+          "VARCHAR",
+          "YES",
+          null,
+          null,
+          null
+        ],
+        [
+          "failure_in_next_1h",
+          "INTEGER",
+          "YES",
+          null,
+          null,
+          null
+        ]
+      ]
+    }
+  ]
+}

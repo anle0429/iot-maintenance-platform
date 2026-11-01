@@ -6,6 +6,8 @@ The supplied workbook contains 57 weighted ML requirements and 60 weighted LLM r
 
 ## Recorded work
 
+The 1 November data-platform review identified presentation and deliverable gaps outside what the 117-row artifact integrity check proves. [The data review](data-processing-review.md) adds measured generator characteristics, an equivalent-behavior Docker size comparison, paired native Flink captures, original Spark query inspection, an executed schema notebook and stage-specific DP1/DP2 DataHub captures. SQL relationship inspection and the separately run skew benchmark retain their stated limits. Artifact checks do not establish a rubric grade.
+
 | Area | Evidence and its scope |
 |---|---|
 | Data and ML | Measured large-source Bronze/Silver processing, separate time-aware training data, native feature serving, drift/retraining and CI. [ML tracker](final-rubric-tracker.md) links each requirement to its own run. |

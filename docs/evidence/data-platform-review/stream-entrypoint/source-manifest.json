@@ -1,0 +1,63 @@
+{
+  "base_commit": "4a8d2b2457ea007e4ad03128f70825d119f670ff",
+  "files": [
+    {
+      "bytes": 103,
+      "path": "generator/__init__.py",
+      "sha256": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172"
+    },
+    {
+      "bytes": 4565,
+      "path": "generator/config.py",
+      "sha256": "087682ae48dceb64865cdca983b7642ab9d256bb0083da165d296196c21cb3de"
+    },
+    {
+      "bytes": 10831,
+      "path": "generator/quality.py",
+      "sha256": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000"
+    },
+    {
+      "bytes": 3001,
+      "path": "generator/storage.py",
+      "sha256": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d"
+    },
+    {
+      "bytes": 1842,
+      "path": "infra/streaming.compose.yaml",
+      "sha256": "544fee1c8a97d745ca26f01f9ae13a7ee04dee09c81797baec76da57a5c7ea25"
+    },
+    {
+      "bytes": 75,
+      "path": "pipelines/__init__.py",
+      "sha256": "3fa18d7c6802d683dbcc51d2e39ebc899374ed8cba9eeee50bd5eb00ba57f90c"
+    },
+    {
+      "bytes": 5965,
+      "path": "pipelines/source_loader.py",
+      "sha256": "fb2e1688a9c9150c2a17fc2fa660541f76cf1cdff38f211b7780f8082f6b97cb"
+    },
+    {
+      "bytes": 9214,
+      "path": "pipelines/stream_contract.py",
+      "sha256": "cd2a85c2bd8dda070ac0e174d12ac787201412425f75899a63c4580d69f9de06"
+    },
+    {
+      "bytes": 13563,
+      "path": "pipelines/stream_job.py",
+      "sha256": "478c4c9c7b38e56a93e53fd5236c432016e7fe2c3ee829202a4dc7979a9c46db"
+    },
+    {
+      "bytes": 15080,
+      "path": "pipelines/stream_verification.py",
+      "sha256": "7f959636c6ef74c4330a5ca8a9f480696762ecf34ecb506eef69afc947c6f3ae"
+    },
+    {
+      "bytes": 5728,
+      "path": "scripts/run-stream-review.py",
+      "sha256": "617ae6c21cb799d98e5c18f07903b3911c9c535910d2f461a8b2b6f34dc37e55"
+    }
+  ],
+  "overlay_paths": [
+    "scripts/run-stream-review.py"
+  ]
+}

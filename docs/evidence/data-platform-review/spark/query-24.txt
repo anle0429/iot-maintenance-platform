@@ -1,0 +1,38 @@
+== Physical Plan ==
+AdaptiveSparkPlan (7)
++- Execute InsertIntoHadoopFsRelationCommand (6)
+   +- WriteFiles (5)
+      +- InMemoryTableScan (1)
+            +- InMemoryRelation (2)
+                  +- * Project (4)
+                     +- * Scan JDBCRelation((SELECT source_path,source_line,payload::text AS payload FROM source_records WHERE source_run='day2-final') department_source) [numPartitions=1]  (3)
+
+
+(1) InMemoryTableScan
+Output [5]: [source_path#1492, source_line#1493L, payload#1494, source_run#1498, ingested_at#1503]
+Arguments: [source_path#1492, source_line#1493L, payload#1494, source_run#1498, ingested_at#1503]
+
+(2) InMemoryRelation
+Arguments: [source_path#1492, source_line#1493L, payload#1494, source_run#1498, ingested_at#1503], CachedRDDBuilder(org.apache.spark.sql.execution.columnar.DefaultCachedBatchSerializer@3c0e24bd,StorageLevel(disk, memory, deserialized, 1 replicas),*(1) Project [source_path#1492, source_line#1493L, payload#1494, day2-final AS source_run#1498, 2026-10-22 09:53:45.125862 AS ingested_at#1503]
++- *(1) Scan JDBCRelation((SELECT source_path,source_line,payload::text AS payload FROM source_records WHERE source_run='day2-final') department_source) [numPartitions=1] [source_path#1492,source_line#1493L,payload#1494] PushedFilters: [], ReadSchema: struct<source_path:string,source_line:bigint,payload:string>
+,None)
+
+(3) Scan JDBCRelation((SELECT source_path,source_line,payload::text AS payload FROM source_records WHERE source_run='day2-final') department_source) [numPartitions=1]  [codegen id : 1]
+Output [3]: [source_path#1492, source_line#1493L, payload#1494]
+ReadSchema: struct<source_path:string,source_line:bigint,payload:string>
+
+(4) Project [codegen id : 1]
+Output [5]: [source_path#1492, source_line#1493L, payload#1494, day2-final AS source_run#1498, 2026-10-22 09:53:45.125862 AS ingested_at#1503]
+Input [3]: [source_path#1492, source_line#1493L, payload#1494]
+
+(5) WriteFiles
+Input [5]: [source_path#1492, source_line#1493L, payload#1494, source_run#1498, ingested_at#1503]
+
+(6) Execute InsertIntoHadoopFsRelationCommand
+Input: []
+Arguments: file:/workspace/data/lakehouse/day2-final/bronze/raw_department_records, false, Parquet, [compression=snappy, path=data/lakehouse/day2-final/bronze/raw_department_records], ErrorIfExists, [source_path, source_line, payload, source_run, ingested_at]
+
+(7) AdaptiveSparkPlan
+Output: []
+Arguments: isFinalPlan=false
+

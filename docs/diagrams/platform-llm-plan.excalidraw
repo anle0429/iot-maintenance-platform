@@ -1571,6 +1571,10 @@
         {
           "id": "A4",
           "type": "arrow"
+        },
+        {
+          "id": "G6",
+          "type": "arrow"
         }
       ],
       "link": null,
@@ -1865,6 +1869,10 @@
         },
         {
           "id": "M3",
+          "type": "arrow"
+        },
+        {
+          "id": "G7",
           "type": "arrow"
         }
       ],
@@ -3876,6 +3884,14 @@
         {
           "id": "G5",
           "type": "arrow"
+        },
+        {
+          "id": "G6",
+          "type": "arrow"
+        },
+        {
+          "id": "G7",
+          "type": "arrow"
         }
       ],
       "link": null,
@@ -4342,13 +4358,13 @@
         "from": "retrieval",
         "to": "router",
         "label": "Shared ModelConfig request",
-        "kind": "representative generation request",
+        "kind": "model generation request",
         "sources": [
           "infra/agents/kagent-values.yaml",
           "infra/llm_observer_routing.py",
           "agents/ab_configuration.py"
         ],
-        "note": "The generation route is drawn once from the retrieval role for readability. Coordinator and drift roles use the same ModelConfig; no role bypasses this route."
+        "note": "Retrieval worker generation uses the shared ModelConfig. G6/G7 separately show coordinator and drift generation, through the same router/observer/GPU route."
       },
       "angle": 0,
       "fillStyle": "solid",
@@ -4375,9 +4391,9 @@
     {
       "id": "G1-label",
       "type": "text",
-      "x": 950,
-      "y": 1360,
-      "text": "G1 Representative generation request / all roles",
+      "x": 820,
+      "y": 1370,
+      "text": "G1 Retrieval generation request",
       "fontSize": 16,
       "fontFamily": 3,
       "strokeColor": "#6d28d9",
@@ -4402,11 +4418,11 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "G1 Representative generation request / all roles",
+      "originalText": "G1 Retrieval generation request",
       "autoResize": true,
       "index": "b0X",
       "backgroundColor": "transparent",
-      "width": 450,
+      "width": 290.625,
       "height": 20
     },
     {
@@ -4911,6 +4927,226 @@
       "backgroundColor": "transparent",
       "width": 1625.9765625,
       "height": 18.75
+    },
+    {
+      "id": "G6",
+      "type": "arrow",
+      "x": 1160,
+      "y": 938,
+      "width": 360,
+      "height": 664,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          512
+        ],
+        [
+          -360,
+          512
+        ],
+        [
+          -360,
+          664
+        ]
+      ],
+      "strokeColor": "#6d28d9",
+      "endArrowhead": "arrow",
+      "startBinding": {
+        "elementId": "coord",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "router",
+        "focus": 0,
+        "gap": 8
+      },
+      "customData": {
+        "edge": "G6",
+        "from": "coord",
+        "to": "router",
+        "label": "Coordinator generation",
+        "kind": "model generation request",
+        "sources": [
+          "infra/agents/kagent-values.yaml",
+          "infra/llm_observer_routing.py"
+        ],
+        "note": "This role uses the same ModelConfig and observed llm-d route. The request is separate from MCP tool calls and controller-routed A2A delegation. Generation returns through the same route to the requesting role; marker timing is illustrative."
+      },
+      "angle": 0,
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 190123385,
+      "version": 1,
+      "versionNonce": 1409980134,
+      "isDeleted": false,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "updated": 1,
+      "index": "b0j",
+      "backgroundColor": "transparent",
+      "lastCommittedPoint": null,
+      "startArrowhead": null
+    },
+    {
+      "id": "G6-label",
+      "type": "text",
+      "x": 960,
+      "y": 1458,
+      "text": "G6 Coordinator generation",
+      "originalText": "G6 Coordinator generation",
+      "fontSize": 14,
+      "fontFamily": 3,
+      "strokeColor": "#6d28d9",
+      "angle": 0,
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 108233113,
+      "version": 1,
+      "versionNonce": 552145458,
+      "isDeleted": false,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "updated": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "lineHeight": 1.25,
+      "containerId": null,
+      "autoResize": true,
+      "index": "b0k",
+      "backgroundColor": "transparent",
+      "width": 205.078125,
+      "height": 17.5
+    },
+    {
+      "id": "G7",
+      "type": "arrow",
+      "x": 1502,
+      "y": 1100,
+      "width": 582,
+      "height": 502,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -27,
+          0
+        ],
+        [
+          -27,
+          390
+        ],
+        [
+          -582,
+          390
+        ],
+        [
+          -582,
+          502
+        ]
+      ],
+      "strokeColor": "#6d28d9",
+      "endArrowhead": "arrow",
+      "startBinding": {
+        "elementId": "drift",
+        "focus": 0,
+        "gap": 8
+      },
+      "endBinding": {
+        "elementId": "router",
+        "focus": 0,
+        "gap": 8
+      },
+      "customData": {
+        "edge": "G7",
+        "from": "drift",
+        "to": "router",
+        "label": "Drift generation",
+        "kind": "model generation request",
+        "sources": [
+          "infra/agents/kagent-values.yaml",
+          "infra/llm_observer_routing.py"
+        ],
+        "note": "This role uses the same ModelConfig and observed llm-d route. The request is separate from MCP tool calls and controller-routed A2A delegation. Generation returns through the same route to the requesting role; marker timing is illustrative."
+      },
+      "angle": 0,
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 1649890107,
+      "version": 1,
+      "versionNonce": 6383546,
+      "isDeleted": false,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "updated": 1,
+      "index": "b0l",
+      "backgroundColor": "transparent",
+      "lastCommittedPoint": null,
+      "startArrowhead": null
+    },
+    {
+      "id": "G7-label",
+      "type": "text",
+      "x": 1070,
+      "y": 1502,
+      "text": "G7 Drift generation",
+      "originalText": "G7 Drift generation",
+      "fontSize": 14,
+      "fontFamily": 3,
+      "strokeColor": "#6d28d9",
+      "angle": 0,
+      "fillStyle": "solid",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 0,
+      "opacity": 100,
+      "seed": 952205990,
+      "version": 1,
+      "versionNonce": 497266169,
+      "isDeleted": false,
+      "groupIds": [],
+      "frameId": null,
+      "roundness": null,
+      "boundElements": [],
+      "link": null,
+      "locked": false,
+      "updated": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "lineHeight": 1.25,
+      "containerId": null,
+      "autoResize": true,
+      "index": "b0m",
+      "backgroundColor": "transparent",
+      "width": 155.859375,
+      "height": 17.5
     }
   ]
 }

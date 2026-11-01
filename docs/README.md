@@ -6,6 +6,8 @@ The [architecture gallery](diagrams/README.md) contains ten coordinated Excalidr
 
 ## Review path
 
+For the data-platform review, [input characteristics and before/after evidence](data-processing-review.md) brings together generator measurements, native Spark/Flink views, an executed schema notebook and stage-specific Airflow/DataHub coverage. [Container image optimization](docker-optimization.md) records an 85.5% full/slim size reduction with identical HTTP predictions. Remaining capture gaps are listed explicitly.
+
 | Review question | Start here | Implementation |
 |---|---|---|
 | What problem does the system solve? | [Business domain](../README.md#business-domain), [data contract](data-contract.md) | [Generator](../generator/README.md) |

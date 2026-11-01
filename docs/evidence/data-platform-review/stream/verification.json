@@ -1,0 +1,318 @@
+{
+  "passed": true,
+  "baseline": {
+    "runtime": {
+      "passed": true,
+      "job_id": "e0e358f997c43629c4124d0d9e4af4bc",
+      "flink": "1.20.3",
+      "python": "3.10.12",
+      "job_runtime_ms": 76266,
+      "wall_seconds": 78.97258431599994,
+      "records": 22,
+      "watermark_delay_minutes": 0,
+      "dedup_retention_processing_ms": 604800000,
+      "retention_implementation": "processing-time expiry plus state-clearing timer, no native StateTtlConfig",
+      "replay_protection_after_expiry": "persistent local event_id ledger, retained for the scenario lifetime",
+      "sqlite_commit_policy": "each write, WAL synchronous=NORMAL on Linux volume; explicit post-job snapshots",
+      "result_snapshot_available_utc": "2026-11-01T19:11:09.456127+00:00",
+      "checkpoint_interval_ms": 5000,
+      "state_backend": "EmbeddedRocksDBStateBackend",
+      "scope": "bounded offsets, streaming execution, one Kafka partition and local Flink parallelism=1; no crash recovery/exactly-once claim"
+    },
+    "topic": "iot-mentor-stream-20261101b-baseline",
+    "kafka_end_offset": 22,
+    "durable_ledger_records": 0,
+    "audit_counts": {
+      "delivery": 19,
+      "late": 6,
+      "progress": 2
+    },
+    "windows": [
+      {
+        "closing_watermark_ms": 1790813459999,
+        "created": "2026-11-01T19:09:58.930864+00:00",
+        "event_timestamp": "2026-10-01T00:10:00Z",
+        "kind": "window",
+        "machine_id": "P-001",
+        "max_input_published_ts": "2026-10-01T00:04:02Z",
+        "reading_count": 6,
+        "temperature_mean": 16.666666666666668,
+        "temperature_sum": 100.0,
+        "vibration_max": 2.0,
+        "window_start": "2026-10-01T00:00:00Z"
+      },
+      {
+        "closing_watermark_ms": 1790814359999,
+        "created": "2026-11-01T19:10:03.948970+00:00",
+        "event_timestamp": "2026-10-01T00:20:00Z",
+        "kind": "window",
+        "machine_id": "P-001",
+        "max_input_published_ts": "2026-10-01T00:10:00Z",
+        "reading_count": 2,
+        "temperature_mean": 40.0,
+        "temperature_sum": 80.0,
+        "vibration_max": 4.0,
+        "window_start": "2026-10-01T00:10:00Z"
+      },
+      {
+        "closing_watermark_ms": 1790813459999,
+        "created": "2026-11-01T19:09:58.931324+00:00",
+        "event_timestamp": "2026-10-01T00:10:00Z",
+        "kind": "window",
+        "machine_id": "P-002",
+        "max_input_published_ts": "2026-10-01T00:02:00Z",
+        "reading_count": 2,
+        "temperature_mean": 100.0,
+        "temperature_sum": 200.0,
+        "vibration_max": 10.0,
+        "window_start": "2026-10-01T00:00:00Z"
+      }
+    ],
+    "late_event_ids": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "M2"
+    ]
+  },
+  "corrected": {
+    "runtime": {
+      "passed": true,
+      "job_id": "70e00b2bf3b1a737ae3491e1f26f3021",
+      "flink": "1.20.3",
+      "python": "3.10.12",
+      "job_runtime_ms": 75666,
+      "wall_seconds": 78.37683296,
+      "records": 22,
+      "watermark_delay_minutes": 15,
+      "dedup_retention_processing_ms": 604800000,
+      "retention_implementation": "processing-time expiry plus state-clearing timer, no native StateTtlConfig",
+      "replay_protection_after_expiry": "persistent local event_id ledger, retained for the scenario lifetime",
+      "sqlite_commit_policy": "each write, WAL synchronous=NORMAL on Linux volume; explicit post-job snapshots",
+      "result_snapshot_available_utc": "2026-11-01T19:12:42.413164+00:00",
+      "checkpoint_interval_ms": 5000,
+      "state_backend": "EmbeddedRocksDBStateBackend",
+      "scope": "bounded offsets, streaming execution, one Kafka partition and local Flink parallelism=1; no crash recovery/exactly-once claim"
+    },
+    "topic": "iot-mentor-stream-20261101b-corrected",
+    "kafka_end_offset": 22,
+    "durable_ledger_records": 6,
+    "audit_counts": {
+      "duplicate": 13,
+      "late": 1,
+      "progress": 2,
+      "unique": 6
+    },
+    "windows": [
+      {
+        "closing_watermark_ms": 1790813459999,
+        "created": "2026-11-01T19:11:36.926498+00:00",
+        "event_timestamp": "2026-10-01T00:10:00Z",
+        "kind": "window",
+        "machine_id": "P-001",
+        "max_input_published_ts": "2026-10-01T00:16:00Z",
+        "reading_count": 3,
+        "temperature_mean": 20.0,
+        "temperature_sum": 60.0,
+        "vibration_max": 3.0,
+        "window_start": "2026-10-01T00:00:00Z"
+      },
+      {
+        "closing_watermark_ms": 9223372036854775807,
+        "created": "2026-11-01T19:12:42.024140+00:00",
+        "event_timestamp": "2026-10-01T00:20:00Z",
+        "kind": "window",
+        "machine_id": "P-001",
+        "max_input_published_ts": "2026-10-01T00:10:00Z",
+        "reading_count": 1,
+        "temperature_mean": 40.0,
+        "temperature_sum": 40.0,
+        "vibration_max": 4.0,
+        "window_start": "2026-10-01T00:10:00Z"
+      },
+      {
+        "closing_watermark_ms": 1790813459999,
+        "created": "2026-11-01T19:11:36.926969+00:00",
+        "event_timestamp": "2026-10-01T00:10:00Z",
+        "kind": "window",
+        "machine_id": "P-002",
+        "max_input_published_ts": "2026-10-01T00:02:00Z",
+        "reading_count": 1,
+        "temperature_mean": 100.0,
+        "temperature_sum": 100.0,
+        "vibration_max": 10.0,
+        "window_start": "2026-10-01T00:00:00Z"
+      }
+    ],
+    "late_event_ids": [
+      "E"
+    ]
+  },
+  "retention_probe": {
+    "runtime": {
+      "passed": true,
+      "job_id": "00105e11ef249580e56eca52ed588d6e",
+      "flink": "1.20.3",
+      "python": "3.10.12",
+      "job_runtime_ms": 17770,
+      "wall_seconds": 20.566040289000057,
+      "records": 6,
+      "watermark_delay_minutes": 15,
+      "dedup_retention_processing_ms": 1500,
+      "retention_implementation": "processing-time expiry plus state-clearing timer, no native StateTtlConfig",
+      "replay_protection_after_expiry": "persistent local event_id ledger, retained for the scenario lifetime",
+      "sqlite_commit_policy": "each write, WAL synchronous=NORMAL on Linux volume; explicit post-job snapshots",
+      "result_snapshot_available_utc": "2026-11-01T19:15:25.304487+00:00",
+      "checkpoint_interval_ms": 5000,
+      "state_backend": "EmbeddedRocksDBStateBackend",
+      "scope": "bounded offsets, streaming execution, one Kafka partition and local Flink parallelism=1; no crash recovery/exactly-once claim"
+    },
+    "topic": "iot-mentor-stream-20261101c-retention-probe",
+    "kafka_end_offset": 6,
+    "durable_ledger_records": 1,
+    "duplicates_from_durable_ledger": 1,
+    "audit_counts": {
+      "duplicate": 2,
+      "expired": 2,
+      "progress": 2,
+      "unique": 1
+    },
+    "windows": [
+      {
+        "closing_watermark_ms": 1790813459999,
+        "created": "2026-11-01T19:15:18.223721+00:00",
+        "event_timestamp": "2026-10-01T00:10:00Z",
+        "kind": "window",
+        "machine_id": "P-001",
+        "max_input_published_ts": "2026-10-01T00:01:00Z",
+        "reading_count": 1,
+        "temperature_mean": 10.0,
+        "temperature_sum": 10.0,
+        "vibration_max": 1.0,
+        "window_start": "2026-10-01T00:00:00Z"
+      }
+    ],
+    "late_event_ids": [],
+    "progress": [
+      {
+        "event_ts": "2026-10-01T00:11:00Z",
+        "kind": "progress",
+        "marker": 1,
+        "sequence": 10,
+        "watermark_ms": 1790812559999
+      },
+      {
+        "event_ts": "2026-10-01T00:26:00Z",
+        "kind": "progress",
+        "marker": 2,
+        "sequence": 12,
+        "watermark_ms": 1790813459999
+      }
+    ]
+  },
+  "completed_pair_inputs": [
+    {
+      "path": "outputs/mentor-stream-20261101b/baseline-console.txt",
+      "bytes": 1152,
+      "sha256": "aaf1db01710c364f1813d9b4e986f97d743fd5a8afb41c2883f0ce9f36388bf2"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/baseline-phase-1.jsonl",
+      "bytes": 4077,
+      "sha256": "29965618fee5e62420fb83d16842f8e2f05f3f51a9dde3c6b88823923e196fcf"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/baseline-phase-2.jsonl",
+      "bytes": 462,
+      "sha256": "92f6fb0f10647c2ee6302f04cb873ae2f603d500cb824e55a19da2634d76d22c"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/baseline-phase-3.jsonl",
+      "bytes": 3270,
+      "sha256": "faba75d900c5e5fa290bfc3d7720b03dd99aae94121364796e796a89eb5645c9"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/baseline-rest-checkpoints.json",
+      "bytes": 3439,
+      "sha256": "3c449b5c2fdb5110167e4744ab1c595a4f5fe5af51091374ab6a5e58d2c3aaaa"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/baseline-rest-details.json",
+      "bytes": 7502,
+      "sha256": "eb3a52faea573d4a7c07f401ab6d36a683a00ecea4210615a7df8aa3afae018f"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/baseline-rest-overview.json",
+      "bytes": 578,
+      "sha256": "0df629a8e633a03255abc2936b00bc7384db0bfeb23049da19c9babb9041bbdf"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/baseline-rest-plan.json",
+      "bytes": 2477,
+      "sha256": "e6f16e33e18170c650b7b09b31ee20c8faac24644c4c9d07351a481643a00e5b"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/baseline-runtime.json",
+      "bytes": 892,
+      "sha256": "81a269b0dbb85da546fcc31d0b18acb9f7999e2a8690c58eb5e8213e986d49fb"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/commands.json",
+      "bytes": 5798,
+      "sha256": "2e666878f9e81ce981f3cc71ce7cfa4a8a85cf2ca9290929292c1730b4eefd5e"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/corrected-console.txt",
+      "bytes": 1149,
+      "sha256": "29430f6750c253e95877bafedbd4e593899b750967b154eb897c9879f89af8e2"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/corrected-phase-1.jsonl",
+      "bytes": 4077,
+      "sha256": "29965618fee5e62420fb83d16842f8e2f05f3f51a9dde3c6b88823923e196fcf"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/corrected-phase-2.jsonl",
+      "bytes": 462,
+      "sha256": "92f6fb0f10647c2ee6302f04cb873ae2f603d500cb824e55a19da2634d76d22c"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/corrected-phase-3.jsonl",
+      "bytes": 3270,
+      "sha256": "faba75d900c5e5fa290bfc3d7720b03dd99aae94121364796e796a89eb5645c9"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/corrected-rest-checkpoints.json",
+      "bytes": 2753,
+      "sha256": "b19b8f3665991d03defeaeda83859dd9be8702d7993c10864fb38554415e9ec9"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/corrected-rest-details.json",
+      "bytes": 7506,
+      "sha256": "75e00422f1a34682bf2215134051bedb05dc6a123480d40111b4403c6bc17500"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/corrected-rest-overview.json",
+      "bytes": 580,
+      "sha256": "da1be21a6a01a3c9656669e241b66086f41054a753c5d209ea4a98ebe53ecedd"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/corrected-rest-plan.json",
+      "bytes": 2479,
+      "sha256": "f137583ecd285afb903fec70ea085ed322bdaacfbcb83543bc03b68d04ad8426"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/corrected-runtime.json",
+      "bytes": 887,
+      "sha256": "e80c50029efbde5c469ba705f5d0a6779255d083088e2e4a586da27e32645ddf"
+    },
+    {
+      "path": "outputs/mentor-stream-20261101b/host-permissions.json",
+      "bytes": 136,
+      "sha256": "038ee03215be22b8eaf3c039ac83a6efb324d55138e87e5b5dd813b1fc2c53ca"
+    }
+  ],
+  "scope": "Baseline/corrected native jobs completed in run B. Original command subsequently failed at git rev-parse because root did not own the repository. This new recovery verifies their retained outputs without replaying either job, then runs only the missing retention probe in run C. Original failures remain unchanged."
+}

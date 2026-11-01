@@ -1,0 +1,56 @@
+{
+  "captured_utc": "2026-11-01T19:45:44.937961+00:00",
+  "scope": "Native read-only UI captures of retained metadata; no metadata republish or new Spark validation run.",
+  "dp1": {
+    "task": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp1_bronze,iot-vm),ingest)",
+    "external_run": "orchestration-recovery-26",
+    "inputs": 4,
+    "outputs": 4,
+    "source_tables": [
+      "raw/failures",
+      "raw/machines",
+      "raw/maintenance",
+      "raw/telemetry"
+    ],
+    "output_tables": [
+      "bronze/raw_failures",
+      "bronze/raw_machines",
+      "bronze/raw_maintenance",
+      "bronze/raw_telemetry"
+    ]
+  },
+  "dp2": {
+    "task": "urn:li:dataJob:(urn:li:dataFlow:(airflow,iot_dp2_warehouse,iot-vm),ingest)",
+    "external_run": "orchestration-recovery-26",
+    "inputs": 4,
+    "outputs": 8,
+    "output_tables": [
+      "gold/dim_factory",
+      "gold/dim_machine",
+      "gold/fact_failure",
+      "gold/fact_maintenance",
+      "gold/fact_telemetry",
+      "silver/stg_failures",
+      "silver/stg_maintenance",
+      "silver/stg_telemetry"
+    ]
+  },
+  "quality": {
+    "dataset": "urn:li:dataset:(urn:li:dataPlatform:parquet,iot.silver.stg_telemetry,DEV)",
+    "passing": 7,
+    "names": [
+      "persisted_row_count",
+      "persisted_schema",
+      "expected_unique_events",
+      "unique_event_id",
+      "replay_idempotent",
+      "exact_multiset_readback",
+      "latest_created_export"
+    ],
+    "latest_external_dag": "iot_ci_dp2_warehouse",
+    "latest_external_run": "jenkins-2-1",
+    "last_evaluated_local": "2026-10-27 13:03:26 America/Chicago",
+    "history_example": "unique_event_id",
+    "stage_rule_count_separate": 32
+  }
+}

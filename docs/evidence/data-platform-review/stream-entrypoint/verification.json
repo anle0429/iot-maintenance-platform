@@ -1,0 +1,344 @@
+{
+  "baseline": {
+    "audit_counts": {
+      "delivery": 19,
+      "late": 6,
+      "progress": 2
+    },
+    "duplicates_from_durable_ledger": 0,
+    "durable_ledger_records": 0,
+    "kafka_end_offset": 22,
+    "late_event_ids": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "M2"
+    ],
+    "progress": [
+      {
+        "event_ts": "2026-10-01T00:11:00Z",
+        "kind": "progress",
+        "marker": 1,
+        "sequence": 10,
+        "watermark_ms": 1790813459999
+      },
+      {
+        "event_ts": "2026-10-01T00:26:00Z",
+        "kind": "progress",
+        "marker": 2,
+        "sequence": 12,
+        "watermark_ms": 1790814359999
+      }
+    ],
+    "runtime": {
+      "checkpoint_interval_ms": 5000,
+      "dedup_retention_processing_ms": 604800000,
+      "flink": "1.20.3",
+      "job_id": "47ae3f2ed635c788243410cc0c9e1ce2",
+      "job_runtime_ms": 19757,
+      "passed": true,
+      "python": "3.10.12",
+      "records": 22,
+      "replay_protection_after_expiry": "persistent local event_id ledger, retained for the scenario lifetime",
+      "result_snapshot_available_utc": "2026-11-01T19:52:37.741028+00:00",
+      "retention_implementation": "processing-time expiry plus state-clearing timer, no native StateTtlConfig",
+      "scope": "bounded offsets, streaming execution, one Kafka partition and local Flink parallelism=1; no crash recovery/exactly-once claim",
+      "sqlite_commit_policy": "each write, WAL synchronous=NORMAL on Linux volume; explicit post-job snapshots",
+      "state_backend": "EmbeddedRocksDBStateBackend",
+      "wall_seconds": 22.489235305999955,
+      "watermark_delay_minutes": 0
+    },
+    "topic": "iot-mentor-stream-20261101d-baseline",
+    "windows": [
+      {
+        "closing_watermark_ms": 1790813459999,
+        "created": "2026-11-01T19:52:23.620864+00:00",
+        "event_timestamp": "2026-10-01T00:10:00Z",
+        "kind": "window",
+        "machine_id": "P-001",
+        "max_input_published_ts": "2026-10-01T00:04:02Z",
+        "reading_count": 6,
+        "temperature_mean": 16.666666666666668,
+        "temperature_sum": 100.0,
+        "vibration_max": 2.0,
+        "window_start": "2026-10-01T00:00:00Z"
+      },
+      {
+        "closing_watermark_ms": 1790814359999,
+        "created": "2026-11-01T19:52:28.697590+00:00",
+        "event_timestamp": "2026-10-01T00:20:00Z",
+        "kind": "window",
+        "machine_id": "P-001",
+        "max_input_published_ts": "2026-10-01T00:10:00Z",
+        "reading_count": 2,
+        "temperature_mean": 40.0,
+        "temperature_sum": 80.0,
+        "vibration_max": 4.0,
+        "window_start": "2026-10-01T00:10:00Z"
+      },
+      {
+        "closing_watermark_ms": 1790813459999,
+        "created": "2026-11-01T19:52:23.621154+00:00",
+        "event_timestamp": "2026-10-01T00:10:00Z",
+        "kind": "window",
+        "machine_id": "P-002",
+        "max_input_published_ts": "2026-10-01T00:02:00Z",
+        "reading_count": 2,
+        "temperature_mean": 100.0,
+        "temperature_sum": 200.0,
+        "vibration_max": 10.0,
+        "window_start": "2026-10-01T00:00:00Z"
+      }
+    ]
+  },
+  "completed_utc": "2026-11-01T19:53:48.097949+00:00",
+  "corrected": {
+    "audit_counts": {
+      "duplicate": 13,
+      "late": 1,
+      "progress": 2,
+      "unique": 6
+    },
+    "duplicates_from_durable_ledger": 0,
+    "durable_ledger_records": 6,
+    "kafka_end_offset": 22,
+    "late_event_ids": [
+      "E"
+    ],
+    "progress": [
+      {
+        "event_ts": "2026-10-01T00:11:00Z",
+        "kind": "progress",
+        "marker": 1,
+        "sequence": 10,
+        "watermark_ms": 1790812559999
+      },
+      {
+        "event_ts": "2026-10-01T00:26:00Z",
+        "kind": "progress",
+        "marker": 2,
+        "sequence": 12,
+        "watermark_ms": 1790813459999
+      }
+    ],
+    "runtime": {
+      "checkpoint_interval_ms": 5000,
+      "dedup_retention_processing_ms": 604800000,
+      "flink": "1.20.3",
+      "job_id": "7d588c76d77912259c9f86049504576b",
+      "job_runtime_ms": 17601,
+      "passed": true,
+      "python": "3.10.12",
+      "records": 22,
+      "replay_protection_after_expiry": "persistent local event_id ledger, retained for the scenario lifetime",
+      "result_snapshot_available_utc": "2026-11-01T19:53:10.016627+00:00",
+      "retention_implementation": "processing-time expiry plus state-clearing timer, no native StateTtlConfig",
+      "scope": "bounded offsets, streaming execution, one Kafka partition and local Flink parallelism=1; no crash recovery/exactly-once claim",
+      "sqlite_commit_policy": "each write, WAL synchronous=NORMAL on Linux volume; explicit post-job snapshots",
+      "state_backend": "EmbeddedRocksDBStateBackend",
+      "wall_seconds": 20.467030718999922,
+      "watermark_delay_minutes": 15
+    },
+    "topic": "iot-mentor-stream-20261101d-corrected",
+    "windows": [
+      {
+        "closing_watermark_ms": 1790813459999,
+        "created": "2026-11-01T19:53:03.360248+00:00",
+        "event_timestamp": "2026-10-01T00:10:00Z",
+        "kind": "window",
+        "machine_id": "P-001",
+        "max_input_published_ts": "2026-10-01T00:16:00Z",
+        "reading_count": 3,
+        "temperature_mean": 20.0,
+        "temperature_sum": 60.0,
+        "vibration_max": 3.0,
+        "window_start": "2026-10-01T00:00:00Z"
+      },
+      {
+        "closing_watermark_ms": 9223372036854775807,
+        "created": "2026-11-01T19:53:09.543490+00:00",
+        "event_timestamp": "2026-10-01T00:20:00Z",
+        "kind": "window",
+        "machine_id": "P-001",
+        "max_input_published_ts": "2026-10-01T00:10:00Z",
+        "reading_count": 1,
+        "temperature_mean": 40.0,
+        "temperature_sum": 40.0,
+        "vibration_max": 4.0,
+        "window_start": "2026-10-01T00:10:00Z"
+      },
+      {
+        "closing_watermark_ms": 1790813459999,
+        "created": "2026-11-01T19:53:03.360631+00:00",
+        "event_timestamp": "2026-10-01T00:10:00Z",
+        "kind": "window",
+        "machine_id": "P-002",
+        "max_input_published_ts": "2026-10-01T00:02:00Z",
+        "reading_count": 1,
+        "temperature_mean": 100.0,
+        "temperature_sum": 100.0,
+        "vibration_max": 10.0,
+        "window_start": "2026-10-01T00:00:00Z"
+      }
+    ]
+  },
+  "passed": true,
+  "resource_checks": [
+    {
+      "available_ram_bytes": 52902232064,
+      "checked_utc": "2026-11-01T19:52:07.076235+00:00",
+      "deadline_utc": "2026-11-01T18:48:37.724000-08:00",
+      "free_bytes": {
+        "/srv/iot-data": 330296623104,
+        "/srv/iot-fast": 68842147840
+      }
+    },
+    {
+      "available_ram_bytes": 52685926400,
+      "checked_utc": "2026-11-01T19:52:42.098064+00:00",
+      "deadline_utc": "2026-11-01T18:48:37.724000-08:00",
+      "free_bytes": {
+        "/srv/iot-data": 330296492032,
+        "/srv/iot-fast": 68842029056
+      }
+    },
+    {
+      "available_ram_bytes": 52883533824,
+      "checked_utc": "2026-11-01T19:53:14.306655+00:00",
+      "deadline_utc": "2026-11-01T18:48:37.724000-08:00",
+      "free_bytes": {
+        "/srv/iot-data": 330296340480,
+        "/srv/iot-fast": 68841852928
+      }
+    }
+  ],
+  "retention_probe": {
+    "audit_counts": {
+      "duplicate": 2,
+      "expired": 2,
+      "progress": 2,
+      "unique": 1
+    },
+    "duplicates_from_durable_ledger": 1,
+    "durable_ledger_records": 1,
+    "kafka_end_offset": 6,
+    "late_event_ids": [],
+    "progress": [
+      {
+        "event_ts": "2026-10-01T00:11:00Z",
+        "kind": "progress",
+        "marker": 1,
+        "sequence": 10,
+        "watermark_ms": 1790812559999
+      },
+      {
+        "event_ts": "2026-10-01T00:26:00Z",
+        "kind": "progress",
+        "marker": 2,
+        "sequence": 12,
+        "watermark_ms": 1790813459999
+      }
+    ],
+    "runtime": {
+      "checkpoint_interval_ms": 5000,
+      "dedup_retention_processing_ms": 1500,
+      "flink": "1.20.3",
+      "job_id": "b181a207595c6c86464aacb55ffc13e0",
+      "job_runtime_ms": 18806,
+      "passed": true,
+      "python": "3.10.12",
+      "records": 6,
+      "replay_protection_after_expiry": "persistent local event_id ledger, retained for the scenario lifetime",
+      "result_snapshot_available_utc": "2026-11-01T19:53:43.741191+00:00",
+      "retention_implementation": "processing-time expiry plus state-clearing timer, no native StateTtlConfig",
+      "scope": "bounded offsets, streaming execution, one Kafka partition and local Flink parallelism=1; no crash recovery/exactly-once claim",
+      "sqlite_commit_policy": "each write, WAL synchronous=NORMAL on Linux volume; explicit post-job snapshots",
+      "state_backend": "EmbeddedRocksDBStateBackend",
+      "wall_seconds": 21.762610507000318,
+      "watermark_delay_minutes": 15
+    },
+    "topic": "iot-mentor-stream-20261101d-retention-probe",
+    "windows": [
+      {
+        "closing_watermark_ms": 1790813459999,
+        "created": "2026-11-01T19:53:37.965757+00:00",
+        "event_timestamp": "2026-10-01T00:10:00Z",
+        "kind": "window",
+        "machine_id": "P-001",
+        "max_input_published_ts": "2026-10-01T00:01:00Z",
+        "reading_count": 1,
+        "temperature_mean": 10.0,
+        "temperature_sum": 10.0,
+        "vibration_max": 1.0,
+        "window_start": "2026-10-01T00:00:00Z"
+      }
+    ]
+  },
+  "scope": "Finite 22-message pair and retention study. Explicit source manifest; VM may have no Git checkout. No full-source replay, performance comparison, crash recovery or exactly-once claim.",
+  "source": {
+    "base_commit": "4a8d2b2457ea007e4ad03128f70825d119f670ff",
+    "files": [
+      {
+        "bytes": 103,
+        "path": "generator/__init__.py",
+        "sha256": "57a0dea93c307eeeefd0eb3aaf29d478fb689d71e334bbe44f23cb07c4d68172"
+      },
+      {
+        "bytes": 4565,
+        "path": "generator/config.py",
+        "sha256": "087682ae48dceb64865cdca983b7642ab9d256bb0083da165d296196c21cb3de"
+      },
+      {
+        "bytes": 10831,
+        "path": "generator/quality.py",
+        "sha256": "8ba7a4c5dca2c52fbb579099ec763c372b88c61e110f15b9693bbee9363bf000"
+      },
+      {
+        "bytes": 3001,
+        "path": "generator/storage.py",
+        "sha256": "5fd914a84304cd87fb409f4f3072382bfeb763a4599ac08f9db232614b9d8b7d"
+      },
+      {
+        "bytes": 1842,
+        "path": "infra/streaming.compose.yaml",
+        "sha256": "544fee1c8a97d745ca26f01f9ae13a7ee04dee09c81797baec76da57a5c7ea25"
+      },
+      {
+        "bytes": 75,
+        "path": "pipelines/__init__.py",
+        "sha256": "3fa18d7c6802d683dbcc51d2e39ebc899374ed8cba9eeee50bd5eb00ba57f90c"
+      },
+      {
+        "bytes": 5965,
+        "path": "pipelines/source_loader.py",
+        "sha256": "fb2e1688a9c9150c2a17fc2fa660541f76cf1cdff38f211b7780f8082f6b97cb"
+      },
+      {
+        "bytes": 9214,
+        "path": "pipelines/stream_contract.py",
+        "sha256": "cd2a85c2bd8dda070ac0e174d12ac787201412425f75899a63c4580d69f9de06"
+      },
+      {
+        "bytes": 13563,
+        "path": "pipelines/stream_job.py",
+        "sha256": "478c4c9c7b38e56a93e53fd5236c432016e7fe2c3ee829202a4dc7979a9c46db"
+      },
+      {
+        "bytes": 15080,
+        "path": "pipelines/stream_verification.py",
+        "sha256": "7f959636c6ef74c4330a5ca8a9f480696762ecf34ecb506eef69afc947c6f3ae"
+      },
+      {
+        "bytes": 5728,
+        "path": "scripts/run-stream-review.py",
+        "sha256": "617ae6c21cb799d98e5c18f07903b3911c9c535910d2f461a8b2b6f34dc37e55"
+      }
+    ],
+    "overlay_paths": [
+      "scripts/run-stream-review.py"
+    ]
+  },
+  "source_unchanged": true
+}

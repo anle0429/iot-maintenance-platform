@@ -1,0 +1,205 @@
+== Physical Plan ==
+AdaptiveSparkPlan (29)
++- HashAggregate (28)
+   +- Exchange (27)
+      +- HashAggregate (26)
+         +- InMemoryTableScan (1)
+               +- InMemoryRelation (2)
+                     +- AdaptiveSparkPlan (25)
+                        +- Project (24)
+                           +- Filter (23)
+                              +- Window (22)
+                                 +- WindowGroupLimit (21)
+                                    +- Sort (20)
+                                       +- Exchange (19)
+                                          +- WindowGroupLimit (18)
+                                             +- Sort (17)
+                                                +- InMemoryTableScan (3)
+                                                      +- InMemoryRelation (4)
+                                                            +- AdaptiveSparkPlan (16)
+                                                               +- == Final Plan ==
+                                                                  * Project (12)
+                                                                  +- Project (11)
+                                                                     +- * Filter (10)
+                                                                        +- TableCacheQueryStage (9), Statistics(sizeInBytes=23.1 MiB, rowCount=5.88E+4)
+                                                                           +- InMemoryTableScan (5)
+                                                                                 +- InMemoryRelation (6)
+                                                                                       +- * Project (8)
+                                                                                          +- * Scan JDBCRelation((SELECT source_path,source_line,payload::text AS payload FROM source_records WHERE source_run='day2-final') department_source) [numPartitions=1]  (7)
+                                                               +- == Initial Plan ==
+                                                                  Project (15)
+                                                                  +- Project (14)
+                                                                     +- Filter (13)
+                                                                        +- InMemoryTableScan (5)
+                                                                              +- InMemoryRelation (6)
+                                                                                    +- * Project (8)
+                                                                                       +- * Scan JDBCRelation((SELECT source_path,source_line,payload::text AS payload FROM source_records WHERE source_run='day2-final') department_source) [numPartitions=1]  (7)
+
+
+(1) InMemoryTableScan
+Output: []
+
+(2) InMemoryRelation
+Arguments: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L], CachedRDDBuilder(org.apache.spark.sql.execution.columnar.DefaultCachedBatchSerializer@3c0e24bd,StorageLevel(disk, memory, deserialized, 1 replicas),AdaptiveSparkPlan isFinalPlan=false
++- Project [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+   +- Filter (rank#2814 = 1)
+      +- Window [row_number() windowspecdefinition(event_id#1778, created_ts#1783 DESC NULLS LAST, source_path#1492 ASC NULLS FIRST, source_line#1493L DESC NULLS LAST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rank#2814], [event_id#1778], [created_ts#1783 DESC NULLS LAST, source_path#1492 ASC NULLS FIRST, source_line#1493L DESC NULLS LAST]
+         +- WindowGroupLimit [event_id#1778], [created_ts#1783 DESC NULLS LAST, source_path#1492 ASC NULLS FIRST, source_line#1493L DESC NULLS LAST], row_number(), 1, Final
+            +- Sort [event_id#1778 ASC NULLS FIRST, created_ts#1783 DESC NULLS LAST, source_path#1492 ASC NULLS FIRST, source_line#1493L DESC NULLS LAST], false, 0
+               +- Exchange hashpartitioning(event_id#1778, 4), ENSURE_REQUIREMENTS, [plan_id=4757]
+                  +- WindowGroupLimit [event_id#1778], [created_ts#1783 DESC NULLS LAST, source_path#1492 ASC NULLS FIRST, source_line#1493L DESC NULLS LAST], row_number(), 1, Partial
+                     +- Sort [event_id#1778 ASC NULLS FIRST, created_ts#1783 DESC NULLS LAST, source_path#1492 ASC NULLS FIRST, source_line#1493L DESC NULLS LAST], false, 0
+                        +- InMemoryTableScan [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+                              +- InMemoryRelation [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L], StorageLevel(disk, memory, deserialized, 1 replicas)
+                                    +- AdaptiveSparkPlan isFinalPlan=true
+                                       +- == Final Plan ==
+                                          *(2) Project [data#1774.event_id AS event_id#1778, data#1774.machine_id AS machine_id#1779, data#1774.operating_status AS operating_status#1780, data#1774.event_ts AS event_ts#1781, data#1774.received_ts AS received_ts#1782, data#1774.created_ts AS created_ts#1783, data#1774.temperature_c AS temperature_c#1784, data#1774.vibration_rms_mm_s AS vibration_rms_mm_s#1785, data#1774.current_a AS current_a#1786, data#1774.rpm AS rpm#1787, data#1774.pressure_bar AS pressure_bar#1788, data#1774.schema_version AS schema_version#1789, source_path#1492, source_line#1493L]
+                                          +- Project [source_path#1492, source_line#1493L, from_json(StructField(event_id,StringType,true), StructField(machine_id,StringType,true), StructField(operating_status,StringType,true), StructField(event_ts,TimestampType,true), StructField(received_ts,TimestampType,true), StructField(created_ts,TimestampType,true), StructField(temperature_c,DoubleType,true), StructField(vibration_rms_mm_s,DoubleType,true), StructField(current_a,DoubleType,true), StructField(rpm,DoubleType,true), StructField(pressure_bar,DoubleType,true), StructField(schema_version,IntegerType,true), (mode,FAILFAST), payload#1494, Some(UTC)) AS data#1774]
+                                             +- *(1) Filter (isnotnull(source_path#1492) AND StartsWith(source_path#1492, telemetry/))
+                                                +- TableCacheQueryStage 0
+                                                   +- InMemoryTableScan [payload#1494, source_line#1493L, source_path#1492], [isnotnull(source_path#1492), StartsWith(source_path#1492, telemetry/)]
+                                                         +- InMemoryRelation [source_path#1492, source_line#1493L, payload#1494, source_run#1498, ingested_at#1503], StorageLevel(disk, memory, deserialized, 1 replicas)
+                                                               +- *(1) Project [source_path#1492, source_line#1493L, payload#1494, day2-final AS source_run#1498, 2026-10-22 09:53:45.125862 AS ingested_at#1503]
+                                                                  +- *(1) Scan JDBCRelation((SELECT source_path,source_line,payload::text AS payload FROM source_records WHERE source_run='day2-final') department_source) [numPartitions=1] [source_path#1492,source_line#1493L,payload#1494] PushedFilters: [], ReadSchema: struct<source_path:string,source_line:bigint,payload:string>
+                                       +- == Initial Plan ==
+                                          Project [data#1774.event_id AS event_id#1778, data#1774.machine_id AS machine_id#1779, data#1774.operating_status AS operating_status#1780, data#1774.event_ts AS event_ts#1781, data#1774.received_ts AS received_ts#1782, data#1774.created_ts AS created_ts#1783, data#1774.temperature_c AS temperature_c#1784, data#1774.vibration_rms_mm_s AS vibration_rms_mm_s#1785, data#1774.current_a AS current_a#1786, data#1774.rpm AS rpm#1787, data#1774.pressure_bar AS pressure_bar#1788, data#1774.schema_version AS schema_version#1789, source_path#1492, source_line#1493L]
+                                          +- Project [source_path#1492, source_line#1493L, from_json(StructField(event_id,StringType,true), StructField(machine_id,StringType,true), StructField(operating_status,StringType,true), StructField(event_ts,TimestampType,true), StructField(received_ts,TimestampType,true), StructField(created_ts,TimestampType,true), StructField(temperature_c,DoubleType,true), StructField(vibration_rms_mm_s,DoubleType,true), StructField(current_a,DoubleType,true), StructField(rpm,DoubleType,true), StructField(pressure_bar,DoubleType,true), StructField(schema_version,IntegerType,true), (mode,FAILFAST), payload#1494, Some(UTC)) AS data#1774]
+                                             +- Filter (isnotnull(source_path#1492) AND StartsWith(source_path#1492, telemetry/))
+                                                +- InMemoryTableScan [payload#1494, source_line#1493L, source_path#1492], [isnotnull(source_path#1492), StartsWith(source_path#1492, telemetry/)]
+                                                      +- InMemoryRelation [source_path#1492, source_line#1493L, payload#1494, source_run#1498, ingested_at#1503], StorageLevel(disk, memory, deserialized, 1 replicas)
+                                                            +- *(1) Project [source_path#1492, source_line#1493L, payload#1494, day2-final AS source_run#1498, 2026-10-22 09:53:45.125862 AS ingested_at#1503]
+                                                               +- *(1) Scan JDBCRelation((SELECT source_path,source_line,payload::text AS payload FROM source_records WHERE source_run='day2-final') department_source) [numPartitions=1] [source_path#1492,source_line#1493L,payload#1494] PushedFilters: [], ReadSchema: struct<source_path:string,source_line:bigint,payload:string>
+,None)
+
+(3) InMemoryTableScan
+Output [14]: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+Arguments: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+
+(4) InMemoryRelation
+Arguments: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L], CachedRDDBuilder(org.apache.spark.sql.execution.columnar.DefaultCachedBatchSerializer@3c0e24bd,StorageLevel(disk, memory, deserialized, 1 replicas),AdaptiveSparkPlan isFinalPlan=true
++- == Final Plan ==
+   *(2) Project [data#1774.event_id AS event_id#1778, data#1774.machine_id AS machine_id#1779, data#1774.operating_status AS operating_status#1780, data#1774.event_ts AS event_ts#1781, data#1774.received_ts AS received_ts#1782, data#1774.created_ts AS created_ts#1783, data#1774.temperature_c AS temperature_c#1784, data#1774.vibration_rms_mm_s AS vibration_rms_mm_s#1785, data#1774.current_a AS current_a#1786, data#1774.rpm AS rpm#1787, data#1774.pressure_bar AS pressure_bar#1788, data#1774.schema_version AS schema_version#1789, source_path#1492, source_line#1493L]
+   +- Project [source_path#1492, source_line#1493L, from_json(StructField(event_id,StringType,true), StructField(machine_id,StringType,true), StructField(operating_status,StringType,true), StructField(event_ts,TimestampType,true), StructField(received_ts,TimestampType,true), StructField(created_ts,TimestampType,true), StructField(temperature_c,DoubleType,true), StructField(vibration_rms_mm_s,DoubleType,true), StructField(current_a,DoubleType,true), StructField(rpm,DoubleType,true), StructField(pressure_bar,DoubleType,true), StructField(schema_version,IntegerType,true), (mode,FAILFAST), payload#1494, Some(UTC)) AS data#1774]
+      +- *(1) Filter (isnotnull(source_path#1492) AND StartsWith(source_path#1492, telemetry/))
+         +- TableCacheQueryStage 0
+            +- InMemoryTableScan [payload#1494, source_line#1493L, source_path#1492], [isnotnull(source_path#1492), StartsWith(source_path#1492, telemetry/)]
+                  +- InMemoryRelation [source_path#1492, source_line#1493L, payload#1494, source_run#1498, ingested_at#1503], StorageLevel(disk, memory, deserialized, 1 replicas)
+                        +- *(1) Project [source_path#1492, source_line#1493L, payload#1494, day2-final AS source_run#1498, 2026-10-22 09:53:45.125862 AS ingested_at#1503]
+                           +- *(1) Scan JDBCRelation((SELECT source_path,source_line,payload::text AS payload FROM source_records WHERE source_run='day2-final') department_source) [numPartitions=1] [source_path#1492,source_line#1493L,payload#1494] PushedFilters: [], ReadSchema: struct<source_path:string,source_line:bigint,payload:string>
++- == Initial Plan ==
+   Project [data#1774.event_id AS event_id#1778, data#1774.machine_id AS machine_id#1779, data#1774.operating_status AS operating_status#1780, data#1774.event_ts AS event_ts#1781, data#1774.received_ts AS received_ts#1782, data#1774.created_ts AS created_ts#1783, data#1774.temperature_c AS temperature_c#1784, data#1774.vibration_rms_mm_s AS vibration_rms_mm_s#1785, data#1774.current_a AS current_a#1786, data#1774.rpm AS rpm#1787, data#1774.pressure_bar AS pressure_bar#1788, data#1774.schema_version AS schema_version#1789, source_path#1492, source_line#1493L]
+   +- Project [source_path#1492, source_line#1493L, from_json(StructField(event_id,StringType,true), StructField(machine_id,StringType,true), StructField(operating_status,StringType,true), StructField(event_ts,TimestampType,true), StructField(received_ts,TimestampType,true), StructField(created_ts,TimestampType,true), StructField(temperature_c,DoubleType,true), StructField(vibration_rms_mm_s,DoubleType,true), StructField(current_a,DoubleType,true), StructField(rpm,DoubleType,true), StructField(pressure_bar,DoubleType,true), StructField(schema_version,IntegerType,true), (mode,FAILFAST), payload#1494, Some(UTC)) AS data#1774]
+      +- Filter (isnotnull(source_path#1492) AND StartsWith(source_path#1492, telemetry/))
+         +- InMemoryTableScan [payload#1494, source_line#1493L, source_path#1492], [isnotnull(source_path#1492), StartsWith(source_path#1492, telemetry/)]
+               +- InMemoryRelation [source_path#1492, source_line#1493L, payload#1494, source_run#1498, ingested_at#1503], StorageLevel(disk, memory, deserialized, 1 replicas)
+                     +- *(1) Project [source_path#1492, source_line#1493L, payload#1494, day2-final AS source_run#1498, 2026-10-22 09:53:45.125862 AS ingested_at#1503]
+                        +- *(1) Scan JDBCRelation((SELECT source_path,source_line,payload::text AS payload FROM source_records WHERE source_run='day2-final') department_source) [numPartitions=1] [source_path#1492,source_line#1493L,payload#1494] PushedFilters: [], ReadSchema: struct<source_path:string,source_line:bigint,payload:string>
+,None)
+
+(5) InMemoryTableScan
+Output [3]: [payload#1494, source_line#1493L, source_path#1492]
+Arguments: [payload#1494, source_line#1493L, source_path#1492], [isnotnull(source_path#1492), StartsWith(source_path#1492, telemetry/)]
+
+(6) InMemoryRelation
+Arguments: [source_path#1492, source_line#1493L, payload#1494, source_run#1498, ingested_at#1503], CachedRDDBuilder(org.apache.spark.sql.execution.columnar.DefaultCachedBatchSerializer@3c0e24bd,StorageLevel(disk, memory, deserialized, 1 replicas),*(1) Project [source_path#1492, source_line#1493L, payload#1494, day2-final AS source_run#1498, 2026-10-22 09:53:45.125862 AS ingested_at#1503]
++- *(1) Scan JDBCRelation((SELECT source_path,source_line,payload::text AS payload FROM source_records WHERE source_run='day2-final') department_source) [numPartitions=1] [source_path#1492,source_line#1493L,payload#1494] PushedFilters: [], ReadSchema: struct<source_path:string,source_line:bigint,payload:string>
+,None)
+
+(7) Scan JDBCRelation((SELECT source_path,source_line,payload::text AS payload FROM source_records WHERE source_run='day2-final') department_source) [numPartitions=1]  [codegen id : 1]
+Output [3]: [source_path#1492, source_line#1493L, payload#1494]
+ReadSchema: struct<source_path:string,source_line:bigint,payload:string>
+
+(8) Project [codegen id : 1]
+Output [5]: [source_path#1492, source_line#1493L, payload#1494, day2-final AS source_run#1498, 2026-10-22 09:53:45.125862 AS ingested_at#1503]
+Input [3]: [source_path#1492, source_line#1493L, payload#1494]
+
+(9) TableCacheQueryStage
+Output [3]: [payload#1494, source_line#1493L, source_path#1492]
+Arguments: 0
+
+(10) Filter [codegen id : 1]
+Input [3]: [payload#1494, source_line#1493L, source_path#1492]
+Condition : (isnotnull(source_path#1492) AND StartsWith(source_path#1492, telemetry/))
+
+(11) Project
+Output [3]: [source_path#1492, source_line#1493L, from_json(StructField(event_id,StringType,true), StructField(machine_id,StringType,true), StructField(operating_status,StringType,true), StructField(event_ts,TimestampType,true), StructField(received_ts,TimestampType,true), StructField(created_ts,TimestampType,true), StructField(temperature_c,DoubleType,true), StructField(vibration_rms_mm_s,DoubleType,true), StructField(current_a,DoubleType,true), StructField(rpm,DoubleType,true), StructField(pressure_bar,DoubleType,true), StructField(schema_version,IntegerType,true), (mode,FAILFAST), payload#1494, Some(UTC)) AS data#1774]
+Input [3]: [payload#1494, source_line#1493L, source_path#1492]
+
+(12) Project [codegen id : 2]
+Output [14]: [data#1774.event_id AS event_id#1778, data#1774.machine_id AS machine_id#1779, data#1774.operating_status AS operating_status#1780, data#1774.event_ts AS event_ts#1781, data#1774.received_ts AS received_ts#1782, data#1774.created_ts AS created_ts#1783, data#1774.temperature_c AS temperature_c#1784, data#1774.vibration_rms_mm_s AS vibration_rms_mm_s#1785, data#1774.current_a AS current_a#1786, data#1774.rpm AS rpm#1787, data#1774.pressure_bar AS pressure_bar#1788, data#1774.schema_version AS schema_version#1789, source_path#1492, source_line#1493L]
+Input [3]: [source_path#1492, source_line#1493L, data#1774]
+
+(13) Filter
+Input [3]: [payload#1494, source_line#1493L, source_path#1492]
+Condition : (isnotnull(source_path#1492) AND StartsWith(source_path#1492, telemetry/))
+
+(14) Project
+Output [3]: [source_path#1492, source_line#1493L, from_json(StructField(event_id,StringType,true), StructField(machine_id,StringType,true), StructField(operating_status,StringType,true), StructField(event_ts,TimestampType,true), StructField(received_ts,TimestampType,true), StructField(created_ts,TimestampType,true), StructField(temperature_c,DoubleType,true), StructField(vibration_rms_mm_s,DoubleType,true), StructField(current_a,DoubleType,true), StructField(rpm,DoubleType,true), StructField(pressure_bar,DoubleType,true), StructField(schema_version,IntegerType,true), (mode,FAILFAST), payload#1494, Some(UTC)) AS data#1774]
+Input [3]: [payload#1494, source_line#1493L, source_path#1492]
+
+(15) Project
+Output [14]: [data#1774.event_id AS event_id#1778, data#1774.machine_id AS machine_id#1779, data#1774.operating_status AS operating_status#1780, data#1774.event_ts AS event_ts#1781, data#1774.received_ts AS received_ts#1782, data#1774.created_ts AS created_ts#1783, data#1774.temperature_c AS temperature_c#1784, data#1774.vibration_rms_mm_s AS vibration_rms_mm_s#1785, data#1774.current_a AS current_a#1786, data#1774.rpm AS rpm#1787, data#1774.pressure_bar AS pressure_bar#1788, data#1774.schema_version AS schema_version#1789, source_path#1492, source_line#1493L]
+Input [3]: [source_path#1492, source_line#1493L, data#1774]
+
+(16) AdaptiveSparkPlan
+Output [14]: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+Arguments: isFinalPlan=true
+
+(17) Sort
+Input [14]: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+Arguments: [event_id#1778 ASC NULLS FIRST, created_ts#1783 DESC NULLS LAST, source_path#1492 ASC NULLS FIRST, source_line#1493L DESC NULLS LAST], false, 0
+
+(18) WindowGroupLimit
+Input [14]: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+Arguments: [event_id#1778], [created_ts#1783 DESC NULLS LAST, source_path#1492 ASC NULLS FIRST, source_line#1493L DESC NULLS LAST], row_number(), 1, Partial
+
+(19) Exchange
+Input [14]: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+Arguments: hashpartitioning(event_id#1778, 4), ENSURE_REQUIREMENTS, [plan_id=4757]
+
+(20) Sort
+Input [14]: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+Arguments: [event_id#1778 ASC NULLS FIRST, created_ts#1783 DESC NULLS LAST, source_path#1492 ASC NULLS FIRST, source_line#1493L DESC NULLS LAST], false, 0
+
+(21) WindowGroupLimit
+Input [14]: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+Arguments: [event_id#1778], [created_ts#1783 DESC NULLS LAST, source_path#1492 ASC NULLS FIRST, source_line#1493L DESC NULLS LAST], row_number(), 1, Final
+
+(22) Window
+Input [14]: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+Arguments: [row_number() windowspecdefinition(event_id#1778, created_ts#1783 DESC NULLS LAST, source_path#1492 ASC NULLS FIRST, source_line#1493L DESC NULLS LAST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rank#2814], [event_id#1778], [created_ts#1783 DESC NULLS LAST, source_path#1492 ASC NULLS FIRST, source_line#1493L DESC NULLS LAST]
+
+(23) Filter
+Input [15]: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L, rank#2814]
+Condition : (rank#2814 = 1)
+
+(24) Project
+Output [14]: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+Input [15]: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L, rank#2814]
+
+(25) AdaptiveSparkPlan
+Output [14]: [event_id#1778, machine_id#1779, operating_status#1780, event_ts#1781, received_ts#1782, created_ts#1783, temperature_c#1784, vibration_rms_mm_s#1785, current_a#1786, rpm#1787, pressure_bar#1788, schema_version#1789, source_path#1492, source_line#1493L]
+Arguments: isFinalPlan=false
+
+(26) HashAggregate
+Input: []
+Keys: []
+Functions [1]: [partial_count(1)]
+Aggregate Attributes [1]: [count#3351L]
+Results [1]: [count#3352L]
+
+(27) Exchange
+Input [1]: [count#3352L]
+Arguments: SinglePartition, ENSURE_REQUIREMENTS, [plan_id=4774]
+
+(28) HashAggregate
+Input [1]: [count#3352L]
+Keys: []
+Functions [1]: [count(1)]
+Aggregate Attributes [1]: [count(1)#3138L]
+Results [1]: [count(1)#3138L AS count#3139L]
+
+(29) AdaptiveSparkPlan
+Output [1]: [count#3139L]
+Arguments: isFinalPlan=false
+
