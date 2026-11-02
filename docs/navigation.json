@@ -1,0 +1,634 @@
+{
+  "format": "iot-documentation-layout-v1",
+  "base_commit": "95e2cfa6695fbf86fb7eba0f21095db767f88307",
+  "files": {
+    "docs/ab-monitoring.md": {
+      "path": "docs/edai-1/ab_monitoring.md",
+      "before_sha256": "379140b12f9f376caa79c148a6d8059f0151b987a5c1713cd0d460ce3e805636",
+      "after_sha256": "86d0b8ac80c0ef88ac77cad2a87520e6a5fa2a4ae435b25e6aaf3e606538dd5c"
+    },
+    "docs/ab-testing.md": {
+      "path": "docs/edai-1/ab_testing.md",
+      "before_sha256": "6b9a2e566cce2cff3f00ccb5426155b2f865780d227ec7daaec1824179a0c68f",
+      "after_sha256": "1befd486a477ea59f9dfeab114f31041c698f2bf273f299eab0bd3c544cec613"
+    },
+    "docs/active-feature-refresh.md": {
+      "path": "docs/edai-1/active_feature_refresh.md",
+      "before_sha256": "9ca9e3ca1a229867658301f1f8c0c6ea4a6ab66e85f847fdc492c474244fad1f",
+      "after_sha256": "461552d32721a4cba6dab3ca1d09ec737af1bf0945265ee76a4d478c187d888b"
+    },
+    "docs/agent-admission-policy.md": {
+      "path": "docs/edai-2/agent_admission_policy.md",
+      "before_sha256": "12503a4169cbfc28aef259425cf4a2132d11f0aab5c31f3bf3af4aa89ed79867",
+      "after_sha256": "3aabf87a24a7a53a19a244a1afcb87fb69242771fa58f9e93efe27bca117e987"
+    },
+    "docs/agent-configuration-ab.md": {
+      "path": "docs/edai-2/agent_configuration_ab.md",
+      "before_sha256": "6274751a05aa02ddb6bcb1963a95dfa8b1a138141622eeb9cb38ef415bef4753",
+      "after_sha256": "f3438ecd8341a93b62c9d1a254ec55a12fcc7a21349f1d89b35e0169efea5e00"
+    },
+    "docs/agent-gateway.md": {
+      "path": "docs/edai-2/agent_gateway.md",
+      "before_sha256": "77b00042b7f07859e9232fbef9cff2591331449597fc2535d42b94a44263da65",
+      "after_sha256": "b8cd481585f4ffde05c3476088604e20618fd1d986c2f36dcec10c9abbae2297"
+    },
+    "docs/agent-network-isolation.md": {
+      "path": "docs/edai-2/agent_network_isolation.md",
+      "before_sha256": "ccbe67f7839eb83a3bde677f24bb653742ac284d05ce514c4527f0a727728103",
+      "after_sha256": "6aeed6c054467bfe23b7228ce91b417c054dc8c165ef9ef95a40525011c45c35"
+    },
+    "docs/agent-notebook.md": {
+      "path": "docs/edai-2/agent_notebook.md",
+      "before_sha256": "435ab7f2446dbe65d79bc2a17edb184176319f2050eca1214d8c792fd55e369e",
+      "after_sha256": "c58f69c8ce23f19ed5e87891246cf72e74a0a7b9f6b43f6475dcf4fab3efb2b0"
+    },
+    "docs/agent-platform.md": {
+      "path": "docs/edai-2/agent_platform.md",
+      "before_sha256": "f5d3d3f35112e84f02cac718a107d4dca19f44bfc47803c8b97a55419d100737",
+      "after_sha256": "98cf07b1bd2768cee5e30e922a3bd411ec72a9c78f29f53913dd1968d3a0e00b"
+    },
+    "docs/agent-response-contract.md": {
+      "path": "docs/edai-2/agent_response_contract.md",
+      "before_sha256": "6ce42859ccaacccb6da81c725ed0b3474f23969163979bdeb625fc4b2203dfbc",
+      "after_sha256": "e110d57c019bd9fb41fe69a5199ba1a83646a662489b18a76674926b962828c3"
+    },
+    "docs/agent-restart-recovery.md": {
+      "path": "docs/edai-2/agent_restart_recovery.md",
+      "before_sha256": "adb8910cd5a67259014fed984d451cdd64bdcdacf6376a1ce45b724b57d78f0d",
+      "after_sha256": "8db1124afdd1ff6a40f27f99b1b5445993fbac9cf1a761099cee1b676b9967db"
+    },
+    "docs/agent-runtime-validation.md": {
+      "path": "docs/edai-2/agent_runtime_validation.md",
+      "before_sha256": "d11ea7b1d2ef9dab1f3f000b5026da714c9d530be48974c43ac31d4bcd08e293",
+      "after_sha256": "5318d74aee99f51046310506d766b6e1b33489014f798123f6c204659ddb0844"
+    },
+    "docs/agent-scaling.md": {
+      "path": "docs/edai-2/agent_scaling.md",
+      "before_sha256": "b7e5495761dbb481ac533077c1e899aa530277831a4000d0e8d15032220e8a91",
+      "after_sha256": "8b4a2d1caa980cbf4911d76d64c8580709168c3176ba088b313a01ee1a88b8b2"
+    },
+    "docs/agent-warmup.md": {
+      "path": "docs/edai-2/agent_warmup.md",
+      "before_sha256": "37173f28aecfe17a6c91fdb074c9d8558cf116b5394b50d08ca09909d94cd0f6",
+      "after_sha256": "3a477d3a76920237505429ce889474211fcaa26e9dda78c0954858992704ebd5"
+    },
+    "docs/api-autoscaling.md": {
+      "path": "docs/edai-1/api_autoscaling.md",
+      "before_sha256": "a8ad25a3aa18d7a76112bf85191bf390b5427b8f14f580ac98ac573caf4f2da8",
+      "after_sha256": "dac7c24995b74668c210ac26f487c695403a687fbb728ad1a7be39c1fdc6911b"
+    },
+    "docs/api-deployment.md": {
+      "path": "docs/edai-1/api_deployment.md",
+      "before_sha256": "a96cd6f1be6c6b847a2031c26fbd092bbef0dc9b2d7cf87230fb9256378a2464",
+      "after_sha256": "127b0a9f43eba7aa4db14d08d08782232c5f90eda04fd37934d7093b7d5e0d80"
+    },
+    "docs/api-observability.md": {
+      "path": "docs/edai-1/api_observability.md",
+      "before_sha256": "0b5c8cc34c803c47216f1279b91ff6cbd5c22c97d6fe0f3c7828c73e4241b402",
+      "after_sha256": "7087d1ce91eeab40d93062bd4b28c3047aec3ab5377c39e0aa7f9f24eae39e96"
+    },
+    "docs/api-validation.md": {
+      "path": "docs/edai-1/api_validation.md",
+      "before_sha256": "42e42b3fc4ae501032b0ebf5c9c41120ee726b7ae26ba9f1a5aa9014666159dd",
+      "after_sha256": "d8fea97acda8c8a7b52974dd6d1608e95840185b3bfb74565abfe3bd2152a222"
+    },
+    "docs/architecture.md": {
+      "path": "docs/edai-1/architecture.md",
+      "before_sha256": "c15447d60130d6fb57bddcde93106bcfcc2a4aa9e6a519930de2ad4b61455707",
+      "after_sha256": "60e04a91f5c5beee0321c48cd5b88f9e4e00cefe27da9ed4daeed2370ffc725a"
+    },
+    "docs/assistant-data-validation.md": {
+      "path": "docs/edai-2/assistant_data_validation.md",
+      "before_sha256": "562712e9d4dcee2b59b4eb3e888a3581049634c6dfb93ffc261a24f1bda777cc",
+      "after_sha256": "628c4dfcfe24f6d45d6f6e6617bd56597500b4758255f057585123cf332b74c8"
+    },
+    "docs/automatic-ml-versioning.md": {
+      "path": "docs/edai-1/automatic_ml_versioning.md",
+      "before_sha256": "7ef1054ea7ee86644e850b9398d7539c88ec1698cf4697515d08846cd172c026",
+      "after_sha256": "c39ba25d32ecfa8c4b5e4d87989e88aa41c4986068bbd60ce49b72f7c3e6f245"
+    },
+    "docs/batch-corrections-benchmark.md": {
+      "path": "docs/edai-1/batch_corrections_benchmark.md",
+      "before_sha256": "db7ff7ad50b2f27334db42f5416f1948e85933b340830cf8572d571a7a051cc1",
+      "after_sha256": "ebacdf5a872ece8bddf005bbcfefbc393609aa32491c1369b686ceeaf54940c1"
+    },
+    "docs/bounded-features.md": {
+      "path": "docs/edai-1/bounded_features.md",
+      "before_sha256": "3230f446c3631c203ee523f0becbbe7bdb5b3b7c93b8a14b66204cb63616d2a7",
+      "after_sha256": "ddf523dc99f031213cbb2b35c87555c1f510ebe2a84b433588ee4ba33e83041d"
+    },
+    "docs/chunk-ingest.md": {
+      "path": "docs/edai-1/chunk_ingest.md",
+      "before_sha256": "609c5d63c1c850a776b42c24c820c95730c2e50d3be966d9cff69f5d349fe7f9",
+      "after_sha256": "373934a345b933fd248fff053e144dea097bae8b552f796af34fe559cb70519b"
+    },
+    "docs/chunked-generator.md": {
+      "path": "docs/edai-1/chunked_generator.md",
+      "before_sha256": "03eabe903ed74c47480595e9b5c4b21c1338a4e554940bfc90bcd0d8bc7495f2",
+      "after_sha256": "11ce6796043fa945349c1f0a5f4652124b8dc9778ebd805d262a5f4884df9798"
+    },
+    "docs/ci-ab-deployment.md": {
+      "path": "docs/edai-1/ci_ab_deployment.md",
+      "before_sha256": "a3de3f9b5913eb078778a7dbc4289c7c773ff221eab50b25666ae8d007929d61",
+      "after_sha256": "c881757b36d3ec6ab74ff8bc64bc89ab8cb510cf7fad08f9adbaed40db1d81eb"
+    },
+    "docs/ci-agents.md": {
+      "path": "docs/edai-2/ci_agents.md",
+      "before_sha256": "df7bdfee4360bbefacb453e8970ca79ce22598cc1b127b4be567952f963b7d4c",
+      "after_sha256": "011b67ed9908551cc3a75d037ac2130c08c1a88717ec931f6e4ffccf7920686b"
+    },
+    "docs/ci-api-observability.md": {
+      "path": "docs/edai-1/ci_api_observability.md",
+      "before_sha256": "a5675fb577ee8ef104a86f4bb720925656b442cfaf264db64f07937a1c067b97",
+      "after_sha256": "4202dcf595ea925d4b341d0e22e91634529df0d702c5a4e80da26a34bcbb335d"
+    },
+    "docs/ci-data-pipelines.md": {
+      "path": "docs/edai-1/ci_data_pipelines.md",
+      "before_sha256": "d658ead18308e90abfc8fc69b4375c3aff4c53edc6d2d248186a9a1948611a29",
+      "after_sha256": "59339ba7671085fadd3c125262eaea47640d9849624410e34144bc81cabee0a7"
+    },
+    "docs/ci-materialization.md": {
+      "path": "docs/edai-1/ci_materialization.md",
+      "before_sha256": "942a21f58b6513682a7d623f1274d1b934d3f832547c52d42501d8ad65c99c67",
+      "after_sha256": "ce1a64cad42c52919129c45885eec1813c2e58783a3f1119dabb3d3b31ef3f58"
+    },
+    "docs/ci-rag.md": {
+      "path": "docs/edai-2/ci_rag.md",
+      "before_sha256": "535a8500b3094117dc803e39ec1033eead23cd476244f55d9479d45d16e0384c",
+      "after_sha256": "5dfb414426fbdac4f28a89bd29397623ee05103082587650d9e37f88ee86a769"
+    },
+    "docs/ci-serving.md": {
+      "path": "docs/edai-1/ci_serving.md",
+      "before_sha256": "ce6e4e22364a3a8f793df3e068b2a3ea85aef2e33feec627dd8e7d90a63224a2",
+      "after_sha256": "3f5aa9d77ca3bdc04b8ade5d8aa779424817a012e16d3edf791f052977303332"
+    },
+    "docs/ci-stream-push.md": {
+      "path": "docs/edai-1/ci_stream_push.md",
+      "before_sha256": "1c3011ecdea798d1996594d15d6c72246e2c93eb7921e68507dd39e7036e2574",
+      "after_sha256": "c706134d92e08f07e5bca41821073bdf2cc5662a1dd54039e779fab80c69ae97"
+    },
+    "docs/ci-training.md": {
+      "path": "docs/edai-1/ci_training.md",
+      "before_sha256": "b5b1caa64ad20bfee1d04a9d3c83275b3f74b97808d40434c783a56bb5391513",
+      "after_sha256": "f11ebf9a76cb2fb66d81a709cbf1bf62ee451824f18ce2e4074259056886bfaa"
+    },
+    "docs/data-contract.md": {
+      "path": "docs/edai-1/data_contract.md",
+      "before_sha256": "dd065b672c61813b3ea6fc8ec0bcc4036672e8ff0e995bcec3cb0452c0f5d13b",
+      "after_sha256": "d67b3cc97140eff1eded0fa751e52ab45959c47070879c31f17df4b03aaed02b"
+    },
+    "docs/data-processing-review.md": {
+      "path": "docs/edai-1/processing_jobs.md",
+      "before_sha256": "c448cec5aaab12e0cf52dbb028a43cfc6d268b64ea578af380f68199ad5c86f6",
+      "after_sha256": "c2468fcca0d7a9bcdae901d09ec439dcd5654305e39556645173cfece263440a"
+    },
+    "docs/data-review-audit.md": {
+      "path": "docs/edai-1/data_review_audit.md",
+      "before_sha256": "0a7cab0b0159e8714c1882d9c51669e706101bbe9a619306397213da189f42f3",
+      "after_sha256": "16be60f989d1cfde2151d7a189db109550a90df19ff14e37582ba5c7a1a49132"
+    },
+    "docs/datahub-restore.md": {
+      "path": "docs/edai-1/datahub_restore.md",
+      "before_sha256": "cccaaa0320cedf9d3d2a29cdabfd27cb93ee089bc5c7cb322621263ca2b198a5",
+      "after_sha256": "0dca654c7e8f3860843f3c74d7f8f1977a26d7933b083ef8a2097eaa24d58dcf"
+    },
+    "docs/deployment-policy.md": {
+      "path": "docs/edai-1/deployment_policy.md",
+      "before_sha256": "7aeaf949c752068f4d962ebaae3a2fac8e9cc9921ee7c77036cfd08077b1379d",
+      "after_sha256": "35d7b6bb07fe4b17c4763de4ebea86d977364cfbbf6074f80ae42c562c103fce"
+    },
+    "docs/distributed-training.md": {
+      "path": "docs/edai-1/distributed_training.md",
+      "before_sha256": "0ad3937fd42ecd3ef648635760a65582f1e4caea29865ebeb86d14cc55f68583",
+      "after_sha256": "b38d006c9e12fde499426cd1d7b4b6737f6a289ac0c53a03996afe4b39c9dc7f"
+    },
+    "docs/docker-optimization.md": {
+      "path": "docs/edai-1/docker.md",
+      "before_sha256": "74375bdd6fc6aa3b47fa2c4027e22918afee8b4e2cf747b72cdc09deaafb9e86",
+      "after_sha256": "6015ad741f3cfb4d32d7a929e0cddedf9f75617f0fd1a8f2f2b9c35565e91e47"
+    },
+    "docs/drift-detection.md": {
+      "path": "docs/edai-1/drift_detection.md",
+      "before_sha256": "8b81460b946ff297e8642345fbdb034957ed5bd3c6d0083ecdf54a7007fb42d1",
+      "after_sha256": "8c86a4c71fdc7d78a7962453222b3d220c337e479102a13a7d429e24d710be5f"
+    },
+    "docs/drift-eventing.md": {
+      "path": "docs/edai-1/drift_eventing.md",
+      "before_sha256": "bfb35c4f7db2f98855119b0ebc3a6c34f89ead058ff291bb139b040a627553af",
+      "after_sha256": "d541422c8519b020654de18870e85a5b5a94f7b3befde4e4f3d65ac00735c84c"
+    },
+    "docs/drift-retraining.md": {
+      "path": "docs/edai-1/drift_retraining.md",
+      "before_sha256": "efac8f722d0e26da836dc4485bf782530716e253ae010696d5685feda53e77de",
+      "after_sha256": "a0056de31ff175c9de4ab57c4b305d9f5ab077bb368f47bf58a053b0c5c9ec9b"
+    },
+    "docs/evidence-guide.md": {
+      "path": "docs/edai-1/evidence_guide.md",
+      "before_sha256": "ad4ed86eb0de9df834109b524706bb39c2908d35cf05a4c8fd73d2f9f1b5879f",
+      "after_sha256": "d8f8e44949410743e32add222fd10078dfdbc9847aac14c9710ba8c46d11d5e2"
+    },
+    "docs/feast-feature-store.md": {
+      "path": "docs/edai-1/feast_feature_store.md",
+      "before_sha256": "ec68850df51c7380632866ca437d21a953f985f5919a2b00398e61c8fd9d1d69",
+      "after_sha256": "dafac404668fbc8f9df38f70eb5c22d0e2d4a74651602ca642705190d0b796eb"
+    },
+    "docs/feast-materialization.md": {
+      "path": "docs/edai-1/feast_materialization.md",
+      "before_sha256": "65ae65e662a47e288c31d254926ba07212be637f891be61cbc681938c51a288b",
+      "after_sha256": "b7125a78c4b763ce26157320ffe91c40e186f13a1761d5d1b2e9bc1416b7063b"
+    },
+    "docs/feature-api.md": {
+      "path": "docs/edai-1/feature_api.md",
+      "before_sha256": "fd994defc6cad239efd7e4100d2ce622a6a06506e4916be362354b3e02bd0d48",
+      "after_sha256": "13701d592f576105adaf72c4fe4cfcdd0e89ccc20241bab9be8cbaf1ac10a9f2"
+    },
+    "docs/feature-jobs-and-ttl.md": {
+      "path": "docs/edai-1/feature_jobs_and_ttl.md",
+      "before_sha256": "c223069d6c2a66da21094f2ce1f875588f71905aa183dbf31d8a3e47c8b4fa76",
+      "after_sha256": "226ae36346a3c7be83bf84e7bcb9a5392311f866190d20d5dbe2b56c7a82e337"
+    },
+    "docs/final-audit-matrix.md": {
+      "path": "docs/edai-1/implementation_map.md",
+      "before_sha256": "7441c01fab0f4bb555d3bb04b324ed6d430e1443b69a8c614b8b40d5a7b9961b",
+      "after_sha256": "db698599ecd496941849c58fccb766a4e8beb3229e0aa484252c9ad0624e7ad0"
+    },
+    "docs/final-audit.md": {
+      "path": "docs/edai-1/final_audit.md",
+      "before_sha256": "ee673b26e94d93998e4ab8c57a82371ca60e0da9a9d4327adbdb66d724541806",
+      "after_sha256": "33c8fe0866c8c9d24807d0d3dfd97634d05c417cd86cdd0f6fc7d8738eb1ca31"
+    },
+    "docs/final-handover.md": {
+      "path": "docs/edai-1/final_handover.md",
+      "before_sha256": "643aafe2fa254d6f649cdce4b1619de641d43462f26b06b4aa292dcb0e054b87",
+      "after_sha256": "d97ae94ee28e8177c0dc9c456808ca477a39ce97e5a7e5453815b22a622dd888"
+    },
+    "docs/final-llm-rubric-tracker.md": {
+      "path": "docs/edai-2/rubric_tracker.md",
+      "before_sha256": "b907ed32f628d1aa690976b2a58966a29d154cdced11378f32e983c0209c13ae",
+      "after_sha256": "7c2be51d00f3216f44907fc1029916509a14cdcde7d8cc69f00a0109fe0af0e3"
+    },
+    "docs/final-rubric-tracker.md": {
+      "path": "docs/edai-1/rubric_tracker.md",
+      "before_sha256": "546e040c2e8f64ca7f73844be28bf99d19ca3fac5bcc2045bb052588e163d1da",
+      "after_sha256": "bc8dd22f7c3fa1bb5b5b49f6452b78ffa47e60f30921dccb891169b10443ea8a"
+    },
+    "docs/full-scale-ingest.md": {
+      "path": "docs/edai-1/full_scale_ingest.md",
+      "before_sha256": "bd9b68d495fbba0790e8ccdd4f2ed0b3e7450982be6cb5ca7fa41fe584ea2f29",
+      "after_sha256": "463cd6bb2288ff02080bd60ada7628b59d5463bb87d0c9d6d40fd38bf0197ab4"
+    },
+    "docs/gcp-runtime.md": {
+      "path": "docs/edai-1/gcp_runtime.md",
+      "before_sha256": "7dd4f9afb0593e9bd8ec33c3d30f68857907ea10bde4759282de8f49a557b1f7",
+      "after_sha256": "3b5512638752e4c70989521b2d97f286c8c2225ff3eb97c77c1a43bf689b748c"
+    },
+    "docs/gcp-vm.md": {
+      "path": "docs/edai-1/gcp_vm.md",
+      "before_sha256": "891efad61d05e58d35a86a53ae7e8dab5677e8ae1a0ac3cbfd2d15690f09433e",
+      "after_sha256": "19a601cd287e20706f46c4787b203a71e550c632e443b33d9348b6f75346614f"
+    },
+    "docs/generator-throughput.md": {
+      "path": "docs/edai-1/generator_throughput.md",
+      "before_sha256": "3f8e9b92f7710125cc58c46217c14ce8cad47f9e1f9fc3edc324f31af4e41381",
+      "after_sha256": "3d80cd91e9a016a2801cfae644e968781c86348d4888a0186a40e7a6cb5bd5f0"
+    },
+    "docs/gpu-agent-routing.md": {
+      "path": "docs/edai-2/gpu_agent_routing.md",
+      "before_sha256": "2fcbf764a6831dedcd52ef7c46bda55f208a7e38f5c5218fcec31d93fc81ab8e",
+      "after_sha256": "c1966b25084d783333234c650daa5a9f4fa5cbf0e394e75d4724a3965707a5e2"
+    },
+    "docs/gpu-inference.md": {
+      "path": "docs/edai-2/gpu_inference.md",
+      "before_sha256": "700b248c807369e2f199c7537fc9eb92afb258940d4439249e847b8b995afdb8",
+      "after_sha256": "d69d3f55f433adfc98b1ab4c4e11671f32258f4a18681a24216f8fe8514a886e"
+    },
+    "docs/history-rewrite.md": {
+      "path": "docs/edai-1/history_rewrite.md",
+      "before_sha256": "058c150ca4a04301b343acb56f63f51d6921f84bf6650bde1035ed8af9c97adf",
+      "after_sha256": "d88303cd0b1023217ba13674eabf9b37b841428f7584f06b343b8c533391b20f"
+    },
+    "docs/host-monitoring.md": {
+      "path": "docs/edai-1/host_monitoring.md",
+      "before_sha256": "9cdc9eb925393b6c08c42d52b6af16cc9a06093fd299e87a86418f6fc76c3a04",
+      "after_sha256": "8bfd2af03cb1ce52dacd99fa5c01b1cc23f63f0ae139058ad465355115fab1b3"
+    },
+    "docs/iac-verification.md": {
+      "path": "docs/edai-1/iac_verification.md",
+      "before_sha256": "aa929c8fc18febc1d2ca5e56f94d56e23a4697b9fbc8c30944812d97f2c09ee5",
+      "after_sha256": "d1fa910e4186f43186bafd4db939548c994996935d1fe2c156fff12a57360691"
+    },
+    "docs/incremental-data-versioning.md": {
+      "path": "docs/edai-1/incremental_data_versioning.md",
+      "before_sha256": "f342a3aff91b7f53c7d438d88977b099e83cd29d73692a1843b2a05e9ecdc351",
+      "after_sha256": "f9d227918887c040f8285b53fb65c1543959a573ca4c279cf8e77bda8d0fa446"
+    },
+    "docs/joint-cohort.md": {
+      "path": "docs/edai-1/joint_cohort.md",
+      "before_sha256": "9668d4fc7b9b7cea88265cc3ea500fee07ed5715329aaa4a931c49ac65326dcb",
+      "after_sha256": "71b432253c1701d050102af8a7ab8d0f0f0ad4dd3ef48048bed5c8810790e203"
+    },
+    "docs/joint-drift.md": {
+      "path": "docs/edai-1/joint_drift.md",
+      "before_sha256": "4dc481083dd2f5db7f9d8e0746d335d598ee92330c887db7829ca729207fd2c2",
+      "after_sha256": "b29bd6b5040a6878c38aab56bfefb090ad85ce09f9373a822be515794432dfd6"
+    },
+    "docs/kfp-cluster.md": {
+      "path": "docs/edai-1/kfp_cluster.md",
+      "before_sha256": "584ad513bd7b40a89315f334f7219a77996f020ae4a33a818c69af64fa5973e8",
+      "after_sha256": "a46063c5f7aeb926ced39eb3358f6fc6ee28a36b41cc92e2f1a546554e383e2e"
+    },
+    "docs/kubernetes-serving.md": {
+      "path": "docs/edai-1/kubernetes_serving.md",
+      "before_sha256": "d03856c02c7c9a1ecc9b8b58083d3529ebf6b16ff95820a7b930e18db888d4cf",
+      "after_sha256": "cf91708f036fc4f5b8347c22064330a81ecf7c3a6df3b8ee82766fabe7ff2039"
+    },
+    "docs/large-ingest-runner.md": {
+      "path": "docs/edai-1/large_ingest_runner.md",
+      "before_sha256": "2919f9618fc0da513d1392a0d3edbf2e19f02bd9cc99cf93ecb826ae07c9bab0",
+      "after_sha256": "f15e498abb01374f3a303657a18d0c4144b1ac45dcb1d9bf9cdcf9de71a69659"
+    },
+    "docs/llm-class-design.md": {
+      "path": "docs/edai-2/llm_class_design.md",
+      "before_sha256": "57a67da0fdfb56a9a460258203a12354cde4ffe77c960b4523fc6bc6c927e121",
+      "after_sha256": "da5c67e7696ec6a480ce26430aab665e5e1ad8ab0a1ba3463c66d8356931c500"
+    },
+    "docs/llm-grounding.md": {
+      "path": "docs/edai-2/llm_grounding.md",
+      "before_sha256": "1dd8ffcb54bce4f009a528b2a6bdb03ecec7966f14da127b77b0f06d07867828",
+      "after_sha256": "888244e7fa76d5d780617238296ef2926a3bab01031990fa60f7d2ec6b4d2e15"
+    },
+    "docs/llm-inference.md": {
+      "path": "docs/edai-2/llm_inference_platform.md",
+      "before_sha256": "eab0d191426a36521ea7d9ef1c34d47b9a8b7493894fa11e420f8bde7f83f295",
+      "after_sha256": "2d855109868fd19b6642b8d6c6cbb635dc8570d741a4d52682515dbaee3c4801"
+    },
+    "docs/llm-infrastructure-evidence.md": {
+      "path": "docs/edai-2/llm_infrastructure_evidence.md",
+      "before_sha256": "4657dc979caf114f45d4a6744fbf38ef4f1afff38f566b9d9075f5a57fe8af0c",
+      "after_sha256": "673c752edd81c9f80cadcc431bc537a62833b6b7bcb759537d520e5f817984ee"
+    },
+    "docs/llm-model-ab.md": {
+      "path": "docs/edai-2/llm_model_ab.md",
+      "before_sha256": "ec72e44304b3006ca52fa48a7375417f945e8ff776fc5f0c2d4ca978de8572f7",
+      "after_sha256": "50ee6556fc2c9251b04e855803c8c8344169d52687e7016856332559ee5920d9"
+    },
+    "docs/llm-monitoring-demo.md": {
+      "path": "docs/edai-2/llm_monitoring_demo.md",
+      "before_sha256": "56928bd57aa881564436d120f39fa99e2bbd14bba1148e6496b96f65d8139198",
+      "after_sha256": "20cc05e0cf55063df966cdd95041bb9d10e5e0214cfa39710bbe551ec4848ae0"
+    },
+    "docs/llm-observability.md": {
+      "path": "docs/edai-2/observability.md",
+      "before_sha256": "78c4b96c4044f38b108f86d58a6a0ff29e215b56122ff457267783b1bdd08b64",
+      "after_sha256": "10cf6f48df2ad16a5c103c0647397e2ff69bc09713f243ebdd74acb211b20fef"
+    },
+    "docs/llm-platform.md": {
+      "path": "docs/edai-2/llm_platform.md",
+      "before_sha256": "1d175f7153fccbb14d11e9eeaf619a41b462f1e111e9e9cbe485c5beb9eca3e0",
+      "after_sha256": "7a3813faa7361fed886597690e627b46052db2c43a9f07bb87793045c266fe5e"
+    },
+    "docs/llm-policy-window.md": {
+      "path": "docs/edai-2/llm_policy_window.md",
+      "before_sha256": "4001e88ba5fd696997817066e595870aa7d9a12c222a637a0593b345d4aa1b68",
+      "after_sha256": "108abd2dfd1f5e8b6a3567cff6bb812e9372c1b9093f53e88d543b8eecf35212"
+    },
+    "docs/log-discovery.md": {
+      "path": "docs/edai-1/log_discovery.md",
+      "before_sha256": "3c0a46b82a2f4c17055f7448b3eff2892c7cb89b5dd2f7c69dd0b1dc32c25ad2",
+      "after_sha256": "278b604a18b0bee6d8b051a12adacad17d7387827b7028d3f43c8834b5c1f278"
+    },
+    "docs/log-monitoring.md": {
+      "path": "docs/edai-1/log_monitoring.md",
+      "before_sha256": "e3fb2d282b65cabfac0b672e2ff74fcbfa2c68c681c209c76c78cef9134f6775",
+      "after_sha256": "a2df5795447b3bd9fdda402bfb7dae0bbe209f692493844ab7b84c28a4b1b5e2"
+    },
+    "docs/mcp-application-design.md": {
+      "path": "docs/edai-2/mcp_application_design.md",
+      "before_sha256": "a7f97c2238f463d3561d7579c7495c746888543ccbf96c269e3939ac39087cbd",
+      "after_sha256": "38cd5ff5c03f3fb0d5c745ab081360295d71e7d85be4c9433d20650a9f37227d"
+    },
+    "docs/mcp-gateway.md": {
+      "path": "docs/edai-2/mcp_gateway.md",
+      "before_sha256": "83f73b20e0b8760c4ff78c1052af12a329f2633fd21861293a5fe4cde3bfb05b",
+      "after_sha256": "5c4efa49250f9061bbfd8d9cd6fd6c3ad239c7e1a358dbb8603c64e28e6b1465"
+    },
+    "docs/mcp-quality-evidence.md": {
+      "path": "docs/edai-2/mcp_quality_evidence.md",
+      "before_sha256": "969b3b9e3faac8418b1bcbb18424f40f12a61cc9dac34c57025002210927b7c9",
+      "after_sha256": "b5cbbc26ff80d3d43cf5bd41dcddb90bd8b57427b050f8e35e0aa4dace90c620"
+    },
+    "docs/mcp-quality.md": {
+      "path": "docs/edai-2/mcp_quality.md",
+      "before_sha256": "823ccae0db87802364bf74b0ba1aa200768948d846b4965396aaa929bb7c20b7",
+      "after_sha256": "98eceeec337f795261b03c01f50a6ac9e2548467f673976b6dd6f71a7f39eb4c"
+    },
+    "docs/mcp-tools.md": {
+      "path": "docs/edai-2/mcp_tools.md",
+      "before_sha256": "abc4f7a0590d289cce46aa1abca1068b9253bb6858aa825508f5a2e4d351b79a",
+      "after_sha256": "57f7ad3fd8e0f21099a715336b7046d10584eefd9aea59c837f9c2299b396640"
+    },
+    "docs/medium-feature-dataset.md": {
+      "path": "docs/edai-1/medium_feature_dataset.md",
+      "before_sha256": "a261d3d1ebc54cb32c0dff225d6c20d58bc102b60ad3e863130d234a5ab5d35b",
+      "after_sha256": "e4425938caf9672f59c41595acc4c6ca69e6e212c218df417dcc6466ec091523"
+    },
+    "docs/ml-class-design.md": {
+      "path": "docs/edai-1/ml_class_design.md",
+      "before_sha256": "0aa18d13708e3a62c86545a1f3b830c7529582a93f37424ffdf7403e1e36f853",
+      "after_sha256": "df566fdfd5bae2fa6f316c67a773e9008035854716e9a017e03e7534a1c49f1f"
+    },
+    "docs/ml-evaluation-protocol.md": {
+      "path": "docs/edai-1/ml_evaluation_protocol.md",
+      "before_sha256": "116a29a419d2998812b6bc2cefcbd8f07b747d7a835c5001f8b68f67031e9539",
+      "after_sha256": "0d8eba6b8bd45f1e34621d7f1d20a307d165d690a7d8513b7ba8f767361b7c18"
+    },
+    "docs/ml-training.md": {
+      "path": "docs/edai-1/ml_training.md",
+      "before_sha256": "4755ac8f93364eb5357c7d717d7d9962aed764b98bff8c3186964c2afb2e3394",
+      "after_sha256": "ca2347d575b0bcaba0fe67711dc88822f0c7a261533995c5aa606efbb1901362"
+    },
+    "docs/model-serving.md": {
+      "path": "docs/edai-1/model_serving.md",
+      "before_sha256": "35bcc6edf15be6bdf4a79d893093f88d9c23fde0204b000b00a13da1b9f94616",
+      "after_sha256": "d84ad25111fa693153538ba67a22f0d8a5bd400794fee5bc18db4bde89180988"
+    },
+    "docs/novel-ideas.md": {
+      "path": "docs/edai-1/novel_ideas.md",
+      "before_sha256": "d018366ff5a23feb2d90ac94bdf7e5f48a9e15577e38284a00d8086f81019101",
+      "after_sha256": "2db79293aabc358ecb581f6b7866dff370e71196ea1f0485e02b3985f4bffc55"
+    },
+    "docs/observed-api-load.md": {
+      "path": "docs/edai-1/observed_api_load.md",
+      "before_sha256": "0509b84494c83ce33749161deff29014e40400c47fd49f3d7e79c0fdc166dc0b",
+      "after_sha256": "db07c09589fc97a19a65e32b7db954c7b456baf3f72d8cbbf93f20b7a8de810f"
+    },
+    "docs/offline-drift-monitoring.md": {
+      "path": "docs/edai-1/offline_drift_monitoring.md",
+      "before_sha256": "655bd77f34463ba7a085d79794ff61e6896a511ab7b5465c4d4795cf47363f47",
+      "after_sha256": "bca78f6aa2930c51a86247e6c1d99d2b41acda0c571b5682b15816dceb4494ee"
+    },
+    "docs/operations.md": {
+      "path": "docs/edai-1/operations.md",
+      "before_sha256": "dff2ed12ef7b1096e9cd0be884e275793d921a3a9e3342552f4ec48e237710bf",
+      "after_sha256": "303cd6802c3e734ae22c73f720ec6839bcda64b0fe6159392366383061709eb9"
+    },
+    "docs/orchestration.md": {
+      "path": "docs/edai-1/orchestration.md",
+      "before_sha256": "2597cb437093a7d17801926f8eecc936183d733a99f8a4f27b6209c2eed28a2d",
+      "after_sha256": "04be601239bd68c2a3fb03b43527d0ad44e70114ecb82907a1522f86a504332a"
+    },
+    "docs/private-gateway.md": {
+      "path": "docs/edai-1/private_gateway.md",
+      "before_sha256": "3233d43bc3e382f117361e2d42d71abed31023e7380705e75179a89efcc5820c",
+      "after_sha256": "89c682dd382c48cd4b2142b329c9914a6a8f6f157cd55cb4aaaa22b9ceab4e35"
+    },
+    "docs/private-mesh.md": {
+      "path": "docs/edai-1/private_mesh.md",
+      "before_sha256": "46471338ffe5a4b69ffb8698b693c87369af4c6092bc2064c5f398869ae7d806",
+      "after_sha256": "047ea5c985c1c09dd2a6f5b52dbe87f7fa103c880da103fc1a47a3db7b2b935a"
+    },
+    "docs/rag-corpus-drift.md": {
+      "path": "docs/edai-2/rag_corpus_drift.md",
+      "before_sha256": "a2b034a8c02791392d95855a67dbe001f0551548bb464d8dc0afdccc215f206e",
+      "after_sha256": "821f48324540e3de9c4f9b59075ff3e0041cb203a281368aaabdce51ebbdc2d4"
+    },
+    "docs/rag-foundation.md": {
+      "path": "docs/edai-2/rag_foundation.md",
+      "before_sha256": "b6a600390da56e489a6a39b7ffaae72fb91be32c6ed4476b054dba7d3fe44f58",
+      "after_sha256": "7fe6480c549bd8fc3babdbec9bd6baf954748a5fe3d3ca856fa3056a0d8e1275"
+    },
+    "docs/rag-orchestration.md": {
+      "path": "docs/edai-2/rag_orchestration.md",
+      "before_sha256": "56d423bf96b4ec1a3a696d3e7afd930e4a14d40bd25d7042a6f2bb8716bb9d07",
+      "after_sha256": "3c34ec6a1e786a58969fcaa6cdb152febe5bb67c6ddce97fe31db733314e0995"
+    },
+    "docs/repository-quality.md": {
+      "path": "docs/edai-1/repository_quality.md",
+      "before_sha256": "d7593508dbf96f4947a117c73f5e3e2e1d1eb7fdebf8579a84cad7e7c18d51fc",
+      "after_sha256": "addc633f276711d1f50b41a559365c281f45c242ce3197b3153346f501dcc8b1"
+    },
+    "docs/rubric-source.md": {
+      "path": "docs/edai-1/rubric_source.md",
+      "before_sha256": "484f05d8dc67efe4d7acad615d842f8bbc44b2cdb9a643a866a961f19e5708aa",
+      "after_sha256": "d33b0e2d9263bc8f4a62024a2a222baf017e3a4101dd9ca67a0eba85a71f9c46"
+    },
+    "docs/rubric-tracker.md": {
+      "path": "docs/edai-1/rubric_overview.md",
+      "before_sha256": "20f105be4c911612a4f06d8850bde97b782d07c740db9c1bda7f87397d6cec2f",
+      "after_sha256": "ff49d9ef34891fcba4b11c04c1de808b4c7dd3105b4dbb1e0e204b602bcc8e18"
+    },
+    "docs/scale-100gb.md": {
+      "path": "docs/edai-1/scale_100gb.md",
+      "before_sha256": "a38d4b2cf811a6e6f7c71f9f7ab6bc97e976aabac01736df9bc6100e36c20e58",
+      "after_sha256": "a6db759c93f74c24012ed0ed36e99fea6b9ca1cf212cc2d7e928c59aa53ae52a"
+    },
+    "docs/schema-design.md": {
+      "path": "docs/edai-1/schema_design.md",
+      "before_sha256": "02862ad78c6ee532d5c7fbd5e69d951c483f103782dcb0fe03f150d80eb98fc8",
+      "after_sha256": "dde785fe740bc4e8fbf0db79676bb85ceb39b8621ad22b9962bbd1c0adfa5142"
+    },
+    "docs/serving-release.md": {
+      "path": "docs/edai-1/serving_release.md",
+      "before_sha256": "baa32330ec8ef0e901e8d81e812f37c4c100623ea3e079065aa9937ba216b144",
+      "after_sha256": "17eebf029cc3914b13b6446b8c0ecc14c3281f0d81aee456a5b449ca721e2ff4"
+    },
+    "docs/skew-benchmark.md": {
+      "path": "docs/edai-1/skew_benchmark.md",
+      "before_sha256": "b13e146436ecdda6a7276c40dfcc02fbc2f5b82851b648dd3bb6115e6c868e33",
+      "after_sha256": "b4c7ffd74ac292e4f6fe829ff62af3bf164945ef6306e5b6226e8fdb68f56bfb"
+    },
+    "docs/stream-feast-push.md": {
+      "path": "docs/edai-1/stream_feast_push.md",
+      "before_sha256": "02c0761a4e7a3a65c30db14f6999a1e0fdee8a4bb5f78f664b1d67fe983c97ae",
+      "after_sha256": "a883a08aa77b1167f0a46b0d6fb08d2c943d80f593664d1c5f59c5e91f895292"
+    },
+    "docs/streaming.md": {
+      "path": "docs/edai-1/streaming.md",
+      "before_sha256": "7df41e35ae3c8d8312294ea5df608167a3973fc08affc0935271ac4a12f73a13",
+      "after_sha256": "5e2470c5c21d242517d647758862107caf7a4fe17d71cd749f0e633ecd6d0da6"
+    },
+    "docs/training-notebook.md": {
+      "path": "docs/edai-1/training_notebook.md",
+      "before_sha256": "3f4c2c40baed93a25ada53cc27f9238dcc03a633ff09d109d3d971a2acc35ac2",
+      "after_sha256": "88b469d8c56e52532fb2a52783e02f1dd5676a9991920f6cdb3e003006cc5e28"
+    },
+    "docs/vault-agent-ui.md": {
+      "path": "docs/edai-2/vault_agent_ui.md",
+      "before_sha256": "fe15c9c0770fe0ebcf82c071a56978c4435e6157c2c804c81e8be5bce9e5f37d",
+      "after_sha256": "5da08d2f7a58532390df8d1d4388f56f238cbd33bc14e36d3051e6dce5299c9a"
+    },
+    "docs/vault.md": {
+      "path": "docs/edai-1/vault.md",
+      "before_sha256": "990158e5bbd6b7b78c43f7639e0838daea16265023275542fd51679b5e753808",
+      "after_sha256": "bf0a61bf4cbb30bb8ad45f391895cc7bc7c007490af87d3c6368efd7dfc5b3cb"
+    },
+    "docs/versioned-serving.md": {
+      "path": "docs/edai-1/versioned_serving.md",
+      "before_sha256": "fe5e49723b412802cdbc0df9ac20396bc9f289aaa2162c1b354ae9a6b04d1185",
+      "after_sha256": "eb478d2e823825b6fb30d3087259a4741146343abdc1a09641a10829adf9a9aa"
+    },
+    "docs/window-cohort.md": {
+      "path": "docs/edai-1/window_cohort.md",
+      "before_sha256": "df3d1018c298a45c6170f873cac3f598db24b54465142bc90758d4602669777b",
+      "after_sha256": "2262366766c66b43f700eb57a7f66f22f312eec8794b988eb977e03b912ee124"
+    }
+  },
+  "scope": "Only declared document relocation and deterministic navigation rebasing. Source workbooks, receipts, screenshots and artwork remain at their original paths.",
+  "linked_files": {
+    "README.md": {
+      "path": "README.md",
+      "before_sha256": "51ba4ad8c364741f18df1ab65a9494bc465b4e5477825cbd2692adfdf679c199",
+      "after_sha256": "b8ab6857291bc7e4bbf66374c29b45a1b51dbc338bde188a5cbaac77927e69de"
+    },
+    "agents/README.md": {
+      "path": "agents/README.md",
+      "before_sha256": "59071431ff2001febcab9136e0f144560cbf0e824c1a7b5932b40148885602c4",
+      "after_sha256": "ff64941d9d1c1e9da4c89104ea2c0e7f96d3ec6ad97f3abdcf26a264df49c7fb"
+    },
+    "docs/diagrams/README.md": {
+      "path": "docs/diagrams/README.md",
+      "before_sha256": "f44647c6575bcd6602471769c94942b47acc07e0cc0644c56fe4acf2a9a08340",
+      "after_sha256": "e6470e18aab5ca7762a7a4db6ecaebfd2006189d72abbf702d53dbebcf1569e9"
+    },
+    "feature_store/README.md": {
+      "path": "feature_store/README.md",
+      "before_sha256": "34c738766b727007dfa3c8809c5edcfe0a6067a31593135c39e410caeba505d7",
+      "after_sha256": "236faf537fdbab2574d33afaf2caaa4b428bf2dcb29f2b75ffb28ec535a51473"
+    },
+    "generator/README.md": {
+      "path": "generator/README.md",
+      "before_sha256": "14a2505a0b1d1dd5223edc32957516540b34f847fd84264c2e8966f703a39b16",
+      "after_sha256": "d3daa43125c8495d70c269958595f366136d98b40c5c88ba8644c864be9dec33"
+    },
+    "infra/README.md": {
+      "path": "infra/README.md",
+      "before_sha256": "54ad01f56d913f36885521ba84dd96a50d047db881e32dc8c1afa9acf6405cde",
+      "after_sha256": "56cb60c4b4d7972762868333d06ad6523f0e471bec10d64b128f004b6ca2b05e"
+    },
+    "ml/README.md": {
+      "path": "ml/README.md",
+      "before_sha256": "80f0f44c929899193e8856aebb3a115c4436ce97e4a183d8afb9f149980af474",
+      "after_sha256": "50027b425fad65124c104e1e975fa50bf78102b7dd25057db37620c075980dc9"
+    },
+    "pipelines/README.md": {
+      "path": "pipelines/README.md",
+      "before_sha256": "911d185ea854805a3843fcb122ca866c8400cba8033317c6ccfbb60e97737d3f",
+      "after_sha256": "0ee9b7b1740f383d096456dc544b7055db1eaa34d139476c1267f917f75f119f"
+    },
+    "rag/README.md": {
+      "path": "rag/README.md",
+      "before_sha256": "d9ed1eba2aea4eae8d4e5ec1fbc162d8cd829730602270fc4cd0287ba9018cc1",
+      "after_sha256": "93006f56ce259562f8d6c4da9bccff2f2a324f9338f7a4684105095d8103ea44"
+    },
+    "scripts/README.md": {
+      "path": "scripts/README.md",
+      "before_sha256": "1824aaaabc1c0c1e492390e85498254c791004d688592a7b5f7bff81a6e6f236",
+      "after_sha256": "78a50176e065b5e5f54ee46d3437687649b83355c5a620e13de636c395ba8bea"
+    },
+    "services/README.md": {
+      "path": "services/README.md",
+      "before_sha256": "b22cc79a0fbaee4796407cd0c9e75db11311a37619fa29fba00dc45d100e7a8c",
+      "after_sha256": "3a1cfdb1af085e57bd48971a6234a3da2405bc73ab1a4de868575e1bead4af96"
+    }
+  }
+}

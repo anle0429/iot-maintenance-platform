@@ -9,6 +9,7 @@ import {createHash} from 'node:crypto';
 const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'../..');
 const figures=JSON.parse(fs.readFileSync(path.join(root,'docs/images/diagram-index.json')));
 const bank=JSON.parse(fs.readFileSync(path.join(here,'icons/brands.json')));
+const documentPaths=Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync(path.join(root,'docs/navigation.json'))).files).map(([old,v])=>[old,v.path]));
 const expected=[
   [47,'O1 O2 D1 D2 Q1 S0 S1 S2 S3 S4 S5 F1 O3 F2 T0 T1 I1 I2 T2 C1 C2 M1 L1 L2 F3 V1 P0 P1 P2 P3 P4 P5 C3 H1 O4 R0 R1 R2 K1 K2 Q2 A1 A2 A3 A4 A5 M2 M4 M5 G0 G1 G2 G3 G4 G5 G6 H2 H3'],
   [18,'D1 D2 F1 F2 F3 C1 G1 T0 T1 T2 C2 C3 S0 S1 S2 S3 S4'],
@@ -42,7 +43,7 @@ for(const [i,v]of figures.views.entries()){
     assert.equal(e.isDeleted,false);assert.equal(e.roughness,0);assert.equal(e.opacity,100);assert.equal(e.angle,0);
     if(e.type!=='arrow'){assert(e.x>=0&&e.y>=0&&e.x+e.width<=v.width+1&&e.y+e.height<=v.height+1,'Out of canvas: '+e.id);}
     if(e.type==='text')assert.equal(e.fontFamily,3);
-    for(const source of e.customData?.sources??[]){const f=path.resolve(root,source);assert(f.startsWith(root+path.sep)&&fs.statSync(f).isFile());sources.set(source,sha(fs.readFileSync(f)));}
+    for(const source of e.customData?.sources??[]){const resolved=documentPaths[source]??source;const f=path.resolve(root,resolved);assert(f.startsWith(root+path.sep)&&fs.statSync(f).isFile());sources.set(resolved,sha(fs.readFileSync(f)));}
     if(e.type==='image'){
       assert(bank[e.fileId]);const icon=bank[e.fileId],file=s.files[e.fileId];assert.equal(file.mimeType,icon.mimeType??'image/svg+xml');
       if(icon.dataURL)assert.equal(file.dataURL,icon.dataURL);else assert.equal(Buffer.from(file.dataURL.split(',')[1],'base64').toString(),icon.svg);

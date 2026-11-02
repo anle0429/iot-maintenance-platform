@@ -27,7 +27,7 @@ Maintenance staff need to inspect the condition of an operating pump and identif
 | Failures and maintenance | One recorded onset or intervention interval | Downtime, delayed recording and incomplete future observation |
 | Technical references | Versioned authored document/chunk | Retrieval ordering, source identity and corpus changes |
 
-The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 hour]** for a machine operating at t. Features must have arrived by the prediction time. Failed or maintenance-state machines are excluded, and unobserved futures are not treated as negative examples. See the [data contract](docs/data-contract.md) and [evaluation protocol](docs/ml-evaluation-protocol.md).
+The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 hour]** for a machine operating at t. Features must have arrived by the prediction time. Failed or maintenance-state machines are excluded, and unobserved futures are not treated as negative examples. See the [data contract](docs/edai-1/data_contract.md) and [evaluation protocol](docs/edai-1/ml_evaluation_protocol.md).
 
 ## Architecture
 
@@ -38,7 +38,7 @@ The system map follows data through batch and stream jobs, feature delivery, tra
   <img alt="IoT platform architecture: data governance, batch and streaming pipelines, features, ML, serving, infrastructure, security and agents" src="docs/images/platform-system.gif">
 </picture>
 
-[Excalidraw source](docs/diagrams/platform-system.excalidraw) · [Full-resolution PNG](docs/images/platform-system.png) · [SVG](docs/images/platform-system.svg) · [Interactive viewer](docs/diagrams/architecture.html) · [All ten diagrams](docs/diagrams/README.md) · [Architecture](docs/architecture.md)
+[Excalidraw source](docs/diagrams/platform-system.excalidraw) · [Full-resolution PNG](docs/images/platform-system.png) · [SVG](docs/images/platform-system.svg) · [Interactive viewer](docs/diagrams/architecture.html) · [All ten diagrams](docs/diagrams/README.md) · [Architecture](docs/edai-1/architecture.md)
 
 The animation illustrates direction with arbitrary timing. It is not live traffic or an execution schedule. Reduced-motion visitors receive the static image. Open the HTML viewer from a local clone to pause, change speed, zoom and inspect each arrow's implementation sources. The diagrams remain editable in Excalidraw.
 
@@ -46,12 +46,12 @@ The animation illustrates direction with arbitrary timing. It is not live traffi
 
 | Stage | Input → output | Implementation / validation |
 |---|---|---|
-| Source generation | Equipment history → telemetry, failures, maintenance and delivery attempts | [Generator](generator/README.md), [data checks](docs/chunked-generator.md) |
-| DP1 | Offline source → Bronze | [Chunk ingestion](pipelines/chunk_source.py), [100 GB run](docs/full-scale-ingest.md) |
-| DP2 | Bronze → cleaned Silver and machine/time aggregates | [Batch jobs](pipelines/README.md), [skew comparison](docs/skew-benchmark.md) |
-| DP3 | Eligible history → features and separate target records | [Feature protocol](docs/medium-feature-dataset.md), [sample/target validation](docs/assistant-data-validation.md) |
-| Streaming | Arrival-ordered Kafka deliveries → finalized Flink windows | [Event-time processing](docs/streaming.md), [store replay](docs/window-cohort.md) |
-| Orchestration and governance | Validated outputs → scheduled publication, schemas, lineage and assertions | [Airflow and DataHub](docs/orchestration.md) |
+| Source generation | Equipment history → telemetry, failures, maintenance and delivery attempts | [Generator](generator/README.md), [data checks](docs/edai-1/chunked_generator.md) |
+| DP1 | Offline source → Bronze | [Chunk ingestion](pipelines/chunk_source.py), [100 GB run](docs/edai-1/full_scale_ingest.md) |
+| DP2 | Bronze → cleaned Silver and machine/time aggregates | [Batch jobs](pipelines/README.md), [skew comparison](docs/edai-1/skew_benchmark.md) |
+| DP3 | Eligible history → features and separate target records | [Feature protocol](docs/edai-1/medium_feature_dataset.md), [sample/target validation](docs/edai-2/assistant_data_validation.md) |
+| Streaming | Arrival-ordered Kafka deliveries → finalized Flink windows | [Event-time processing](docs/edai-1/streaming.md), [store replay](docs/edai-1/window_cohort.md) |
+| Orchestration and governance | Validated outputs → scheduled publication, schemas, lineage and assertions | [Airflow and DataHub](docs/edai-1/orchestration.md) |
 
 ### ML platform
 
@@ -59,11 +59,11 @@ The notebook and Kubeflow pipeline use the same five-step ML workflow. Training 
 
 | Flow | Main components | Detail |
 |---|---|---|
-| Training | Feast historical retrieval → validation → temporal split → distributed training → saved-model evaluation | [Notebook](docs/training-notebook.md), [distributed run](docs/distributed-training.md), [five classes](docs/ml-class-design.md) |
-| Versioning | Incremental data identities, training runs and model registry | [Data/model versions](docs/automatic-ml-versioning.md) |
-| Prediction | Machine ID → Feast online trace → KServe score → versioned response | [Services](services/README.md), [Feature API](docs/feature-api.md) |
-| Monitoring | Input drift → guarded retraining request, with replay/cooldown checks | [Drift and retraining](docs/drift-retraining.md) |
-| Delivery | Source-bound tests/build → Helm rollout → verification/rollback | [Serving CI](docs/ci-serving.md), [A/B deployment](docs/ci-ab-deployment.md) |
+| Training | Feast historical retrieval → validation → temporal split → distributed training → saved-model evaluation | [Notebook](docs/edai-1/training_notebook.md), [distributed run](docs/edai-1/distributed_training.md), [five classes](docs/edai-1/ml_class_design.md) |
+| Versioning | Incremental data identities, training runs and model registry | [Data/model versions](docs/edai-1/automatic_ml_versioning.md) |
+| Prediction | Machine ID → Feast online trace → KServe score → versioned response | [Services](services/README.md), [Feature API](docs/edai-1/feature_api.md) |
+| Monitoring | Input drift → guarded retraining request, with replay/cooldown checks | [Drift and retraining](docs/edai-1/drift_retraining.md) |
+| Delivery | Source-bound tests/build → Helm rollout → verification/rollback | [Serving CI](docs/edai-1/ci_serving.md), [A/B deployment](docs/edai-1/ci_ab_deployment.md) |
 
 ### LLM and agent platform
 
@@ -74,20 +74,20 @@ The retrieval specialist obtains machine features, the model score and cited ref
   <img alt="Coordinator, specialists, MCP and private GPU inference route" src="docs/images/platform-llm-plan.gif">
 </picture>
 
-[Editable SVG](docs/images/platform-llm-plan.svg) · [LLM platform](docs/llm-platform.md)
+[Editable SVG](docs/images/platform-llm-plan.svg) · [LLM platform](docs/edai-2/llm_platform.md)
 
 | Path | What happens | Evidence |
 |---|---|---|
-| Reference ingestion | Documents → chunks → pinned embeddings → versioned Feast/Milvus snapshot | [Six-task RAG pipeline](docs/rag-orchestration.md) |
-| Agent question | Private UI → coordinator → two specialists → authenticated MCP services | [Complete GPU conversations](docs/gpu-agent-routing.md), [post-restart validation](docs/agent-runtime-validation.md) |
-| Generation | Shared ModelConfig → llm-d → observer/tool-turn adapter → llama.cpp on the private V100 | [Inference](docs/llm-inference.md), [GPU experiment](docs/gpu-inference.md) |
-| Worker capacity | gVisor SandboxAgents and three WorkerPools, with measured 2 → 4 → 2 scaling | [Scaling](docs/agent-scaling.md), [startup study](docs/agent-warmup.md) |
-| Delivery and controls | Separate RAG/retrieval/drift/coordinator releases, scoped credentials and bounded gateway access | [CI/CD](docs/ci-agents.md), [gateway](docs/agent-gateway.md), [Vault](docs/vault-agent-ui.md) |
-| Evaluation | Original replies, child/tool histories, token/TTFT telemetry and small paired comparisons | [Monitoring](docs/llm-monitoring-demo.md), [model A/B](docs/llm-model-ab.md), [agent A/B](docs/agent-configuration-ab.md) |
+| Reference ingestion | Documents → chunks → pinned embeddings → versioned Feast/Milvus snapshot | [Six-task RAG pipeline](docs/edai-2/rag_orchestration.md) |
+| Agent question | Private UI → coordinator → two specialists → authenticated MCP services | [Complete GPU conversations](docs/edai-2/gpu_agent_routing.md), [post-restart validation](docs/edai-2/agent_runtime_validation.md) |
+| Generation | Shared ModelConfig → llm-d → observer/tool-turn adapter → llama.cpp on the private V100 | [Inference](docs/edai-2/llm_inference_platform.md), [GPU experiment](docs/edai-2/gpu_inference.md) |
+| Worker capacity | gVisor SandboxAgents and three WorkerPools, with measured 2 → 4 → 2 scaling | [Scaling](docs/edai-2/agent_scaling.md), [startup study](docs/edai-2/agent_warmup.md) |
+| Delivery and controls | Separate RAG/retrieval/drift/coordinator releases, scoped credentials and bounded gateway access | [CI/CD](docs/edai-2/ci_agents.md), [gateway](docs/edai-2/agent_gateway.md), [Vault](docs/edai-2/vault_agent_ui.md) |
+| Evaluation | Original replies, child/tool histories, token/TTFT telemetry and small paired comparisons | [Monitoring](docs/edai-2/llm_monitoring_demo.md), [model A/B](docs/edai-2/llm_model_ab.md), [agent A/B](docs/edai-2/agent_configuration_ab.md) |
 
-The [warm-up comparison](docs/agent-warmup.md#l26-evidence-boundary) reports mixed startup timings; cloud-cost savings were not measured.
+The [warm-up comparison](docs/edai-2/agent_warmup.md#l26-evidence-boundary) reports mixed startup timings; cloud-cost savings were not measured.
 
-The two researched LLM extensions are [OPA capability/budget admission](docs/agent-admission-policy.md) and [document-weighted corpus MMD review](docs/rag-corpus-drift.md). Each has accepted and intentionally rejected native cases, with its limits documented.
+The two researched LLM extensions are [OPA capability/budget admission](docs/edai-2/agent_admission_policy.md) and [document-weighted corpus MMD review](docs/edai-2/rag_corpus_drift.md). Each has accepted and intentionally rejected native cases, with its limits documented.
 
 ### Deployment
 
@@ -98,28 +98,28 @@ The control/data lab runs on an **8-vCPU / 64-GiB CPU VM**. A separate private *
   <img alt="Individual workload resources on the CPU VM and private GPU worker" src="docs/images/platform-deployment.gif">
 </picture>
 
-[Editable SVG](docs/images/platform-deployment.svg) · [Infrastructure](docs/llm-infrastructure-evidence.md) · [Operations](docs/operations.md)
+[Editable SVG](docs/images/platform-deployment.svg) · [Infrastructure](docs/edai-2/llm_infrastructure_evidence.md) · [Operations](docs/edai-1/operations.md)
 
-Each deployment box identifies one selected workload resource; frames mark its host/runtime. Replicas and containers within that resource stay in the same box. Supporting services are detailed in the [runtime configuration](docs/architecture.md#deployment-and-security). The drawings describe the recorded lab and its connection boundaries; they do not establish simultaneous execution or current endpoint readiness. Two executor Pods on one physical CPU host do not establish multi-host high availability.
+Each deployment box identifies one selected workload resource; frames mark its host/runtime. Replicas and containers within that resource stay in the same box. Supporting services are detailed in the [runtime configuration](docs/edai-1/architecture.md#deployment-and-security). The drawings describe the recorded lab and its connection boundaries; they do not establish simultaneous execution or current endpoint readiness. Two executor Pods on one physical CPU host do not establish multi-host high availability.
 
 ## Recorded results
 
-The [data-platform review checklist](docs/data-review-audit.md) connects the storage boundaries, generator characteristics, measured alternatives and pipeline/schema screenshots to their implementation and exact workload scopes.
+The [data-platform review checklist](docs/edai-1/data_review_audit.md) connects the storage boundaries, generator characteristics, measured alternatives and pipeline/schema screenshots to their implementation and exact workload scopes.
 
 | Workload | Recorded result | Report |
 |---|---|---|
-| Large ingestion | 102,447,847,856 uncompressed JSONL bytes; 316.8 million unique Silver rows; 13 Spark checks | [Full-scale ingest](docs/full-scale-ingest.md) |
-| Schema and dedup experiments | Three pairs each: declared-schema median 0.927→0.764 s; aggregate dedup candidate 0.603 s versus window 0.581 s, so the window method is retained | [Controlled comparisons](docs/batch-corrections-benchmark.md) |
-| Airflow skew benchmark | Five successful tasks; 17.28M Silver rows; median 14.258→9.170 s with identical 4,320-row results | [Native Airflow run](docs/skew-benchmark.md#airflow-benchmark-execution) |
-| ML feature dataset | Separate 60-day source; 3,456,000 snapshots and 3,132,184 eligible training rows | [Feature dataset](docs/medium-feature-dataset.md) |
-| Streaming stores | 5,760 finalized windows / 57,600 unique readings across 20 machines, with replay checks | [Window cohort](docs/window-cohort.md) |
-| Native feature serving | Model 6: 195 valid predictions and five stopped-machine HTTP 409 responses across 200 machines | [Serving record](docs/final-handover.md) |
-| RAG governance | Six actual Airflow tasks, 18 chunks, ten persisted checks, DataHub lineage and invalid-source rejection | [RAG pipeline](docs/rag-orchestration.md) |
-| Complete agent answer | One accepted post-restart parent, two independently checked child tasks, four successful MCP tools and exact model-6 arithmetic | [Runtime validation](docs/agent-runtime-validation.md) |
-| MCP API quality | 132 passing cases; 98.03% statement / 90.74% branch coverage; strict mutation result 681/850, with source-bound reuse stated explicitly | [Testing report](docs/mcp-quality-evidence.md) |
-| Monitoring/load | 128 exact CRI/Loki events, 24 matching panel queries and 108 streamed requests across 1/4-client profiles | [Native monitoring](docs/llm-monitoring-demo.md) |
+| Large ingestion | 102,447,847,856 uncompressed JSONL bytes; 316.8 million unique Silver rows; 13 Spark checks | [Full-scale ingest](docs/edai-1/full_scale_ingest.md) |
+| Schema and dedup experiments | Three pairs each: declared-schema median 0.927→0.764 s; aggregate dedup candidate 0.603 s versus window 0.581 s, so the window method is retained | [Controlled comparisons](docs/edai-1/batch_corrections_benchmark.md) |
+| Airflow skew benchmark | Five successful tasks; 17.28M Silver rows; median 14.258→9.170 s with identical 4,320-row results | [Native Airflow run](docs/edai-1/skew_benchmark.md#airflow-benchmark-execution) |
+| ML feature dataset | Separate 60-day source; 3,456,000 snapshots and 3,132,184 eligible training rows | [Feature dataset](docs/edai-1/medium_feature_dataset.md) |
+| Streaming stores | 5,760 finalized windows / 57,600 unique readings across 20 machines, with replay checks | [Window cohort](docs/edai-1/window_cohort.md) |
+| Native feature serving | Model 6: 195 valid predictions and five stopped-machine HTTP 409 responses across 200 machines | [Serving record](docs/edai-1/final_handover.md) |
+| RAG governance | Six actual Airflow tasks, 18 chunks, ten persisted checks, DataHub lineage and invalid-source rejection | [RAG pipeline](docs/edai-2/rag_orchestration.md) |
+| Complete agent answer | One accepted post-restart parent, two independently checked child tasks, four successful MCP tools and exact model-6 arithmetic | [Runtime validation](docs/edai-2/agent_runtime_validation.md) |
+| MCP API quality | 132 passing cases; 98.03% statement / 90.74% branch coverage; strict mutation result 681/850, with source-bound reuse stated explicitly | [Testing report](docs/edai-2/mcp_quality_evidence.md) |
+| Monitoring/load | 128 exact CRI/Loki events, 24 matching panel queries and 108 streamed requests across 1/4-client profiles | [Native monitoring](docs/edai-2/llm_monitoring_demo.md) |
 
-The 100 GB workload ends at Bronze/Silver; it is not a claim of training on 100 GB. Scores are uncalibrated and based on simulated equipment. Original failures, wrong answers, mixed startup timings and SDK trace warnings remain in the linked reports. The [117-row requirement map](docs/final-audit-matrix.md) connects code and scoped evidence without awarding a grade.
+The 100 GB workload ends at Bronze/Silver; it is not a claim of training on 100 GB. Scores are uncalibrated and based on simulated equipment. Original failures, wrong answers, mixed startup timings and SDK trace warnings remain in the linked reports. The [117-row requirement map](docs/edai-1/implementation_map.md) connects code and scoped evidence without awarding a grade.
 
 ## Quick start
 
@@ -144,11 +144,11 @@ $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -B -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-The audit restores the byte-pinned historical receipt bundle into ignored local files, validates both original rubric views and runs **60 offline artifact checks**. It writes the result and original verifier consoles under `outputs/`. No service starts and no model request is sent. To run an individual verifier first, restore once with `python -B -S scripts/unpack-evidence.py`. See [evidence storage](docs/evidence-guide.md).
+The audit restores the byte-pinned historical receipt bundle into ignored local files, validates both original rubric views and runs **60 offline artifact checks**. It writes the result and original verifier consoles under `outputs/`. No service starts and no model request is sent. To run an individual verifier first, restore once with `python -B -S scripts/unpack-evidence.py`. See [evidence storage](docs/edai-1/evidence_guide.md).
 
 ### Use the live lab
 
-The [operations runbook](docs/operations.md) covers retained CPU/GPU recovery, genuine feature preparation, private access and ML/agent commands. Live requests require that private runtime and an unexpired one-hour feature lease. A Git clone contains no bulk datasets, credentials, service state or LLM weights.
+The [operations runbook](docs/edai-1/operations.md) covers retained CPU/GPU recovery, genuine feature preparation, private access and ML/agent commands. Live requests require that private runtime and an unexpired one-hour feature lease. A Git clone contains no bulk datasets, credentials, service state or LLM weights.
 
 ## Repository structure
 
@@ -178,7 +178,7 @@ Start with a package's README or the [command index](scripts/README.md). Runtime
 
 ## Documentation
 
-The [technical documentation index](docs/README.md) provides a review path through each layer. The [ML tracker](docs/final-rubric-tracker.md), [LLM tracker](docs/final-llm-rubric-tracker.md) and [final audit](docs/final-audit.md) preserve the source requirements and their verification scope.
+The [technical documentation index](docs/README.md) provides a review path through each layer. The [ML tracker](docs/edai-1/rubric_tracker.md), [LLM tracker](docs/edai-2/rubric_tracker.md) and [final audit](docs/edai-1/final_audit.md) preserve the source requirements and their verification scope.
 
 Maintained prose and code descriptions use English. Original workbooks, native logs and screenshots retain their capture language and bytes. Presentation references: [RecSys-MLops](https://github.com/itsmekhoathekid/RecSys-MLops/tree/6bd6e99f481f2a8d5886d6f0e8356540dc20e135) and [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform/tree/cc34515304815774a5dad6f796683b46c27f93ac). The diagrams and measurements describe this repository's implementation and the limits of its recorded experiments.
 

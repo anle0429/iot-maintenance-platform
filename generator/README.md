@@ -6,9 +6,9 @@ The generator separates simulated physical history from data delivery. Wear, loa
 |---|---|
 | Configuration and seed | [config.py](config.py), [development config](configs/dev.json) |
 | Machine history and sensor simulation | [simulation.py](simulation.py) |
-| Chunked generation and measured resource planning | [chunked.py](chunked.py), [chunked-generator report](../docs/chunked-generator.md) |
-| Persisted-output checks | [quality.py](quality.py), [data contract](../docs/data-contract.md) |
-| Separate sample/target tables and controlled drift | [Assistant data validation](../docs/assistant-data-validation.md) |
+| Chunked generation and measured resource planning | [chunked.py](chunked.py), [chunked-generator report](../docs/edai-1/chunked_generator.md) |
+| Persisted-output checks | [quality.py](quality.py), [data contract](../docs/edai-1/data_contract.md) |
+| Separate sample/target tables and controlled drift | [Assistant data validation](../docs/edai-2/assistant_data_validation.md) |
 
 From the project root, Python 3.12/3.13 is sufficient for a small run:
 
@@ -18,7 +18,7 @@ python -S -m generator generate --config generator/configs/dev.json --output "da
 python -S -m generator inspect --source "data/source/$run" --report "outputs/$run/quality.json"
 ```
 
-The development config uses 20 machines over 48 hours. Use new output names to preserve earlier runs. Small runs demonstrate data contracts; [100 GB ingestion](../docs/full-scale-ingest.md) has separate measured source/readback evidence and resource guards. The model's larger training set uses its own [60-day protocol](../docs/ml-evaluation-protocol.md).
+The development config uses 20 machines over 48 hours. Use new output names to preserve earlier runs. Small runs demonstrate data contracts; [100 GB ingestion](../docs/edai-1/full_scale_ingest.md) has separate measured source/readback evidence and resource guards. The model's larger training set uses its own [60-day protocol](../docs/edai-1/ml_evaluation_protocol.md).
 
 ## Observed data characteristics
 
@@ -44,10 +44,10 @@ Cardinality is `distinct(column) / row_count`, measured over **58,752 offline te
 
 ![Measured development-source characteristics](../docs/images/generator-characteristics.png)
 
-The chart is derived from the linked JSON, not a service screenshot. The generator does not make skew disappear: [the Spark comparison](../docs/skew-benchmark.md#before-and-after-on-the-same-input) changes the execution strategy while preserving the input distribution.
+The chart is derived from the linked JSON, not a service screenshot. The generator does not make skew disappear: [the Spark comparison](../docs/edai-1/skew_benchmark.md#before-and-after-on-the-same-input) changes the execution strategy while preserving the input distribution.
 
 ## Schema and delivery examples
 
-Both schema versions contain `event_id`, `machine_id`, `event_ts`, `received_ts`, `created_ts`, `schema_version`, `operating_status`, `temperature_c`, `vibration_rms_mm_s`, `current_a` and `rpm`. Version 2 adds **`pressure_bar`**. A v1 measurement has no pressure field; after normalization it becomes NULL. Zero would invent an observation. The [batch schema/dedup comparison](../docs/data-processing-review.md#offline-normalization) follows raw input through Silver.
+Both schema versions contain `event_id`, `machine_id`, `event_ts`, `received_ts`, `created_ts`, `schema_version`, `operating_status`, `temperature_c`, `vibration_rms_mm_s`, `current_a` and `rpm`. Version 2 adds **`pressure_bar`**. A v1 measurement has no pressure field; after normalization it becomes NULL. Zero would invent an observation. The [batch schema/dedup comparison](../docs/edai-1/processing_jobs.md#offline-normalization) follows raw input through Silver.
 
-The streaming envelope adds `delivery_id`, `attempt` and `published_ts` around the measurement. A retry changes delivery identity and publication time; it does not create a new sensor measurement. See [fixture_phases()](../pipelines/stream_contract.py) for concrete events: D has event minute 8 and arrival minute 16; E has event minute 7 and arrival minute 32. Whether they can still affect a window depends on the **observed watermark**, not delay alone. The [stream comparison](../docs/streaming.md#baseline-problems-and-corrected-results) shows D accepted and E quarantined after closure.
+The streaming envelope adds `delivery_id`, `attempt` and `published_ts` around the measurement. A retry changes delivery identity and publication time; it does not create a new sensor measurement. See [fixture_phases()](../pipelines/stream_contract.py) for concrete events: D has event minute 8 and arrival minute 16; E has event minute 7 and arrival minute 32. Whether they can still affect a window depends on the **observed watermark**, not delay alone. The [stream comparison](../docs/edai-1/streaming.md#baseline-problems-and-corrected-results) shows D accepted and E quarantined after closure.

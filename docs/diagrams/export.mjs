@@ -17,6 +17,7 @@ const {chromium}=require('playwright');
 const views=['platform-system','platform-overview','platform-serving','platform-deployment','platform-monitoring','platform-llm-plan','agent-admission','assistant-classes','agent-traces','prompt-policy'];
 const labels=['System architecture','Platform overview','Prediction request','Deployment topology','Observability & retraining','RAG & agents','Agent release admission','Assistant code boundaries','Agent trace paths','Prompt policy cohort'];
 const bank=JSON.parse(fs.readFileSync(path.join(here,'icons/brands.json')));
+const documentPaths=Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync(path.join(root,'docs/navigation.json'))).files).map(([old,v])=>[old,v.path]));
 const escapeXML=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
 const digest=s=>createHash('sha256').update(s).digest('hex');
 const writeNative=process.argv.includes('--write-native');
@@ -41,7 +42,7 @@ function prepare(scene){
   for(const e of scene.elements){
     if(ids.has(e.id))throw Error('Duplicate native ID '+e.id);ids.add(e.id);
     for(const source of e.customData?.sources??[]){
-      const target=path.resolve(root,source);
+      const target=path.resolve(root,documentPaths[source]??source);
       if(!target.startsWith(root+path.sep)||!fs.existsSync(target))throw Error('Missing source '+source);
     }
     const hash=createHash('sha256').update(e.id).digest();
@@ -133,7 +134,7 @@ try{
     console.log(JSON.stringify({view:name,nodes:nodes.length,arrows:edges.length,dimensions:[view.width,view.height]}));
   }
   await writeArtifact(path.join(images,'diagram-index.json'),JSON.stringify({kind:'authored-architecture-illustrations',runtime_screenshot:false,source:'docs/diagrams/*.excalidraw',renderer:'@excalidraw/excalidraw@0.18.0',motion:'illustrative direction only; not live telemetry or measured timing',views:results.map(({svg,edges,...v})=>v)},null,2)+'\n');
-  await writeArtifact(path.join(here,'architecture.html'),makePresentation(results));
+  await writeArtifact(path.join(here,'architecture.html'),makePresentation(results,documentPaths));
   const sourceFiles=[...new Set(results.flatMap(v=>v.edges.flatMap(e=>e.sources)))].sort();
   console.log(JSON.stringify({rendered:results.length,native_embedded:writeNative,source_files:sourceFiles.length,animation_count:results.reduce((n,v)=>n+v.arrows.length,0),index_sha256:digest(fs.readFileSync(path.join(images,'diagram-index.json')))}));
 }finally{

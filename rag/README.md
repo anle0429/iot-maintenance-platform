@@ -12,4 +12,4 @@ The knowledge corpus describes this simulator and its software contracts. Docume
 | [airflow_tasks.py](airflow_tasks.py), [ci_tasks.py](ci_tasks.py) | Native scheduled/release task boundaries |
 | [corpus_drift.py](corpus_drift.py), [drift_ci.py](drift_ci.py) | Document-weighted MMD review before publication |
 
-[Six-task runtime](../docs/rag-orchestration.md) · [Grounded responses](../docs/llm-grounding.md) · [Corpus drift](../docs/rag-corpus-drift.md) · [Class responsibilities](../docs/llm-class-design.md)
+[Six-task runtime](../docs/edai-2/rag_orchestration.md) · [Grounded responses](../docs/edai-2/llm_grounding.md) · [Corpus drift](../docs/edai-2/rag_corpus_drift.md) · [Class responsibilities](../docs/edai-2/llm_class_design.md)

@@ -9,8 +9,11 @@ import sqlite3
 import tarfile
 import tempfile
 import xml.etree.ElementTree as ET
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from scripts.documentation_paths import historical_document, bound_documents
 CAPSULE = ROOT / 'docs/evidence/data-review-audit'
 
 
@@ -61,9 +64,12 @@ def check():
     for topic in coverage['topics']:
         assert set(topic['code'] + topic['documentation'] + topic['visual_evidence']) <= bound
     for row in coverage['files']:
-        path = (ROOT / row['path']).resolve()
-        assert path.is_relative_to(ROOT) and path.is_file(), row['path']
-        body = path.read_bytes()
+        if row['path'] in bound_documents():
+            body = historical_document(row['path'])
+        else:
+            path = (ROOT / row['path']).resolve()
+            assert path.is_relative_to(ROOT) and path.is_file(), row['path']
+            body = path.read_bytes()
         if row['mode'] == 'lf_text': body = body.replace(b'\r\n', b'\n')
         else: assert row['mode'] == 'exact_bytes'
         assert sha256(body).hexdigest() == row['sha256'], row['path']

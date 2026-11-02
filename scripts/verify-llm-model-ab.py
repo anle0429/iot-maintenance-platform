@@ -8,6 +8,7 @@ import tarfile
 from integration_evidence import ROOT, capsule, read
 from git_sources import rewrite_project_links
 sys.path.insert(0, str(ROOT))
+from scripts.documentation_paths import current_path, navigation_equivalent
 from llm.ab_experiment import MODELS, CASES, summarize, reply_text, active_model_pod, prometheus_metrics
 from llm_observability.contracts import StreamObservation
 
@@ -19,11 +20,12 @@ def current_source_matches(name, original, current):
     current = current.replace(b'\r\n', b'\n')
     if current == original: return True
     if name not in {'docs/data-contract.md', 'docs/ml-evaluation-protocol.md'}: return False
+    if navigation_equivalent(name, original, current): return True
     original = rewrite_project_links(original)
     old = b'[Demo and recovery](demo-walkthrough.md)'
     new = b'[Demo and recovery](operations.md)'
-    return (name in {'docs/data-contract.md', 'docs/ml-evaluation-protocol.md'}
-            and original.count(old) == 1 and current == original.replace(old, new, 1))
+    return (original.count(old) == 1 and
+            (current == original.replace(old, new, 1) or navigation_equivalent(name, original.replace(old, new, 1), current)))
 
 
 def verify():
@@ -57,7 +59,7 @@ def verify():
             original = bodies[prefix + 'tree/' + name]
             assert sha256(original).hexdigest() == pin, name
             if folder in ['ab-models-a617c658', 'model-study-0c8d00c2', 'ab-view-92b667d3']:
-                assert current_source_matches(name, original, (ROOT / name).read_bytes()), name
+                assert current_source_matches(name, original, current_path(name).read_bytes()), name
     prefix = 'native/llm-model-study-30c/'
     rows = native(prefix + 'requests.json'); assert native(prefix + 'cases.json') == CASES
     for row in rows:

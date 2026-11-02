@@ -12,4 +12,4 @@ The deployed system has retrieval and drift specialists plus a coordinator. Kube
 | [ab_configuration.py](ab_configuration.py) | Narrow paired configuration planning and outcome summaries |
 | [probe.py](probe.py) | Fixed role questions and native request/probe support |
 
-[Runtime proof](../docs/gpu-agent-routing.md) · [Post-restart validation](../docs/agent-runtime-validation.md) · [Scaling](../docs/agent-scaling.md) · [CI/CD](../docs/ci-agents.md)
+[Runtime proof](../docs/edai-2/gpu_agent_routing.md) · [Post-restart validation](../docs/edai-2/agent_runtime_validation.md) · [Scaling](../docs/edai-2/agent_scaling.md) · [CI/CD](../docs/edai-2/ci_agents.md)

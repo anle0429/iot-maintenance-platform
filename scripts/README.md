@@ -5,16 +5,16 @@ Run commands from the project root. Library code lives in the domain packages; t
 | Task | Entry point | Prerequisite / output |
 |---|---|---|
 | Generate and inspect a small source | `python -S -m generator generate`, `python -S -m generator inspect` | [Generator guide](../generator/README.md); writes local `data/` and `outputs/` |
-| Plan/run large ingestion | [plan-large-ingest.py](plan-large-ingest.py), [run-large-ingest.py](run-large-ingest.py) | [Measured resource gates](../docs/scale-100gb.md); unique run and actual session deadline |
-| Run data pipelines | [start-orchestration.py](start-orchestration.py) | [Airflow runbook](../docs/orchestration.md); retained images and service state |
-| Run paired batch benchmarks in Airflow | [run-data-benchmarks.py](run-data-benchmarks.py) | [Measured comparisons](../docs/batch-corrections-benchmark.md); retained small/Silver inputs, matching source packet and current CPU descriptor |
+| Plan/run large ingestion | [plan-large-ingest.py](plan-large-ingest.py), [run-large-ingest.py](run-large-ingest.py) | [Measured resource gates](../docs/edai-1/scale_100gb.md); unique run and actual session deadline |
+| Run data pipelines | [start-orchestration.py](start-orchestration.py) | [Airflow runbook](../docs/edai-1/orchestration.md); retained images and service state |
+| Run paired batch benchmarks in Airflow | [run-data-benchmarks.py](run-data-benchmarks.py) | [Measured comparisons](../docs/edai-1/batch_corrections_benchmark.md); retained small/Silver inputs, matching source packet and current CPU descriptor |
 | Verify complete batch experiments offline | [verify-batch-benchmarks.py](verify-batch-benchmarks.py) | Independent source regeneration, full-result checksums, Airflow/task identity and complete event-log metrics; no live VM |
-| Measure predictor image size | [benchmark-predictor-image.py](benchmark-predictor-image.py) | [Controlled Docker comparison](../docs/docker-optimization.md); exact source packet and current VM descriptor |
-| Run the bounded Linux stream study | [run-stream-review.py](run-stream-review.py) | [Native fixture verification](../docs/streaming.md#fresh-paired-native-ui-verification); separate Compose project, source manifest and CPU descriptor |
-| Verify data-platform review receipts | [verify-data-platform-review.py](verify-data-platform-review.py) | [Docker/Flink/schema evidence](../docs/data-processing-review.md); standard library, no live VM |
-| Verify the eleven-topic review and final SQL captures | [verify-data-review-audit.py](verify-data-review-audit.py) | [Review checklist](../docs/data-review-audit.md); independently reads three retained SQLite snapshots and checks the executed notebook against original schema receipts |
+| Measure predictor image size | [benchmark-predictor-image.py](benchmark-predictor-image.py) | [Controlled Docker comparison](../docs/edai-1/docker.md); exact source packet and current VM descriptor |
+| Run the bounded Linux stream study | [run-stream-review.py](run-stream-review.py) | [Native fixture verification](../docs/edai-1/streaming.md#fresh-paired-native-ui-verification); separate Compose project, source manifest and CPU descriptor |
+| Verify data-platform review receipts | [verify-data-platform-review.py](verify-data-platform-review.py) | [Docker/Flink/schema evidence](../docs/edai-1/processing_jobs.md); standard library, no live VM |
+| Verify the eleven-topic review and final SQL captures | [verify-data-review-audit.py](verify-data-review-audit.py) | [Review checklist](../docs/edai-1/data_review_audit.md); independently reads three retained SQLite snapshots and checks the executed notebook against original schema receipts |
 | Train and publish model releases | [run-notebook-kfp.py](run-notebook-kfp.py), [ci-training.py](ci-training.py), [ci-serving.py](ci-serving.py) | Fixed protocol, sealed source, native runtime and release-specific outputs |
-| Recover CPU/GPU services | [resume-demo-services.py](resume-demo-services.py), [resume-gpu-services.py](resume-gpu-services.py) | [Operations](../docs/operations.md); actual Compute descriptors and existing private state |
+| Recover CPU/GPU services | [resume-demo-services.py](resume-demo-services.py), [resume-gpu-services.py](resume-gpu-services.py) | [Operations](../docs/edai-1/operations.md); actual Compute descriptors and existing private state |
 | Prepare genuine feature data | [refresh-agent-features.py](refresh-agent-features.py) | Expired physical cache, retained SDK source/model bundle and sufficient approved session |
 | Check a complete agent answer | [run-agent-demo.py](run-agent-demo.py) | Actual ready route/pools/MCP replicas and an unexpired data lease |
 | Apply the measured monitoring budget | [configure-llm-steady-state.py](configure-llm-steady-state.py) | Existing deployment/configuration baseline; thirteen health observations |

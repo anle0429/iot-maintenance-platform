@@ -13,4 +13,4 @@ Configuration is grouped by deployed responsibility. Dockerfiles and dependency 
 | [observability](observability/), [llm-observability](llm-observability/) | Metrics/logs/traces, dashboard assets and observer pipelines |
 | [spark](spark/), [flink](flink/), [airflow](airflow/), [datahub](datahub/) | Data-processing, scheduling and governance runtime assets |
 
-See [recorded infrastructure execution](../docs/llm-infrastructure-evidence.md), [private gateway](../docs/agent-gateway.md) and [operations](../docs/operations.md). Resource templates do not establish deployment by themselves. Credentials, Terraform state, descriptors and bulk runtime outputs stay local.
+See [recorded infrastructure execution](../docs/edai-2/llm_infrastructure_evidence.md), [private gateway](../docs/edai-2/agent_gateway.md) and [operations](../docs/edai-1/operations.md). Resource templates do not establish deployment by themselves. Credentials, Terraform state, descriptors and bulk runtime outputs stay local.

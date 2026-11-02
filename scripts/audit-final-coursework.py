@@ -11,6 +11,7 @@ import subprocess
 import sys
 import time
 from evidence_bundle import materialize
+from documentation_paths import current_path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_SNAPSHOT_SHA256 = '66b8c73d65bb101b2966e1155898d080901002a6fcbd2c1432063befca871ae3'
@@ -132,7 +133,8 @@ def implementation_map():
     """Require one consistent code/evidence mapping for every pinned ML and LLM requirement, without awarding scores."""
     expected = english_view(ROOT/'docs/rubric/final-ml-english.json', 'ML') | english_view(ROOT/'docs/rubric/final-llm-english.json', 'LLM')
     rows = {}
-    for line in (ROOT/'docs/final-audit-matrix.md').read_text(encoding='utf-8').splitlines():
+    matrix = current_path('docs/final-audit-matrix.md')
+    for line in matrix.read_text(encoding='utf-8').splitlines():
         if not re.match(r'\| [FL]\d+ \|', line): continue
         columns = [value.strip() for value in re.split(r'(?<!\\)\|', line)[1:-1]]
         key = columns[0]; assert len(columns) == 5 and key in expected and key not in rows, key
@@ -141,7 +143,7 @@ def implementation_map():
             targets = re.findall(r'\]\(([^)]+)\)', column); assert targets, key
             for target in targets:
                 if '://' in target: continue
-                path = (ROOT/'docs'/target.split('#')[0]).resolve()
+                path = (matrix.parent/target.split('#')[0]).resolve()
                 assert path.is_relative_to(ROOT) and path.is_file(), (key, target)
         assert columns[-1], key
         rows[key] = columns
@@ -173,21 +175,23 @@ def audit(output, workers):
     restored_evidence = materialize(ROOT, verify_sources=True)
     snapshot_path = ROOT / 'docs/evidence/rubric-final/source.json'
     snapshot = original_snapshot(snapshot_path)
-    rows = rubric_rows(snapshot, (ROOT / 'docs/final-rubric-tracker.md').read_text(encoding='utf-8'))
+    rows = rubric_rows(snapshot, current_path('docs/final-rubric-tracker.md').read_text(encoding='utf-8'))
     llm_raw = (ROOT / 'docs/evidence/rubric-llm/source.json').read_bytes()
     if sha256(llm_raw).hexdigest() != LLM_SNAPSHOT_SHA256: raise ValueError('The original LLM source snapshot changed')
-    llm_rows = rubric_rows(json.loads(llm_raw), (ROOT / 'docs/final-llm-rubric-tracker.md').read_text(encoding='utf-8'), 'LLM')
+    llm_rows = rubric_rows(json.loads(llm_raw), current_path('docs/final-llm-rubric-tracker.md').read_text(encoding='utf-8'), 'LLM')
     mapped = implementation_map()
     links = 0
     for key, columns in (rows | llm_rows).items():
         for target in re.findall(r'\]\(([^)]+)\)', columns[-1]):
             if '://' in target:
                 continue
-            path = (ROOT / 'docs' / target.split('#')[0]).resolve()
+            tracker = current_path('docs/final-llm-rubric-tracker.md' if key.startswith('L') else 'docs/final-rubric-tracker.md')
+            path = (tracker.parent / target.split('#')[0]).resolve()
             assert path.is_relative_to(ROOT) and path.is_file(), (key, target)
             links += 1
     capsules = {name: capsule_manifest(ROOT, name) for name in CAPSULES}
-    checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py', ROOT / 'scripts/git_sources.py', ROOT / 'scripts/history_proof.py', ROOT / 'docs/history-rewrite/manifest.json', ROOT / 'scripts/integration_evidence.py', ROOT / 'scripts/evidence_bundle.py', ROOT / 'scripts/unpack-evidence.py', ROOT / 'tests/test_history_sources.py', ROOT / 'tests/test_history_proof.py', ROOT / 'docs/history-rewrite/original-object-proofs.tar.gz', ROOT / 'tests/test_evidence_bundle.py', ROOT / 'tests/test_model_ab_doc_navigation.py', ROOT / 'docs/evidence-archive/manifest.json', ROOT / 'agents/answer_acceptance.py', ROOT / 'agents/delegation_acceptance.py', ROOT / 'scripts/go-mutation-exec.py', ROOT / 'agents/probe.py', ROOT / 'scripts/view-vault-metadata.py', ROOT / 'tests/test_vault_metadata_view.py', ROOT / 'infra/llm_steady_state.py', ROOT / 'scripts/resume-gpu-services.py', ROOT / 'tests/test_gpu_resume_session.py', ROOT / 'scripts/run-agent-demo.py', ROOT / 'scripts/refresh-agent-features.py', ROOT / 'scripts/configure-llm-steady-state.py', ROOT / 'docs/final-audit-matrix.md', ROOT / 'docs/final-llm-rubric-tracker.md', ROOT / 'docs/final-rubric-tracker.md']
+    checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py', ROOT / 'scripts/git_sources.py', ROOT / 'scripts/history_proof.py', ROOT / 'docs/history-rewrite/manifest.json', ROOT / 'scripts/integration_evidence.py', ROOT / 'scripts/evidence_bundle.py', ROOT / 'scripts/unpack-evidence.py', ROOT / 'tests/test_history_sources.py', ROOT / 'tests/test_history_proof.py', ROOT / 'docs/history-rewrite/original-object-proofs.tar.gz', ROOT / 'tests/test_evidence_bundle.py', ROOT / 'tests/test_model_ab_doc_navigation.py', ROOT / 'docs/evidence-archive/manifest.json', ROOT / 'agents/answer_acceptance.py', ROOT / 'agents/delegation_acceptance.py', ROOT / 'scripts/go-mutation-exec.py', ROOT / 'agents/probe.py', ROOT / 'scripts/view-vault-metadata.py', ROOT / 'tests/test_vault_metadata_view.py', ROOT / 'infra/llm_steady_state.py', ROOT / 'scripts/resume-gpu-services.py', ROOT / 'tests/test_gpu_resume_session.py', ROOT / 'scripts/run-agent-demo.py', ROOT / 'scripts/refresh-agent-features.py', ROOT / 'scripts/configure-llm-steady-state.py', current_path('docs/final-audit-matrix.md'), current_path('docs/final-llm-rubric-tracker.md'), current_path('docs/final-rubric-tracker.md')]
+    checkers += [ROOT/'scripts/documentation_paths.py', ROOT/'docs/navigation.json']
     source_before = {p.relative_to(ROOT).as_posix(): sha256(p.read_bytes()).hexdigest() for p in checkers}
     results = {}
     with ThreadPoolExecutor(max_workers=workers) as pool:

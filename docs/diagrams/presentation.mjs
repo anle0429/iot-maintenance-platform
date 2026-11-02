@@ -1,5 +1,5 @@
 /** Build an offline presentation from reviewed vector exports and their native edge metadata. */
-export function makePresentation(views){
+export function makePresentation(views,documentPaths={}){
   const text=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
   // Each inline SVG owns an ID namespace, including Excalidraw's generated definitions.
   const namespace=(svg,prefix)=>{
@@ -29,6 +29,7 @@ export function makePresentation(views){
 <script>
 'use strict';
 const views=${data};
+const documentPaths=${JSON.stringify(documentPaths)};
 const $=id=>document.getElementById(id);
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 let current=0,playing=!reduced.matches;
@@ -45,7 +46,7 @@ function chooseEdge(value){
   $('kind').textContent=e?'Handoff: '+e.kind:'';
   $('note').textContent=e?e.note:'All numbered arrows have a moving marker. A crossing without a component is not a junction.';
   $('sources').replaceChildren();
-  if(e)for(const source of e.sources){const li=document.createElement('li'),a=document.createElement('a');a.textContent=source;a.href='../../'+source;li.append(a);$('sources').append(li);}
+  if(e)for(const source of e.sources){const resolved=documentPaths[source]??source;const li=document.createElement('li'),a=document.createElement('a');a.textContent=resolved;a.href='../../'+resolved;li.append(a);$('sources').append(li);}
 }
 function showView(index){
   current=index;const v=views[current];

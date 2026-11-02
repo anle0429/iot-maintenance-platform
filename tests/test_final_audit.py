@@ -18,7 +18,7 @@ class FinalAuditTests(unittest.TestCase):
     def setUp(self):
         """Read immutable source cells and the current technical tracker without changing either."""
         self.snapshot = json.loads((ROOT / 'docs/evidence/rubric-final/source.json').read_bytes())
-        self.text = (ROOT / 'docs/final-rubric-tracker.md').read_text(encoding='utf-8')
+        self.text = (ROOT / 'docs/edai-1/rubric_tracker.md').read_text(encoding='utf-8')
 
     def test_original_rows_and_merged_source_cells(self):
         """Resolve TTL and offline-push rows to the same original merged deliverable while keeping distinct requirements."""
@@ -42,17 +42,17 @@ class FinalAuditTests(unittest.TestCase):
     def test_llm_rows_preserve_source_addresses_and_open_scope(self):
         """Check all sixty LLM requirements without treating shared ML proof as an agent deployment."""
         source = json.loads((ROOT / 'docs/evidence/rubric-llm/source.json').read_bytes())
-        text = (ROOT / 'docs/final-llm-rubric-tracker.md').read_text(encoding='utf-8')
+        text = (ROOT / 'docs/edai-2/rubric_tracker.md').read_text(encoding='utf-8')
         rows = AUDIT.rubric_rows(source, text, 'LLM')
         self.assertEqual(len(rows), 60)
         self.assertEqual(rows['L06'][1], 'A6; D6; E6')
         self.assertIn('Recorded inference evidence', rows['L03'][6])
         self.assertIn('Recorded native configuration', rows['L06'][6])
-        self.assertIn('agent-platform.md', rows['L06'][7])
-        self.assertIn('agent-scaling.md', rows['L13'][7])
+        self.assertIn('agent_platform.md', rows['L06'][7])
+        self.assertIn('agent_scaling.md', rows['L13'][7])
         self.assertIn('agent-scaling', AUDIT.VERIFIERS)
-        self.assertIn('dashboards open', rows['L54'][6])
-        self.assertIn('llm-observability.md', rows['L54'][7])
+        self.assertEqual('Recorded: per-request telemetry and bounded policy-frequency window', rows['L54'][6])
+        self.assertIn('observability.md', rows['L54'][7])
         self.assertIn('TTFT', rows['L54'][3])
 
     def test_snapshot_pin_matches_git_blob_and_checkout(self):

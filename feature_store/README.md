@@ -11,4 +11,4 @@ Feast SDK runs inside batch jobs and API processes. Offline Parquet retains hist
 | Training examples | [training_samples.py](training_samples.py) | Eligible sample identities and target joins |
 | Scheduled checks | [airflow_tasks.py](airflow_tasks.py), [drift_airflow.py](drift_airflow.py) | Airflow publication and drift orchestration |
 
-The eight rolling model inputs differ from the four finalized-window monitoring aggregates. See [write paths and TTL](../docs/feature-jobs-and-ttl.md), [native materialization](../docs/feast-materialization.md) and [stream CI](../docs/ci-stream-push.md).
+The eight rolling model inputs differ from the four finalized-window monitoring aggregates. See [write paths and TTL](../docs/edai-1/feature_jobs_and_ttl.md), [native materialization](../docs/edai-1/feast_materialization.md) and [stream CI](../docs/edai-1/ci_stream_push.md).

@@ -54,7 +54,7 @@ Arrows follow data, artifacts, requests, responses or control. A file dependency
 
 | Boundary | Implementation | Consequence for the drawing |
 |---|---|---|
-| Data scale | [Ingest report](../full-scale-ingest.md), [feature cohort](../medium-feature-dataset.md) | 102.45 GB covers Bronze/Silver. The separate 60-day ML source has 3,456,000 snapshots and 3,132,184 training rows. It is not a 100 GB end-to-end ML run. |
+| Data scale | [Ingest report](../edai-1/full_scale_ingest.md), [feature cohort](../edai-1/medium_feature_dataset.md) | 102.45 GB covers Bronze/Silver. The separate 60-day ML source has 3,456,000 snapshots and 3,132,184 training rows. It is not a 100 GB end-to-end ML run. |
 | Offline → online stream | [OnlineStage](../../feature_store/staged_push.py) | System-map S4 (overview S3) carries validated Parquet history and the registry/release pin. The online job selects the latest vector from this history. An acknowledged replay skips writes and does not renew Redis TTL. |
 | Release ordering | [Airflow DAG](../../airflow/dags/iot_data_pipelines.py), [publisher](../../pipelines/airflow_tasks.py) | Validation and metadata publication gate downstream release. Small Airflow cohorts and the 100 GB ingest are separate runs. |
 | Prediction | [Feature API](../../services/feature_api/runtime.py), [binding](../../services/predictor/binding.py) | Validate schema, clocks, state, lease and exact pin before accepting the `iot-pump-failure-v1` result. U7 returns through the gateway. |
@@ -63,12 +63,12 @@ Arrows follow data, artifacts, requests, responses or control. A file dependency
 | Trace store | [Jaeger manifest](../../infra/observability/jaeger.yaml), [observer](../../llm_observability/app.py) | Jaeger is a K3s Deployment with bounded in-memory storage. Restart can lose trace history. Query-result flow is distinct from the initiating request. |
 | Retrieval state | [MCP chart](../../infra/charts/iot-mcp/templates/workload.yaml), [KnowledgeReader](../../rag/retrieval.py) | Each retrieval Pod receives a verified state copy. Feast and embedded Milvus Lite run in the consumer, without a standalone Milvus server. |
 | Drift inputs | [MCPRuntime.drift](../../services/mcp_tools/runtime.py) | Fetch 32 machine snapshots from Feature API, require a shared source identity, then call `/v1/drift:compare`. M5 makes this dependency explicit. |
-| Drift statistics | [Deployed detector](../../services/drift_api/detector.py), [MMD study](../joint-cohort.md) | Drift API/MCP return PSI diagnostics. Offline MMD research is separate and is not labelled as a statistic returned by the deployed tool. |
+| Drift statistics | [Deployed detector](../../services/drift_api/detector.py), [MMD study](../edai-1/joint_cohort.md) | Drift API/MCP return PSI diagnostics. Offline MMD research is separate and is not labelled as a statistic returned by the deployed tool. |
 | Retraining and CI admission | [Retraining controller](../../ml/drift_retrain.py), [Rego gate](../../infra/policy/deployment.rego) | Retraining creates a candidate after admission checks; it does not automatically promote serving. The OPA gate is a CI policy check, not a cluster admission webhook. |
 | Infrastructure | [Terraform](../../infra/gcp/vm/main.tf), [host playbook](../../infra/ansible/bootstrap.yml) | Compute VMs host the platform. The GPU joins the same K3s cluster; GKE and a managed lakehouse are not part of this implementation. |
 | Delegation and acceptance | [Child checker](../../agents/delegation_acceptance.py), [answer checker](../../agents/answer_acceptance.py) | Specialist results return to the coordinator and through controller/UI. A task labelled completed does not establish a successful child or a correct answer. |
 
-The [architecture reference](../architecture.md), [LLM reference](../llm-platform.md) and [requirement map](../final-audit-matrix.md) retain measurement and evidence boundaries. These authored drawings do not modify or replace original screenshots, failed outcomes or native receipts.
+The [architecture reference](../edai-1/architecture.md), [LLM reference](../edai-2/llm_platform.md) and [requirement map](../edai-1/implementation_map.md) retain measurement and evidence boundaries. These authored drawings do not modify or replace original screenshots, failed outcomes or native receipts.
 
 ## Edit and export
 
