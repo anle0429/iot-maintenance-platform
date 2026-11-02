@@ -6,6 +6,10 @@ import json
 import posixpath
 import re
 import subprocess
+try:
+    from .documentation_presentation import before_presentation
+except ImportError:
+    from documentation_presentation import before_presentation
 
 ROOT = Path(__file__).resolve().parents[1]
 LAYOUT_SHA256 = 'c2a40e350ef24cd5dbcc62f3d37ff0bf6f60d5dad89d9779e8d5b0bc195ec3e5'
@@ -77,7 +81,9 @@ def relocate_markdown(body, old_name, new_name, mapping):
 def navigation_equivalent(name, original, current):
     """Accept only the exact declared navigation transformation for a moved page."""
     mapping = path_map()
-    return name in bound_documents() and relocate_markdown(original, name, mapping.get(name, name), mapping) == current.replace(b'\r\n', b'\n')
+    if name not in bound_documents():return False
+    current=before_presentation(mapping.get(name,name),current)
+    return relocate_markdown(original, name, mapping.get(name, name), mapping) == current.replace(b'\r\n', b'\n')
 
 
 def historical_document(name):
@@ -86,6 +92,7 @@ def historical_document(name):
     original = subprocess.check_output(['git', '--no-replace-objects', 'show', value['base_commit'] + ':' + name], cwd=ROOT)
     assert sha256(original).hexdigest() == row['before_sha256'], name
     current = (ROOT / row['path']).read_bytes().replace(b'\r\n', b'\n')
+    current = before_presentation(row['path'],current)
     assert sha256(current).hexdigest() == row['after_sha256'], name
-    assert navigation_equivalent(name, original, current), name
+    assert relocate_markdown(original,name,row['path'],path_map(value))==current,name
     return original

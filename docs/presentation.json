@@ -1,0 +1,207 @@
+{
+  "base_commit": "8575de6535262c1abda7d961a298a8d9705df412",
+  "files": {
+    "docs/edai-1/batch_corrections_benchmark.md": {
+      "before_sha256": "ebacdf5a872ece8bddf005bbcfefbc393609aa32491c1369b686ceeaf54940c1",
+      "after_sha256": "26ac380d7fa5a898e6ce04652116b7b3441d172b31de1779b61a5429d4c219a8",
+      "patches": [
+        {
+          "line": 98,
+          "old": "![All native paired observations and their medians](../images/batch-benchmark-pairs.png)\n",
+          "new": "Each comparison is shown at full page width so its labels and all three measured pairs remain readable.\n\n![Schema reader: all three native pairs and medians](../images/benchmark-schema-readable.png)\n\n![Dedup selector: the aggregate candidate has the higher median](../images/benchmark-dedup-readable.png)\n\n![Factory-policy join: all three native pairs and medians](../images/benchmark-skew-readable.png)\n\n[Original combined plot](../images/batch-benchmark-pairs.png) \u00b7 [Panel source identities](../images/benchmark-detail-sources.json)\n"
+        },
+        {
+          "line": 113,
+          "old": "| Full-source inference | Declared union schema |\n|---|---|\n| ![Native inferred reader, query 25](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg) | ![Native declared reader, query 28](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg) |\n",
+          "new": "\n**Full-source inference \u2014 Native inferred reader, query 25**\n\n![Native inferred reader, query 25](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg).\n\n\n**Declared union schema \u2014 Native declared reader, query 28**\n\n![Native declared reader, query 28](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg).\n\n"
+        },
+        {
+          "line": 122,
+          "old": "| Window baseline | Aggregate candidate |\n|---|---|\n| ![Native window selector, query 49](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg) | ![Native aggregate selector, query 52](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg) |\n",
+          "new": "\n**Window baseline \u2014 Native window selector, query 49**\n\n![Native window selector, query 49](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg).\n\n\n**Aggregate candidate \u2014 Native aggregate selector, query 52**\n\n![Native aggregate selector, query 52](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg).\n\n"
+        }
+      ]
+    },
+    "docs/edai-1/skew_benchmark.md": {
+      "before_sha256": "b4c7ffd74ac292e4f6fe829ff62af3bf164945ef6306e5b6226e8fdb68f56bfb",
+      "after_sha256": "35de8f5b60e6f88f239ab49904a02b30c1a8af2cf02b8618f7277ba9a9d4b318",
+      "patches": [
+        {
+          "line": 25,
+          "old": "| Before: sort/merge strategy and hot tasks | After: broadcast strategy |\n|---|---|\n| ![Baseline physical plan](../evidence/skew-benchmark/screenshots/baseline-sql-18.png) | ![Optimized physical plan](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png) |\n| ![Baseline hot tasks](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png) | ![Broadcast stage tasks](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png) |\n",
+          "new": "\n**Before: sort/merge strategy and hot tasks \u2014 Baseline physical plan**\n\n![Baseline physical plan](../evidence/skew-benchmark/screenshots/baseline-sql-18.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/baseline-sql-18.png).\n\n\n**After: broadcast strategy \u2014 Optimized physical plan**\n\n![Optimized physical plan](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png).\n\n\n**Before: sort/merge strategy and hot tasks \u2014 Baseline hot tasks**\n\n![Baseline hot tasks](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png).\n\n\n**After: broadcast strategy \u2014 Broadcast stage tasks**\n\n![Broadcast stage tasks](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png).\n\n"
+        },
+        {
+          "line": 52,
+          "old": "| Baseline: query 18 | Broadcast: query 19 |\n|---|---|\n| ![Native final policy sort-merge plan](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg) | ![Native final policy broadcast plan](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg) |\n",
+          "new": "\n**Baseline: query 18 \u2014 Native final policy sort-merge plan**\n\n![Native final policy sort-merge plan](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg).\n\n\n**Broadcast: query 19 \u2014 Native final policy broadcast plan**\n\n![Native final policy broadcast plan](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg).\n\n"
+        }
+      ]
+    },
+    "README.md": {
+      "before_sha256": "b8ab6857291bc7e4bbf66374c29b45a1b51dbc338bde188a5cbaac77927e69de",
+      "after_sha256": "5b8b81c9680f9ce39849fc005c1de64a6b28e411086eff44bd357b7f74344333",
+      "patches": [
+        {
+          "line": 33,
+          "old": "The system map follows data through batch and stream jobs, feature delivery, training and serving, then into the agent workflow. The detailed views expand request, deployment and observability boundaries. SDKs run inside consuming jobs and APIs; models and references retain their own source identities.\n",
+          "new": "Start with the three workflows below, then open the full system map or a focused view. The detailed drawings expand data processing, request, deployment and observability boundaries. SDKs run inside consuming jobs and APIs; models and references retain their own source identities.\n\n<picture>\n  <source media=\"(prefers-reduced-motion: reduce)\" srcset=\"docs/images/platform-reading-map.png\">\n  <img alt=\"Three readable workflows: separate data scopes, a machine prediction and grounded agent tools/inference\" src=\"docs/images/platform-reading-map.gif\">\n</picture>\n\n[Read the overview at full size](docs/images/platform-reading-map.png) \u00b7 [Detailed architecture and zoom controls](docs/diagrams/README.md#reading-size)\n\n<details>\n<summary>Detailed system diagram \u2014 open for the complete architecture</summary>\n"
+        },
+        {
+          "line": 40,
+          "old": "[Excalidraw source](docs/diagrams/platform-system.excalidraw) \u00b7 [Full-resolution PNG](docs/images/platform-system.png) \u00b7 [SVG](docs/images/platform-system.svg) \u00b7 [Interactive viewer](docs/diagrams/architecture.html) \u00b7 [All ten diagrams](docs/diagrams/README.md) \u00b7 [Architecture](docs/edai-1/architecture.md)\n",
+          "new": "[Full-size PNG](docs/images/platform-system.png) \u00b7 [Zoomable local viewer](docs/diagrams/architecture.html#view=platform-system)\n\n</details>\n\n[Excalidraw source](docs/diagrams/platform-system.excalidraw) \u00b7 [Full-resolution PNG](docs/images/platform-system.png) \u00b7 [SVG](docs/images/platform-system.svg) \u00b7 [Interactive viewer](docs/diagrams/architecture.html) \u00b7 [All eleven diagrams](docs/diagrams/README.md) \u00b7 [Architecture](docs/edai-1/architecture.md)\n"
+        },
+        {
+          "line": 71,
+          "old": "",
+          "new": "<details>\n<summary>LLM and agents \u2014 inference routes, tools and delegation</summary>\n\n"
+        },
+        {
+          "line": 75,
+          "old": "",
+          "new": "\n[Full-size PNG](docs/images/platform-llm-plan.png) \u00b7 [Zoomable local viewer](docs/diagrams/architecture.html#view=platform-llm-plan)\n\n</details>\n"
+        },
+        {
+          "line": 95,
+          "old": "",
+          "new": "<details>\n<summary>Deployment topology \u2014 hosts, workloads and access boundaries</summary>\n\n"
+        },
+        {
+          "line": 99,
+          "old": "",
+          "new": "\n[Full-size PNG](docs/images/platform-deployment.png) \u00b7 [Zoomable local viewer](docs/diagrams/architecture.html#view=platform-deployment)\n\n</details>\n"
+        }
+      ]
+    },
+    "docs/diagrams/README.md": {
+      "before_sha256": "e6470e18aab5ca7762a7a4db6ecaebfd2006189d72abbf702d53dbebcf1569e9",
+      "after_sha256": "1cf1cffac01ea9030f7591440e939f2c87ef225a48a11fa066159fb787cebb02",
+      "patches": [
+        {
+          "line": 2,
+          "old": "One system map and nine detailed drawings explain the IoT platform. Native Excalidraw files keep shapes, text, logos and arrow bindings editable. All ten views share pastel responsibility frames, embedded product marks, readable source examples and numbered handoffs. Deployment and code views retain explicit workload/process boundaries. PNG previews and animated GIFs work directly on GitHub; SVG exports retain vectors and embedded fonts.\n",
+          "new": "A reading-size overview, one system map and nine detailed drawings explain the IoT platform. Native Excalidraw files keep shapes, text, logos and arrow bindings editable. All eleven views use a consistent palette, embedded product marks and numbered handoffs. Detailed views add responsibility frames and source examples; deployment and code views retain explicit workload/process boundaries. PNG previews and animated GIFs work directly on GitHub; SVG exports retain vectors and embedded fonts.\n"
+        },
+        {
+          "line": 10,
+          "old": "",
+          "new": "| Start here \u00b7 three workflows | Reading-size data, prediction and assistant paths; minimum 20 px native text | [Excalidraw](platform-reading-map.excalidraw) | [PNG](../images/platform-reading-map.png) \u00b7 [SVG](../images/platform-reading-map.svg) \u00b7 [Motion](../images/platform-reading-map.animated.svg) \u00b7 [GIF](../images/platform-reading-map.gif) |\n"
+        },
+        {
+          "line": 20,
+          "old": "",
+          "new": "\n## Reading size\n\nThe README uses the compact three-workflow view. Its smallest text is 20 px on a 1,120 px canvas: 16 px when displayed at 896 px wide. The large system poster and component views retain their complete source detail and are intended for zooming.\n\nOpen the local [interactive viewer](architecture.html) and select **Read labels** for a natural-size view. Scroll across the diagram to follow its arrows; **Fit** restores the full composition. The view selector starts with the compact overview. The PNG/SVG links above also open the full export.\n\nNative service screenshots remain original. Before/after Spark captures use one image per row, with a full-resolution link. The batch comparison has three separate readable plots drawn from the same native reports; neither screenshot values nor experiment results were edited.\n"
+        },
+        {
+          "line": 41,
+          "old": "",
+          "new": "| Three workflows | D1\u2013D3: grouped data and feature jobs; P1\u2013P3: one logical prediction; A1\u2013A4: question, tools, returned results and shared model generation. Open the detailed views for return paths and controls. |\n"
+        },
+        {
+          "line": 90,
+          "old": "The checker validates native element IDs, bindings, source paths, image assets, dimensions, component/text overlap, routed arrows and all 155 motion paths across ten views. Browser checks exercise every handoff detail, real particle movement, pause/resume, speed, zoom, path clicks, reduced motion, mobile layout and absence of external requests. These are documentation checks, not a fresh workload run or coursework grade.\n",
+          "new": "The checker validates native element IDs, bindings, source paths, image assets, dimensions, component/text overlap, routed arrows and all 165 motion paths across eleven views. Browser checks exercise every handoff detail, real particle movement, pause/resume, speed, zoom, path clicks, reduced motion, mobile layout and absence of external requests. These are documentation checks, not a fresh workload run or coursework grade.\n"
+        }
+      ]
+    },
+    "docs/edai-1/README.md": {
+      "before_sha256": "9394e1b82edd85ae24ae05be8310871913a2556fd93c091892007dddc08f12ca",
+      "after_sha256": "526c6bc88b5544e07cff4904a66d44965bce7e64d724d8d205193b6eca703fb8",
+      "patches": [
+        {
+          "line": 5,
+          "old": "",
+          "new": "\n[How to read and zoom the figures](../diagrams/README.md#reading-size).\n"
+        }
+      ]
+    },
+    "docs/edai-2/README.md": {
+      "before_sha256": "41f16805398e08c7fe2ba7865d2daee2829024687e9f2386929c8d9e1262e409",
+      "after_sha256": "e924afb5157af92893bdb11e875b1f8ce558e02cd1b685589e9216da6aa98b10",
+      "patches": [
+        {
+          "line": 5,
+          "old": "",
+          "new": "\n[How to read and zoom the figures](../diagrams/README.md#reading-size).\n"
+        }
+      ]
+    },
+    "docs/README.md": {
+      "before_sha256": "90cc2d796190b65d290df4ca51982cb2bf5f22a7ddcc051019fb2aa57278d0d2",
+      "after_sha256": "17e8cf450148a3dda8decf9c71772db2819682545505c7f9a1304f35ee15526b",
+      "patches": [
+        {
+          "line": 34,
+          "old": "- [Architecture gallery](diagrams/README.md): ten editable Excalidraw views with static previews and illustrative animation.\n",
+          "new": "- [Architecture gallery](diagrams/README.md): eleven editable Excalidraw views with static previews, a reading-size overview and zoom controls.\n"
+        }
+      ]
+    }
+  },
+  "format": "iot-figure-presentation-v1",
+  "assets": {
+    "docs/diagrams/platform-reading-map.excalidraw": {
+      "sha256": "3960201d14e5c4db66ceb9c6ecd1e824598198dc593fc8e7c41c7d6616708173",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/platform-reading-map.png": {
+      "sha256": "3d65a4b6ccf153a50ba45ef3c3fe4206705965b5dae283acfd278616ff297189",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/platform-reading-map.svg": {
+      "sha256": "cbdecdce15c0400541b1f3bb9c1387a928c80839d3a07c6697994fdce28ccc81",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/platform-reading-map.animated.svg": {
+      "sha256": "572c3c9d82e20fddc4a91f103c3e070a1e918b8bcb4db22c5980cdbebb89c226",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/platform-reading-map.gif": {
+      "sha256": "0ed5e3425fb627fc22aef9e9f65027702eb9495fb5860c92f83febe039461ac3",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/platform-reading-map.preview.json": {
+      "sha256": "069e323b8b112fd6352a1c82e4841f92db23b0c58b0dd313b1321304715c3ddd",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/benchmark-schema-readable.png": {
+      "sha256": "f25c028c9255f8b0baa9a265d4e7ed1ce80eacc7a80b3f0ff01e2de210905142",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/benchmark-dedup-readable.png": {
+      "sha256": "943aaca467c80e9dc50dab257205a87a3a9fd0c80b0b4f902d5496dac3bb886c",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/benchmark-skew-readable.png": {
+      "sha256": "f3c3e16bdcc0877fdd95c6ad9b1d9881193660253967dd5bd41d8d01e00b12d6",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/benchmark-detail-sources.json": {
+      "sha256": "1bd806c1e42f7120f3c1d581415fb5e0af86b3aecebac2944e2fc454bb8f0041",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/render-benchmark-details.py": {
+      "sha256": "11704a962eaada958403055e825084160ec14ec453d1d73ed51bec5bac2860fd",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/diagram-index.json": {
+      "sha256": "b81092324e18dc14658be7f90fa10455195af6d47f584aeac19b6dfb45d2c04f",
+      "mode": "lf_text",
+      "new": false,
+      "before_sha256": "ee6510fe32ecb164cfe68e2b1e9f338fc27684789b3b1a2f8a52edec49401d36"
+    }
+  },
+  "scope": "Figure readability only. Exact native screenshots/receipts, original ten scenes and original exported plots remain unchanged. New authored overview and three derived panels are distinct from native UI proof."
+}

@@ -96,7 +96,15 @@ The [correction report](../evidence/batch-benchmarks/final/corrections.json) and
 | Skew 3 | 14.249135 | 9.169817 |
 | **Skew median** | **14.258209** | **9.169817** |
 
-![All native paired observations and their medians](../images/batch-benchmark-pairs.png)
+Each comparison is shown at full page width so its labels and all three measured pairs remain readable.
+
+![Schema reader: all three native pairs and medians](../images/benchmark-schema-readable.png)
+
+![Dedup selector: the aggregate candidate has the higher median](../images/benchmark-dedup-readable.png)
+
+![Factory-policy join: all three native pairs and medians](../images/benchmark-skew-readable.png)
+
+[Original combined plot](../images/batch-benchmark-pairs.png) · [Panel source identities](../images/benchmark-detail-sources.json)
 
 The declared reader's median is 17.6% lower than full inference. Both preserve all 58,752 exports and the same typed values. The separate v1-only demonstration loses pressure for 29,359 v2 exports; the corrected readers preserve those values and leave pressure NULL for all 29,393 v1 exports.
 
@@ -111,18 +119,40 @@ These original full-page captures show the first measured pair. Query durations 
 <details>
 <summary>Schema readers: native queries 25 and 28</summary>
 
-| Full-source inference | Declared union schema |
-|---|---|
-| ![Native inferred reader, query 25](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg) | ![Native declared reader, query 28](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg) |
+
+**Full-source inference — Native inferred reader, query 25**
+
+![Native inferred reader, query 25](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg)
+
+[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg).
+
+
+**Declared union schema — Native declared reader, query 28**
+
+![Native declared reader, query 28](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg)
+
+[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg).
+
 
 </details>
 
 <details>
 <summary>Dedup selectors: native queries 49 and 52</summary>
 
-| Window baseline | Aggregate candidate |
-|---|---|
-| ![Native window selector, query 49](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg) | ![Native aggregate selector, query 52](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg) |
+
+**Window baseline — Native window selector, query 49**
+
+![Native window selector, query 49](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg)
+
+[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg).
+
+
+**Aggregate candidate — Native aggregate selector, query 52**
+
+![Native aggregate selector, query 52](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg)
+
+[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg).
+
 
 </details>
 

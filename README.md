@@ -31,14 +31,28 @@ The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 h
 
 ## Architecture
 
-The system map follows data through batch and stream jobs, feature delivery, training and serving, then into the agent workflow. The detailed views expand request, deployment and observability boundaries. SDKs run inside consuming jobs and APIs; models and references retain their own source identities.
+Start with the three workflows below, then open the full system map or a focused view. The detailed drawings expand data processing, request, deployment and observability boundaries. SDKs run inside consuming jobs and APIs; models and references retain their own source identities.
+
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/platform-reading-map.png">
+  <img alt="Three readable workflows: separate data scopes, a machine prediction and grounded agent tools/inference" src="docs/images/platform-reading-map.gif">
+</picture>
+
+[Read the overview at full size](docs/images/platform-reading-map.png) · [Detailed architecture and zoom controls](docs/diagrams/README.md#reading-size)
+
+<details>
+<summary>Detailed system diagram — open for the complete architecture</summary>
 
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/platform-system.png">
   <img alt="IoT platform architecture: data governance, batch and streaming pipelines, features, ML, serving, infrastructure, security and agents" src="docs/images/platform-system.gif">
 </picture>
 
-[Excalidraw source](docs/diagrams/platform-system.excalidraw) · [Full-resolution PNG](docs/images/platform-system.png) · [SVG](docs/images/platform-system.svg) · [Interactive viewer](docs/diagrams/architecture.html) · [All ten diagrams](docs/diagrams/README.md) · [Architecture](docs/edai-1/architecture.md)
+[Full-size PNG](docs/images/platform-system.png) · [Zoomable local viewer](docs/diagrams/architecture.html#view=platform-system)
+
+</details>
+
+[Excalidraw source](docs/diagrams/platform-system.excalidraw) · [Full-resolution PNG](docs/images/platform-system.png) · [SVG](docs/images/platform-system.svg) · [Interactive viewer](docs/diagrams/architecture.html) · [All eleven diagrams](docs/diagrams/README.md) · [Architecture](docs/edai-1/architecture.md)
 
 The animation illustrates direction with arbitrary timing. It is not live traffic or an execution schedule. Reduced-motion visitors receive the static image. Open the HTML viewer from a local clone to pause, change speed, zoom and inspect each arrow's implementation sources. The diagrams remain editable in Excalidraw.
 
@@ -69,10 +83,17 @@ The notebook and Kubeflow pipeline use the same five-step ML workflow. Training 
 
 The retrieval specialist obtains machine features, the model score and cited reference chunks. The drift specialist compares a bounded machine cohort with a pinned reference. The coordinator preserves their returned values and identifiers. There is no physical actuation tool.
 
+<details>
+<summary>LLM and agents — inference routes, tools and delegation</summary>
+
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/platform-llm-plan.png">
   <img alt="Coordinator, specialists, MCP and private GPU inference route" src="docs/images/platform-llm-plan.gif">
 </picture>
+
+[Full-size PNG](docs/images/platform-llm-plan.png) · [Zoomable local viewer](docs/diagrams/architecture.html#view=platform-llm-plan)
+
+</details>
 
 [Editable SVG](docs/images/platform-llm-plan.svg) · [LLM platform](docs/edai-2/llm_platform.md)
 
@@ -93,10 +114,17 @@ The two researched LLM extensions are [OPA capability/budget admission](docs/eda
 
 The control/data lab runs on an **8-vCPU / 64-GiB CPU VM**. A separate private **4-vCPU / 15-GiB worker with a 16-GiB V100** serves the LLM. K3s hosts Kubernetes workloads; retained host services and Docker containers supply the remaining components. Administration uses IAP and loopback ports, with authenticated CA-verified HTTPS on the private gateway hop.
 
+<details>
+<summary>Deployment topology — hosts, workloads and access boundaries</summary>
+
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/platform-deployment.png">
   <img alt="Individual workload resources on the CPU VM and private GPU worker" src="docs/images/platform-deployment.gif">
 </picture>
+
+[Full-size PNG](docs/images/platform-deployment.png) · [Zoomable local viewer](docs/diagrams/architecture.html#view=platform-deployment)
+
+</details>
 
 [Editable SVG](docs/images/platform-deployment.svg) · [Infrastructure](docs/edai-2/llm_infrastructure_evidence.md) · [Operations](docs/edai-1/operations.md)
 

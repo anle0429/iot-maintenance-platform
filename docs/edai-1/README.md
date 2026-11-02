@@ -4,6 +4,8 @@
 
 Follow simulated telemetry from its source through batch/stream processing, feature history, model training and prediction. The large ingest, ML cohort and retained stream are separate measured workloads.
 
+[How to read and zoom the figures](../diagrams/README.md#reading-size).
+
 ## Reading guide
 
 | Step | Page |

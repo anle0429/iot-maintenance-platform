@@ -6,11 +6,20 @@ import json
 import re
 import subprocess
 from documentation_paths import ROOT, layout, historical_document, path_map
+from documentation_presentation import presentation, before_presentation
 
 
 def check():
     """Authenticate all original text and inventory current navigation without running platform workloads."""
     value=layout();mapping=path_map(value)
+    display=presentation()
+    for name in display['files']:
+        before_presentation(name,(ROOT/name).read_bytes())
+    for name,row in display['assets'].items():
+        body=(ROOT/name).read_bytes()
+        if row['mode']=='lf_text':body=body.replace(b'\r\n',b'\n')
+        from hashlib import sha256
+        assert sha256(body).hexdigest()==row['sha256'],name
     before=subprocess.check_output(['git','ls-tree','--name-only',value['base_commit']+':docs'],cwd=ROOT).decode().splitlines()
     assert set(mapping)=={'docs/'+name for name in before if name.endswith('.md') and name!='README.md'}
     for name in value['files'] | value['linked_files']:historical_document(name)
@@ -35,21 +44,27 @@ def check():
     preserved=[]
     for tree in ['docs/evidence','docs/evidence-archive','docs/images','docs/rubric','references','knowledge']:
         delta=subprocess.check_output(['git','diff',value['base_commit'],'--name-only','--',tree],cwd=ROOT).decode().splitlines()
-        assert not delta,(tree,delta)
+        assert all(name in display['assets'] for name in delta),(tree,delta)
         preserved.append(tree)
     scenes=subprocess.check_output(['git','ls-files','docs/diagrams/*.excalidraw'],cwd=ROOT).decode().splitlines()
+    original_scenes=0
     for name in scenes:
+        if name in display['assets'] and display['assets'][name]['new']:continue
+        original_scenes+=1
         original=subprocess.check_output(['git','show',value['base_commit']+':'+name],cwd=ROOT)
         assert original==(ROOT/name).read_bytes().replace(b'\r\n',b'\n'),name
     viewer=(ROOT/'docs/diagrams/architecture.html').read_text(encoding='utf-8')
     original=subprocess.check_output(['git','show',value['base_commit']+':docs/diagrams/architecture.html'],cwd=ROOT).decode()
-    assert re.findall(r'<article[\s\S]*?</article>',viewer)==re.findall(r'<article[\s\S]*?</article>',original)
+    old_articles=re.findall(r'<article[^>]*>([\s\S]*?)</article>',original)
+    new_articles=re.findall(r'<article[^>]*>([\s\S]*?)</article>',viewer)
+    assert new_articles[:10]==old_articles and len(new_articles)==11
     assert 'const documentPaths=' in viewer and 'documentPaths[source]??source' in viewer
     readme=(ROOT/'README.md').read_text(encoding='utf-8')
     assert readme.split('## Contributors',1)[1]==subprocess.check_output(['git','show',value['base_commit']+':README.md'],cwd=ROOT).decode().split('## Contributors',1)[1]
     return {'passed':True,'moved_pages':len(mapping),'link_only_other_pages':len(value['linked_files']),
-        'part_pages_including_readmes':counts,'html_image_and_source_links':html_links,'preserved_trees':preserved,'native_scenes_unchanged':len(scenes),
-        'embedded_viewer_drawings_unchanged':True,'historical_text_and_navigation_checked':True,
+        'part_pages_including_readmes':counts,'html_image_and_source_links':html_links,'preserved_trees':preserved,'native_scenes_unchanged':original_scenes,
+        'original_viewer_drawings_unchanged':True,'authored_readability_view_added':True,'presentation_pages':len(display['files']),
+        'historical_text_and_navigation_checked':True,
         'scope':'Documentation paths and source-proof compatibility only; no runtime, measurement or native evidence mutation.'}
 
 

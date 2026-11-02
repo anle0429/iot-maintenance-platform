@@ -1,0 +1,71 @@
+{
+  "kind": "readable-native-benchmark-panels",
+  "runtime_screenshot": false,
+  "repetitions": 3,
+  "source_sha256": {
+    "docs/evidence/batch-benchmarks/final/corrections.json": "8d7f2fc2b6c5fb1bc17cb0c088a0d484cc836aa6ed8146d5a6a67875ed5a78cc",
+    "docs/evidence/batch-benchmarks/final/skew.json": "a97af99bb06445a24a203c8ce9516a9ae8ddac4010a0cec5603726b0e8186735"
+  },
+  "panels": [
+    {
+      "path": "benchmark-schema-readable.png",
+      "experiment": "schema",
+      "medians_seconds": [
+        0.9269810719997622,
+        0.7640235830003803
+      ],
+      "paired_seconds": [
+        [
+          1.1417947340005412,
+          0.9269810719997622,
+          0.862027219999618
+        ],
+        [
+          0.7640235830003803,
+          0.7158160680000947,
+          0.807974497000032
+        ]
+      ]
+    },
+    {
+      "path": "benchmark-dedup-readable.png",
+      "experiment": "dedup",
+      "medians_seconds": [
+        0.58142728599978,
+        0.6026382539994302
+      ],
+      "paired_seconds": [
+        [
+          0.6356057190005231,
+          0.5765667460000259,
+          0.58142728599978
+        ],
+        [
+          0.727419538000504,
+          0.5770890370004054,
+          0.6026382539994302
+        ]
+      ]
+    },
+    {
+      "path": "benchmark-skew-readable.png",
+      "experiment": "skew",
+      "medians_seconds": [
+        14.258209425000132,
+        9.169816843000262
+      ],
+      "paired_seconds": [
+        [
+          16.80785165099951,
+          14.258209425000132,
+          14.249135226000362
+        ],
+        [
+          9.21517991699966,
+          8.507135437000215,
+          9.169816843000262
+        ]
+      ]
+    }
+  ]
+}

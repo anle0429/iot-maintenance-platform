@@ -1,6 +1,6 @@
 # Architecture views
 
-One system map and nine detailed drawings explain the IoT platform. Native Excalidraw files keep shapes, text, logos and arrow bindings editable. All ten views share pastel responsibility frames, embedded product marks, readable source examples and numbered handoffs. Deployment and code views retain explicit workload/process boundaries. PNG previews and animated GIFs work directly on GitHub; SVG exports retain vectors and embedded fonts.
+A reading-size overview, one system map and nine detailed drawings explain the IoT platform. Native Excalidraw files keep shapes, text, logos and arrow bindings editable. All eleven views use a consistent palette, embedded product marks and numbered handoffs. Detailed views add responsibility frames and source examples; deployment and code views retain explicit workload/process boundaries. PNG previews and animated GIFs work directly on GitHub; SVG exports retain vectors and embedded fonts.
 
 Open [architecture.html](architecture.html) from a local clone for the **animated presentation**. It works offline: choose a view, play or pause, change speed, zoom, and select or click an arrow to inspect its direction, meaning and source files. GitHub displays the HTML source; download or open the local file to use the viewer.
 
@@ -8,6 +8,7 @@ Moving dots illustrate handoff direction. Their timing is arbitrary and each loo
 
 | View | Purpose | Editable source | Exports |
 |---|---|---|---|
+| Start here · three workflows | Reading-size data, prediction and assistant paths; minimum 20 px native text | [Excalidraw](platform-reading-map.excalidraw) | [PNG](../images/platform-reading-map.png) · [SVG](../images/platform-reading-map.svg) · [Motion](../images/platform-reading-map.animated.svg) · [GIF](../images/platform-reading-map.gif) |
 | System map | Data governance, batch/stream jobs, feature stores, training, release, inference, security, telemetry and agents in one view | [Excalidraw](platform-system.excalidraw) | [PNG](../images/platform-system.png) · [SVG](../images/platform-system.svg) · [Motion](../images/platform-system.animated.svg) · [GIF](../images/platform-system.gif) |
 | 01 · Platform overview | Separate large-source, ML and streaming cohorts; scheduling, training and release | [Excalidraw](platform-overview.excalidraw) | [PNG](../images/platform-overview.png) · [SVG](../images/platform-overview.svg) · [Motion](../images/platform-overview.animated.svg) · [GIF](../images/platform-overview.gif) |
 | 02 · Prediction request | Gateway, Feast lookup, eligibility gates and pinned model response | [Excalidraw](platform-serving.excalidraw) | [PNG](../images/platform-serving.png) · [SVG](../images/platform-serving.svg) · [Motion](../images/platform-serving.animated.svg) · [GIF](../images/platform-serving.gif) |
@@ -18,6 +19,14 @@ Moving dots illustrate handoff direction. Their timing is arbitrary and each loo
 | 07 · Assistant code boundaries | Five implemented classes, local SDK calls and cross-process HTTP | [Excalidraw](assistant-classes.excalidraw) | [PNG](../images/assistant-classes.png) · [SVG](../images/assistant-classes.svg) · [Motion](../images/assistant-classes.animated.svg) · [GIF](../images/assistant-classes.gif) |
 | 08 · Agent trace paths | Logical delegation, shared generation and the exact private OTLP route | [Excalidraw](agent-traces.excalidraw) | [PNG](../images/agent-traces.png) · [SVG](../images/agent-traces.svg) · [Motion](../images/agent-traces.animated.svg) · [GIF](../images/agent-traces.gif) |
 | 09 · Prompt policy cohort | Reject before generation and reconcile the original controlled cohort | [Excalidraw](prompt-policy.excalidraw) | [PNG](../images/prompt-policy.png) · [SVG](../images/prompt-policy.svg) · [Motion](../images/prompt-policy.animated.svg) · [GIF](../images/prompt-policy.gif) |
+
+## Reading size
+
+The README uses the compact three-workflow view. Its smallest text is 20 px on a 1,120 px canvas: 16 px when displayed at 896 px wide. The large system poster and component views retain their complete source detail and are intended for zooming.
+
+Open the local [interactive viewer](architecture.html) and select **Read labels** for a natural-size view. Scroll across the diagram to follow its arrows; **Fit** restores the full composition. The view selector starts with the compact overview. The PNG/SVG links above also open the full export.
+
+Native service screenshots remain original. Before/after Spark captures use one image per row, with a full-resolution link. The batch comparison has three separate readable plots drawn from the same native reports; neither screenshot values nor experiment results were edited.
 
 ## Reading the drawings
 
@@ -39,6 +48,7 @@ Arrows follow data, artifacts, requests, responses or control. A file dependency
 
 | View | Handoff IDs |
 |---|---|
+| Three workflows | D1–D3: grouped data and feature jobs; P1–P3: one logical prediction; A1–A4: question, tools, returned results and shared model generation. Open the detailed views for return paths and controls. |
 | System map | D: persisted data; S: stream replay/writes; F: feature delivery; O: scheduling; Q: metadata; T: training; C: delivery; I: infrastructure; V: secrets; P: prediction; A: delegation/tools; K: knowledge; M: tool/query paths; G: generation; H/L: telemetry |
 | Overview | D1–D2: Bronze/Silver source; F1–F3: separate ML cohort and materialization; C1/G1: orchestration and metadata; T0–T2/C2–C3: training and release; S0–S4: retained stream replay and writes |
 | Prediction | U1–U2: authenticated request; U3–U4: online lookup and values; U5–U6: model call and result; U7: logical response through the gateway |
@@ -88,7 +98,7 @@ npm run check -- --browser --output ../../outputs/architecture-check/report.json
 
 The first dependency/browser installation needs a network connection. Rendering and viewing use local assets and make no platform, model or cloud requests. `export.mjs` uses the pinned Excalidraw 0.18.0 renderer, embeds fonts/logos, and derives every motion path from the native arrow's actual point order. It does not generate the architecture layout. `--write-native` additionally normalizes the edited scenes through Excalidraw and embeds the reviewed icon assets. The verification output must use a new path under `outputs/`.
 
-The checker validates native element IDs, bindings, source paths, image assets, dimensions, component/text overlap, routed arrows and all 155 motion paths across ten views. Browser checks exercise every handoff detail, real particle movement, pause/resume, speed, zoom, path clicks, reduced motion, mobile layout and absence of external requests. These are documentation checks, not a fresh workload run or coursework grade.
+The checker validates native element IDs, bindings, source paths, image assets, dimensions, component/text overlap, routed arrows and all 165 motion paths across eleven views. Browser checks exercise every handoff detail, real particle movement, pause/resume, speed, zoom, path clicks, reduced motion, mobile layout and absence of external requests. These are documentation checks, not a fresh workload run or coursework grade.
 
 `preview.mjs --all` captures each authored SVG and `encode-preview.py` encodes its 36 frames into a six-second GIF. Use `--view platform-serving` to select one view and `--force` to recapture a previously verified preview. An unchanged source/preview hash is reused byte for byte. Independent staggered phases have arbitrary timing; this does not record an application session. A fixed palette reserves source colors to preserve small product marks. Each adjacent `.preview.json` manifest binds exact GIF bytes and SVG text with CRLF canonicalized to LF. Every embedded preview selects the PNG for reduced-motion visitors. Use `DIAGRAM_PYTHON` if the Python interpreter with Pillow is not named `python`.
 

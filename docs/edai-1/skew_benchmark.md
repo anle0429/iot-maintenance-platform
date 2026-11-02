@@ -23,10 +23,34 @@ The median reduction is 44.1% (1.788× observed speedup). Each execution returns
 
 The plot derives from the original receipt. The following are **original Spark UI screenshots**, with the before and after identified explicitly:
 
-| Before: sort/merge strategy and hot tasks | After: broadcast strategy |
-|---|---|
-| ![Baseline physical plan](../evidence/skew-benchmark/screenshots/baseline-sql-18.png) | ![Optimized physical plan](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png) |
-| ![Baseline hot tasks](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png) | ![Broadcast stage tasks](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png) |
+
+**Before: sort/merge strategy and hot tasks — Baseline physical plan**
+
+![Baseline physical plan](../evidence/skew-benchmark/screenshots/baseline-sql-18.png)
+
+[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/baseline-sql-18.png).
+
+
+**After: broadcast strategy — Optimized physical plan**
+
+![Optimized physical plan](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png)
+
+[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png).
+
+
+**Before: sort/merge strategy and hot tasks — Baseline hot tasks**
+
+![Baseline hot tasks](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png)
+
+[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png).
+
+
+**After: broadcast strategy — Broadcast stage tasks**
+
+![Broadcast stage tasks](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png)
+
+[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png).
+
 
 Both settings disable AQE and automatic broadcasting to isolate the explicit join change; shuffle partitions remain 32. OS caches and other VM services were not isolated. These original measurements came from a standalone analytical job. The same query now also has a separately recorded [native Airflow execution](#airflow-benchmark-execution); the original result above has not been replaced.
 
@@ -50,9 +74,20 @@ The median is 35.7% lower (1.555× baseline/candidate ratio) for this new execut
 <details>
 <summary>Native final Spark plans: policy SortMergeJoin versus BroadcastHashJoin</summary>
 
-| Baseline: query 18 | Broadcast: query 19 |
-|---|---|
-| ![Native final policy sort-merge plan](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg) | ![Native final policy broadcast plan](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg) |
+
+**Baseline: query 18 — Native final policy sort-merge plan**
+
+![Native final policy sort-merge plan](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg)
+
+[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg).
+
+
+**Broadcast: query 19 — Native final policy broadcast plan**
+
+![Native final policy broadcast plan](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg)
+
+[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg).
+
 
 </details>
 
