@@ -32,7 +32,7 @@ docs/
 
 ## Review and evidence
 
-- [Architecture gallery](diagrams/README.md): eleven editable Excalidraw views with static previews, a reading-size overview and zoom controls.
+- [Architecture diagrams](diagrams/README.md): seven primary Excalidraw views across system, processing flows and physical deployment, with source references and zoom controls; earlier layouts remain as references.
 - [Data review checklist](edai-1/data_review_audit.md): eleven reported issues mapped to code, explanation and visible results.
 - [Requirement map](edai-1/implementation_map.md): 117 final requirements, with separate [ML](edai-1/rubric_tracker.md) and [LLM](edai-2/rubric_tracker.md) trackers.
 - [Evidence guide](edai-1/evidence_guide.md): original screenshots, native receipts, archived payloads and verification boundaries.

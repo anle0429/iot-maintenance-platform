@@ -18,7 +18,12 @@ const expected=[
   [16,'K0 K1 K2 A1 A2 A3 A4 M1 M2 M3 M4 M5 G1 G2 G3 G4 G5 G6 G7'],
   [7,'C1 C2 C3 C4 C5 C6'],[8,'Q1 C1 C2 D1 H1 H2 H3'],
   [10,'A1 A2 A3 M1 M2 G1 G2 G3 G4 G5 G6 G7 T0 T1 T2'],[6,'P1 P2 P3 P4 P5 P6'],
-  [12,'D1 D2 D3 P1 P2 P3 A1 A2 A3 A4']
+  [12,'D1 D2 D3 P1 P2 P3 A1 A2 A3 A4'],
+  [22,'B1 B2 B3 O1 O2 S1 S2 S3 F1 F2 P1 P2 P3 A1 A2 A3 A4 V1 C1 M1 O3 K1 T1 F0 R1'],
+  [10,'B1 B2 B3 B4 B5 B6 B7 O1 G1'],[9,'S1 S2 S3 S4 S5 S6 S7 S8 S9'],
+  [12,'T1 T2 T3 T4 T5 T6 T7 D1 C1 C2 R1 F0'],[10,'U1 U2 U3 U4 U5 U6 U7 U8 U9 U10 U11'],
+  [13,'A1 A2 A3 G1 G2 G3 K1 K2 K3 M1 M2 M3 M4 M5 G4 G5 G6 G7 A4 A5 A6'],
+  [18,'U1 U2 U3 U4 D1 D2 T1 G1 G2']
 ];
 const sha=s=>createHash('sha256').update(s).digest('hex');
 const sources=new Map(),checks=[];
@@ -32,7 +37,7 @@ function crosses(a,b,r){
 }
 function overlap(a,b){return a.x+2<b.x+b.width&&a.x+a.width-2>b.x&&a.y+2<b.y+b.height&&a.y+a.height-2>b.y;}
 
-assert.equal(figures.runtime_screenshot,false);assert.equal(figures.views.length,11);
+assert.equal(figures.runtime_screenshot,false);assert.equal(figures.views.length,18);
 for(const [i,v]of figures.views.entries()){
   const s=JSON.parse(fs.readFileSync(path.join(here,v.name+'.excalidraw'))),elements=s.elements;
   assert.equal(s.type,'excalidraw');assert.equal(s.version,2);assert.equal(new Set(elements.map(e=>e.id)).size,elements.length);
@@ -40,6 +45,8 @@ for(const [i,v]of figures.views.entries()){
   if(v.name==='platform-reading-map'){
     assert.equal(v.width,1120);assert(Math.min(...texts.map(e=>e.fontSize))*896/v.width>=16);
   }
+  if(v.layer){assert.equal(v.layer,s.customData.layer);assert(Math.min(...texts.map(e=>e.fontSize))>=22);}
+  if(v.name==='architecture-system')assert(Math.min(...texts.map(e=>e.fontSize))*896/v.width>=15.5);
   assert.equal(nodes.length,expected[i][0]);assert.deepEqual(arrows.map(e=>e.id).sort(),expected[i][1].split(' ').sort());
   assert.deepEqual(v.nodes,nodes.map(e=>e.customData.node));assert.deepEqual(v.arrows,arrows.map(e=>e.id));
   const canvas=elements.find(e=>e.id.endsWith('-canvas'));assert.equal(canvas.x,0);assert.equal(canvas.y,0);assert.equal(canvas.width,v.width);assert.equal(canvas.height,v.height);
@@ -55,6 +62,10 @@ for(const [i,v]of figures.views.entries()){
     }
   }
   for(const set of[nodes,texts])for(let a=0;a<set.length;a++)for(let b=a+1;b<set.length;b++)assert(!overlap(set[a],set[b]),'Overlapping elements: '+set[a].id+' / '+set[b].id);
+  if(v.layer)for(const t of texts)for(const n of nodes){
+    const x=t.x+t.width/2,y=t.y+t.height/2;
+    if(x>n.x&&x<n.x+n.width&&y>n.y&&y<n.y+n.height)assert(t.x>=n.x+6&&t.y>=n.y+6&&t.x+t.width<=n.x+n.width-6&&t.y+t.height<=n.y+n.height-6,'Text padding: '+t.id+'/'+n.id);
+  }
   for(const r of elements.filter(e=>e.type==='rectangle'&&(e.customData?.region||e.id.endsWith('-region')||e.id.endsWith('-boundary')))){
     const border=[[r.x,r.y],[r.x+r.width,r.y],[r.x+r.width,r.y+r.height],[r.x,r.y+r.height],[r.x,r.y]];
     for(let p=1;p<border.length;p++)for(const t of texts)assert(!crosses(border[p-1],border[p],t),'Frame border crosses text: '+r.id+'/'+t.id);
@@ -73,6 +84,11 @@ for(const [i,v]of figures.views.entries()){
     assert.equal(e.startBinding.elementId,e.customData.from);assert.equal(e.endBinding.elementId,e.customData.to);
     for(const binding of[e.startBinding,e.endBinding])assert(elements.find(n=>n.id===binding.elementId).boundElements.some(b=>b.id===e.id&&b.type==='arrow'));
     const points=e.points.map(([x,y])=>[x+e.x,y+e.y]);
+    if(v.layer)for(const [binding,p]of[[e.startBinding,points[0]],[e.endBinding,points.at(-1)]]){
+      const n=elements.find(e=>e.id===binding.elementId),x=Math.abs(p[0]-n.x-n.width/2)/(n.width/2),y=Math.abs(p[1]-n.y-n.height/2)/(n.height/2);
+      if(n.type==='diamond')assert(Math.abs(x+y-1)<.04,'Arrow misses actual diamond boundary: '+e.id);
+      if(n.type==='ellipse')assert(Math.abs(x*x+y*y-1)<.04,'Arrow misses actual ellipse boundary: '+e.id);
+    }
     for(let p=1;p<points.length;p++){
       assert(points[p][0]===points[p-1][0]||points[p][1]===points[p-1][1],'Route is not orthogonal: '+e.id);
       for(const n of nodes.filter(n=>![e.customData.from,e.customData.to].includes(n.id)))assert(!crosses(points[p-1],points[p],n),'Arrow crosses resource: '+e.id+'/'+n.id);
@@ -85,7 +101,7 @@ for(const [i,v]of figures.views.entries()){
   }
   checks.push({name:v.name,nodes:nodes.length,arrows:arrows.length,native_elements:elements.length,embedded_icons:Object.keys(s.files).length,passed:true});
 }
-assert.equal(checks.reduce((n,v)=>n+v.nodes,0),185);assert.equal(checks.reduce((n,v)=>n+v.arrows,0),165);
+assert.equal(checks.reduce((n,v)=>n+v.nodes,0),279);assert.equal(checks.reduce((n,v)=>n+v.arrows,0),261);
 report.source_bindings=Object.fromEntries([...sources.entries()].sort());
 const preview=JSON.parse(fs.readFileSync(path.join(root,'docs/images/platform-system.preview.json')));
 const gif=fs.readFileSync(path.join(root,'docs/images/platform-system.gif'));
@@ -96,8 +112,8 @@ assert.equal(preview.sha256,sha(gif));assert.equal(preview.marker_count,58);
 assert.equal(gif.subarray(0,6).toString(),'GIF89a');assert.equal(gif.readUInt16LE(6),1920);assert.equal(gif.readUInt16LE(8),1980);
 assert.equal(preview.frames,36);assert.equal(preview.distinct_frames,36);assert.equal(preview.duration_ms,6000);
 const readme=fs.readFileSync(path.join(root,'README.md'),'utf8'),picture=readme.match(/<picture>[\s\S]*?<\/picture>/)?.[0];
-assert(picture?.includes('prefers-reduced-motion: reduce')&&picture.includes('docs/images/platform-reading-map.png')&&picture.includes('docs/images/platform-reading-map.gif'));
-report.readme_preview={passed:true,view:'platform-reading-map',original_system_preview_unchanged:true};
+assert(picture?.includes('prefers-reduced-motion: reduce')&&picture.includes('docs/images/architecture-system.png')&&picture.includes('docs/images/architecture-system.gif'));
+report.readme_preview={passed:true,view:'architecture-system',original_reference_previews_unchanged:true};
 report.previews=[];
 for(const v of figures.views){
   const receipt=JSON.parse(fs.readFileSync(path.join(root,'docs/images',v.name+'.preview.json')));
@@ -132,6 +148,7 @@ if(process.argv.includes('--browser')){
       for(const id of expected[i][1].split(' ')){await page.selectOption('#edge',id);assert((await page.locator('#detail-title').textContent()).startsWith(id+' · '));assert(await page.locator('#sources li').count()>0);}
       await page.click('#read');
       assert((await page.locator('article.active svg').boundingBox()).width>=figures.views[i].width-1,'Read labels must reach native width');
+      assert(await page.locator('article.active svg').evaluate(s=>Math.min(...[...s.querySelectorAll('text')].map(t=>parseFloat(getComputedStyle(t).fontSize)))*s.getBoundingClientRect().width/s.viewBox.baseVal.width>=15.99));
       await page.click('#fit');
     }
     await page.click('#play');assert.equal(await page.locator('#play').textContent(),'Play');
@@ -149,7 +166,7 @@ if(process.argv.includes('--browser')){
     const reduced=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'}),mobile=await reduced.newPage();
     await reduced.route(/^https?:/,route=>{requests.push(route.request().url());return route.abort();});
     await mobile.goto(pathToFileURL(path.join(here,'architecture.html')).href);
-    assert.equal(await mobile.locator('#view').inputValue(),'10');
+    assert.equal(await mobile.locator('#view').inputValue(),'11');
     for(let i=0;i<figures.views.length;i++){
       await mobile.selectOption('#view',String(i));
       assert.equal(await mobile.locator('#play').textContent(),'Play');
@@ -158,6 +175,7 @@ if(process.argv.includes('--browser')){
       assert(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
       await mobile.click('#read');
       assert((await mobile.locator('article.active svg').boundingBox()).width>=figures.views[i].width-1);
+      assert(await mobile.locator('article.active svg').evaluate(s=>Math.min(...[...s.querySelectorAll('text')].map(t=>parseFloat(getComputedStyle(t).fontSize)))*s.getBoundingClientRect().width/s.viewBox.baseVal.width>=15.99));
       assert(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Zoom must scroll inside the canvas');
       await mobile.click('#fit');
     }
@@ -173,13 +191,13 @@ if(process.argv.includes('--browser')){
     const heroHTML='<style>body{margin:0}img{display:block;max-width:960px;height:auto}</style>'+picture;
     await hero.goto(pathToFileURL(path.join(root,'README.md')).href);await hero.setContent(heroHTML);
     await hero.locator('img').evaluate(e=>e.decode());
-    assert((await hero.locator('img').evaluate(e=>e.currentSrc)).endsWith('platform-reading-map.gif'));
+    assert((await hero.locator('img').evaluate(e=>e.currentSrc)).endsWith('architecture-system.gif'));
     const first=await hero.locator('img').screenshot();await hero.waitForTimeout(550);
     const second=await hero.locator('img').screenshot();assert.notEqual(sha(first),sha(second),'README GIF must actually animate');
     if(out)await hero.screenshot({path:path.join(path.dirname(out),'readme-preview.png'),fullPage:true});
     const still=await reduced.newPage();still.on('pageerror',e=>errors.push(e.message));
     await still.goto(pathToFileURL(path.join(root,'README.md')).href);await still.setContent(heroHTML);await still.locator('img').evaluate(e=>e.decode());
-    assert((await still.locator('img').evaluate(e=>e.currentSrc)).endsWith('platform-reading-map.png'));
+    assert((await still.locator('img').evaluate(e=>e.currentSrc)).endsWith('architecture-system.png'));
     const gifViews=[];
     for(const v of figures.views){
       await hero.setContent('<style>body{margin:0}img{max-width:1080px;height:auto}</style><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/images/'+v.name+'.png"><img src="docs/images/'+v.name+'.gif"></picture>');
@@ -190,9 +208,9 @@ if(process.argv.includes('--browser')){
       gifViews.push(v.name);
     }
     assert.deepEqual(errors,[]);assert.deepEqual(requests,[]);
-    report.browser={passed:true,actual_moving_particles_by_view:moving,total:165,all_arrow_details:true,click_path:true,pause_resume:true,speed:true,zoom_fit:true,read_labels_native_width_desktop_and_mobile:true,view_deep_links:true,reduced_motion:true,mobile_layout:true,mobile_reduced_motion_views:figures.views.length,readme_gif_actually_animates:true,readme_reduced_motion_selects_png:true,all_gif_previews_animate:gifViews,all_gif_reduced_motion_fallbacks:true,external_requests:requests,page_errors:errors};
+    report.browser={passed:true,actual_moving_particles_by_view:moving,total:261,all_arrow_details:true,click_path:true,pause_resume:true,speed:true,zoom_fit:true,read_labels_minimum_16px_desktop_and_mobile:true,view_deep_links:true,reduced_motion:true,mobile_layout:true,mobile_reduced_motion_views:figures.views.length,readme_gif_actually_animates:true,readme_reduced_motion_selects_png:true,all_gif_previews_animate:gifViews,all_gif_reduced_motion_fallbacks:true,external_requests:requests,page_errors:errors};
   }finally{await browser.close();}
 }
 report.passed=true;
 if(out)fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n');
-console.log(JSON.stringify({passed:true,views:checks,nodes:185,arrows:165,source_files:sources.size,browser:report.browser},null,2));
+console.log(JSON.stringify({passed:true,views:checks,nodes:279,arrows:261,source_files:sources.size,browser:report.browser},null,2));

@@ -57,7 +57,7 @@ def check():
     original=subprocess.check_output(['git','show',value['base_commit']+':docs/diagrams/architecture.html'],cwd=ROOT).decode()
     old_articles=re.findall(r'<article[^>]*>([\s\S]*?)</article>',original)
     new_articles=re.findall(r'<article[^>]*>([\s\S]*?)</article>',viewer)
-    assert new_articles[:10]==old_articles and len(new_articles)==11
+    assert new_articles[:10]==old_articles and len(new_articles)==18
     assert 'const documentPaths=' in viewer and 'documentPaths[source]??source' in viewer
     readme=(ROOT/'README.md').read_text(encoding='utf-8')
     assert readme.split('## Contributors',1)[1]==subprocess.check_output(['git','show',value['base_commit']+':README.md'],cwd=ROOT).decode().split('## Contributors',1)[1]

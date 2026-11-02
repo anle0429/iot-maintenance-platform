@@ -1,6 +1,246 @@
 {
   "base_commit": "8575de6535262c1abda7d961a298a8d9705df412",
   "files": {
+    "README.md": {
+      "before_sha256": "b8ab6857291bc7e4bbf66374c29b45a1b51dbc338bde188a5cbaac77927e69de",
+      "after_sha256": "0cb641c4273f9629bbe213ca06e1f482391ef9c45b8abd5d75d014946afa8960",
+      "patches": [
+        {
+          "line": 33,
+          "old": "The system map follows data through batch and stream jobs, feature delivery, training and serving, then into the agent workflow. The detailed views expand request, deployment and observability boundaries. SDKs run inside consuming jobs and APIs; models and references retain their own source identities.\n",
+          "new": "The architecture is documented at three levels: connected subsystems, five implementation flows, and physical deployment. Start with the system diagram, then follow a flow to inspect its inputs, persisted outputs, checks and return paths. The deployment view locates the workloads on the CPU/GPU hosts and separates Kubernetes, Docker and host processes.\n"
+        },
+        {
+          "line": 36,
+          "old": "  <source media=\"(prefers-reduced-motion: reduce)\" srcset=\"docs/images/platform-system.png\">\n  <img alt=\"IoT platform architecture: data governance, batch and streaming pipelines, features, ML, serving, infrastructure, security and agents\" src=\"docs/images/platform-system.gif\">\n",
+          "new": "  <source media=\"(prefers-reduced-motion: reduce)\" srcset=\"docs/images/architecture-system.png\">\n  <img alt=\"System architecture linking data orchestration, offline history, three separate online stores, training, serving, RAG, agents, inference and operating controls\" src=\"docs/images/architecture-system.gif\">\n"
+        },
+        {
+          "line": 40,
+          "old": "[Excalidraw source](docs/diagrams/platform-system.excalidraw) \u00b7 [Full-resolution PNG](docs/images/platform-system.png) \u00b7 [SVG](docs/images/platform-system.svg) \u00b7 [Interactive viewer](docs/diagrams/architecture.html) \u00b7 [All ten diagrams](docs/diagrams/README.md) \u00b7 [Architecture](docs/edai-1/architecture.md)\n",
+          "new": "[Full-resolution system diagram](docs/images/architecture-system.png) \u00b7 [Excalidraw source](docs/diagrams/architecture-system.excalidraw) \u00b7 [SVG](docs/images/architecture-system.svg) \u00b7 [Diagram guide](docs/diagrams/README.md)\n\n| Layer | View | What it explains |\n|---|---|---|\n| 1 \u00b7 System | [Connected subsystems](docs/images/architecture-system.png) | Data, feature stores, model lifecycle, agents and operating controls |\n| 2 \u00b7 Flow | [Batch processing](docs/images/flow-batch.png) | DP1\u2013DP3, schema/dedup, feature/label separation and metadata release gates |\n| 2 \u00b7 Flow | [Streaming](docs/images/flow-stream.png) | Kafka/Flink event time, durable dedup and staged offline/online writers |\n| 2 \u00b7 Flow | [Training and release](docs/images/flow-training.png) | Mounted Feast history, independent labels, five KFP tasks, MLflow and gated serving |\n| 2 \u00b7 Flow | [Prediction request](docs/images/flow-prediction.png) | Authentication, native Redis lookup, eligibility checks, KServe and checked response |\n| 2 \u00b7 Flow | [Agents and inference](docs/images/flow-agents.png) | Controller-routed delegation, specialist MCP tools and all three LLM routes |\n| 3 \u00b7 Deployment | [Hosts and runtimes](docs/images/deployment-runtime.png) | CPU/GPU placement, workload groups, persistent state and private access |\n\nFeast runs as an SDK inside jobs and APIs. Batch, stream monitoring and serving Redis are separate online roles; historical training reads registered Parquet. The system view groups logical subsystems, while the flow and deployment views distinguish processing steps from runtime resources. Each directed relationship has an implementation reference in its native source and the local viewer.\n"
+        },
+        {
+          "line": 71,
+          "old": "",
+          "new": "<details>\n<summary>Agent flow \u2014 delegation, actual tool facts and shared GPU inference</summary>\n\n"
+        },
+        {
+          "line": 72,
+          "old": "  <source media=\"(prefers-reduced-motion: reduce)\" srcset=\"docs/images/platform-llm-plan.png\">\n  <img alt=\"Coordinator, specialists, MCP and private GPU inference route\" src=\"docs/images/platform-llm-plan.gif\">\n",
+          "new": "  <source media=\"(prefers-reduced-motion: reduce)\" srcset=\"docs/images/flow-agents.png\">\n  <img alt=\"Coordinator and specialist delegation, separate MCP routes, three generation connections and the observed GPU model request and return\" src=\"docs/images/flow-agents.gif\">\n"
+        },
+        {
+          "line": 76,
+          "old": "[Editable SVG](docs/images/platform-llm-plan.svg) \u00b7 [LLM platform](docs/edai-2/llm_platform.md)\n",
+          "new": "[Full-size PNG](docs/images/flow-agents.png) \u00b7 [Zoomable local viewer](docs/diagrams/architecture.html#view=flow-agents)\n\n</details>\n\n[Excalidraw source](docs/diagrams/flow-agents.excalidraw) \u00b7 [SVG](docs/images/flow-agents.svg) \u00b7 [LLM platform](docs/edai-2/llm_platform.md)\n"
+        },
+        {
+          "line": 95,
+          "old": "",
+          "new": "<details>\n<summary>Deployment topology \u2014 hosts, workloads and access boundaries</summary>\n\n"
+        },
+        {
+          "line": 96,
+          "old": "  <source media=\"(prefers-reduced-motion: reduce)\" srcset=\"docs/images/platform-deployment.png\">\n  <img alt=\"Individual workload resources on the CPU VM and private GPU worker\" src=\"docs/images/platform-deployment.gif\">\n",
+          "new": "  <source media=\"(prefers-reduced-motion: reduce)\" srcset=\"docs/images/deployment-runtime.png\">\n  <img alt=\"Operator loopback and IAP access, CPU K3s Docker and host workloads, persistent volumes and the GPU worker in the same cluster\" src=\"docs/images/deployment-runtime.gif\">\n"
+        },
+        {
+          "line": 100,
+          "old": "[Editable SVG](docs/images/platform-deployment.svg) \u00b7 [Infrastructure](docs/edai-2/llm_infrastructure_evidence.md) \u00b7 [Operations](docs/edai-1/operations.md)\n",
+          "new": "[Full-size PNG](docs/images/deployment-runtime.png) \u00b7 [Zoomable local viewer](docs/diagrams/architecture.html#view=deployment-runtime)\n"
+        },
+        {
+          "line": 102,
+          "old": "Each deployment box identifies one selected workload resource; frames mark its host/runtime. Replicas and containers within that resource stay in the same box. Supporting services are detailed in the [runtime configuration](docs/edai-1/architecture.md#deployment-and-security). The drawings describe the recorded lab and its connection boundaries; they do not establish simultaneous execution or current endpoint readiness. Two executor Pods on one physical CPU host do not establish multi-host high availability.\n",
+          "new": "</details>\n\n[Excalidraw source](docs/diagrams/deployment-runtime.excalidraw) \u00b7 [SVG](docs/images/deployment-runtime.svg) \u00b7 [Infrastructure](docs/edai-2/llm_infrastructure_evidence.md) \u00b7 [Operations](docs/edai-1/operations.md)\n\nDeployment frames mark physical hosts and runtimes. Named boxes group selected related resources; a WorkerPool owns worker Pods, and the observer Deployment contains two containers. The [deployment crosswalk](docs/diagrams/README.md#deployment-groups) maps the earlier 42-resource inventory into these groups. Supporting services remain in the [runtime configuration](docs/edai-1/architecture.md#deployment-and-security). The drawings describe the recorded lab and its connection boundaries; they do not establish simultaneous execution or current endpoint readiness. Two executor Pods on one physical CPU host do not establish multi-host high availability.\n"
+        }
+      ]
+    },
+    "docs/README.md": {
+      "before_sha256": "90cc2d796190b65d290df4ca51982cb2bf5f22a7ddcc051019fb2aa57278d0d2",
+      "after_sha256": "97828cc21203cb55a089f229caa7bd057d8ef2b9c258da89965b58c43a1a5931",
+      "patches": [
+        {
+          "line": 34,
+          "old": "- [Architecture gallery](diagrams/README.md): ten editable Excalidraw views with static previews and illustrative animation.\n",
+          "new": "- [Architecture diagrams](diagrams/README.md): seven primary Excalidraw views across system, processing flows and physical deployment, with source references and zoom controls; earlier layouts remain as references.\n"
+        }
+      ]
+    },
+    "docs/diagrams/README.md": {
+      "before_sha256": "e6470e18aab5ca7762a7a4db6ecaebfd2006189d72abbf702d53dbebcf1569e9",
+      "after_sha256": "fed52b2f7c6471f3355bb67cb2fa9924fffee5791e283575e2b2326ae32fdf97",
+      "patches": [
+        {
+          "line": 0,
+          "old": "# Architecture views\n",
+          "new": "# Architecture diagrams\n"
+        },
+        {
+          "line": 2,
+          "old": "One system map and nine detailed drawings explain the IoT platform. Native Excalidraw files keep shapes, text, logos and arrow bindings editable. All ten views share pastel responsibility frames, embedded product marks, readable source examples and numbered handoffs. Deployment and code views retain explicit workload/process boundaries. PNG previews and animated GIFs work directly on GitHub; SVG exports retain vectors and embedded fonts.\n",
+          "new": "Seven primary Excalidraw views describe the implemented platform at three levels. The system view explains responsibilities and dependencies; five flow views trace concrete processing and request paths; the deployment view locates workloads and state on the recorded CPU/GPU hosts. These levels distinguish logical subsystems, processing steps and runtime resources.\n"
+        },
+        {
+          "line": 4,
+          "old": "Open [architecture.html](architecture.html) from a local clone for the **animated presentation**. It works offline: choose a view, play or pause, change speed, zoom, and select or click an arrow to inspect its direction, meaning and source files. GitHub displays the HTML source; download or open the local file to use the viewer.\n",
+          "new": "The drawings describe the repository and its recorded lab. They do not establish current service readiness, simultaneous execution of every workload or a production high-availability topology.\n"
+        },
+        {
+          "line": 6,
+          "old": "Moving dots illustrate handoff direction. Their timing is arbitrary and each loop is independent. They are **not live telemetry**, a sequence diagram, a throughput measurement or evidence that all jobs run concurrently. Animation belongs to the HTML and animated SVG exports; the Excalidraw editor contains the static editable drawing. Reduced-motion preferences start the viewer paused.\n",
+          "new": "## Three layers\n"
+        },
+        {
+          "line": 8,
+          "old": "| View | Purpose | Editable source | Exports |\n",
+          "new": "| Layer | View and question | Native source | Full-size exports |\n"
+        },
+        {
+          "line": 10,
+          "old": "| System map | Data governance, batch/stream jobs, feature stores, training, release, inference, security, telemetry and agents in one view | [Excalidraw](platform-system.excalidraw) | [PNG](../images/platform-system.png) \u00b7 [SVG](../images/platform-system.svg) \u00b7 [Motion](../images/platform-system.animated.svg) \u00b7 [GIF](../images/platform-system.gif) |\n| 01 \u00b7 Platform overview | Separate large-source, ML and streaming cohorts; scheduling, training and release | [Excalidraw](platform-overview.excalidraw) | [PNG](../images/platform-overview.png) \u00b7 [SVG](../images/platform-overview.svg) \u00b7 [Motion](../images/platform-overview.animated.svg) \u00b7 [GIF](../images/platform-overview.gif) |\n| 02 \u00b7 Prediction request | Gateway, Feast lookup, eligibility gates and pinned model response | [Excalidraw](platform-serving.excalidraw) | [PNG](../images/platform-serving.png) \u00b7 [SVG](../images/platform-serving.svg) \u00b7 [Motion](../images/platform-serving.animated.svg) \u00b7 [GIF](../images/platform-serving.gif) |\n| 03 \u00b7 Deployment topology | 42 selected resources: two PC clients and 40 workloads/processes/state resources, grouped by physical host and runtime | [Excalidraw](platform-deployment.excalidraw) | [PNG](../images/platform-deployment.png) \u00b7 [SVG](../images/platform-deployment.svg) \u00b7 [Motion](../images/platform-deployment.animated.svg) \u00b7 [GIF](../images/platform-deployment.gif) |\n| 04 \u00b7 Observability and retraining | Distinct metric, log and trace paths; guarded candidate training | [Excalidraw](platform-monitoring.excalidraw) | [PNG](../images/platform-monitoring.png) \u00b7 [SVG](../images/platform-monitoring.svg) \u00b7 [Motion](../images/platform-monitoring.animated.svg) \u00b7 [GIF](../images/platform-monitoring.gif) |\n| 05 \u00b7 RAG and agents | Verified reference state, coordinator delegation, MCP/API calls and shared GPU generation | [Excalidraw](platform-llm-plan.excalidraw) | [PNG](../images/platform-llm-plan.png) \u00b7 [SVG](../images/platform-llm-plan.svg) \u00b7 [Motion](../images/platform-llm-plan.animated.svg) \u00b7 [GIF](../images/platform-llm-plan.gif) |\n| 06 \u00b7 Agent release admission | Complete policy input, fail-closed decision and exact-input recheck | [Excalidraw](agent-admission.excalidraw) | [PNG](../images/agent-admission.png) \u00b7 [SVG](../images/agent-admission.svg) \u00b7 [Motion](../images/agent-admission.animated.svg) \u00b7 [GIF](../images/agent-admission.gif) |\n| 07 \u00b7 Assistant code boundaries | Five implemented classes, local SDK calls and cross-process HTTP | [Excalidraw](assistant-classes.excalidraw) | [PNG](../images/assistant-classes.png) \u00b7 [SVG](../images/assistant-classes.svg) \u00b7 [Motion](../images/assistant-classes.animated.svg) \u00b7 [GIF](../images/assistant-classes.gif) |\n| 08 \u00b7 Agent trace paths | Logical delegation, shared generation and the exact private OTLP route | [Excalidraw](agent-traces.excalidraw) | [PNG](../images/agent-traces.png) \u00b7 [SVG](../images/agent-traces.svg) \u00b7 [Motion](../images/agent-traces.animated.svg) \u00b7 [GIF](../images/agent-traces.gif) |\n| 09 \u00b7 Prompt policy cohort | Reject before generation and reconcile the original controlled cohort | [Excalidraw](prompt-policy.excalidraw) | [PNG](../images/prompt-policy.png) \u00b7 [SVG](../images/prompt-policy.svg) \u00b7 [Motion](../images/prompt-policy.animated.svg) \u00b7 [GIF](../images/prompt-policy.gif) |\n",
+          "new": "| 1 \u00b7 System | How do data, ML, serving, agents and operating controls fit together? | [System](architecture-system.excalidraw) | [PNG](../images/architecture-system.png) \u00b7 [SVG](../images/architecture-system.svg) \u00b7 [GIF](../images/architecture-system.gif) |\n| 2 \u00b7 Batch | How do DP1-DP3 turn raw exports into validated histories and separate labels? | [Batch flow](flow-batch.excalidraw) | [PNG](../images/flow-batch.png) \u00b7 [SVG](../images/flow-batch.svg) \u00b7 [GIF](../images/flow-batch.gif) |\n| 2 \u00b7 Streaming | Where do dedup, watermarks, finalized windows and staged writers run? | [Stream flow](flow-stream.excalidraw) | [PNG](../images/flow-stream.png) \u00b7 [SVG](../images/flow-stream.svg) \u00b7 [GIF](../images/flow-stream.gif) |\n| 2 \u00b7 Training | Which files reach KFP, where are labels joined, and what gates serving? | [Training flow](flow-training.excalidraw) | [PNG](../images/flow-training.png) \u00b7 [SVG](../images/flow-training.svg) \u00b7 [GIF](../images/flow-training.gif) |\n| 2 \u00b7 Prediction | What happens between a machine request and its checked response? | [Prediction flow](flow-prediction.excalidraw) | [PNG](../images/flow-prediction.png) \u00b7 [SVG](../images/flow-prediction.svg) \u00b7 [GIF](../images/flow-prediction.gif) |\n| 2 \u00b7 Agents | How do delegation, MCP facts and all three generation routes interact? | [Agent flow](flow-agents.excalidraw) | [PNG](../images/flow-agents.png) \u00b7 [SVG](../images/flow-agents.svg) \u00b7 [GIF](../images/flow-agents.gif) |\n| 3 \u00b7 Deployment | Which workloads, processes and persistent state belong to each host/runtime? | [Deployment](deployment-runtime.excalidraw) | [PNG](../images/deployment-runtime.png) \u00b7 [SVG](../images/deployment-runtime.svg) \u00b7 [GIF](../images/deployment-runtime.gif) |\n\nEach arrow has a native `customData` record with its endpoints, meaning, transport/dependency type, source files and qualifications. The [layer crosswalk](layers.json) binds the seven views to their implementation and maps the selected deployment inventory into named groups.\n"
+        },
+        {
+          "line": 23,
+          "old": "Shapes distinguish triggers, processes, state and admission. Free-standing text provides runtime and scope details; frames group a host or runtime rather than introducing a service. The deployment inventory intentionally selects resources from a larger cluster: a WorkerPool can own several Pods, and the observer/turn adapter is one Deployment with two containers. SDKs run inside consuming jobs or APIs.\n",
+          "new": "The system diagram groups logical subsystems. A box such as \u201cKFP + MLflow\u201d is a responsibility boundary, not one Kubernetes Deployment. The flow diagrams show actions and artifacts: Feast lookup and result validation run inside the Feature API; a \u201cload\u201d box is a KFP task. Deployment frames then show where the actual resource groups run. A WorkerPool owns worker Pods; the observer Deployment contains two containers.\n"
+        },
+        {
+          "line": 25,
+          "old": "The system map's 47 nodes are logical roles and persisted state, not an inventory of 47 Deployments. Its Spark symbol covers separate bounded jobs; its Feast symbol covers separate batch materialization and serving preparation. Controller/UI are grouped as an application boundary. R2 follows job gauges through Pushgateway to Prometheus; view 04 expands that intermediary. The 58 numbered handoffs have their own source references. G0/G5/G6 explicitly connect retrieval/coordinator/drift generation to the same llm-d route. Every Redis role is online; batch names its producer, while Feast's offline history stays in Parquet. Pastel frames delimit responsibilities; they are not extra services.\n",
+          "new": "| Cue | Meaning |\n|---|---|\n| Orange input or ellipse | Caller, source or private access |\n| Blue process | Data job, application/API or processing step |\n| Green state or result | Persisted history, online store, verified artifact or returned data |\n| Purple | Training, agent or model generation |\n| Yellow decision | Eligibility or candidate admission |\n| Solid arrow | Directed data, artifact, request, response or SDK dependency; label gives intent |\n| Dashed arrow | Orchestration, release, secret synchronization or explicitly logical A2A delegation |\n| Dashed deployment frame | A host/runtime grouping, not another service |\n| Dark example panel | Actual field names, paths or API contract; authored illustration, not a service screenshot |\n"
+        },
+        {
+          "line": 27,
+          "old": "| Visual cue | Meaning |\n|---|---|\n| Orange ellipse / accent | Input, scheduling or authenticated access |\n| Blue | Data transformation, APIs and application services |\n| Purple | ML tasks, agents and model generation |\n| Green | Persisted state, artifacts or returned values |\n| Yellow diamond | Admission decision |\n| Dashed slate line | Orchestration or metadata handoff |\n| Dark panel | Selected source code or recorded scope, not a runtime screenshot |\n",
+          "new": "Arrow IDs are local to a view. Crossings without a component do not join flows. Request and response paths are separate where the return affects validation or attribution. At the system level, a dependency can summarize a request/return pair that its flow view expands.\n"
+        },
+        {
+          "line": 37,
+          "old": "Arrows follow data, artifacts, requests, responses or control. A file dependency is not an RPC. A Prometheus-to-Grafana arrow is returned query data; Grafana initiates the query. Crossings without a component do not join flows. IDs are local to a view. The native files carry `customData` for each component and handoff; the viewer exposes each arrow's source references.\n\n| View | Handoff IDs |\n|---|---|\n| System map | D: persisted data; S: stream replay/writes; F: feature delivery; O: scheduling; Q: metadata; T: training; C: delivery; I: infrastructure; V: secrets; P: prediction; A: delegation/tools; K: knowledge; M: tool/query paths; G: generation; H/L: telemetry |\n| Overview | D1\u2013D2: Bronze/Silver source; F1\u2013F3: separate ML cohort and materialization; C1/G1: orchestration and metadata; T0\u2013T2/C2\u2013C3: training and release; S0\u2013S4: retained stream replay and writes |\n| Prediction | U1\u2013U2: authenticated request; U3\u2013U4: online lookup and values; U5\u2013U6: model call and result; U7: logical response through the gateway |\n| Deployment | U1: browser to IAP forwarding; U2: SSH to the VM viewer; U3: CA/SNI-verified upstream HTTPS; G1\u2013G2: model request; G3\u2013G4: token stream and observed return |\n| Observability | H1/M1/M3: returned metric data; L1\u2013L3: collected logs and query results; M2: PromQL response; O1\u2013O2: projected traces and protected query response; R1\u2013R4: drift report, admission and candidate artifacts |\n| RAG/agents | K0\u2013K2: knowledge preparation and per-replica state; A1\u2013A4: parent dispatch and logical specialist delegation; M1\u2013M4: tool/API requests; M5: Drift MCP's 32-machine Feature API cohort; G1/G6/G7: retrieval/coordinator/drift generation; G2\u2013G5: common inference route and return stream |\n| Agent admission | C1\u2013C2: complete rendered/live input and OPA decision; C3: deny before rollout; C4\u2013C6: seal, immediate exact-input recheck, deploy and verify |\n| Assistant classes | Q1: MCP request; C1\u2013C2: local reader/encoder calls; D1: embedded records; H1/H3: private API requests; H2: injected backend |\n| Agent traces | A1\u2013A3: dispatch/delegation; M1\u2013M2: actual tool cohort; G1\u2013G7: shared generation and return; T0\u2013T2: representative actor export, exact OTLP route and approved Jaeger projection |\n| Prompt policy | P1: fixed original cases; P2\u2013P3: reject/admit; P4\u2013P5: reconcile the distinct outcomes; P6: exact batch statistics and separately interpreted rate graph |\n",
+          "new": "Moving dots indicate authored direction with arbitrary independent timing. They are not live traffic, a throughput measurement, an execution schedule or proof of concurrency. Animation belongs to the SVG/GIF/local viewer; native Excalidraw drawings remain static and editable.\n"
+        },
+        {
+          "line": 54,
+          "old": "| Boundary | Implementation | Consequence for the drawing |\n",
+          "new": "| Boundary | Implementation | What the diagrams show |\n"
+        },
+        {
+          "line": 56,
+          "old": "| Data scale | [Ingest report](../edai-1/full_scale_ingest.md), [feature cohort](../edai-1/medium_feature_dataset.md) | 102.45 GB covers Bronze/Silver. The separate 60-day ML source has 3,456,000 snapshots and 3,132,184 training rows. It is not a 100 GB end-to-end ML run. |\n| Offline \u2192 online stream | [OnlineStage](../../feature_store/staged_push.py) | System-map S4 (overview S3) carries validated Parquet history and the registry/release pin. The online job selects the latest vector from this history. An acknowledged replay skips writes and does not renew Redis TTL. |\n| Release ordering | [Airflow DAG](../../airflow/dags/iot_data_pipelines.py), [publisher](../../pipelines/airflow_tasks.py) | Validation and metadata publication gate downstream release. Small Airflow cohorts and the 100 GB ingest are separate runs. |\n| Prediction | [Feature API](../../services/feature_api/runtime.py), [binding](../../services/predictor/binding.py) | Validate schema, clocks, state, lease and exact pin before accepting the `iot-pump-failure-v1` result. U7 returns through the gateway. |\n| One cluster, two hosts | [GPU Deployment](../../infra/charts/iot-gpu-multimodel/templates/model.yaml) | The GPU is a K3s worker in the same cluster as the CPU server. One GPU and `Recreate` do not provide seamless rollout or host-level HA. The earlier Docker benchmark is a separate experiment. |\n| Private browser access | [Gateway viewer](../../scripts/view-agent-gateway.py) | The browser uses loopback HTTP over IAP. The VM viewer independently verifies CA and SNI on its upstream HTTPS hop. Browser UI is not labelled HTTPS. |\n| Trace store | [Jaeger manifest](../../infra/observability/jaeger.yaml), [observer](../../llm_observability/app.py) | Jaeger is a K3s Deployment with bounded in-memory storage. Restart can lose trace history. Query-result flow is distinct from the initiating request. |\n| Retrieval state | [MCP chart](../../infra/charts/iot-mcp/templates/workload.yaml), [KnowledgeReader](../../rag/retrieval.py) | Each retrieval Pod receives a verified state copy. Feast and embedded Milvus Lite run in the consumer, without a standalone Milvus server. |\n| Drift inputs | [MCPRuntime.drift](../../services/mcp_tools/runtime.py) | Fetch 32 machine snapshots from Feature API, require a shared source identity, then call `/v1/drift:compare`. M5 makes this dependency explicit. |\n| Drift statistics | [Deployed detector](../../services/drift_api/detector.py), [MMD study](../edai-1/joint_cohort.md) | Drift API/MCP return PSI diagnostics. Offline MMD research is separate and is not labelled as a statistic returned by the deployed tool. |\n| Retraining and CI admission | [Retraining controller](../../ml/drift_retrain.py), [Rego gate](../../infra/policy/deployment.rego) | Retraining creates a candidate after admission checks; it does not automatically promote serving. The OPA gate is a CI policy check, not a cluster admission webhook. |\n| Infrastructure | [Terraform](../../infra/gcp/vm/main.tf), [host playbook](../../infra/ansible/bootstrap.yml) | Compute VMs host the platform. The GPU joins the same K3s cluster; GKE and a managed lakehouse are not part of this implementation. |\n| Delegation and acceptance | [Child checker](../../agents/delegation_acceptance.py), [answer checker](../../agents/answer_acceptance.py) | Specialist results return to the coordinator and through controller/UI. A task labelled completed does not establish a successful child or a correct answer. |\n",
+          "new": "| Offline and online stores | [Batch source](../../feature_store/repository.py), [materializer](../../feature_store/materialize.py), [serving preparation](../../feature_store/serving.py) | Historical Parquet/registry through Feast-DuckDB; separate batch, stream and serving Redis online roles. \u201cBatch\u201d names a producer, not an offline store. |\n| Scale | [Large ingest](../edai-1/full_scale_ingest.md), [ML cohort](../edai-1/medium_feature_dataset.md) | The 100GB milestone ends at Bronze/Silver. Feature engineering/training use a separate 60-day source. |\n| Data correction | [Transforms](../../pipelines/transforms.py), [features](../../pipelines/features.py) | Explicit union schema, conflict rejection, deterministic window dedup, temporal dimensions, arrived-history features and separately censored labels. |\n| Airflow release | [DAGs](../../airflow/dags/iot_data_pipelines.py), [metadata publisher](../../pipelines/metadata_publish.py) | Publication runs with ALL_DONE to retain failure outcomes; the next DAG requires validation and publication success. |\n| Stream semantics | [Flink job](../../pipelines/stream_job.py), [ledger/sink](../../pipelines/stream_contract.py) | Fifteen-minute watermark delay, ten-minute windows, processing-time cache expiry and durable event ledger. SQLite writes are not checkpoint-transactional; no general exactly-once claim. |\n| Stream delivery | [Staged writers](../../feature_store/staged_push.py) | Offline history completes first; the online writer verifies it and chooses latest values. Acknowledged replay skips writes and TTL renewal. Four monitoring aggregates do not replace eight prediction inputs. |\n| KFP inputs | [Native load](../../ml/notebook_load.py), [PVC configuration](../../ml/kfp_cluster.py) | Mounted Parquet/registry; Feast queries contain only machine ID/time; labels are exported as id/label and joined one-to-one after retrieval. |\n| Versioning and promotion | [Five-stage pipeline](../../ml/kfp_versioned.py), [dataset versions](../../ml/mlflow_data_versions.py), [serving CI](../../scripts/ci-serving.py) | Incremental data publication, evaluated model candidate and separately selected/tested serving release. Candidate creation does not automatically promote serving. |\n| Prediction | [API runtime](../../services/feature_api/runtime.py), [model pin](../../services/predictor/binding.py) | Native values/timestamps, both clocks, eligibility and exact model provenance are checked; the response returns through API/gateway. |\n| Agent tools | [Agent definitions](../../infra/charts/iot-agents/templates/agents.yaml), [MCP runtime](../../services/mcp_tools/runtime.py) | Controller-routed delegation; specialist tool allowlists; per-Pod embedded reference state; 32\u2013200 bounded API snapshots before PSI comparison (recorded cohort: 32). |\n| Shared generation | [ModelConfig](../../infra/agents/kagent-values.yaml), [observer](../../infra/charts/iot-llm-observer/templates/workload.yaml), [control proxy](../../tools/model-control/main.go) | All three roles reach llm-d, then observer/turn adapter and control, then the private GPU llama.cpp server; native replies return through the same route. |\n| Private access and traces | [Viewer](../../scripts/view-agent-gateway.py), [trace bridge](../../infra/llm_observer_routing.py) | PC loopback/IAP and verified upstream HTTPS are distinct. OTLP uses the exact private trace route, separate from model selection. |\n"
+        },
+        {
+          "line": 70,
+          "old": "The [architecture reference](../edai-1/architecture.md), [LLM reference](../edai-2/llm_platform.md) and [requirement map](../edai-1/implementation_map.md) retain measurement and evidence boundaries. These authored drawings do not modify or replace original screenshots, failed outcomes or native receipts.\n",
+          "new": "The [architecture narrative](../edai-1/architecture.md), [LLM reference](../edai-2/llm_platform.md) and linked technical reports retain the experiment scopes, original failures and recorded execution evidence. Source references establish implementation correspondence; a rendered arrow is not execution evidence.\n\n## Deployment groups\n\nThe deployment view groups the earlier 42 selected resource/client roles into the locations below. The mapping is explicit in [layers.json](layers.json); grouping does not remove their identities or imply one Pod per group. The CPU disk group adds the shared persistence boundary.\n\n| Location | Selected groups and resources |\n|---|---|\n| Operator PC | Browser/API client and IAP/SSH forwarding process |\n| CPU host loopback | Bounded viewer processes; distinct from NGINX |\n| CPU K3s \u00b7 data/serving | KFP API/task Pods and Spark driver/executors; Feature/Drift APIs, KServe predictor and serving Redis |\n| CPU K3s \u00b7 agents | Controller, UI, catalog, PostgreSQL; coordinator/retrieval/drift WorkerPools; both MCP Deployments |\n| CPU K3s \u00b7 substrate | Six Valkey members and RustFS snapshot volumes; substrate routing/identity controls |\n| CPU K3s \u00b7 inference/edge | llm-d router/EPP; observer and model-control containers; NGINX private gateway; bounded-memory Jaeger |\n| CPU Docker | Airflow API/scheduler/DAG processor and DB; DataHub GMS/frontend and stores; MLflow/SQLite/artifacts; Jenkins; Spark/Kafka/Flink and Feast jobs |\n| CPU host services | Prometheus, Grafana, Alloy, Loki, Pushgateway, node exporter, Vault and scoped consumers |\n| CPU disks | Persistent datasets, registries, CAS, journals, DB/model state; separate SSD scratch; bounded PVC/bind mounts |\n| GPU worker \u00b7 same cluster | One llama.cpp Deployment, one V100, private ClusterIP service, reserved node selector and read-only host model files |\n\nThe Feature API seeds a small memory-backed state copy rather than mounting bulk training data. Retrieval MCP copies its own verified knowledge state. GPU model files live on the GPU host. Jaeger is memory-backed and can lose traces on restart. A stopped VM, a retained disk and an unexpired feature lease are different states. Neither same-host replicas/executors nor one GPU establish host-level HA; Recreate can interrupt inference.\n\n## Reading size\n\nThe primary system view uses 28px text on a 1,600px canvas (about 15.7px at 896px display width). Flow/deployment text is at least 22px at native size. Use full-resolution PNG/SVG for inspection rather than compressing every implementation detail into the README preview.\n\nOpen [architecture.html](architecture.html) from a local clone. The selector groups **Layer 1**, **Layer 2**, **Layer 3** and reference views; it starts with the system architecture. **Read labels** zooms to at least natural width and a minimum 16px text size; scroll inside the canvas. **Fit** restores the full composition. Play/pause, speed and arrow details work offline. Reduced-motion preferences start the viewer paused and select static PNGs in embedded previews. GitHub displays HTML source, so use the local file for interactive controls.\n\nNative screenshots remain original. Before/after Spark captures use one full-width image per row. Separate readable benchmark panels are derived from unchanged native reports, including the slower aggregate dedup candidate.\n"
+        },
+        {
+          "line": 74,
+          "old": "Open any `.excalidraw` file in Excalidraw. Product marks are embedded image elements; components, text and bound arrows remain separate. The official Feast mark is a PNG logo, while the other marks are SVG. The scene itself is never flattened into an image. Source references live in each element's `customData`. When editing, keep the white canvas at `(0, 0)`, preserve semantic IDs, and reroute arrows around labels and components.\n",
+          "new": "Edit shapes, text, logos and bound arrows in the `.excalidraw` source. Components, labels and marks remain separate native elements; no scene is a flattened screenshot. Keep semantic IDs, source references, canvas origin, readable text sizes and arrow routing around unrelated elements. Product logos are embedded; the official Feast mark is a PNG logo, while other marks are SVG.\n"
+        },
+        {
+          "line": 76,
+          "old": "To reproduce exports with Node.js and a Playwright-supported browser:\n",
+          "new": "From `docs/diagrams`, install the pinned renderer once and select the view being changed:\n"
+        },
+        {
+          "line": 79,
+          "old": "cd docs/diagrams\n",
+          "new": ""
+        },
+        {
+          "line": 82,
+          "old": "npm run render\n",
+          "new": "npm run render -- --view flow-training --write-native\n"
+        },
+        {
+          "line": 84,
+          "old": "node preview.mjs --all\n",
+          "new": "node preview.mjs --view flow-training\n"
+        },
+        {
+          "line": 88,
+          "old": "The first dependency/browser installation needs a network connection. Rendering and viewing use local assets and make no platform, model or cloud requests. `export.mjs` uses the pinned Excalidraw 0.18.0 renderer, embeds fonts/logos, and derives every motion path from the native arrow's actual point order. It does not generate the architecture layout. `--write-native` additionally normalizes the edited scenes through Excalidraw and embeds the reviewed icon assets. The verification output must use a new path under `outputs/`.\n",
+          "new": "The renderer uses Excalidraw 0.18.0 and derives motion from authored arrow points. It does not invent a layout. Repeat the selected export for each edited view; `preview.mjs --all` reuses byte-identical previews whose source hashes match. Each preview has 36 distinct frames over six seconds and an adjacent source/byte manifest. `DIAGRAM_PYTHON` selects an interpreter with Pillow. Dependencies/browser installation needs a network connection; rendering/viewing makes no platform or model requests.\n"
+        },
+        {
+          "line": 90,
+          "old": "The checker validates native element IDs, bindings, source paths, image assets, dimensions, component/text overlap, routed arrows and all 155 motion paths across ten views. Browser checks exercise every handoff detail, real particle movement, pause/resume, speed, zoom, path clicks, reduced motion, mobile layout and absence of external requests. These are documentation checks, not a fresh workload run or coursework grade.\n",
+          "new": "From the repository root, `python -B -S scripts/verify-architecture-layers.py` checks layer membership, source bindings, critical storage/tool/training boundaries, deployment coverage and authored artifact identities. The diagram checker separately validates actual geometry, source paths, native bindings, motion, controls, desktop/mobile behavior and reduced-motion fallbacks. These checks support review; they do not certify a grade or current runtime health.\n"
+        },
+        {
+          "line": 92,
+          "old": "`preview.mjs --all` captures each authored SVG and `encode-preview.py` encodes its 36 frames into a six-second GIF. Use `--view platform-serving` to select one view and `--force` to recapture a previously verified preview. An unchanged source/preview hash is reused byte for byte. Independent staggered phases have arbitrary timing; this does not record an application session. A fixed palette reserves source colors to preserve small product marks. Each adjacent `.preview.json` manifest binds exact GIF bytes and SVG text with CRLF canonicalized to LF. Every embedded preview selects the PNG for reduced-motion visitors. Use `DIAGRAM_PYTHON` if the Python interpreter with Pillow is not named `python`.\n",
+          "new": "## Reference views\n"
+        },
+        {
+          "line": 94,
+          "old": "The four former Mermaid flowcharts are now native Excalidraw views 06\u201309. The classes view distinguishes local calls from HTTP; the trace view is a documented recorded cohort rather than current telemetry. OPA input and prompt-policy outcomes remain tied to their original reports. Statistical plots, native screenshots, source workbooks and experiment evidence retain their original bytes and format.\n",
+          "new": "Earlier source-bound layouts and focused technical studies remain available for continuity. The seven views above are the primary architecture set. The compact three-workflow picture is an introduction, not a substitute for these layers.\n\n<details>\n<summary>Open earlier layouts and focused studies</summary>\n\n| View | Source | Full-size image |\n|---|---|---|\n| Earlier complete poster | [System](platform-system.excalidraw) | [PNG](../images/platform-system.png) |\n| Earlier Data/ML overview | [Overview](platform-overview.excalidraw) | [PNG](../images/platform-overview.png) |\n| Earlier prediction layout | [Serving](platform-serving.excalidraw) | [PNG](../images/platform-serving.png) |\n| Individual 42-resource inventory | [Deployment](platform-deployment.excalidraw) | [PNG](../images/platform-deployment.png) |\n| Observability and guarded retraining detail | [Monitoring](platform-monitoring.excalidraw) | [PNG](../images/platform-monitoring.png) |\n| Earlier RAG/agent layout | [LLM](platform-llm-plan.excalidraw) | [PNG](../images/platform-llm-plan.png) |\n| OPA release admission detail | [Admission](agent-admission.excalidraw) | [PNG](../images/agent-admission.png) |\n| Assistant code boundaries | [Classes](assistant-classes.excalidraw) | [PNG](../images/assistant-classes.png) |\n| Agent trace routes | [Traces](agent-traces.excalidraw) | [PNG](../images/agent-traces.png) |\n| Controlled prompt-policy cohort | [Policy](prompt-policy.excalidraw) | [PNG](../images/prompt-policy.png) |\n| Compact introduction | [Three workflows](platform-reading-map.excalidraw) | [PNG](../images/platform-reading-map.png) |\n\n</details>\n"
+        },
+        {
+          "line": 98,
+          "old": "Product marks include [Simple Icons 15.0.0](https://github.com/simple-icons/simple-icons/tree/15.0.0), under [CC0](icons/CC0-1.0.txt), and official [Airflow](https://airflow.apache.org/community/resources/), [DataHub](https://github.com/datahub-project/datahub/tree/master/docs-website/static/img), [Kubeflow](https://github.com/kubeflow/website/tree/master/static/images) and [Feast](https://github.com/feast-dev/feast/tree/master/docs/assets) assets from their Apache-licensed projects. The [Apache license](icons/Apache-2.0.txt), exact asset bodies, collection/source URLs and SHA-256 hashes are retained in [brands.json](icons/brands.json). Product trademarks remain with their owners.\n",
+          "new": "Product marks include [Simple Icons 15.0.0](https://github.com/simple-icons/simple-icons/tree/15.0.0), under [CC0](icons/CC0-1.0.txt), and official [Airflow](https://airflow.apache.org/community/resources/), [DataHub](https://github.com/datahub-project/datahub/tree/master/docs-website/static/img), [Kubeflow](https://github.com/kubeflow/website/tree/master/static/images) and [Feast](https://github.com/feast-dev/feast/tree/master/docs/assets) assets from their Apache-licensed projects. The [Apache license](icons/Apache-2.0.txt), exact asset bodies, collection/source URLs and hashes remain in [brands.json](icons/brands.json). Product trademarks remain with their owners.\n"
+        },
+        {
+          "line": 100,
+          "old": "Original generic role icons identify MCP, llm-d, KServe, Alloy and Loki; these are not presented as official logos. All views use the reviewed official Feast/DataHub marks where those products appear. The release recheck uses an original generic lock icon, not an OPA product mark. Brand colors belong to the marks; frame colors explain responsibilities. The diagram does not import another project's storage, CDC or query technologies merely to match its visual style.\n\nCascadia Code is embedded in SVG exports under Microsoft's [SIL Open Font License](icons/Cascadia-OFL-1.1.txt), sourced from the [Cascadia Code release](https://github.com/microsoft/cascadia-code/tree/v2407.24). Excalidraw is the rendering/editing format; these drawings do not imply vendor endorsement. The retired Pillow renderer is available in Git history; the native Excalidraw scenes are the current source of truth.\n",
+          "new": "Original generic icons identify roles such as MCP, llm-d and KServe; these are not official product marks. Color encodes responsibility, while a product mark retains its brand color. Source workbooks, native screenshots, measurements, failed outcomes and original receipt archives are unchanged by the new drawings.\n"
+        }
+      ]
+    },
+    "docs/edai-1/README.md": {
+      "before_sha256": "9394e1b82edd85ae24ae05be8310871913a2556fd93c091892007dddc08f12ca",
+      "after_sha256": "b9b3ab9929a8fb9aa8ec66177fe181845abc2d00aa0d171cb35c94756a3e2f02",
+      "patches": [
+        {
+          "line": 5,
+          "old": "",
+          "new": "\n[System, flow and deployment diagrams](../diagrams/README.md#three-layers) \u00b7 [How to read and zoom the figures](../diagrams/README.md#reading-size).\n"
+        }
+      ]
+    },
+    "docs/edai-1/architecture.md": {
+      "before_sha256": "60e04a91f5c5beee0321c48cd5b88f9e4e00cefe27da9ed4daeed2370ffc725a",
+      "after_sha256": "e332a289d2510224579d5e5bfec8fc721460774f90b8bd1948c96d0a9c7bb183",
+      "patches": [
+        {
+          "line": 20,
+          "old": "The [system map](../images/platform-system.svg) ([Excalidraw source](../diagrams/platform-system.excalidraw)) brings the data, ML, serving, agent and operating layers together. It groups logical jobs and responsibilities; the [deployment view](../images/platform-deployment.svg) separates actual workload resources. See the [diagram guide](../diagrams/README.md) for all ten views and the animated presentation.\n",
+          "new": "The [system architecture](../images/architecture-system.svg) ([Excalidraw source](../diagrams/architecture-system.excalidraw)) connects logical subsystems and persisted state. Five implementation flows expand batch, streaming, training, prediction and agents. The [deployment view](../images/deployment-runtime.svg) locates the named workload groups on their actual hosts/runtimes. See the [three-layer guide](../diagrams/README.md#three-layers) for sources, full-resolution exports and the local animated viewer.\n"
+        },
+        {
+          "line": 23,
+          "old": "  <source media=\"(prefers-reduced-motion: reduce)\" srcset=\"../images/platform-overview.png\">\n  <img alt=\"Data and ML workflow overview\" src=\"../images/platform-overview.gif\">\n",
+          "new": "  <source media=\"(prefers-reduced-motion: reduce)\" srcset=\"../images/architecture-system.png\">\n  <img alt=\"Connected data, ML, serving, agent and operating subsystems\" src=\"../images/architecture-system.gif\">\n"
+        },
+        {
+          "line": 27,
+          "old": "[Excalidraw source](../diagrams/platform-overview.excalidraw) \u00b7 [SVG](../images/platform-overview.svg) \u00b7 [Animated viewer](../diagrams/architecture.html) \u00b7 [All ten views and handoff legend](../diagrams/README.md)\n",
+          "new": "[Excalidraw source](../diagrams/architecture-system.excalidraw) \u00b7 [SVG](../images/architecture-system.svg) \u00b7 [Animated viewer](../diagrams/architecture.html#view=architecture-system) \u00b7 [Layer guide and legend](../diagrams/README.md)\n"
+        },
+        {
+          "line": 34,
+          "old": "  <source media=\"(prefers-reduced-motion: reduce)\" srcset=\"../images/platform-serving.png\">\n  <img alt=\"Authenticated prediction request, online lookup and model response\" src=\"../images/platform-serving.gif\">\n",
+          "new": "  <source media=\"(prefers-reduced-motion: reduce)\" srcset=\"../images/flow-prediction.png\">\n  <img alt=\"Authenticated request, native feature lookup, eligibility checks, model inference and checked return\" src=\"../images/flow-prediction.gif\">\n"
+        },
+        {
+          "line": 38,
+          "old": "[Excalidraw source](../diagrams/platform-serving.excalidraw) \u00b7 [SVG](../images/platform-serving.svg) \u00b7 U1\u2013U7 follow the incoming request, feature lookup, model call and logical return through the gateway.\n",
+          "new": "[Excalidraw source](../diagrams/flow-prediction.excalidraw) \u00b7 [SVG](../images/flow-prediction.svg) \u00b7 U1\u2013U11 follow the incoming request, lookup, rejection, model call and checked return through the gateway. Lookup and result checks execute inside the Feature API.\n"
+        },
+        {
+          "line": 129,
+          "old": "The [deployment view](../images/platform-deployment.svg) ([Excalidraw source](../diagrams/platform-deployment.excalidraw)) shows 42 selected workload/client resources: the Feature and Drift APIs, each MCP service, controller/UI/catalog, worker pools, router, substrate state, Docker workloads and host processes. Frames group resources by host and runtime; they are not additional services. A WorkerPool can own multiple worker Pods. The observer and turn adapter share one Deployment with two containers. Feast SDK runs inside consuming jobs/APIs. PostgreSQL, the six-member Valkey cluster, RustFS snapshots, Jaeger, the Airflow DAG processor and the DataHub frontend have their own labels. The VM's loopback viewer is separate from NGINX: U1\u2013U3 follow browser access through IAP/SSH to the viewer and its CA/SNI-verified upstream HTTPS connection. G1\u2013G4 show the model request and return. Framework-internal controllers and other supporting databases remain in the source manifests; this is a selected inventory.\n",
+          "new": "The [deployment view](../images/deployment-runtime.svg) ([Excalidraw source](../diagrams/deployment-runtime.excalidraw)) groups the selected resources by physical host and runtime. The [deployment crosswalk](../diagrams/README.md#deployment-groups) maps all 42 earlier client/workload roles into these named groups; a group is not one Deployment. The CPU disk group adds the shared persistence boundary. WorkerPools own worker Pods; the observer Deployment contains the observation/turn adapter and model-control containers. Feast executes inside jobs/APIs. The operator's loopback/IAP hop, bounded CPU viewer and CA/SNI-verified HTTPS hop remain separate. G1/G2 show CPU control and GPU response traffic; the GPU worker belongs to the same K3s cluster. Jaeger has bounded in-memory storage. Framework controllers and supporting databases remain in source manifests; this is a selected recorded inventory, not a live status check.\n"
+        }
+      ]
+    },
     "docs/edai-1/batch_corrections_benchmark.md": {
       "before_sha256": "ebacdf5a872ece8bddf005bbcfefbc393609aa32491c1369b686ceeaf54940c1",
       "after_sha256": "26ac380d7fa5a898e6ce04652116b7b3441d172b31de1779b61a5429d4c219a8",
@@ -38,121 +278,258 @@
         }
       ]
     },
-    "README.md": {
-      "before_sha256": "b8ab6857291bc7e4bbf66374c29b45a1b51dbc338bde188a5cbaac77927e69de",
-      "after_sha256": "5b8b81c9680f9ce39849fc005c1de64a6b28e411086eff44bd357b7f74344333",
-      "patches": [
-        {
-          "line": 33,
-          "old": "The system map follows data through batch and stream jobs, feature delivery, training and serving, then into the agent workflow. The detailed views expand request, deployment and observability boundaries. SDKs run inside consuming jobs and APIs; models and references retain their own source identities.\n",
-          "new": "Start with the three workflows below, then open the full system map or a focused view. The detailed drawings expand data processing, request, deployment and observability boundaries. SDKs run inside consuming jobs and APIs; models and references retain their own source identities.\n\n<picture>\n  <source media=\"(prefers-reduced-motion: reduce)\" srcset=\"docs/images/platform-reading-map.png\">\n  <img alt=\"Three readable workflows: separate data scopes, a machine prediction and grounded agent tools/inference\" src=\"docs/images/platform-reading-map.gif\">\n</picture>\n\n[Read the overview at full size](docs/images/platform-reading-map.png) \u00b7 [Detailed architecture and zoom controls](docs/diagrams/README.md#reading-size)\n\n<details>\n<summary>Detailed system diagram \u2014 open for the complete architecture</summary>\n"
-        },
-        {
-          "line": 40,
-          "old": "[Excalidraw source](docs/diagrams/platform-system.excalidraw) \u00b7 [Full-resolution PNG](docs/images/platform-system.png) \u00b7 [SVG](docs/images/platform-system.svg) \u00b7 [Interactive viewer](docs/diagrams/architecture.html) \u00b7 [All ten diagrams](docs/diagrams/README.md) \u00b7 [Architecture](docs/edai-1/architecture.md)\n",
-          "new": "[Full-size PNG](docs/images/platform-system.png) \u00b7 [Zoomable local viewer](docs/diagrams/architecture.html#view=platform-system)\n\n</details>\n\n[Excalidraw source](docs/diagrams/platform-system.excalidraw) \u00b7 [Full-resolution PNG](docs/images/platform-system.png) \u00b7 [SVG](docs/images/platform-system.svg) \u00b7 [Interactive viewer](docs/diagrams/architecture.html) \u00b7 [All eleven diagrams](docs/diagrams/README.md) \u00b7 [Architecture](docs/edai-1/architecture.md)\n"
-        },
-        {
-          "line": 71,
-          "old": "",
-          "new": "<details>\n<summary>LLM and agents \u2014 inference routes, tools and delegation</summary>\n\n"
-        },
-        {
-          "line": 75,
-          "old": "",
-          "new": "\n[Full-size PNG](docs/images/platform-llm-plan.png) \u00b7 [Zoomable local viewer](docs/diagrams/architecture.html#view=platform-llm-plan)\n\n</details>\n"
-        },
-        {
-          "line": 95,
-          "old": "",
-          "new": "<details>\n<summary>Deployment topology \u2014 hosts, workloads and access boundaries</summary>\n\n"
-        },
-        {
-          "line": 99,
-          "old": "",
-          "new": "\n[Full-size PNG](docs/images/platform-deployment.png) \u00b7 [Zoomable local viewer](docs/diagrams/architecture.html#view=platform-deployment)\n\n</details>\n"
-        }
-      ]
-    },
-    "docs/diagrams/README.md": {
-      "before_sha256": "e6470e18aab5ca7762a7a4db6ecaebfd2006189d72abbf702d53dbebcf1569e9",
-      "after_sha256": "1cf1cffac01ea9030f7591440e939f2c87ef225a48a11fa066159fb787cebb02",
-      "patches": [
-        {
-          "line": 2,
-          "old": "One system map and nine detailed drawings explain the IoT platform. Native Excalidraw files keep shapes, text, logos and arrow bindings editable. All ten views share pastel responsibility frames, embedded product marks, readable source examples and numbered handoffs. Deployment and code views retain explicit workload/process boundaries. PNG previews and animated GIFs work directly on GitHub; SVG exports retain vectors and embedded fonts.\n",
-          "new": "A reading-size overview, one system map and nine detailed drawings explain the IoT platform. Native Excalidraw files keep shapes, text, logos and arrow bindings editable. All eleven views use a consistent palette, embedded product marks and numbered handoffs. Detailed views add responsibility frames and source examples; deployment and code views retain explicit workload/process boundaries. PNG previews and animated GIFs work directly on GitHub; SVG exports retain vectors and embedded fonts.\n"
-        },
-        {
-          "line": 10,
-          "old": "",
-          "new": "| Start here \u00b7 three workflows | Reading-size data, prediction and assistant paths; minimum 20 px native text | [Excalidraw](platform-reading-map.excalidraw) | [PNG](../images/platform-reading-map.png) \u00b7 [SVG](../images/platform-reading-map.svg) \u00b7 [Motion](../images/platform-reading-map.animated.svg) \u00b7 [GIF](../images/platform-reading-map.gif) |\n"
-        },
-        {
-          "line": 20,
-          "old": "",
-          "new": "\n## Reading size\n\nThe README uses the compact three-workflow view. Its smallest text is 20 px on a 1,120 px canvas: 16 px when displayed at 896 px wide. The large system poster and component views retain their complete source detail and are intended for zooming.\n\nOpen the local [interactive viewer](architecture.html) and select **Read labels** for a natural-size view. Scroll across the diagram to follow its arrows; **Fit** restores the full composition. The view selector starts with the compact overview. The PNG/SVG links above also open the full export.\n\nNative service screenshots remain original. Before/after Spark captures use one image per row, with a full-resolution link. The batch comparison has three separate readable plots drawn from the same native reports; neither screenshot values nor experiment results were edited.\n"
-        },
-        {
-          "line": 41,
-          "old": "",
-          "new": "| Three workflows | D1\u2013D3: grouped data and feature jobs; P1\u2013P3: one logical prediction; A1\u2013A4: question, tools, returned results and shared model generation. Open the detailed views for return paths and controls. |\n"
-        },
-        {
-          "line": 90,
-          "old": "The checker validates native element IDs, bindings, source paths, image assets, dimensions, component/text overlap, routed arrows and all 155 motion paths across ten views. Browser checks exercise every handoff detail, real particle movement, pause/resume, speed, zoom, path clicks, reduced motion, mobile layout and absence of external requests. These are documentation checks, not a fresh workload run or coursework grade.\n",
-          "new": "The checker validates native element IDs, bindings, source paths, image assets, dimensions, component/text overlap, routed arrows and all 165 motion paths across eleven views. Browser checks exercise every handoff detail, real particle movement, pause/resume, speed, zoom, path clicks, reduced motion, mobile layout and absence of external requests. These are documentation checks, not a fresh workload run or coursework grade.\n"
-        }
-      ]
-    },
-    "docs/edai-1/README.md": {
-      "before_sha256": "9394e1b82edd85ae24ae05be8310871913a2556fd93c091892007dddc08f12ca",
-      "after_sha256": "526c6bc88b5544e07cff4904a66d44965bce7e64d724d8d205193b6eca703fb8",
-      "patches": [
-        {
-          "line": 5,
-          "old": "",
-          "new": "\n[How to read and zoom the figures](../diagrams/README.md#reading-size).\n"
-        }
-      ]
-    },
     "docs/edai-2/README.md": {
       "before_sha256": "41f16805398e08c7fe2ba7865d2daee2829024687e9f2386929c8d9e1262e409",
-      "after_sha256": "e924afb5157af92893bdb11e875b1f8ce558e02cd1b685589e9216da6aa98b10",
+      "after_sha256": "040021a9f56c8a69db801e5f16f9930a7578aac70fce23a4f0cdb946e2edc403",
       "patches": [
         {
           "line": 5,
           "old": "",
-          "new": "\n[How to read and zoom the figures](../diagrams/README.md#reading-size).\n"
-        }
-      ]
-    },
-    "docs/README.md": {
-      "before_sha256": "90cc2d796190b65d290df4ca51982cb2bf5f22a7ddcc051019fb2aa57278d0d2",
-      "after_sha256": "17e8cf450148a3dda8decf9c71772db2819682545505c7f9a1304f35ee15526b",
-      "patches": [
-        {
-          "line": 34,
-          "old": "- [Architecture gallery](diagrams/README.md): ten editable Excalidraw views with static previews and illustrative animation.\n",
-          "new": "- [Architecture gallery](diagrams/README.md): eleven editable Excalidraw views with static previews, a reading-size overview and zoom controls.\n"
+          "new": "\n[Agent/tool/inference flow](../images/flow-agents.png) \u00b7 [System and deployment layers](../diagrams/README.md#three-layers) \u00b7 [How to read and zoom the figures](../diagrams/README.md#reading-size).\n"
         }
       ]
     }
   },
   "format": "iot-figure-presentation-v1",
   "assets": {
+    "docs/diagrams/architecture-system.excalidraw": {
+      "sha256": "229ea19afa452a338602a19893e5dd815f6074fe6550f302bd0d7a05d6aa83f4",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/diagrams/deployment-runtime.excalidraw": {
+      "sha256": "bf6f35204e52cc3a6ef24652c987d7030f2d780c765b87cc1677becb554e7d64",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/diagrams/flow-agents.excalidraw": {
+      "sha256": "3cc6717dea411af1d5e9c5ba7068b06f4fa9ff92cf46cea687ba8651058dd541",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/diagrams/flow-batch.excalidraw": {
+      "sha256": "37df7d6e064a6a475f270363d81b4e5a17180b8803e441095fecd041969dcc44",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/diagrams/flow-prediction.excalidraw": {
+      "sha256": "0a7d6bf56b6f94969e4c5a0c8cf95122af848a3e68e3f7e793860c7a2cec30b4",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/diagrams/flow-stream.excalidraw": {
+      "sha256": "e3c316cb60008c631f4fc284c219961e710a8d6e816cc2781311b66736ee5c27",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/diagrams/flow-training.excalidraw": {
+      "sha256": "7e0eb328d15cfdca1e84ca4cec31f2aca45a5eb92170808839191899bdc4b63e",
+      "mode": "lf_text",
+      "new": true
+    },
     "docs/diagrams/platform-reading-map.excalidraw": {
       "sha256": "3960201d14e5c4db66ceb9c6ecd1e824598198dc593fc8e7c41c7d6616708173",
       "mode": "lf_text",
       "new": true
     },
-    "docs/images/platform-reading-map.png": {
-      "sha256": "3d65a4b6ccf153a50ba45ef3c3fe4206705965b5dae283acfd278616ff297189",
+    "docs/images/architecture-system.animated.svg": {
+      "sha256": "aad4b26e7e8d51249992efcf0af9d002c936344628fb0ea8ceef8ced3ce1c335",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/architecture-system.gif": {
+      "sha256": "d3d6d4cb1583f12434ad2190ff90b39635b1118f1f2319b5513a893ba3ebd519",
       "mode": "exact_bytes",
       "new": true
     },
-    "docs/images/platform-reading-map.svg": {
-      "sha256": "cbdecdce15c0400541b1f3bb9c1387a928c80839d3a07c6697994fdce28ccc81",
+    "docs/images/architecture-system.png": {
+      "sha256": "6285381736bd4bb7ec3915920057da4739f679a938c19e90950b7b7eb3330107",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/architecture-system.preview.json": {
+      "sha256": "1411569fce11e605f54183e23158d027a3d69ace8869270c159f5879aaca63ac",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/architecture-system.svg": {
+      "sha256": "36824697329742de4cb7ebfdea57251a0e66a9f633f72f34cfd2e059edb98786",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/benchmark-dedup-readable.png": {
+      "sha256": "943aaca467c80e9dc50dab257205a87a3a9fd0c80b0b4f902d5496dac3bb886c",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/benchmark-detail-sources.json": {
+      "sha256": "1bd806c1e42f7120f3c1d581415fb5e0af86b3aecebac2944e2fc454bb8f0041",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/benchmark-schema-readable.png": {
+      "sha256": "f25c028c9255f8b0baa9a265d4e7ed1ce80eacc7a80b3f0ff01e2de210905142",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/benchmark-skew-readable.png": {
+      "sha256": "f3c3e16bdcc0877fdd95c6ad9b1d9881193660253967dd5bd41d8d01e00b12d6",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/deployment-runtime.animated.svg": {
+      "sha256": "bc5dba5cfaa49bbdce194e53a8fe13f8d05f1e737ef6b611bbd9f1730989bb8b",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/deployment-runtime.gif": {
+      "sha256": "ee56c53075ef91c24df0ff5e451760e16a23e56c0fe9303054a9e7b30b93179f",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/deployment-runtime.png": {
+      "sha256": "9d74e337fce8d7a9f5dad94c6c7e0a04ebb566728ba5bea37afc4bd77db2adeb",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/deployment-runtime.preview.json": {
+      "sha256": "cb2ea96100a406a2efb6348ac3ab8b573c1fd955d005ec9ea9812e4990a187fe",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/deployment-runtime.svg": {
+      "sha256": "43ed2e5d195fc3a78ac6a95fa61030babdf6374a555ddd63f8632d4c1b288a9b",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/diagram-index.json": {
+      "sha256": "d8be504fa4e72fded2296bf16fa1ded2973629b07ef55f268aaf8a7e3d7baacf",
+      "mode": "lf_text",
+      "new": false,
+      "before_sha256": "ee6510fe32ecb164cfe68e2b1e9f338fc27684789b3b1a2f8a52edec49401d36"
+    },
+    "docs/images/flow-agents.animated.svg": {
+      "sha256": "f67c8cf8ad9c11a2fca15abc74768354e2477f1eb22533e49ebc7dd0e143f2c5",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-agents.gif": {
+      "sha256": "50b8804f8e12f8a0e3b7637f0ca110c2ab810a07d025db6f473392100e0b3d88",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/flow-agents.png": {
+      "sha256": "d1669a15baf77665e4c753e92ad3b67fc708cac275c216fa3b7826a49707b909",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/flow-agents.preview.json": {
+      "sha256": "c15951c1a709cb78435394083388dd6a09a580a42fda31154efb9ba1597a5333",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-agents.svg": {
+      "sha256": "8e8a1fe0f4207c9179781dcd32164798894fc444312bfa26cb157de63099ddc4",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-batch.animated.svg": {
+      "sha256": "5bb4dfdfae87219ef9dc4274548dfb1dc32f4db148253b81deb22f3ecae21333",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-batch.gif": {
+      "sha256": "39e654678fdb1990ab17c0e740b0cf9aa31b3ee662291dd115c2ab66a22ec1f0",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/flow-batch.png": {
+      "sha256": "a3753316b4dc35863a4263aca3788150ed76531f19b06527ec9e520432c1358e",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/flow-batch.preview.json": {
+      "sha256": "f0739dc7876437ad86ef83b6f12cd07c4f6067f2945c856b8b4d9412312785ac",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-batch.svg": {
+      "sha256": "d7a6b75def5279c2df848baae97b44907cfcce63851b713ae2a480470fa3e964",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-prediction.animated.svg": {
+      "sha256": "a5331d189bec0954f32a0d4e55628fcc3abbfba92a334d3699eb9e121398cd55",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-prediction.gif": {
+      "sha256": "ee2983eef1ab402a27126cf68d8deadd01cb46e376909901fb8b1886d9b0ec64",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/flow-prediction.png": {
+      "sha256": "8db9f99ee75e3297e7bc24e0ea2705116be82819121a3950ca1ce3b28b7937e4",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/flow-prediction.preview.json": {
+      "sha256": "375032c6def45aef4003803c65f55e4875f15073a8264fa041055ffdaf22417b",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-prediction.svg": {
+      "sha256": "bdeca6603c069b60ca19fb0409877c1e70cb2f5edd11f097d6c7562e3d879738",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-stream.animated.svg": {
+      "sha256": "74ba2e7ab6a8056be869515d8050d4169327277bdad86d0c814d2a536c85f56c",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-stream.gif": {
+      "sha256": "12328f57bc4b435eb8cea78469bf4b75c16b372ba4ef9c3466add79fb221e9c3",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/flow-stream.png": {
+      "sha256": "95c76dd3c175e431045cc66bc19f6ae154d781dd34cb4e0d6a688b039904ede5",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/flow-stream.preview.json": {
+      "sha256": "1bf9817366db32f84190a8d6d219e4bf1c7bc2dc74b0173ad2edd276ecaa1600",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-stream.svg": {
+      "sha256": "9e931a1fae70e45b4f4844cf9c943ab7fdd72c16753f9562aaab8c948b4f5949",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-training.animated.svg": {
+      "sha256": "a3fecb23420eb56d50cf9b1fc36b212c339ce736aad36b63000a79a420e21f6d",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-training.gif": {
+      "sha256": "806407355e3d0aa2708f98eca0914551b717dede2613134c97998420fb93daea",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/flow-training.png": {
+      "sha256": "447aae24f5a820d6440b76303f608b742736e41dfc7f62329293ebf47d641aa5",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/images/flow-training.preview.json": {
+      "sha256": "41d551bb3f17420fd95fc6d2fddef3c085fc75618270c43846fdb05f62dece91",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/images/flow-training.svg": {
+      "sha256": "c778b037b82a624548c1bab7486ef8467499623e2140f64994992cf907e97c79",
       "mode": "lf_text",
       "new": true
     },
@@ -166,28 +543,18 @@
       "mode": "exact_bytes",
       "new": true
     },
+    "docs/images/platform-reading-map.png": {
+      "sha256": "3d65a4b6ccf153a50ba45ef3c3fe4206705965b5dae283acfd278616ff297189",
+      "mode": "exact_bytes",
+      "new": true
+    },
     "docs/images/platform-reading-map.preview.json": {
       "sha256": "069e323b8b112fd6352a1c82e4841f92db23b0c58b0dd313b1321304715c3ddd",
       "mode": "lf_text",
       "new": true
     },
-    "docs/images/benchmark-schema-readable.png": {
-      "sha256": "f25c028c9255f8b0baa9a265d4e7ed1ce80eacc7a80b3f0ff01e2de210905142",
-      "mode": "exact_bytes",
-      "new": true
-    },
-    "docs/images/benchmark-dedup-readable.png": {
-      "sha256": "943aaca467c80e9dc50dab257205a87a3a9fd0c80b0b4f902d5496dac3bb886c",
-      "mode": "exact_bytes",
-      "new": true
-    },
-    "docs/images/benchmark-skew-readable.png": {
-      "sha256": "f3c3e16bdcc0877fdd95c6ad9b1d9881193660253967dd5bd41d8d01e00b12d6",
-      "mode": "exact_bytes",
-      "new": true
-    },
-    "docs/images/benchmark-detail-sources.json": {
-      "sha256": "1bd806c1e42f7120f3c1d581415fb5e0af86b3aecebac2944e2fc454bb8f0041",
+    "docs/images/platform-reading-map.svg": {
+      "sha256": "cbdecdce15c0400541b1f3bb9c1387a928c80839d3a07c6697994fdce28ccc81",
       "mode": "lf_text",
       "new": true
     },
@@ -195,13 +562,7 @@
       "sha256": "11704a962eaada958403055e825084160ec14ec453d1d73ed51bec5bac2860fd",
       "mode": "lf_text",
       "new": true
-    },
-    "docs/images/diagram-index.json": {
-      "sha256": "b81092324e18dc14658be7f90fa10455195af6d47f584aeac19b6dfb45d2c04f",
-      "mode": "lf_text",
-      "new": false,
-      "before_sha256": "ee6510fe32ecb164cfe68e2b1e9f338fc27684789b3b1a2f8a52edec49401d36"
     }
   },
-  "scope": "Figure readability only. Exact native screenshots/receipts, original ten scenes and original exported plots remain unchanged. New authored overview and three derived panels are distinct from native UI proof."
+  "scope": "Reviewed three-layer architecture and figure presentation. Exact original screenshots, native receipts, eleven reference scenes and earlier plots remain unchanged. Seven new source-bound views distinguish system, processing/request flows and physical deployment; authored diagrams are not runtime proof."
 }

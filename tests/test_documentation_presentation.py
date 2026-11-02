@@ -8,7 +8,7 @@ class DocumentationPresentationTests(unittest.TestCase):
     """Reject unreviewed content changes while authenticating the declared figure layout."""
 
     def test_all_declared_pages_restore_exact_predecessors(self):
-        """Recover all seven unchanged predecessor pages after exact patch validation."""
+        """Recover every declared predecessor page after exact patch validation."""
         value=presentation()
         for name in value['files']:
             original=subprocess.check_output(['git','show',value['base_commit']+':'+name],cwd=ROOT)

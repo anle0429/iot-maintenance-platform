@@ -31,28 +31,26 @@ The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 h
 
 ## Architecture
 
-Start with the three workflows below, then open the full system map or a focused view. The detailed drawings expand data processing, request, deployment and observability boundaries. SDKs run inside consuming jobs and APIs; models and references retain their own source identities.
+The architecture is documented at three levels: connected subsystems, five implementation flows, and physical deployment. Start with the system diagram, then follow a flow to inspect its inputs, persisted outputs, checks and return paths. The deployment view locates the workloads on the CPU/GPU hosts and separates Kubernetes, Docker and host processes.
 
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/platform-reading-map.png">
-  <img alt="Three readable workflows: separate data scopes, a machine prediction and grounded agent tools/inference" src="docs/images/platform-reading-map.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/architecture-system.png">
+  <img alt="System architecture linking data orchestration, offline history, three separate online stores, training, serving, RAG, agents, inference and operating controls" src="docs/images/architecture-system.gif">
 </picture>
 
-[Read the overview at full size](docs/images/platform-reading-map.png) · [Detailed architecture and zoom controls](docs/diagrams/README.md#reading-size)
+[Full-resolution system diagram](docs/images/architecture-system.png) · [Excalidraw source](docs/diagrams/architecture-system.excalidraw) · [SVG](docs/images/architecture-system.svg) · [Diagram guide](docs/diagrams/README.md)
 
-<details>
-<summary>Detailed system diagram — open for the complete architecture</summary>
+| Layer | View | What it explains |
+|---|---|---|
+| 1 · System | [Connected subsystems](docs/images/architecture-system.png) | Data, feature stores, model lifecycle, agents and operating controls |
+| 2 · Flow | [Batch processing](docs/images/flow-batch.png) | DP1–DP3, schema/dedup, feature/label separation and metadata release gates |
+| 2 · Flow | [Streaming](docs/images/flow-stream.png) | Kafka/Flink event time, durable dedup and staged offline/online writers |
+| 2 · Flow | [Training and release](docs/images/flow-training.png) | Mounted Feast history, independent labels, five KFP tasks, MLflow and gated serving |
+| 2 · Flow | [Prediction request](docs/images/flow-prediction.png) | Authentication, native Redis lookup, eligibility checks, KServe and checked response |
+| 2 · Flow | [Agents and inference](docs/images/flow-agents.png) | Controller-routed delegation, specialist MCP tools and all three LLM routes |
+| 3 · Deployment | [Hosts and runtimes](docs/images/deployment-runtime.png) | CPU/GPU placement, workload groups, persistent state and private access |
 
-<picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/platform-system.png">
-  <img alt="IoT platform architecture: data governance, batch and streaming pipelines, features, ML, serving, infrastructure, security and agents" src="docs/images/platform-system.gif">
-</picture>
-
-[Full-size PNG](docs/images/platform-system.png) · [Zoomable local viewer](docs/diagrams/architecture.html#view=platform-system)
-
-</details>
-
-[Excalidraw source](docs/diagrams/platform-system.excalidraw) · [Full-resolution PNG](docs/images/platform-system.png) · [SVG](docs/images/platform-system.svg) · [Interactive viewer](docs/diagrams/architecture.html) · [All eleven diagrams](docs/diagrams/README.md) · [Architecture](docs/edai-1/architecture.md)
+Feast runs as an SDK inside jobs and APIs. Batch, stream monitoring and serving Redis are separate online roles; historical training reads registered Parquet. The system view groups logical subsystems, while the flow and deployment views distinguish processing steps from runtime resources. Each directed relationship has an implementation reference in its native source and the local viewer.
 
 The animation illustrates direction with arbitrary timing. It is not live traffic or an execution schedule. Reduced-motion visitors receive the static image. Open the HTML viewer from a local clone to pause, change speed, zoom and inspect each arrow's implementation sources. The diagrams remain editable in Excalidraw.
 
@@ -84,18 +82,18 @@ The notebook and Kubeflow pipeline use the same five-step ML workflow. Training 
 The retrieval specialist obtains machine features, the model score and cited reference chunks. The drift specialist compares a bounded machine cohort with a pinned reference. The coordinator preserves their returned values and identifiers. There is no physical actuation tool.
 
 <details>
-<summary>LLM and agents — inference routes, tools and delegation</summary>
+<summary>Agent flow — delegation, actual tool facts and shared GPU inference</summary>
 
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/platform-llm-plan.png">
-  <img alt="Coordinator, specialists, MCP and private GPU inference route" src="docs/images/platform-llm-plan.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/flow-agents.png">
+  <img alt="Coordinator and specialist delegation, separate MCP routes, three generation connections and the observed GPU model request and return" src="docs/images/flow-agents.gif">
 </picture>
 
-[Full-size PNG](docs/images/platform-llm-plan.png) · [Zoomable local viewer](docs/diagrams/architecture.html#view=platform-llm-plan)
+[Full-size PNG](docs/images/flow-agents.png) · [Zoomable local viewer](docs/diagrams/architecture.html#view=flow-agents)
 
 </details>
 
-[Editable SVG](docs/images/platform-llm-plan.svg) · [LLM platform](docs/edai-2/llm_platform.md)
+[Excalidraw source](docs/diagrams/flow-agents.excalidraw) · [SVG](docs/images/flow-agents.svg) · [LLM platform](docs/edai-2/llm_platform.md)
 
 | Path | What happens | Evidence |
 |---|---|---|
@@ -118,17 +116,17 @@ The control/data lab runs on an **8-vCPU / 64-GiB CPU VM**. A separate private *
 <summary>Deployment topology — hosts, workloads and access boundaries</summary>
 
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/platform-deployment.png">
-  <img alt="Individual workload resources on the CPU VM and private GPU worker" src="docs/images/platform-deployment.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/deployment-runtime.png">
+  <img alt="Operator loopback and IAP access, CPU K3s Docker and host workloads, persistent volumes and the GPU worker in the same cluster" src="docs/images/deployment-runtime.gif">
 </picture>
 
-[Full-size PNG](docs/images/platform-deployment.png) · [Zoomable local viewer](docs/diagrams/architecture.html#view=platform-deployment)
+[Full-size PNG](docs/images/deployment-runtime.png) · [Zoomable local viewer](docs/diagrams/architecture.html#view=deployment-runtime)
 
 </details>
 
-[Editable SVG](docs/images/platform-deployment.svg) · [Infrastructure](docs/edai-2/llm_infrastructure_evidence.md) · [Operations](docs/edai-1/operations.md)
+[Excalidraw source](docs/diagrams/deployment-runtime.excalidraw) · [SVG](docs/images/deployment-runtime.svg) · [Infrastructure](docs/edai-2/llm_infrastructure_evidence.md) · [Operations](docs/edai-1/operations.md)
 
-Each deployment box identifies one selected workload resource; frames mark its host/runtime. Replicas and containers within that resource stay in the same box. Supporting services are detailed in the [runtime configuration](docs/edai-1/architecture.md#deployment-and-security). The drawings describe the recorded lab and its connection boundaries; they do not establish simultaneous execution or current endpoint readiness. Two executor Pods on one physical CPU host do not establish multi-host high availability.
+Deployment frames mark physical hosts and runtimes. Named boxes group selected related resources; a WorkerPool owns worker Pods, and the observer Deployment contains two containers. The [deployment crosswalk](docs/diagrams/README.md#deployment-groups) maps the earlier 42-resource inventory into these groups. Supporting services remain in the [runtime configuration](docs/edai-1/architecture.md#deployment-and-security). The drawings describe the recorded lab and its connection boundaries; they do not establish simultaneous execution or current endpoint readiness. Two executor Pods on one physical CPU host do not establish multi-host high availability.
 
 ## Recorded results
 

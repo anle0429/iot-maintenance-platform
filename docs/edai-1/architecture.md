@@ -18,25 +18,25 @@ Three workloads have different boundaries:
 
 The 100 GB result does not cover feature engineering or model training at that scale. Diagrams summarize recorded workflows; they do not assert that all jobs run concurrently or that endpoints are currently ready.
 
-The [system map](../images/platform-system.svg) ([Excalidraw source](../diagrams/platform-system.excalidraw)) brings the data, ML, serving, agent and operating layers together. It groups logical jobs and responsibilities; the [deployment view](../images/platform-deployment.svg) separates actual workload resources. See the [diagram guide](../diagrams/README.md) for all ten views and the animated presentation.
+The [system architecture](../images/architecture-system.svg) ([Excalidraw source](../diagrams/architecture-system.excalidraw)) connects logical subsystems and persisted state. Five implementation flows expand batch, streaming, training, prediction and agents. The [deployment view](../images/deployment-runtime.svg) locates the named workload groups on their actual hosts/runtimes. See the [three-layer guide](../diagrams/README.md#three-layers) for sources, full-resolution exports and the local animated viewer.
 
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="../images/platform-overview.png">
-  <img alt="Data and ML workflow overview" src="../images/platform-overview.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="../images/architecture-system.png">
+  <img alt="Connected data, ML, serving, agent and operating subsystems" src="../images/architecture-system.gif">
 </picture>
 
-[Excalidraw source](../diagrams/platform-overview.excalidraw) · [SVG](../images/platform-overview.svg) · [Animated viewer](../diagrams/architecture.html) · [All ten views and handoff legend](../diagrams/README.md)
+[Excalidraw source](../diagrams/architecture-system.excalidraw) · [SVG](../images/architecture-system.svg) · [Animated viewer](../diagrams/architecture.html#view=architecture-system) · [Layer guide and legend](../diagrams/README.md)
 
 ## Inference request
 
 The API accepts a machine ID, retrieves its features through Feast, checks whether they can support the prediction, and calls the pinned KServe model. Failed or maintenance-state machines can still have monitoring features, but the one-hour failure target is undefined for them.
 
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="../images/platform-serving.png">
-  <img alt="Authenticated prediction request, online lookup and model response" src="../images/platform-serving.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="../images/flow-prediction.png">
+  <img alt="Authenticated request, native feature lookup, eligibility checks, model inference and checked return" src="../images/flow-prediction.gif">
 </picture>
 
-[Excalidraw source](../diagrams/platform-serving.excalidraw) · [SVG](../images/platform-serving.svg) · U1–U7 follow the incoming request, feature lookup, model call and logical return through the gateway.
+[Excalidraw source](../diagrams/flow-prediction.excalidraw) · [SVG](../images/flow-prediction.svg) · U1–U11 follow the incoming request, lookup, rejection, model call and checked return through the gateway. Lookup and result checks execute inside the Feature API.
 
 Feast SDK runs inside the API process. The [runtime](../../services/feature_api/runtime.py) validates the schema, event time, arrival context, protocol and one-hour demo lease. Before returning a prediction, it also checks the model version, run, data version and threshold against the selected pin.
 
@@ -127,7 +127,7 @@ The deployment also has API metrics and OTLP traces, host/Pod logs, and a separa
 
 ## Deployment and security
 
-The [deployment view](../images/platform-deployment.svg) ([Excalidraw source](../diagrams/platform-deployment.excalidraw)) shows 42 selected workload/client resources: the Feature and Drift APIs, each MCP service, controller/UI/catalog, worker pools, router, substrate state, Docker workloads and host processes. Frames group resources by host and runtime; they are not additional services. A WorkerPool can own multiple worker Pods. The observer and turn adapter share one Deployment with two containers. Feast SDK runs inside consuming jobs/APIs. PostgreSQL, the six-member Valkey cluster, RustFS snapshots, Jaeger, the Airflow DAG processor and the DataHub frontend have their own labels. The VM's loopback viewer is separate from NGINX: U1–U3 follow browser access through IAP/SSH to the viewer and its CA/SNI-verified upstream HTTPS connection. G1–G4 show the model request and return. Framework-internal controllers and other supporting databases remain in the source manifests; this is a selected inventory.
+The [deployment view](../images/deployment-runtime.svg) ([Excalidraw source](../diagrams/deployment-runtime.excalidraw)) groups the selected resources by physical host and runtime. The [deployment crosswalk](../diagrams/README.md#deployment-groups) maps all 42 earlier client/workload roles into these named groups; a group is not one Deployment. The CPU disk group adds the shared persistence boundary. WorkerPools own worker Pods; the observer Deployment contains the observation/turn adapter and model-control containers. Feast executes inside jobs/APIs. The operator's loopback/IAP hop, bounded CPU viewer and CA/SNI-verified HTTPS hop remain separate. G1/G2 show CPU control and GPU response traffic; the GPU worker belongs to the same K3s cluster. Jaeger has bounded in-memory storage. Framework controllers and supporting databases remain in source manifests; this is a selected recorded inventory, not a live status check.
 
 | Runtime | Components and state | Configuration or report |
 |---|---|---|

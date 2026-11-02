@@ -5,7 +5,7 @@ import json
 import subprocess
 
 ROOT=Path(__file__).resolve().parents[1]
-PRESENTATION_SHA256='bc144af5c9f29193546109b841ea4d7311102f5c2d30798249bb47acbcdb7856'
+PRESENTATION_SHA256='1bc3e77917e174772bbaa94245de3dff16bd24206bba564795b06589d11f95d2'
 
 
 def presentation():
@@ -14,7 +14,7 @@ def presentation():
     if sha256(body).hexdigest()!=PRESENTATION_SHA256:raise ValueError('Figure presentation inventory changed')
     value=json.loads(body)
     assert value['base_commit']=='8575de6535262c1abda7d961a298a8d9705df412'
-    assert len(value['files'])==7
+    assert len(value['files'])==8
     return value
 
 

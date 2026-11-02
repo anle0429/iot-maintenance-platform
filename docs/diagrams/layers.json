@@ -1,0 +1,1469 @@
+{
+  "kind": "source-bound-three-layer-architecture",
+  "base_commit": "8ed671f0f0bdbd6fa2a9bb755196163313dfede0",
+  "layers": {
+    "1": [
+      "architecture-system"
+    ],
+    "2": [
+      "flow-batch",
+      "flow-stream",
+      "flow-training",
+      "flow-prediction",
+      "flow-agents"
+    ],
+    "3": [
+      "deployment-runtime"
+    ]
+  },
+  "views": {
+    "architecture-system": {
+      "layer": 1,
+      "scope": "Recorded implementation; boxes group bounded jobs or services, not Deployments",
+      "canvas": [
+        1600,
+        2240
+      ],
+      "nodes": [
+        "sys-source",
+        "sys-airflow",
+        "sys-catalog",
+        "sys-batch",
+        "sys-history",
+        "sys-training",
+        "sys-stream",
+        "sys-writers",
+        "sys-streamredis",
+        "sys-prep",
+        "sys-servingredis",
+        "sys-gateway",
+        "sys-api",
+        "sys-model",
+        "sys-agents",
+        "sys-mcp",
+        "sys-llm",
+        "sys-vault",
+        "sys-ci",
+        "sys-ops",
+        "sys-rag",
+        "sys-batchredis"
+      ],
+      "edges": {
+        "B1": {
+          "from": "sys-source",
+          "to": "sys-batch",
+          "label": "Source JSONL \u2192 batch ingestion",
+          "kind": "file",
+          "sources": [
+            "pipelines/source_loader.py"
+          ],
+          "note": "Spark reads the generated source. Full-scale Bronze/Silver and small DP1-DP3 orchestration have separate recorded cohorts."
+        },
+        "B2": {
+          "from": "sys-batch",
+          "to": "sys-history",
+          "label": "Persisted Parquet datasets",
+          "kind": "file",
+          "sources": [
+            "pipelines/orchestrated_job.py",
+            "pipelines/features.py"
+          ],
+          "note": "Separate Bronze, Silver, Gold, feature and label artifacts reside on shared volumes; this is not a data-lake service or one 100GB training run."
+        },
+        "B3": {
+          "from": "sys-history",
+          "to": "sys-training",
+          "label": "Historical retrieval inside the load Pod",
+          "kind": "mounted files / Feast SDK",
+          "sources": [
+            "ml/notebook_load.py",
+            "ml/kfp_cluster.py"
+          ],
+          "note": "The load task mounts source/registry state, performs label-free Feast historical retrieval, then joins independent labels by snapshot ID. Layer 2 training expands all five stages."
+        },
+        "O1": {
+          "from": "sys-airflow",
+          "to": "sys-batch",
+          "label": "Bounded stage execution",
+          "kind": "control",
+          "sources": [
+            "airflow/dags/iot_data_pipelines.py",
+            "pipelines/airflow_tasks.py"
+          ],
+          "note": "Ingest \u2192 validate \u2192 metadata publication; downstream release requires validate and publication success. Publication itself runs with ALL_DONE to retain failure metadata."
+        },
+        "O2": {
+          "from": "sys-airflow",
+          "to": "sys-catalog",
+          "label": "Schemas, lineage and assertion outcomes",
+          "kind": "HTTP metadata publication",
+          "sources": [
+            "pipelines/metadata_publish.py",
+            "pipelines/airflow_tasks.py"
+          ],
+          "note": "The publisher emits actual stage metadata and validation outcomes to DataHub GMS; a catalog arrow does not imply that all recorded assertions belong to the same execution."
+        },
+        "S1": {
+          "from": "sys-source",
+          "to": "sys-stream",
+          "label": "Arrival-ordered Kafka replay",
+          "kind": "Kafka events",
+          "sources": [
+            "pipelines/stream_verification.py"
+          ],
+          "note": "Delivery attempts and event timestamps remain distinct; bounded native replay is not a continuous physical sensor source."
+        },
+        "S2": {
+          "from": "sys-stream",
+          "to": "sys-writers",
+          "label": "Finalized windows \u2192 retained output \u2192 writers",
+          "kind": "retained SQLite/JSON artifacts",
+          "sources": [
+            "pipelines/stream_job.py",
+            "feature_store/staged_push.py"
+          ],
+          "note": "The offline writer persists monitoring history in Parquet. The online writer verifies the completed offline release before selecting latest values."
+        },
+        "S3": {
+          "from": "sys-writers",
+          "to": "sys-streamredis",
+          "label": "Latest monitoring vector via Feast SDK",
+          "kind": "Redis write",
+          "sources": [
+            "feature_store/staged_push.py"
+          ],
+          "note": "Independent stream project; acknowledged replay skips writes and TTL renewal. These four aggregates are not the predictor's eight rolling inputs."
+        },
+        "F1": {
+          "from": "sys-history",
+          "to": "sys-prep",
+          "label": "Verified source \u2192 separate serving preparation",
+          "kind": "mounted Parquet / registry",
+          "sources": [
+            "feature_store/serving.py"
+          ],
+          "note": "Serving preparation reads its verified feature source and owns a separate registry/project and wall-clock lease. Batch materialization also has its own namespace, expanded in Layer 2 training."
+        },
+        "F2": {
+          "from": "sys-prep",
+          "to": "sys-servingredis",
+          "label": "Populate serving namespace",
+          "kind": "Feast SDK \u2192 Redis",
+          "sources": [
+            "feature_store/serving.py"
+          ],
+          "note": "Genuine bounded preparation, not a Redis-to-Redis copy; one-hour wall-clock lease is distinct from event-time freshness and Redis expiry."
+        },
+        "P1": {
+          "from": "sys-gateway",
+          "to": "sys-api",
+          "label": "Authenticated machine request",
+          "kind": "HTTP JSON behind gateway",
+          "sources": [
+            "infra/gateway/resources.py",
+            "services/feature_api/app.py"
+          ],
+          "note": "POST /v1/machines/P-001:predict. Layer 2 prediction expands lookup, rejection and checked return through the gateway."
+        },
+        "P2": {
+          "from": "sys-api",
+          "to": "sys-servingredis",
+          "label": "Native online feature lookup and values",
+          "kind": "Feast SDK / Redis",
+          "sources": [
+            "services/feature_api/runtime.py"
+          ],
+          "note": "SDK in the Feature API obtains eight fields and native event timestamps. Query/return and freshness checks are expanded in Layer 2."
+        },
+        "P3": {
+          "from": "sys-api",
+          "to": "sys-model",
+          "label": "Validated vector \u2192 pinned score",
+          "kind": "HTTP JSON",
+          "sources": [
+            "services/feature_api/runtime.py"
+          ],
+          "note": "The API checks schema, both clocks, operating state and exact model lineage; KServe returns score and metadata to the API, which returns through the gateway. Response arrows are explicit in Layer 2."
+        },
+        "A1": {
+          "from": "sys-gateway",
+          "to": "sys-agents",
+          "label": "Private user/controller path",
+          "kind": "HTTP / controller dispatch",
+          "sources": [
+            "infra/gateway/agents.py",
+            "agents/probe.py"
+          ],
+          "note": "Browser loopback/IAP and verified upstream HTTPS are distinct hops. Coordinator delegates through the controller; details are expanded in Layer 2 agents."
+        },
+        "A2": {
+          "from": "sys-agents",
+          "to": "sys-mcp",
+          "label": "Specialist tool calls and returned facts",
+          "kind": "MCP HTTP",
+          "sources": [
+            "infra/charts/iot-agents/templates/agents.yaml",
+            "services/mcp_tools/runtime.py"
+          ],
+          "note": "Only specialists call their allowed MCP tools; coordinator delegates. Retrieval uses features, prediction and per-replica Feast/Milvus knowledge. Drift fetches a consistent bounded cohort (32\u2013200 machines; recorded run: 32) before PSI."
+        },
+        "A3": {
+          "from": "sys-mcp",
+          "to": "sys-api",
+          "label": "Actual machine features and prediction",
+          "kind": "HTTP JSON",
+          "sources": [
+            "services/mcp_tools/runtime.py"
+          ],
+          "note": "Retrieval calls machine endpoints; Drift MCP obtains a bounded 32\u2013200-machine API cohort (recorded run: 32), then calls the separate Drift API. Layer 2 shows all tool and generation routes."
+        },
+        "A4": {
+          "from": "sys-agents",
+          "to": "sys-llm",
+          "label": "All roles \u2192 shared ModelConfig generation route",
+          "kind": "OpenAI-compatible HTTP / SSE",
+          "sources": [
+            "infra/charts/iot-agents/templates/agents.yaml",
+            "infra/agents/kagent-values.yaml",
+            "tools/model-control/main.go"
+          ],
+          "note": "Coordinator, retrieval and drift share llm-d \u2192 observer/turn adapter \u2192 control \u2192 GPU llama.cpp. This subsystem view groups those internals; Layer 2 draws each generation dependency separately."
+        },
+        "V1": {
+          "from": "sys-vault",
+          "to": "sys-gateway",
+          "label": "Scoped credential synchronization",
+          "kind": "consumer \u2192 gateway configuration",
+          "sources": [
+            "scripts/sync-gateway-vault.py"
+          ],
+          "note": "Gateway credentials are updated by a bounded scoped Vault consumer, not delivered directly to a browser. CI and agent Secret consumers have separate permissions."
+        },
+        "C1": {
+          "from": "sys-ci",
+          "to": "sys-model",
+          "label": "Gated serving release",
+          "kind": "Helm / Kubernetes API",
+          "sources": [
+            "infra/ci/Serving.Jenkinsfile",
+            "infra/policy/deployment.rego"
+          ],
+          "note": "CI retrieves the selected version, tests and builds, then deploys/verifies/rolls back. Candidate training does not automatically promote the model; OPA is a CI gate, not an admission webhook."
+        },
+        "M1": {
+          "from": "sys-llm",
+          "to": "sys-ops",
+          "label": "Observed generation metrics and traces",
+          "kind": "Prometheus metrics / OTLP",
+          "sources": [
+            "infra/llm_observer_routing.py",
+            "infra/llm_observer_monitoring.py"
+          ],
+          "note": "Agent OTLP follows a separate exact router path to observer and Jaeger, bypassing model selection. Metrics/log/trace stores are separate; Layer 3 maps them to actual runtimes."
+        },
+        "O3": {
+          "from": "sys-airflow",
+          "to": "sys-rag",
+          "label": "Six-task RAG orchestration",
+          "kind": "control",
+          "sources": [
+            "airflow/dags/iot_rag_knowledge.py"
+          ],
+          "note": "Fetch, chunk, embed, store, validate and publish form a separate governed reference-state pipeline. This is not the telemetry DP1-DP3 cohort."
+        },
+        "K1": {
+          "from": "sys-rag",
+          "to": "sys-mcp",
+          "label": "Verified per-replica knowledge snapshot",
+          "kind": "artifact files / embedded SDK",
+          "sources": [
+            "infra/charts/iot-mcp/templates/workload.yaml",
+            "services/mcp_tools/runtime.py"
+          ],
+          "note": "Retrieval MCP copies state per Pod, then uses an embedded encoder, Feast and Milvus Lite. There is no independent Milvus server or direct LLM access to arbitrary reference files."
+        },
+        "T1": {
+          "from": "sys-training",
+          "to": "sys-ci",
+          "label": "Selected MLflow model bundle and lineage",
+          "kind": "model artifact / registry HTTP",
+          "sources": [
+            "ml/kfp_versioned.py",
+            "ml/automatic_versions.py",
+            "scripts/ci-serving.py"
+          ],
+          "note": "Versioned training publishes data identities and an evaluated candidate. Serving CI separately retrieves the explicitly selected model version and applies release gates; no automatic promotion is implied."
+        },
+        "F0": {
+          "from": "sys-history",
+          "to": "sys-batchredis",
+          "label": "Bounded batch materialization job",
+          "kind": "Feast SDK \u2192 Redis",
+          "sources": [
+            "feature_store/materialize.py"
+          ],
+          "note": "The materializer reads registered historical Parquet over explicit time bounds and writes its own batch project online. Redis is not the offline training store, and serving uses separate preparation/state."
+        },
+        "R1": {
+          "from": "sys-ops",
+          "to": "sys-training",
+          "label": "Offline PSI report \u2192 admitted candidate pipeline",
+          "kind": "conditional KFP control through Airflow jobs",
+          "sources": [
+            "airflow/dags/iot_offline_drift.py",
+            "ml/drift_retrain.py"
+          ],
+          "note": "Separate offline drift/admission jobs own this dependency; Grafana does not launch training. Replay/cooldown/source guards gate candidate submission. The recorded probe preserved drift=false and did not automatically promote serving."
+        }
+      }
+    },
+    "flow-batch": {
+      "layer": 2,
+      "scope": "DP1-DP3 dependency/data flow; scale cohorts remain separate",
+      "canvas": [
+        1400,
+        1580
+      ],
+      "nodes": [
+        "batch-source",
+        "batch-dp1",
+        "batch-bronze",
+        "batch-dp2",
+        "batch-silver",
+        "batch-dp3",
+        "batch-features",
+        "batch-labels",
+        "batch-airflow",
+        "batch-catalog"
+      ],
+      "edges": {
+        "B1": {
+          "from": "batch-source",
+          "to": "batch-dp1",
+          "label": "Read original source files",
+          "kind": "JSONL files",
+          "sources": [
+            "pipelines/source_loader.py"
+          ],
+          "note": "Each raw line is retained with its file and line identity; duplicate exports remain at Bronze."
+        },
+        "B2": {
+          "from": "batch-dp1",
+          "to": "batch-bronze",
+          "label": "Persist typed raw exports",
+          "kind": "Parquet files",
+          "sources": [
+            "pipelines/orchestrated_job.py"
+          ],
+          "note": "Immutable stage paths and validation reports bind output files to source identities."
+        },
+        "B3": {
+          "from": "batch-bronze",
+          "to": "batch-dp2",
+          "label": "Read validated Bronze",
+          "kind": "Parquet files",
+          "sources": [
+            "pipelines/orchestrated_job.py",
+            "pipelines/transforms.py"
+          ],
+          "note": "Explicit nullable union schema retains v1/v2 fields; immutable-payload conflicts fail before latest-export selection."
+        },
+        "B4": {
+          "from": "batch-dp2",
+          "to": "batch-silver",
+          "label": "Write cleaned warehouse datasets",
+          "kind": "Parquet files",
+          "sources": [
+            "pipelines/transforms.py"
+          ],
+          "note": "Dedup uses event_id and deterministic created_ts DESC, path ASC, line DESC. Facts join the dimension effective at event time; Parquet joins are not SQL-enforced foreign keys."
+        },
+        "B5": {
+          "from": "batch-silver",
+          "to": "batch-dp3",
+          "label": "Read observed telemetry and event histories",
+          "kind": "Parquet files",
+          "sources": [
+            "pipelines/features.py"
+          ],
+          "note": "Feature inputs must satisfy event_ts <= snapshot time and received_ts <= snapshot time; recorded failure history must already be available."
+        },
+        "B6": {
+          "from": "batch-dp3",
+          "to": "batch-features",
+          "label": "Persist label-free rolling history",
+          "kind": "Parquet files",
+          "sources": [
+            "pipelines/features.py"
+          ],
+          "note": "10-minute rolling sensor features plus age and recorded prior failures form the eight-field prediction vector."
+        },
+        "B7": {
+          "from": "batch-dp3",
+          "to": "batch-labels",
+          "label": "Persist targets separately",
+          "kind": "Parquet files",
+          "sources": [
+            "pipelines/features.py"
+          ],
+          "note": "Future truth is used only for labels/censoring. Training load exports exactly id,label and joins after historical retrieval; labels never enter the Feast entity query."
+        },
+        "O1": {
+          "from": "batch-airflow",
+          "to": "batch-dp1",
+          "label": "Trigger the bounded stage chain",
+          "kind": "PythonOperator / Docker job",
+          "sources": [
+            "airflow/dags/iot_data_pipelines.py",
+            "pipelines/airflow_tasks.py"
+          ],
+          "note": "The DAG chain controls separate Spark stages and downstream immutable releases. It is not a claim that the full 100GB workload ran through Airflow DP3."
+        },
+        "G1": {
+          "from": "batch-airflow",
+          "to": "batch-catalog",
+          "label": "Publish stage metadata and outcomes",
+          "kind": "DataHub GMS HTTP",
+          "sources": [
+            "pipelines/metadata_publish.py"
+          ],
+          "note": "publish_to_datahub uses ALL_DONE to preserve failure outcomes. The next DAG still requires validate and publish to succeed."
+        }
+      }
+    },
+    "flow-stream": {
+      "layer": 2,
+      "scope": "Bounded Kafka/Flink replay with staged monitoring feature writes",
+      "canvas": [
+        1400,
+        1510
+      ],
+      "nodes": [
+        "stream-producer",
+        "stream-kafka",
+        "stream-dedup",
+        "stream-window",
+        "stream-results",
+        "stream-offline",
+        "stream-history",
+        "stream-online",
+        "stream-redis"
+      ],
+      "edges": {
+        "S1": {
+          "from": "stream-producer",
+          "to": "stream-kafka",
+          "label": "Publish delivery envelopes",
+          "kind": "Kafka records",
+          "sources": [
+            "pipelines/stream_verification.py"
+          ],
+          "note": "Retries retain immutable event payloads and vary delivery metadata. Progress markers advance the test event clock explicitly."
+        },
+        "S2": {
+          "from": "stream-kafka",
+          "to": "stream-dedup",
+          "label": "Consume bounded Kafka offsets",
+          "kind": "KafkaSource",
+          "sources": [
+            "pipelines/stream_job.py"
+          ],
+          "note": "Assign event timestamps, then key by immutable event_id. Conflicting payloads fail. A durable SQLite event ledger outlives the processing-time cache."
+        },
+        "S3": {
+          "from": "stream-dedup",
+          "to": "stream-window",
+          "label": "Unique readings \u2192 keyed windows",
+          "kind": "Flink DataStream",
+          "sources": [
+            "pipelines/stream_job.py"
+          ],
+          "note": "Corrected branch uses a 15-minute out-of-orderness watermark and ten-minute tumbling windows. No extra allowed-lateness period is configured."
+        },
+        "S4": {
+          "from": "stream-window",
+          "to": "stream-results",
+          "label": "Persist windows and late side output",
+          "kind": "SQLite local sink",
+          "sources": [
+            "pipelines/stream_job.py",
+            "pipelines/stream_contract.py"
+          ],
+          "note": "Late rows and absolute keyed windows enter the retained local audit/result store. Post-job snapshot export is explicit; sink checkpoint transactions are outside this milestone."
+        },
+        "S5": {
+          "from": "stream-results",
+          "to": "stream-offline",
+          "label": "Validated finalized output \u2192 bounded writer",
+          "kind": "retained artifacts",
+          "sources": [
+            "feature_store/staged_push.py",
+            "feature_store/outbox.py"
+          ],
+          "note": "Writers process retained finalized rows rather than consuming an independent raw Kafka branch. Window identity and payload are checked before intent acknowledgement."
+        },
+        "S6": {
+          "from": "stream-offline",
+          "to": "stream-history",
+          "label": "OFFLINE push, readback, release pin",
+          "kind": "Feast SDK / Parquet",
+          "sources": [
+            "feature_store/staged_push.py"
+          ],
+          "note": "OfflineStage appends absent keys, reconciles a pending write by readback, and verifies native historical retrieval. It checks that online values did not change."
+        },
+        "S7": {
+          "from": "stream-history",
+          "to": "stream-online",
+          "label": "Read verified Parquet and registry",
+          "kind": "file / SHA-bound release",
+          "sources": [
+            "feature_store/staged_push.py"
+          ],
+          "note": "OnlineStage verifies offline/registry hashes and source binding, then chooses latest history per machine. It does not independently process raw telemetry."
+        },
+        "S8": {
+          "from": "stream-online",
+          "to": "stream-redis",
+          "label": "ONLINE push and native readback",
+          "kind": "Feast SDK / Redis",
+          "sources": [
+            "feature_store/staged_push.py"
+          ],
+          "note": "Write latest verified vector; verify it through native Feast; acknowledge in a separate local journal. Already acknowledged replay skips writes and TTL renewal."
+        },
+        "S9": {
+          "from": "stream-dedup",
+          "to": "stream-results",
+          "label": "Dedup, expiry and watermark audit records",
+          "kind": "Flink side output \u2192 same SQLite sink",
+          "sources": [
+            "pipelines/stream_job.py"
+          ],
+          "note": "Audit records and window/late records share the retained result store. The persistent event ledger is a separate SQLite file owned by the dedup operator."
+        }
+      }
+    },
+    "flow-training": {
+      "layer": 2,
+      "scope": "Five-stage versioned KFP path with separate label join and candidate/release boundary",
+      "canvas": [
+        1400,
+        1930
+      ],
+      "nodes": [
+        "train-features",
+        "train-labels",
+        "train-load",
+        "train-split",
+        "train-fit",
+        "train-validate",
+        "train-evaluate",
+        "train-registry",
+        "train-ci",
+        "train-serving",
+        "train-admission",
+        "train-batch-online"
+      ],
+      "edges": {
+        "T1": {
+          "from": "train-features",
+          "to": "train-load",
+          "label": "Historical feature retrieval",
+          "kind": "mounted FileSource / Feast SDK",
+          "sources": [
+            "ml/notebook_load.py",
+            "feature_store/repository.py"
+          ],
+          "note": "get_historical_features receives only machine_id,event_timestamp. Arrival correctness is established by upstream feature construction and source checks, not by passing labels to Feast."
+        },
+        "T2": {
+          "from": "train-labels",
+          "to": "train-load",
+          "label": "Independent labels joined after lookup",
+          "kind": "Parquet / snapshot SHA key",
+          "sources": [
+            "ml/notebook_load.py"
+          ],
+          "note": "Export labels as exactly id,label; independently verify snapshot keys; one-to-one joins must preserve every eligible row and label."
+        },
+        "T3": {
+          "from": "train-load",
+          "to": "train-split",
+          "label": "Typed cohort artifact",
+          "kind": "KFP Dataset descriptor + persisted Parquet",
+          "sources": [
+            "ml/kfp_versioned.py",
+            "ml/kfp_artifacts.py"
+          ],
+          "note": "The artifact describes actual data files; Kubernetes mounts and artifact transport carry the descriptor. The KFP API does not load feature rows into a model itself."
+        },
+        "T4": {
+          "from": "train-split",
+          "to": "train-fit",
+          "label": "Time partitions \u2192 Spark training",
+          "kind": "KFP Dataset artifact",
+          "sources": [
+            "ml/kfp_versioned.py",
+            "ml/distributed_submit.py"
+          ],
+          "note": "Train-only transformations and validation selection use the frozen protocol. Two executor Pods on one host do not establish multi-host training or HA."
+        },
+        "T5": {
+          "from": "train-fit",
+          "to": "train-validate",
+          "label": "Saved selection artifact",
+          "kind": "KFP Artifact / saved weights",
+          "sources": [
+            "ml/kfp_notebook.py"
+          ],
+          "note": "Validation reloads the actual trained weights and reproduces the validation result rather than trusting only an in-memory score."
+        },
+        "T6": {
+          "from": "train-validate",
+          "to": "train-evaluate",
+          "label": "Verified selection + successful reload receipt",
+          "kind": "KFP Artifacts",
+          "sources": [
+            "ml/kfp_versioned.py"
+          ],
+          "note": "registered_evaluate explicitly consumes both selection and verification outputs before holdout evaluation and model registration."
+        },
+        "T7": {
+          "from": "train-evaluate",
+          "to": "train-registry",
+          "label": "Evaluated model, lineage and data version",
+          "kind": "MLflow tracking HTTP",
+          "sources": [
+            "ml/automatic_versions.py"
+          ],
+          "note": "Publication preserves protocol/source/data/run/model identities and registers an evaluated candidate. It does not switch the serving API."
+        },
+        "D1": {
+          "from": "train-load",
+          "to": "train-registry",
+          "label": "Incremental dataset version publication",
+          "kind": "CAS files + MLflow HTTP",
+          "sources": [
+            "ml/automatic_versions.py",
+            "ml/mlflow_data_versions.py"
+          ],
+          "note": "The versioned load publishes only new blobs and references unchanged completed data runs. Publication failure fails the load, preventing unversioned downstream training."
+        },
+        "C1": {
+          "from": "train-registry",
+          "to": "train-ci",
+          "label": "Retrieve selected model bundle",
+          "kind": "MLflow HTTP / pinned source",
+          "sources": [
+            "scripts/ci-serving.py"
+          ],
+          "note": "CI is parameterized by exact SOURCE_COMMIT and MODEL_VERSION. Candidate creation is separate from release approval and deployment gates."
+        },
+        "C2": {
+          "from": "train-ci",
+          "to": "train-serving",
+          "label": "Gated Helm deployment and API switch",
+          "kind": "Kubernetes API / Helm",
+          "sources": [
+            "scripts/ci-serving.py",
+            "infra/ci/Serving.Jenkinsfile"
+          ],
+          "note": "Coverage/mutation/build gates precede stage, A/B checks, atomic Feature API switch and all-machine verification. Failure invokes cleanup/rollback."
+        },
+        "R1": {
+          "from": "train-admission",
+          "to": "train-load",
+          "label": "Source-bound admitted KFP pipeline run",
+          "kind": "KFP control API",
+          "sources": [
+            "ml/drift_retrain.py",
+            "feature_store/drift_retrain.py"
+          ],
+          "note": "Intent, cooldown and replay guards bound candidate submission. The recorded manual probe preserved drift=false; no natural alarm, accuracy-loss proof or automatic serving promotion is implied."
+        },
+        "F0": {
+          "from": "train-features",
+          "to": "train-batch-online",
+          "label": "Separate bounded batch materialization",
+          "kind": "Feast SDK / Redis",
+          "sources": [
+            "feature_store/materialize.py"
+          ],
+          "note": "This independent materialization job writes a batch online project from the verified offline source. The KFP load continues to read Parquet through historical retrieval; it never trains from Redis."
+        }
+      }
+    },
+    "flow-prediction": {
+      "layer": 2,
+      "scope": "Request/lookup/check/model/checked response; steps do not equal Deployments",
+      "canvas": [
+        1400,
+        1570
+      ],
+      "nodes": [
+        "predict-client",
+        "predict-gateway",
+        "predict-api",
+        "predict-sdk",
+        "predict-redis",
+        "predict-check",
+        "predict-reject",
+        "predict-model",
+        "predict-result-check",
+        "predict-response"
+      ],
+      "edges": {
+        "U1": {
+          "from": "predict-client",
+          "to": "predict-gateway",
+          "label": "Authenticated private HTTPS request",
+          "kind": "HTTPS after private access hop",
+          "sources": [
+            "infra/gateway/resources.py",
+            "scripts/view-agent-gateway.py"
+          ],
+          "note": "Local browser/viewer access can use loopback HTTP over IAP; the viewer verifies upstream private-CA TLS and SNI. Layer 3 separates those hops."
+        },
+        "U2": {
+          "from": "predict-gateway",
+          "to": "predict-api",
+          "label": "Forward the allowed machine route",
+          "kind": "private HTTP JSON",
+          "sources": [
+            "infra/gateway/resources.py",
+            "services/feature_api/app.py"
+          ],
+          "note": "The API accepts a known machine ID rather than arbitrary endpoints or caller-supplied model features."
+        },
+        "U3": {
+          "from": "predict-api",
+          "to": "predict-sdk",
+          "label": "In-process native feature read",
+          "kind": "Feast SDK call",
+          "sources": [
+            "services/feature_api/runtime.py"
+          ],
+          "note": "FeatureRuntime.features invokes FeastKServeBackend.fetch; the SDK is not a separate network service."
+        },
+        "U4": {
+          "from": "predict-sdk",
+          "to": "predict-redis",
+          "label": "get_online_features by machine ID",
+          "kind": "Redis protocol via Feast",
+          "sources": [
+            "services/feature_api/runtime.py"
+          ],
+          "note": "The backend requests the eight-field feature service and requires PRESENT statuses and the exact requested machine."
+        },
+        "U5": {
+          "from": "predict-redis",
+          "to": "predict-sdk",
+          "label": "Native values and event timestamps",
+          "kind": "Redis lookup response",
+          "sources": [
+            "services/feature_api/runtime.py"
+          ],
+          "note": "All fields must be complete and share a valid event timestamp; age is checked against the explicit simulation clock."
+        },
+        "U6": {
+          "from": "predict-sdk",
+          "to": "predict-check",
+          "label": "Validate source, clocks, schema and operating state",
+          "kind": "in-process validation",
+          "sources": [
+            "services/feature_api/runtime.py"
+          ],
+          "note": "Check one-hour real preparation lease, ten-minute event/context freshness, arrival availability, exact protocol and stopped state before calling KServe."
+        },
+        "U7": {
+          "from": "predict-check",
+          "to": "predict-reject",
+          "label": "Fail validation or eligibility",
+          "kind": "HTTP rejection",
+          "sources": [
+            "services/feature_api/app.py"
+          ],
+          "note": "Malformed IDs use request validation; unknown machine 404, stopped machine 409 and unavailable/stale/invalid state 503. A post-model provenance failure also becomes 503, not a successful prediction."
+        },
+        "U8": {
+          "from": "predict-check",
+          "to": "predict-model",
+          "label": "POST the validated eight-field vector",
+          "kind": "private HTTP JSON",
+          "sources": [
+            "services/feature_api/runtime.py"
+          ],
+          "note": "FeastKServeBackend.predict calls /v1/models/iot-pump-failure-v1:predict with instances; the caller cannot choose endpoint/model/headers."
+        },
+        "U9": {
+          "from": "predict-model",
+          "to": "predict-result-check",
+          "label": "Return model prediction and identity",
+          "kind": "HTTP response \u2192 API validation",
+          "sources": [
+            "services/feature_api/runtime.py",
+            "services/predictor/binding.py"
+          ],
+          "note": "Validate exact model metadata against the API pin, score range and decision threshold before accepting the response."
+        },
+        "U10": {
+          "from": "predict-result-check",
+          "to": "predict-response",
+          "label": "Checked API \u2192 gateway \u2192 client response",
+          "kind": "HTTP JSON return",
+          "sources": [
+            "services/feature_api/app.py",
+            "infra/gateway/resources.py"
+          ],
+          "note": "The response preserves prediction, model and feature_trace, including source/protocol IDs and native timestamps. This is the logical return of the original request, not another public endpoint."
+        },
+        "U11": {
+          "from": "predict-result-check",
+          "to": "predict-reject",
+          "label": "Reject invalid model response or provenance",
+          "kind": "in-process validation \u2192 HTTP 503",
+          "sources": [
+            "services/feature_api/runtime.py",
+            "services/feature_api/app.py"
+          ],
+          "note": "A wrong exact model pin, invalid score or inconsistent decision fails after the model call and produces 503. Only a validated model result follows U10 to the client."
+        }
+      }
+    },
+    "flow-agents": {
+      "layer": 2,
+      "scope": "Logical controller-routed delegation, specialist tools, all three generation routes and actual private inference chain",
+      "canvas": [
+        1600,
+        1940
+      ],
+      "nodes": [
+        "agent-controller",
+        "agent-coordinator",
+        "agent-retrieval",
+        "agent-drift",
+        "agent-router",
+        "agent-rag",
+        "agent-knowledge",
+        "agent-retrieval-mcp",
+        "agent-drift-mcp",
+        "agent-feature-api",
+        "agent-drift-api",
+        "agent-observer",
+        "agent-gpu"
+      ],
+      "edges": {
+        "A1": {
+          "from": "agent-controller",
+          "to": "agent-coordinator",
+          "label": "Dispatch coordinator task",
+          "kind": "controller / A2A",
+          "sources": [
+            "agents/probe.py",
+            "infra/charts/iot-agents/templates/agents.yaml"
+          ],
+          "note": "The parent session and task are retained by the actual controller. The diagram shows logical role delegation, not direct worker-to-worker TCP connections."
+        },
+        "A2": {
+          "from": "agent-coordinator",
+          "to": "agent-retrieval",
+          "label": "Delegate retrieval via controller",
+          "kind": "logical A2A",
+          "sources": [
+            "infra/charts/iot-agents/templates/agents.yaml",
+            "agents/delegation_acceptance.py"
+          ],
+          "note": "An Agent tool requests an isolated specialist session through the controller. A direct network call between worker Pods is not implied."
+        },
+        "A3": {
+          "from": "agent-coordinator",
+          "to": "agent-drift",
+          "label": "Delegate cohort drift via controller",
+          "kind": "logical A2A",
+          "sources": [
+            "infra/charts/iot-agents/templates/agents.yaml"
+          ],
+          "note": "The coordinator has a drift Agent tool; the drift specialist owns the assess_feature_drift MCP tool."
+        },
+        "G1": {
+          "from": "agent-coordinator",
+          "to": "agent-router",
+          "label": "Coordinator model generation",
+          "kind": "OpenAI-compatible HTTP / SSE",
+          "sources": [
+            "infra/charts/iot-agents/templates/agents.yaml",
+            "infra/agents/kagent-values.yaml"
+          ],
+          "note": "The coordinator references the same default-model-config as both specialists; it does not use a separate hidden LLM backend."
+        },
+        "G2": {
+          "from": "agent-retrieval",
+          "to": "agent-router",
+          "label": "Retrieval model generation",
+          "kind": "OpenAI-compatible HTTP / SSE",
+          "sources": [
+            "infra/charts/iot-agents/templates/agents.yaml",
+            "infra/agents/kagent-values.yaml"
+          ],
+          "note": "Generation traffic uses the shared model route; retrieval tool calls use the separate MCP route below."
+        },
+        "G3": {
+          "from": "agent-drift",
+          "to": "agent-router",
+          "label": "Drift model generation",
+          "kind": "OpenAI-compatible HTTP / SSE",
+          "sources": [
+            "infra/charts/iot-agents/templates/agents.yaml",
+            "infra/agents/kagent-values.yaml"
+          ],
+          "note": "All three individual role connections terminate at the same inference platform. Tool execution and generation are distinct operations."
+        },
+        "K1": {
+          "from": "agent-rag",
+          "to": "agent-knowledge",
+          "label": "Validate/publish source-bound state; copy per replica",
+          "kind": "artifact files",
+          "sources": [
+            "airflow/dags/iot_rag_knowledge.py",
+            "infra/charts/iot-mcp/templates/workload.yaml"
+          ],
+          "note": "The RAG pipeline validates source/chunk/embedding/store identities before release. Init containers copy verified state into each retrieval Pod; there is no standalone Milvus server."
+        },
+        "K2": {
+          "from": "agent-retrieval-mcp",
+          "to": "agent-knowledge",
+          "label": "Embedded encoder/Feast retrieval",
+          "kind": "in-process SDK / local state",
+          "sources": [
+            "services/mcp_tools/runtime.py",
+            "rag/retrieval.py"
+          ],
+          "note": "KnowledgeReader embeds the question with its pinned CPU encoder and verifies ranked native IDs, text and provenance. State lives inside the consuming Pod, not across a Milvus network service."
+        },
+        "K3": {
+          "from": "agent-knowledge",
+          "to": "agent-retrieval-mcp",
+          "label": "Ranked chunks and verified citations",
+          "kind": "in-process return",
+          "sources": [
+            "services/mcp_tools/runtime.py"
+          ],
+          "note": "Results carry source files, document/chunk IDs, revision and snapshot/embedding hashes; content is authored simulator reference material."
+        },
+        "M1": {
+          "from": "agent-retrieval",
+          "to": "agent-retrieval-mcp",
+          "label": "Retrieval specialist MCP tools and results",
+          "kind": "authenticated MCP HTTP",
+          "sources": [
+            "infra/charts/iot-agents/templates/agents.yaml",
+            "services/mcp_tools/app.py"
+          ],
+          "note": "The specialist tool allowlist contains get_machine_features, predict_failure and search_knowledge. Tool outputs return to this role, distinct from its G2 generation route."
+        },
+        "M2": {
+          "from": "agent-drift",
+          "to": "agent-drift-mcp",
+          "label": "Drift specialist MCP tool and result",
+          "kind": "authenticated MCP HTTP",
+          "sources": [
+            "infra/charts/iot-agents/templates/agents.yaml",
+            "services/mcp_tools/app.py"
+          ],
+          "note": "Only assess_feature_drift is exposed to this specialist; input IDs and window are typed and bounded."
+        },
+        "M3": {
+          "from": "agent-retrieval-mcp",
+          "to": "agent-feature-api",
+          "label": "Machine features and checked prediction",
+          "kind": "HTTP JSON request/response",
+          "sources": [
+            "services/mcp_tools/runtime.py"
+          ],
+          "note": "Retrieval tools call fixed Feature API machine endpoints and validate their typed identities. The specialist cannot supply arbitrary URLs or rematerialize features."
+        },
+        "M4": {
+          "from": "agent-drift-mcp",
+          "to": "agent-feature-api",
+          "label": "First fetch the bounded 32\u2013200-machine cohort",
+          "kind": "HTTP JSON request/response",
+          "sources": [
+            "services/mcp_tools/runtime.py",
+            "services/mcp_tools/contracts.py"
+          ],
+          "note": "ToolRuntime.drift fetches every requested Feature API record and requires common as_of, preparation, protocol and source hashes before constructing CompareRequest. The request contract accepts 32\u2013200 IDs; the recorded demonstration used 32."
+        },
+        "M5": {
+          "from": "agent-drift-mcp",
+          "to": "agent-drift-api",
+          "label": "Then compare the validated cohort",
+          "kind": "HTTP JSON request/response",
+          "sources": [
+            "services/mcp_tools/runtime.py"
+          ],
+          "note": "POST /v1/drift:compare consumes typed observations from the actual API records. PSI is deployed; the separate MMD study is not returned by this tool."
+        },
+        "G4": {
+          "from": "agent-router",
+          "to": "agent-observer",
+          "label": "Observed generation request",
+          "kind": "OpenAI-compatible HTTP / SSE",
+          "sources": [
+            "infra/llm_observer_routing.py",
+            "infra/charts/iot-llm-observer/templates/workload.yaml"
+          ],
+          "note": "The llm-d endpoint picker/router forwards generation to the CPU observer. Its turn adapter and model-control container preserve the bounded tool-turn policy before the GPU server."
+        },
+        "G5": {
+          "from": "agent-observer",
+          "to": "agent-gpu",
+          "label": "Controlled model request to the fixed GPU backend",
+          "kind": "HTTP / SSE",
+          "sources": [
+            "tools/model-control/main.go"
+          ],
+          "note": "model-control forwards only to http://iot-model-gpu.iot-llm.svc.cluster.local:8080. Observer/control execute on CPU; llama.cpp uses the GPU worker."
+        },
+        "G6": {
+          "from": "agent-gpu",
+          "to": "agent-observer",
+          "label": "Native generated token stream",
+          "kind": "HTTP / SSE return",
+          "sources": [
+            "tools/model-control/main.go",
+            "llm_observability/app.py"
+          ],
+          "note": "The original model response is forwarded through control/observer; timestamps and tokens are observed without treating animation as telemetry."
+        },
+        "G7": {
+          "from": "agent-observer",
+          "to": "agent-router",
+          "label": "Return stream through router to requesting role",
+          "kind": "HTTP / SSE return",
+          "sources": [
+            "infra/llm_observer_routing.py",
+            "llm_observability/app.py"
+          ],
+          "note": "Each generation reply follows its original request to coordinator/retrieval/drift. Exact agent OTLP export is a separate /iot-telemetry/v1/traces route, not model generation."
+        },
+        "A4": {
+          "from": "agent-retrieval",
+          "to": "agent-coordinator",
+          "label": "Actual retrieval child result via controller",
+          "kind": "logical A2A return",
+          "sources": [
+            "agents/delegation_acceptance.py",
+            "infra/charts/iot-agents/templates/agents.yaml"
+          ],
+          "note": "The retained child session includes actual tool outputs and returned text. Acceptance inspects real child status and facts; Completed alone does not prove correctness."
+        },
+        "A5": {
+          "from": "agent-drift",
+          "to": "agent-coordinator",
+          "label": "Actual drift child result via controller",
+          "kind": "logical A2A return",
+          "sources": [
+            "agents/delegation_acceptance.py",
+            "agents/answer_acceptance.py"
+          ],
+          "note": "The coordinator preserves returned PSI/reference identities and distinguishes drift from prediction risk or a confirmed pump fault."
+        },
+        "A6": {
+          "from": "agent-coordinator",
+          "to": "agent-controller",
+          "label": "Coordinator answer through controller/UI",
+          "kind": "controller response",
+          "sources": [
+            "agents/probe.py",
+            "agents/answer_acceptance.py"
+          ],
+          "note": "The demo separately validates parent, paired real children and MCP facts. External acceptance scripts do not make every completed runtime answer correct automatically."
+        }
+      }
+    },
+    "deployment-runtime": {
+      "layer": 3,
+      "scope": "Selected workload groups by actual host/runtime, not a live status inventory or one Deployment per box",
+      "canvas": [
+        1600,
+        2450
+      ],
+      "nodes": [
+        "deploy-browser",
+        "deploy-iap",
+        "deploy-viewer",
+        "deploy-kfp",
+        "deploy-serving",
+        "deploy-control",
+        "deploy-workers",
+        "deploy-mcp",
+        "deploy-substrate",
+        "deploy-llm-cpu",
+        "deploy-gateway",
+        "deploy-jaeger",
+        "deploy-airflow",
+        "deploy-ci",
+        "deploy-jobs",
+        "deploy-host",
+        "deploy-volumes",
+        "deploy-model"
+      ],
+      "edges": {
+        "U1": {
+          "from": "deploy-browser",
+          "to": "deploy-iap",
+          "label": "Local loopback access",
+          "kind": "HTTP on PC loopback",
+          "sources": [
+            "scripts/view-agent-gateway.py"
+          ],
+          "note": "The browser speaks local loopback HTTP; the IAP SSH process forwards the chosen port. This hop is not labelled public HTTPS."
+        },
+        "U2": {
+          "from": "deploy-iap",
+          "to": "deploy-viewer",
+          "label": "IAP-authenticated SSH forwarding to CPU loopback",
+          "kind": "IAP / SSH tunnel",
+          "sources": [
+            "infra/gcp/vm/main.tf",
+            "scripts/view-agent-gateway.py"
+          ],
+          "note": "IAP permits SSH administration; application UIs stay on loopback/private endpoints. No new public application port is implied."
+        },
+        "U3": {
+          "from": "deploy-viewer",
+          "to": "deploy-gateway",
+          "label": "Viewer verifies private CA and SNI",
+          "kind": "upstream HTTPS",
+          "sources": [
+            "scripts/view-agent-gateway.py",
+            "infra/gateway/agents.py"
+          ],
+          "note": "The bounded host viewer independently authenticates and verifies its HTTPS upstream. It is a distinct process from the NGINX gateway."
+        },
+        "U4": {
+          "from": "deploy-gateway",
+          "to": "deploy-control",
+          "label": "Allowed private UI/controller route",
+          "kind": "private HTTP",
+          "sources": [
+            "infra/gateway/agents.py"
+          ],
+          "note": "Gateway routes terminate on allowed internal UI/controller services; machine API routes and MCP backends have their own source-bound policies."
+        },
+        "D1": {
+          "from": "deploy-volumes",
+          "to": "deploy-kfp",
+          "label": "Bounded PVC mounts into task/driver/executor Pods",
+          "kind": "local persistent volumes",
+          "sources": [
+            "ml/kfp_cluster.py",
+            "ml/distributed_submit.py"
+          ],
+          "note": "/workspace source, /ml-data task workspace and /ml-scratch temporary Spark paths are mounted. Versioned load additionally mounts /data-cas. API serving state is copied separately, not this bulk PVC."
+        },
+        "D2": {
+          "from": "deploy-volumes",
+          "to": "deploy-jobs",
+          "label": "Docker source/data/scratch mounts",
+          "kind": "bind mounts / named volumes",
+          "sources": [
+            "infra/ingest.cloud.compose.yaml",
+            "infra/feast.compose.yaml"
+          ],
+          "note": "Read/write mounts are scoped per job. Service database volumes persist independently; keeping a VM disk is distinct from a running service or current feature lease."
+        },
+        "T1": {
+          "from": "deploy-llm-cpu",
+          "to": "deploy-jaeger",
+          "label": "Observed private trace export",
+          "kind": "OTLP HTTP/protobuf",
+          "sources": [
+            "infra/llm_observer_routing.py",
+            "infra/observability/jaeger.yaml"
+          ],
+          "note": "Agent trace requests follow the exact /iot-telemetry/v1/traces bridge through router and observer to Jaeger; model selection is bypassed on this route. Jaeger storage is bounded in memory."
+        },
+        "G1": {
+          "from": "deploy-llm-cpu",
+          "to": "deploy-model",
+          "label": "CPU control proxy \u2192 private GPU service",
+          "kind": "HTTP / SSE on cluster network",
+          "sources": [
+            "tools/model-control/main.go",
+            "infra/charts/iot-gpu-multimodel/templates/model.yaml"
+          ],
+          "note": "Fixed iot-model-gpu.iot-llm.svc.cluster.local:8080 backend. The GPU Pod is a worker in the same cluster, not a separate public inference endpoint."
+        },
+        "G2": {
+          "from": "deploy-model",
+          "to": "deploy-llm-cpu",
+          "label": "Generated stream returns through CPU route",
+          "kind": "HTTP / SSE response",
+          "sources": [
+            "tools/model-control/main.go",
+            "llm_observability/app.py"
+          ],
+          "note": "One GPU and Recreate do not provide zero-downtime rolling updates or physical-host HA. CPU routing/observation and GPU generation remain separate runtime responsibilities."
+        }
+      }
+    }
+  },
+  "source_encoding": "UTF-8 text with CRLF canonicalized to LF",
+  "source_sha256": {
+    "agents/answer_acceptance.py": "106788d43b163648426146d47ea2f81d1093b0882c05c481ce34d9cee12fdde4",
+    "agents/delegation_acceptance.py": "4c511459b4cd97f2d1a491f4ca37f69d0de7cd948e887ad078aa2f36e9292e81",
+    "agents/probe.py": "43e2751d16e85baf3387ba0eccf7cf08a1939e912a60782fb6571bd3c182288d",
+    "airflow/dags/iot_data_benchmarks.py": "0283573e8b5c8d5ee092d26dd4afd452651200839af80f8bd45e2f860a5af758",
+    "airflow/dags/iot_data_pipelines.py": "930c89c802261a241d75b6667e14f0a4a96ea5808a757fac93bd3b318471b970",
+    "airflow/dags/iot_offline_drift.py": "1662b6822e0db0718fca36e806e9e6ce7acf8b99634a1ebd95921271d632ff83",
+    "airflow/dags/iot_rag_knowledge.py": "e46686d4016fc36d180c03c16301b5a6baeeecacdf76b82cc2fe9bc5699aeacb",
+    "docs/edai-1/ci_serving.md": "3f5aa9d77ca3bdc04b8ade5d8aa779424817a012e16d3edf791f052977303332",
+    "docs/edai-1/host_monitoring.md": "8bfd2af03cb1ce52dacd99fa5c01b1cc23f63f0ae139058ad465355115fab1b3",
+    "docs/edai-1/log_discovery.md": "278b604a18b0bee6d8b051a12adacad17d7387827b7028d3f43c8834b5c1f278",
+    "docs/edai-1/operations.md": "303cd6802c3e734ae22c73f720ec6839bcda64b0fe6159392366383061709eb9",
+    "docs/edai-1/vault.md": "bf0a61bf4cbb30bb8ad45f391895cc7bc7c007490af87d3c6368efd7dfc5b3cb",
+    "feature_store/common.py": "1763fa6da99f357256dd6bb5c6521224796240aa61ee59be422c9ff32be18441",
+    "feature_store/drift_retrain.py": "d5079bd143ee01397bb0f8769adb0095d04d066b9230d96cda9e9fb3bfff0cd9",
+    "feature_store/materialize.py": "e92afd3efef5b26ee71bbe42130d105669843272a9c90f0d9df4e609bb1b5117",
+    "feature_store/outbox.py": "c7df81b1415b01e00593cc3eeab74e7f9f56e5f89e305427c29fd823f358d431",
+    "feature_store/push.py": "3a116e0968449c9bf675f193669d7dbc2e983cadf4c4b13932facb6960432b5d",
+    "feature_store/repository.py": "aa34bdb2470d02c41d43bf4a20a3be28e8075d5b0885301e7ee3d35204f5b382",
+    "feature_store/serving.py": "66c45d9309c4ccb1830e26324d936394dd558d00e435c57a02d8ab93b938b856",
+    "feature_store/staged_push.py": "6e038fe4380f8cc3313f4f4387ae19831264f9623a7def206f703be2428694a6",
+    "generator/README.md": "d3daa43125c8495d70c269958595f366136d98b40c5c88ba8644c864be9dec33",
+    "infra/agents/kagent-values.yaml": "da77440f84a6a3efab43b6cf4d4325f7083cc652aa18e79c1264a0eeb12f1d63",
+    "infra/agents/registry-values.yaml": "596db2430f709b355cfdf4d19fb4056453727847d10a6ede54b08dfc47814c6d",
+    "infra/agents/substrate-values.yaml": "bafe26745d6e0bf49bc22a76fa2cd5b2b734d747457ef8f591c93c7b4ec93adb",
+    "infra/ansible/gpu-node.yml": "a6974617108a2057dfba46b861c08be23ae481189cddc892bbdb5f326230c3d1",
+    "infra/charts/iot-agent-store/templates/database.yaml": "d4276b8c63e7009a66fbe6e5ca5f957556733c81008c9c1df3bb554bf3d13692",
+    "infra/charts/iot-agents/templates/agents.yaml": "0f4ea2bb712ba77c6461851409c9e102d8764a5ac1fcfa50c1ee9ebfd8c533c7",
+    "infra/charts/iot-agents/templates/pools.yaml": "b824e4a41c7b6c850df00322b3aaff96f673b92e51b932edb91734546a3a643e",
+    "infra/charts/iot-agents/values.yaml": "1fbf89aa02b310481ec7bc6cb5195fed3059d662f64fce5febefbfb2276842b0",
+    "infra/charts/iot-gpu-multimodel/templates/model.yaml": "89b0c4025fb0ac1a8767048f340ee4439191df99b0e5f65e0bd82c77a09fbb27",
+    "infra/charts/iot-gpu-multimodel/values.yaml": "7dade03fe42cdc63d476639806e9e0bc9945ae938f81425b949aad4eaf1942a2",
+    "infra/charts/iot-llm-observer/templates/workload.yaml": "3d9c861ebd419d1879ea795ccd0c5d1022f9a4903d3fc6c95d4ddb87f7dbb0ce",
+    "infra/charts/iot-mcp/templates/workload.yaml": "6ebdd56eb0b44e7f79c8c4d55411c12ab5d1441a261f1dfed27a90db711769f8",
+    "infra/ci/Serving.Jenkinsfile": "3b85badfd4d6e3a7d6245667e6bf9138df2f3bd0ae6599a8a47815781e91ec81",
+    "infra/datahub.compose.yaml": "467d6aef6019263d37d5bb7512d988a3055bc89aa4e9ab0a361979f5e885344e",
+    "infra/feast.compose.yaml": "08c2c9edc92140b83de20dceadbf607685d3c2066131f76300c7ea387dc91cbe",
+    "infra/feature-api/deployment.yaml": "41537606604d04b9238f9bd55589f50513fb0b35bbfa05c2fd3b0d4112b44c76",
+    "infra/feature-api/redis.yaml": "7345fe52b4f25c45d004e37e23cfafbf1986fe6ad15ebfc9579739e87a3177c5",
+    "infra/gateway/agents.py": "76eb0c7123afd2d4bb962d922e0d6b574d88f2e7982dfd32d24a25759c946713",
+    "infra/gateway/resources.py": "0bdbf23a22334a07641f6c7253ea5c3e0b9d0b9008082ab7417c8a9879778a03",
+    "infra/gcp/inference/main.tf": "e7d8b0f3d16dd4f6306c111212e425b8ec69948fe8bd49b60b263c9015bef920",
+    "infra/gcp/vm/main.tf": "d9cff1b955716f3859826b3c0ab313982beb5c372adba1a112017d9a121ec1fa",
+    "infra/ingest.cloud.compose.yaml": "68b785ecd22a6350453f01012678f44e6a28700ae18936406216e29c399dc9ff",
+    "infra/kfp/spark-executor.yaml": "39770473785b5352b08c1634895dc58e06e3888cd6db9ac08c1e54d2c7cbd43a",
+    "infra/kserve/pump-failure.yaml": "413aeda776cb0d7c3d70f171c8fc4be393e24aaab26531558335a8cd267dfc42",
+    "infra/llm_observer_monitoring.py": "f5c19dfd4a1a59ca6450d0daf69853a681f36ed7e2b2acc82ed38529b8a1d070",
+    "infra/llm_observer_routing.py": "54be430cfa0b1200a322528a9726fb1181557fa4131a48782ba0818a4c08cc33",
+    "infra/mlflow.compose.yaml": "f3ebba42d5ede586d8df22e6a256c3be80799e93c74eec7938177bd5cf823e59",
+    "infra/observability/jaeger.yaml": "a8d576dff8afca1eb6b90c2c21af90bdba035c62ebfb13c53a1a9c30563cae05",
+    "infra/orchestration.compose.yaml": "63d4e6b75f9945984a8a413febb80f77cdb20e4b6b4bf2bd5d41abd68b2367d8",
+    "infra/policy/deployment.rego": "4b7dd3d62e92a2c744369ce459d65dc74de235ae6b4abf69a22df043bc394529",
+    "infra/security/vault-gateway.hcl": "46db4fb16ab5ea2a5423109b20fa484215fc7a2b5f47e1460d0bf2417754a4bd",
+    "infra/streaming.cloud.compose.yaml": "688b750a1299edd39ffc8c1b7d5769865abbc6af5ccac3b5d75494c612899f44",
+    "llm_observability/app.py": "610371fb7070bfb9a2d6f8da03a33c307540150a16773117945db946717846cf",
+    "ml/automatic_versions.py": "5bcf60b230fd481624f568e8fc84cf77de3f92037d55989eea213c842a49d513",
+    "ml/distributed_submit.py": "79bb46253fb1914aa601e272626394c2d3715b618a1dca2c615761773360d188",
+    "ml/drift_retrain.py": "2620381e36d06a65946a2eec23680b8fec0b15815d056bc7de0e7ec5ee43c4f5",
+    "ml/kfp_artifacts.py": "f01d754ec8fb99a8cf95b720fd732511809e0df4d0382183a59d244938849c28",
+    "ml/kfp_cluster.py": "c055c84e566564515155a0bf2a53169fde5801923b78260b9dbf8a84508300c6",
+    "ml/kfp_notebook.py": "233aba528f371e7c9bcc418c5725fbe4c8dc4e25729efefc9ef8b9197b598abb",
+    "ml/kfp_versioned.py": "95ea6874f839f9225c3524f40315417ea3e7c9e94d4df2b61d6dd376a187a7d3",
+    "ml/mlflow_data_versions.py": "83ebd0292e8f9b80b49908d004c819e2b37ebba59747b2747551c244cfcd39ea",
+    "ml/notebook_load.py": "8ce3b33bc5976f6fcfa2ef6119e33c99749322cdfead42d01bd3e96ca1391f34",
+    "ml/notebook_validate_component.py": "ce18a3119a6aff9717ab9c0738a51087393079221eb4be60d28b681ffa2e218e",
+    "ml/training_contract.py": "50d0c1562f4f64614cf5e35c3cf1c39793db2da492df5cc8839962306b60c2a4",
+    "pipelines/airflow_tasks.py": "c657b418c10c5e0fe7345b2b3d7550c965a4cf3dfaf8f0095d5f37b0e97fdedc",
+    "pipelines/features.py": "701f8b979d10da87724945fc79e625978d0807f3ffe0ece35a045069bbd37af4",
+    "pipelines/metadata_publish.py": "348edd61be0956c29cb4d944e6d3910093016b569395cbf36527db65cc05bff3",
+    "pipelines/orchestrated_job.py": "0b52842cb7130c3352263dbf9b69996e5c77869552728656d37b8ed832452f0c",
+    "pipelines/orchestration_contract.py": "ba13ec6b1083fa84a65488f3de4192eae48bd7768f8a877363cfc808f12e977a",
+    "pipelines/source_loader.py": "fb2e1688a9c9150c2a17fc2fa660541f76cf1cdff38f211b7780f8082f6b97cb",
+    "pipelines/stream_contract.py": "cd2a85c2bd8dda070ac0e174d12ac787201412425f75899a63c4580d69f9de06",
+    "pipelines/stream_job.py": "478c4c9c7b38e56a93e53fd5236c432016e7fe2c3ee829202a4dc7979a9c46db",
+    "pipelines/stream_verification.py": "7f959636c6ef74c4330a5ca8a9f480696762ecf34ecb506eef69afc947c6f3ae",
+    "pipelines/transforms.py": "a05a8aa054cedd4f6da194f487a93601e3d9a8dd1f0bfc359305396279fcaf33",
+    "rag/pipeline.py": "f339846c2709ce17973519132aed84cd1a987cf6d1077a9dd6f58d7913d1e12f",
+    "rag/retrieval.py": "922a2d11ddb4804388b9a4162ca7533cf63d78509d6a112cce0bcf9a6e5deca2",
+    "rag/store.py": "4b814ac746a75c134edbbcd3294e8c4a5a426f38c4c69ed6bb3a9b3d8404b469",
+    "scripts/ci-serving.py": "d16d68440925f0cfb243c78365491229e24d6ed594ad407c204b637cb3a507ff",
+    "scripts/refresh-agent-features.py": "ec2be13e02a218a5e583c7006ce418648ee8bb1829acb1c5d9b10f89e41552c0",
+    "scripts/restore-substrate-members.py": "948fcec2fbb0172c8c0b02ad7d9077415aec8793b9b625f9d5eeed14cee6e55f",
+    "scripts/sync-gateway-vault.py": "68aa3c751cdd967aa8b5029ac31b22a2dfba80acc33b94ac37ed5e016bff3070",
+    "scripts/view-agent-gateway.py": "b19170abf22cd39c37197354b8dc9ba852d7c8651030af1606b35a18a2535cba",
+    "scripts/view-llm-monitoring.py": "c395f1b6c877606b59abfd301a9964c74e5907eecb04b7b39db50533d43252b1",
+    "services/drift_api/app.py": "7687d506c97a825930a52050628f32a5fdb6654fc10f06bdc5a6b1342cef3324",
+    "services/drift_api/detector.py": "dd2c23ff16343fd72146552d46bdb7490439026557d43e59b07e885f11c555b8",
+    "services/feature_api/app.py": "d8e81d77cd64f0599df1620a4d32f580011d834eccb39f4d10f6ff58189e5653",
+    "services/feature_api/runtime.py": "7d0f8419bcdf31500ad0aa652e631a94f8a2dcfbc322af06883cae44ef42c185",
+    "services/mcp_tools/app.py": "967592dbe524d1a9fde5189b57717ba9a608f7a425e398ae28f7650ab5bef12f",
+    "services/mcp_tools/contracts.py": "d5c762a144f70265c87976cdfb9256dd986321ea0116f0616e398df066ae4ece",
+    "services/mcp_tools/runtime.py": "623b9e245fbf8c43f915c8cc5b66927d91501e6de9beca0f73775e1c7c4c0b8c",
+    "services/predictor/binding.py": "57083908da57723ffcbcdd9ad2da0646c07c42e613495956a3246193b1420cd7",
+    "services/predictor/runtime.py": "8c112f80d0e5c2e384aac7eea45c8c24eddf676b0fb66a8a15a51d6aacce9e54",
+    "tools/model-control/main.go": "420f59469b6c93dea6519ac2213782bd318a93bd73e57948fe2b02e092e2123f"
+  },
+  "critical_source_fragments": {
+    "feature_store/common.py": [
+      "offline_store={'type': 'duckdb'}"
+    ],
+    "feature_store/materialize.py": [
+      "store.materialize(start_date=end - timedelta(hours=1)"
+    ],
+    "ml/notebook_load.py": [
+      "queries=source[['machine_id','event_timestamp']].copy()",
+      "labels=source[['id','failure_in_next_1h']]",
+      "validate='one_to_one'"
+    ],
+    "ml/kfp_cluster.py": [
+      "('iot-ml-code','/workspace')",
+      "('iot-ml-workspace','/ml-data')",
+      "('iot-ml-scratch','/ml-scratch')"
+    ],
+    "ml/kfp_versioned.py": [
+      "load=configure(versioned_load",
+      "split=configure(cluster_split",
+      "train=configure(distributed_train",
+      "validate_saved_model",
+      "registered_evaluate"
+    ],
+    "ml/distributed_submit.py": [
+      "'spark.executor.instances':'2'"
+    ],
+    "pipelines/stream_job.py": [
+      "delay = 0 if args.baseline else 15",
+      "TumblingEventTimeWindows.of(Time.minutes(10))",
+      "self.ledger.observe"
+    ],
+    "feature_store/staged_push.py": [
+      "return 'completed_online_replay_noop'",
+      "to=PushMode.OFFLINE",
+      "to=PushMode.ONLINE"
+    ],
+    "services/feature_api/runtime.py": [
+      "self.store.get_online_features",
+      "Demo lease expired",
+      "KServe model provenance differs"
+    ],
+    "infra/charts/iot-agents/templates/agents.yaml": [
+      "name: iot-retrieval",
+      "name: iot-drift",
+      "name: iot-coordinator",
+      "isolateSessions: true"
+    ],
+    "infra/charts/iot-agents/values.yaml": [
+      "modelConfig: default-model-config"
+    ],
+    "services/mcp_tools/contracts.py": [
+      "Field(min_length=32, max_length=200)"
+    ],
+    "services/mcp_tools/runtime.py": [
+      "records = await asyncio.gather",
+      "'/v1/drift:compare'",
+      "class KnowledgeReader"
+    ],
+    "tools/model-control/main.go": [
+      "http://iot-model-gpu.iot-llm.svc.cluster.local:8080"
+    ],
+    "infra/llm_observer_routing.py": [
+      "TRACE_PATH='/iot-telemetry/v1/traces'",
+      "disabled':True"
+    ],
+    "infra/charts/iot-gpu-multimodel/templates/model.yaml": [
+      "strategy: {type: Recreate}",
+      "iot-cw-gpu"
+    ],
+    "infra/observability/jaeger.yaml": [
+      "max_traces: 2000"
+    ],
+    "airflow/dags/iot_data_pipelines.py": [
+      "trigger_rule=TriggerRule.ALL_DONE",
+      "[validate, publish] >> release"
+    ]
+  },
+  "deployment_reference_view": "platform-deployment",
+  "deployment_group_members": {
+    "deploy-browser": [
+      "browser"
+    ],
+    "deploy-iap": [
+      "iap"
+    ],
+    "deploy-viewer": [
+      "viewer"
+    ],
+    "deploy-gateway": [
+      "ingress"
+    ],
+    "deploy-serving": [
+      "feature",
+      "drift",
+      "predictor",
+      "redis"
+    ],
+    "deploy-kfp": [
+      "kfp",
+      "training"
+    ],
+    "deploy-mcp": [
+      "mcp-data",
+      "mcp-drift"
+    ],
+    "deploy-control": [
+      "controller",
+      "ui",
+      "registry",
+      "postgres"
+    ],
+    "deploy-workers": [
+      "retrieval",
+      "drift-pool",
+      "coordinator"
+    ],
+    "deploy-llm-cpu": [
+      "router",
+      "observer"
+    ],
+    "deploy-substrate": [
+      "valkey",
+      "snapshots"
+    ],
+    "deploy-jaeger": [
+      "jaeger"
+    ],
+    "deploy-model": [
+      "gpu"
+    ],
+    "deploy-jobs": [
+      "spark",
+      "kafka",
+      "flink"
+    ],
+    "deploy-ci": [
+      "mlflow",
+      "jenkins",
+      "datahub",
+      "datahub-ui"
+    ],
+    "deploy-airflow": [
+      "airflow-api",
+      "airflow-scheduler",
+      "airflow-dag"
+    ],
+    "deploy-host": [
+      "prometheus",
+      "grafana",
+      "loki",
+      "alloy",
+      "vault",
+      "push",
+      "exporter"
+    ]
+  },
+  "deployment_added_state_group": "deploy-volumes",
+  "scope": "Authored architecture linked to implementation and selected recorded deployment roles; not live runtime proof, formal certification or a grade."
+}

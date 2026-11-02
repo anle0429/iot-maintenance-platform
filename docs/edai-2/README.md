@@ -4,7 +4,7 @@
 
 Follow a machine question through shared inference, specialist tools, retrieved references and coordinator delegation. Each page separates actual model generations, MCP calls and accepted answers.
 
-[How to read and zoom the figures](../diagrams/README.md#reading-size).
+[Agent/tool/inference flow](../images/flow-agents.png) · [System and deployment layers](../diagrams/README.md#three-layers) · [How to read and zoom the figures](../diagrams/README.md#reading-size).
 
 ## Reading guide
 

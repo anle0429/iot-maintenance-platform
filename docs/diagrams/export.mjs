@@ -14,8 +14,8 @@ const modules=process.env.DIAGRAM_NODE_MODULES||path.join(here,'node_modules');
 const require=createRequire(path.join(modules,'../package.json'));
 const {build}=require('esbuild');
 const {chromium}=require('playwright');
-const views=['platform-system','platform-overview','platform-serving','platform-deployment','platform-monitoring','platform-llm-plan','agent-admission','assistant-classes','agent-traces','prompt-policy','platform-reading-map'];
-const labels=['System architecture','Platform overview','Prediction request','Deployment topology','Observability & retraining','RAG & agents','Agent release admission','Assistant code boundaries','Agent trace paths','Prompt policy cohort','Start here · three workflows'];
+const views=['platform-system','platform-overview','platform-serving','platform-deployment','platform-monitoring','platform-llm-plan','agent-admission','assistant-classes','agent-traces','prompt-policy','platform-reading-map','architecture-system','flow-batch','flow-stream','flow-training','flow-prediction','flow-agents','deployment-runtime'];
+const labels=['System architecture','Platform overview','Prediction request','Deployment topology','Observability & retraining','RAG & agents','Agent release admission','Assistant code boundaries','Agent trace paths','Prompt policy cohort','Start here · three workflows','Layer 1 · System architecture','Layer 2 · Batch processing','Layer 2 · Streaming and feature delivery','Layer 2 · Training and release','Layer 2 · Prediction request','Layer 2 · Agents, tools and inference','Layer 3 · Physical deployment'];
 const selected=process.argv.indexOf('--view'),selectedName=selected<0?null:process.argv[selected+1];
 if(selectedName&&!views.includes(selectedName))throw Error('Select a maintained view');
 const existingIndex=JSON.parse(fs.readFileSync(path.join(root,'docs/images/diagram-index.json')));
@@ -110,7 +110,7 @@ try{
   const images=path.join(root,'docs/images'),results=[];
   for(const [i,name]of views.entries()){
     if(selectedName&&name!==selectedName){
-      const view=existingIndex.views.find(v=>v.name===name);if(!view)throw Error('Render missing view '+name);
+      const view=existingIndex.views.find(v=>v.name===name);if(!view)continue;
       const scene=JSON.parse(fs.readFileSync(path.join(here,name+'.excalidraw')));
       const edges=scene.elements.filter(e=>e.customData?.edge).map(e=>({...e.customData,...flowGeometry(e)}));
       results.push({...view,svg:fs.readFileSync(path.join(images,name+'.animated.svg'),'utf8').replaceAll('\r\n','\n').trimEnd(),edges});
@@ -139,7 +139,7 @@ try{
     }
     const edges=result.elements.filter(e=>e.customData?.edge).map(e=>({...e.customData,...flowGeometry(e)}));
     const nodes=result.elements.filter(e=>e.customData?.node).map(e=>e.customData.node);
-    const view={name,title:labels[i],width:result.width,height:result.height,nodes,arrows:edges.map(e=>e.edge),native:'../diagrams/'+name+'.excalidraw',animated:name+'.animated.svg'};
+    const view={name,title:labels[i],width:result.width,height:result.height,nodes,arrows:edges.map(e=>e.edge),native:'../diagrams/'+name+'.excalidraw',animated:name+'.animated.svg',...(scene.customData?.layer?{layer:scene.customData.layer,scope:scene.customData.scope}:{})};
     results.push({...view,svg:animated,edges});
     console.log(JSON.stringify({view:name,nodes:nodes.length,arrows:edges.length,dimensions:[view.width,view.height]}));
   }

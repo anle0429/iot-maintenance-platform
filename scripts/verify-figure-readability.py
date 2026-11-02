@@ -15,7 +15,7 @@ def check():
         assert sha256(body).hexdigest()==row['sha256'],name
     old_index=json.loads(subprocess.check_output(['git','show',base+':docs/images/diagram-index.json'],cwd=ROOT))
     index=json.loads((ROOT/'docs/images/diagram-index.json').read_bytes())
-    assert index['views'][:10]==old_index['views'] and len(index['views'])==11
+    assert index['views'][:10]==old_index['views'] and len(index['views'])==18
     original_images=subprocess.check_output(['git','ls-tree','-r','--name-only',base,'--','docs/images'],cwd=ROOT).decode().splitlines()
     for name in original_images:
         if name=='docs/images/diagram-index.json':continue
@@ -50,7 +50,7 @@ def check():
         assert not any(line.startswith('|') and line.count('![')>1 for line in current.splitlines())
     for tree in ['docs/evidence','docs/evidence-archive','references','knowledge']:
         assert not subprocess.check_output(['git','diff',base,'--name-only','--',tree],cwd=ROOT).strip(),tree
-    return {'passed':True,'presentation_pages':7,'original_image_files_unchanged':len(original_images)-1,
+    return {'passed':True,'presentation_pages':8,'primary_architecture_views':7,'original_image_files_unchanged':len(original_images)-1,
         'overview_nodes':12,'overview_arrows':10,'minimum_text_at_896px':16,'separate_benchmark_panels':3,
         'all_measured_pairs_preserved':True,'native_screenshots_unchanged':True,'paired_screenshot_tables_remaining':0,
         'scope':'Authored figure readability and exact recorded values; not new runtime evidence or a platform/grade claim.'}

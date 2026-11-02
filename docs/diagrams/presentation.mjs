@@ -10,18 +10,19 @@ export function makePresentation(views,documentPaths={}){
     return svg;
   };
   const data=JSON.stringify(views.map(({svg,...v})=>v)).replaceAll('<','\\u003c');
+  const options=[1,2,3].map(layer=>`<optgroup label="Layer ${layer}">${views.map((v,i)=>v.layer===layer?`<option value="${i}">${text(v.title)}</option>`:'').join('')}</optgroup>`).join('')+'<optgroup label="Reference views">'+views.map((v,i)=>!v.layer?`<option value="${i}">${text(v.title)}</option>`:'').join('')+'</optgroup>';
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>IoT Maintenance Platform · Architecture</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,sans-serif;color:#26374a;background:#edf2f7}header{padding:22px 30px;background:#14263e;color:white;display:flex;justify-content:space-between;align-items:center;gap:20px}h1{font-size:22px;margin:0;font-weight:650}header p{margin:4px 0 0;color:#c7d6e9;font-size:13px}header a{color:#c7e0ff;text-decoration:none;white-space:nowrap}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:14px 24px;background:white;border-bottom:1px solid #d5dfeb}.toolbar label{display:flex;align-items:center;gap:7px;font-size:13px;color:#43566e}select,button{font:inherit;border:1px solid #b5c5d8;border-radius:7px;background:white;color:#26374a;padding:7px 10px}button{cursor:pointer}button:hover,select:hover{border-color:#2563eb}button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #60a5fa;outline-offset:2px}#play{background:#1e40af;color:white;border-color:#1e40af;min-width:80px}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 320px;height:calc(100vh - 183px);min-height:550px}#viewport{overflow:auto;padding:20px;background:#e8eef5}article{display:none;background:white;box-shadow:0 5px 24px #14263e15;margin:0 auto}article.active{display:block}article svg{display:block;width:100%;height:auto;max-width:none}aside{padding:22px;overflow:auto;background:white;border-left:1px solid #d5dfeb}aside h2{font-size:18px;margin:0 0 8px}aside h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin:24px 0 8px}aside p{font-size:14px;margin:8px 0}aside a{color:#1e40af;overflow-wrap:anywhere}.pill{display:inline-block;font-size:12px;padding:3px 8px;background:#eef2ff;color:#3730a3;border-radius:5px}#sources{padding-left:17px;font-size:12px}#sources li{margin:8px 0}.downloads{display:flex;gap:8px;flex-wrap:wrap;font-size:13px}.notice{border-left:3px solid #3b82f6;padding:0 0 0 12px;color:#52677f;font-size:13px}#zoom{width:100px}#summary{font-size:12px;color:#64748b}#edge{max-width:270px}.flow.selected .flow-particle{r:8}.edge-hit:hover{stroke-opacity:.18}@media(prefers-reduced-motion:reduce){.motion-enabled .flow-particle{display:block}}@media(max-width:1000px){.workspace{grid-template-columns:1fr;height:auto}#viewport{min-height:500px;max-height:75vh}aside{border-left:0;border-top:1px solid #d5dfeb}header{padding:18px}.toolbar{padding:12px}#edge{max-width:220px}}
 </style></head><body>
-<header><div><h1>IoT Maintenance Platform</h1><p>Architecture · overview and detailed views</p></div><a href="README.md">Diagram guide ↗</a></header>
+<header><div><h1>IoT Maintenance Platform</h1><p>Architecture · system, flows and physical deployment</p></div><a href="README.md">Diagram guide ↗</a></header>
 <nav class="toolbar" aria-label="Diagram controls">
-<label>View <select id="view">${views.map((v,i)=>`<option value="${i}">${text(v.title)}</option>`).join('')}</select></label>
+<label>View <select id="view">${options}</select></label>
 <button id="play" type="button" aria-pressed="false">Play</button>
 <label>Speed <select id="speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label>
 <label>Arrow <select id="edge"></select></label>
-<label>Zoom <input id="zoom" type="range" min="70" max="1200" value="100" step="10"><output id="zoom-value">100%</output></label>
+<label>Zoom <input id="zoom" type="range" min="70" max="2000" value="100" step="10"><output id="zoom-value">100%</output></label>
 <button id="fit" type="button">Fit</button><button id="read" type="button">Read labels</button>
 </nav>
 <main class="workspace"><section id="viewport" aria-label="Architecture canvas">${views.map((v,i)=>`<article id="view-${i}" aria-label="${text(v.title)}">${namespace(v.svg,'v'+i)}</article>`).join('')}</section>
@@ -65,13 +66,17 @@ $('speed').addEventListener('change',e=>{for(const a of document.querySelectorAl
 function zoom(value){$('zoom').value=value;$('zoom-value').value=value+'%';for(const a of document.querySelectorAll('article'))a.style.width=value+'%';}
 $('zoom').addEventListener('input',e=>zoom(Number(e.target.value)));
 $('fit').addEventListener('click',()=>{zoom(100);$('viewport').scrollTo(0,0);});
-$('read').addEventListener('click',()=>{zoom(Math.min(1200,Math.max(100,10*Math.ceil(10*views[current].width/Math.max(100,$('viewport').clientWidth-40)))));$('viewport').scrollTo(0,0);});
+$('read').addEventListener('click',()=>{
+  const sizes=[...$('view-'+current).querySelectorAll('text')].map(t=>parseFloat(getComputedStyle(t).fontSize)).filter(n=>n>0);
+  const width=views[current].width*Math.max(1,16/Math.min(...sizes));
+  zoom(Math.min(2000,Math.max(100,10*Math.ceil(10*width/Math.max(100,$('viewport').clientWidth-40)))));$('viewport').scrollTo(0,0);
+});
 document.querySelectorAll('.edge-hit').forEach(p=>p.addEventListener('click',()=>{const edge=p.closest('[data-edge]').dataset.edge;$('edge').value=edge;chooseEdge(edge);}));
 reduced.addEventListener('change',e=>{if(e.matches){playing=false;motion();}});
 function openLinkedView(){
   const requested=new URLSearchParams(location.hash.slice(1)).get('view');
   const found=views.findIndex(v=>v.name===requested);
-  showView(found>=0?found:${Math.max(0,views.findIndex(v=>v.name==='platform-reading-map'))});zoom(100);
+  showView(found>=0?found:${Math.max(0,views.findIndex(v=>v.name==='architecture-system'))});zoom(100);
 }
 addEventListener('hashchange',openLinkedView);openLinkedView();
 </script></body></html>\n`;
