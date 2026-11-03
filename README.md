@@ -214,9 +214,8 @@ Start with a package's README or the [command index](scripts/README.md). Runtime
 | [Data processing](docs/edai-1/processing_jobs.md) | Batch and stream jobs, actual Flink window code, Airflow, and before/after results |
 | [Data storage](docs/edai-1/data_storage.md) | Parquet layout, Gold SQL, indexing, compaction and Feast stores |
 | [LLM inference](docs/edai-2/llm_inference_platform.md) | Deployment steps, recorded model requests and latency measurements |
-| [Global model configuration](docs/edai-2/global_model_config.md) | Shared settings, applied route evidence and Agentgateway status |
-| [MCP tools](docs/edai-2/mcp_tools.md) | Async runtime, Helm rollout, fallback and tool receipts |
-| [Agent warm-up](docs/edai-2/agent_warmup.md) | Native startup pairs, suspend/restore and worker scaling |
+| [Agentgateway, MCP and A2A](docs/edai-2/global_model_config.md) | Routes, tool implementation, native proof, cutover and rollback |
+| [Substrate warm-up and worker scaling](docs/edai-2/agent_warmup.md) | Measured startup, worker reuse, scaling and comparison limits |
 
 The [documentation index](docs/README.md) includes the remaining topics and historical experiment records. The [ML tracker](docs/edai-1/rubric_tracker.md), [LLM tracker](docs/edai-2/rubric_tracker.md) and [final audit](docs/edai-1/final_audit.md) retain the original requirement and evidence scopes.
 

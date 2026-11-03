@@ -12,9 +12,8 @@ Follow a machine question through shared inference, specialist tools, retrieved 
 |---|---|
 | Platform and information flow | [LLM and agent platform](llm_platform.md) |
 | Inference setup and verification | [LLM inference platform](llm_inference_platform.md) |
-| Shared model settings | [Shared model configuration](global_model_config.md) |
+| MCP and A2A gateway, shared model settings and tool rollout | [Agentgateway integration](global_model_config.md) |
 | RAG data pipeline | [Airflow RAG pipeline and DataHub governance](rag_orchestration.md) |
-| MCP tools and contracts | [Machine and knowledge tools over MCP](mcp_tools.md) |
 | Specialists and coordination | [GPU inference and verified agent delegation](gpu_agent_routing.md) |
 | Worker lifecycle and warm-up | [Substrate configuration, startup measurements and worker scaling](agent_warmup.md) |
 | Metrics, logs and traces | [Measuring model and agent activity](observability.md) |

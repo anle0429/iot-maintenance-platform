@@ -131,12 +131,12 @@ class GatewayProbe:
         card = json.loads(raw)
         expected_url = f'http://{self.host}:{self.ports["a2a"]}{path}'
         interfaces = card.get('supportedInterfaces', [])
-        advertised = [item.get('url', '').rstrip('/') for item in interfaces
+        advertised = [item.get('url', '') for item in interfaces
                       if item.get('protocolVersion') == '0.3' and item.get('protocolBinding') == 'JSONRPC']
         if not interfaces:
-            advertised = [card.get('url', '').rstrip('/')]
+            advertised = [card.get('url', '')]
         if (status != 200 or received.get('x-iot-agentgateway-route') != 'a2a-' + role
-                or card.get('name') != 'iot_' + role or advertised != [expected_url]):
+                or card.get('name') != 'iot_' + role or advertised not in ([expected_url], [expected_url + '/'])):
             raise ValueError('Expected the actual named agent card through the candidate route')
         if question is None:
             return card
@@ -144,7 +144,8 @@ class GatewayProbe:
         body = rpc('message/send', request_id, {'message': {'role': 'user', 'messageId': str(uuid4()),
             'contextId': str(uuid4()), 'parts': [{'kind': 'text', 'text': question}]}, 'configuration': {'blocking': True}})
         (self.output / (role + '-a2a-request.json')).write_text(json.dumps(body, indent=2) + '\n')
-        status, raw, received = self.request(role + '-a2a-task', 'a2a', path, method='POST', payload=body,
+        advertised_path = path + '/' if advertised[0].endswith('/') else path
+        status, raw, received = self.request(role + '-a2a-task', 'a2a', advertised_path, method='POST', payload=body,
                                              headers=headers, timeout=1800)
         reply = json.loads(raw)
         if (status != 200 or received.get('x-iot-agentgateway-route') != 'a2a-' + role

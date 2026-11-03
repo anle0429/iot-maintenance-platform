@@ -1,4 +1,11 @@
-# Shared model configuration
+# Agentgateway for MCP, A2A and model inference
+
+**Deployment status.** The MCP and A2A listeners ran on the retained K3s cluster. The experiment switched the three production agents to the gateway, verified the resulting traffic and restored their previous client configuration. The source provides both a reversible verification run and an explicit `--keep` option for retaining the verified client cutover. The last recorded VM state is stopped.
+
+- [Gateway routes and client boundaries](#native-agentgateway-integration)
+- [MCP tools, request handling and Helm recovery](#mcp-tools-request-handling-and-helm-recovery)
+- [Native proof in one place](#native-results)
+- [Reproduce the cutover](#repeat-the-controlled-check)
 
 Retrieval, drift and coordinator reference the same `default-model-config`. It selects a model through the private llm-d route; model weights, MCP execution and role-specific tool permissions remain separate. `OpenAI` names the compatible API protocol here, rather than an external paid model.
 
@@ -64,16 +71,38 @@ The [applied ModelConfig](../evidence/agentgateway-native/applied-model.json) se
 | Access control | Missing and cross-role credentials returned HTTP 401. An unlabelled Pod could not connect to the gateway port and an admitted Pod could. |
 | Recovery | Original ModelConfig and production agent specs restored. Temporary MCP clones and egress policies removed. |
 
+The accepted parent task was `01a19f46-a387-72cc-93fa-9c883fb73466`. The two child tasks below come from the native acceptance receipt. Each child answer was compared with its captured tool results before accepting the combined answer.
+
+| Child | Task ID | Successful tool events |
+|---|---|---:|
+| Retrieval | `01a19f46-d726-73ab-ad0e-e84716d00406` | 3 |
+| Drift | `01a19f47-6a01-770b-9864-0c58b5438b61` | 1 |
+
+The evidence covers A2A ingress for the parent task. The controller still routes the two child requests. The gateway accepts the named agent card and message routes, while each specialist MCP listener accepts only its own credentials and tools.
+
 [Route correlation](../evidence/agentgateway-native/route-evidence.json) · [Task and child acceptance](../evidence/agentgateway-native/acceptance.json) · [Native TCP check](../evidence/agentgateway-native/network.json) · [Rollback receipt](../evidence/agentgateway-native/rollback.json).
 
 The observer labelled these model requests `unknown`. The first verifier rejected that label even though the native task and children passed. The retained-log check matched exact response IDs to the originating worker Pods and kept the original labels. Two model requests returned 503 during the accepted conversation. Earlier attempts include a 502 and an A2A task that failed when llm-d had no eligible endpoint. The accepted run followed a scoped observer readiness change from five to fifteen seconds for both period and timeout, with the original health check. A later attempt to restore that readiness setting was rejected by Kubernetes. The observer setting is separate from the verified ModelConfig rollback.
 
 The [native archive](../evidence/agentgateway-native/native-receipts.tar.gz) contains the original task bodies, logs and failed attempts. The published route projection omits MCP session headers. [Manifest](../evidence/agentgateway-native/manifest.json).
 
+### MCP tools, request handling and Helm recovery
+
+| Listener | Tool | Data path |
+|---|---|---|
+| Retrieval `18081` | `get_machine_features` | Feature API and native online store |
+| Retrieval `18081` | `predict_failure` | Feature API and pinned serving model |
+| Retrieval `18081` | `search_knowledge` | Per-replica Feast/Milvus snapshot and pinned MiniLM encoder |
+| Drift `18082` | `assess_feature_drift` | Feature API cohort and the pinned-reference PSI comparison |
+
+The MCP and REST handlers await the same dispatcher. Each process shares an async HTTP client with an eight-second timeout and an eight-slot semaphore. The runtime uses `asyncio.to_thread` for the synchronous knowledge search. The drift handler schedules bounded feature reads and checks the cohort's snapshot identity before the comparison. [Application](../../services/mcp_tools/app.py) · [Runtime](../../services/mcp_tools/runtime.py) · [Concurrency test](../../tests/mcp/test_contract_edges.py).
+
+The separate `mcp-foundation-29e` run exercised the two backend Helm releases. Each release used two replicas and a rolling policy with `maxSurge: 1` and `maxUnavailable: 0`. A deliberate missing-image upgrade failed, `--atomic` restored the previous release, and native SDK calls succeeded afterward on both backends. That run captured 24 business-tool responses, including expected errors. [Helm workload](../../infra/charts/iot-mcp/templates/workload.yaml) · [Retrieval replay](../evidence/mcp-tools/success/native/retrieval-probe-after-rollback.stdout) · [Drift replay](../evidence/mcp-tools/success/native/drift-probe-after-rollback.stdout).
+
 ### Repeat the controlled check
 
 1. Resume the retained CPU and GPU cluster and prepare a fresh feature lease. Use the approved CPU and GPU session deadlines. Check both MCP deployments, the controller, the llm-d route and the observer before making model requests. [Operations](../edai-1/operations.md).
-2. On the CPU VM, run the gateway driver from the source tree. It checks the existing Secret bindings in memory, reviews the four new resources with a server dry run, and probes through loopback. A2A discovery validates the JSON-RPC 0.3 supported interface. The probe normalizes the trailing slash before sending the task.
+2. On the CPU VM, run the gateway driver from the source tree. It checks the existing Secret bindings in memory, reviews the four new resources with a server dry run, and probes through loopback. A2A discovery validates the JSON-RPC 0.3 supported interface. Render and apply the current candidate before probing. The probe posts to the URL advertised by the card. Both the canonical A2A path and its exact trailing-slash alias route to the same controller endpoint. The alias passed the local Agentgateway v1.7.0 fixture, while the retained K3s run used the canonical path.
 
    ```bash
    sudo python3 -B scripts/native-gateway-driver.py --source "$SOURCE" --runtime-root "$LAB_ROOT" \

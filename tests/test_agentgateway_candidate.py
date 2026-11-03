@@ -14,7 +14,7 @@ import socket
 import subprocess
 import unittest
 
-from infra.agentgateway.candidate import NAME, PORTS, bearer_hash, config, manifests
+from infra.agentgateway.candidate import NAME, PORTS, a2a_path, bearer_hash, config, manifests
 from infra.agentgateway.probe import GatewayProbe, TOOLS
 
 
@@ -67,7 +67,8 @@ class BackendFixture(BaseHTTPRequestHandler):
             self.send(200, {'model': value['model'], 'choices': [{'message': {'content': 'fixture only'}}],
                             'usage': {'prompt_tokens': 2, 'completion_tokens': 1, 'total_tokens': 3}}, marker)
             return
-        if role == 'a2a' and self.headers.get('X-User-Id') == 'coursework' and not self.headers.get('Authorization'):
+        if (role == 'a2a' and self.path == a2a_path('coordinator')
+                and self.headers.get('X-User-Id') == 'coursework' and not self.headers.get('Authorization')):
             if value['method'] != 'message/send' or self.headers.get('A2A-Version') != '0.3':
                 self.send(400)
                 return
@@ -183,6 +184,17 @@ class AgentgatewayCandidateTest(unittest.TestCase):
                         probe.mcp('retrieval', {'machine_id': 'P-001'})
                         probe.mcp('drift', {'window_id': 'fixture', 'machine_ids': ['P-001']})
                         probe.a2a('coordinator', 'Fixture protocol check only.')
+                        request = json.loads((out / 'receipts' / 'coordinator-a2a-request.json').read_text())
+                        path = a2a_path('coordinator')
+                        for label, endpoint in [('canonical', path), ('slash', path + '/')]:
+                            status, _, headers = probe.request(label + '-path', 'a2a', endpoint,
+                                method='POST', payload=request, headers={'A2A-Version': '0.3'})
+                            self.assertEqual(status, 200)
+                            self.assertEqual(headers.get('x-iot-agentgateway-route'), 'a2a-coordinator')
+                        probe.reject('unauthenticated-slash-path', 'a2a', path + '/', method='POST', payload=request)
+                        status, _, _ = probe.request('unexpected-a2a-path', 'a2a', a2a_path('coordinator') + '/extra',
+                            method='POST', payload=request)
+                        self.assertEqual(status, 404)
                         status, _, _ = probe.request('unexpected-path', 'model', '/api/me')
                         self.assertEqual(status, 404)
                     finally:

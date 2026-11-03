@@ -78,6 +78,12 @@ def config(hashes, *, backends=None, ports=None, credential_dir='/credentials', 
                                       'set': {'x-user-id': 'coursework'}},
         })
         routes['a2a'].append(current)
+        # The controller advertises the slash form in the JSON-RPC interface.
+        # Keep forwarding the exact controller endpoint used by existing callers.
+        advertised = route('a2a-' + role + '-slash', 'a2a', [('POST', path + '/')],
+                           {'host': backends['a2a']}, '1800s')
+        advertised['policies'].update({**current['policies'], 'urlRewrite': {'path': {'full': path}}})
+        routes['a2a'].append(advertised)
     return {
         'config': {'logging': {'format': 'json', 'level': 'warn,request=info'}, 'adminAddr': '127.0.0.1:15000',
                    'readinessAddr': '0.0.0.0:19001', 'statsAddr': '127.0.0.1:19002'},

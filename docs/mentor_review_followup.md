@@ -16,6 +16,14 @@ This checklist maps the review comments on `bb2f591` to the implementation, reco
 | MCP and A2A through Agentgateway | The existing operator-facing HTTPS entry points use NGINX. Specialist tool calls and controller-mediated A2A have separate native proof. [MCP HTTPS](edai-2/mcp_gateway.md) · [Agent UI and controller route](edai-2/agent_gateway.md) · [Delegation proof](edai-2/gpu_agent_routing.md) | Both native MCP routes executed their expected tools. The A2A gateway accepted the coordinator task and both child histories passed verification. The native TCP comparison observed the scoped ingress decision. [Native integration](edai-2/global_model_config.md#native-agentgateway-integration) |
 | Agent Substrate warm-up | The matched experiment measured 24 fresh actors. Golden restoration changed median startup from 0.696 to 0.720 s for retrieval, 0.680 to 0.763 s for drift and 0.684 to 0.635 s for coordinator. Separate real traffic verified each pool scaling from two to four workers and back. [Startup samples](edai-2/agent_warmup.md) · [Worker-pool load and captures](edai-2/agent_scaling.md) | The [warm-up chapter](edai-2/agent_warmup.md) now includes configuration, all pairs, native lifecycle proof and scaling captures. A general startup gain or cloud-cost reduction remains unproven. |
 
+## Latest review
+
+| Topic | Single review chapter | Verification scope |
+|---|---|---|
+| Batch and stream processing | [Processing jobs](edai-1/processing_jobs.md) | Spark and Flink code, windowing, paired measurements, Airflow, and finalized-window delivery and replay. |
+| MCP, A2A and model routing | [Agentgateway](edai-2/global_model_config.md) | Native MCP calls and A2A task acceptance during a temporary cutover. Original client routes were restored. Keeping the cutover and the updated alias on K3s still require a fresh run. |
+| Substrate warm-up | [Agent warm-up](edai-2/agent_warmup.md) | 24 matched actors with mixed startup results. Separate native traffic demonstrates worker-pool scaling with KEDA. A comparison against a deployment without Substrate remains open. |
+
 ## Rubric scope
 
 | Source | Relevant cells and requirement |

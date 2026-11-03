@@ -1,6 +1,8 @@
-# Agent warm-up: measured results and availability limits
+# Agent warm-up and worker capacity
 
-Golden snapshots and two idle workers per role are configured in the retained Substrate deployment. A matched native experiment compared 24 fresh actors across retrieval, drift and coordinator. Every actor reached its actual HTTP agent-card endpoint and was then suspended. **The timing results were mixed: this experiment does not establish a general startup improvement from snapshots.**
+Agent Substrate provides a reusable pool of gVisor workers and two ways to start a fresh actor. It can boot the actor from its template or restore the template's golden snapshot. In `agent-warmup-29b`, all 24 fresh actors reached their HTTP agent-card endpoint and returned to the suspended state. Restoring the coordinator reduced its median time to readiness by **49 ms (7.1%)** in this run. Retrieval and drift took longer with restoration. [Native run report](../evidence/agent-warmup/verification.json)
+
+In the separate `agent-burst-29c` run, KEDA scaled the Substrate worker pools from six to twelve Pods and back to six. Scale-in removed **300 millicores and 1.5 GiB of configured worker resource requests** from the peak. Both experiments ran with Substrate active. A comparison against a deployment without Substrate would be needed to isolate its effect on startup, resource use, or cost. [Original scaling receipts](../evidence/agent-scaling/native-receipts.tar.gz)
 
 ![Every matched startup pair and its median](../images/agent-startup-pairs.png)
 
@@ -45,11 +47,13 @@ The templates declare an HTTP readiness probe for `/.well-known/agent-card.json`
 
 This is an actor-startup comparison on an already-running lab. Both modes retain cached images and warm worker Pods. It excludes image download, initial VM/Pod startup, model loading, LLM generation and TTFT. A Go agent whose HTTP endpoint starts quickly need not benefit from restoring a process snapshot.
 
-| Role | Pairs | Boot median | Golden median | Observed result |
+| Role | Pairs | Boot median | Golden median | Change from boot |
 |---|---:|---:|---:|---|
-| Retrieval | 4 | 0.696 s | 0.720 s | Golden restoration was slightly slower |
-| Drift | 4 | 0.680 s | 0.763 s | Golden restoration was slower |
-| Coordinator | 4 | 0.684 s | 0.635 s | Golden restoration was slightly faster |
+| Retrieval | 4 | 0.696 s | 0.720 s | +23 ms (+3.3%) |
+| Drift | 4 | 0.680 s | 0.763 s | +83 ms (+12.2%) |
+| Coordinator | 4 | 0.684 s | 0.635 s | −49 ms (−7.1%) |
+
+Changes use the full-precision medians before rounding. Positive values mean the actor took longer to reach its HTTP card. [Individual timings and actor identities](../evidence/agent-warmup/measurements.json)
 
 <details>
 <summary>All twelve matched pairs in seconds</summary>
@@ -83,7 +87,7 @@ Warm capacity also has a cost: worker Pods reserve resources while idle, and sna
 |---|---|---|
 | Warm-up configuration | Golden templates and two idle workers per role; native identities and readbacks retained | Configuration alone does not measure a benefit |
 | Startup benchmark | 24 fresh actors, four alternating boot/golden pairs per role | Retrieval and drift were slower with golden restoration; coordinator was slightly faster on this small sample |
-| Cost optimization | Idle reservation and retained snapshot storage are described | No matched cloud-cost measurement was collected; a cost reduction is not established |
+| Capacity under load | Six worker Pods before the burst, twelve at peak and six after scale-in | Resource requests describe scheduling capacity. This run did not measure utilization or cloud charges |
 | HA explanation | Worker-pool replicas and their scaling are documented | Workers share a control VM; host-level failover was not demonstrated |
 
 The evidence establishes the configuration and this bounded comparison. It does not establish a general startup or cost improvement. The [LLM tracker](rubric_tracker.md) retains that qualification; these measurements cannot support a universal performance claim.
@@ -92,7 +96,13 @@ The evidence establishes the configuration and this bounded comparison. It does 
 
 Each role has two idle worker slots and can [scale to four](agent_scaling.md) when demand increases. Idle actors suspend and release their slots. More than one worker provides spare process capacity; the recorded scaling experiment establishes elasticity under its workload.
 
-At two workers per role, six workers together request 300 millicores and 1.5 GiB of memory. At four workers per role, the corresponding requests rise to 600 millicores and 3 GiB. These sums cover the worker containers only. The configured per-worker limits are two CPU cores and 3 GiB of memory. Snapshot data also occupies the configured RustFS storage, whose claim is 16 GiB. The claim size is a capacity setting. [Worker resources](../../infra/charts/iot-agents/values.yaml) · [Snapshot storage configuration](../../infra/agents/substrate-values.yaml)
+| Phase in `agent-burst-29c` | Workers per role | Total workers | CPU requests | Memory requests |
+|---|---:|---:|---:|---:|
+| Before load | 2 | 6 | 300 mCPU | 1.5 GiB |
+| At peak | 4 | 12 | 600 mCPU | 3 GiB |
+| After scale-in | 2 | 6 | 300 mCPU | 1.5 GiB |
+
+The totals multiply the observed replica counts by each worker container's requests of 50 mCPU and 256 MiB. They exclude the other services. The configured per-worker limits are two CPU cores and 3 GiB of memory. The RustFS claim provides 16 GiB of snapshot storage capacity. [Worker resources](../../infra/charts/iot-agents/values.yaml) · [Snapshot storage configuration](../../infra/agents/substrate-values.yaml)
 
 ### Native lifecycle and scaling results
 
@@ -100,7 +110,11 @@ For one example in `agent-warmup-29b`, the first retrieval boot sample has UID `
 
 The separate `agent-burst-29c` experiment used KEDA to scale each role from two to four workers, then return to two. It completed 18 coordinator requests and checked 36 child sessions. The load client retried 14 explicit capacity rejections. A Ready worker can still be occupied while a finished actor saves its snapshot, which accounts for the distinction between a Ready Pod and a free slot. The run measured the scaling behavior with Substrate active. The startup comparison above held Substrate and its worker pools fixed while changing the resume mode.
 
+**Peak at 15:39 UTC on 29 October 2026.** The original Substrate UI shows four workers for each role.
+
 ![Original agent UI showing all three worker pools at four replicas](../evidence/agent-scaling/ui/scaling-three-pools-four-workers.jpg)
+
+**After scale-in at 15:46 UTC.** The same UI shows two workers for each role.
 
 ![Original agent UI showing all three worker pools back at two replicas](../evidence/agent-scaling/ui/scaling-returned-two-workers.jpg)
 
@@ -118,7 +132,7 @@ The [offline verifier](../../scripts/verify-agent-warmup.py) checks every origin
 
 ```powershell
 python -S scripts/verify-agent-warmup.py
-python -m pytest tests/test_agent_warmup.py -q
+python -m unittest discover -s tests -p test_agent_warmup.py
 ```
 
 To repeat the experiment on the retained VM, use a new run/output name and a source-sealed copy of [the benchmark](../../scripts/benchmark-agent-warmup.py). Require idle existing actors, 30 minutes in the approved session, adequate RAM/SSD and the retained trusted gRPC client/CA. Start with one role and one pair before the full four-pair comparison. The operator uses a ten-minute credential held only in its subprocess environment. Never reset an existing actor's state to obtain a convenient cold sample.

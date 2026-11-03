@@ -16,6 +16,7 @@ This page brings together the Spark batch jobs, Kafka/Flink processing, measured
 - [Bounded feature joins](#bounded-features)
 - [60-day feature and label dataset](#medium-feature-dataset)
 - [Native Flink fixtures and final readback](#streaming)
+- [Finalized-window delivery and replay](#finalized-window-delivery-and-replay)
 - [Airflow DP1–DP3 and DataHub](#orchestration)
 - [Jenkins and Airflow CI](#ci-data-pipelines)
 
@@ -969,6 +970,28 @@ D is quarantined by the baseline and accepted by the corrected job; E is quarant
 ![Native duplicate and retention-probe result queries](../evidence/data-review-audit/screenshots/stream-replay-expiry.jpg)
 
 The corrected job records six unique-ID audits, thirteen duplicate deliveries and five accepted readings across the three windows; E is the sixth unique ID and is excluded. Baseline zero unique-ID audits means that tracking is disabled, not that no unique readings arrived. The separate retention probe has two cache expirations, one disk-ledger duplicate and final count 1. These results establish the bounded correctness fix; no isolated Flink latency or throughput improvement is claimed.
+
+### Finalized-window delivery and replay
+
+The downstream delivery jobs consume retained finalized Flink windows. Each window carries four monitoring aggregates: reading count, temperature sum and mean, and maximum vibration. Feast stores the complete history in Parquet and serves the latest monitoring vector per machine from Redis. The failure prediction API uses a separate feature view with eight model inputs. [Window contract](../../feature_store/outbox.py) · [Feature view](../../feature_store/push.py)
+
+1. **Offline stage.** Register the window in the SQLite outbox, check its `(machine_id, event_timestamp)` key, and push a missing row using `PushMode.OFFLINE`. Read back the exact row and confirm that online values stayed the same before acknowledging the write. If the process fails after writing but before acknowledgement, a retry reconciles the row already in Parquet. [Offline write and verification](../../feature_store/staged_push.py#L23-L54)
+2. **Online stage.** Verify the released Parquet and registry hashes, check the incoming window against the offline history, then use `PushMode.ONLINE` to write the latest vector for its machine. An older window cannot replace that vector with older values. A replay of an acknowledged window returns before the Redis write, so it leaves the TTL untouched. [Offline release checks and online write](../../feature_store/staged_push.py#L63-L110)
+
+| Recorded workload | Result | Original proof |
+| --- | --- | --- |
+| CI offline build 3 | Three offline history rows. Both Airflow tasks succeeded, and replay returned three no-ops. | [Airflow](../evidence/ci-stream-push/offline-3/ci/airflow.json) · [Replay](../evidence/ci-stream-push/offline-3/jobs/replay.json) |
+| CI online build 2 | Three acknowledged windows and two latest machine vectors. Both Airflow tasks succeeded, and replay returned three no-ops with the offline Parquet hash intact. | [Airflow](../evidence/ci-stream-push/online-2/ci/airflow.json) · [Replay](../evidence/ci-stream-push/online-2/jobs/replay.json) |
+| Native Docker cohort | The full cohort delivered 5,760 windows from 57,600 readings across 20 machines. Both replays recorded 5,760 no-ops each. The readback checked complete offline history and the 80 online values and 80 timestamps. | [Full verification](../evidence/window-cohort-linux/run/full/verification.json) · [State readback](../evidence/window-cohort-linux/history/state-readback.json) |
+
+![Recorded native Docker cohort completion](../evidence/window-cohort-linux/screenshots/full-success.jpg)
+
+The full cohort replayed a retained Flink export in separate Docker jobs. The Airflow runs used the three-window fixture above. The SQLite journals acknowledge each stage independently and provide no cross-store transaction. [Delivery job](../../feature_store/staged_job.py) · [Cohort runner](../../scripts/replay-window-cohort.py)
+
+```powershell
+python -S scripts/verify-ci-stream-push.py
+python -S scripts/verify-window-cohort.py
+```
 
 ### Streaming: Commands and recorded examples
 

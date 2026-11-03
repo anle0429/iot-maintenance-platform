@@ -14,8 +14,7 @@ The first part follows telemetry through processing, storage, training and servi
 | Batch and stream processing | [Processing jobs](edai-1/processing_jobs.md) |
 | Storage and feature stores | [Data storage](edai-1/data_storage.md) |
 | Inference setup and verification | [LLM inference platform](edai-2/llm_inference_platform.md) |
-| Shared model settings | [Global model configuration](edai-2/global_model_config.md) |
-| Tool implementation and rollout | [MCP tools](edai-2/mcp_tools.md) |
+| MCP and A2A gateway, model settings and tool rollout | [Agentgateway integration](edai-2/global_model_config.md) |
 | Worker lifecycle and startup | [Agent warm-up](edai-2/agent_warmup.md) |
 
 ```text

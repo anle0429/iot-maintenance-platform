@@ -146,7 +146,7 @@ def collect_route_evidence(gateway, observer, workers, roles):
     expected = {'get_machine_features', 'predict_failure', 'search_knowledge', 'assess_feature_drift'}
     if {x['role'] for x in correlated} != set(roles) or not expected <= {x.get('gen_ai.tool.name') for x in mcp}:
         raise ValueError('Incomplete role-bound model or MCP execution logs')
-    a2a = [x for x in gateway if x.get('route', '').endswith('/a2a-coordinator')
+    a2a = [x for x in gateway if x.get('route', '').endswith(('/a2a-coordinator', '/a2a-coordinator-slash'))
            and x.get('a2a.method') == 'message/send' and x.get('http.status') == 200]
     if len(a2a) != 1:
         raise ValueError('Expected one successful coordinator A2A call in the new capture window')
