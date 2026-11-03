@@ -116,6 +116,17 @@ The checker authenticates 2,104 original payloads and rechecks the complete pare
 
 The later [monitoring checkpoint](#use-the-monitoring-views) verifies Prometheus/Loki export, host resources, bounded native load and original viewer captures. Its cumulative counters and load cohort are separate from the nine-generation conversation above.
 
+## Compare failed and completed coordinator tasks
+
+The private Jaeger query API returned these traces. Each trace was joined to the original Jenkins A2A response by an exact `gen_ai.task.id` match.
+
+| Jenkins build | A2A task | Terminal state | Jaeger trace | Span status |
+|---|---|---|---|---|
+| 11 | `01a19fd4-bb50-785b-a7f0-503de40a988e` | `failed`, model router HTTP 503 | `713b53b10954be0c41991453c9b33229` | 6 spans, all `UNSET` |
+| 12 | `01a19fd6-5548-7648-90a2-63eeb0e08159` | `completed`, Jenkins native acceptance passed | `50065c8dde466a48b7cd50cd138336bc` | 12 spans, all `UNSET` |
+
+Open each trace ID in the private Jaeger viewer and compare it with the [Jenkins outcome](ci_agents.md#verify-prompt-versions-with-mlflow). The task response supplies the outcome. The native trace status still does not encode it, and the live service inventory still includes `missing-service-name`.
+
 ## Earlier router pilot
 
 The first measurement checkpoint records three real streaming requests through the private model router. Their token counts come from the provider's `usage` response. Their timings come from the client reading the stream. The [original measurements](../evidence/llm-observation/measurements.json), [native execution report](../evidence/llm-observation/pilot-verification.json) and [unaltered native archive](../evidence/llm-observation/native-receipts.tar.gz) are retained together.
