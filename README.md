@@ -31,14 +31,11 @@ The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 h
 
 ## Architecture
 
-The diagrams separate the platform's system map, a C4 container view of feature access, numbered processing and request flows, and physical deployment. Start with the system map for the main dependencies. Open the feature-access view to see which jobs write features, where historical data lives, and what the prediction API actually reads.
+Start with the application execution map. Each row follows an actual job or API through its inputs and outputs. Use the deployment view to locate the workloads, services and persistent state.
 
-<picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/architecture-system.png">
-  <img alt="System architecture linking batch and stream jobs, offline Parquet, one release Redis, training, prediction and the agent platform" src="docs/images/architecture-system.gif">
-</picture>
+![Application execution paths for batch training, streaming, prediction and agent requests](docs/images/application-execution.svg)
 
-[Full-resolution system diagram](docs/images/architecture-system.png) · [Excalidraw source](docs/diagrams/architecture-system.excalidraw) · [SVG](docs/images/architecture-system.svg) · [Diagram guide](docs/diagrams/README.md)
+[Editable Excalidraw](docs/diagrams/application-execution.excalidraw) · [Full-size diagram](docs/images/application-execution.svg) · [Diagram guide](docs/diagrams/README.md)
 
 | Layer | View | What it explains |
 |---|---|---|
@@ -51,11 +48,9 @@ The diagrams separate the platform's system map, a C4 container view of feature 
 | 2 · Flow | [Agents and inference](docs/images/flow-agents.png) | Controller-routed delegation, specialist MCP tools and all three LLM routes |
 | 3 · Deployment | [Hosts and runtimes](docs/images/deployment-runtime.png) | CPU/GPU placement, workload groups, persistent state and private access |
 
-The system map shows one Redis for the recorded serving release. Staged stream CI writes monitoring values there under a separate Feast project; prediction reads eight rolling inputs from the serving project. The original batch materializer and stream-push fixture share a different Docker Redis, shown in the deployment view. Feast is a library inside the relevant jobs and APIs. The KFP load task uses Feast and DuckDB to read historical Parquet. Each arrow has an implementation reference in the native source and local viewer.
+The [feature-access view](docs/images/feature-containers.png) explains the separate online projects and historical sources. The [deployment view](docs/images/deployment-runtime.png) locates those resources on the CPU and GPU hosts. Open the [diagram guide](docs/diagrams/README.md) for the original animated exports and editable sources.
 
-The animation illustrates direction with arbitrary timing. It is not live traffic or an execution schedule. Reduced-motion visitors receive the static image. Open the HTML viewer from a local clone to pause, change speed, zoom and inspect each arrow's implementation sources. The diagrams remain editable in Excalidraw.
-
-### Data platform
+## Data platform
 
 | Stage | Input → output | Implementation / validation |
 |---|---|---|
