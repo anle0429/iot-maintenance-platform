@@ -8,6 +8,18 @@ In the separate `agent-burst-29c` run, KEDA scaled the Substrate worker pools fr
 
 [Original measurements](../evidence/agent-warmup/measurements.json) · [Native report](../evidence/agent-warmup/verification.json) · [Plot source](../diagrams/agent_warmup.py) · [SVG](../images/agent-startup-pairs.svg)
 
+## Retrieval with and without Substrate
+
+The live comparison used the retained retrieval `SandboxAgent` and a temporary plain declarative `Agent`. The control was created from the same spec with only the Substrate settings removed. The server preserved the prompt, shared model configuration, runtime selection and tools. Both arms used the same retrieval question, separate fresh A2A sessions, the same controller and the same model route. The plain Agent was ready before the first call. The measurements cover blocking A2A wall time and terminal task state.
+
+| Attempt | Order | Substrate | Plain Agent |
+|---|---|---|---|
+| Initial pair | Substrate, plain | Completed in 67.168 s | Failed in 17.468 s |
+| Retry pair 1 | Plain, Substrate | Completed in 36.517 s | Completed in 31.504 s |
+| Retry pair 2 | Substrate, plain | Failed in 5.199 s | Failed in 1.434 s |
+
+All three failed tasks reported HTTP 503 from the shared inference router because it found no eligible serving endpoint. The runner stopped each sequence when a pair contained a failure. The one completed pair establishes that both deployment modes can complete this workload. It does not support a general speedup estimate or a resource-cost comparison. The temporary control was removed after the experiment.
+
 ## Substrate configuration
 
 Substrate assigns each agent role to a separate gVisor worker pool. The Helm values set two replicas per role and define the worker image and resource budget. The worker pool template passes those values into the Kubernetes custom resource. The native pool readback for all three roles reported two desired and two observed replicas.
