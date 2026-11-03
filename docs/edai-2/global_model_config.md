@@ -99,6 +99,10 @@ The MCP and REST handlers await the same dispatcher. Each process shares an asyn
 
 The separate `mcp-foundation-29e` run exercised the two backend Helm releases. Each release used two replicas and a rolling policy with `maxSurge: 1` and `maxUnavailable: 0`. A deliberate missing-image upgrade failed, `--atomic` restored the previous release, and native SDK calls succeeded afterward on both backends. That run captured 24 business-tool responses, including expected errors. [Helm workload](../../infra/charts/iot-mcp/templates/workload.yaml) · [Retrieval replay](../evidence/mcp-tools/success/native/retrieval-probe-after-rollback.stdout) · [Drift replay](../evidence/mcp-tools/success/native/drift-probe-after-rollback.stdout).
 
+### Attempt to retain the default route
+
+After Jenkins build 12 passed with the original route, the retained K3s candidate was exercised with `--keep`. The coordinator entered through the A2A listener and its task reported a failed generation through the gateway model listener on port 18080. The upstream router returned HTTP 503 with no eligible serving endpoint. The cutover driver restored the original ModelConfig and all three agent specs and removed the six temporary MCP and network-policy resources. A fresh ModelConfig readback confirmed the original llm-d endpoint. The gateway remains a private candidate. This run used the previously validated gateway configuration and its canonical A2A path.
+
 ### Repeat the controlled check
 
 1. Resume the retained CPU and GPU cluster and prepare a fresh feature lease. Use the approved CPU and GPU session deadlines. Check both MCP deployments, the controller, the llm-d route and the observer before making model requests. [Operations](../edai-1/operations.md).
