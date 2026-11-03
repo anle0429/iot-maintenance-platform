@@ -27,6 +27,22 @@ On 29 October 2026, **retrieval build 4, drift build 4 and coordinator build 3 a
 
 ## Follow one release
 
+### Verify prompt versions with MLflow
+
+The [prompt-enabled Jenkins definition](../../infra/ci/AgentsPrompts.Jenkinsfile) adds a registry check to the OPA pipeline. The controller reaches the existing MLflow server at `http://127.0.0.1:15000` through its host network. After the API tests and before release packaging, it loads the three exact `prompts:/iot-agent-ROLE/VERSION` entries and compares their text with the [reviewed policy consumed by Helm](../../agents/response-policy.json). All three must match because every role's job reapplies the shared Helm release.
+
+Jenkins archives `prompts.json` with the build identity, source seal digest, version URIs and SHA-256 hashes. Missing versions, registry failures and mismatched text stop the build. Deployment requires both the prompt receipt from that exact build and the existing OPA decision. The deployment path also checks the rendered manifest against the OPA receipt and verifies the deployed agent policy.
+
+To activate the definition on the private lab:
+
+1. In the existing MLflow UI, open **Prompts**. Register the exact text of each corresponding policy entry as a text prompt named `iot-agent-retrieval`, `iot-agent-drift` or `iot-agent-coordinator`. Record the resulting integer versions. For a subsequent edit, create a new MLflow version and review the corresponding Git policy change before releasing.
+2. Extend the retained source packet to include `infra/ci/AgentsPrompts.Jenkinsfile`, `scripts/ci-agents-prompts.py` and `agents/prompt_registry.py` in both the tree and its SHA-256 manifest. Keep the existing base and OPA inputs. Configure the three idle private jobs to use the new Jenkins definition.
+3. Start a job with the sealed `SOURCE_COMMIT` and `PROMPT_VERSIONS` in retrieval, drift, coordinator order, such as `2,1,3` for those exact registered versions. Inspect the **Verify exact MLflow prompt versions** stage and its `prompts.json` artifact. A missing version provides a denial check before packaging or deployment.
+
+On 2 November 2026 (Chicago), the retained MLflow 3.17.2 server registered version 1 for each of the three prompts. The registry client verified all three exact templates and rejected a request for nonexistent drift version 999999999. This verified the registry and prompt check directly. Jenkins has yet to execute the new definition.
+
+The native Jenkins runs below predate this definition. They do not demonstrate a Jenkins run against the Prompt Registry.
+
 The [Jenkinsfile](../../infra/ci/Agents.Jenkinsfile) selects the role from the declared job name. The [driver](../../scripts/ci-agents.py) binds each phase to the full Git commit and release identity. A [source declaration](../../infra/ci/agents-source.json) covers application code, transitive test imports, charts and the frozen quality evidence.
 
 The two MCP jobs build a test image over the retained dependency image, then execute all **132 native API cases** and export statement/branch coverage. Each accepted run recorded **98.0337% statement coverage and 90.7407% branch coverage**, with no excluded lines or skipped cases. Fourteen additional contract tests check source completeness, lease boundaries, generation-aware readiness, capability limits, quality thresholds and separate subprocess output streams.
