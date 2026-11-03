@@ -127,6 +127,17 @@ The private Jaeger query API returned these traces. Each trace was joined to the
 
 Open each trace ID in the private Jaeger viewer and compare it with the [Jenkins outcome](ci_agents.md#verify-prompt-versions-with-mlflow). The task response supplies the outcome. The native trace status still does not encode it, and the live service inventory still includes `missing-service-name`.
 
+### Display the verified outcome in Jaeger
+
+Select the `iot-a2a-outcome-verifier` service in Jaeger. The [verification script](../../scripts/publish-a2a-outcome-trace.py) reads a stored terminal A2A response, checks the task ID against its native trace, and writes a separate span linked to the matching SDK span. Its timing measures the verification read. The original agent span times, names and statuses are preserved.
+
+| A2A outcome | Verification trace | Status read back from Jaeger |
+|---|---|---|
+| Failed | `3f6f9f1e6b88ea8772fae3c8fa62e804` | `ERROR` |
+| Completed | `3735dd0e943f432b4c8760933af55145` | `OK` |
+
+The native readback verified the link, task state and status for each span. These are verification spans derived from real recorded tasks. This command does not install an automatic telemetry producer or repair the historical SDK graph. The retained Jaeger service uses bounded in-memory storage.
+
 ## Earlier router pilot
 
 The first measurement checkpoint records three real streaming requests through the private model router. Their token counts come from the provider's `usage` response. Their timings come from the client reading the stream. The [original measurements](../evidence/llm-observation/measurements.json), [native execution report](../evidence/llm-observation/pilot-verification.json) and [unaltered native archive](../evidence/llm-observation/native-receipts.tar.gz) are retained together.
