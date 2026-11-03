@@ -1,6 +1,6 @@
 # Architecture diagrams
 
-Seven primary Excalidraw views describe the implemented platform at three levels. The system view explains responsibilities and dependencies; five flow views trace concrete processing and request paths; the deployment view locates workloads and state on the recorded CPU/GPU hosts. These levels distinguish logical subsystems, processing steps and runtime resources.
+Eight primary Excalidraw views describe the implementation. The system map summarizes dependencies, a C4 container view zooms into feature access, five dynamic views trace numbered processing and request paths, and the deployment view locates workloads and state on the recorded CPU/GPU hosts. This follows the separation in the C4 [container](https://c4model.com/diagrams/container), [dynamic](https://c4model.com/diagrams/dynamic) and [deployment](https://c4model.com/diagrams/deployment) views.
 
 The drawings describe the repository and its recorded lab. They do not establish current service readiness, simultaneous execution of every workload or a production high-availability topology.
 
@@ -9,6 +9,7 @@ The drawings describe the repository and its recorded lab. They do not establish
 | Layer | View and question | Native source | Full-size exports |
 |---|---|---|---|
 | 1 · System | How do data, ML, serving, agents and operating controls fit together? | [System](architecture-system.excalidraw) | [PNG](../images/architecture-system.png) · [SVG](../images/architecture-system.svg) · [GIF](../images/architecture-system.gif) |
+| 1 · Containers | Which applications read history, write online values and make predictions? | [Feature access](feature-containers.excalidraw) | [PNG](../images/feature-containers.png) · [SVG](../images/feature-containers.svg) · [GIF](../images/feature-containers.gif) |
 | 2 · Batch | How do DP1-DP3 turn raw exports into validated histories and separate labels? | [Batch flow](flow-batch.excalidraw) | [PNG](../images/flow-batch.png) · [SVG](../images/flow-batch.svg) · [GIF](../images/flow-batch.gif) |
 | 2 · Streaming | Where do dedup, watermarks, finalized windows and staged writers run? | [Stream flow](flow-stream.excalidraw) | [PNG](../images/flow-stream.png) · [SVG](../images/flow-stream.svg) · [GIF](../images/flow-stream.gif) |
 | 2 · Training | Which files reach KFP, where are labels joined, and what gates serving? | [Training flow](flow-training.excalidraw) | [PNG](../images/flow-training.png) · [SVG](../images/flow-training.svg) · [GIF](../images/flow-training.gif) |
@@ -16,11 +17,11 @@ The drawings describe the repository and its recorded lab. They do not establish
 | 2 · Agents | How do delegation, MCP facts and all three generation routes interact? | [Agent flow](flow-agents.excalidraw) | [PNG](../images/flow-agents.png) · [SVG](../images/flow-agents.svg) · [GIF](../images/flow-agents.gif) |
 | 3 · Deployment | Which workloads, processes and persistent state belong to each host/runtime? | [Deployment](deployment-runtime.excalidraw) | [PNG](../images/deployment-runtime.png) · [SVG](../images/deployment-runtime.svg) · [GIF](../images/deployment-runtime.gif) |
 
-Each arrow has a native `customData` record with its endpoints, meaning, transport/dependency type, source files and qualifications. The [layer crosswalk](layers.json) binds the seven views to their implementation and maps the selected deployment inventory into named groups.
+Each arrow has a native `customData` record with its endpoints, meaning, transport/dependency type, source files and qualifications. The [layer crosswalk](layers.json) binds the eight views to their implementation and maps the selected deployment inventory into named groups.
 
 ## Reading the drawings
 
-The system diagram groups logical subsystems. A box such as “KFP + MLflow” is a responsibility boundary, not one Kubernetes Deployment. The flow diagrams show actions and artifacts: Feast lookup and result validation run inside the Feature API; a “load” box is a KFP task. Deployment frames then show where the actual resource groups run. A WorkerPool owns worker Pods; the observer Deployment contains two containers.
+The system map groups related workloads and labels the selected release. The feature-access container view uses boxes for executable applications or persisted stores. It places Feast and DuckDB inside the callers that load or serve features. The flow views expand actions such as lookup and result validation within the Feature API, and deployment frames locate resources by host and runtime. A WorkerPool owns worker Pods; the observer Deployment contains two containers.
 
 | Cue | Meaning |
 |---|---|
@@ -42,7 +43,7 @@ Moving dots indicate authored direction with arbitrary independent timing. They 
 
 | Boundary | Implementation | What the diagrams show |
 |---|---|---|
-| Offline and online stores | [Batch source](../../feature_store/repository.py), [materializer](../../feature_store/materialize.py), [serving preparation](../../feature_store/serving.py) | Historical Parquet/registry through Feast-DuckDB; separate batch, stream and serving Redis online roles. “Batch” names a producer, not an offline store. |
+| Offline and online stores | [Batch source](../../feature_store/repository.py), [materializer](../../feature_store/materialize.py), [serving preparation](../../feature_store/serving.py) | Historical Parquet through embedded Feast/DuckDB; registry metadata describes its sources. The system and container views select one release Redis, with separate monitoring and prediction projects. |
 | Scale | [Large ingest](../edai-1/full_scale_ingest.md), [ML cohort](../edai-1/medium_feature_dataset.md) | The 100GB milestone ends at Bronze/Silver. Feature engineering/training use a separate 60-day source. |
 | Data correction | [Transforms](../../pipelines/transforms.py), [features](../../pipelines/features.py) | Explicit union schema, conflict rejection, deterministic window dedup, temporal dimensions, arrived-history features and separately censored labels. |
 | Airflow release | [DAGs](../../airflow/dags/iot_data_pipelines.py), [metadata publisher](../../pipelines/metadata_publish.py) | Publication runs with ALL_DONE to retain failure outcomes; the next DAG requires validation and publication success. |
@@ -73,6 +74,16 @@ The deployment view groups the earlier 42 selected resource/client roles into th
 | CPU host services | Prometheus, Grafana, Alloy, Loki, Pushgateway, node exporter, Vault and scoped consumers |
 | CPU disks | Persistent datasets, registries, CAS, journals, DB/model state; separate SSD scratch; bounded PVC/bind mounts |
 | GPU worker · same cluster | One llama.cpp Deployment, one V100, private ClusterIP service, reserved node selector and read-only host model files |
+
+### Redis instance and project mapping
+
+| Recorded path | Redis address | What is separated |
+|---|---|---|
+| Batch materialization and original stream push | Docker `iot-feast` service `online:6379` | One server. The batch project and per-source stream project use separate keys. [Compose](../../infra/feast.compose.yaml) · [Stream runner](../../scripts/run-stream-push.py) |
+| Staged stream CI and the selected serving release | Kubernetes `online-serve-jenkins-8` in `iot-features` | One release instance. The CI writer uses the monitoring project; the Feature API uses the serving project. [CI target](../../scripts/ci-stream-push.py) · [Refresh target](../../scripts/refresh-agent-features.py) |
+| Other serving releases | `online-<release>` | Serving CI creates a Redis Deployment and Service per release; older instances are outside the selected view. [Release implementation](../../ml/serving_ci.py) |
+
+The two environments are recorded configurations. This inventory does not assert that each instance is running now. Substrate's Valkey members are separate agent state, outside the feature-store data path.
 
 The Feature API seeds a small memory-backed state copy rather than mounting bulk training data. Retrieval MCP copies its own verified knowledge state. GPU model files live on the GPU host. Jaeger is memory-backed and can lose traces on restart. A stopped VM, a retained disk and an unexpired feature lease are different states. Neither same-host replicas/executors nor one GPU establish host-level HA; Recreate can interrupt inference.
 
@@ -105,7 +116,7 @@ From the repository root, `python -B -S scripts/verify-architecture-layers.py` c
 
 ## Reference views
 
-Earlier source-bound layouts and focused technical studies remain available for continuity. The seven views above are the primary architecture set. The compact three-workflow picture is an introduction, not a substitute for these layers.
+Earlier source-bound layouts and focused technical studies remain available for continuity. The eight views above are the current architecture set. The earlier diagrams preserve their historical layouts and labels; use the Redis mapping above for the selected release.
 
 <details>
 <summary>Open earlier layouts and focused studies</summary>

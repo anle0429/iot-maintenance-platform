@@ -102,11 +102,11 @@
       "type": "text",
       "x": 60,
       "y": 92,
-      "width": 1108.59375,
+      "width": 1005.46875,
       "height": 55,
       "fontSize": 22,
       "strokeColor": "#374151",
-      "text": "Layer 2 · Reading ID, delivery attempt and publication time remain distinct.\nNo direct Flink → serving Redis connection; writers consume retained finalized output.",
+      "text": "Layer 2 · Reading ID, delivery attempt and publication time remain distinct.\nStaged CI path. Flink writes retained output; a separate job publishes online.",
       "angle": 0,
       "fillStyle": "solid",
       "strokeWidth": 1,
@@ -129,7 +129,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Layer 2 · Reading ID, delivery attempt and publication time remain distinct.\nNo direct Flink → serving Redis connection; writers consume retained finalized output.",
+      "originalText": "Layer 2 · Reading ID, delivery attempt and publication time remain distinct.\nStaged CI path. Flink writes retained output; a separate job publishes online.",
       "autoResize": true,
       "index": "a2",
       "backgroundColor": "transparent"
@@ -1434,10 +1434,10 @@
       "strokeColor": "#047857",
       "backgroundColor": "#a7f3d0",
       "customData": {
-        "node": "Redis stream monitoring namespace",
+        "node": "Recorded CI release Redis with a distinct monitoring project",
         "sources": [
           "feature_store/staged_push.py",
-          "feature_store/common.py"
+          "scripts/ci-stream-push.py"
         ]
       },
       "angle": 0,
@@ -1504,11 +1504,11 @@
       "type": "text",
       "x": 1097,
       "y": 1020,
-      "width": 182.8125,
+      "width": 198.046875,
       "height": 32.5,
       "fontSize": 26,
       "strokeColor": "#374151",
-      "text": "Redis online",
+      "text": "Release Redis",
       "angle": 0,
       "fillStyle": "solid",
       "strokeWidth": 1,
@@ -1531,7 +1531,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Redis online",
+      "originalText": "Release Redis",
       "autoResize": true,
       "index": "aZ",
       "backgroundColor": "transparent"
@@ -1541,11 +1541,11 @@
       "type": "text",
       "x": 1040,
       "y": 1080,
-      "width": 270.703125,
+      "width": 244.921875,
       "height": 55,
       "fontSize": 22,
       "strokeColor": "#374151",
-      "text": "Stream project + TTL\nNot prediction inputs",
+      "text": "Monitoring project\nSeparate from model",
       "angle": 0,
       "fillStyle": "solid",
       "strokeWidth": 1,
@@ -1568,7 +1568,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Stream project + TTL\nNot prediction inputs",
+      "originalText": "Monitoring project\nSeparate from model",
       "autoResize": true,
       "index": "aa",
       "backgroundColor": "transparent"
@@ -1872,9 +1872,10 @@
         "label": "ONLINE push and native readback",
         "kind": "Feast SDK / Redis",
         "sources": [
-          "feature_store/staged_push.py"
+          "feature_store/staged_push.py",
+          "scripts/ci-stream-push.py"
         ],
-        "note": "Write latest verified vector; verify it through native Feast; acknowledge in a separate local journal. Already acknowledged replay skips writes and TTL renewal."
+        "note": "CI target is online-serve-jenkins-8. Monitoring uses its own Feast project; the earlier direct push instead targeted Docker online:6379."
       },
       "angle": 0,
       "fillStyle": "solid",

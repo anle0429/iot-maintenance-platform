@@ -1,0 +1,129 @@
+LLMDBENCH_CONTROL_WORK_DIR=/requests/guidellm_llmdb-native-concurrent-v2_iot-llm-d-7b
+LLMDBENCH_HARNESS_GIT_BRANCH=v0.5.3
+LLMDBENCH_HARNESS_GIT_REPO=https://github.com/vllm-project/guidellm.git
+LLMDBENCH_HARNESS_NAME=guidellm
+LLMDBENCH_HARNESS_STACK_NAME=iot-llm-d-7b
+LLMDBENCH_RUN_EXPERIMENT_ANALYZER=guidellm-analyze_results.sh
+LLMDBENCH_RUN_EXPERIMENT_HARNESS=guidellm-llm-d-benchmark.sh
+LLMDBENCH_RUN_EXPERIMENT_HARNESS_DIR=guidellm
+LLMDBENCH_RUN_EXPERIMENT_HARNESS_LOADGEN_EC=1
+LLMDBENCH_RUN_EXPERIMENT_HARNESS_MAX_TRIES=1
+LLMDBENCH_RUN_EXPERIMENT_HARNESS_NAME_AUTO=0
+LLMDBENCH_RUN_EXPERIMENT_HARNESS_REPORT_EC=1
+LLMDBENCH_RUN_EXPERIMENT_HARNESS_WORKLOAD_AUTO=0
+LLMDBENCH_RUN_EXPERIMENT_HARNESS_WORKLOAD_NAME=iot-small-chat.yaml
+LLMDBENCH_RUN_EXPERIMENT_ID=llmdb-native-concurrent-v2
+LLMDBENCH_RUN_EXPERIMENT_RESULTS_DIR=/requests/guidellm_llmdb-native-concurrent-v2_iot-llm-d-7b
+LLMDBENCH_RUN_EXPERIMENT_RESULTS_DIR_PREFIX=/requests
+LLMDBENCH_RUN_EXPERIMENT_RESULTS_DIR_SUFFIX=guidellm_llmdb-native-concurrent-v2_iot-llm-d-7b
+LLMDBENCH_RUN_WORKSPACE_DIR=/workspace
+LLMDBENCH_VLLM_COMMON_METRICS_SCRAPE_ENABLED=false
+Running harness: /usr/local/bin/guidellm-llm-d-benchmark.sh
+Using experiment result dir: /requests/guidellm_llmdb-native-concurrent-v2_iot-llm-d-7b
+✔ OpenAIHTTPBackend backend validated with model iot-qwen2.5-7b
+  {'target': 'http://127.0.0.1:46467', 'model': 'iot-qwen2.5-7b', 'timeout':    
+  60.0, 'http2': True, 'follow_redirects': False, 'verify': False,              
+  'openai_paths': {'health': 'health', 'models': 'v1/models',                   
+  'text_completions': 'v1/completions', 'chat_completions':                     
+  'v1/chat/completions', 'audio_transcriptions': 'v1/audio/transcriptions',     
+  'audio_translations': 'v1/audio/translations'}, 'validate_backend': None}     
+✔ Processor resolved
+  Using processor '/tokenizer'                                                  
+✔ Request loader initialized with inf unique requests
+  {'data': "[{'prompt_tokens': 128, 'output_tokens': 32}]", 'data_args': '[]',  
+  'data_samples': -1, 'preprocessors': ['GenerativeColumnMapper',               
+  'GenerativeChatCompletionsRequestFormatter'], 'collator':                     
+  'GenerativeRequestCollator', 'sampler': 'None', 'num_workers': 1,             
+  'random_seed': 42}                                                            
+✔ Resolved transient phase configurations
+  Warmup: percent=None value=None mode='prefer_duration'                        
+  Cooldown: percent=None value=None mode='prefer_duration'                      
+  Rampup (Throughput/Concurrent): 0.0                                           
+✔ ConcurrentProfile profile resolved
+  {'str': "type_='concurrent' completed_strategies=[]                           
+  constraints={'max_seconds': 30, 'max_requests': 24} rampup_duration=0.0       
+  streams=[2] strategy_types=['concurrent']", 'type': 'ConcurrentProfile',      
+  'class': 'ConcurrentProfile', 'module': 'guidellm.benchmark.profiles',        
+  'attributes': {'type_': 'concurrent', 'completed_strategies': [],             
+  'constraints': {'max_seconds': 30, 'max_requests': 24}, 'rampup_duration':    
+  0.0, 'streams': [2]}}                                                         
+✔ Output formats resolved
+  {'json':                                                                      
+  "output_path=PosixPath('/requests/guidellm_llmdb-native-concurrent-v2_iot-llm-
+  d-7b/results.json')"}                                                         
+✔ Setup complete, starting benchmarks...
+
+
+
+
+
+ℹ Run Summary Info
+|============|==========|==========|======|======|======|========|=======|=====|=======|======|=====|
+| Benchmark  | Timings                              ||||| Input Tokens       ||| Output Tokens    |||
+| Strategy   | Start    | End      | Dur  | Warm | Cool | Comp   | Inc   | Err | Comp  | Inc  | Err |
+|            |          |          | Sec  | Sec  | Sec  | Tot    | Tot   | Tot | Tot   | Tot  | Tot |
+|------------|----------|----------|------|------|------|--------|-------|-----|-------|------|-----|
+| concurrent | 02:05:50 | 02:06:20 | 30.0 | 0.0  | 0.0  | 1727.0 | 157.0 | 0.0 | 352.0 | 32.0 | 0.0 |
+|============|==========|==========|======|======|======|========|=======|=====|=======|======|=====|
+
+
+ℹ Text Metrics Statistics (Completed Requests)
+|============|=======|=======|======|======|=======|=======|======|======|=======|=======|=======|=======|
+| Benchmark  | Input Tokens             |||| Input Words              |||| Input Characters           ||||
+| Strategy   | Per Request  || Per Second || Per Request  || Per Second || Per Request  || Per Second   ||
+|            | Mdn   | p95   | Mdn  | Mean | Mdn   | p95   | Mdn  | Mean | Mdn   | p95   | Mdn   | Mean  |
+|------------|-------|-------|------|------|-------|-------|------|------|-------|-------|-------|-------|
+| concurrent | 157.0 | 157.0 | 65.0 | 66.4 | 106.0 | 108.0 | 44.0 | 45.0 | 715.0 | 754.0 | 304.2 | 301.6 |
+|============|=======|=======|======|======|=======|=======|======|======|=======|=======|=======|=======|
+| Benchmark  | Output Tokens            |||| Output Words             |||| Output Characters          ||||
+| Strategy   | Per Request  || Per Second || Per Request  || Per Second || Per Request  || Per Second   ||
+|            | Mdn   | p95   | Mdn  | Mean | Mdn   | p95   | Mdn  | Mean | Mdn   | p95   | Mdn   | Mean  |
+|------------|-------|-------|------|------|-------|-------|------|------|-------|-------|-------|-------|
+| concurrent | 32.0  | 32.0  | 13.2 | 13.5 | 29.0  | 30.0  | 11.8 | 12.3 | 165.0 | 174.0 | 66.5  | 69.5  |
+|============|=======|=======|======|======|=======|=======|======|======|=======|=======|=======|=======|
+
+
+ℹ Request Token Statistics (Completed Requests)
+|============|=======|=======|======|======|=======|=======|=======|======|=========|========|
+| Benchmark  | Input Tok    || Output Tok || Total Tok    || Stream Iter || Output Tok      ||
+| Strategy   | Per Req      || Per Req    || Per Req      || Per Req     || Per Stream Iter ||
+|            | Mdn   | p95   | Mdn  | p95  | Mdn   | p95   | Mdn   | p95  | Mdn     | p95    |
+|------------|-------|-------|------|------|-------|-------|-------|------|---------|--------|
+| concurrent | 157.0 | 157.0 | 32.0 | 32.0 | 189.0 | 189.0 | 72.0  | 72.0 | 1.0     | 1.0    |
+|============|=======|=======|======|======|=======|=======|=======|======|=========|========|
+
+
+ℹ Request Latency Statistics (Completed Requests)
+|============|=========|========|========|========|=====|=====|=======|=======|
+| Benchmark  | Request Latency || TTFT           || ITL      || TPOT         ||
+| Strategy   | Sec             || ms             || ms       || ms           ||
+|            | Mdn     | p95    | Mdn    | p95    | Mdn | p95 | Mdn   | p95   |
+|------------|---------|--------|--------|--------|-----|-----|-------|-------|
+| concurrent | 4.9     | 6.7    | 3984.0 | 5755.3 | 0.0 | 0.1 | 124.5 | 179.9 |
+|============|=========|========|========|========|=====|=====|=======|=======|
+
+
+ℹ Server Throughput Statistics (All Requests)
+|============|=====|======|=======|======|=======|=======|=======|========|=======|=======|
+| Benchmark  | Requests               |||| Input Tokens || Output Tokens || Total Tokens ||
+| Strategy   | Per Sec   || Concurrency || Per Sec      || Per Sec       || Per Sec      ||
+|            | Mdn | Mean | Mdn   | Mean | Mdn   | Mean  | Mdn   | Mean   | Mdn   | Mean  |
+|------------|-----|------|-------|------|-------|-------|-------|--------|-------|-------|
+| concurrent | 0.4 | 0.3  | 2.0   | 2.0  | 62.8  | 69.9  | 2.2   | 14.2   | 68.7  | 84.1  |
+|============|=====|======|=======|======|=======|=======|=======|========|=======|=======|
+
+
+
+✔ Benchmarking complete, generated 1 benchmark(s)
+…   json    : 
+/requests/guidellm_llmdb-native-concurrent-v2_iot-llm-d-7b/results.json
+Harness completed successfully.
+Harness completed: /usr/local/bin/guidellm-llm-d-benchmark.sh
+Running analysis: /usr/local/bin/guidellm-analyze_results.sh
+Converting results.json to Benchmark Report v0.1
+
+Converting results.json to Benchmark Report v0.2
+benchmark-report returned with error 1
+Results data conversion completed with errors.
+execution of /usr/local/bin/guidellm-analyze_results.sh failed, wating 30 seconds and trying again
+Done. Data is available at "/requests/guidellm_llmdb-native-concurrent-v2_iot-llm-d-7b"

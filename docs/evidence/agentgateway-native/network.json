@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "cases": {
+    "unlabelled": {
+      "connected": false,
+      "error": "ConnectionRefusedError",
+      "errno": 111
+    },
+    "admitted": {
+      "connected": true
+    }
+  },
+  "scope": "ClusterIP TCP ingress from two native Pods; no model request, Internet port or general bypass claim."
+}

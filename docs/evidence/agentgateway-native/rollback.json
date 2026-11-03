@@ -1,0 +1,40 @@
+{
+  "restored": true,
+  "production_agents": [
+    "iot-coordinator",
+    "iot-drift",
+    "iot-retrieval"
+  ],
+  "removed": [
+    [
+      "networkpolicy",
+      "agw-cutover3-controller",
+      "90e6f422-81b5-4ffc-92e7-f6d1686f1225"
+    ],
+    [
+      "networkpolicy",
+      "agw-cutover3-retrieval",
+      "13eae622-4318-4290-afe8-ad0557da1c1a"
+    ],
+    [
+      "remotemcpserver",
+      "agw-cutover3-retrieval-tools",
+      "22d9e382-8bf4-4084-8ea5-0fb1a0ec40c5"
+    ],
+    [
+      "networkpolicy",
+      "agw-cutover3-drift",
+      "479c77d3-fa28-437b-867e-40e65de32632"
+    ],
+    [
+      "remotemcpserver",
+      "agw-cutover3-drift-tools",
+      "f8a8160f-da8b-4326-b5be-e6de3e9cb79c"
+    ],
+    [
+      "networkpolicy",
+      "agw-cutover3-coordinator",
+      "7872c72b-483f-4914-8ea6-c7576953dcec"
+    ]
+  ]
+}

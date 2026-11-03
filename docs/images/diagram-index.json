@@ -501,9 +501,8 @@
         "KFP training and MLflow",
         "Kafka and Flink stream processing",
         "Staged stream feature writers",
-        "Stream monitoring online store",
+        "Online Redis of recorded serving release",
         "Separate serving preparation",
-        "Serving online store",
         "Private authenticated gateway",
         "Feature API with embedded Feast SDK",
         "KServe prediction service",
@@ -512,9 +511,9 @@
         "Shared observed LLM inference",
         "Vault credential consumers",
         "Jenkins release and OPA policy",
-        "Offline drift jobs and observability",
+        "Monitoring and traces",
         "RAG ingestion and verified snapshot",
-        "Batch materialization online store"
+        "Kafka broker"
       ],
       "arrows": [
         "B1",
@@ -540,13 +539,12 @@
         "O3",
         "K1",
         "T1",
-        "F0",
-        "R1"
+        "S0"
       ],
       "native": "../diagrams/architecture-system.excalidraw",
       "animated": "architecture-system.animated.svg",
       "layer": 1,
-      "scope": "Recorded implementation; boxes group bounded jobs or services, not Deployments"
+      "scope": "Recorded serving release; separate offline history and one release-specific Redis. Other instances and workload internals are in flow/deployment views."
     },
     {
       "name": "flow-batch",
@@ -595,7 +593,7 @@
         "OfflineStage writer",
         "Offline monitoring history and release",
         "OnlineStage writer",
-        "Redis stream monitoring namespace"
+        "Recorded CI release Redis with a distinct monitoring project"
       ],
       "arrows": [
         "S1",
@@ -630,7 +628,7 @@
         "Jenkins serving CI",
         "Coordinated model and Feature API release",
         "PSI retraining admission",
-        "Separate batch Redis online project"
+        "Docker Redis used by historical batch materialization"
       ],
       "arrows": [
         "T1",
@@ -774,6 +772,34 @@
       "animated": "deployment-runtime.animated.svg",
       "layer": 3,
       "scope": "Selected workload groups by actual host/runtime, not a live status inventory or one Deployment per box"
+    },
+    {
+      "name": "feature-containers",
+      "title": "Layer 1 · Feature storage and access",
+      "width": 1440,
+      "height": 1130,
+      "nodes": [
+        "Shared files on CPU data volume",
+        "Kubeflow historical-load task Pod",
+        "Release-specific Redis online Deployment",
+        "Serving feature refresh process",
+        "Staged online monitoring job",
+        "Feature API Deployment",
+        "Pinned KServe inference application"
+      ],
+      "arrows": [
+        "T1",
+        "F1",
+        "S1",
+        "S2",
+        "F2",
+        "U1",
+        "U2"
+      ],
+      "native": "../diagrams/feature-containers.excalidraw",
+      "animated": "feature-containers.animated.svg",
+      "layer": 1,
+      "scope": "C4 container slice: historical loading and the recorded feature-serving release"
     }
   ]
 }

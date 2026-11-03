@@ -1,0 +1,18 @@
+{
+  "target": "http://127.0.0.1:46467",
+  "model": "iot-qwen2.5-7b",
+  "processor": "/tokenizer",
+  "profile": "concurrent",
+  "backend_kwargs": {
+    "validate_backend": false,
+    "follow_redirects": false
+  },
+  "data_request_formatter": "chat_completions",
+  "max_seconds": 30,
+  "max_requests": 24,
+  "data": {
+    "prompt_tokens": 128,
+    "output_tokens": 32
+  },
+  "rate": 2
+}

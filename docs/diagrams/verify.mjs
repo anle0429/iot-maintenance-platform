@@ -19,11 +19,11 @@ const expected=[
   [7,'C1 C2 C3 C4 C5 C6'],[8,'Q1 C1 C2 D1 H1 H2 H3'],
   [10,'A1 A2 A3 M1 M2 G1 G2 G3 G4 G5 G6 G7 T0 T1 T2'],[6,'P1 P2 P3 P4 P5 P6'],
   [12,'D1 D2 D3 P1 P2 P3 A1 A2 A3 A4'],
-  [22,'B1 B2 B3 O1 O2 S1 S2 S3 F1 F2 P1 P2 P3 A1 A2 A3 A4 V1 C1 M1 O3 K1 T1 F0 R1'],
+  [21,'B1 B2 B3 O1 O2 S0 S1 S2 S3 F1 F2 P1 P2 P3 A1 A2 A3 A4 V1 C1 M1 O3 K1 T1'],
   [10,'B1 B2 B3 B4 B5 B6 B7 O1 G1'],[9,'S1 S2 S3 S4 S5 S6 S7 S8 S9'],
   [12,'T1 T2 T3 T4 T5 T6 T7 D1 C1 C2 R1 F0'],[10,'U1 U2 U3 U4 U5 U6 U7 U8 U9 U10 U11'],
   [13,'A1 A2 A3 G1 G2 G3 K1 K2 K3 M1 M2 M3 M4 M5 G4 G5 G6 G7 A4 A5 A6'],
-  [18,'U1 U2 U3 U4 D1 D2 T1 G1 G2']
+  [18,'U1 U2 U3 U4 D1 D2 T1 G1 G2'],[7,'T1 F1 S1 S2 F2 U1 U2']
 ];
 const sha=s=>createHash('sha256').update(s).digest('hex');
 const sources=new Map(),checks=[];
@@ -37,7 +37,7 @@ function crosses(a,b,r){
 }
 function overlap(a,b){return a.x+2<b.x+b.width&&a.x+a.width-2>b.x&&a.y+2<b.y+b.height&&a.y+a.height-2>b.y;}
 
-assert.equal(figures.runtime_screenshot,false);assert.equal(figures.views.length,18);
+assert.equal(figures.runtime_screenshot,false);assert.equal(figures.views.length,19);
 for(const [i,v]of figures.views.entries()){
   const s=JSON.parse(fs.readFileSync(path.join(here,v.name+'.excalidraw'))),elements=s.elements;
   assert.equal(s.type,'excalidraw');assert.equal(s.version,2);assert.equal(new Set(elements.map(e=>e.id)).size,elements.length);
@@ -47,6 +47,7 @@ for(const [i,v]of figures.views.entries()){
   }
   if(v.layer){assert.equal(v.layer,s.customData.layer);assert(Math.min(...texts.map(e=>e.fontSize))>=22);}
   if(v.name==='architecture-system')assert(Math.min(...texts.map(e=>e.fontSize))*896/v.width>=15.5);
+  if(v.name==='feature-containers')assert(Math.min(...texts.map(e=>e.fontSize))*896/v.width>=16);
   assert.equal(nodes.length,expected[i][0]);assert.deepEqual(arrows.map(e=>e.id).sort(),expected[i][1].split(' ').sort());
   assert.deepEqual(v.nodes,nodes.map(e=>e.customData.node));assert.deepEqual(v.arrows,arrows.map(e=>e.id));
   const canvas=elements.find(e=>e.id.endsWith('-canvas'));assert.equal(canvas.x,0);assert.equal(canvas.y,0);assert.equal(canvas.width,v.width);assert.equal(canvas.height,v.height);
@@ -101,7 +102,7 @@ for(const [i,v]of figures.views.entries()){
   }
   checks.push({name:v.name,nodes:nodes.length,arrows:arrows.length,native_elements:elements.length,embedded_icons:Object.keys(s.files).length,passed:true});
 }
-assert.equal(checks.reduce((n,v)=>n+v.nodes,0),279);assert.equal(checks.reduce((n,v)=>n+v.arrows,0),261);
+assert.equal(checks.reduce((n,v)=>n+v.nodes,0),285);assert.equal(checks.reduce((n,v)=>n+v.arrows,0),267);
 report.source_bindings=Object.fromEntries([...sources.entries()].sort());
 const preview=JSON.parse(fs.readFileSync(path.join(root,'docs/images/platform-system.preview.json')));
 const gif=fs.readFileSync(path.join(root,'docs/images/platform-system.gif'));
@@ -208,9 +209,9 @@ if(process.argv.includes('--browser')){
       gifViews.push(v.name);
     }
     assert.deepEqual(errors,[]);assert.deepEqual(requests,[]);
-    report.browser={passed:true,actual_moving_particles_by_view:moving,total:261,all_arrow_details:true,click_path:true,pause_resume:true,speed:true,zoom_fit:true,read_labels_minimum_16px_desktop_and_mobile:true,view_deep_links:true,reduced_motion:true,mobile_layout:true,mobile_reduced_motion_views:figures.views.length,readme_gif_actually_animates:true,readme_reduced_motion_selects_png:true,all_gif_previews_animate:gifViews,all_gif_reduced_motion_fallbacks:true,external_requests:requests,page_errors:errors};
+    report.browser={passed:true,actual_moving_particles_by_view:moving,total:267,all_arrow_details:true,click_path:true,pause_resume:true,speed:true,zoom_fit:true,read_labels_minimum_16px_desktop_and_mobile:true,view_deep_links:true,reduced_motion:true,mobile_layout:true,mobile_reduced_motion_views:figures.views.length,readme_gif_actually_animates:true,readme_reduced_motion_selects_png:true,all_gif_previews_animate:gifViews,all_gif_reduced_motion_fallbacks:true,external_requests:requests,page_errors:errors};
   }finally{await browser.close();}
 }
 report.passed=true;
 if(out)fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n');
-console.log(JSON.stringify({passed:true,views:checks,nodes:279,arrows:261,source_files:sources.size,browser:report.browser},null,2));
+console.log(JSON.stringify({passed:true,views:checks,nodes:285,arrows:267,source_files:sources.size,browser:report.browser},null,2));

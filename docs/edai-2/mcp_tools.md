@@ -24,6 +24,33 @@ The drift service fetches a bounded cohort through the Feature API and requires 
 | Retrieval | `search_knowledge` | `question`, `top_k` | Pinned MiniLM encoder and per-Pod Feast/Milvus snapshot |
 | Drift | `assess_feature_drift` | `window_id`, 32–200 distinct `machine_ids` | Feature API and fixed-reference drift API |
 
+## Asynchronous request handling
+
+The MCP registration and the REST adapter share one dispatcher. The [actual retrieval handler](../../services/mcp_tools/app.py#L105) awaits the dispatcher; it does not call a synchronous HTTP client from the event loop:
+
+```python
+async def get_machine_features(request:MachineRequest)->dict:
+    """Read a simulated pump's current feature snapshot with event time, preparation time and source provenance."""
+    return await mcp_call('get_machine_features',request)
+```
+
+`mcp_call` awaits `invoke`, which awaits the corresponding `ToolRuntime` method. In [the runtime](../../services/mcp_tools/runtime.py#L69), each process shares an `httpx2.AsyncClient` with an eight-second timeout and a semaphore of eight. The request method enters the semaphore before awaiting the network:
+
+```python
+async with self.slots:
+    response = await self.client.request('POST' if body is not None else 'GET', base+path, json=body)
+```
+
+[Knowledge search](../../services/mcp_tools/runtime.py#L114) uses `await asyncio.to_thread(self.knowledge.search, request)` inside the same bound. The encoder and native Feast/Milvus operation are synchronous; putting them in a worker thread keeps the event loop responsive. `KnowledgeReader` also locks its native reader within each replica. This design does not promise eight simultaneous encoder calls per replica.
+
+[Drift comparison](../../services/mcp_tools/runtime.py#L122) schedules bounded, asynchronous feature reads before sending one comparison request. It checks that all returned rows belong to the same snapshot before sending any cohort:
+
+```python
+records = await asyncio.gather(*(self.features(MachineRequest(machine_id=identifier)) for identifier in sorted(request.machine_ids)))
+```
+
+The [concurrency boundary test](../../tests/mcp/test_contract_edges.py#L124) holds the upstream fixture open, starts nine actual asynchronous calls, verifies only eight enter, releases the fixture and requires all nine results. It also preserves `POST` for an empty dictionary and `GET` for no body. The separate native Locust workload below exercised the deployed REST adapter; it was not a concurrency benchmark of MCP or model generation.
+
 ## Native deployment and failure checks
 
 The successful run is `mcp-foundation-29e`, completed at **2026-10-29 05:31 UTC** on the retained 8-vCPU/64-GiB VM. Source SHA256 is `cdec53766c3eb0ce7766de09b941497b4c8bceae8884632daabae78de08c9f6a`; runtime image ID is `sha256:2db876341c06172523c67c7a230dfc888630a085ad7604f93fa2e474aadc4d6d`.
@@ -31,6 +58,23 @@ The successful run is `mcp-foundation-29e`, completed at **2026-10-29 05:31 UTC*
 Each service has two ready replicas, a private ClusterIP, liveness/readiness probes, separate bearer credentials and an ingress/egress policy. Containers run as UID/GID 10001 with a read-only root, dropped capabilities and no automatically mounted Kubernetes token. Retrieval replicas copy and hash-check their own snapshot before startup. These controls do not establish the agent sandbox required later in the rubric.
 
 Both Helm releases completed a rolling update with `maxSurge=1`, `maxUnavailable=0`. Each was then given a deliberately unavailable image. The upgrade failed, `--atomic` restored the valid release, and a genuine SDK probe succeeded again. Four SDK sessions produced **24 business-tool responses**, including expected errors.
+
+[The Helm workload](../../infra/charts/iot-mcp/templates/workload.yaml#L17) declares the rolling policy and the `/health/live` and `/health/ready` checks. A Pod only becomes ready after its native dependencies are available.
+
+```yaml
+strategy:
+  type: RollingUpdate
+  rollingUpdate: {maxSurge: 1, maxUnavailable: 0}
+```
+
+[The deployment runner](../../scripts/deploy-mcp-tools.py#L135) applies the tested image with `helm upgrade --install ... --atomic --wait`, then exercises both a successful update and this controlled failure:
+
+```python
+failed=command(role+'-bad-upgrade',[helm,'upgrade',release,chart,'-n','iot-agents','-f',str(path),
+    '--set','image.tag=deliberately-missing-mcp-image','--atomic','--wait','--timeout','60s'],timeout=240,check=False)
+```
+
+The runner requires a nonzero exit, reads the restored image tag and `revisionMarker`, and invokes the SDK again against the restored Deployment. [Retrieval failed upgrade](../evidence/mcp-tools/success/native/retrieval-bad-upgrade.exit) · [restored values](../evidence/mcp-tools/success/native/retrieval-values-after.stdout) · [successful SDK replay](../evidence/mcp-tools/success/native/retrieval-probe-after-rollback.stdout) · [drift failed upgrade](../evidence/mcp-tools/success/native/drift-bad-upgrade.exit) · [successful drift replay](../evidence/mcp-tools/success/native/drift-probe-after-rollback.stdout). This fallback restores a working **release after an upgrade failure**. It is separate from client retries or model-server failover.
 
 The drift probe compared 32 real snapshot records, found six of eight features above the fixed PSI threshold and returned the same assessment for reversed IDs and after rollback. Its reference is the recorded **model 3 training cohort**, distinct from the currently served model 6. This is label-free input drift, not measured accuracy loss or concept drift.
 
@@ -114,5 +158,9 @@ sudo k3s kubectl exec -n iot-agents deployment/iot-drift-mcp -- \
 Use a new drift run/window identity after genuine feature rematerialization. Features have a one-hour wall-clock lease; stale data should fail readiness until refreshed through the existing materialization command. Tokens remain mounted inside the role's Pod. Do not copy them into commands, notebooks or chat.
 
 ## Later integration evidence
+
+### MCP gateway boundary
+
+The recorded agent [RemoteMCPServer resources](../../infra/charts/iot-agents/templates/tools.yaml#L9) use `STREAMABLE_HTTP` and direct role-specific ClusterIP URLs. Their `Authorization` header comes from the matching Kubernetes Secret key. The existing private HTTPS ingress is NGINX. The new [agentgateway candidate](global_model_config.md#native-agentgateway-integration) has a separate listener and backend credential per MCP role. Its local fixture verifies initialization, the exact role tool names, a tool response and cross-role denial through the official binary. A native K3s run also verified actual P-001 features and a 32-machine assessment through the two ports. During the temporary production cutover, the retrieval agent executed all three retrieval tools and the drift agent executed its assessment through the gateway. [Native route evidence](../evidence/agentgateway-native/route-evidence.json).
 
 This MCP foundation is followed by the [agent control plane and catalog](agent_platform.md), [checked GPU conversations](gpu_agent_routing.md), [sandbox boundaries](agent_network_isolation.md), [autoscaling](agent_scaling.md), [warm-up measurements](agent_warmup.md), [notebook](agent_notebook.md), [CI releases](ci_agents.md), [monitoring](llm_monitoring_demo.md) and the separate [agent](agent_configuration_ab.md)/[model](llm_model_ab.md) A/B studies. Each report preserves its own source and captures. A passing MCP probe alone does not establish that an agent selected or coordinated the tools; the [LLM tracker](rubric_tracker.md) links those distinct proofs.

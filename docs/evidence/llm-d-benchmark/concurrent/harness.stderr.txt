@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/usr/local/bin/benchmark-report", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/opt/benchmark_report/cli.py", line 117, in main
+    br_list = import_guidellm_all(args.results_file)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/benchmark_report/native_to_br0_2.py", line 3475, in import_guidellm_all
+    reports.append(import_guidellm(results_file, index))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/benchmark_report/native_to_br0_2.py", line 1900, in import_guidellm
+    if not native.get("config"):
+           ^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'get'
++ [[ 1 -ne 0 ]]
++ [[ 2 -le 1 ]]
++ [[ 0 -eq 0 ]]
++ echo 'Done. Data is available at "/requests/guidellm_llmdb-native-concurrent-v2_iot-llm-d-7b"'
++ exit 1

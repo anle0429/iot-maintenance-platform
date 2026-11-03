@@ -1,0 +1,20 @@
+{
+  "mode": "execute",
+  "upstream_revision": "3045e869269ec7e6d562129ae06a20b5ea86840e",
+  "harness_image": "ghcr.io/llm-d/llm-d-benchmark@sha256:e7272472fb46ac6e907283ee96f5761876f3bb78f6a43ce67736ac446f19fe2f",
+  "profile_sha256": "5f834fbca6eadf143b733099960efa6dbcde0c664e960a4496a6bdcd76401114",
+  "concurrency": 2,
+  "budget": {
+    "remaining_seconds": 27970.673166,
+    "gpu_remaining_seconds": 27989.685166,
+    "available_bytes": 54700957696,
+    "scratch_free_bytes": 61551058944
+  },
+  "tokenizer_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "tokenizer_sha256": {
+    "tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+    "tokenizer_config.json": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583"
+  },
+  "upstream_route": "http://10.53.24.66:8081",
+  "authenticated_loopback_relay": true
+}

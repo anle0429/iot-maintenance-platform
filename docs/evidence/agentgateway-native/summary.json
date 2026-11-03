@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "method": "Offline join of original live logs by observer request ID and actual worker Pod IP",
+  "native_task_and_child_acceptance": true,
+  "rollback_verified": true,
+  "model_requests_by_role": {
+    "retrieval": 4,
+    "drift": 2,
+    "coordinator": 3
+  },
+  "mcp_tools": [
+    "assess_feature_drift",
+    "get_machine_features",
+    "predict_failure",
+    "search_knowledge"
+  ],
+  "a2a_task_id": "01a19f46-a387-72cc-93fa-9c883fb73466",
+  "a2a_context_id": "f3102d01-231d-42fc-aa07-6dec646c3170",
+  "observer_role_label": "unknown",
+  "native_epp_503": 2,
+  "source": "agw-cutover-20261102c",
+  "original_runner_exited_after_stricter_role_label_check": true
+}

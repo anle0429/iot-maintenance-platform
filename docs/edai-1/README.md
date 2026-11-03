@@ -11,18 +11,15 @@ Follow simulated telemetry from its source through batch/stream processing, feat
 | Step | Page |
 |---|---|
 | Source and faults | [Data generator](data_generator.md) |
-| Baseline and corrections | [Data processing: inputs, corrections and evidence](processing_jobs.md) |
-| Paired measurements | [Schema evolution and deduplication benchmark](batch_corrections_benchmark.md) |
-| DAGs and metadata | [Airflow DP1–DP3, validation and DataHub lineage](orchestration.md) |
-| Table grains and SCD2 | [Table design and historical relationships](schema_design.md) |
-| Offline and online features | [Feast offline and online feature stores](feast_feature_store.md) |
+| Batch and stream processing | [Code, paired benchmarks, Airflow and DataHub](processing_jobs.md) |
+| Storage and feature stores | [Parquet, Gold tables, Feast, and measured optimization](data_storage.md) |
 | Training and data loading | [Training notebook and pipeline parity](training_notebook.md) |
 | Serving and provenance | [Feature API: eligibility, inference and provenance](feature_api.md) |
 | Container optimization | [Container image optimization](docker.md) |
 
 ## Reference pages
 
-Open a group for its full component and experiment index. Commands run from the repository root; linked receipts describe their recorded workloads.
+Open a group to find component references and original run records. The processing and storage guides above contain the corresponding code, results, screenshots, and commands.
 
 <details>
 <summary>Monitoring, drift and security · 17 pages</summary>
@@ -94,7 +91,7 @@ Open a group for its full component and experiment index. Commands run from the 
 </details>
 
 <details>
-<summary>Processing and orchestration · 10 pages</summary>
+<summary>Processing and orchestration records · 10 pages</summary>
 
 - [Schema evolution and deduplication benchmark](batch_corrections_benchmark.md)
 - [Catalog-bound Spark ingestion and exact Parquet readback](chunk_ingest.md)
@@ -110,9 +107,10 @@ Open a group for its full component and experiment index. Commands run from the 
 </details>
 
 <details>
-<summary>Feature engineering and stores · 9 pages</summary>
+<summary>Feature engineering and storage records · 10 pages</summary>
 
 - [Bounded temporal joins for feature engineering](bounded_features.md)
+- [Data storage and feature stores](data_storage.md)
 - [CI/CD for incremental Feast materialization](ci_materialization.md)
 - [CI/CD for offline and online stream-feature jobs](ci_stream_push.md)
 - [Feast offline and online feature stores](feast_feature_store.md)

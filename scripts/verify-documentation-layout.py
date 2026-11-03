@@ -31,7 +31,7 @@ def check():
         links={target for target in re.findall(r'\]\(([^)]+)\)',text) if '/' not in target and target.endswith('.md')}
         assert names==links,(part,names-links,links-names)
         counts[part]=len(names)+1
-    assert counts=={'edai-1':81,'edai-2':37}
+    assert counts=={'edai-1':82,'edai-2':37}
     html_links=0
     for name in [*mapping.values(),'docs/edai-1/README.md','docs/edai-2/README.md']:
         page=ROOT/name
@@ -57,7 +57,7 @@ def check():
     original=subprocess.check_output(['git','show',value['base_commit']+':docs/diagrams/architecture.html'],cwd=ROOT).decode()
     old_articles=re.findall(r'<article[^>]*>([\s\S]*?)</article>',original)
     new_articles=re.findall(r'<article[^>]*>([\s\S]*?)</article>',viewer)
-    assert new_articles[:10]==old_articles and len(new_articles)==18
+    assert new_articles[:10]==old_articles and len(new_articles)==19
     assert 'const documentPaths=' in viewer and 'documentPaths[source]??source' in viewer
     readme=(ROOT/'README.md').read_text(encoding='utf-8')
     assert readme.split('## Contributors',1)[1]==subprocess.check_output(['git','show',value['base_commit']+':README.md'],cwd=ROOT).decode().split('## Contributors',1)[1]

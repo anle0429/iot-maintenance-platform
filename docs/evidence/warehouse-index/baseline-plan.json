@@ -1,0 +1,134 @@
+{
+    "query_name": "",
+    "blocked_thread_time": 0.0,
+    "system_peak_buffer_memory": 0,
+    "system_peak_temp_dir_size": 0,
+    "cpu_time": 0.0,
+    "extra_info": {},
+    "cumulative_cardinality": 0,
+    "cumulative_rows_scanned": 0,
+    "result_set_size": 0,
+    "latency": 0.0,
+    "rows_returned": 0,
+    "total_bytes_read": 0,
+    "total_bytes_written": 0,
+    "children": [
+        {
+            "cpu_time": 0.0,
+            "extra_info": {},
+            "cumulative_cardinality": 0,
+            "operator_name": "EXPLAIN_ANALYZE",
+            "operator_type": "EXPLAIN_ANALYZE",
+            "operator_cardinality": 0,
+            "cumulative_rows_scanned": 0,
+            "operator_rows_scanned": 0,
+            "operator_timing": 2e-7,
+            "result_set_size": 0,
+            "total_bytes_read": 0,
+            "total_bytes_written": 0,
+            "children": [
+                {
+                    "cpu_time": 0.0,
+                    "extra_info": {
+                        "Projections": [
+                            "event_id",
+                            "machine_id",
+                            "event_ts",
+                            "temperature_c",
+                            "vibration_rms_mm_s",
+                            "pressure_bar",
+                            "factory_id",
+                            "valid_from_ts"
+                        ],
+                        "Estimated Cardinality": "1"
+                    },
+                    "cumulative_cardinality": 0,
+                    "operator_name": "PROJECTION",
+                    "operator_type": "PROJECTION",
+                    "operator_cardinality": 1,
+                    "cumulative_rows_scanned": 0,
+                    "operator_rows_scanned": 0,
+                    "operator_timing": 8e-7,
+                    "result_set_size": 88,
+                    "total_bytes_read": 0,
+                    "total_bytes_written": 0,
+                    "children": [
+                        {
+                            "cpu_time": 0.0,
+                            "extra_info": {
+                                "Join Type": "INNER",
+                                "Conditions": "machine_sk = machine_sk",
+                                "Estimated Cardinality": "1"
+                            },
+                            "cumulative_cardinality": 0,
+                            "operator_name": "HASH_JOIN",
+                            "operator_type": "HASH_JOIN",
+                            "operator_cardinality": 1,
+                            "cumulative_rows_scanned": 0,
+                            "operator_rows_scanned": 0,
+                            "operator_timing": 0.0003194,
+                            "result_set_size": 88,
+                            "total_bytes_read": 0,
+                            "total_bytes_written": 0,
+                            "children": [
+                                {
+                                    "cpu_time": 0.0,
+                                    "extra_info": {
+                                        "Table": "dim_machine",
+                                        "Type": "Sequential Scan",
+                                        "Projections": [
+                                            "machine_sk",
+                                            "factory_id",
+                                            "valid_from_ts"
+                                        ],
+                                        "Estimated Cardinality": "21"
+                                    },
+                                    "cumulative_cardinality": 0,
+                                    "operator_name": "SEQ_SCAN ",
+                                    "operator_type": "TABLE_SCAN",
+                                    "operator_cardinality": 1,
+                                    "cumulative_rows_scanned": 0,
+                                    "operator_rows_scanned": 21,
+                                    "operator_timing": 0.0001286,
+                                    "result_set_size": 40,
+                                    "total_bytes_read": 0,
+                                    "total_bytes_written": 0,
+                                    "children": []
+                                },
+                                {
+                                    "cpu_time": 0.0,
+                                    "extra_info": {
+                                        "Table": "fact_telemetry",
+                                        "Type": "Sequential Scan",
+                                        "Projections": [
+                                            "machine_sk",
+                                            "event_id",
+                                            "machine_id",
+                                            "event_ts",
+                                            "temperature_c",
+                                            "vibration_rms_mm_s",
+                                            "pressure_bar"
+                                        ],
+                                        "Filters": "event_id='E-1ed6cc44e8b36e11-P-009-001303'",
+                                        "Estimated Cardinality": "1"
+                                    },
+                                    "cumulative_cardinality": 0,
+                                    "operator_name": "SEQ_SCAN ",
+                                    "operator_type": "TABLE_SCAN",
+                                    "operator_cardinality": 1,
+                                    "cumulative_rows_scanned": 0,
+                                    "operator_rows_scanned": 57600,
+                                    "operator_timing": 0.0027913,
+                                    "result_set_size": 80,
+                                    "total_bytes_read": 0,
+                                    "total_bytes_written": 0,
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

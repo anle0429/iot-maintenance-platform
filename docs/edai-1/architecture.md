@@ -78,9 +78,9 @@ The two feature views serve different purposes:
 | `machine_rolling_10m` | Eight inputs computed over the past ten minutes | Historical training and online failure-risk inference |
 | `machine_tumbling_final_10m` | Four aggregates from finalized non-overlapping Flink windows | Streaming monitoring and replay checks |
 
-Batch/stream Redis and API Redis are configured separately. Materialization and serving-preparation jobs populate the appropriate store. Finalized stream aggregates are not substituted for the predictor's eight inputs.
+The original batch materializer and stream fixture share Docker Redis `online:6379`. The selected Feature API reads Kubernetes `online-serve-jenkins-8`; the staged stream CI experiment wrote to the same release's Redis under a separate Feast project. The main system map shows the latter release. The [C4 feature-access view](../images/feature-containers.png) separates applications and data stores without drawing the SDK as a service. Four stream aggregates stay separate from the predictor's eight inputs.
 
-All three Redis roles are **online stores**. "Batch" identifies a producer/materialization path, not an offline store. Feast's DuckDB offline provider reads the registered Parquet file/history on the shared VM volumes; KFP's load Pod mounts that history and performs historical retrieval. See the [explicit storage boundaries](feast_feature_store.md#what-redis-stores-and-where-the-offline-store-lives) and [Pod inputs and handoff](training_notebook.md#how-features-reach-kubeflow).
+Redis holds online values. The KFP load Pod embeds Feast and DuckDB and mounts historical Parquet and its registry. See [storage and feature access](data_storage.md) and [Pod inputs and handoff](training_notebook.md#how-features-reach-kubeflow).
 
 There are also separate time limits: a feature's event-time age, Redis key expiry and the demo's wall-clock lease. A Redis key can exist while its event-time data is too old. Offline Parquet history does not expire with the Redis key. See [Feast](feast_feature_store.md), [materialization](feast_materialization.md) and [TTL policy](feature_jobs_and_ttl.md).
 

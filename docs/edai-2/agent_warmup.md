@@ -6,6 +6,37 @@ Golden snapshots and two idle workers per role are configured in the retained Su
 
 [Original measurements](../evidence/agent-warmup/measurements.json) · [Native report](../evidence/agent-warmup/verification.json) · [Plot source](../diagrams/agent_warmup.py) · [SVG](../images/agent-startup-pairs.svg)
 
+## Substrate configuration
+
+Substrate assigns each agent role to a separate gVisor worker pool. The Helm values set two replicas per role and define the worker image and resource budget. The worker pool template passes those values into the Kubernetes custom resource. The native pool readback for all three roles reported two desired and two observed replicas.
+
+```yaml
+workerImage: ghcr.io/kagent-dev/substrate/ateom-gvisor:v0.0.9
+workerReplicas: 2
+workerResources:
+  requests: {cpu: 50m, memory: 256Mi}
+  limits: {cpu: '2', memory: 3Gi}
+```
+
+[Helm values](../../infra/charts/iot-agents/values.yaml) · [WorkerPool template](../../infra/charts/iot-agents/templates/pools.yaml) · [Native pool and ActorTemplate readbacks](../evidence/agent-warmup/native-receipts.tar.gz)
+
+The benchmark read all three native ActorTemplates and required a Ready golden snapshot, the `gvisor` sandbox class, and this readiness probe on each container.
+
+```yaml
+readyz:
+  httpGet:
+    path: /.well-known/agent-card.json
+    port: 80
+```
+
+Each matched sample creates a separate actor with no private snapshot. The benchmark switches between boot and restoration using the native resume call, then verifies the same actor UID, HTTP status 200 and the correct agent card.
+
+```python
+resumed, seconds = grpc(prefix + '/resume', 'ResumeActor', {'actor':reference,'boot':mode=='cold'})
+```
+
+[Native readback and benchmark code](../../scripts/benchmark-agent-warmup.py#L89-L150)
+
 ## What was compared
 
 Each role used its same current template, immutable image, golden snapshot and two-worker pool on the control VM. Every sample created a new actor with no private snapshot. The native `ResumeActor` request used `boot=true` for a boot from the template and `boot=false` for golden-snapshot restoration. Four pairs per role alternated which mode ran first.
@@ -19,6 +50,28 @@ This is an actor-startup comparison on an already-running lab. Both modes retain
 | Retrieval | 4 | 0.696 s | 0.720 s | Golden restoration was slightly slower |
 | Drift | 4 | 0.680 s | 0.763 s | Golden restoration was slower |
 | Coordinator | 4 | 0.684 s | 0.635 s | Golden restoration was slightly faster |
+
+<details>
+<summary>All twelve matched pairs in seconds</summary>
+
+| Role | Pair | Mode run first | Boot | Golden |
+|---|---:|---|---:|---:|
+| Retrieval | 1 | Boot | 0.708076 | 0.643920 |
+| Retrieval | 2 | Golden | 0.692918 | 0.689684 |
+| Retrieval | 3 | Boot | 0.630770 | 0.749807 |
+| Retrieval | 4 | Golden | 0.700053 | 0.772355 |
+| Drift | 1 | Boot | 0.780954 | 0.839364 |
+| Drift | 2 | Golden | 0.681281 | 0.907540 |
+| Drift | 3 | Boot | 0.678425 | 0.686858 |
+| Drift | 4 | Golden | 0.675993 | 0.673769 |
+| Coordinator | 1 | Boot | 0.580240 | 0.577339 |
+| Coordinator | 2 | Golden | 0.624600 | 0.625715 |
+| Coordinator | 3 | Boot | 0.804686 | 0.671657 |
+| Coordinator | 4 | Golden | 0.743322 | 0.644555 |
+
+[Full precision and actor identities](../evidence/agent-warmup/measurements.json)
+
+</details>
 
 All individual values are shown in the plot; the black marks are medians. Four pairs are a small sample, and the measured differences do not justify a general speed guarantee. The benchmark retains the unfavorable results. It does not rerun until every role appears faster. GPU offload has a separate [model-inference experiment](gpu_inference.md) and should not be credited to agent warm-up.
 
@@ -38,6 +91,20 @@ The evidence establishes the configuration and this bounded comparison. It does 
 ## Replicas and HA
 
 Each role has two idle worker slots and can [scale to four](agent_scaling.md) when demand increases. Idle actors suspend and release their slots. More than one worker provides spare process capacity; the recorded scaling experiment establishes elasticity under its workload.
+
+At two workers per role, six workers together request 300 millicores and 1.5 GiB of memory. At four workers per role, the corresponding requests rise to 600 millicores and 3 GiB. These sums cover the worker containers only. The configured per-worker limits are two CPU cores and 3 GiB of memory. Snapshot data also occupies the configured RustFS storage, whose claim is 16 GiB. The claim size is a capacity setting. [Worker resources](../../infra/charts/iot-agents/values.yaml) · [Snapshot storage configuration](../../infra/agents/substrate-values.yaml)
+
+### Native lifecycle and scaling results
+
+For one example in `agent-warmup-29b`, the first retrieval boot sample has UID `b1e46f10-afdb-4f34-bce0-80f37ba4056f` throughout. The create response reports `STATUS_SUSPENDED`. The resume response reports `STATUS_RUNNING`, and the actual agent-card request returns HTTP 200 in 0.708076 seconds from resume. After the explicit `SuspendActor` call, the final `GetActor` readback reports `STATUS_SUSPENDED`. The verifier checks the same lifecycle for all 24 samples. The archive entries for this example are under `native/agent-warmup-29b/retrieval/0-cold/` inside the capture directory. [Original RPC and HTTP receipts](../evidence/agent-warmup/native-receipts.tar.gz) · [Lifecycle verifier](../../scripts/verify-agent-warmup.py)
+
+The separate `agent-burst-29c` experiment used KEDA to scale each role from two to four workers, then return to two. It completed 18 coordinator requests and checked 36 child sessions. The load client retried 14 explicit capacity rejections. A Ready worker can still be occupied while a finished actor saves its snapshot, which accounts for the distinction between a Ready Pod and a free slot. The run measured the scaling behavior with Substrate active. The startup comparison above held Substrate and its worker pools fixed while changing the resume mode.
+
+![Original agent UI showing all three worker pools at four replicas](../evidence/agent-scaling/ui/scaling-three-pools-four-workers.jpg)
+
+![Original agent UI showing all three worker pools back at two replicas](../evidence/agent-scaling/ui/scaling-returned-two-workers.jpg)
+
+[Native scaling observations](../evidence/agent-scaling/native-receipts.tar.gz) · [Screenshot identities](../evidence/agent-scaling/ui/index.json)
 
 All agent workers share the same physical control VM. The control plane, local snapshot storage and other retained services also depend on that host. A separate GPU worker serves the model, with one GPU and one model backend. Consequently, these replicas do not establish host-level failover or uninterrupted service after a VM/GPU failure. Worker-failure recovery during an active user request was not tested here. A suspended snapshot is also not a guarantee of exactly-once external side effects; the current agents expose read-only data tools and no actuator tool.
 

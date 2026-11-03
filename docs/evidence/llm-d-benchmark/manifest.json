@@ -1,0 +1,152 @@
+{
+  "format": "iot-llm-d-benchmark-capsule-v1",
+  "received_native_archive_sha256": "9d76418340eaea43ad5c6dd8d7d4fedbbd14c2dd775497865d6e44fef5f2c987",
+  "summary_sha256": "31dbf99ac087b6a79e7df76b344e970e9985ad62f5531278059a0e91fbd10f50",
+  "native_files": {
+    "image-prepare.json": {
+      "native_path": "llmdb-image-prepare-v1/verification.json",
+      "bytes": 334,
+      "sha256": "1b4137551f7ef1fe4b9fcef99cdfc508b6a30725e1db770da00e897bb7f317ef"
+    },
+    "startup-failure/harness.stderr.txt": {
+      "native_path": "llmdb-native-serial-v1/harness.stderr",
+      "bytes": 11535,
+      "sha256": "55541683e5e703b48a32edf68d33c289126da7eca81dc18124ee37a06ffe95de"
+    },
+    "startup-failure/harness.exit.txt": {
+      "native_path": "llmdb-native-serial-v1/harness.exit",
+      "bytes": 2,
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3"
+    },
+    "source/runner-v1.py.txt": {
+      "native_path": "llmdb-native-serial-v1-operator/runner.py",
+      "bytes": 15389,
+      "sha256": "1aa8861921405b2953ad77fac6a5edbde40906893c4a74d6c533eeed0f47f87f"
+    },
+    "source/packet-v1.json": {
+      "native_path": "llmdb-native-serial-v1-operator/source-packet.json",
+      "bytes": 1037,
+      "sha256": "20323ceee46c88a434ca751e43315bbe76dc7dee1a359cb46c98e63f239858a3"
+    },
+    "source/runner-v2.py.txt": {
+      "native_path": "llmdb-native-serial-v2-operator/runner.py",
+      "bytes": 15451,
+      "sha256": "09d95798c074cfcc931374dc5d490dd7576d71526a4d1332e267f01de0d90bf9"
+    },
+    "source/packet-v2.json": {
+      "native_path": "llmdb-native-serial-v2-operator/source-packet.json",
+      "bytes": 1107,
+      "sha256": "cf8eda5475127538c904a27dd5b00f03478053e1d77132447a1ab36f421988dc"
+    },
+    "serial/results.json": {
+      "native_path": "llmdb-native-serial-v2/results/guidellm_llmdb-native-serial-v2_iot-llm-d-7b/results.json",
+      "bytes": 97976,
+      "sha256": "31b5d3e8f88fba0a65da734ce70903c42b8dcd9da9a92dd70dbccd83e1dc06fe"
+    },
+    "serial/benchmark-report-v01.yaml": {
+      "native_path": "llmdb-native-serial-v2/results/guidellm_llmdb-native-serial-v2_iot-llm-d-7b/benchmark_report,_results.json_0.yaml",
+      "bytes": 4158,
+      "sha256": "fb0d06b675f06eb086fe4b4e00004eb3bd3d56f87d5a212ccb73bd04cfcd0bd1"
+    },
+    "serial/harness.stderr.txt": {
+      "native_path": "llmdb-native-serial-v2/harness.stderr",
+      "bytes": 842,
+      "sha256": "4eb9c970b03472553d06c9c7d7c0d00270d395d3c7a90f15483e1fc0b21937f6"
+    },
+    "serial/harness.stdout.txt": {
+      "native_path": "llmdb-native-serial-v2/harness.stdout",
+      "bytes": 8384,
+      "sha256": "787298efb670057f9783e2d8d16645199bb51046586d1f41ca12d238f3fb8082"
+    },
+    "serial/harness.exit.txt": {
+      "native_path": "llmdb-native-serial-v2/harness.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    "serial/model-smoke-request.json": {
+      "native_path": "llmdb-native-serial-v2/model-smoke-request.json",
+      "bytes": 190,
+      "sha256": "37a59eb7a5e848f03d0f628d043005a6baa6c41dd63124b9841b5f57802edddf"
+    },
+    "serial/model-smoke-response.json": {
+      "native_path": "llmdb-native-serial-v2/model-smoke-response.json",
+      "bytes": 607,
+      "sha256": "80f30b3576158d99f47acd98b1ed7fe3fb27700be24a72a165270e1eb86ed4ef"
+    },
+    "serial/model-smoke-status.txt": {
+      "native_path": "llmdb-native-serial-v2/model-smoke-status.txt",
+      "bytes": 4,
+      "sha256": "c11e3f4837efde2441e23a7b9da02131f53bf59fddeb7147c4ab81afe400460f"
+    },
+    "serial/command.json": {
+      "native_path": "llmdb-native-serial-v2/command.json",
+      "bytes": 1642,
+      "sha256": "fccba36f82d38012042a76c0a706167096173200a1645ced2e87e5104df669fb"
+    },
+    "serial/plan.json": {
+      "native_path": "llmdb-native-serial-v2/plan.json",
+      "bytes": 868,
+      "sha256": "d9b150108c54d186f8d6ed5e96bbb12d493691d140c3d184723901eeefedac27"
+    },
+    "serial/profile.json": {
+      "native_path": "llmdb-native-serial-v2/guidellm/iot-small-chat.yaml",
+      "bytes": 373,
+      "sha256": "4cc07d4d8107664eb1cd3aa14028020d782287a996d8187462c1e29cb4732caa"
+    },
+    "concurrent/results.json": {
+      "native_path": "llmdb-native-concurrent-v2/results/guidellm_llmdb-native-concurrent-v2_iot-llm-d-7b/results.json",
+      "bytes": 120994,
+      "sha256": "d859a140b20f7a558d218b2e9e18a7f3ea99b2850847931fb6c0f8455829971f"
+    },
+    "concurrent/benchmark-report-v01.yaml": {
+      "native_path": "llmdb-native-concurrent-v2/results/guidellm_llmdb-native-concurrent-v2_iot-llm-d-7b/benchmark_report,_results.json_0.yaml",
+      "bytes": 4172,
+      "sha256": "bd6c2088b7e5486a45b7019183d44a6131e7dc95412f102e49fda8a33f7f73bb"
+    },
+    "concurrent/harness.stderr.txt": {
+      "native_path": "llmdb-native-concurrent-v2/harness.stderr",
+      "bytes": 846,
+      "sha256": "fa7bcae4e22b7962676d7cad6f2d2ee7f3897bbd844bee70bf5a61c84deb3410"
+    },
+    "concurrent/harness.stdout.txt": {
+      "native_path": "llmdb-native-concurrent-v2/harness.stdout",
+      "bytes": 8472,
+      "sha256": "122c06d4a381e7913ca485aa7a74b824a0f57565be740a1fc0fcf331b24fb1fc"
+    },
+    "concurrent/harness.exit.txt": {
+      "native_path": "llmdb-native-concurrent-v2/harness.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    "concurrent/model-smoke-request.json": {
+      "native_path": "llmdb-native-concurrent-v2/model-smoke-request.json",
+      "bytes": 190,
+      "sha256": "37a59eb7a5e848f03d0f628d043005a6baa6c41dd63124b9841b5f57802edddf"
+    },
+    "concurrent/model-smoke-response.json": {
+      "native_path": "llmdb-native-concurrent-v2/model-smoke-response.json",
+      "bytes": 622,
+      "sha256": "655abbc1f704c646faa90551a6d8b3e8f2f5e16a45c7a59ca5b78427cba36367"
+    },
+    "concurrent/model-smoke-status.txt": {
+      "native_path": "llmdb-native-concurrent-v2/model-smoke-status.txt",
+      "bytes": 4,
+      "sha256": "c11e3f4837efde2441e23a7b9da02131f53bf59fddeb7147c4ab81afe400460f"
+    },
+    "concurrent/command.json": {
+      "native_path": "llmdb-native-concurrent-v2/command.json",
+      "bytes": 1666,
+      "sha256": "08c0541378818f8f7f39c40be5a4845ed6f8a81ed2c47572230ed9e2efec9782"
+    },
+    "concurrent/plan.json": {
+      "native_path": "llmdb-native-concurrent-v2/plan.json",
+      "bytes": 868,
+      "sha256": "ff4080f23f748aa5cae9761d9c0b7184e32e5dfd4ced199b4dfe45cde90dbf0e"
+    },
+    "concurrent/profile.json": {
+      "native_path": "llmdb-native-concurrent-v2/guidellm/iot-small-chat.yaml",
+      "bytes": 385,
+      "sha256": "5f834fbca6eadf143b733099960efa6dbcde0c664e960a4496a6bdcd76401114"
+    }
+  }
+}

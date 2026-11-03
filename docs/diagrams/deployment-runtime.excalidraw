@@ -657,7 +657,9 @@
           "infra/feature-api/deployment.yaml",
           "infra/feature-api/redis.yaml",
           "infra/kserve/pump-failure.yaml",
-          "services/drift_api/app.py"
+          "services/drift_api/app.py",
+          "ml/serving_ci.py",
+          "scripts/ci-stream-push.py"
         ]
       },
       "angle": 0,
@@ -688,7 +690,7 @@
       "height": 110,
       "fontSize": 22,
       "strokeColor": "#374151",
-      "text": "iot-features / iot-serving\nFeature + Drift API\nKServe predictor + Redis\nAPI seed → memory state",
+      "text": "iot-features / iot-serving\nFeature + Drift API\nKServe + release Redis\nAPI seed → memory state",
       "angle": 0,
       "fillStyle": "solid",
       "strokeWidth": 1,
@@ -711,7 +713,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "iot-features / iot-serving\nFeature + Drift API\nKServe predictor + Redis\nAPI seed → memory state",
+      "originalText": "iot-features / iot-serving\nFeature + Drift API\nKServe + release Redis\nAPI seed → memory state",
       "autoResize": true,
       "index": "aI",
       "backgroundColor": "transparent"
@@ -1479,7 +1481,9 @@
         "sources": [
           "infra/ingest.cloud.compose.yaml",
           "infra/streaming.cloud.compose.yaml",
-          "infra/feast.compose.yaml"
+          "infra/feast.compose.yaml",
+          "infra/feast.compose.yaml",
+          "scripts/run-stream-push.py"
         ]
       },
       "angle": 0,
@@ -1515,7 +1519,7 @@
       "height": 110,
       "fontSize": 22,
       "strokeColor": "#374151",
-      "text": "Docker · Data / feature workloads\nBounded Spark jobs\nKafka broker + Flink job\nFeast materialization / writers",
+      "text": "Docker · Data / feature workloads\nBounded Spark jobs\nKafka broker + Flink job\nFeast jobs + shared online Redis",
       "angle": 0,
       "fillStyle": "solid",
       "strokeWidth": 1,
@@ -1538,7 +1542,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Docker · Data / feature workloads\nBounded Spark jobs\nKafka broker + Flink job\nFeast materialization / writers",
+      "originalText": "Docker · Data / feature workloads\nBounded Spark jobs\nKafka broker + Flink job\nFeast jobs + shared online Redis",
       "autoResize": true,
       "index": "ae",
       "backgroundColor": "transparent"
@@ -2828,11 +2832,11 @@
       "type": "text",
       "x": 60,
       "y": 2320,
-      "width": 1521.09375,
+      "width": 1095.703125,
       "height": 110,
       "fontSize": 22,
       "strokeColor": "#374151",
-      "text": "Representative network/mount paths are drawn; Layer 2 expands application calls and returns.\nTerraform provisions VMs/network; Ansible joins/configures hosts; Helm/manifests deploy workloads.\nSupporting framework controllers and databases remain in source manifests; groups are not one Deployment each.\nShared-host executors/replicas and one GPU do not establish host-level HA. Disks persist independently of VM sessions.",
+      "text": "Docker iot-feast/online: batch materialization and original stream-push experiment.\nK3s online-serve-jenkins-8: serving and staged stream CI use distinct Feast projects.\nSelected recorded resources; retained releases may have other Redis instances.\nHost stop, feature lease expiry and service readiness are different conditions.",
       "angle": 0,
       "fillStyle": "solid",
       "strokeWidth": 1,
@@ -2855,7 +2859,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Representative network/mount paths are drawn; Layer 2 expands application calls and returns.\nTerraform provisions VMs/network; Ansible joins/configures hosts; Helm/manifests deploy workloads.\nSupporting framework controllers and databases remain in source manifests; groups are not one Deployment each.\nShared-host executors/replicas and one GPU do not establish host-level HA. Disks persist independently of VM sessions.",
+      "originalText": "Docker iot-feast/online: batch materialization and original stream-push experiment.\nK3s online-serve-jenkins-8: serving and staged stream CI use distinct Feast projects.\nSelected recorded resources; retained releases may have other Redis instances.\nHost stop, feature lease expiry and service readiness are different conditions.",
       "autoResize": true,
       "index": "b06",
       "backgroundColor": "transparent"

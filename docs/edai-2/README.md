@@ -11,17 +11,18 @@ Follow a machine question through shared inference, specialist tools, retrieved 
 | Step | Page |
 |---|---|
 | Platform and information flow | [LLM and agent platform](llm_platform.md) |
-| Inference implementation | [CPU inference through llm-d](llm_inference_platform.md) |
+| Inference setup and verification | [LLM inference platform](llm_inference_platform.md) |
 | Shared model settings | [Shared model configuration](global_model_config.md) |
 | RAG data pipeline | [Airflow RAG pipeline and DataHub governance](rag_orchestration.md) |
 | MCP tools and contracts | [Machine and knowledge tools over MCP](mcp_tools.md) |
 | Specialists and coordination | [GPU inference and verified agent delegation](gpu_agent_routing.md) |
+| Worker lifecycle and warm-up | [Substrate configuration, startup measurements and worker scaling](agent_warmup.md) |
 | Metrics, logs and traces | [Measuring model and agent activity](observability.md) |
 | Post-restart acceptance | [Post-restart agent validation](agent_runtime_validation.md) |
 
 ## Reference pages
 
-Open a group for its full component and experiment index. Commands run from the repository root; linked receipts describe their recorded workloads.
+Open a group to find original experiments and supporting implementation records. The reading guide above groups the main review topics.
 
 <details>
 <summary>Delivery, infrastructure and security · 6 pages</summary>

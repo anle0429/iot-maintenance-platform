@@ -31,11 +31,11 @@ The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 h
 
 ## Architecture
 
-The architecture is documented at three levels: connected subsystems, five implementation flows, and physical deployment. Start with the system diagram, then follow a flow to inspect its inputs, persisted outputs, checks and return paths. The deployment view locates the workloads on the CPU/GPU hosts and separates Kubernetes, Docker and host processes.
+The diagrams separate the platform's system map, a C4 container view of feature access, numbered processing and request flows, and physical deployment. Start with the system map for the main dependencies. Open the feature-access view to see which jobs write features, where historical data lives, and what the prediction API actually reads.
 
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/architecture-system.png">
-  <img alt="System architecture linking data orchestration, offline history, three separate online stores, training, serving, RAG, agents, inference and operating controls" src="docs/images/architecture-system.gif">
+  <img alt="System architecture linking batch and stream jobs, offline Parquet, one release Redis, training, prediction and the agent platform" src="docs/images/architecture-system.gif">
 </picture>
 
 [Full-resolution system diagram](docs/images/architecture-system.png) · [Excalidraw source](docs/diagrams/architecture-system.excalidraw) · [SVG](docs/images/architecture-system.svg) · [Diagram guide](docs/diagrams/README.md)
@@ -43,6 +43,7 @@ The architecture is documented at three levels: connected subsystems, five imple
 | Layer | View | What it explains |
 |---|---|---|
 | 1 · System | [Connected subsystems](docs/images/architecture-system.png) | Data, feature stores, model lifecycle, agents and operating controls |
+| 1 · Containers | [Feature storage and access](docs/images/feature-containers.png) | Jobs, APIs and stores, with Feast shown inside its callers |
 | 2 · Flow | [Batch processing](docs/images/flow-batch.png) | DP1–DP3, schema/dedup, feature/label separation and metadata release gates |
 | 2 · Flow | [Streaming](docs/images/flow-stream.png) | Kafka/Flink event time, durable dedup and staged offline/online writers |
 | 2 · Flow | [Training and release](docs/images/flow-training.png) | Mounted Feast history, independent labels, five KFP tasks, MLflow and gated serving |
@@ -50,7 +51,7 @@ The architecture is documented at three levels: connected subsystems, five imple
 | 2 · Flow | [Agents and inference](docs/images/flow-agents.png) | Controller-routed delegation, specialist MCP tools and all three LLM routes |
 | 3 · Deployment | [Hosts and runtimes](docs/images/deployment-runtime.png) | CPU/GPU placement, workload groups, persistent state and private access |
 
-Feast runs as an SDK inside jobs and APIs. Batch, stream monitoring and serving Redis are separate online roles; historical training reads registered Parquet. The system view groups logical subsystems, while the flow and deployment views distinguish processing steps from runtime resources. Each directed relationship has an implementation reference in its native source and the local viewer.
+The system map shows one Redis for the recorded serving release. Staged stream CI writes monitoring values there under a separate Feast project; prediction reads eight rolling inputs from the serving project. The original batch materializer and stream-push fixture share a different Docker Redis, shown in the deployment view. Feast is a library inside the relevant jobs and APIs. The KFP load task uses Feast and DuckDB to read historical Parquet. Each arrow has an implementation reference in the native source and local viewer.
 
 The animation illustrates direction with arbitrary timing. It is not live traffic or an execution schedule. Reduced-motion visitors receive the static image. Open the HTML viewer from a local clone to pause, change speed, zoom and inspect each arrow's implementation sources. The diagrams remain editable in Excalidraw.
 
@@ -59,11 +60,12 @@ The animation illustrates direction with arbitrary timing. It is not live traffi
 | Stage | Input → output | Implementation / validation |
 |---|---|---|
 | Source generation | Equipment history → telemetry, failures, maintenance and delivery attempts | [Generator](generator/README.md), [data checks](docs/edai-1/chunked_generator.md) |
-| DP1 | Offline source → Bronze | [Chunk ingestion](pipelines/chunk_source.py), [100 GB run](docs/edai-1/full_scale_ingest.md) |
-| DP2 | Bronze → cleaned Silver and machine/time aggregates | [Batch jobs](pipelines/README.md), [skew comparison](docs/edai-1/skew_benchmark.md) |
-| DP3 | Eligible history → features and separate target records | [Feature protocol](docs/edai-1/medium_feature_dataset.md), [sample/target validation](docs/edai-2/assistant_data_validation.md) |
-| Streaming | Arrival-ordered Kafka deliveries → finalized Flink windows | [Event-time processing](docs/edai-1/streaming.md), [store replay](docs/edai-1/window_cohort.md) |
-| Orchestration and governance | Validated outputs → scheduled publication, schemas, lineage and assertions | [Airflow and DataHub](docs/edai-1/orchestration.md) |
+| DP1 | Offline source → Bronze | [Chunk ingestion and readback](docs/edai-1/processing_jobs.md#chunk-ingest) |
+| DP2 | Bronze → cleaned Silver and dimensional Gold | [Schema, deduplication and skew](docs/edai-1/processing_jobs.md#batch-corrections) |
+| DP3 | Eligible history → features and separate target records | [Feature construction](docs/edai-1/processing_jobs.md#bounded-features) |
+| Streaming | Arrival-ordered Kafka deliveries → finalized Flink windows | [Window code and late arrivals](docs/edai-1/processing_jobs.md#flink-window-processing-code) |
+| Orchestration and governance | Validated outputs → scheduled publication, schemas, lineage and assertions | [Airflow and DataHub](docs/edai-1/processing_jobs.md#orchestration) |
+| Storage | Layered Parquet, Gold SQL queries and Feast projects | [Storage implementation and measured changes](docs/edai-1/data_storage.md) |
 
 ### ML platform
 
@@ -99,7 +101,7 @@ The retrieval specialist obtains machine features, the model score and cited ref
 |---|---|---|
 | Reference ingestion | Documents → chunks → pinned embeddings → versioned Feast/Milvus snapshot | [Six-task RAG pipeline](docs/edai-2/rag_orchestration.md) |
 | Agent question | Private UI → coordinator → two specialists → authenticated MCP services | [Complete GPU conversations](docs/edai-2/gpu_agent_routing.md), [post-restart validation](docs/edai-2/agent_runtime_validation.md) |
-| Generation | Shared ModelConfig → llm-d → observer/tool-turn adapter → llama.cpp on the private V100 | [Inference](docs/edai-2/llm_inference_platform.md), [GPU experiment](docs/edai-2/gpu_inference.md) |
+| Generation | Shared ModelConfig → llm-d → observer/tool-turn adapter → llama.cpp on the private V100 | [Setup, model call and measured inference](docs/edai-2/llm_inference_platform.md) |
 | Worker capacity | gVisor SandboxAgents and three WorkerPools, with measured 2 → 4 → 2 scaling | [Scaling](docs/edai-2/agent_scaling.md), [startup study](docs/edai-2/agent_warmup.md) |
 | Delivery and controls | Separate RAG/retrieval/drift/coordinator releases, scoped credentials and bounded gateway access | [CI/CD](docs/edai-2/ci_agents.md), [gateway](docs/edai-2/agent_gateway.md), [Vault](docs/edai-2/vault_agent_ui.md) |
 | Evaluation | Original replies, child/tool histories, token/TTFT telemetry and small paired comparisons | [Monitoring](docs/edai-2/llm_monitoring_demo.md), [model A/B](docs/edai-2/llm_model_ab.md), [agent A/B](docs/edai-2/agent_configuration_ab.md) |
@@ -130,7 +132,7 @@ Deployment frames mark physical hosts and runtimes. Named boxes group selected r
 
 ## Recorded results
 
-The [data-platform review checklist](docs/edai-1/data_review_audit.md) connects the storage boundaries, generator characteristics, measured alternatives and pipeline/schema screenshots to their implementation and exact workload scopes.
+The [mentor review follow-up](docs/mentor_review_followup.md) links the updated chapters, measured benchmark and native Agentgateway run. The [earlier data-platform checklist](docs/edai-1/data_review_audit.md) preserves its original evidence mapping.
 
 | Workload | Recorded result | Report |
 |---|---|---|
@@ -139,7 +141,10 @@ The [data-platform review checklist](docs/edai-1/data_review_audit.md) connects 
 | Airflow skew benchmark | Five successful tasks; 17.28M Silver rows; median 14.258→9.170 s with identical 4,320-row results | [Native Airflow run](docs/edai-1/skew_benchmark.md#airflow-benchmark-execution) |
 | ML feature dataset | Separate 60-day source; 3,456,000 snapshots and 3,132,184 eligible training rows | [Feature dataset](docs/edai-1/medium_feature_dataset.md) |
 | Streaming stores | 5,760 finalized windows / 57,600 unique readings across 20 machines, with replay checks | [Window cohort](docs/edai-1/window_cohort.md) |
+| Gold warehouse indexing | Local DuckDB, eight paired batches of 64 exact lookups: 143.994 → 45.275 ms median; 2,883,584 additional bytes | [Warehouse experiment](docs/edai-1/data_storage.md#warehouse-index-experiment) |
 | Native feature serving | Model 6: 195 valid predictions and five stopped-machine HTTP 409 responses across 200 machines | [Serving record](docs/edai-1/final_handover.md) |
+| Routed LLM benchmark | Official llm-d-benchmark with the same 7B backend, 6 sequential and 11 concurrent completions in 30 s | [Native benchmark](docs/edai-2/llm_inference_platform.md#upstream-llm-d-benchmark-run) |
+| Agentgateway | Nine correlated model requests, four MCP calls and an accepted A2A coordinator task in a reversible K3s test | [Native gateway](docs/edai-2/global_model_config.md#native-agentgateway-integration) |
 | RAG governance | Six actual Airflow tasks, 18 chunks, ten persisted checks, DataHub lineage and invalid-source rejection | [RAG pipeline](docs/edai-2/rag_orchestration.md) |
 | Complete agent answer | One accepted post-restart parent, two independently checked child tasks, four successful MCP tools and exact model-6 arithmetic | [Runtime validation](docs/edai-2/agent_runtime_validation.md) |
 | MCP API quality | 132 passing cases; 98.03% statement / 90.74% branch coverage; strict mutation result 681/850, with source-bound reuse stated explicitly | [Testing report](docs/edai-2/mcp_quality_evidence.md) |
@@ -204,7 +209,16 @@ Start with a package's README or the [command index](scripts/README.md). Runtime
 
 ## Documentation
 
-The [technical documentation index](docs/README.md) provides a review path through each layer. The [ML tracker](docs/edai-1/rubric_tracker.md), [LLM tracker](docs/edai-2/rubric_tracker.md) and [final audit](docs/edai-1/final_audit.md) preserve the source requirements and their verification scope.
+| Chapter | Code and evidence in one place |
+|---|---|
+| [Data processing](docs/edai-1/processing_jobs.md) | Batch and stream jobs, actual Flink window code, Airflow, and before/after results |
+| [Data storage](docs/edai-1/data_storage.md) | Parquet layout, Gold SQL, indexing, compaction and Feast stores |
+| [LLM inference](docs/edai-2/llm_inference_platform.md) | Deployment steps, recorded model requests and latency measurements |
+| [Global model configuration](docs/edai-2/global_model_config.md) | Shared settings, applied route evidence and Agentgateway status |
+| [MCP tools](docs/edai-2/mcp_tools.md) | Async runtime, Helm rollout, fallback and tool receipts |
+| [Agent warm-up](docs/edai-2/agent_warmup.md) | Native startup pairs, suspend/restore and worker scaling |
+
+The [documentation index](docs/README.md) includes the remaining topics and historical experiment records. The [ML tracker](docs/edai-1/rubric_tracker.md), [LLM tracker](docs/edai-2/rubric_tracker.md) and [final audit](docs/edai-1/final_audit.md) retain the original requirement and evidence scopes.
 
 Maintained prose and code descriptions use English. Original workbooks, native logs and screenshots retain their capture language and bytes. Presentation references: [RecSys-MLops](https://github.com/itsmekhoathekid/RecSys-MLops/tree/6bd6e99f481f2a8d5886d6f0e8356540dc20e135) and [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform/tree/cc34515304815774a5dad6f796683b46c27f93ac). The diagrams and measurements describe this repository's implementation and the limits of its recorded experiments.
 

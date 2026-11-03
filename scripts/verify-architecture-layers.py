@@ -1,14 +1,14 @@
-"""Verify the seven architecture views, implementation bindings and selected deployment coverage offline."""
+"""Verify the eight architecture views, implementation bindings and selected deployment coverage offline."""
 from pathlib import Path
 from hashlib import sha256
 import argparse
 import json
 import subprocess
-from documentation_presentation import ROOT, presentation
+from documentation_presentation import ROOT, presentation, check_evidence_additions
 
-LAYERS_SHA256='196f441a79bff4c628374ce6b640908ef536f5042eff6bd7f374647937c30e09'
-PRIMARY=['architecture-system','flow-batch','flow-stream','flow-training','flow-prediction','flow-agents','deployment-runtime']
-COUNTS=[(22,25),(10,9),(9,9),(12,12),(10,11),(13,21),(18,9)]
+LAYERS_SHA256='fb65bec8d084f75cb3beff7655abc700d6545f1695b0194159de42d534ae9753'
+PRIMARY=['architecture-system','flow-batch','flow-stream','flow-training','flow-prediction','flow-agents','deployment-runtime','feature-containers']
+COUNTS=[(21,24),(10,9),(9,9),(12,12),(10,11),(13,21),(18,9),(7,7)]
 
 
 def canonical(path):
@@ -20,9 +20,9 @@ def canonical(path):
 def semantic_boundaries(scenes,groups):
     """Independently require the storage, training, agent and runtime connections that must not be conflated."""
     critical={
-      'architecture-system':{'F0':('sys-history','sys-batchredis'),'F1':('sys-history','sys-prep'),
-        'S3':('sys-writers','sys-streamredis'),'F2':('sys-prep','sys-servingredis'),'K1':('sys-rag','sys-mcp'),
-        'T1':('sys-training','sys-ci'),'C1':('sys-ci','sys-model'),'R1':('sys-ops','sys-training')},
+      'architecture-system':{'S0':('sys-source','sys-kafka'),'S1':('sys-kafka','sys-stream'),'F1':('sys-history','sys-prep'),
+        'S3':('sys-writers','sys-online'),'F2':('sys-prep','sys-online'),'P2':('sys-api','sys-online'),'K1':('sys-rag','sys-mcp'),
+        'T1':('sys-training','sys-ci'),'C1':('sys-ci','sys-model')},
       'flow-batch':{'B6':('batch-dp3','batch-features'),'B7':('batch-dp3','batch-labels')},
       'flow-stream':{'S6':('stream-offline','stream-history'),'S7':('stream-history','stream-online'),
         'S8':('stream-online','stream-redis'),'S9':('stream-dedup','stream-results')},
@@ -41,6 +41,9 @@ def semantic_boundaries(scenes,groups):
       'deployment-runtime':{'U2':('deploy-iap','deploy-viewer'),'U3':('deploy-viewer','deploy-gateway'),
         'G1':('deploy-llm-cpu','deploy-model'),'G2':('deploy-model','deploy-llm-cpu'),
         'D1':('deploy-volumes','deploy-kfp'),'D2':('deploy-volumes','deploy-jobs')},
+      'feature-containers':{'T1':('features-load','features-files'),'F1':('features-refresh','features-files'),
+        'S1':('features-push','features-files'),'S2':('features-push','features-redis'),
+        'F2':('features-refresh','features-redis'),'U1':('features-api','features-redis'),'U2':('features-api','features-model')},
     }
     for name,pairs in critical.items():
         arrows={e['id']:e for e in scenes[name]['elements'] if e['type']=='arrow'}
@@ -48,6 +51,10 @@ def semantic_boundaries(scenes,groups):
             edge=arrows[key]
             assert (edge['customData']['from'],edge['customData']['to'])==(start,end),(name,key)
             assert edge['startBinding']['elementId']==start and edge['endBinding']['elementId']==end
+    for name, expected in [('architecture-system','sys-online'),('feature-containers','features-redis')]:
+        nodes={e['id']:e['customData']['node'] for e in scenes[name]['elements'] if e.get('customData',{}).get('node')}
+        assert [key for key,label in nodes.items() if 'redis' in label.lower()]==[expected]
+        assert not any(label.lower().startswith('feast') for label in nodes.values()),'Feast belongs inside its callers'
     old=json.loads((ROOT/'docs/diagrams/platform-deployment.excalidraw').read_bytes())
     members=[name for values in groups.values() for name in values]
     expected={e['id'] for e in old['elements'] if e.get('customData',{}).get('node')}
@@ -76,7 +83,7 @@ def check():
     assert sha256(body).hexdigest()==LAYERS_SHA256,'Architecture crosswalk changed'
     value=json.loads(body);base=value['base_commit']
     assert base=='8ed671f0f0bdbd6fa2a9bb755196163313dfede0'
-    assert value['layers']=={'1':PRIMARY[:1],'2':PRIMARY[1:6],'3':PRIMARY[6:]}
+    assert value['layers']=={'1':[PRIMARY[0],PRIMARY[7]],'2':PRIMARY[1:6],'3':PRIMARY[6:7]}
     display=presentation();index=json.loads((ROOT/'docs/images/diagram-index.json').read_bytes())
     old_index=json.loads(subprocess.check_output(['git','show',base+':docs/images/diagram-index.json'],cwd=ROOT))
     assert index['views'][:11]==old_index['views'] and [v['name'] for v in index['views'][11:]]==PRIMARY
@@ -105,12 +112,11 @@ def check():
             if name=='docs/images/diagram-index.json' or folder=='docs/diagrams' and not name.endswith('.excalidraw'):continue
             assert canonical(ROOT/name)==subprocess.check_output(['git','show',base+':'+name],cwd=ROOT),name
             preserved+=1
-    for tree in ['docs/evidence','docs/evidence-archive','docs/rubric','references','knowledge']:
-        assert not subprocess.check_output(['git','diff',base,'--name-only','--',tree],cwd=ROOT).strip(),tree
-    return {'passed':True,'primary_views':7,'layers':{'system':1,'flows':5,'deployment':1},
-      'primary_nodes':94,'primary_directed_relationships':96,'critical_endpoint_checks':boundaries,
+    check_evidence_additions(base,display['assets'],['docs/evidence','docs/evidence-archive','docs/rubric','references','knowledge'])
+    return {'passed':True,'primary_views':len(PRIMARY),'layers':{'system_and_container':2,'flows':5,'deployment':1},
+      'primary_nodes':sum(n for n,_ in COUNTS),'primary_directed_relationships':sum(e for _,e in COUNTS),'critical_endpoint_checks':boundaries,
       'bound_source_files':len(value['source_sha256']),'selected_deployment_roles_covered':42,'host_runtime_placement_checked':True,
-      'original_reference_image_and_native_files_unchanged':preserved,'new_authored_artifacts':42,
+      'original_reference_image_and_native_files_unchanged':preserved,'primary_authored_artifacts':6*len(PRIMARY),
       'scope':'Offline authored geometry/source/deployment correspondence; no new runtime proof, formal certification or grade.'}
 
 

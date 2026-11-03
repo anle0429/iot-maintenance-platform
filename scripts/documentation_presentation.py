@@ -1,11 +1,11 @@
-"""Authenticate reviewed figure-placement edits before restoring historical document bindings."""
+"""Authenticate reviewed documentation changes before restoring historical document bindings."""
 from pathlib import Path
 from hashlib import sha256
 import json
 import subprocess
 
 ROOT=Path(__file__).resolve().parents[1]
-PRESENTATION_SHA256='1bc3e77917e174772bbaa94245de3dff16bd24206bba564795b06589d11f95d2'
+PRESENTATION_SHA256='955f3729a5404ef14d0a6a6fae0e2bc61dac91dcc1b976a49cc708cef8f3dfda'
 
 
 def presentation():
@@ -14,7 +14,7 @@ def presentation():
     if sha256(body).hexdigest()!=PRESENTATION_SHA256:raise ValueError('Figure presentation inventory changed')
     value=json.loads(body)
     assert value['base_commit']=='8575de6535262c1abda7d961a298a8d9705df412'
-    assert len(value['files'])==8
+    assert value['files'] and value['assets']
     return value
 
 
@@ -25,6 +25,9 @@ def before_presentation(name,current):
     row=value['files'][name];current=current.replace(b'\r\n',b'\n')
     original=subprocess.check_output(['git','--no-replace-objects','show',value['base_commit']+':'+name],cwd=ROOT)
     assert sha256(original).hexdigest()==row['before_sha256'],name
+    if row.get('reviewed_replacement') is True:
+        assert sha256(current).hexdigest()==row['after_sha256'],name
+        return original
     lines=original.decode().splitlines(keepends=True)
     for patch in reversed(row['patches']):
         start=patch['line'];old=patch['old'].splitlines(keepends=True)
@@ -34,3 +37,12 @@ def before_presentation(name,current):
     assert sha256(expected).hexdigest()==row['after_sha256'],name
     assert current==expected,name
     return original
+
+
+def check_evidence_additions(base, assets, trees):
+    """Permit only exact declared new receipts while rejecting changes to any original file."""
+    changed=subprocess.check_output(['git','diff','--no-renames','--name-only','-z',base,'--',*trees],cwd=ROOT)
+    original=set(subprocess.check_output(['git','ls-tree','-r','--name-only','-z',base,'--',*trees],cwd=ROOT).decode().split('\0'))
+    for name in filter(None,changed.decode().split('\0')):
+        assert name not in original and name in assets and assets[name]['new'],name
+        assert assets[name]['mode']=='exact_bytes' and sha256((ROOT/name).read_bytes()).hexdigest()==assets[name]['sha256'],name

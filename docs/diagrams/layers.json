@@ -3,7 +3,8 @@
   "base_commit": "8ed671f0f0bdbd6fa2a9bb755196163313dfede0",
   "layers": {
     "1": [
-      "architecture-system"
+      "architecture-system",
+      "feature-containers"
     ],
     "2": [
       "flow-batch",
@@ -19,7 +20,7 @@
   "views": {
     "architecture-system": {
       "layer": 1,
-      "scope": "Recorded implementation; boxes group bounded jobs or services, not Deployments",
+      "scope": "Recorded serving release; separate offline history and one release-specific Redis. Other instances and workload internals are in flow/deployment views.",
       "canvas": [
         1600,
         2240
@@ -33,9 +34,8 @@
         "sys-training",
         "sys-stream",
         "sys-writers",
-        "sys-streamredis",
+        "sys-online",
         "sys-prep",
-        "sys-servingredis",
         "sys-gateway",
         "sys-api",
         "sys-model",
@@ -46,7 +46,7 @@
         "sys-ci",
         "sys-ops",
         "sys-rag",
-        "sys-batchredis"
+        "sys-kafka"
       ],
       "edges": {
         "B1": {
@@ -104,14 +104,14 @@
           "note": "The publisher emits actual stage metadata and validation outcomes to DataHub GMS; a catalog arrow does not imply that all recorded assertions belong to the same execution."
         },
         "S1": {
-          "from": "sys-source",
+          "from": "sys-kafka",
           "to": "sys-stream",
-          "label": "Arrival-ordered Kafka replay",
-          "kind": "Kafka events",
+          "label": "Consume Kafka delivery envelopes",
+          "kind": "KafkaSource",
           "sources": [
-            "pipelines/stream_verification.py"
+            "pipelines/stream_job.py"
           ],
-          "note": "Delivery attempts and event timestamps remain distinct; bounded native replay is not a continuous physical sensor source."
+          "note": "Flink consumes bounded offsets from the broker and assigns event time before the keyed operators."
         },
         "S2": {
           "from": "sys-stream",
@@ -126,13 +126,14 @@
         },
         "S3": {
           "from": "sys-writers",
-          "to": "sys-streamredis",
+          "to": "sys-online",
           "label": "Latest monitoring vector via Feast SDK",
           "kind": "Redis write",
           "sources": [
-            "feature_store/staged_push.py"
+            "feature_store/staged_push.py",
+            "scripts/ci-stream-push.py"
           ],
-          "note": "Independent stream project; acknowledged replay skips writes and TTL renewal. These four aggregates are not the predictor's eight rolling inputs."
+          "note": "Staged stream CI targets online-serve-jenkins-8 with a separate monitoring project. The original direct push used the shared Docker online service instead."
         },
         "F1": {
           "from": "sys-history",
@@ -146,13 +147,14 @@
         },
         "F2": {
           "from": "sys-prep",
-          "to": "sys-servingredis",
+          "to": "sys-online",
           "label": "Populate serving namespace",
           "kind": "Feast SDK \u2192 Redis",
           "sources": [
-            "feature_store/serving.py"
+            "feature_store/serving.py",
+            "scripts/refresh-agent-features.py"
           ],
-          "note": "Genuine bounded preparation, not a Redis-to-Redis copy; one-hour wall-clock lease is distinct from event-time freshness and Redis expiry."
+          "note": "Refresh materializes eight rolling prediction inputs to the selected serving Redis release and project."
         },
         "P1": {
           "from": "sys-gateway",
@@ -167,13 +169,14 @@
         },
         "P2": {
           "from": "sys-api",
-          "to": "sys-servingredis",
+          "to": "sys-online",
           "label": "Native online feature lookup and values",
           "kind": "Feast SDK / Redis",
           "sources": [
-            "services/feature_api/runtime.py"
+            "services/feature_api/runtime.py",
+            "ml/serving_ci.py"
           ],
-          "note": "SDK in the Feature API obtains eight fields and native event timestamps. Query/return and freshness checks are expanded in Layer 2."
+          "note": "Feature API reads the release-specific Redis using embedded Feast. It does not read the monitoring project or the earlier Docker Redis."
         },
         "P3": {
           "from": "sys-api",
@@ -294,26 +297,16 @@
           ],
           "note": "Versioned training publishes data identities and an evaluated candidate. Serving CI separately retrieves the explicitly selected model version and applies release gates; no automatic promotion is implied."
         },
-        "F0": {
-          "from": "sys-history",
-          "to": "sys-batchredis",
-          "label": "Bounded batch materialization job",
-          "kind": "Feast SDK \u2192 Redis",
+        "S0": {
+          "from": "sys-source",
+          "to": "sys-kafka",
+          "label": "Publish replay deliveries to Kafka",
+          "kind": "Kafka produce",
           "sources": [
-            "feature_store/materialize.py"
+            "pipelines/stream_verification.py",
+            "infra/streaming.cloud.compose.yaml"
           ],
-          "note": "The materializer reads registered historical Parquet over explicit time bounds and writes its own batch project online. Redis is not the offline training store, and serving uses separate preparation/state."
-        },
-        "R1": {
-          "from": "sys-ops",
-          "to": "sys-training",
-          "label": "Offline PSI report \u2192 admitted candidate pipeline",
-          "kind": "conditional KFP control through Airflow jobs",
-          "sources": [
-            "airflow/dags/iot_offline_drift.py",
-            "ml/drift_retrain.py"
-          ],
-          "note": "Separate offline drift/admission jobs own this dependency; Grafana does not launch training. Replay/cooldown/source guards gate candidate submission. The recorded probe preserved drift=false and did not automatically promote serving."
+          "note": "The replay producer emits arrival-ordered delivery envelopes, including retries and late readings."
         }
       }
     },
@@ -528,9 +521,10 @@
           "label": "ONLINE push and native readback",
           "kind": "Feast SDK / Redis",
           "sources": [
-            "feature_store/staged_push.py"
+            "feature_store/staged_push.py",
+            "scripts/ci-stream-push.py"
           ],
-          "note": "Write latest verified vector; verify it through native Feast; acknowledge in a separate local journal. Already acknowledged replay skips writes and TTL renewal."
+          "note": "CI target is online-serve-jenkins-8. Monitoring uses its own Feast project; the earlier direct push instead targeted Docker online:6379."
         },
         "S9": {
           "from": "stream-dedup",
@@ -690,7 +684,7 @@
           "sources": [
             "feature_store/materialize.py"
           ],
-          "note": "This independent materialization job writes a batch online project from the verified offline source. The KFP load continues to read Parquet through historical retrieval; it never trains from Redis."
+          "note": "The batch materialization job uses embedded Feast and writes its project to the Docker Redis also used by original stream push. Neither online path supplies historical training."
         }
       }
     },
@@ -1208,6 +1202,101 @@
           "note": "One GPU and Recreate do not provide zero-downtime rolling updates or physical-host HA. CPU routing/observation and GPU generation remain separate runtime responsibilities."
         }
       }
+    },
+    "feature-containers": {
+      "layer": 1,
+      "scope": "C4 container slice: historical loading and the recorded feature-serving release",
+      "canvas": [
+        1440,
+        1130
+      ],
+      "nodes": [
+        "features-files",
+        "features-load",
+        "features-redis",
+        "features-refresh",
+        "features-push",
+        "features-api",
+        "features-model"
+      ],
+      "edges": {
+        "T1": {
+          "from": "features-load",
+          "to": "features-files",
+          "label": "Retrieve history inside the KFP load task",
+          "kind": "mounted files / Feast SDK",
+          "sources": [
+            "ml/notebook_load.py",
+            "feature_store/repository.py"
+          ],
+          "note": "Feast uses its DuckDB offline provider to query registered Parquet. Labels are loaded separately and joined to retrieved snapshots. Redis is not a training source."
+        },
+        "F1": {
+          "from": "features-refresh",
+          "to": "features-files",
+          "label": "Read pinned preparation inputs",
+          "kind": "mounted files",
+          "sources": [
+            "feature_store/serving.py",
+            "scripts/refresh-agent-features.py"
+          ],
+          "note": "The serving refresh verifies source and release identity and uses separate serving state before materialization."
+        },
+        "S1": {
+          "from": "features-push",
+          "to": "features-files",
+          "label": "Verify the offline stage's release before online delivery",
+          "kind": "Parquet and registry readback",
+          "sources": [
+            "feature_store/staged_push.py"
+          ],
+          "note": "The online job verifies the retained monitoring release. It does not reuse the ML training FileSource or receive raw Kafka deliveries."
+        },
+        "S2": {
+          "from": "features-push",
+          "to": "features-redis",
+          "label": "Push latest finalized monitoring vectors",
+          "kind": "Feast SDK / Redis",
+          "sources": [
+            "feature_store/staged_push.py",
+            "scripts/ci-stream-push.py"
+          ],
+          "note": "This is the staged CI path using the release Redis address and its isolated monitoring project. Four stream aggregates do not supply the predictor."
+        },
+        "F2": {
+          "from": "features-refresh",
+          "to": "features-redis",
+          "label": "Materialize serving features into the selected release",
+          "kind": "Feast SDK / Redis",
+          "sources": [
+            "feature_store/serving.py",
+            "scripts/refresh-agent-features.py"
+          ],
+          "note": "The refresh publishes eight rolling feature values to the serving project of online-serve-jenkins-8. The request path subsequently checks an independent preparation lease."
+        },
+        "U1": {
+          "from": "features-api",
+          "to": "features-redis",
+          "label": "Read serving values and native timestamps",
+          "kind": "Feast SDK / Redis",
+          "sources": [
+            "services/feature_api/runtime.py",
+            "ml/serving_ci.py"
+          ],
+          "note": "The in-process lookup selects the serving feature service and project; model calls require current, eligible values and verified source/provenance."
+        },
+        "U2": {
+          "from": "features-api",
+          "to": "features-model",
+          "label": "Request pinned inference after eligibility checks",
+          "kind": "private HTTP JSON",
+          "sources": [
+            "services/feature_api/runtime.py",
+            "services/predictor/binding.py"
+          ],
+          "note": "The result and identity are checked inside Feature API before returning the prediction. See the prediction flow for the fail-closed response branches."
+        }
+      }
     }
   },
   "source_encoding": "UTF-8 text with CRLF canonicalized to LF",
@@ -1276,6 +1365,7 @@
     "ml/mlflow_data_versions.py": "83ebd0292e8f9b80b49908d004c819e2b37ebba59747b2747551c244cfcd39ea",
     "ml/notebook_load.py": "8ce3b33bc5976f6fcfa2ef6119e33c99749322cdfead42d01bd3e96ca1391f34",
     "ml/notebook_validate_component.py": "ce18a3119a6aff9717ab9c0738a51087393079221eb4be60d28b681ffa2e218e",
+    "ml/serving_ci.py": "c773843d2e823debdd7a6775396ee60dcc6a9368355348ea6ce7431bacb62a79",
     "ml/training_contract.py": "50d0c1562f4f64614cf5e35c3cf1c39793db2da492df5cc8839962306b60c2a4",
     "pipelines/airflow_tasks.py": "c657b418c10c5e0fe7345b2b3d7550c965a4cf3dfaf8f0095d5f37b0e97fdedc",
     "pipelines/features.py": "701f8b979d10da87724945fc79e625978d0807f3ffe0ece35a045069bbd37af4",
@@ -1291,8 +1381,10 @@
     "rag/retrieval.py": "922a2d11ddb4804388b9a4162ca7533cf63d78509d6a112cce0bcf9a6e5deca2",
     "rag/store.py": "4b814ac746a75c134edbbcd3294e8c4a5a426f38c4c69ed6bb3a9b3d8404b469",
     "scripts/ci-serving.py": "d16d68440925f0cfb243c78365491229e24d6ed594ad407c204b637cb3a507ff",
+    "scripts/ci-stream-push.py": "622ef60f8d7449b316e5b0063046094444e17286d64e35329a9586b7dc980414",
     "scripts/refresh-agent-features.py": "ec2be13e02a218a5e583c7006ce418648ee8bb1829acb1c5d9b10f89e41552c0",
     "scripts/restore-substrate-members.py": "948fcec2fbb0172c8c0b02ad7d9077415aec8793b9b625f9d5eeed14cee6e55f",
+    "scripts/run-stream-push.py": "7e14a3e3d74bed04d3657294ffd0c04f6dde04d5af53378d8ea5f59c4bc1c299",
     "scripts/sync-gateway-vault.py": "68aa3c751cdd967aa8b5029ac31b22a2dfba80acc33b94ac37ed5e016bff3070",
     "scripts/view-agent-gateway.py": "b19170abf22cd39c37197354b8dc9ba852d7c8651030af1606b35a18a2535cba",
     "scripts/view-llm-monitoring.py": "c395f1b6c877606b59abfd301a9964c74e5907eecb04b7b39db50533d43252b1",
@@ -1383,6 +1475,24 @@
     "airflow/dags/iot_data_pipelines.py": [
       "trigger_rule=TriggerRule.ALL_DONE",
       "[validate, publish] >> release"
+    ],
+    "infra/feast.compose.yaml": [
+      "name: iot-feast",
+      "IOT_FEAST_REDIS: online:6379"
+    ],
+    "scripts/run-stream-push.py": [
+      "'--network=iot-feast_default'",
+      "'IOT_FEAST_REDIS=online:6379'"
+    ],
+    "scripts/ci-stream-push.py": [
+      "'service','online-serve-jenkins-8','-n','iot-features'"
+    ],
+    "scripts/refresh-agent-features.py": [
+      "'service', 'online-serve-jenkins-8', '-n', 'iot-features'"
+    ],
+    "ml/serving_ci.py": [
+      "redis_name='online-'+release",
+      "'IOT_FEAST_REDIS','value':redis_name+'.iot-features.svc.cluster.local:6379'"
     ]
   },
   "deployment_reference_view": "platform-deployment",
@@ -1465,5 +1575,5 @@
     ]
   },
   "deployment_added_state_group": "deploy-volumes",
-  "scope": "Authored architecture linked to implementation and selected recorded deployment roles; not live runtime proof, formal certification or a grade."
+  "scope": "Source-bound views of the recorded system, feature access, dynamic flows and deployment. The serving release and historical Docker Redis are distinct; neither a live readiness check nor a grade."
 }

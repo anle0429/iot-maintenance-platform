@@ -2478,9 +2478,11 @@
       "strokeColor": "#047857",
       "backgroundColor": "#a7f3d0",
       "customData": {
-        "node": "Separate batch Redis online project",
+        "node": "Docker Redis used by historical batch materialization",
         "sources": [
-          "feature_store/materialize.py"
+          "feature_store/materialize.py",
+          "infra/feast.compose.yaml",
+          "scripts/run-stream-push.py"
         ]
       },
       "angle": 0,
@@ -2547,11 +2549,11 @@
       "type": "text",
       "x": 610,
       "y": 1208,
-      "width": 154.6875,
+      "width": 168.75,
       "height": 30,
       "fontSize": 24,
       "strokeColor": "#374151",
-      "text": "Batch Redis",
+      "text": "Docker Redis",
       "angle": 0,
       "fillStyle": "solid",
       "strokeWidth": 1,
@@ -2574,7 +2576,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Batch Redis",
+      "originalText": "Docker Redis",
       "autoResize": true,
       "index": "aw",
       "backgroundColor": "transparent"
@@ -2588,7 +2590,7 @@
       "height": 82.5,
       "fontSize": 22,
       "strokeColor": "#374151",
-      "text": "Feast materialize()\nOwn batch project\nNot training input",
+      "text": "Batch project keys\nShared Docker store\nNot training input",
       "angle": 0,
       "fillStyle": "solid",
       "strokeWidth": 1,
@@ -2611,7 +2613,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Feast materialize()\nOwn batch project\nNot training input",
+      "originalText": "Batch project keys\nShared Docker store\nNot training input",
       "autoResize": true,
       "index": "ax",
       "backgroundColor": "transparent"
@@ -2674,7 +2676,7 @@
         "sources": [
           "feature_store/materialize.py"
         ],
-        "note": "This independent materialization job writes a batch online project from the verified offline source. The KFP load continues to read Parquet through historical retrieval; it never trains from Redis."
+        "note": "The batch materialization job uses embedded Feast and writes its project to the Docker Redis also used by original stream push. Neither online path supplies historical training."
       },
       "angle": 0,
       "fillStyle": "solid",

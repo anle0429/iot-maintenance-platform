@@ -14,7 +14,7 @@ The persisted Parquet tables are inspected in [an executable SQL notebook](../..
 | Features | `feat_machine_10m` | One `(machine_id,event_timestamp)` snapshot, with `created` build-audit time and arrival-aware inputs |
 | Labels / training | `label_failure_1h`, eligible entities and training tables | Future outcome kept separate until a validated snapshot/label join |
 
-[DP1–DP3](../../pipelines/airflow_tasks.py) and [the original batch job](../../pipelines/batch_job.py) use distinct run layouts. The original batch job stores feature/label/training outputs under Gold; the later staged DAG places feature and label tables under `features/`. Their naming/layout difference is not a new table relationship or an SQL warehouse. Persisted formats are Parquet; the small earlier demonstration also publishes selected tables through JDBC. The Airflow pilot does not prove a full SQL warehouse deployment.
+[DP1–DP3](../../pipelines/airflow_tasks.py) and [the original batch job](../../pipelines/batch_job.py) use distinct run layouts. The original batch job stores feature/label/training outputs under Gold; the later staged DAG places feature and label tables under `features/`. Both write Parquet. The small original demonstration reads raw source envelopes through PostgreSQL JDBC. The separate [warehouse indexing experiment](data_storage.md#warehouse-index-experiment) loads retained Gold data into a local DuckDB database for a scoped SQL comparison.
 
 ## SCD2 and fact/dimension linkage
 
