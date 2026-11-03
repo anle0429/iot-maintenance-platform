@@ -39,9 +39,14 @@ To activate the definition on the private lab:
 2. Extend the retained source packet to include `infra/ci/AgentsPrompts.Jenkinsfile`, `scripts/ci-agents-prompts.py` and `agents/prompt_registry.py` in both the tree and its SHA-256 manifest. Keep the existing base and OPA inputs. Configure the three idle private jobs to use the new Jenkins definition.
 3. Start a job with the sealed `SOURCE_COMMIT` and `PROMPT_VERSIONS` in retrieval, drift, coordinator order, such as `2,1,3` for those exact registered versions. Inspect the **Verify exact MLflow prompt versions** stage and its `prompts.json` artifact. A missing version provides a denial check before packaging or deployment.
 
-On 2 November 2026 (Chicago), the retained MLflow 3.17.2 server registered version 1 for each of the three prompts. The registry client verified all three exact templates and rejected a request for nonexistent drift version 999999999. This verified the registry and prompt check directly. Jenkins has yet to execute the new definition.
+On 2 November 2026 (Chicago), the retained MLflow 3.17.2 server registered version 1 for each of the three prompts. The registry client verified all three exact templates and rejected a request for nonexistent drift version 999999999. This verified the registry and prompt check directly. The next session exercised the gate in the retained Jenkins controller.
 
-The native Jenkins runs below predate this definition. They do not demonstrate a Jenkins run against the Prompt Registry.
+| Coordinator build | Requested versions | Observed registry gate result |
+|---|---|---|
+| 6 | `1,999999999,1` | MLflow returned `RESOURCE_DOES_NOT_EXIST` for drift and Jenkins finished `FAILURE` before packaging or deployment. |
+| 7 | `1,1,1` | Jenkins emitted `prompts.json` with `passed: true`, all three version URIs and their SHA-256 hashes. Chart packaging also produced its build receipt. |
+
+Both builds used source commit `99907d333df6550a5680a54c308c95d43b124e29`. The retained MLflow container responded internally after boot, while its configured host port was unavailable. A temporary loopback-only relay restored the private endpoint for these tests. The results above cover the prompt gate and do not assert the final result of build 7. The older Jenkins runs below predate the registry integration.
 
 The [Jenkinsfile](../../infra/ci/Agents.Jenkinsfile) selects the role from the declared job name. The [driver](../../scripts/ci-agents.py) binds each phase to the full Git commit and release identity. A [source declaration](../../infra/ci/agents-source.json) covers application code, transitive test imports, charts and the frozen quality evidence.
 
