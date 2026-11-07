@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "phase": "deploy",
+  "passed": true,
+  "component": "coordinator",
+  "build_number": "14",
+  "source_commit": "f12ea06da2e039d139638c154470f896ed23a7cf",
+  "release": "llm-coordinator-jenkins-14",
+  "source_digest": "601aa990edbc5bd9693a7f9c69fa25757449e1e498c77ce9d1c218b4f13df827",
+  "role": "coordinator",
+  "current_policy": "0.2.2",
+  "helm_revisions": {
+    "iot-agents": {
+      "revision": 24,
+      "updated": "2026-11-07T05:55:25.481227663Z",
+      "status": "deployed",
+      "chart": "iot-agents-0.1.0",
+      "app_version": "0.2.2",
+      "description": "CI:llm-coordinator-jenkins-14:f12ea06da2e039d139638c154470f896ed23a7cf"
+    }
+  },
+  "shared_agent_reapply": "Same accepted three-role policy and pools; no agent-version change claimed.",
+  "new_mcp_image": null
+}

@@ -1,4 +1,5 @@
 """Verify source-bound native MCP transport, rollout, API quality and authenticated load evidence offline."""
+from source_evolution import recorded_source
 from collections import Counter
 from hashlib import sha256
 import csv
@@ -31,7 +32,7 @@ def verify():
     for prefix in ['success', 'load', 'quality-baseline']:
         recorded = sources(base, prefix)
         changed = [name for name, pin in recorded['files'].items()
-                   if sha256((ROOT / name).read_bytes()).hexdigest() != pin]
+                   if sha256(recorded_source(name)).hexdigest() != pin]
         # The timestamp validation fix has separate local quality evidence; retain these original deployed bytes.
         assert set(changed) <= {'services/mcp_tools/contracts.py'}
         historical_differences[prefix] = changed

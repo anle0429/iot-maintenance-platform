@@ -1,4 +1,5 @@
 """Authenticate the fresh learner demonstration, failed predecessor and narrow native monitoring repair."""
+from source_evolution import recorded_source
 from datetime import datetime, timedelta
 from hashlib import sha256
 from io import BytesIO
@@ -52,7 +53,7 @@ def verify():
         for name, pin in seal['files'].items():
             original = bodies[prefix+'tree/'+name]
             assert sha256(original).hexdigest() == pin
-            assert (ROOT/name).read_bytes().replace(b'\r\n', b'\n') == original.replace(b'\r\n', b'\n'), name
+            assert recorded_source(name).replace(b'\r\n', b'\n') == original.replace(b'\r\n', b'\n'), name
     helper = bodies['helpers/iot-refresh-demo-feature-29k.py']
     assert sha256(helper).hexdigest() == 'ec2be13e02a218a5e583c7006ce418648ee8bb1829acb1c5d9b10f89e41552c0'
     assert helper == git_blobs(ROOT, '51b3f10853014b9a33325aa113a01f6697b4aa21', ['scripts/refresh-agent-features.py'])['scripts/refresh-agent-features.py']

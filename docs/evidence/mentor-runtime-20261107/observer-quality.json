@@ -1,0 +1,105 @@
+{
+  "passed": true,
+  "checked_utc": "2026-11-07T05:32:18.312043+00:00",
+  "source_commit": "888f7a57c1cd815967ba12e2244687116cbffe99",
+  "images": {
+    "runtime": {
+      "tag": "iot-llm-observer:888f7a57c1cd",
+      "image_id": "sha256:3d5f8877876c02dcdbed153788c20ea5e452124dd3ea510e4af4c857ec19e6e1",
+      "parent": {
+        "image": "iot-ci-mcp:llm-retrieval-jenkins-4",
+        "image_id": "sha256:a6bfed8a735a169dd86535f423191bd1c0e4fafc314df838bfe220c3b091def7"
+      },
+      "metadata": {
+        "packages": {
+          "fastapi": "0.162.0",
+          "starlette": "1.10.0",
+          "pydantic": "2.14.1",
+          "httpx": "0.28.1",
+          "httpcore": "1.0.9",
+          "h11": "0.16.0",
+          "prometheus-client": "0.24.1",
+          "opentelemetry-sdk": "1.45.1",
+          "opentelemetry-proto": "1.45.1",
+          "protobuf": "7.36.2",
+          "uvicorn": "0.54.0"
+        },
+        "files": {
+          "llm_observability/__init__.py": "7610c8933e72fa2e6679d2202252bde06f76938d5ec26f89698ba79c5cba414a",
+          "llm_observability/app.py": "11f11ffbf221b80e506d27ea538b311d200bf0cc42671d8581b821fbd797c5f3",
+          "llm_observability/contracts.py": "4958f7a3cedcdb2ab621a25750546e883cabab5ba25ff974088ae0a79ed08154",
+          "llm_observability/ledger.py": "abad5472446036aa751079d874dcb69d27419c32ecd37d962d478496ccdbcafb",
+          "llm_observability/metrics.py": "abd98896595567e21bc50710836c30cafdfe0b8be124d41988bfa542ad7c01d9",
+          "llm_observability/private_traces.py": "976bc95f80cac49e1afa532306d4da3ed5bf3d0e7470a22bcb08748e4930c86c"
+        }
+      }
+    },
+    "test": {
+      "tag": "iot-llm-observer-tests:888f7a57c1cd",
+      "image_id": "sha256:042b9382a78e0ec575462ac6896fdfd73d1fc535858bc243ed39ada0718774b0",
+      "parent": {
+        "image": "iot-ci-mcp-tests:llm-retrieval-jenkins-4",
+        "image_id": "sha256:660dafc36c38e83b6717c20c34fe8d0645dc0e9703b69449e64bc4ad838b8ee6"
+      },
+      "metadata": {
+        "packages": {
+          "fastapi": "0.162.0",
+          "starlette": "1.10.0",
+          "pydantic": "2.14.1",
+          "httpx": "0.28.1",
+          "httpcore": "1.0.9",
+          "h11": "0.16.0",
+          "prometheus-client": "0.24.1",
+          "opentelemetry-sdk": "1.45.1",
+          "opentelemetry-proto": "1.45.1",
+          "protobuf": "7.36.2",
+          "uvicorn": "0.54.0"
+        }
+      }
+    }
+  },
+  "quality": {
+    "passed": true,
+    "commit": "888f7a57c1cd815967ba12e2244687116cbffe99",
+    "source_files": 46,
+    "coverage": {
+      "covered_lines": 518,
+      "num_statements": 519,
+      "percent_covered": 99.35979513444302,
+      "percent_covered_display": "99",
+      "missing_lines": 1,
+      "excluded_lines": 0,
+      "percent_statements_covered": 99.8073217726397,
+      "percent_statements_covered_display": "99",
+      "num_branches": 262,
+      "num_partial_branches": 4,
+      "covered_branches": 258,
+      "missing_branches": 4,
+      "percent_branches_covered": 98.47328244274809,
+      "percent_branches_covered_display": "98"
+    },
+    "mutation": {
+      "killed": 2387,
+      "survived": 587,
+      "total": 2974,
+      "no_tests": 0,
+      "skipped": 0,
+      "suspicious": 0,
+      "timeout": 0,
+      "check_was_interrupted_by_user": 0,
+      "segfault": 0
+    },
+    "strict_mutation_score_percent": 80.26227303295225,
+    "fresh_mutation_run": true,
+    "mutation_modules": [
+      "llm_observability/app.py",
+      "llm_observability/contracts.py",
+      "llm_observability/ledger.py",
+      "llm_observability/metrics.py",
+      "llm_observability/private_traces.py"
+    ],
+    "scope": "All five new runtime observer modules. Original tests, complete native engine inventory and non-test outcomes are preserved. No cached mutation reuse or deployment claim."
+  },
+  "routing_changed": false,
+  "scope": "Fresh complete observer quality gate and source-tested runtime images. No canary install or traffic promotion."
+}

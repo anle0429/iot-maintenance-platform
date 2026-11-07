@@ -1,4 +1,5 @@
 """Authenticate actual Jupyter execution, exact source, fresh Feast preparation and native specialist/MCP answers offline."""
+from source_evolution import recorded_source
 from datetime import datetime, timedelta
 from hashlib import sha256
 from io import BytesIO
@@ -60,7 +61,7 @@ def verify():
     seal = original('source/manifest.json'); assert len(seal['files']) == 10 and not seal['newline_normalization']
     for name, digest in seal['files'].items():
         raw = bodies['source/tree/' + name]
-        assert sha256(raw).hexdigest() == digest and raw == (ROOT / name).read_bytes(), name
+        assert sha256(raw).hexdigest() == digest and raw == recorded_source(name), name
     prefix = 'native/agent-notebook-29a/'
     for name in ['execution.json', 'executed.ipynb', 'executed.html']:
         assert (base / name).read_bytes() == bodies[prefix + name]

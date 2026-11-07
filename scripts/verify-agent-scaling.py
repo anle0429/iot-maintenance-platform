@@ -1,4 +1,5 @@
 """Verify native demand-driven scaling, context-preserving capacity retries and original application screenshots offline."""
+from source_evolution import recorded_source
 from datetime import datetime
 from hashlib import sha256
 from io import BytesIO
@@ -74,7 +75,7 @@ def verify():
         seal = original('source/' + source_name + '/manifest.json')
         for name, digest in seal['files'].items():
             assert sha256(bodies['source/' + source_name + '/tree/' + name]).hexdigest() == digest
-            assert source_matches(name, bodies['source/' + source_name + '/tree/' + name], (ROOT / name).read_bytes()), name
+            assert source_matches(name, bodies['source/' + source_name + '/tree/' + name], recorded_source(name)), name
     assert bodies['operators/park-inactive-ab-candidates.py'] == (ROOT / 'scripts/park-inactive-ab-candidates.py').read_bytes()
     install = original('native/agent-scaling-29c/verification.json'); assert install['passed'] and install['keda_version'] == '2.21.0'
     process('iot-agent-scaling-29c', '34da5aab69664a7f88a004f1aa5dcdd5', install)

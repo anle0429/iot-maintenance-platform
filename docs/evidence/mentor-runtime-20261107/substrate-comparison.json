@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "pairs": 4,
+  "warmup_requests": 2,
+  "accepted_requests": 10,
+  "medians_seconds": {
+    "substrate": 6.497477829999752,
+    "plain": 4.233896572000049
+  },
+  "substrate_percent_change": 53.46331020387707,
+  "all_attempts_retained": true,
+  "utc": "2026-11-07T05:45:48.633045+00:00",
+  "shared_gateway_model_prompt_tools_unchanged": true,
+  "scope": "Four alternating retrieval pairs, fresh contexts and a fixed question. End-to-end latency includes allocation, MCP, generation and transport. The ordinary Deployment and Substrate workers have different execution wrappers; this is not an isolated startup, cost or general speed ranking."
+}

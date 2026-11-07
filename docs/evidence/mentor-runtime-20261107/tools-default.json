@@ -1,0 +1,373 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "kagent.dev/v1alpha2",
+            "kind": "RemoteMCPServer",
+            "metadata": {
+                "annotations": {
+                    "iot.coursework/agentgateway-run": "agw-default20261106b"
+                },
+                "creationTimestamp": "2026-11-07T04:44:57Z",
+                "generation": 1,
+                "name": "agw-default20261106b-drift-tools",
+                "namespace": "iot-agents",
+                "resourceVersion": "1306528",
+                "uid": "fd5ae31f-ca62-41bd-bae1-cc9d65d53c94"
+            },
+            "spec": {
+                "allowedNamespaces": {
+                    "from": "Same"
+                },
+                "description": "Authenticated drift tools for the simulated IoT pump platform.",
+                "headersFrom": [
+                    {
+                        "name": "Authorization",
+                        "valueFrom": {
+                            "key": "drift",
+                            "name": "iot-agent-tool-headers",
+                            "type": "Secret"
+                        }
+                    }
+                ],
+                "protocol": "STREAMABLE_HTTP",
+                "terminateOnClose": true,
+                "timeout": "30s",
+                "url": "http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18082/mcp"
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-11-07T05:16:04Z",
+                        "message": "Remote MCP server configuration accepted",
+                        "observedGeneration": 1,
+                        "reason": "Reconciled",
+                        "status": "True",
+                        "type": "Accepted"
+                    }
+                ],
+                "discoveredTools": [
+                    {
+                        "description": "Assess label-free feature drift for a named cohort/window; input drift alone does not measure accuracy loss.",
+                        "name": "assess_feature_drift"
+                    }
+                ],
+                "observedGeneration": 1
+            }
+        },
+        {
+            "apiVersion": "kagent.dev/v1alpha2",
+            "kind": "RemoteMCPServer",
+            "metadata": {
+                "annotations": {
+                    "iot.coursework/agentgateway-run": "agw-default20261106b"
+                },
+                "creationTimestamp": "2026-11-07T04:44:57Z",
+                "generation": 1,
+                "name": "agw-default20261106b-retrieval-tools",
+                "namespace": "iot-agents",
+                "resourceVersion": "1306529",
+                "uid": "b46e23d0-204d-4bc1-8867-de5f3e2a0730"
+            },
+            "spec": {
+                "allowedNamespaces": {
+                    "from": "Same"
+                },
+                "description": "Authenticated retrieval tools for the simulated IoT pump platform.",
+                "headersFrom": [
+                    {
+                        "name": "Authorization",
+                        "valueFrom": {
+                            "key": "retrieval",
+                            "name": "iot-agent-tool-headers",
+                            "type": "Secret"
+                        }
+                    }
+                ],
+                "protocol": "STREAMABLE_HTTP",
+                "terminateOnClose": true,
+                "timeout": "30s",
+                "url": "http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18081/mcp"
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-11-07T05:16:04Z",
+                        "message": "Remote MCP server configuration accepted",
+                        "observedGeneration": 1,
+                        "reason": "Reconciled",
+                        "status": "True",
+                        "type": "Accepted"
+                    }
+                ],
+                "discoveredTools": [
+                    {
+                        "description": "Read a simulated pump's current feature snapshot with event time, preparation time and source provenance.",
+                        "name": "get_machine_features"
+                    },
+                    {
+                        "description": "Read the synthetic failure-risk prediction for an operating pump; preserve stopped and stale-data errors.",
+                        "name": "predict_failure"
+                    },
+                    {
+                        "description": "Retrieve authored IoT reference passages and exact chunk/source identities for a bounded question.",
+                        "name": "search_knowledge"
+                    }
+                ],
+                "observedGeneration": 1
+            }
+        },
+        {
+            "apiVersion": "kagent.dev/v1alpha2",
+            "kind": "RemoteMCPServer",
+            "metadata": {
+                "annotations": {
+                    "meta.helm.sh/release-name": "iot-agents",
+                    "meta.helm.sh/release-namespace": "iot-agents"
+                },
+                "creationTimestamp": "2026-10-29T06:26:48Z",
+                "generation": 1,
+                "labels": {
+                    "app.kubernetes.io/managed-by": "Helm"
+                },
+                "name": "iot-drift-tools",
+                "namespace": "iot-agents",
+                "resourceVersion": "1306530",
+                "uid": "ac7c61c7-8ee0-4b62-ab17-9527d0ff8c31"
+            },
+            "spec": {
+                "allowedNamespaces": {
+                    "from": "Same"
+                },
+                "description": "Authenticated drift tools for the simulated IoT pump platform.",
+                "headersFrom": [
+                    {
+                        "name": "Authorization",
+                        "valueFrom": {
+                            "key": "drift",
+                            "name": "iot-agent-tool-headers",
+                            "type": "Secret"
+                        }
+                    }
+                ],
+                "protocol": "STREAMABLE_HTTP",
+                "terminateOnClose": true,
+                "timeout": "30s",
+                "url": "http://iot-drift-mcp.iot-agents.svc.cluster.local:8080/mcp"
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-11-07T05:16:04Z",
+                        "message": "Remote MCP server configuration accepted",
+                        "observedGeneration": 1,
+                        "reason": "Reconciled",
+                        "status": "True",
+                        "type": "Accepted"
+                    }
+                ],
+                "discoveredTools": [
+                    {
+                        "description": "Assess label-free feature drift for a named cohort/window; input drift alone does not measure accuracy loss.",
+                        "name": "assess_feature_drift"
+                    }
+                ],
+                "observedGeneration": 1
+            }
+        },
+        {
+            "apiVersion": "kagent.dev/v1alpha2",
+            "kind": "RemoteMCPServer",
+            "metadata": {
+                "annotations": {
+                    "meta.helm.sh/release-name": "iot-agents",
+                    "meta.helm.sh/release-namespace": "iot-agents"
+                },
+                "creationTimestamp": "2026-11-07T05:37:02Z",
+                "generation": 1,
+                "labels": {
+                    "app.kubernetes.io/managed-by": "Helm"
+                },
+                "name": "iot-gateway-drift-tools",
+                "namespace": "iot-agents",
+                "resourceVersion": "1314921",
+                "uid": "6dde1100-2c23-4350-bd71-93683b894f3d"
+            },
+            "spec": {
+                "allowedNamespaces": {
+                    "from": "Same"
+                },
+                "description": "Authenticated drift tools through the selected private Agentgateway.",
+                "headersFrom": [
+                    {
+                        "name": "Authorization",
+                        "valueFrom": {
+                            "key": "drift",
+                            "name": "iot-agent-tool-headers",
+                            "type": "Secret"
+                        }
+                    }
+                ],
+                "protocol": "STREAMABLE_HTTP",
+                "terminateOnClose": true,
+                "timeout": "30s",
+                "url": "http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18082/mcp"
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-11-07T05:37:02Z",
+                        "message": "Remote MCP server configuration accepted",
+                        "observedGeneration": 1,
+                        "reason": "Reconciled",
+                        "status": "True",
+                        "type": "Accepted"
+                    }
+                ],
+                "discoveredTools": [
+                    {
+                        "description": "Assess label-free feature drift for a named cohort/window; input drift alone does not measure accuracy loss.",
+                        "name": "assess_feature_drift"
+                    }
+                ],
+                "observedGeneration": 1
+            }
+        },
+        {
+            "apiVersion": "kagent.dev/v1alpha2",
+            "kind": "RemoteMCPServer",
+            "metadata": {
+                "annotations": {
+                    "meta.helm.sh/release-name": "iot-agents",
+                    "meta.helm.sh/release-namespace": "iot-agents"
+                },
+                "creationTimestamp": "2026-11-07T05:37:02Z",
+                "generation": 1,
+                "labels": {
+                    "app.kubernetes.io/managed-by": "Helm"
+                },
+                "name": "iot-gateway-retrieval-tools",
+                "namespace": "iot-agents",
+                "resourceVersion": "1314914",
+                "uid": "1f0e1717-479f-4ea7-88f1-1c1cd3306c75"
+            },
+            "spec": {
+                "allowedNamespaces": {
+                    "from": "Same"
+                },
+                "description": "Authenticated retrieval tools through the selected private Agentgateway.",
+                "headersFrom": [
+                    {
+                        "name": "Authorization",
+                        "valueFrom": {
+                            "key": "retrieval",
+                            "name": "iot-agent-tool-headers",
+                            "type": "Secret"
+                        }
+                    }
+                ],
+                "protocol": "STREAMABLE_HTTP",
+                "terminateOnClose": true,
+                "timeout": "30s",
+                "url": "http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18081/mcp"
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-11-07T05:37:02Z",
+                        "message": "Remote MCP server configuration accepted",
+                        "observedGeneration": 1,
+                        "reason": "Reconciled",
+                        "status": "True",
+                        "type": "Accepted"
+                    }
+                ],
+                "discoveredTools": [
+                    {
+                        "description": "Read a simulated pump's current feature snapshot with event time, preparation time and source provenance.",
+                        "name": "get_machine_features"
+                    },
+                    {
+                        "description": "Read the synthetic failure-risk prediction for an operating pump; preserve stopped and stale-data errors.",
+                        "name": "predict_failure"
+                    },
+                    {
+                        "description": "Retrieve authored IoT reference passages and exact chunk/source identities for a bounded question.",
+                        "name": "search_knowledge"
+                    }
+                ],
+                "observedGeneration": 1
+            }
+        },
+        {
+            "apiVersion": "kagent.dev/v1alpha2",
+            "kind": "RemoteMCPServer",
+            "metadata": {
+                "annotations": {
+                    "meta.helm.sh/release-name": "iot-agents",
+                    "meta.helm.sh/release-namespace": "iot-agents"
+                },
+                "creationTimestamp": "2026-10-29T06:26:48Z",
+                "generation": 1,
+                "labels": {
+                    "app.kubernetes.io/managed-by": "Helm"
+                },
+                "name": "iot-retrieval-tools",
+                "namespace": "iot-agents",
+                "resourceVersion": "1306531",
+                "uid": "b964c5b1-0222-4c5c-8ad2-6a22ccddf2c4"
+            },
+            "spec": {
+                "allowedNamespaces": {
+                    "from": "Same"
+                },
+                "description": "Authenticated retrieval tools for the simulated IoT pump platform.",
+                "headersFrom": [
+                    {
+                        "name": "Authorization",
+                        "valueFrom": {
+                            "key": "retrieval",
+                            "name": "iot-agent-tool-headers",
+                            "type": "Secret"
+                        }
+                    }
+                ],
+                "protocol": "STREAMABLE_HTTP",
+                "terminateOnClose": true,
+                "timeout": "30s",
+                "url": "http://iot-retrieval-mcp.iot-agents.svc.cluster.local:8080/mcp"
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-11-07T05:16:04Z",
+                        "message": "Remote MCP server configuration accepted",
+                        "observedGeneration": 1,
+                        "reason": "Reconciled",
+                        "status": "True",
+                        "type": "Accepted"
+                    }
+                ],
+                "discoveredTools": [
+                    {
+                        "description": "Read a simulated pump's current feature snapshot with event time, preparation time and source provenance.",
+                        "name": "get_machine_features"
+                    },
+                    {
+                        "description": "Read the synthetic failure-risk prediction for an operating pump; preserve stopped and stale-data errors.",
+                        "name": "predict_failure"
+                    },
+                    {
+                        "description": "Retrieve authored IoT reference passages and exact chunk/source identities for a bounded question.",
+                        "name": "search_knowledge"
+                    }
+                ],
+                "observedGeneration": 1
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

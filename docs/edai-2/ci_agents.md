@@ -25,6 +25,24 @@ On 29 October 2026, **retrieval build 4, drift build 4 and coordinator build 3 a
 
 ![Coordinator build 3, after the two MCP releases](../evidence/ci-agents/ui/coordinator-final-stages.jpg)
 
+## Latest retained-gateway release
+
+Coordinator Jenkins **build 14** completed successfully on source `f12ea06da2e039d139638c154470f896ed23a7cf`. Its 385-file seal contains 127 exact current Git blobs and 258 immutable historical quality inputs. The job passed source/session admission, host contracts, the bound MCP mutation cache, exact MLflow prompt loading, chart packaging, OPA, Helm deployment and real coordinator/child answer acceptance.
+
+| Prompt | Registry URI | Accepted version |
+|---|---|---:|
+| Retrieval | `prompts:/iot-agent-retrieval/1` | 1 |
+| Drift | `prompts:/iot-agent-drift/1` | 1 |
+| Coordinator | `prompts:/iot-agent-coordinator/1` | 1 |
+
+The gate calls **MLflow Prompt Registry**, verifies each returned template against the source-controlled prompt SHA-256 and stores the admitted URI/version/hash in `prompts.json`. The Helm renderer consumes that same source prompt. Versions are pinned; a mutable alias cannot silently change an already admitted build. [Registry integration](../../agents/prompt_registry.py) · [Jenkins stages](../../infra/ci/AgentsPrompts.Jenkinsfile) · [Native prompt receipt](../evidence/mentor-runtime-20261107/ci-prompts.json).
+
+Build 14 retained the gateway-selected shared ModelConfig and stable MCP references through deployment. Its coordinator task and both independently fetched specialist histories passed, and the normal client exported an automatic OK outcome. This coordinator job deploys the agent chart; it does not claim a new MCP image rollout. The MCP services' separate autoscale and tool execution evidence is in the MCP chapter.
+
+[Build metadata](../evidence/mentor-runtime-20261107/ci-build.json) · [Complete console](../evidence/mentor-runtime-20261107/ci-console.txt) · [OPA receipt](../evidence/mentor-runtime-20261107/ci-policy.json) · [Deployment](../evidence/mentor-runtime-20261107/ci-deploy.json) · [Actual acceptance](../evidence/mentor-runtime-20261107/ci-acceptance.json).
+
+Build 13 failed before admission because the new sealed source directories were unreadable by Jenkins. Only those source-directory permissions changed; all 385 hashes were rechecked before build 14. The failed console is retained. Earlier build 6's deliberate missing-version rejection and build 12's successful release below remain separate historical prompt-management evidence.
+
 ## Follow one release
 
 ### Verify prompt versions with MLflow

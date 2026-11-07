@@ -5,6 +5,7 @@ import argparse
 import json
 import subprocess
 from documentation_presentation import ROOT, presentation, check_evidence_additions
+from source_evolution import recorded_source
 
 LAYERS_SHA256='fb65bec8d084f75cb3beff7655abc700d6545f1695b0194159de42d534ae9753'
 PRIMARY=['architecture-system','flow-batch','flow-stream','flow-training','flow-prediction','flow-agents','deployment-runtime','feature-containers']
@@ -99,7 +100,7 @@ def check():
         for path in ['docs/diagrams/'+name+'.excalidraw',*['docs/images/'+name+suffix for suffix in ['.png','.svg','.animated.svg','.gif','.preview.json']]]:
             assert sha256(canonical(ROOT/path)).hexdigest()==display['assets'][path]['sha256'],path
     boundaries=semantic_boundaries(scenes,value['deployment_group_members'])
-    for name,pin in value['source_sha256'].items():assert sha256(canonical(ROOT/name)).hexdigest()==pin,name
+    for name,pin in value['source_sha256'].items():assert sha256(recorded_source(name,canonical(ROOT/name))).hexdigest()==pin,name
     for name,fragments in value['critical_source_fragments'].items():
         text=(ROOT/name).read_text(encoding='utf-8')
         for part in fragments:assert part in text,(name,part)

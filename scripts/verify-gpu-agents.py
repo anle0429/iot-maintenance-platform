@@ -1,4 +1,5 @@
 """Authenticate native GPU routing, bounded tool turns and real coordinator/child MCP conversations offline."""
+from source_evolution import recorded_source
 from datetime import datetime
 from hashlib import sha256
 import json
@@ -20,7 +21,7 @@ def current_sources(base, name):
     for name, digest in seal['files'].items():
         snapshot = (source / 'tree' / name).read_bytes()
         assert sha256(snapshot).hexdigest() == digest
-        assert sha256((ROOT / name).read_bytes()).hexdigest() == digest, name
+        assert sha256(recorded_source(name)).hexdigest() == digest, name
     return seal
 
 
@@ -114,7 +115,7 @@ def verify():
     for name, pin in read(base / 'gpu/source', 'manifest.json')['files'].items():
         if name == 'bootstrap.py': continue
         assert sha256((base / 'gpu/source/tree' / name).read_bytes()).hexdigest() == pin
-        assert sha256((ROOT / name).read_bytes()).hexdigest() == pin
+        assert sha256(recorded_source(name)).hexdigest() == pin
     cpu = base / 'cpu/native'; gpu = cpu / 'gpu-backend-29b'; control = cpu / 'model-control-29e'
     deployment = read(gpu, 'verification.json')
     assert deployment['passed'] and deployment['routed_gpu_verified'] and deployment['controlled_atomic_rollbacks'] == 1

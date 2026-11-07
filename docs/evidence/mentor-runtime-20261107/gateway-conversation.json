@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "all_three_model_roles_correlated": true,
+  "both_mcp_roles_routed": true,
+  "native_child_acceptance": {
+    "passed": true,
+    "task_id": "01a1b453-1365-7277-80c8-aa33e98cbf41",
+    "context_id": "9c0f0be2-e323-4f24-9cfb-53e166098f7b",
+    "coordinator_delegation_verified": true,
+    "children": {
+      "retrieval": {
+        "passed": true,
+        "role": "retrieval",
+        "task_id": "01a1b453-1c41-722a-b767-e47d86213d9d",
+        "context_id": "01a1b453-199a-78cb-acb2-fd53cd262d1c",
+        "successful_tool_events": 3,
+        "tool_error_events": 0,
+        "coordinator_delegation_verified": false,
+        "coursework_complete": false,
+        "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+      },
+      "drift": {
+        "passed": true,
+        "role": "drift",
+        "task_id": "01a1b453-3639-7ae7-b236-63d04b55bddc",
+        "context_id": "01a1b453-33d7-789a-bc7c-bd7e3d35811e",
+        "successful_tool_events": 1,
+        "tool_error_events": 0,
+        "coordinator_delegation_verified": false,
+        "coursework_complete": false,
+        "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+      }
+    },
+    "coursework_complete": false,
+    "scope": "Combined answer equals two actual delegated child answers, each verified against its own MCP history. Native capture authenticity remains separately required."
+  },
+  "parent_a2a_entry_via_agentgateway": true,
+  "child_a2a_entry_via_agentgateway": false,
+  "kept_requested": true
+}

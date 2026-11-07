@@ -1,4 +1,5 @@
 """Reconcile the accepted private trace route and one genuine coordinator cohort with original per-Pod counters, model usage and Jaeger graph identities."""
+from source_evolution import recorded_source
 from collections import Counter
 from datetime import datetime,timezone
 from hashlib import sha256
@@ -53,9 +54,9 @@ def verify():
         source=native('source/'+prefix+'/manifest.json');assert len(source['files'])==files
         for n,digest in source['files'].items():assert sha256(bodies['source/'+prefix+'/tree/'+n]).hexdigest()==digest,n
     for n in ['infra/llm_observer_routing.py','scripts/promote-llm-observer.py']:
-        assert (ROOT/n).read_bytes()==bodies['source/rollout-1bc089e6/tree/'+n]
+        assert recorded_source(n)==bodies['source/rollout-1bc089e6/tree/'+n]
     for n in ['agents/answer_acceptance.py','agents/delegation_acceptance.py','agents/response-policy.json']:
-        assert (ROOT/n).read_bytes()==bodies['source/accepted-agent/tree/'+n]
+        assert recorded_source(n)==bodies['source/accepted-agent/tree/'+n]
     for label,invocation in [('iot-llm-observer-rollout-29b','7c0137e4774a42fa9324f195ec908df6'),
                              ('iot-agent-feature-29m','31a740564de64890a7483cd2d81ba7a7'),('iot-agent-observation-29a','43de55832aff44bdae902f86f395697d')]:
         entries=[json.loads(v) for v in bodies['units/'+label+'/journal.stdout'].splitlines()]

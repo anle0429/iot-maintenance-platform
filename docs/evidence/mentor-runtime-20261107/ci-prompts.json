@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "phase": "prompts",
+  "passed": true,
+  "component": "coordinator",
+  "build_number": "14",
+  "source_commit": "f12ea06da2e039d139638c154470f896ed23a7cf",
+  "release": "llm-coordinator-jenkins-14",
+  "source_digest": "601aa990edbc5bd9693a7f9c69fa25757449e1e498c77ce9d1c218b4f13df827",
+  "prompts": {
+    "retrieval": {
+      "uri": "prompts:/iot-agent-retrieval/1",
+      "version": 1,
+      "sha256": "0ef52a4a2f834a73d42006b852929118e69dea4c8cf4dad383823db2eeb026f5"
+    },
+    "drift": {
+      "uri": "prompts:/iot-agent-drift/1",
+      "version": 1,
+      "sha256": "02c6ef29d1e2bcf1ae50320fd0dd998f528276011c4594b4226d224257786465"
+    },
+    "coordinator": {
+      "uri": "prompts:/iot-agent-coordinator/1",
+      "version": 1,
+      "sha256": "55611cdd61880c60ba3466aa1a3f5ecd6141de54cef9d3cc9a86c2dd8ccd8be5"
+    }
+  }
+}

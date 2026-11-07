@@ -127,6 +127,31 @@ The archive also retains four earlier deployment failures: an absent-namespace r
 
 The committed capsule contains 745 curated source, command, report and image files. It excludes 55 generated Kubernetes discovery-cache files and one optional binary coverage-state file. [Curation receipt](../evidence/mcp-tools/curation.json) records their original hashes and the retained native archive identity. All execution reports, source bindings, coverage HTML/JSON/XML, JUnit and nine original screenshots remain included.
 
+## Native MCP autoscale
+
+Both retained MCP releases use request-driven KEDA scaling with a warm minimum of two and maximum of four Pods. The chart also offers fixed-replica and CPU-HPA modes; **the accepted run uses request rates**, not the unmeasured CPU alternative. [ScaledObject](../../infra/charts/iot-mcp/templates/request-scaling.yaml) · [Workload](../../infra/charts/iot-mcp/templates/workload.yaml) · [Values](../../infra/charts/iot-mcp/values.yaml).
+
+| MCP Deployment | Successful load requests | Errors | Ready replicas | New serving Pods |
+|---|---:|---:|---|---:|
+| Retrieval | 6,217 | 0 | 2 → 4 → 2 | 2 |
+| Drift | 1,529 | 0 | 2 → 4 → 2 | 2 |
+
+The 240-second load used two retrieval clients and one drift client. Retrieval executes knowledge search; drift executes the 32-machine assessment. The driver uses REST endpoints sharing the authenticated tool dispatcher with MCP. Native MCP protocol and gateway calls are verified separately in the routed coordinator conversation. This is not a claim that all 7,746 requests used JSON-RPC sessions.
+
+KEDA queries service/role-scoped successful request rates over 30 seconds. Targets are 2 requests/s per retrieval replica and 0.5 per drift replica. A CNI-private relay reaches retained host Prometheus. Missing data is not replaced with a fabricated zero. Pod UIDs, counters, HPA inputs and workload replies are retained. Both new Pods in each service performed successful tool work. A brief gateway smoke overlapped the load, so per-Pod counter deltas are not equated exactly with the driver's request count.
+
+![Early load with two Pods per MCP service](../evidence/mentor-runtime-20261107/ui/mcp-before-scale-out.jpg)
+
+![Both MCP services at four ready replicas](../evidence/mentor-runtime-20261107/ui/mcp-peak-four-per-service.jpg)
+
+![Eight MCP Pod identities and counters](../evidence/mentor-runtime-20261107/ui/mcp-all-eight-pod-identities.jpg)
+
+![Automatic return to two replicas per service](../evidence/mentor-runtime-20261107/ui/mcp-returned-two-per-service.jpg)
+
+The recorder never invokes a scale operation. [Native result](../evidence/mentor-runtime-20261107/mcp-scaling.json) · [Runner](../../scripts/benchmark-mcp-scaling.py) · [Independent acceptance](../../infra/mcp_scaling.py). The initial CPU pilot's three drift 503s and rejected HPA-to-KEDA ownership migration remain archived. The accepted run migrated through fixed two-replica mode before enabling KEDA.
+
+MCP runtime and mutation targets are unchanged. CI authenticates four exact deployment-only autoscaling files separately; an arbitrary chart change or any runtime/test change invalidates reuse of the previous mutation result. [Source boundary](../../infra/mcp/autoscaling-source.json) · [Gate](../../agents/release_ci.py).
+
 ## Repeat the checks
 
 Offline verification needs only Python and the committed evidence:

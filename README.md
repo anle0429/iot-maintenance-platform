@@ -100,12 +100,12 @@ The retrieval specialist obtains machine features, the model score and cited ref
 |---|---|---|
 | Reference ingestion | Documents → chunks → pinned embeddings → versioned Feast/Milvus snapshot | [Six-task RAG pipeline](docs/edai-2/rag_orchestration.md) |
 | Agent question | Private UI → coordinator → two specialists → authenticated MCP services | [Complete GPU conversations](docs/edai-2/gpu_agent_routing.md), [post-restart validation](docs/edai-2/agent_runtime_validation.md) |
-| Generation | Shared ModelConfig → llm-d → observer/tool-turn adapter → llama.cpp on the private V100 | [Setup, model call and measured inference](docs/edai-2/llm_inference_platform.md) |
+| Generation | Shared ModelConfig → Agentgateway → llm-d → observer/tool-turn adapter → llama.cpp on the private V100 | [Setup, model call and measured inference](docs/edai-2/llm_inference_platform.md) |
 | Worker capacity | gVisor SandboxAgents and three WorkerPools, with measured 2 → 4 → 2 scaling | [Scaling](docs/edai-2/agent_scaling.md), [startup study](docs/edai-2/agent_warmup.md) |
 | Delivery and controls | Separate RAG/retrieval/drift/coordinator releases, scoped credentials and bounded gateway access | [CI/CD](docs/edai-2/ci_agents.md), [gateway](docs/edai-2/agent_gateway.md), [Vault](docs/edai-2/vault_agent_ui.md) |
 | Evaluation | Original replies, child/tool histories, token/TTFT telemetry and small paired comparisons | [Monitoring](docs/edai-2/llm_monitoring_demo.md), [model A/B](docs/edai-2/llm_model_ab.md), [agent A/B](docs/edai-2/agent_configuration_ab.md) |
 
-The [warm-up comparison](docs/edai-2/agent_warmup.md#l26-evidence-boundary) reports mixed startup timings; cloud-cost savings were not measured.
+The [controlled retrieval comparison](docs/edai-2/agent_warmup.md#retrieval-with-and-without-substrate) measured 6.497 s with Substrate versus 4.234 s for the ordinary Agent. The slower result is retained; a general latency or cloud-cost benefit is not claimed.
 
 The two researched LLM extensions are [OPA capability/budget admission](docs/edai-2/agent_admission_policy.md) and [document-weighted corpus MMD review](docs/edai-2/rag_corpus_drift.md). Each has accepted and intentionally rejected native cases, with its limits documented.
 
@@ -135,15 +135,18 @@ The [mentor review follow-up](docs/mentor_review_followup.md) links the updated 
 
 | Workload | Recorded result | Report |
 |---|---|---|
-| Large ingestion | 102,447,847,856 uncompressed JSONL bytes; 316.8 million unique Silver rows; 13 Spark checks | [Full-scale ingest](docs/edai-1/full_scale_ingest.md) |
-| Schema and dedup experiments | Three pairs each: declared-schema median 0.927→0.764 s; aggregate dedup candidate 0.603 s versus window 0.581 s, so the window method is retained | [Controlled comparisons](docs/edai-1/batch_corrections_benchmark.md) |
+| Large ingestion | 102,447,847,856 uncompressed JSONL bytes; 316.8 million unique Silver rows; 13 Spark checks | [Full-scale ingest](docs/edai-1/processing_jobs.md#full-scale-ingest) |
+| Schema and dedup experiments | Three pairs each: declared-schema median 0.927→0.764 s; aggregate dedup candidate 0.603 s versus window 0.581 s, so the window method is retained | [Controlled comparisons](docs/edai-1/processing_jobs.md#batch-corrections) |
 | Airflow skew benchmark | Five successful tasks; 17.28M Silver rows; median 14.258→9.170 s with identical 4,320-row results | [Native Airflow run](docs/edai-1/skew_benchmark.md#airflow-benchmark-execution) |
 | ML feature dataset | Separate 60-day source; 3,456,000 snapshots and 3,132,184 eligible training rows | [Feature dataset](docs/edai-1/medium_feature_dataset.md) |
 | Streaming stores | 5,760 finalized windows / 57,600 unique readings across 20 machines, with replay checks | [Window cohort](docs/edai-1/window_cohort.md) |
 | Gold warehouse indexing | Local DuckDB, eight paired batches of 64 exact lookups: 143.994 → 45.275 ms median; 2,883,584 additional bytes | [Warehouse experiment](docs/edai-1/data_storage.md#warehouse-index-experiment) |
 | Native feature serving | Model 6: 195 valid predictions and five stopped-machine HTTP 409 responses across 200 machines | [Serving record](docs/edai-1/final_handover.md) |
 | Routed LLM benchmark | Official llm-d-benchmark with the same 7B backend, 6 sequential and 11 concurrent completions in 30 s | [Native benchmark](docs/edai-2/llm_inference_platform.md#upstream-llm-d-benchmark-run) |
-| Agentgateway | Nine correlated model requests, four MCP calls and an accepted A2A coordinator task in a reversible K3s test | [Native gateway](docs/edai-2/global_model_config.md#native-agentgateway-integration) |
+| Agentgateway | Default model/MCP route retained through Helm and successful Jenkins build 14; parent A2A and both child histories verified | [Native gateway](docs/edai-2/global_model_config.md#native-agentgateway-integration) |
+| Elastic capacity | Both MCP services and all three worker pools observed at 2 → 4 → 2; actual new-Pod tool work and twelve active worker identities | [MCP](docs/edai-2/mcp_tools.md#native-mcp-autoscale), [workers](docs/edai-2/agent_scaling.md#latest-native-worker-run) |
+| Agent observability | Real failed/completed A2A calls with automatic ERROR/OK and complete 10-/44-span named-service graphs | [Jaeger evidence](docs/edai-2/observability.md#compare-failed-and-completed-coordinator-tasks) |
+| Prompt delivery | MLflow Prompt Registry v1 for all three roles, hash admission, OPA and real coordinator verification in build 14 | [CI/CD](docs/edai-2/ci_agents.md#latest-retained-gateway-release) |
 | RAG governance | Six actual Airflow tasks, 18 chunks, ten persisted checks, DataHub lineage and invalid-source rejection | [RAG pipeline](docs/edai-2/rag_orchestration.md) |
 | Complete agent answer | One accepted post-restart parent, two independently checked child tasks, four successful MCP tools and exact model-6 arithmetic | [Runtime validation](docs/edai-2/agent_runtime_validation.md) |
 | MCP API quality | 132 passing cases; 98.03% statement / 90.74% branch coverage; strict mutation result 681/850, with source-bound reuse stated explicitly | [Testing report](docs/edai-2/mcp_quality_evidence.md) |
@@ -213,8 +216,10 @@ Start with a package's README or the [command index](scripts/README.md). Runtime
 | [Data processing](docs/edai-1/processing_jobs.md) | Batch and stream jobs, actual Flink window code, Airflow, and before/after results |
 | [Data storage](docs/edai-1/data_storage.md) | Parquet layout, Gold SQL, indexing, compaction and Feast stores |
 | [LLM inference](docs/edai-2/llm_inference_platform.md) | Deployment steps, recorded model requests and latency measurements |
-| [Agentgateway, MCP and A2A](docs/edai-2/global_model_config.md) | Routes, tool implementation, native proof, cutover and rollback |
-| [Substrate warm-up and worker scaling](docs/edai-2/agent_warmup.md) | Measured startup, worker reuse, scaling and comparison limits |
+| [Agentgateway and ModelConfig](docs/edai-2/global_model_config.md) | Default model/MCP route, A2A ingress, configuration and retained cutover |
+| [MCP tools](docs/edai-2/mcp_tools.md) | Async handlers, Helm recovery and per-Pod autoscale proof |
+| [Substrate comparison](docs/edai-2/agent_warmup.md) | Matched ordinary-Agent control and original startup measurements |
+| [Worker scaling](docs/edai-2/agent_scaling.md) | Healthy demand, actual Pod assignments and automatic scale-in |
 
 The [documentation index](docs/README.md) includes the remaining topics and historical experiment records. The [ML tracker](docs/edai-1/rubric_tracker.md), [LLM tracker](docs/edai-2/rubric_tracker.md) and [final audit](docs/edai-1/final_audit.md) retain the original requirement and evidence scopes.
 

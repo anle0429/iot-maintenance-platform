@@ -1,4 +1,5 @@
 """Verify genuine corpus embeddings, independently recomputed distance and actual CI publication boundaries offline."""
+from source_evolution import recorded_source
 from hashlib import sha256
 from io import BytesIO
 from pathlib import PurePosixPath
@@ -59,7 +60,7 @@ def verify():
         assert len(bodies[name]) == pin['bytes'] and sha256(bodies[name]).hexdigest() == pin['sha256']
     seal = native('source/manifest.json'); assert seal['commit'] == COMMIT and len(seal['files']) == 50
     for name,digest in seal['files'].items():
-        original = bodies['source/tree/'+name]; current = (ROOT/name).read_bytes()
+        original = bodies['source/tree/'+name]; current = recorded_source(name)
         assert sha256(original).hexdigest() == digest
         normalized = current if current == original else current.replace(b'\r\n',b'\n')
         if name in DOC_ONLY:

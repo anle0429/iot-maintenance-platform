@@ -2,7 +2,7 @@
 
 Agent Substrate provides a reusable pool of gVisor workers and two ways to start a fresh actor. It can boot the actor from its template or restore the template's golden snapshot. In `agent-warmup-29b`, all 24 fresh actors reached their HTTP agent-card endpoint and returned to the suspended state. Restoring the coordinator reduced its median time to readiness by **49 ms (7.1%)** in this run. Retrieval and drift took longer with restoration. [Native run report](../evidence/agent-warmup/verification.json)
 
-In the separate `agent-burst-29c` run, KEDA scaled the Substrate worker pools from six to twelve Pods and back to six. Scale-in removed **300 millicores and 1.5 GiB of configured worker resource requests** from the peak. Both experiments ran with Substrate active. A comparison against a deployment without Substrate would be needed to isolate its effect on startup, resource use, or cost. [Original scaling receipts](../evidence/agent-scaling/native-receipts.tar.gz)
+In the separate `agent-burst-29c` run, KEDA scaled the Substrate worker pools from six to twelve Pods and back to six. Scale-in removed **300 millicores and 1.5 GiB of configured worker resource requests** from the peak. Both experiments ran with Substrate active. The later comparison below adds an ordinary-Agent control for retrieval latency; isolated startup, resource-use and cost effects remain separate questions. [Original scaling receipts](../evidence/agent-scaling/native-receipts.tar.gz)
 
 ![Every matched startup pair and its median](../images/agent-startup-pairs.png)
 
@@ -10,15 +10,30 @@ In the separate `agent-burst-29c` run, KEDA scaled the Substrate worker pools fr
 
 ## Retrieval with and without Substrate
 
-The live comparison used the retained retrieval `SandboxAgent` and a temporary plain declarative `Agent`. The control was created from the same spec with only the Substrate settings removed. The server preserved the prompt, shared model configuration, runtime selection and tools. Both arms used the same retrieval question, separate fresh A2A sessions, the same controller and the same model route. The plain Agent was ready before the first call. The measurements cover blocking A2A wall time and terminal task state.
+The accepted comparison uses the same current retrieval prompt, shared 7B ModelConfig, gateway tool reference and fixed question. One arm is the existing Substrate SandboxAgent; the other is a freshly reconciled ordinary declarative Agent. Both enable tracing. The ordinary Pod was Ready before measurement. Context IDs are fresh for every request, and arm order alternates.
 
-| Attempt | Order | Substrate | Plain Agent |
-|---|---|---|---|
-| Initial pair | Substrate, plain | Completed in 67.168 s | Failed in 17.468 s |
-| Retry pair 1 | Plain, Substrate | Completed in 36.517 s | Completed in 31.504 s |
-| Retry pair 2 | Substrate, plain | Failed in 5.199 s | Failed in 1.434 s |
+| Measure | Substrate | Ordinary Agent |
+|---|---:|---:|
+| Untimed warmup requests | 1 | 1 |
+| Accepted measured requests | 4 | 4 |
+| Median blocking A2A latency | 6.497 s | 4.234 s |
+| Relative change | **53.46% slower** | Reference |
 
-All three failed tasks reported HTTP 503 from the shared inference router because it found no eligible serving endpoint. The runner stopped each sequence when a pair contained a failure. The one completed pair establishes that both deployment modes can complete this workload. It does not support a general speedup estimate or a resource-cost comparison. The temporary control was removed after the experiment.
+All ten attempts passed tool-grounded answer acceptance. The median excludes only the two predeclared warmups. No failed pair was omitted. [All original pairs](../evidence/mentor-runtime-20261107/substrate-pairs.json) · [Native report](../evidence/mentor-runtime-20261107/substrate-comparison.json) · [Reusable runner](../../scripts/benchmark-substrate-control.py) · [Acceptance rules](../../infra/substrate_comparison.py).
+
+This is an end-to-end retrieval comparison: allocation, MCP, generation and transport are included. The ordinary Deployment and the gVisor worker execution wrappers differ. Four pairs do not establish a general performance ranking, isolated cold-start effect or cloud-cost benefit. **This experiment does not demonstrate a Substrate latency improvement.** Its measured operational benefit is reusable isolated worker capacity with observed elastic scale-out and return to the warm floor; those capacity measurements belong to the worker-scaling experiment below.
+
+After the timed comparison, the temporary control Agent and its dedicated ingress rule were removed using their captured UIDs. The initial 503-limited comparison remains in the native history, and a separate earlier four-pair run measured 5.859 s versus 3.568 s before the final matched configuration. These runs are not pooled into the accepted median.
+
+To repeat, prepare an ordinary control from the current retrieval spec, remove only `substrate`, and retain its declarative model, prompt and tools. Add only the bounded Deployment resources/node placement and the scoped gateway ingress needed by that Pod. Use an idle worker floor, enabled tracing and a genuine feature lease, then run:
+
+```bash
+sudo python3 -B scripts/benchmark-substrate-control.py \
+  --runtime-root "$LAB_ROOT" --source-root "$SEALED_SOURCE/tree" \
+  --output "$LAB_ROOT/outputs/substrate-comparison-new" --feature-run "$FRESH_FEATURE_RUN"
+```
+
+The runner refuses changed specs, missing readiness, expired data and altered source. It retains the first failure rather than retrying a failed executed task until it looks successful.
 
 ## Substrate configuration
 

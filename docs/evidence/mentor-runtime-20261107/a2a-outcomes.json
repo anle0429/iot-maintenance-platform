@@ -1,0 +1,76 @@
+{
+  "passed": true,
+  "automatic_client_outcomes": true,
+  "original_sdk_statuses_preserved": true,
+  "native_graphs_complete": true,
+  "original_execution_output": "a2a-outcomes-20261106b",
+  "readback_fix": "Use the gateway-enforced operator identity and a separate controller opener without a gateway bearer. Original failed reader remains retained.",
+  "calls": [
+    {
+      "state": "failed",
+      "task_id": "01a1b477-8724-7179-a8c9-e093455a1c55",
+      "trace_id": "85d3a0b5469e72dd4377ce0246acb838",
+      "status_code": 2,
+      "spans": 10,
+      "services": {
+        "iot_coordinator": 4,
+        "iot-a2a-client": 1,
+        "kagent-controller": 2,
+        "iot_substrate_gateway": 1,
+        "iot_agentgateway": 2
+      },
+      "missing_parents": [],
+      "acceptance": null
+    },
+    {
+      "state": "completed",
+      "task_id": "01a1b477-b723-7b03-91ec-76bdf71b4c17",
+      "trace_id": "735f094bad1c925bb2f36c7372d7d2a5",
+      "status_code": 1,
+      "spans": 44,
+      "services": {
+        "kagent-controller": 10,
+        "iot_coordinator": 12,
+        "iot_retrieval": 10,
+        "iot_substrate_gateway": 3,
+        "iot_drift": 6,
+        "iot-a2a-client": 1,
+        "iot_agentgateway": 2
+      },
+      "missing_parents": [],
+      "acceptance": {
+        "passed": true,
+        "task_id": "01a1b477-b723-7b03-91ec-76bdf71b4c17",
+        "context_id": "574cd7de-bffb-40be-978d-ad7041f9e8a6",
+        "coordinator_delegation_verified": true,
+        "children": {
+          "retrieval": {
+            "passed": true,
+            "role": "retrieval",
+            "task_id": "01a1b477-bde8-78b6-b706-d78265249755",
+            "context_id": "01a1b477-ba6e-71f4-adf1-d6e8fa52604c",
+            "successful_tool_events": 3,
+            "tool_error_events": 0,
+            "coordinator_delegation_verified": false,
+            "coursework_complete": false,
+            "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+          },
+          "drift": {
+            "passed": true,
+            "role": "drift",
+            "task_id": "01a1b478-0ff1-7e0b-91ab-ce286eba2850",
+            "context_id": "01a1b478-0d02-7880-910b-8a40285bb8b4",
+            "successful_tool_events": 1,
+            "tool_error_events": 0,
+            "coordinator_delegation_verified": false,
+            "coursework_complete": false,
+            "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+          }
+        },
+        "coursework_complete": false,
+        "scope": "Combined answer equals two actual delegated child answers, each verified against its own MCP history. Native capture authenticity remains separately required."
+      }
+    }
+  ],
+  "utc": "2026-11-07T05:27:12.460644+00:00"
+}

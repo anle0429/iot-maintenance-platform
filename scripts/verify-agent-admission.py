@@ -1,4 +1,5 @@
 """Verify original OPA capability/budget decisions and the actual denied and deployed production agent pipelines without starting services."""
+from source_evolution import recorded_source, recorded_quality_sources
 from collections import Counter
 from datetime import datetime,timedelta
 from hashlib import sha256
@@ -58,7 +59,7 @@ def verify():
         for name,pin in seal['files'].items():
             original=bodies[prefix+'tree/'+name];assert sha256(original).hexdigest()==pin
             if folder in {'agent-admission-727cb6db','ci-policy-'+COMMIT}:
-                current=(ROOT/name).read_bytes();assert current==original or current.replace(b'\r\n',b'\n')==original,name
+                current=recorded_source(name);assert current==original or current.replace(b'\r\n',b'\n')==original,name
     declared=cases(json.loads((ROOT/'tests/fixtures/agent-admission-observed.json').read_bytes()));assert len(declared)==70 and sum(v['expected_allowed'] for v in declared)==4
     suite='native/agent-admission-contracts-30b/';proof=native(suite+'verification.json');assert proof==read(base,'policy-contracts-verification.json') and proof['passed']
     assert proof['allowed_cases']==4 and proof['denied_cases']==66 and proof['post_admission_tool_edit_rejected'] and proof['deployment_commands_run']==proof['model_requests']==0
@@ -129,7 +130,7 @@ def verify():
         else:
             checked=verify_specialist(response,role,knowledge_root=ROOT/'knowledge');specialists.append((role,response['result']))
             quality=api_quality(native(prefix+'api-tests/coverage.json'),ET.fromstring(bodies[prefix+'api-tests/junit.xml']));assert quality==phases['test']['fresh_api']
-            cached=phases['test']['contracts']['unchanged_mcp_quality_cache'];assert cached['source_bindings']==unchanged_quality_source(ROOT) and not cached['fresh_mutation_run'] and cached['counts']['killed']==681 and sum(cached['counts'].values())==850
+            cached=phases['test']['contracts']['unchanged_mcp_quality_cache'];assert cached['source_bindings']==recorded_quality_sources() and not cached['fresh_mutation_run'] and cached['counts']['killed']==681 and sum(cached['counts'].values())==850
         assert checked==native(prefix+'agent-acceptance.json')==phases['verify']['actual_agent_acceptance']
         deltas[role]=generated(bodies[finish+'model-after.prom'])-generated(bodies[trigger+'model-before.prom']);assert deltas[role]==native(finish+'verification.json')['native_generated_token_delta']>0
     assert all(windows[i][1]<=windows[i+1][0] for i in range(2)) and deltas=={'coordinator':1139.,'retrieval':203.,'drift':494.}

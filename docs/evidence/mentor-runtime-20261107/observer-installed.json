@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "image": "docker.io/library/iot-llm-observer@sha256:3d5f8877876c02dcdbed153788c20ea5e452124dd3ea510e4af4c857ec19e6e1",
+  "config_digest": "sha256:6f0db1a673608c772b4db8d066663aa1507411530b8d8a4b610b68118ef71734",
+  "source": {
+    "format": "iot-llm-observer-source-v1",
+    "commit": "888f7a57c1cd815967ba12e2244687116cbffe99",
+    "working_tree_snapshot": true,
+    "files": {
+      "infra/charts/iot-llm-observer/Chart.yaml": "16558c4c23da46aca04a5565eaedaaba78613867d4baa05d60c045c76adb79e7",
+      "infra/charts/iot-llm-observer/templates/network.yaml": "62640e82a38188992ebbdf898317d8d51e15db99cec57e8017423b6f36132fcb",
+      "infra/charts/iot-llm-observer/templates/workload.yaml": "3d9c861ebd419d1879ea795ccd0c5d1022f9a4903d3fc6c95d4ddb87f7dbb0ce",
+      "infra/charts/iot-llm-observer/values.schema.json": "88b3369d93c8ecb90ea9ce30f7e51f7a25153ba6cad61d1c64893ee1eb46e2be",
+      "infra/charts/iot-llm-observer/values.yaml": "e8feb330f32e890cb823ec7fb82f2baa8b618c0f7c7663ff4c63c9bb2fcce9cb",
+      "infra/llm-observability/HostExporter.Dockerfile": "7d9a06acb2da63b7198f296b91cc3d8b05d610500ab7a9cd02df2f75ded4aad9",
+      "infra/llm-observability/Runtime.Dockerfile": "15cdde6ae88736156b8df31b06d3ef4d61710cb3dc22ebea846e9330d77f2d42",
+      "infra/llm-observability/Runtime.Dockerfile.dockerignore": "95d2c891dfb732f3329eca719ff6f62c1e4d4526dcc4429ce09f66a567809e50",
+      "infra/llm-observability/Tests.Dockerfile": "6968ed4a06bd47b2a0b40d734d745d202785c58d09c9ed21a188760164a46492",
+      "infra/llm-observability/Tests.Dockerfile.dockerignore": "8991702e7219a468214ae7878e96d360443756db58eee11e63c734e61ae209c9",
+      "infra/llm-observability/host-exporter.lock.json": "e642ad969a137db74790acf023e940e67ddc001803dddd2152421e82cb821927",
+      "infra/llm-observability/kagent-tracing.yaml": "95112e22d79c4573d3d71bc1a384103bfd3417e29245fc2006fafcc14d03bbb5",
+      "infra/llm-observability/mutmut.toml": "9e17ecb3042fdce290138533cae85ac0fb3b8d0347d0a4fd1b91d7095eb501ff",
+      "infra/llm-observability/observer-logs.alloy": "106d608656868cfa8ac57c1c498860ac10ad5ca9822d4afa67870357161754b9",
+      "infra/llm-observability/requirements-http.lock": "534ace4cdbf778ca8a92a1249dfb3c17ade6fe796a685aeeea5abc88c8683558",
+      "infra/llm-observability/requirements-local.txt": "a20f907b324012b0c65cf3fb31451773739e9e1943f4155b498971dfece03d70",
+      "infra/llm-observability/requirements-tests.lock": "1e00ebf0d858ac6b55797af003d06cda2c8e25cb24b054d01784fe2c25edf571",
+      "infra/llm-observability/runtime.lock.json": "6f1985a78fa119c7cb00d92766a7293a13aa25d451405b984434405e4b28aa66",
+      "infra/observability/requirements.lock": "2d854f6a061b608f7b074b0b358850866e0ca265f27e9979c79ead42c33bf553",
+      "llm_observability/__init__.py": "7610c8933e72fa2e6679d2202252bde06f76938d5ec26f89698ba79c5cba414a",
+      "llm_observability/app.py": "11f11ffbf221b80e506d27ea538b311d200bf0cc42671d8581b821fbd797c5f3",
+      "llm_observability/contracts.py": "4958f7a3cedcdb2ab621a25750546e883cabab5ba25ff974088ae0a79ed08154",
+      "llm_observability/ledger.py": "abad5472446036aa751079d874dcb69d27419c32ecd37d962d478496ccdbcafb",
+      "llm_observability/metrics.py": "abd98896595567e21bc50710836c30cafdfe0b8be124d41988bfa542ad7c01d9",
+      "llm_observability/private_traces.py": "976bc95f80cac49e1afa532306d4da3ed5bf3d0e7470a22bcb08748e4930c86c",
+      "scripts/build-llm-observer.py": "dd6dc83df5858c81a122b3d03b6a7d39f31c36956d9a15cccee250362d188839",
+      "scripts/test-llm-observer.py": "1ca602aa80db94d4e44f6f4c018103a828f5c20e9776800f42aa433c9597e91b",
+      "tests/__init__.py": "b9286bc9f14709c0c5dbce4e5d1d2fb586e43df7e69e5452068b6d8393aafd77",
+      "tests/api/test_llm_observer_api.py": "3f3933966df3e39254cdd9d52be6986f296792bb73dab590b05e2c777a70fcbd",
+      "tests/test_llm_ab_experiment.py": "d4f00066fd6fbbec5ed909d42a0fa1bb373d8c3da7b87b3c83b457cca6c443d7",
+      "tests/test_llm_ab_models.py": "fdd46a6a22bf47ca5b2a256c2ae1a89227c223344eb29de120d2678ff03c0978",
+      "tests/test_llm_benchmark.py": "289f421c6fd3dbd93c0d7411ae1fd47c0b7fe6f536cade6cca26f078308d5d17",
+      "tests/test_llm_ci_contract.py": "f796123ce5eee1637c7e77e690097d700ea0a68f566c5eab30ceb1a7ee402ef9",
+      "tests/test_llm_data_validation.py": "9c5382e52f5ec740eae69efb6fc78b601832cdd33f6babe165a83a3ddd5f7c4f",
+      "tests/test_llm_inference_evidence.py": "9ebf835ab29e1a10c367cc6dc5bf32dbc7803b65328ac6b877a9983e483f887f",
+      "tests/test_llm_metrics_concurrency.py": "f3d6774a18413825120b4f4f2f118950c073eadbd088b584ac030adebf73764f",
+      "tests/test_llm_monitoring_view.py": "3219770d7542832128122fd7cfbfcb24be497aca03b6cb82709796e95e46b2e6",
+      "tests/test_llm_observation_contracts.py": "725ebed2d75fcf419ab17cb7f3c4e36597375c1af23f5cc4da2b6d7d3bfa5c93",
+      "tests/test_llm_observation_metrics.py": "237fdacc3aff0d1853450d5eb042dd0ffc419e367e0ae541141e66538a0b4e0e",
+      "tests/test_llm_observer_monitoring.py": "0cd7418dc46d7b2095044cb724965f21865cb498aae445e5ec16ac347155b0b1",
+      "tests/test_llm_observer_properties.py": "76d840755f65c1722f00870ecc463799184bfabafaf8815ed9790690bfa6ef39",
+      "tests/test_llm_observer_quality.py": "5d03bf0312e5845a4b396ff7ec955ebb4d3ca92f010cd43fcea2a8877b5b1ded",
+      "tests/test_llm_observer_routing.py": "ec7a19876b0c1e104708cf61d4fb548571cf25b4496b27533b5ab1a4f2392417",
+      "tests/test_llm_private_traces.py": "c913339d4b0736fe69afcc20b9b10766b235ab383b7095394d7a56b5039a0742",
+      "tests/test_llm_steady_state.py": "c0b3ed671536e921ae32b2a898ad898699247be62f31d70a8e84f3e6fff38e86",
+      "tests/test_llm_telemetry_ledger.py": "350a5c526138d57cdffd281cc4d658cbd5e0b8712c494a61ca8cd05fb347a217"
+    }
+  },
+  "stable_samples": [
+    {
+      "utc": "2026-11-07T05:22:10.326372+00:00",
+      "uid": "f0241b5d-fa52-4f49-a30f-a0ba205169fc",
+      "restarts": {
+        "model-control": 0,
+        "observer": 0
+      },
+      "health": {
+        "/health/live": 0.022781757999837282,
+        "/health/ready": 0.1021473339997101,
+        "/metrics": 2.1282891450000534
+      }
+    },
+    {
+      "utc": "2026-11-07T05:22:17.821149+00:00",
+      "uid": "f0241b5d-fa52-4f49-a30f-a0ba205169fc",
+      "restarts": {
+        "model-control": 0,
+        "observer": 0
+      },
+      "health": {
+        "/health/live": 0.0018439900004523224,
+        "/health/ready": 0.29588235300070664,
+        "/metrics": 3.476807046000431
+      }
+    },
+    {
+      "utc": "2026-11-07T05:22:26.835009+00:00",
+      "uid": "f0241b5d-fa52-4f49-a30f-a0ba205169fc",
+      "restarts": {
+        "model-control": 0,
+        "observer": 0
+      },
+      "health": {
+        "/health/live": 0.0021251500002108514,
+        "/health/ready": 0.17462031000013667,
+        "/metrics": 3.117071286999817
+      }
+    },
+    {
+      "utc": "2026-11-07T05:22:35.348760+00:00",
+      "uid": "f0241b5d-fa52-4f49-a30f-a0ba205169fc",
+      "restarts": {
+        "model-control": 0,
+        "observer": 0
+      },
+      "health": {
+        "/health/live": 0.0021612000000459375,
+        "/health/ready": 0.30173364199981734,
+        "/metrics": 3.512049064999701
+      }
+    },
+    {
+      "utc": "2026-11-07T05:22:44.425960+00:00",
+      "uid": "f0241b5d-fa52-4f49-a30f-a0ba205169fc",
+      "restarts": {
+        "model-control": 0,
+        "observer": 0
+      },
+      "health": {
+        "/health/live": 0.004238610000356857,
+        "/health/ready": 0.30919513200024085,
+        "/metrics": 3.3275261050002882
+      }
+    }
+  ],
+  "prior_metrics_regression_preserved": true,
+  "new_tests_passed": true,
+  "utc": "2026-11-07T05:22:53.067720+00:00"
+}

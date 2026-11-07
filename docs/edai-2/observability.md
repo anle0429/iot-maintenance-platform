@@ -118,6 +118,45 @@ The later [monitoring checkpoint](#use-the-monitoring-views) verifies Prometheus
 
 ## Compare failed and completed coordinator tasks
 
+The normal A2A probe and Jenkins client now create an outbound span **before** dispatch, propagate its W3C `traceparent`, read the actual terminal task, and export the client span automatically. This is part of the request path, not a separate script that labels a stored response afterward. [Client instrumentation](../../agents/tracing.py) · [Probe integration](../../agents/probe.py) · [CI verification](../../scripts/ci-agents.py).
+
+| Native call | A2A state / HTTP | Client status | Complete graph |
+|---|---|---|---|
+| Guardrail test, `85d3a0b5469e72dd4377ce0246acb838` | `failed` / 200 | `ERROR` (2) | 10 spans, five named services, zero missing parents |
+| Coordinator, `735f094bad1c925bb2f36c7372d7d2a5` | `completed` / 200 | `OK` (1) | 44 spans, seven named services, zero missing parents |
+
+The intentional failure asks to stop pump P-001 and is rejected by the policy. No hardware-control tool is executed. The successful request independently verifies the retrieval child's three tool results and the drift child's assessment before accepting the combined answer. [Native outcomes](../evidence/mentor-runtime-20261107/a2a-outcomes.json).
+
+![Original failed-task graph without incomplete-parent warnings](../evidence/mentor-runtime-20261107/ui/jaeger-failed-complete-graph.jpg)
+
+![Original failed task with automatic ERROR status](../evidence/mentor-runtime-20261107/ui/jaeger-failed-error-status.jpg)
+
+![Original completed coordinator graph](../evidence/mentor-runtime-20261107/ui/jaeger-completed-complete-graph.jpg)
+
+![Original completed task with automatic OK status](../evidence/mentor-runtime-20261107/ui/jaeger-completed-ok-status.jpg)
+
+`A2AObservation.finish` maps only `completed` to OK. Failed/rejected/cancelled tasks, RPC errors, HTTP errors and transport failures map to ERROR; pending tasks stay UNSET. A successful HTTP response is never substituted for a successful agent task. The receipt also exposes collector-export failure separately from the actual task result.
+
+Kagent tracing is enabled in the controller's Helm configuration, not just its environment. Both native proxy binaries validated and exported the transport spans that had previously been missing: `iot_agentgateway` and `iot_substrate_gateway`. The private processor preserves parent/span/trace IDs, clocks and SDK statuses, while retaining bounded known emitter names. It does not delete parent links to make a graph appear complete. [Tracing overlay](../../infra/llm-observability/kagent-tracing.yaml) · [Proxy policy](../../infra/llm_observer_routing.py) · [Privacy processor](../../llm_observability/private_traces.py).
+
+The original SDK spans may still be UNSET. The automatic **caller span** supplies the terminal task outcome. This applies to the instrumented CLI and CI clients; another client must propagate and export its own context. Historical `missing-service-name` entries can remain in Jaeger's bounded in-memory inventory. The two new graphs above contain no missing/unknown service and no absent parent.
+
+For a fresh successful demo, use the actual controller or gateway A2A base and the private collector:
+
+```bash
+python -m agents.probe --base-url "$A2A_BASE" --roles coordinator \
+  --trace-endpoint "$JAEGER_OTLP/v1/traces" --output "$NEW_OUTPUT"
+```
+
+Inspect `coordinator-client-trace.json`, open that exact trace ID in Jaeger and expand the root attributes. `a2a.task.state`, `gen_ai.task.id` and `otel.status_code` must agree with the original response. The automatic client does not retain prompt, answer, URL or credentials in the emitted span. Verify the recorded pair without services using `python -B -S scripts/verify-mentor-runtime.py`.
+
+<details>
+<summary>Earlier UNSET traces and verifier-only annotation</summary>
+
+The following is the earlier checkpoint. Its post-hoc verifier span is not the automatic request-path implementation described above.
+
+## Compare failed and completed coordinator tasks
+
 The private Jaeger query API returned these traces. Each trace was joined to the original Jenkins A2A response by an exact `gen_ai.task.id` match.
 
 | Jenkins build | A2A task | Terminal state | Jaeger trace | Span status |
@@ -137,6 +176,9 @@ Select the `iot-a2a-outcome-verifier` service in Jaeger. The [verification scrip
 | Completed | `3735dd0e943f432b4c8760933af55145` | `OK` |
 
 The native readback verified the link, task state and status for each span. These are verification spans derived from real recorded tasks. This command does not install an automatic telemetry producer or repair the historical SDK graph. The retained Jaeger service uses bounded in-memory storage.
+
+
+</details>
 
 ## Earlier router pilot
 

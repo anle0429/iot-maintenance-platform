@@ -1,0 +1,133 @@
+{
+  "format": "iot-reviewed-source-evolution-v1",
+  "before_commit": "888f7a57c1cd815967ba12e2244687116cbffe99",
+  "after_commit": "f12ea06da2e039d139638c154470f896ed23a7cf",
+  "scope": "Exact reviewed runtime changes. Historical receipt checkers authenticate this transition before comparing with the preceding recorded checkpoint. Current runtime tests and native follow-up receipts validate the new implementation separately. No original receipt is rewritten.",
+  "files": {
+    "agents/ci_contract.py": {
+      "before_sha256": "44547b5cb03b3ffa2b56c7cacd6fc5c09b8c7c63b9f52621719b9d2ff2237a0c",
+      "after_sha256": "f6b715849c0c2e9a85cb4647e5d8765dccb5a4d93743c987e9d8a247677f0401"
+    },
+    "agents/probe.py": {
+      "before_sha256": "43e2751d16e85baf3387ba0eccf7cf08a1939e912a60782fb6571bd3c182288d",
+      "after_sha256": "f1287232930ca2484b0711fffae6259408abd42d51cab8dc78a9719c90fcf652"
+    },
+    "agents/release_ci.py": {
+      "before_sha256": "9eab9219fcb50c88b2528f2bd89e2e23d8579a2f53d5924445fabc4f07c3b026",
+      "after_sha256": "c0acc3a95fd837215a98389b195d1ab883e9928b0633421440b988ec66c53ae4"
+    },
+    "infra/agentgateway/candidate.py": {
+      "before_sha256": "7509f877757f64b24ed95626e111c2ce819383ca22b6f57a83c7463c29b4e039",
+      "after_sha256": "ad60a6118ddbd1ac36f2da7ff7b0eee51ea30a4376be89263d7151cede760106"
+    },
+    "infra/agentgateway/probe.py": {
+      "before_sha256": "8b6172ae79070876f9a3b5cb71cb777c84a32fafddb458ef354d1bd868a8dc39",
+      "after_sha256": "e655ccc465be36993507ef173719077e67674856cb441319f82c298d24575c91"
+    },
+    "infra/charts/iot-agents/templates/agents.yaml": {
+      "before_sha256": "0f4ea2bb712ba77c6461851409c9e102d8764a5ac1fcfa50c1ee9ebfd8c533c7",
+      "after_sha256": "0dd5c9d8afda716f50a9a12485ca1c12106571d4bc849315ec99d27ed221db55"
+    },
+    "infra/charts/iot-agents/templates/tools.yaml": {
+      "before_sha256": "4ae42fefce80dd3809a81a2eb6736b3d4beaad0a1f841113f3dc7b436d6df1bf",
+      "after_sha256": "eab7e61a480dce1e532b9507dfa700d7367f51089e35d03904034f7192fae150"
+    },
+    "infra/charts/iot-agents/values.yaml": {
+      "before_sha256": "1fbf89aa02b310481ec7bc6cb5195fed3059d662f64fce5febefbfb2276842b0",
+      "after_sha256": "f21d78c51668f538d68abe5ed1fd42bc30fbc076fe5aa5c2753d4963dc0def66"
+    },
+    "infra/charts/iot-mcp/templates/workload.yaml": {
+      "before_sha256": "6ebdd56eb0b44e7f79c8c4d55411c12ab5d1441a261f1dfed27a90db711769f8",
+      "after_sha256": "d23a9035e2d7ea9f953ba57f9b24ed4ab141103c5bb3ae037290900050f7e6da"
+    },
+    "infra/charts/iot-mcp/values.yaml": {
+      "before_sha256": "78f5a7f592490514ff88a340c9047a6c6375f20ec85d1b10c2c3dedf1a465d56",
+      "after_sha256": "b6ec2f3921328ab58920a0774c8c0ca2260ec29776e6735ac4dcfb9536aabd11"
+    },
+    "infra/ci/agents-source.json": {
+      "before_sha256": "2aa914007e5db768f95d42b6100a45fc140fdb76171f0c2d0e5d30322bf9c632",
+      "after_sha256": "fe70e9f1f8318816dca76dabe5930bbdae49dd6e96ca014acc2d98b69ee9ca9c"
+    },
+    "infra/llm-observability/mutmut.toml": {
+      "before_sha256": "2c94e4dd873eb79cc18f7446310453aa353221745c5043868610a3c560dd4840",
+      "after_sha256": "9e17ecb3042fdce290138533cae85ac0fb3b8d0347d0a4fd1b91d7095eb501ff"
+    },
+    "infra/llm_observer_routing.py": {
+      "before_sha256": "54be430cfa0b1200a322528a9726fb1181557fa4131a48782ba0818a4c08cc33",
+      "after_sha256": "18a6c432bc07a25fcb52e20760d8810e6bf12bdb4f4603962eb9405d7b8ca1a6"
+    },
+    "infra/policy/agent-admission-approved.json": {
+      "before_sha256": "e9ff4a6b6e83bcd710431472a11b62d637e3fd17980f8a2936ba6b4cff27e24b",
+      "after_sha256": "55b2f27702bbacbadffa004a7f6ec52f8bc3758ff4248370eca71af2191878ae"
+    },
+    "infra/policy/agent-admission.rego": {
+      "before_sha256": "a4e0c8aec41827c34c241e5d565ebfc191e3112070d174529d80ed16dd5d5d52",
+      "after_sha256": "da7bcbe1cc8a46b7f4e7b7dd431fc53497057d5a601c93c59b9dfc9dbd6e3018"
+    },
+    "llm_observability/app.py": {
+      "before_sha256": "610371fb7070bfb9a2d6f8da03a33c307540150a16773117945db946717846cf",
+      "after_sha256": "11f11ffbf221b80e506d27ea538b311d200bf0cc42671d8581b821fbd797c5f3"
+    },
+    "llm_observability/metrics.py": {
+      "before_sha256": "9c0b2ee66c9925a31a6c516aca22079a2aef2ad941e1b9dd198ec0ab3e8c359f",
+      "after_sha256": "abd98896595567e21bc50710836c30cafdfe0b8be124d41988bfa542ad7c01d9"
+    },
+    "llm_observability/private_traces.py": {
+      "before_sha256": "935ac18b30ff23e11a4949e0ed409e5d189851f8215fcaa3d6401e68546a7bfb",
+      "after_sha256": "976bc95f80cac49e1afa532306d4da3ed5bf3d0e7470a22bcb08748e4930c86c"
+    },
+    "scripts/benchmark-agent-scaling.py": {
+      "before_sha256": "5b1e4a96213129855d49ce141125684ec2a229bf46291fd7368b8f16e2ae5908",
+      "after_sha256": "334445caf2ee2dfcca106af38b179dfeaddc5fa12ae41e501dc8aa1b26cfc173"
+    },
+    "scripts/ci-agents-policy.py": {
+      "before_sha256": "7ea2786421b600db43b0e7dfe5c041ed0ec1c4299c97b95b28075a8b6f8aad07",
+      "after_sha256": "a73b983e66a5ec6a9cafdf602a1db364cb816e41f0e6c68df4717f68931eb15d"
+    },
+    "scripts/ci-agents.py": {
+      "before_sha256": "92d0b9f68e0d77b33890a9aa158be73c322816a49e9831611c5ea4832eae7791",
+      "after_sha256": "97664e9d97308e24e19ededcb7c0771c80663f595c0ed8399129aa219a953344"
+    },
+    "scripts/native-gateway-driver.py": {
+      "before_sha256": "50b08a192739748d44ce05174b8f999c374e5e43601c0400c04d1b6fec9f12ee",
+      "after_sha256": "b8cbdc6fef038551d768e93dc2f99b317b0b6c857f5ac8ba2a258669b4ae9523"
+    },
+    "scripts/render-agent-substrate.py": {
+      "before_sha256": "b5d371ba5e1d8f9bb3d64ccac00629a174ed1bdf228af89422c644f0deac195b",
+      "after_sha256": "0a5964cd83fa7de404d393be3a7d2b8757a191ca8750246ac6425f4b4e3ba698"
+    },
+    "scripts/resume-demo-services.py": {
+      "before_sha256": "80a983ee93c17ec14f96c2e4542f5c7164c6d8b3c05cadbfc1984af59c1ac3c6",
+      "after_sha256": "a423eb814e6c45107c9f5668b58971a31cfb4ed454e4efa67af0c02ed905d1be"
+    },
+    "scripts/test-llm-observer.py": {
+      "before_sha256": "41836e5a8906996790d909f51d3aedb2ad1bfa5514b0969911d1dcbb4df2869d",
+      "after_sha256": "1ca602aa80db94d4e44f6f4c018103a828f5c20e9776800f42aa433c9597e91b"
+    },
+    "tests/api/test_llm_observer_api.py": {
+      "before_sha256": "6a62567200ffcd4e5627c7e2ba879fdccbe10cc0bfdae20509896e4f24de6bce",
+      "after_sha256": "3f3933966df3e39254cdd9d52be6986f296792bb73dab590b05e2c777a70fcbd"
+    },
+    "tests/test_agent_release_ci.py": {
+      "before_sha256": "59b5597bba7467840ada69c16f83a770362af9567429da476a550fd54804666c",
+      "after_sha256": "d303efec1004f76c217056ddca4d742fc4eb185c202edad58665bbbdd03ab3ae"
+    },
+    "tests/test_agent_scaling.py": {
+      "before_sha256": "20bc82159139738fade7dedc02bd137062f4a6741c6b6541c848549bedc82040",
+      "after_sha256": "61c20bd30aaaba3d89faff4356a6702da5d719ed76206d80139c8f5431b360bc"
+    },
+    "tests/test_llm_observer_routing.py": {
+      "before_sha256": "c09ab3d272a5207004a20b25a6c1cab2f8ab56437fffd748034504602155ab27",
+      "after_sha256": "ec7a19876b0c1e104708cf61d4fb548571cf25b4496b27533b5ab1a4f2392417"
+    },
+    "tests/test_llm_private_traces.py": {
+      "before_sha256": "8d9ec751cb8a6fc9c44f679197647dd1f1da7b084db7e5d7f8305c599fda8978",
+      "after_sha256": "c913339d4b0736fe69afcc20b9b10766b235ab383b7095394d7a56b5039a0742"
+    },
+    "scripts/integration_evidence.py": {
+      "before_sha256": "baefef5c794a212f54452da483a4d1a0bb8886bc9dba81d37c9548cd78f57b81",
+      "after_sha256": "98ce755cd797fb970d2d8048a0b883fe78b507d6bb595c532fab3fd4d7872a97",
+      "after_blob": "fbf114590f3e1bb5434db631204f369566c7bf97"
+    }
+  }
+}

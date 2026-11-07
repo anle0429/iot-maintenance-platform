@@ -5629,7 +5629,8 @@
         "sources": [
           "infra/agents/kagent-values.yaml",
           "infra/llm_observer_routing.py",
-          "infra/charts/iot-gpu-multimodel/templates/model.yaml"
+          "infra/charts/iot-gpu-multimodel/templates/model.yaml",
+          "infra/agentgateway/kagent-default.yaml"
         ]
       },
       "angle": 0,
@@ -6229,9 +6230,9 @@
       "type": "text",
       "x": 1217,
       "y": 1535,
-      "width": 140.59375,
+      "width": 171.1767578125,
       "height": 55,
-      "text": "MCP tool calls\n↔ results",
+      "text": "MCP via gateway\n↔ results",
       "fontFamily": 2,
       "fontSize": 22,
       "strokeColor": "#1e40af",
@@ -6256,7 +6257,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "MCP tool calls\n↔ results",
+      "originalText": "MCP via gateway\n↔ results",
       "autoResize": true,
       "index": "b1H",
       "backgroundColor": "transparent"
@@ -6328,9 +6329,9 @@
       "type": "text",
       "x": 1602,
       "y": 1535,
-      "width": 140.59375,
+      "width": 171.1767578125,
       "height": 55,
-      "text": "MCP tool calls\n↔ results",
+      "text": "MCP via gateway\n↔ results",
       "fontFamily": 2,
       "fontSize": 22,
       "strokeColor": "#1e40af",
@@ -6355,7 +6356,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "MCP tool calls\n↔ results",
+      "originalText": "MCP via gateway\n↔ results",
       "autoResize": true,
       "index": "b1J",
       "backgroundColor": "transparent"
@@ -6699,7 +6700,8 @@
         "label": "Coordinator uses shared ModelConfig for model calls and results",
         "sources": [
           "infra/charts/iot-agents/templates/agents.yaml",
-          "infra/agents/kagent-values.yaml"
+          "infra/agents/kagent-values.yaml",
+          "infra/agentgateway/kagent-default.yaml"
         ],
         "kind": "model"
       },
@@ -6789,7 +6791,8 @@
         "label": "Retrieval uses shared ModelConfig for model calls and results",
         "sources": [
           "infra/charts/iot-agents/templates/agents.yaml",
-          "infra/agents/kagent-values.yaml"
+          "infra/agents/kagent-values.yaml",
+          "infra/agentgateway/kagent-default.yaml"
         ],
         "kind": "model"
       },
@@ -6859,7 +6862,8 @@
         "label": "Drift uses shared ModelConfig for model calls and results",
         "sources": [
           "infra/charts/iot-agents/templates/agents.yaml",
-          "infra/agents/kagent-values.yaml"
+          "infra/agents/kagent-values.yaml",
+          "infra/agentgateway/kagent-default.yaml"
         ],
         "kind": "model"
       },
@@ -7400,9 +7404,9 @@
       "type": "text",
       "x": 1062,
       "y": 2007,
-      "width": 526.83984375,
+      "width": 461.49609375,
       "height": 30,
-      "text": "llm-d → CPU observer/adapter → GPU llama.cpp",
+      "text": "Agentgateway → llm-d → observer → GPU",
       "fontFamily": 2,
       "fontSize": 24,
       "lineHeight": 1.25,
@@ -7427,7 +7431,7 @@
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "llm-d → CPU observer/adapter → GPU llama.cpp",
+      "originalText": "Agentgateway → llm-d → observer → GPU",
       "autoResize": true,
       "index": "b1d",
       "backgroundColor": "transparent",

@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "roles": {
+    "retrieval": {
+      "baseline_ready": 2,
+      "peak_ready": 4,
+      "final_ready": 2,
+      "new_serving_pod_uids": [
+        "268818e7-8a99-461f-a7f5-92a33e8d97b8",
+        "4c0b7b4e-7a2f-48bb-821e-639e5e93c3f0"
+      ],
+      "metric_source": "External:s0-prometheus",
+      "max_demand": 7.259,
+      "requests": {
+        "success": 6217,
+        "failure": 0
+      }
+    },
+    "drift": {
+      "baseline_ready": 2,
+      "peak_ready": 4,
+      "final_ready": 2,
+      "new_serving_pod_uids": [
+        "36f20320-ab2e-430b-bdf9-fbd5163c28b3",
+        "c32076c7-c6fe-44dd-a33c-6b0bf0d9d2ef"
+      ],
+      "metric_source": "External:s0-prometheus",
+      "max_demand": 1.811,
+      "requests": {
+        "success": 1529,
+        "failure": 0
+      }
+    }
+  },
+  "scope": "Demand-driven MCP Deployment elasticity, ready new-Pod tool execution and observed return to baseline.",
+  "checked_utc": "2026-11-07T04:48:23.369041+00:00",
+  "load_seconds": 240,
+  "clients_per_role": {
+    "retrieval": 2,
+    "drift": 1
+  },
+  "elapsed_seconds": 476.6173070250002,
+  "transport": "REST endpoints sharing the native MCP tool dispatcher",
+  "manual_replica_mutations_by_recorder": false
+}

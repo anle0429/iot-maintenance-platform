@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "checked_utc": "2026-11-07T05:44:47.412096+00:00",
+  "verified_coordinator_requests": 11,
+  "configured_burst_seconds": 120,
+  "observed_seconds": 352.4903099789999,
+  "maxima": {
+    "retrieval": {
+      "desired": 4,
+      "ready": 4,
+      "running": 2
+    },
+    "drift": {
+      "desired": 4,
+      "ready": 4,
+      "running": 2
+    },
+    "coordinator": {
+      "desired": 4,
+      "ready": 4,
+      "running": 4
+    }
+  },
+  "automatic_scale_in": true,
+  "manual_replica_changes": false,
+  "coursework_complete": false,
+  "retryable_capacity_rejections": 5,
+  "unhandled_request_failures": 0,
+  "scope": "Real coordinator/child workload and worker-capacity elasticity on one control VM. Shared GPU throughput and cross-node HA are separate claims."
+}

@@ -12,10 +12,12 @@ Follow a machine question through shared inference, specialist tools, retrieved 
 |---|---|
 | Platform and information flow | [LLM and agent platform](llm_platform.md) |
 | Inference setup and verification | [LLM inference platform](llm_inference_platform.md) |
-| MCP and A2A gateway, shared model settings and tool rollout | [Agentgateway integration](global_model_config.md) |
+| Default model route, MCP/A2A ingress and retained Helm configuration | [Agentgateway integration](global_model_config.md) |
+| Async MCP tools, rolling updates, rollback and per-Pod autoscale | [MCP implementation](mcp_tools.md) |
 | RAG data pipeline | [Airflow RAG pipeline and DataHub governance](rag_orchestration.md) |
 | Specialists and coordination | [GPU inference and verified agent delegation](gpu_agent_routing.md) |
-| Worker lifecycle and warm-up | [Substrate configuration, startup measurements and worker scaling](agent_warmup.md) |
+| Startup and matched Substrate/ordinary-Agent comparison | [Agent warm-up](agent_warmup.md) |
+| Demand-driven worker pools and all twelve Pod assignments | [Worker autoscale](agent_scaling.md) |
 | Metrics, logs and traces | [Measuring model and agent activity](observability.md) |
 | Post-restart acceptance | [Post-restart agent validation](agent_runtime_validation.md) |
 

@@ -1,4 +1,5 @@
 """Verify separate native MCP/agent CI releases, original failures and complete delegated answers without starting services."""
+from source_evolution import recorded_source, validate_recorded_seal, recorded_required_inputs, recorded_quality_sources
 from datetime import datetime,timedelta,timezone
 from hashlib import sha256
 from io import BytesIO
@@ -90,9 +91,9 @@ def verify():
     for commit,size in [(FIRST,360),(SECOND,362),(COMMIT,362)]:
         seal=original('source/'+commit+'/manifest.json');assert seal['commit']==commit and len(seal['files'])==size
         for name,digest in seal['files'].items():assert sha256(bodies['source/'+commit+'/tree/'+name]).hexdigest()==digest
-    seal=original('source/'+COMMIT+'/manifest.json');source_digest=validate_source(ROOT,seal,COMMIT);required_inputs(ROOT,seal)
-    for name in seal['files']:assert bodies['source/'+COMMIT+'/tree/'+name]==(ROOT/name).read_bytes(),name
-    policy=json.loads((ROOT/'agents/response-policy.json').read_bytes());cache_bindings=unchanged_quality_source(ROOT)
+    seal=original('source/'+COMMIT+'/manifest.json');source_digest=validate_recorded_seal(seal,COMMIT);recorded_required_inputs(seal)
+    for name in seal['files']:assert bodies['source/'+COMMIT+'/tree/'+name]==recorded_source(name),name
+    policy=json.loads((ROOT/'agents/response-policy.json').read_bytes());cache_bindings=recorded_quality_sources()
     feature=original('features/agent-feature-29k/verification.json')
     assert feature['passed'] and feature['machines']==200 and feature['model_version']=='6' and feature['ready']['ready']
     assert feature['source_sha256']==sha256((ROOT/'scripts/refresh-demo-feature.py').read_bytes()).hexdigest()
@@ -145,7 +146,7 @@ def verify():
             expected={Path(n).relative_to('infra/charts/'+chart).as_posix() for n in seal['files'] if n.startswith('infra/charts/'+chart+'/')}
             assert set(members)==expected
             for name,body in members.items():
-                source=(ROOT/'infra/charts'/chart/name).read_bytes()
+                source=recorded_source('infra/charts/'+chart+'/'+name)
                 if name=='Chart.yaml':
                     declared=scalar_chart(source)
                     if chart=='iot-agents':declared['appVersion']='0.2.2'

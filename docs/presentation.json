@@ -3,7 +3,7 @@
   "files": {
     "README.md": {
       "before_sha256": "b8ab6857291bc7e4bbf66374c29b45a1b51dbc338bde188a5cbaac77927e69de",
-      "after_sha256": "38127cd520bcc35222532703e2b47dad3d0ff7b15663ade13cadc18d8903b1f4",
+      "after_sha256": "a6024fce5f5691b9ff6c387872e8d0f19428c82daaa6452b5657f9e928757ce7",
       "reviewed_replacement": true
     },
     "docs/README.md": {
@@ -33,17 +33,17 @@
         {
           "line": 98,
           "old": "![All native paired observations and their medians](../images/batch-benchmark-pairs.png)\n",
-          "new": "Each comparison is shown at full page width so its labels and all three measured pairs remain readable.\n\n![Schema reader: all three native pairs and medians](../images/benchmark-schema-readable.png)\n\n![Dedup selector: the aggregate candidate has the higher median](../images/benchmark-dedup-readable.png)\n\n![Factory-policy join: all three native pairs and medians](../images/benchmark-skew-readable.png)\n\n[Original combined plot](../images/batch-benchmark-pairs.png) · [Panel source identities](../images/benchmark-detail-sources.json)\n"
+          "new": "Each comparison is shown at full page width so its labels and all three measured pairs remain readable.\n\n![Schema reader: all three native pairs and medians](../images/benchmark-schema-readable.png)\n\n![Dedup selector: the aggregate candidate has the higher median](../images/benchmark-dedup-readable.png)\n\n![Factory-policy join: all three native pairs and medians](../images/benchmark-skew-readable.png)\n\n[Original combined plot](../images/batch-benchmark-pairs.png) \u00b7 [Panel source identities](../images/benchmark-detail-sources.json)\n"
         },
         {
           "line": 113,
           "old": "| Full-source inference | Declared union schema |\n|---|---|\n| ![Native inferred reader, query 25](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg) | ![Native declared reader, query 28](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg) |\n",
-          "new": "\n**Full-source inference — Native inferred reader, query 25**\n\n![Native inferred reader, query 25](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg).\n\n\n**Declared union schema — Native declared reader, query 28**\n\n![Native declared reader, query 28](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg).\n\n"
+          "new": "\n**Full-source inference \u2014 Native inferred reader, query 25**\n\n![Native inferred reader, query 25](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg).\n\n\n**Declared union schema \u2014 Native declared reader, query 28**\n\n![Native declared reader, query 28](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg).\n\n"
         },
         {
           "line": 122,
           "old": "| Window baseline | Aggregate candidate |\n|---|---|\n| ![Native window selector, query 49](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg) | ![Native aggregate selector, query 52](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg) |\n",
-          "new": "\n**Window baseline — Native window selector, query 49**\n\n![Native window selector, query 49](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg).\n\n\n**Aggregate candidate — Native aggregate selector, query 52**\n\n![Native aggregate selector, query 52](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg).\n\n"
+          "new": "\n**Window baseline \u2014 Native window selector, query 49**\n\n![Native window selector, query 49](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg).\n\n\n**Aggregate candidate \u2014 Native aggregate selector, query 52**\n\n![Native aggregate selector, query 52](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg).\n\n"
         }
       ]
     },
@@ -54,18 +54,18 @@
         {
           "line": 25,
           "old": "| Before: sort/merge strategy and hot tasks | After: broadcast strategy |\n|---|---|\n| ![Baseline physical plan](../evidence/skew-benchmark/screenshots/baseline-sql-18.png) | ![Optimized physical plan](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png) |\n| ![Baseline hot tasks](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png) | ![Broadcast stage tasks](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png) |\n",
-          "new": "\n**Before: sort/merge strategy and hot tasks — Baseline physical plan**\n\n![Baseline physical plan](../evidence/skew-benchmark/screenshots/baseline-sql-18.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/baseline-sql-18.png).\n\n\n**After: broadcast strategy — Optimized physical plan**\n\n![Optimized physical plan](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png).\n\n\n**Before: sort/merge strategy and hot tasks — Baseline hot tasks**\n\n![Baseline hot tasks](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png).\n\n\n**After: broadcast strategy — Broadcast stage tasks**\n\n![Broadcast stage tasks](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png).\n\n"
+          "new": "\n**Before: sort/merge strategy and hot tasks \u2014 Baseline physical plan**\n\n![Baseline physical plan](../evidence/skew-benchmark/screenshots/baseline-sql-18.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/baseline-sql-18.png).\n\n\n**After: broadcast strategy \u2014 Optimized physical plan**\n\n![Optimized physical plan](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png).\n\n\n**Before: sort/merge strategy and hot tasks \u2014 Baseline hot tasks**\n\n![Baseline hot tasks](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png).\n\n\n**After: broadcast strategy \u2014 Broadcast stage tasks**\n\n![Broadcast stage tasks](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png).\n\n"
         },
         {
           "line": 52,
           "old": "| Baseline: query 18 | Broadcast: query 19 |\n|---|---|\n| ![Native final policy sort-merge plan](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg) | ![Native final policy broadcast plan](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg) |\n",
-          "new": "\n**Baseline: query 18 — Native final policy sort-merge plan**\n\n![Native final policy sort-merge plan](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg).\n\n\n**Broadcast: query 19 — Native final policy broadcast plan**\n\n![Native final policy broadcast plan](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg).\n\n"
+          "new": "\n**Baseline: query 18 \u2014 Native final policy sort-merge plan**\n\n![Native final policy sort-merge plan](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg).\n\n\n**Broadcast: query 19 \u2014 Native final policy broadcast plan**\n\n![Native final policy broadcast plan](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg).\n\n"
         }
       ]
     },
     "docs/edai-2/README.md": {
       "before_sha256": "41f16805398e08c7fe2ba7865d2daee2829024687e9f2386929c8d9e1262e409",
-      "after_sha256": "a8fe859b1de040d07c41fc86db609c4107e35e8670cb78c2106419f159b05267",
+      "after_sha256": "7a10bcc13ccb23d59a82ef854536fcd32bf9917f93cddf53d36ee323c13bdc05",
       "reviewed_replacement": true
     },
     "docs/edai-1/processing_jobs.md": {
@@ -80,12 +80,12 @@
     },
     "docs/edai-2/agent_warmup.md": {
       "before_sha256": "3a477d3a76920237505429ce889474211fcaa26e9dda78c0954858992704ebd5",
-      "after_sha256": "ed852d0df7f7ccb5d2a6a1abd2275c97517f123c1b71adc157170f2cab8e71d1",
+      "after_sha256": "f7b2b089a7583ac26c9ed8b9d3ab60a7044e07abcd68e47ce8f71b6469a58377",
       "reviewed_replacement": true
     },
     "docs/edai-2/global_model_config.md": {
       "before_sha256": "63cb1fc0fefa41259e8c976de13c6f3a245ffbaea036871809757539d8ccbea7",
-      "after_sha256": "40fd7894d525a7e1abfe18ebc1205f0f97e747c01ab6585d144e3c88d130de4b",
+      "after_sha256": "14a5dc73515bd920bd8a96de35ea5d6a5d530cf3c866e52c093cc1b4f598e002",
       "reviewed_replacement": true
     },
     "docs/edai-2/llm_inference_platform.md": {
@@ -95,17 +95,22 @@
     },
     "docs/edai-2/mcp_tools.md": {
       "before_sha256": "57f7ad3fd8e0f21099a715336b7046d10584eefd9aea59c837f9c2299b396640",
-      "after_sha256": "efa841a4d58c410efb47221226d4e3bb0ce02165287c0e5daab2f0d7531898e4",
+      "after_sha256": "4d97df6af1efca13ca6ecca570ed7ad11a4a72b6ebdd06bf48fef8100e1cb263",
       "reviewed_replacement": true
     },
     "docs/edai-2/ci_agents.md": {
       "before_sha256": "011b67ed9908551cc3a75d037ac2130c08c1a88717ec931f6e4ffccf7920686b",
-      "after_sha256": "fc2754bacd7a3a43b75da58ac3eef151a35d0405cffb7256871b6cb33db5e465",
+      "after_sha256": "1878d33e3747af0a66c1e22387ced4f8ae1cff264fe65a866c8b5e3ed97db97e",
       "reviewed_replacement": true
     },
     "docs/edai-2/observability.md": {
       "before_sha256": "10cf6f48df2ad16a5c103c0647397e2ff69bc09713f243ebdd74acb211b20fef",
-      "after_sha256": "9a9e8239159c7b0a30eac1d7386a9a8870215ac03f9e5e60d190ade9816a5151",
+      "after_sha256": "449a07ca2cdd91ae8860ddf03c3ec29167aab9c549c069b6dc53d54f8ab34170",
+      "reviewed_replacement": true
+    },
+    "docs/edai-2/agent_scaling.md": {
+      "before_sha256": "8b4a2d1caa980cbf4911d76d64c8580709168c3176ba088b313a01ee1a88b8b2",
+      "after_sha256": "4d7b5038fac46df284686001ab6423a785b9c565061ec564ad866feb09ac5739",
       "reviewed_replacement": true
     }
   },
@@ -633,7 +638,7 @@
       "new": true
     },
     "docs/mentor_review_followup.md": {
-      "sha256": "6683078abb3c0266e718ed14132cadd9599d59e33d568157014d57c97ec50189",
+      "sha256": "053a16243804dd12742f55f2d0e303cf5b8097bf998d58f633a109fdb618b4cf",
       "mode": "lf_text",
       "new": true
     },
@@ -650,7 +655,7 @@
     "docs/diagrams/execution-agents.excalidraw": {
       "mode": "lf_text",
       "new": true,
-      "sha256": "b41b4a74cf344bbb7183b50c500978664ec561628322def2f3f35bf75a15e7d7"
+      "sha256": "46627381308259302158c1745b9bbba168eaf5a849b060c190c2cfae53f61426"
     },
     "docs/diagrams/execution-batch.excalidraw": {
       "mode": "lf_text",
@@ -688,24 +693,24 @@
       "sha256": "ca1e0e2ea87db7451470ca550c7b73b1f8cb751a7d3159bb18022b05b505b93e"
     },
     "docs/diagrams/execution-guide.md": {
+      "sha256": "32c02dbef7c75944839e4fb430952341ed80dc8c089270d611b79508619f1802",
       "mode": "lf_text",
-      "new": true,
-      "sha256": "d331111bae0e19122f4a264c3fdb9a91b6343fccb88adb5a4485451692c39d03"
+      "new": true
     },
     "docs/images/execution-agents.animated.svg": {
       "mode": "lf_text",
       "new": true,
-      "sha256": "56ef0d273d26f1df13d3b359ff25599b519006c4861e109db2a1dd98b69c2397"
+      "sha256": "dabfefc9396155b6d553bbbfe3d0aff2f6071f4d6fe7fbefac85ca39bd9ec9d8"
     },
     "docs/images/execution-agents.png": {
-      "mode": "raw",
+      "mode": "exact_bytes",
       "new": true,
-      "sha256": "b8959c48e7bce0ea063eca05016bcf997af28b4a02b966003593529f3fcc15b2"
+      "sha256": "2ec203ae9087634006d08a3b6f2e564792dc0b7112b4df78a16978e1e7b5e0ec"
     },
     "docs/images/execution-agents.svg": {
       "mode": "lf_text",
       "new": true,
-      "sha256": "70e77ce066e8b2e05ec5e825db8120b505c3a4adbc312e241d12c51092e387e5"
+      "sha256": "594a59844e1f4c2bb3fde6f3f6a30a2db403d3d0350669eb8bd9251ba455e140"
     },
     "docs/images/execution-batch.animated.svg": {
       "mode": "lf_text",
@@ -815,32 +820,337 @@
     "docs/diagrams/platform-architecture.excalidraw": {
       "mode": "lf_text",
       "new": true,
-      "sha256": "cef134e31d803df16b7c3dd015c61c6673e7ca93388b17ffc09fe8cda00866c8"
+      "sha256": "fa35e7fad71d1836cffa05c8971b57e5f0b023930fc4e79cad9b6450c268e180"
     },
     "docs/images/platform-architecture.png": {
-      "mode": "raw",
+      "mode": "exact_bytes",
       "new": true,
-      "sha256": "9eb5ec869f241f60a39b28fef45710089f4a4a761253466715e2b181a769f435"
+      "sha256": "d1326bea2822d10ef070ae050cf46be5ea816544382f4a6e28626d7f730eb92c"
     },
     "docs/images/platform-architecture.svg": {
       "mode": "lf_text",
       "new": true,
-      "sha256": "75c2fae78a42252015c4fb83444c7d00371cd549095c32baf68f41f6e974f937"
+      "sha256": "5b51b3c03210b89a31ddf68a339b39e791b190cb3138cb51c14b08245856c9af"
     },
     "docs/images/platform-architecture.animated.svg": {
       "mode": "lf_text",
       "new": true,
-      "sha256": "b37b8f73c0814bbeedbf5c6c0641ab5866cf7527a2c9f41d6bafbe0c6f8d98c9"
+      "sha256": "6ab84724155be214ba4fa22a2059cc3a67ac8d98cfb2ca22bd08374b7382797a"
     },
     "docs/images/platform-architecture.gif": {
-      "mode": "raw",
+      "mode": "exact_bytes",
       "new": true,
-      "sha256": "9f09220c6fb76ad2c293fbbc7efe4a132f7b6d6a81e87df2584aee762fd7e358"
+      "sha256": "e7389c84433820a4f850e05ff37bb09640b3082ea4151893dc52b0c0beb2fac2"
     },
     "docs/images/platform-architecture.preview.json": {
       "mode": "lf_text",
       "new": true,
-      "sha256": "b2f4361b2a72ea3957b899d1afc64aaac1aaf6cd3326d32b0f0805a1de6118cc"
+      "sha256": "2c300db84cb88c99f3880a15e6aa393795979d7fc86693ec0409a2cf632df0ae"
+    },
+    "docs/evidence/mentor-runtime-20261107/a2a-outcomes.json": {
+      "sha256": "4f24be59a7577350ac79b3d62430dae103a2148e11659d84454fea044955cc66",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/agents-default.json": {
+      "sha256": "045a249856a220b63db502cf55d3cc271db4101edaf7a0e072fd7dffe13bbb1a",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/applied-model.json": {
+      "sha256": "906104ca4c5f83571332fb98045660dee70848e1e784e19a6feffaf83b736abe",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/capture.json": {
+      "sha256": "a34a2c3fae71071f853788393a5155baa273fea1c3445645f9ac28a4730c1d95",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ci-acceptance.json": {
+      "sha256": "832c28f316e333e052502bce2ef2f4475c843a50b33ce06d2f4cf102460b8c0e",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ci-build.json": {
+      "sha256": "ab20e876980a61b7dc4f3765a3374fc1738d0bddd05e287ec7dccfcf724f3035",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ci-capture.json": {
+      "sha256": "e4686acd304ec9e5982ea4028e5155d4693507734067e30ac2df0681445c398d",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ci-console.txt": {
+      "sha256": "23d3710539b9a689fb4097ed784ca457280a516494d7e35555a4e0fc03ae2121",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ci-deploy.json": {
+      "sha256": "cb1b4372b669b5c0994dcccf558013dc4bf0bc71512cf7cce7dff2020dcfe5e2",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ci-policy.json": {
+      "sha256": "f6a646d1baccf51f9e94bfd6962fd78bbb82b46463b326b25709ad7fc19d94ca",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ci-prompts.json": {
+      "sha256": "267a88f3e5ed7561932bee708b1ac1629173fd9a31072478138d7485d17068c3",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ci-receipts.tar.gz": {
+      "sha256": "0ef65af059a1e26faf35a840f9da0c1251867fe0b4662f26659fa4d2bd72cc89",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ci-source-packet.tar.gz": {
+      "sha256": "63f71ad4d72c41ef88d0104132ae0037abe8505ea32432d0de40c81ee54432f9",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ci-source-provenance.json": {
+      "sha256": "c54ea22207e9ed4a6aa21c506b24e38e664d1e6ca352ee803bc8363a66a66f19",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ci-test.json": {
+      "sha256": "c4852d501093ece617b3dc63b96e2311e5fbdd5d478caf6df1bd2ffb68251903",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ci-verify.json": {
+      "sha256": "e51134674e6f03f3e4d14d10545f980d6210cc4ce9af615221cf94dc868b405f",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/cpu-stopped.json": {
+      "sha256": "0e386e61a500aa1c58bc733395495a9fd59933b67faeee4f4027d55690ea74d0",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/gateway-conversation.json": {
+      "sha256": "1948b763aec8b8e0413fe597a885f724fce3ab9317669074835491f5783c31b6",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/gateway-default.json": {
+      "sha256": "ce7a0e33545d5fc5cf5177d5073b64344d2bf8aa953fcb21413e8d7504b76f69",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/gpu-stopped.json": {
+      "sha256": "98eba307b29c32364c5f35d7a291e9451ef86884b7dff84ee28851d4ec3917bb",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/manifest.json": {
+      "sha256": "588fdb4b9710e1e819375c80ca3b2a687356b1c29f2026fc96812c6cec6d2152",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/mcp-scaling.json": {
+      "sha256": "7474cf8a789ba6f4ee858e737ebebaac919ee4c359adf2724d12296bfaa4066f",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/mcp-source-packet.tar.gz": {
+      "sha256": "b41fc27289521c5e25f723d46ed1776e4c2921f929bde354b865c1b868e4379e",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/native-receipts.tar.gz": {
+      "sha256": "8b1f95d8d91bb64ffb30ab34c5afbbbba4ecd76eef072b61290447b1d30a9ba2",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/observer-health.json": {
+      "sha256": "d3fcd2377798bb490b828833d7b8df22d5161aa0635e1b0dcd0512ff9d97d703",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/observer-installed.json": {
+      "sha256": "1da509d09186b731f22bbfc2867582f7de6f4eb94f762ebdbc4a3197d78e6531",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/observer-quality.json": {
+      "sha256": "7f634d566e831eb6dcfa0c6e6a55541bd3ab01ef1197a607ffc7f47b2996d7f9",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/post-ci-capture.json": {
+      "sha256": "d8ccf695104e584560e26120fba1e933a8bae1bf4f596d0e6b3864f8430d1099",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/post-ci-outcomes.json": {
+      "sha256": "cf8a24ef13d393224711f7cc3419c3654cf97154ad854ef1e339051a8e6b7d9e",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/post-ci-receipts.tar.gz": {
+      "sha256": "59a5416301a5d07974f9ef2bac80f0cf7ffd2bcd316dd3defbf227ab756c9637",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/README.md": {
+      "sha256": "e1f2dfcb39a7359703fd7ccac7a38f401162fdff98aaacdb7178d967d9ca5302",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/selected-payloads.json": {
+      "sha256": "cd1a990fc52f72cabc1dc07c050b44b25be26061617080ec82416a55cca2ab27",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/substrate-comparison.json": {
+      "sha256": "5882d94c736072f9fca7b083db5a9790800429ae8e5d38d546b3d2df8525d6c9",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/substrate-pairs.json": {
+      "sha256": "9e9fc0a1f7b88321a04540d02c862bfa6fbb2382ed7687f9d0b0310969744568",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/tools-default.json": {
+      "sha256": "74094b3d1bc45db1d301c0409c167ebc26692c585d76c71de6ea763e9e979174",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/worker-scaling.json": {
+      "sha256": "3a79900064a9eb36cd2da55f30a8df3ca811e4856ee7fe18ca4d06bb44698459",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/jaeger-completed-complete-graph.jpg": {
+      "sha256": "c5a6837601283dd7d46a5cfa8e2f709bc4dc490793293da98a510c5f9eaef378",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/jaeger-completed-complete-graph.json": {
+      "sha256": "dcd00fdfb1b511cfe72374750ada36365902e48966a431ad37c8f39cba796a23",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/jaeger-completed-ok-status.jpg": {
+      "sha256": "57fd1cf8ccf5179bb43a872cf0f6aa379aee5907bd08d5309b0ab6218cf84f2e",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/jaeger-completed-ok-status.json": {
+      "sha256": "9cdba4b696afac0caf83bee0148848bed7857dce478a8426be9a2d65fff4e7ce",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/jaeger-failed-complete-graph.jpg": {
+      "sha256": "dfde3b15b96d738fe68dea9ec87cc29c35d8269ba1efaa407259355973c3b995",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/jaeger-failed-complete-graph.json": {
+      "sha256": "9d34eefdab56a1ecd965d1ee8106f83c747758f7692d991488ea6c21fe2d9792",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/jaeger-failed-error-status.jpg": {
+      "sha256": "ccca39e4738188b09ec4bd11d7336dd41df983a485bb072eb554a2c46e072d0a",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/jaeger-failed-error-status.json": {
+      "sha256": "49c7ba9dd5143cd6076c9a0b3e1e1fea74f31de710c6c3f6d6c8a8fd2aed8862",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/mcp-all-eight-pod-identities.jpg": {
+      "sha256": "9c3863294a97398f58e6b168670c31f55da01f64e164b3b3b94446ed238b2ca2",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/mcp-all-eight-pod-identities.json": {
+      "sha256": "0ebc396aa5135aeb883966c661c3e8ee6a8142e21bddaa7fb91ecda0e032733d",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/mcp-before-scale-out.jpg": {
+      "sha256": "6b39c43c977ef9cbf42ad03a1ab6913d8e8940d98635054efddbef78a52c4974",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/mcp-before-scale-out.json": {
+      "sha256": "da470994b915709016a2043e6d975d499d7244a342bb14ef362e14109f445321",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/mcp-peak-four-per-service.jpg": {
+      "sha256": "a3889b3d4edce90864a25f8abcf30a6a81b98b6afbb105113a9a7b8488858998",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/mcp-peak-four-per-service.json": {
+      "sha256": "6e0012a1c94ff707c701effb68f7d1ad1613b258e2aab8405185b092d446e1bd",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/mcp-returned-two-per-service.jpg": {
+      "sha256": "c2bf89ce25fb29ff862984bc4ed693ec9a3389f9e2b3de64de6ee4bb88e2f823",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/mcp-returned-two-per-service.json": {
+      "sha256": "81a9452bf4e0fd0beacc9cb3eefe87faaa144a302ff4dd45083e3b45edfd333b",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/worker-healthy-all-pools-four.jpg": {
+      "sha256": "8c6c2358722cea5bd895d066734a5db0dc4b830249e295b7280a4ccb556e7ecc",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/worker-healthy-all-pools-four.json": {
+      "sha256": "3a0bf7ea220c6022531c7ab73df8ecb58ff12f98629e072535a50873209d2042",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/worker-healthy-pod-list-peak.jpg": {
+      "sha256": "39321bcc4c3fd5cd1246592eef5e9020e9e81cacb28d0d378bc81633edd2165c",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/worker-healthy-pod-list-peak.json": {
+      "sha256": "b3005354e8a3a452a07de5a017a59f3a067117e8aace12d1e647373e8525fb68",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/worker-healthy-returned-two.jpg": {
+      "sha256": "a7a7d26a6621f56d870e002834eccdea3c07dc6eadd488b27c08404b8992ec06",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/worker-healthy-returned-two.json": {
+      "sha256": "168d59ac4ca58938a56c4f5907a8ee57879e1e817c6f2b06d2d080f9067ba828",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/worker-healthy-twelve-pods.jpg": {
+      "sha256": "9b658ca246c251f87ec4e6e793aa221f4e8dfa1341432c1fe07c029c6f8d4ab6",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/evidence/mentor-runtime-20261107/ui/worker-healthy-twelve-pods.json": {
+      "sha256": "216d0f24c23e675078ee841cf449e4b37e503aa84d70901e6dc5e56cf9f8bc3b",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/source_evolution.json": {
+      "sha256": "ae5e11114639d5b5ddc8930318202f89dba9472b1b48efe88d61a520be8ee5f3",
+      "mode": "lf_text",
+      "new": true
     }
   },
   "scope": "Reviewed topic consolidation, Redis/Feast architecture and local Gold warehouse indexing. Old receipts, native screenshots and references remain original. Scoped new measured warehouse receipts are pinned separately."

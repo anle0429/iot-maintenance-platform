@@ -1,4 +1,5 @@
 """Verify the sealed restart recovery and paired native agent configurations, including failed predecessor tasks."""
+from source_evolution import recorded_source
 from datetime import datetime,timedelta
 from hashlib import sha256
 from io import BytesIO
@@ -44,7 +45,7 @@ def verify():
         for name,pin in seal['files'].items():
             original=bodies[prefix+'tree/'+name];assert sha256(original).hexdigest()==pin
             if folder in current:
-                working=(ROOT/name).read_bytes()
+                working=recorded_source(name)
                 assert working==original or working.replace(b'\r\n',b'\n')==original,name
     config=out('agent-ab-deploy-30b');accepted=native(config+'verification.json');assert accepted['passed'] and accepted['resumed_existing_variants']
     policy=native('source/agent-ab-7c59f103/tree/agents/response-policy.json')

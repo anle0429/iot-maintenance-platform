@@ -6,6 +6,30 @@ All three Substrate worker pools were observed scaling **2 → 4 → 2** under r
 
 This plot uses the original sampled observations. It is separate from the unedited application screenshots below. [SVG](../images/agent-worker-scaling.svg) · [Plot source](../diagrams/agent_scaling.py) · [Offline verifier](../../scripts/verify-agent-scaling.py)
 
+## Latest native worker run
+
+The 7 November workload completed **11 independently checked coordinator conversations**, including both child histories. Retrieval, drift and coordinator each scaled **2 → 4 → 2 Ready workers**. The recorder made no replica changes. Five exact pre-dispatch capacity rejections were retried with the same context; there were zero unhandled task failures. The observed cycle lasted 352.49 seconds.
+
+All twelve worker Pods appear in active actor assignments across the retained observations, joined to their Ready Pod identities. An individual screenshot can still show idle workers between requests.
+
+Every observation retains WorkerPool, Pod, HPA, ScaledObject and actor-registry inputs. The recorder requires `Ready=True`, `Fallback=False`, and healthy demand metrics for every role. Four fallback replicas caused by a broken metric path cannot pass as demand-driven growth. [Native result](../evidence/mentor-runtime-20261107/worker-scaling.json) · [Runner](../../scripts/benchmark-agent-scaling.py).
+
+![All three pools at four workers](../evidence/mentor-runtime-20261107/ui/worker-healthy-all-pools-four.jpg)
+
+These overlapping original captures show the actual worker Pod names and role assignments. The last row falls below the first viewport.
+
+![Upper worker Pod rows at peak](../evidence/mentor-runtime-20261107/ui/worker-healthy-pod-list-peak.jpg)
+
+![Lower worker Pod rows at peak](../evidence/mentor-runtime-20261107/ui/worker-healthy-twelve-pods.jpg)
+
+![All three pools returned to two workers](../evidence/mentor-runtime-20261107/ui/worker-healthy-returned-two.jpg)
+
+The return capture was taken after the accepted idle boundary while the separate single-client comparison was beginning. Its one busy actor is not another autoscale test; the measured idle boundary is retained in the native observations.
+
+An initial follow-up created an overly narrow KEDA egress policy, blocking operator DNS and controller access. Removing that exact owned policy by UID/resourceVersion restored the prior access policy. All pools returned automatically to two before the accepted run. The failure and recovery remain archived. An early harness attempt also failed before dispatch because its standalone probe could not import the tracing module; the CLI entry point now has a regression test.
+
+The [MCP chapter](mcp_tools.md#native-mcp-autoscale) records the two MCP Deployments separately. Worker-pool replicas and MCP server replicas are different resources. Recompute both with `python -B -S scripts/verify-mentor-runtime.py`.
+
 ## How the scaling decision works
 
 Each role has a dedicated WorkerPool and a KEDA ScaledObject. KEDA reads the existing controller's Substrate status API, counting only running actors in `iot-agents` whose template belongs to that role. HPA changes the WorkerPool scale subresource; Substrate reconciles its worker Deployment.

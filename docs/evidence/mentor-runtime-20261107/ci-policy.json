@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "phase": "policy",
+  "passed": true,
+  "component": "coordinator",
+  "build_number": "14",
+  "source_commit": "f12ea06da2e039d139638c154470f896ed23a7cf",
+  "release": "llm-coordinator-jenkins-14",
+  "source_digest": "601aa990edbc5bd9693a7f9c69fa25757449e1e498c77ce9d1c218b4f13df827",
+  "scenario": "production",
+  "decision": {
+    "allowed": true,
+    "violations": [],
+    "gate_exit": 0,
+    "checked_utc": "2026-11-07T05:55:11.444594+00:00",
+    "input_sha256": "3e3cce905736ca42832c36fd581cc68bd762acbd83a9cff4799f7964a11ba8b9",
+    "policy_files": {
+      "infra/policy/agent-admission.rego": "da7bcbe1cc8a46b7f4e7b7dd431fc53497057d5a601c93c59b9dfc9dbd6e3018",
+      "infra/policy/agent-admission-approved.json": "55b2f27702bbacbadffa004a7f6ec52f8bc3758ff4248370eca71af2191878ae",
+      "agents/response-policy.json": "0cf47057d2b5659c3ef1fa58070f3359d0c4a3e4bf0a073b871975737e382a38"
+    },
+    "opa_sha256": "2ab571f367f293bb19523b76f92f1945bbf245003392c7f392903f95c2b9b630",
+    "opa_version": "1.21.4"
+  },
+  "rendered_manifest_sha256": "d6f9611549e49dd9102d1292f43d6d0e25f2c7c5ee3adfc991d3f0cf52123b0e",
+  "model_uid": "26b6311d-5825-4d6d-9fa1-49410116162d"
+}

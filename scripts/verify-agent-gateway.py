@@ -1,4 +1,5 @@
 """Recompute the private agent gateway, scoped Vault consumers and actual delegated GPU conversation from original receipts."""
+from source_evolution import recorded_source
 from collections import Counter
 from datetime import datetime,timedelta
 from hashlib import sha256
@@ -48,10 +49,10 @@ def verify():
         prefix='source/'+label+'/';seal=original(prefix+'manifest.json');assert len(seal['files'])==size;seals[label]=seal
         for name,digest in seal['files'].items():assert sha256(bodies[prefix+'tree/'+name]).hexdigest()==digest
     current=seals['agent-gateway-final-adc15dc2'];assert current['commit']==COMMIT and read(base,'current-source.json')==current
-    for name,digest in current['files'].items():assert sha256((ROOT/name).read_bytes()).hexdigest()==digest,name
+    for name,digest in current['files'].items():assert sha256(recorded_source(name)).hexdigest()==digest,name
     accepted_source=seals['accepted-agent'];assert accepted_source['commit']=='daee5d3ff335917ffb7f1705e17bf1e723aa20ad'
     for name,digest in accepted_source['files'].items():
-        if name.startswith(('agents/','knowledge/')):assert sha256((ROOT/name).read_bytes()).hexdigest()==digest,name
+        if name.startswith(('agents/','knowledge/')):assert sha256(recorded_source(name)).hexdigest()==digest,name
     for public,run in [('http-verification','agent-gateway-probe-29d'),('conversation-verification','agent-gateway-chat-29c'),
                        ('vault-verification','agent-vault-29a'),('identity-verification','agent-ui-identity-29a')]:
         assert (base/(public+'.json')).read_bytes()==bodies['native/'+run+'/verification.json']

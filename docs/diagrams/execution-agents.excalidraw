@@ -316,9 +316,9 @@
       "type": "text",
       "x": 584,
       "y": 198,
-      "width": 175.78125,
+      "width": 249.0234375,
       "height": 31.25,
-      "text": "A1.1  kagent",
+      "text": "A1.1  A2A ingress",
       "fontSize": 25,
       "strokeColor": "#172554",
       "textAlign": "left",
@@ -346,7 +346,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "A1.1  kagent",
+      "originalText": "A1.1  A2A ingress",
       "autoResize": true,
       "index": "a8",
       "backgroundColor": "transparent"
@@ -356,9 +356,9 @@
       "type": "text",
       "x": 544,
       "y": 237,
-      "width": 335.15625,
-      "height": 55,
-      "text": "/api/a2a-sandboxes/\niot-agents/iot-coordinator",
+      "width": 348.046875,
+      "height": 82.5,
+      "text": "Gateway :18083 → controller\n/api/a2a-sandboxes/\niot-agents/iot-coordinator",
       "fontSize": 22,
       "strokeColor": "#172554",
       "textAlign": "left",
@@ -386,7 +386,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "/api/a2a-sandboxes/\niot-agents/iot-coordinator",
+      "originalText": "Gateway :18083 → controller\n/api/a2a-sandboxes/\niot-agents/iot-coordinator",
       "autoResize": true,
       "index": "a9",
       "backgroundColor": "transparent"
@@ -404,7 +404,8 @@
         "node": "coord",
         "label": "A1.2  Coordinator",
         "sources": [
-          "infra/agents/kagent-values.yaml"
+          "infra/agents/kagent-values.yaml",
+          "infra/agentgateway/kagent-default.yaml"
         ]
       },
       "angle": 0,
@@ -690,9 +691,9 @@
       "type": "text",
       "x": 61,
       "y": 617,
-      "width": 322.265625,
+      "width": 335.15625,
       "height": 82.5,
-      "text": "POST /mcp, JSON-RPC\nFeatures, prediction, RAG\nor bounded cohort PSI",
+      "text": "Gateway :18081 / :18082\nPOST /mcp, JSON-RPC\nRead / predict / RAG / PSI",
       "fontSize": 22,
       "strokeColor": "#172554",
       "textAlign": "left",
@@ -720,7 +721,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "POST /mcp, JSON-RPC\nFeatures, prediction, RAG\nor bounded cohort PSI",
+      "originalText": "Gateway :18081 / :18082\nPOST /mcp, JSON-RPC\nRead / predict / RAG / PSI",
       "autoResize": true,
       "index": "aH",
       "backgroundColor": "transparent"
@@ -738,7 +739,8 @@
         "node": "child",
         "label": "A1.2  Specialists",
         "sources": [
-          "infra/agents/kagent-values.yaml"
+          "infra/agents/kagent-values.yaml",
+          "infra/agentgateway/kagent-default.yaml"
         ]
       },
       "angle": 0,
@@ -999,7 +1001,7 @@
       "y": 617,
       "width": 322.265625,
       "height": 82.5,
-      "text": "POST /v1/chat/completions\nllm-d → observer/adapter\n→ private GPU llama.cpp",
+      "text": "POST /v1/chat/completions\nAgentgateway → llm-d\n→ observer/adapter → GPU",
       "fontSize": 22,
       "strokeColor": "#172554",
       "textAlign": "left",
@@ -1027,7 +1029,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "POST /v1/chat/completions\nllm-d → observer/adapter\n→ private GPU llama.cpp",
+      "originalText": "POST /v1/chat/completions\nAgentgateway → llm-d\n→ observer/adapter → GPU",
       "autoResize": true,
       "index": "aO",
       "backgroundColor": "transparent"
@@ -1394,7 +1396,8 @@
         "label": "delegate via controller",
         "kind": "control",
         "sources": [
-          "infra/agents/kagent-values.yaml"
+          "infra/agents/kagent-values.yaml",
+          "infra/agentgateway/kagent-default.yaml"
         ]
       },
       "angle": 0,
@@ -1688,7 +1691,8 @@
         "label": "model",
         "kind": "request",
         "sources": [
-          "infra/agents/kagent-values.yaml"
+          "infra/agents/kagent-values.yaml",
+          "infra/agentgateway/kagent-default.yaml"
         ]
       },
       "angle": 0,
@@ -1786,7 +1790,8 @@
         "label": "generate",
         "kind": "request",
         "sources": [
-          "infra/agents/kagent-values.yaml"
+          "infra/agents/kagent-values.yaml",
+          "infra/agentgateway/kagent-default.yaml"
         ]
       },
       "angle": 0,
@@ -1884,7 +1889,8 @@
         "label": "reply",
         "kind": "response",
         "sources": [
-          "infra/agents/kagent-values.yaml"
+          "infra/agents/kagent-values.yaml",
+          "infra/agentgateway/kagent-default.yaml"
         ]
       },
       "angle": 0,
@@ -1982,7 +1988,8 @@
         "label": "reply",
         "kind": "response",
         "sources": [
-          "infra/agents/kagent-values.yaml"
+          "infra/agents/kagent-values.yaml",
+          "infra/agentgateway/kagent-default.yaml"
         ]
       },
       "angle": 0,
@@ -2407,9 +2414,9 @@
       "type": "text",
       "x": 45,
       "y": 1147,
-      "width": 379.6875,
+      "width": 348.046875,
       "height": 33.75,
-      "text": "Default versus candidate",
+      "text": "Selected gateway route",
       "fontSize": 27,
       "strokeColor": "#172554",
       "textAlign": "left",
@@ -2434,7 +2441,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Default versus candidate",
+      "originalText": "Selected gateway route",
       "autoResize": true,
       "index": "as",
       "backgroundColor": "transparent"
@@ -2444,9 +2451,9 @@
       "type": "text",
       "x": 45,
       "y": 1186,
-      "width": 997.265625,
+      "width": 849.0234375,
       "height": 57.5,
-      "text": "Agentgateway separately passed temporary MCP/A2A/model routing. The retain\nattempt hit upstream 503 and restored the original llm-d route.",
+      "text": "Agentgateway is retained for model, MCP and parent A2A ingress.\nJenkins #14 passed; child delegation remains controller-routed.",
       "fontSize": 23,
       "strokeColor": "#475569",
       "textAlign": "left",
@@ -2471,7 +2478,7 @@
       "verticalAlign": "top",
       "lineHeight": 1.25,
       "containerId": null,
-      "originalText": "Agentgateway separately passed temporary MCP/A2A/model routing. The retain\nattempt hit upstream 503 and restored the original llm-d route.",
+      "originalText": "Agentgateway is retained for model, MCP and parent A2A ingress.\nJenkins #14 passed; child delegation remains controller-routed.",
       "autoResize": true,
       "index": "at",
       "backgroundColor": "transparent"

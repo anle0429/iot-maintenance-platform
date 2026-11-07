@@ -75,9 +75,10 @@ def dashboard_labels_equivalent(original,current,name):
 
 def current_source_bindings(seal):
     """First verify immutable as-run Git bytes, then allow only explicitly documented docstring changes in current Python."""
+    from scripts.source_evolution import recorded_source
     source_bindings(seal)
     for name in seal['files']:
         original=historical_blob(ROOT, seal['commit']+':'+name);path=ROOT/name
-        current=path.read_bytes()
+        current=recorded_source(name)
         assert documentation_equivalent(original,current,path.suffix) or dashboard_labels_equivalent(original,current,name),name
     return len(seal['files'])

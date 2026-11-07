@@ -1,4 +1,5 @@
 """Authenticate the complete observer quality history and reconcile the ready native GPU canary with original wire, clocks, logs and counters."""
+from source_evolution import recorded_source
 from collections import Counter
 from datetime import datetime,timedelta,timezone
 from hashlib import sha256
@@ -47,7 +48,7 @@ def verify():
     assert quality['source_commit']==result['commit']=='97ba77b6d538b816b6304c17031090e3820a3fa0' and result['source_files']==26
     seal=native('quality-source/29f/manifest.json');runtime={n:d for n,d in seal['files'].items() if n.startswith('llm_observability/')}
     assert len(runtime)==6
-    for n,d in runtime.items():assert sha256((ROOT/n).read_bytes()).hexdigest()==d,n
+    for n,d in runtime.items():assert sha256(recorded_source(n)).hexdigest()==d,n
     for label in ['runtime','test']:
         image=quality['images'][label];assert image['metadata']['packages']['prometheus-client']=='0.24.1'
         if label=='runtime':assert image['metadata']['files']==runtime

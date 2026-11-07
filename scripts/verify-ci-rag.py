@@ -1,4 +1,5 @@
 """Verify original Jenkins RAG stages, exact source/image identities and persisted Airflow/Feast/DataHub facts offline."""
+from source_evolution import recorded_source, validate_recorded_seal
 from datetime import datetime,timezone
 from hashlib import sha256
 from io import BytesIO
@@ -52,8 +53,8 @@ def verify():
     assert b'pull access denied' in bodies['release/1/application-build.txt']
     assert 'release/1/build.json' not in bodies and 'release/1/deploy.json' not in bodies
     seal=original('source/3/manifest.json');assert seal['commit']==COMMIT and len(seal['files'])==41
-    source_digest=validate_source(ROOT,seal,COMMIT)
-    for name in seal['files']:assert bodies['source/3/tree/'+name]==(ROOT/name).read_bytes(),name
+    source_digest=validate_recorded_seal(seal,COMMIT)
+    for name in seal['files']:assert bodies['source/3/tree/'+name]==recorded_source(name),name
     definition=ET.fromstring(bodies['jenkins/job-config.xml'])
     assert definition.find('definition/script').text.encode()==bodies['source/3/tree/infra/ci/Rag.Jenkinsfile']
     stages=original('jenkins/3/stages.json')

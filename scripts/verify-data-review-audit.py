@@ -14,6 +14,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.documentation_paths import historical_document, bound_documents
+from source_evolution import recorded_source
 CAPSULE = ROOT / 'docs/evidence/data-review-audit'
 
 
@@ -69,7 +70,7 @@ def check():
         else:
             path = (ROOT / row['path']).resolve()
             assert path.is_relative_to(ROOT) and path.is_file(), row['path']
-            body = path.read_bytes()
+            body = recorded_source(row['path'])
         if row['mode'] == 'lf_text': body = body.replace(b'\r\n', b'\n')
         else: assert row['mode'] == 'exact_bytes'
         assert sha256(body).hexdigest() == row['sha256'], row['path']

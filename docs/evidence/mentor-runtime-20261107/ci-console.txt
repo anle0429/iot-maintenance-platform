@@ -1,0 +1,124 @@
+Started by user learner
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/jenkins_home/workspace/iot-llm-coordinator
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timeout
+Timeout set to expire in 45 min
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Prepare declared source and role)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] sh
++ set +x
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Admit actual source and VM session)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-llm-coordinator/build-14
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-agents-prompts.py admission
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test contracts API coverage and bound mutation cache)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-llm-coordinator/build-14
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-agents-prompts.py test
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Verify exact MLflow prompt versions)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-llm-coordinator/build-14
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-agents-prompts.py prompts
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build and inspect application and agent charts)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-llm-coordinator/build-14
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-agents-prompts.py build
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Admit model tools and sandbox with OPA)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-llm-coordinator/build-14
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-agents-prompts.py policy
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Auto deploy MCP and accepted agent policy)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-llm-coordinator/build-14
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-agents-prompts.py deploy
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Verify real tool calls and complete agent answers)
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-llm-coordinator/build-14
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-agents-prompts.py verify
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] fileExists
+[Pipeline] dir
+Running in /var/jenkins_home/workspace/iot-llm-coordinator/build-14
+[Pipeline] {
+[Pipeline] sh
++ python3 scripts/ci-agents-prompts.py archive
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] archiveArtifacts
+Archiving artifacts
+Recording fingerprints
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timeout
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS

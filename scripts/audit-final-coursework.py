@@ -25,7 +25,7 @@ VERIFIERS = (
     'joint-cohort', 'linux-host', 'linux-logs', 'log-discovery', 'native-serving',
     'observed-api-load', 'offline-drift', 'private-gateway', 'private-mesh', 'vault', 'window-cohort', 'final-review', 'llm-inference',
     'rag-foundation', 'llm-grounding', 'rag-orchestration', 'rag-corpus-drift', 'assistant-data', 'mcp-tools', 'mcp-gateway', 'agent-platform', 'agent-response-baseline', 'llm-model-ab', 'llm-agent-ab',
-    'mcp-quality', 'mcp-quality-native', 'mcp-quality-ui', 'gpu-inference', 'gpu-agents', 'llm-iac-ui', 'vault-agent-ui', 'agent-network', 'agent-scaling', 'agent-notebook', 'agent-warmup', 'ci-rag', 'ci-agents', 'agent-gateway', 'llm-observation', 'llm-observer', 'llm-agent-telemetry', 'llm-monitoring', 'llm-policy-window', 'agent-admission', 'learner-demo', 'history-migration',
+    'mcp-quality', 'mcp-quality-native', 'mcp-quality-ui', 'gpu-inference', 'gpu-agents', 'llm-iac-ui', 'vault-agent-ui', 'agent-network', 'agent-scaling', 'agent-notebook', 'agent-warmup', 'ci-rag', 'ci-agents', 'agent-gateway', 'llm-observation', 'llm-observer', 'llm-agent-telemetry', 'llm-monitoring', 'llm-policy-window', 'agent-admission', 'learner-demo', 'history-migration', 'mentor-runtime',
 )
 CAPSULES = (
     'drift-api', 'api-autoscale', 'notebook', 'notebook-parity', 'distributed-training',
@@ -191,6 +191,7 @@ def audit(output, workers):
             links += 1
     capsules = {name: capsule_manifest(ROOT, name) for name in CAPSULES}
     checkers = [ROOT / 'scripts' / f'verify-{name}.py' for name in VERIFIERS] + [Path(__file__).resolve(), ROOT / 'scripts/evidence_integrity.py', ROOT / 'scripts/git_sources.py', ROOT / 'scripts/history_proof.py', ROOT / 'docs/history-rewrite/manifest.json', ROOT / 'scripts/integration_evidence.py', ROOT / 'scripts/evidence_bundle.py', ROOT / 'scripts/unpack-evidence.py', ROOT / 'tests/test_history_sources.py', ROOT / 'tests/test_history_proof.py', ROOT / 'docs/history-rewrite/original-object-proofs.tar.gz', ROOT / 'tests/test_evidence_bundle.py', ROOT / 'tests/test_model_ab_doc_navigation.py', ROOT / 'docs/evidence-archive/manifest.json', ROOT / 'agents/answer_acceptance.py', ROOT / 'agents/delegation_acceptance.py', ROOT / 'scripts/go-mutation-exec.py', ROOT / 'agents/probe.py', ROOT / 'scripts/view-vault-metadata.py', ROOT / 'tests/test_vault_metadata_view.py', ROOT / 'infra/llm_steady_state.py', ROOT / 'scripts/resume-gpu-services.py', ROOT / 'tests/test_gpu_resume_session.py', ROOT / 'scripts/run-agent-demo.py', ROOT / 'scripts/refresh-agent-features.py', ROOT / 'scripts/configure-llm-steady-state.py', current_path('docs/final-audit-matrix.md'), current_path('docs/final-llm-rubric-tracker.md'), current_path('docs/final-rubric-tracker.md')]
+    checkers += [ROOT/'scripts/source_evolution.py', ROOT/'docs/source_evolution.json', ROOT/'tests/test_source_evolution.py', ROOT/'tests/test_mentor_runtime_evidence.py']
     checkers += [ROOT/'scripts/documentation_paths.py', ROOT/'docs/navigation.json', ROOT/'scripts/documentation_presentation.py', ROOT/'docs/presentation.json', ROOT/'scripts/verify-architecture-layers.py', ROOT/'docs/diagrams/layers.json']
     source_before = {p.relative_to(ROOT).as_posix(): sha256(p.read_bytes()).hexdigest() for p in checkers}
     results = {}
@@ -219,6 +220,7 @@ def audit(output, workers):
               'native_agent_startup_comparison_verified': results['agent-warmup']['exit'] == 0,
               'llm_runtime_verified': False, 'coursework_complete': False,
               'local_evidence_links': links, 'implementation_map': mapped, 'evidence_bundle': restored_evidence, 'additional_capsule_payloads': capsules, 'verifiers': results,
+              'current_mentor_followup_verified': results['mentor-runtime']['exit'] == 0,
               'live_readiness_checked': False, 'scope': 'Recorded ML, inference/RAG/MCP, GPU routing, strict mutation audits and real specialist/coordinator conversations plus both rubric presentations. Requirement navigation and the separately authenticated learner demo are recorded. This audit is not a grade, current live readiness, full100GB ML or laptop verification.'}
     (output / 'verification.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(report, indent=2))

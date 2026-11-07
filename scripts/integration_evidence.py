@@ -36,8 +36,11 @@ def sources(base, prefix, current=False):
         assert snapshot.is_relative_to((base / prefix / 'source/tree').resolve())
         assert sha256(snapshot.read_bytes()).hexdigest() == digest, name
         if current:
+            import sys
+            sys.path.insert(0, str(ROOT))
+            from scripts.source_evolution import recorded_source
             path = (ROOT / name).resolve()
-            assert path.is_relative_to(ROOT) and sha256(path.read_bytes()).hexdigest() == digest, name
+            assert path.is_relative_to(ROOT) and sha256(recorded_source(name)).hexdigest() == digest, name
     return seal
 
 
