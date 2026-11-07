@@ -214,7 +214,7 @@ Start with a package's README or the [command index](scripts/README.md). Runtime
 | Chapter | Code and evidence in one place |
 |---|---|
 | [Data processing](docs/edai-1/processing_jobs.md) | Batch and stream jobs, actual Flink window code, Airflow, and before/after results |
-| [Data storage](docs/edai-1/data_storage.md) | Parquet layout, Gold SQL, indexing, compaction and Feast stores |
+| [Data storage](docs/edai-1/data_storage.md) | Medallion table model, zone responsibilities, grains and keys; Parquet, Gold SQL, indexing, compaction and Feast |
 | [LLM inference](docs/edai-2/llm_inference_platform.md) | Deployment steps, recorded model requests and latency measurements |
 | [Agentgateway and ModelConfig](docs/edai-2/global_model_config.md) | Default model/MCP route, A2A ingress, configuration and retained cutover |
 | [MCP tools](docs/edai-2/mcp_tools.md) | Async handlers, Helm recovery and per-Pod autoscale proof |

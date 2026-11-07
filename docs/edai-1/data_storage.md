@@ -10,7 +10,7 @@ The platform persists a layered data lake as Snappy Parquet and builds dimension
 - [Measured storage optimization](#storage-optimization)
 - [Warehouse index experiment](#warehouse-index-experiment)
 - [Feast configuration and write paths](#feast-configuration-and-writes)
-- [Schema, grains and query-derived relationships](#schema-design)
+- [Medallion zones, table grains and relationships](#schema-design)
 - [Feast offline and online features](#feast-feature-store)
 - [Write paths and clock boundaries](#feature-jobs-and-ttl)
 - [Batch materialization and DataHub](#feast-materialization)
@@ -358,17 +358,52 @@ The persisted Parquet tables are inspected in [an executable SQL notebook](../..
 
 ### Schema design: Zones and grains
 
-| Zone | Tables / prefix | Grain and purpose |
-|---|---|---|
-| Source | JSONL `machines`, `failure_events`, `maintenance_events`, telemetry v1/v2 | Immutable exports and arrival envelopes, before Spark normalization |
-| Bronze | Original batch: `raw_department_records`; later DP1: `raw_machines`, `raw_failures`, `raw_maintenance`, `raw_telemetry` | Original envelopes or parsed source tables, with intentional telemetry duplicates retained |
-| Silver | `stg_telemetry`, `stg_failure` (original batch) / `stg_failures` (DP2), `stg_maintenance` | Normalized types; telemetry has one row per `event_id`, with first-arrival semantics preserved |
-| Gold dimensions | `dim_machine`, `dim_factory` | One effective-dated machine version; one factory key |
-| Gold facts | `fact_telemetry`, `fact_failure`, `fact_maintenance` | Reading, failure onset or maintenance interval enriched with temporal `machine_sk` |
-| Features | `feat_machine_10m` | One `(machine_id,event_timestamp)` snapshot, with `created` build-audit time and arrival-aware inputs |
-| Labels / training | `label_failure_1h`, eligible entities and training tables | Future outcome kept separate until a validated snapshot/label join |
+The [Microsoft medallion decision guide](https://techcommunity.microsoft.com/blog/azurearchitectureblog/designing-a-medallion-framework-%E2%80%94-a-decision-guide/4514349) treats the layer names as responsibilities that a project must define. Here, Bronze retains exports, Silver exposes typed reusable records, and Gold publishes historical analytical relationships and ML products. Modeling happens in both Silver and Gold. The `stg_` prefix here names persisted Silver tables; it is not a separate transient pre-Bronze staging zone.
 
-[DP1–DP3](../../pipelines/airflow_tasks.py) and [the original batch job](../../pipelines/batch_job.py) use distinct run layouts. The original batch job stores feature/label/training outputs under Gold; the later staged DAG places feature and label tables under `features/`. Their naming/layout difference is not a new table relationship or an SQL warehouse. Persisted formats are Parquet. The small earlier demonstration reads department source records from PostgreSQL through JDBC; its Bronze, Silver and Gold outputs are written as Parquet. The Airflow pilot does not deploy a separate SQL warehouse.
+| Responsibility | Silver in this implementation | Gold in this implementation |
+|---|---|---|
+| Data contract | Parse explicit types, preserve provenance and both effective/arrival clocks; normalize telemetry v1/v2 | Define dimension versions, fact grain, historical joins and separate feature/label products |
+| Duplicate handling | Telemetry rejects conflicting payloads, then keeps the latest export by `created_ts`, source path and line; immutable event/arrival fields are preserved | Require unique dimension keys, one matched version per fact and unique snapshot keys; reject missing or multiplied joins |
+| Consumption | Shared event and machine-history records for downstream builders | Business queries over dimensions/facts; rolling aggregates for ML; eligible chronological training data |
+| Team interpretation | DE responsibility for trustworthy reusable records | DA/analytics-engineering responsibility for metric definitions and consumable models; this repository implements both responsibilities |
+
+Gold does **not** mean every table is pre-aggregated. The three `fact_*` tables retain event/interval grain. `feat_machine_10m` contains rolling aggregates, sampled every five minutes, for prediction. There is no persisted factory/day BI mart, Power BI semantic model or OBT in this implementation. A business report can aggregate the Gold facts at query time; neither that query nor the ML feature table is evidence that a separate reporting mart has been deployed.
+
+![Bronze, Silver and Gold tables with transformation inputs and machine-version enrichment](../images/data-model-zones.png)
+
+[Full-resolution PNG](../images/data-model-zones.png) · [Vector SVG](../images/data-model-zones.svg) · [Editable Excalidraw](../diagrams/data-model-zones.excalidraw) · [Illustrative moving-dot SVG](../images/data-model-zones.animated.svg).
+
+The drawing is **logical transformation lineage for the original `day2-final` batch**, not a live UI capture or physical file-read sequence. Builders can reuse the same cached DataFrames that they persist as Silver. The five analytical Gold tables and three ML Gold tables belong to the same `gold/` directory. Counts below come from the [executed read-only inventory](../evidence/data-review-audit/executed.ipynb); the [native Gold relationship graph](#schema-design-query-derived-relationship-view) below supplies the complementary child-to-parent key view.
+
+| Zone | Actual table | Grain / key | Original rows | Main inputs or relationship |
+|---|---|---|---:|---|
+| Bronze | `raw_department_records` | One `(source_run, source_path, source_line)` envelope | 58,843 | Source PostgreSQL records; 58,752 telemetry exports include 1,152 duplicate exports |
+| Silver | `stg_machine_snapshots` | One `(machine_id, valid_from_ts)` source version | 21 | Initial machines and machine changes parsed from Bronze; `recorded_ts` retained |
+| Silver | `stg_telemetry` | One `event_id` | 57,600 | Typed Bronze telemetry; deterministic export dedup; unknown v1 pressure stays NULL |
+| Silver | `stg_failure` | One `failure_id` | 31 | Typed Bronze failure events, including start/recovery and recorded time |
+| Silver | `stg_maintenance` | One `maintenance_id` interval | 39 | Typed Bronze maintenance events, including start/end |
+| Gold | `dim_machine` | One `machine_sk` for `(machine_id, valid_from_ts)` | 21 | SCD2 intervals from machine snapshots; 20 current machines |
+| Gold | `dim_factory` | One `factory_id` | 4 | Distinct factory keys from `dim_machine` |
+| Gold | `fact_telemetry` | One `event_id` | 57,600 | Silver telemetry plus the machine version effective at `event_ts` |
+| Gold | `fact_failure` | One `failure_id` | 31 | Silver failure plus the version effective at `failure_start_ts` |
+| Gold | `fact_maintenance` | One `maintenance_id` | 39 | Silver maintenance plus the version effective at `start_ts` |
+| Gold | `feat_machine_10m` | One `(machine_id, event_timestamp)` | 11,520 | Arrived telemetry, recorded past failures and **initial Bronze machine records**; eight model inputs, no future target |
+| Gold | `label_failure_1h` | Same snapshot key | 11,520 | Snapshot entities/status, future failure onset and future maintenance start; eligibility and label availability |
+| Gold | `training_failure_1h` | Eligible snapshot key, after split purging | 9,910 | Feature/label key join, at least five readings, eligible labels and chronological split boundaries |
+
+The machine snapshot key is validated when constructing the dimension; failure and maintenance rows retain their source IDs. This does not claim that a general-purpose duplicate-removal algorithm runs on every Silver table.
+
+**Keys and cardinality.** Each of the three facts has a many-to-one logical `machine_sk` relationship to `dim_machine`; each machine version has a many-to-one `factory_id` relationship to `dim_factory`. Fact construction first joins `machine_id` and the relevant event time to `[valid_from_ts, valid_to_ts)`. That temporal match must produce exactly one machine version and preserve fact row counts. Feature and label tables have matching unique machine/snapshot keys; training is an eligible, purged subset of that join. These are application-validated relationships in Parquet, not SQL-enforced foreign keys. The original native queries below verify uniqueness, nulls, missing parents and row preservation.
+
+**Run layouts stay separate.** Do not apply the thirteen-table picture or its small-batch counts to the larger ingestion milestone:
+
+| Recorded path | Bronze | Silver | Gold / feature outputs |
+|---|---|---|---|
+| [Original batch](../../pipelines/batch_job.py), pictured above | One envelope table | Four tables, including machine snapshots; singular `stg_failure` | Five analytical and three ML tables under `gold/` |
+| [Airflow DP1–DP3](../../pipelines/orchestration_contract.py) | DP1: `raw_telemetry`, `raw_machines`, `raw_failures`, `raw_maintenance` | DP2: `stg_telemetry`, plural `stg_failures`, `stg_maintenance` | DP2: the same five dimension/fact names; DP3: `features/feat_machine_10m`, `features/label_failure_1h`. No `training_failure_1h` output in DP3 |
+| [100 GB ingestion](processing_jobs.md#full-scale-ingest) | Bounded immutable Parquet ingestion | Full-scale normalized/deduplicated output | This milestone ends at Silver; ML uses a separate 60-day workload |
+
+DP2 builds its machine dimension directly from validated DP1 `raw_machines`; it does not persist the original batch's Silver machine-snapshot table. The staged layout has fourteen tables across its three stage directories. Both paths write Parquet, and neither creates a separate SQL warehouse. The Gold DuckDB index experiment above remains a separately measured local workload.
 
 ### Schema design: SCD2 and fact/dimension linkage
 

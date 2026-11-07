@@ -8,6 +8,8 @@ In this main view, blue denotes application calls/events; green denotes data, ar
 
 To rebuild this standalone main view without changing the retained interactive viewer, run `node docs/diagrams/export.mjs --standalone --view platform-architecture --write-native`, followed by `node docs/diagrams/preview.mjs --standalone --view platform-architecture`. Use the pinned renderer dependencies described below; `DIAGRAM_PYTHON` selects a Python interpreter with Pillow.
 
+The [medallion table model](../images/data-model-zones.svg) ([PNG](../images/data-model-zones.png), [Excalidraw](data-model-zones.excalidraw), [moving-dot SVG](../images/data-model-zones.animated.svg)) is a separate data-model view: all thirteen original-batch tables, their grains and transformation inputs. Its [canonical storage chapter](../edai-1/data_storage.md#schema-design) explains key cardinality, the native SQL relationship proof and the distinct staged Airflow layout. It is not an execution-order or enforced-constraint diagram; moving dots illustrate direction only.
+
 ## Earlier architecture set
 
 Eight earlier Excalidraw views capture the previous architecture review. The system map summarizes dependencies, a C4 container view zooms into feature access, five dynamic views trace numbered processing and request paths, and the deployment view locates workloads and state on the recorded CPU/GPU hosts. This follows the separation in the C4 [container](https://c4model.com/diagrams/container), [dynamic](https://c4model.com/diagrams/dynamic) and [deployment](https://c4model.com/diagrams/deployment) views.
