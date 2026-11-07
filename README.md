@@ -31,24 +31,28 @@ The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 h
 
 ## Architecture
 
-Start with the application execution map. Each row follows an actual job or API through its inputs and outputs. Use the deployment view to locate the workloads, services and persistent state.
+The architecture groups the platform by responsibility and shows the data, API calls and release decisions between its components. The detailed views below follow each path through its handlers, jobs and outputs.
 
-![Application execution paths for batch training, streaming, prediction and agent requests](docs/images/application-execution.svg)
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/platform-architecture.png">
+  <img alt="IoT Maintenance Platform architecture" src="docs/images/platform-architecture.gif">
+</picture>
 
-[Editable Excalidraw](docs/diagrams/application-execution.excalidraw) · [Full-size diagram](docs/images/application-execution.svg) · [Diagram guide](docs/diagrams/README.md)
+[Full-size SVG](docs/images/platform-architecture.svg) · [Static PNG](docs/images/platform-architecture.png) · [Editable Excalidraw](docs/diagrams/platform-architecture.excalidraw) · [Motion SVG](docs/images/platform-architecture.animated.svg) · [Source decisions](docs/diagrams/execution-guide.md#main-platform-architecture)
 
-| Layer | View | What it explains |
+Moving dots illustrate call and data direction. They are independent loops, not live traffic or pipeline timing.
+
+| Flow | View | Entry and result |
 |---|---|---|
-| 1 · System | [Connected subsystems](docs/images/architecture-system.png) | Data, feature stores, model lifecycle, agents and operating controls |
-| 1 · Containers | [Feature storage and access](docs/images/feature-containers.png) | Jobs, APIs and stores, with Feast shown inside its callers |
-| 2 · Flow | [Batch processing](docs/images/flow-batch.png) | DP1–DP3, schema/dedup, feature/label separation and metadata release gates |
-| 2 · Flow | [Streaming](docs/images/flow-stream.png) | Kafka/Flink event time, durable dedup and staged offline/online writers |
-| 2 · Flow | [Training and release](docs/images/flow-training.png) | Mounted Feast history, independent labels, five KFP tasks, MLflow and gated serving |
-| 2 · Flow | [Prediction request](docs/images/flow-prediction.png) | Authentication, native Redis lookup, eligibility checks, KServe and checked response |
-| 2 · Flow | [Agents and inference](docs/images/flow-agents.png) | Controller-routed delegation, specialist MCP tools and all three LLM routes |
-| 3 · Deployment | [Hosts and runtimes](docs/images/deployment-runtime.png) | CPU/GPU placement, workload groups, persistent state and private access |
+| B1 | [Batch ingest and release](docs/images/execution-batch.png) | Airflow REST trigger → validated Bronze, Silver, Gold, features and labels |
+| S1 | [Streaming and feature delivery](docs/images/execution-stream.png) | Bounded Kafka replay → Flink windows, audit and late data → separate CI delivery |
+| T1 | [Training and release](docs/images/execution-training.png) | Private KFP submission → evaluation and registration → independent serving build |
+| P1 | [Prediction](docs/images/execution-prediction.png) | Machine-ID POST → eligibility and KServe → checked score or HTTP error |
+| K1 | [Knowledge indexing](docs/images/execution-knowledge.png) | Airflow run ID → sealed snapshot → separate Retrieval MCP rollout |
+| A1 | [Agent request](docs/images/execution-agents.png) | A2A message → isolated children, tools and generation → returned A2A task |
+| D1 | [Deployment](docs/images/execution-deployment.png) | Private entry, CPU and GPU placement, Services, ports and volumes |
 
-The [feature-access view](docs/images/feature-containers.png) explains the separate online projects and historical sources. The [deployment view](docs/images/deployment-runtime.png) locates those resources on the CPU and GPU hosts. Open the [diagram guide](docs/diagrams/README.md) for the original animated exports and editable sources.
+The [execution guide](docs/diagrams/execution-guide.md) distinguishes implemented code, configured activation and recorded runtime evidence. The [diagram inventory](docs/diagrams/README.md) keeps the earlier views and interactive viewer available for comparison.
 
 ## Data platform
 

@@ -17,7 +17,9 @@ const {chromium}=require('playwright');
 const views=['platform-system','platform-overview','platform-serving','platform-deployment','platform-monitoring','platform-llm-plan','agent-admission','assistant-classes','agent-traces','prompt-policy','platform-reading-map','architecture-system','flow-batch','flow-stream','flow-training','flow-prediction','flow-agents','deployment-runtime','feature-containers'];
 const labels=['System architecture','Platform overview','Prediction request','Deployment topology','Observability & retraining','RAG & agents','Agent release admission','Assistant code boundaries','Agent trace paths','Prompt policy cohort','Start here · three workflows','Layer 1 · System architecture','Layer 2 · Batch processing','Layer 2 · Streaming and feature delivery','Layer 2 · Training and release','Layer 2 · Prediction request','Layer 2 · Agents, tools and inference','Layer 3 · Physical deployment','Layer 1 · Feature storage and access'];
 const selected=process.argv.indexOf('--view'),selectedName=selected<0?null:process.argv[selected+1];
-if(selectedName&&!views.includes(selectedName))throw Error('Select a maintained view');
+const standalone=process.argv.includes('--standalone');
+if(standalone&&!/^[a-z][a-z0-9-]+$/.test(selectedName??''))throw Error('Select a standalone scene with --view');
+if(!standalone&&selectedName&&!views.includes(selectedName))throw Error('Select a maintained view');
 const existingIndex=JSON.parse(fs.readFileSync(path.join(root,'docs/images/diagram-index.json')));
 const bank=JSON.parse(fs.readFileSync(path.join(here,'icons/brands.json')));
 const documentPaths=Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync(path.join(root,'docs/navigation.json'))).files).map(([old,v])=>[old,v.path]));
@@ -50,7 +52,7 @@ function prepare(scene){
     }
     const hash=createHash('sha256').update(e.id).digest();
     Object.assign(e,{angle:e.angle??0,fillStyle:e.fillStyle??'solid',strokeWidth:e.strokeWidth??(e.type==='text'?1:2),strokeStyle:e.strokeStyle??'solid',roughness:0,opacity:100,seed:e.seed??hash.readUInt32LE(0)%2147483647,version:e.version??1,versionNonce:e.versionNonce??hash.readUInt32LE(4)%2147483647,isDeleted:false,groupIds:e.groupIds??[],frameId:e.frameId??null,roundness:e.roundness??null,boundElements:e.boundElements??null,link:e.link??null,locked:e.locked??false,updated:e.updated??1});
-    if(e.type==='text')Object.assign(e,{fontFamily:3,textAlign:e.textAlign??'left',verticalAlign:'top',lineHeight:e.lineHeight??1.25,containerId:e.containerId??null,originalText:e.text,autoResize:true});
+    if(e.type==='text')Object.assign(e,{fontFamily:e.fontFamily??3,textAlign:e.textAlign??'left',verticalAlign:'top',lineHeight:e.lineHeight??1.25,containerId:e.containerId??null,originalText:e.text,autoResize:true});
     if(e.type==='image'){
       const icon=bank[e.fileId];if(!icon)throw Error('Unknown icon '+e.fileId);
       scene.files[e.fileId]={id:e.fileId,mimeType:icon.mimeType??'image/svg+xml',dataURL:icon.dataURL??('data:image/svg+xml;base64,'+Buffer.from(icon.svg).toString('base64')),created:1};
@@ -79,11 +81,14 @@ export function flowGeometry(e){
 }
 
 /** SVG motion is a separate presentation layer, not part of the editable Excalidraw editor. */
-function animate(svg,elements,name){
+function animate(svg,elements,name,roundTrip=false){
   const edges=elements.filter(e=>e.customData?.edge);
   const groups=edges.map(e=>{
     const g=flowGeometry(e),id=escapeXML(e.id),color=escapeXML(e.strokeColor);
-    return `<g id="flow-${id}" class="flow" data-edge="${id}"><title>${escapeXML(e.customData.label)}</title><path id="route-${id}" class="edge-hit" d="${g.d}" fill="none" stroke="${color}" stroke-opacity="0" stroke-width="22" pointer-events="stroke"/><circle class="flow-particle" r="5.5" fill="${color}" stroke="#ffffff" stroke-width="1.5"><animateMotion path="${g.d}" dur="${g.seconds.toFixed(3)}s" data-base-duration="${g.seconds.toFixed(3)}" repeatCount="indefinite" calcMode="paced"/></circle></g>`;
+    const paired=roundTrip&&e.startArrowhead==='arrow';
+    const seconds=g.seconds*(paired?2:1);
+    const timing=paired?'calcMode="linear" keyPoints="0;1;0" keyTimes="0;0.5;1"':'calcMode="paced"';
+    return `<g id="flow-${id}" class="flow" data-edge="${id}"><title>${escapeXML(e.customData.label)}</title><path id="route-${id}" class="edge-hit" d="${g.d}" fill="none" stroke="${color}" stroke-opacity="0" stroke-width="22" pointer-events="stroke"/><circle class="flow-particle" r="5.5" fill="${color}" stroke="#ffffff" stroke-width="1.5"><animateMotion path="${g.d}" dur="${seconds.toFixed(3)}s" data-base-duration="${seconds.toFixed(3)}" repeatCount="indefinite" ${timing}/></circle></g>`;
   }).join('');
   return svg.replace('</svg>',`<style>.flow-particle{pointer-events:none}.edge-hit{cursor:pointer}.flow.muted .flow-particle{opacity:.12}.flow.selected .edge-hit{stroke-opacity:.22}@media(prefers-reduced-motion:reduce){.flow-particle{display:none}}</style><g id="illustrative-motion" aria-label="Illustrative flow directions; not live telemetry">${groups}</g><metadata>${escapeXML(JSON.stringify({kind:'illustrative-motion',name,runtime_telemetry:false,ordering:'independent illustrative loops; no execution chronology',edges:edges.map(e=>({id:e.id,...flowGeometry(e)}))}))}</metadata></svg>`);
 }
@@ -100,7 +105,7 @@ try{
     res.setHeader('Content-Type',filename.endsWith('.js')?'text/javascript':filename.endsWith('.woff2')?'font/woff2':'application/octet-stream');res.end(fs.readFileSync(filename));
   });
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
-  browser=await chromium.launch({headless:true});
+  browser=await chromium.launch({headless:true,executablePath:process.env.DIAGRAM_CHROMIUM_EXECUTABLE});
   const page=await browser.newPage({viewport:{width:3000,height:2200},deviceScaleFactor:1});
   const pageErrors=[];page.on('pageerror',e=>pageErrors.push(e.message));
   await page.goto('http://127.0.0.1:'+server.address().port);
@@ -108,7 +113,7 @@ try{
   await page.addStyleTag({content:'@font-face{font-family:Cascadia;src:url("/assets/fonts/Cascadia/CascadiaCode-Regular.woff2")}body{margin:0}'});
   await page.evaluate(async()=>{await document.fonts.load('20px Cascadia');await document.fonts.ready;});
   const images=path.join(root,'docs/images'),results=[];
-  for(const [i,name]of views.entries()){
+  for(const [i,name]of (standalone?[selectedName]:views).entries()){
     if(selectedName&&name!==selectedName){
       const view=existingIndex.views.find(v=>v.name===name);if(!view)continue;
       const scene=JSON.parse(fs.readFileSync(path.join(here,name+'.excalidraw')));
@@ -129,8 +134,9 @@ try{
     const metadata={kind:'authored-architecture-illustration',runtime_screenshot:false,native:name+'.excalidraw',sources:[...new Set(result.elements.flatMap(e=>e.customData?.sources??[]))]};
     const svg=result.svg.replace('</svg>',`<metadata>${escapeXML(JSON.stringify(metadata))}</metadata></svg>`);
     await writeArtifact(path.join(images,name+'.svg'),svg+'\n');
+    if(await page.locator('#diagram .flow-particle, #diagram animateMotion, #diagram #illustrative-motion').count())throw Error('Static export contains animation markers: '+name);
     await page.locator('#diagram').screenshot({path:path.join(images,name+'.png'),timeout:30000});
-    const animated=animate(svg,result.elements,name);
+    const animated=animate(svg,result.elements,name,standalone);
     await writeArtifact(path.join(images,name+'.animated.svg'),animated+'\n');
     if(writeNative){
       // Serialization markers are deterministic; they are not captured service timestamps.
@@ -139,12 +145,14 @@ try{
     }
     const edges=result.elements.filter(e=>e.customData?.edge).map(e=>({...e.customData,...flowGeometry(e)}));
     const nodes=result.elements.filter(e=>e.customData?.node).map(e=>e.customData.node);
-    const view={name,title:labels[i],width:result.width,height:result.height,nodes,arrows:edges.map(e=>e.edge),native:'../diagrams/'+name+'.excalidraw',animated:name+'.animated.svg',...(scene.customData?.layer?{layer:scene.customData.layer,scope:scene.customData.scope}:{})};
+    const view={name,title:standalone?(scene.customData?.title??name):labels[i],width:result.width,height:result.height,nodes,arrows:edges.map(e=>e.edge),native:'../diagrams/'+name+'.excalidraw',animated:name+'.animated.svg',...(scene.customData?.layer?{layer:scene.customData.layer,scope:scene.customData.scope}:{})};
     results.push({...view,svg:animated,edges});
-    console.log(JSON.stringify({view:name,nodes:nodes.length,arrows:edges.length,dimensions:[view.width,view.height]}));
+    console.log(JSON.stringify({view:name,nodes:nodes.length,arrows:edges.length,dimensions:[view.width,view.height],static_animation_markers:0}));
   }
-  await writeArtifact(path.join(images,'diagram-index.json'),JSON.stringify({kind:'authored-architecture-illustrations',runtime_screenshot:false,source:'docs/diagrams/*.excalidraw',renderer:'@excalidraw/excalidraw@0.18.0',motion:'illustrative direction only; not live telemetry or measured timing',views:results.map(({svg,edges,...v})=>v)},null,2)+'\n');
-  await writeArtifact(path.join(here,'architecture.html'),makePresentation(results,documentPaths));
+  if(!standalone){
+    await writeArtifact(path.join(images,'diagram-index.json'),JSON.stringify({kind:'authored-architecture-illustrations',runtime_screenshot:false,source:'docs/diagrams/*.excalidraw',renderer:'@excalidraw/excalidraw@0.18.0',motion:'illustrative direction only; not live telemetry or measured timing',views:results.map(({svg,edges,...v})=>v)},null,2)+'\n');
+    await writeArtifact(path.join(here,'architecture.html'),makePresentation(results,documentPaths));
+  }
   const sourceFiles=[...new Set(results.flatMap(v=>v.edges.flatMap(e=>e.sources)))].sort();
   console.log(JSON.stringify({rendered:results.length,native_embedded:writeNative,source_files:sourceFiles.length,animation_count:results.reduce((n,v)=>n+v.arrows.length,0),index_sha256:digest(fs.readFileSync(path.join(images,'diagram-index.json')))}));
 }finally{

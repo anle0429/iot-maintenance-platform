@@ -3,7 +3,7 @@
   "files": {
     "README.md": {
       "before_sha256": "b8ab6857291bc7e4bbf66374c29b45a1b51dbc338bde188a5cbaac77927e69de",
-      "after_sha256": "4860c0012a71f957e8e78a32f93448e673871afa53b7ab21df83185ad56b48fc",
+      "after_sha256": "38127cd520bcc35222532703e2b47dad3d0ff7b15663ade13cadc18d8903b1f4",
       "reviewed_replacement": true
     },
     "docs/README.md": {
@@ -13,7 +13,7 @@
     },
     "docs/diagrams/README.md": {
       "before_sha256": "e6470e18aab5ca7762a7a4db6ecaebfd2006189d72abbf702d53dbebcf1569e9",
-      "after_sha256": "11598d8bc5fdac2dd9fd465910a8f002e6905bdcb5e5f09cb749acf02140e0b9",
+      "after_sha256": "3be80f7a002fcb445eb36a1716115eefe4875698a802cfb9d81858ebf10442b2",
       "reviewed_replacement": true
     },
     "docs/edai-1/README.md": {
@@ -33,17 +33,17 @@
         {
           "line": 98,
           "old": "![All native paired observations and their medians](../images/batch-benchmark-pairs.png)\n",
-          "new": "Each comparison is shown at full page width so its labels and all three measured pairs remain readable.\n\n![Schema reader: all three native pairs and medians](../images/benchmark-schema-readable.png)\n\n![Dedup selector: the aggregate candidate has the higher median](../images/benchmark-dedup-readable.png)\n\n![Factory-policy join: all three native pairs and medians](../images/benchmark-skew-readable.png)\n\n[Original combined plot](../images/batch-benchmark-pairs.png) \u00b7 [Panel source identities](../images/benchmark-detail-sources.json)\n"
+          "new": "Each comparison is shown at full page width so its labels and all three measured pairs remain readable.\n\n![Schema reader: all three native pairs and medians](../images/benchmark-schema-readable.png)\n\n![Dedup selector: the aggregate candidate has the higher median](../images/benchmark-dedup-readable.png)\n\n![Factory-policy join: all three native pairs and medians](../images/benchmark-skew-readable.png)\n\n[Original combined plot](../images/batch-benchmark-pairs.png) · [Panel source identities](../images/benchmark-detail-sources.json)\n"
         },
         {
           "line": 113,
           "old": "| Full-source inference | Declared union schema |\n|---|---|\n| ![Native inferred reader, query 25](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg) | ![Native declared reader, query 28](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg) |\n",
-          "new": "\n**Full-source inference \u2014 Native inferred reader, query 25**\n\n![Native inferred reader, query 25](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg).\n\n\n**Declared union schema \u2014 Native declared reader, query 28**\n\n![Native declared reader, query 28](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg).\n\n"
+          "new": "\n**Full-source inference — Native inferred reader, query 25**\n\n![Native inferred reader, query 25](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/schema-inferred-query25-full.jpg).\n\n\n**Declared union schema — Native declared reader, query 28**\n\n![Native declared reader, query 28](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/schema-declared-full.jpg).\n\n"
         },
         {
           "line": 122,
           "old": "| Window baseline | Aggregate candidate |\n|---|---|\n| ![Native window selector, query 49](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg) | ![Native aggregate selector, query 52](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg) |\n",
-          "new": "\n**Window baseline \u2014 Native window selector, query 49**\n\n![Native window selector, query 49](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg).\n\n\n**Aggregate candidate \u2014 Native aggregate selector, query 52**\n\n![Native aggregate selector, query 52](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg).\n\n"
+          "new": "\n**Window baseline — Native window selector, query 49**\n\n![Native window selector, query 49](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/dedup-window-full.jpg).\n\n\n**Aggregate candidate — Native aggregate selector, query 52**\n\n![Native aggregate selector, query 52](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/dedup-aggregate-full.jpg).\n\n"
         }
       ]
     },
@@ -54,12 +54,12 @@
         {
           "line": 25,
           "old": "| Before: sort/merge strategy and hot tasks | After: broadcast strategy |\n|---|---|\n| ![Baseline physical plan](../evidence/skew-benchmark/screenshots/baseline-sql-18.png) | ![Optimized physical plan](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png) |\n| ![Baseline hot tasks](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png) | ![Broadcast stage tasks](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png) |\n",
-          "new": "\n**Before: sort/merge strategy and hot tasks \u2014 Baseline physical plan**\n\n![Baseline physical plan](../evidence/skew-benchmark/screenshots/baseline-sql-18.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/baseline-sql-18.png).\n\n\n**After: broadcast strategy \u2014 Optimized physical plan**\n\n![Optimized physical plan](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png).\n\n\n**Before: sort/merge strategy and hot tasks \u2014 Baseline hot tasks**\n\n![Baseline hot tasks](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png).\n\n\n**After: broadcast strategy \u2014 Broadcast stage tasks**\n\n![Broadcast stage tasks](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png).\n\n"
+          "new": "\n**Before: sort/merge strategy and hot tasks — Baseline physical plan**\n\n![Baseline physical plan](../evidence/skew-benchmark/screenshots/baseline-sql-18.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/baseline-sql-18.png).\n\n\n**After: broadcast strategy — Optimized physical plan**\n\n![Optimized physical plan](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/broadcast-sql-19.png).\n\n\n**Before: sort/merge strategy and hot tasks — Baseline hot tasks**\n\n![Baseline hot tasks](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/baseline-hot-tasks.png).\n\n\n**After: broadcast strategy — Broadcast stage tasks**\n\n![Broadcast stage tasks](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png)\n\n[Open the original capture at full resolution](../evidence/skew-benchmark/screenshots/broadcast-stage-85.png).\n\n"
         },
         {
           "line": 52,
           "old": "| Baseline: query 18 | Broadcast: query 19 |\n|---|---|\n| ![Native final policy sort-merge plan](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg) | ![Native final policy broadcast plan](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg) |\n",
-          "new": "\n**Baseline: query 18 \u2014 Native final policy sort-merge plan**\n\n![Native final policy sort-merge plan](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg).\n\n\n**Broadcast: query 19 \u2014 Native final policy broadcast plan**\n\n![Native final policy broadcast plan](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg).\n\n"
+          "new": "\n**Baseline: query 18 — Native final policy sort-merge plan**\n\n![Native final policy sort-merge plan](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/skew-baseline-full.jpg).\n\n\n**Broadcast: query 19 — Native final policy broadcast plan**\n\n![Native final policy broadcast plan](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg)\n\n[Open the original capture at full resolution](../evidence/batch-benchmarks/screenshots/skew-broadcast-full.jpg).\n\n"
         }
       ]
     },
@@ -646,6 +646,201 @@
       "sha256": "556a41e5b508d63397354c3711acea27e338d7b785197df70cbec72de3a56e18",
       "new": true,
       "mode": "lf_text"
+    },
+    "docs/diagrams/execution-agents.excalidraw": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "b41b4a74cf344bbb7183b50c500978664ec561628322def2f3f35bf75a15e7d7"
+    },
+    "docs/diagrams/execution-batch.excalidraw": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "3fe7fe6ed268d18f7077805c2d91864c0d37ea9d56fcdea6146ac66abb278281"
+    },
+    "docs/diagrams/execution-deployment.excalidraw": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "7f55ec5795ee2da7f546cc2a83754d2f3e805b08cc7b0e60813d131c44bcf6a7"
+    },
+    "docs/diagrams/execution-knowledge.excalidraw": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "16cbe51d102577d5206e137caa3c8b63c275a60c0808514b0390ba54fbffa839"
+    },
+    "docs/diagrams/execution-overview.excalidraw": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "581c17a9d23a275ee758c1dd0ebb0653f4d6fa649c5b4c34ce331daac0a968c7"
+    },
+    "docs/diagrams/execution-prediction.excalidraw": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "8215008de6cbdc49418073e5f4632c26bd373546d4fc5119d1ca45914115ed8d"
+    },
+    "docs/diagrams/execution-stream.excalidraw": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "e37301004e3c1f0fa1b8ed700c723575524b5cb2bd9176923d8ac410a713d15f"
+    },
+    "docs/diagrams/execution-training.excalidraw": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "ca1e0e2ea87db7451470ca550c7b73b1f8cb751a7d3159bb18022b05b505b93e"
+    },
+    "docs/diagrams/execution-guide.md": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "d331111bae0e19122f4a264c3fdb9a91b6343fccb88adb5a4485451692c39d03"
+    },
+    "docs/images/execution-agents.animated.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "56ef0d273d26f1df13d3b359ff25599b519006c4861e109db2a1dd98b69c2397"
+    },
+    "docs/images/execution-agents.png": {
+      "mode": "raw",
+      "new": true,
+      "sha256": "b8959c48e7bce0ea063eca05016bcf997af28b4a02b966003593529f3fcc15b2"
+    },
+    "docs/images/execution-agents.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "70e77ce066e8b2e05ec5e825db8120b505c3a4adbc312e241d12c51092e387e5"
+    },
+    "docs/images/execution-batch.animated.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "a390bf34e2e63e21aba164bbdb2b5299bd175ae1571fd8ebc4a5f600363fec60"
+    },
+    "docs/images/execution-batch.png": {
+      "mode": "raw",
+      "new": true,
+      "sha256": "3808dc9a45f78bb2e0a7c7c8ab9d35fb5c009bfdc7afaf36442fcf0bf8834fed"
+    },
+    "docs/images/execution-batch.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "17834c04acb70c48da04a15d8b85c6c4f332bfa89033c0b2f96801062aa46827"
+    },
+    "docs/images/execution-deployment.animated.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "17e701706973322f7b685e80ef1ab2c02d61af77b5c20c13d1e2c639a3f44010"
+    },
+    "docs/images/execution-deployment.png": {
+      "mode": "raw",
+      "new": true,
+      "sha256": "9c61e31b7773a98aeca0afceb3c284be1380fe749f273995fe09456f93d810e6"
+    },
+    "docs/images/execution-deployment.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "9a01b4b0621cea626eff109adf9f439edf1db259791cbeb438df338476feb129"
+    },
+    "docs/images/execution-knowledge.animated.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "92ad36ede9380677857eee1b1931f36a2885e403c1f49fca53e8e1570089e15d"
+    },
+    "docs/images/execution-knowledge.png": {
+      "mode": "raw",
+      "new": true,
+      "sha256": "d244083a9ccfd711ad9ad722635d336b0156e4b4a31a5c3c546173c0a2b85521"
+    },
+    "docs/images/execution-knowledge.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "46a41f21f3dde10c8786523b0c5c44ee3cfa84aa128ccb04b69c8cb622643aed"
+    },
+    "docs/images/execution-overview.animated.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "31fabb6a42b3c0bf5cb34bd6fd685bd15daf47ee2eb53c2ecb4289f85c70cf95"
+    },
+    "docs/images/execution-overview.png": {
+      "mode": "raw",
+      "new": true,
+      "sha256": "d289706dbe6fef8331ab381729221c82820e9b346cb45a7570177387bf2060ce"
+    },
+    "docs/images/execution-overview.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "8d55ea8e11c68e1b5b90c0016b03e6b32ad92e4130915a531f29b9f636029a60"
+    },
+    "docs/images/execution-prediction.animated.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "353374b14c5c58190b35dc481d397709d03523bd583d482a8d4a9292f6650348"
+    },
+    "docs/images/execution-prediction.png": {
+      "mode": "raw",
+      "new": true,
+      "sha256": "11ed1e625068a038868db7826f452558d0d423d73916374281d895bcf86a53b7"
+    },
+    "docs/images/execution-prediction.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "f6160846ff249f5a8b9b808691a951fc6f1a7a204a4355113bec96da8fb66436"
+    },
+    "docs/images/execution-stream.animated.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "f217b72b4ab87c203fd1cff7aa0baafdb045f80a0f793bb8cc06bc79d5ecea20"
+    },
+    "docs/images/execution-stream.png": {
+      "mode": "raw",
+      "new": true,
+      "sha256": "c6a7c44950263364dfa69f8aa35b79ab4d2a3df8310ad306dc2edd102c67c482"
+    },
+    "docs/images/execution-stream.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "112958d8876c3377684a788117dc57d96ac73c66eee1cf55a6b2efcf406bd7c8"
+    },
+    "docs/images/execution-training.animated.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "1cfb0a8cef8b45a0d4ffd86f4072891a23f9cb7a19a8abdb50898f8b3e3f894f"
+    },
+    "docs/images/execution-training.png": {
+      "mode": "raw",
+      "new": true,
+      "sha256": "83b02cf3a63b23b0fae10a23efdb054b011beb7cad8e32917cd851baa1f72252"
+    },
+    "docs/images/execution-training.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "9897852d4797a71b27bbb521a3ca4e90e0cdbb561c7baba80c30884c4aa96028"
+    },
+    "docs/diagrams/platform-architecture.excalidraw": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "cef134e31d803df16b7c3dd015c61c6673e7ca93388b17ffc09fe8cda00866c8"
+    },
+    "docs/images/platform-architecture.png": {
+      "mode": "raw",
+      "new": true,
+      "sha256": "9eb5ec869f241f60a39b28fef45710089f4a4a761253466715e2b181a769f435"
+    },
+    "docs/images/platform-architecture.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "75c2fae78a42252015c4fb83444c7d00371cd549095c32baf68f41f6e974f937"
+    },
+    "docs/images/platform-architecture.animated.svg": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "b37b8f73c0814bbeedbf5c6c0641ab5866cf7527a2c9f41d6bafbe0c6f8d98c9"
+    },
+    "docs/images/platform-architecture.gif": {
+      "mode": "raw",
+      "new": true,
+      "sha256": "9f09220c6fb76ad2c293fbbc7efe4a132f7b6d6a81e87df2584aee762fd7e358"
+    },
+    "docs/images/platform-architecture.preview.json": {
+      "mode": "lf_text",
+      "new": true,
+      "sha256": "b2f4361b2a72ea3957b899d1afc64aaac1aaf6cd3326d32b0f0805a1de6118cc"
     }
   },
   "scope": "Reviewed topic consolidation, Redis/Feast architecture and local Gold warehouse indexing. Old receipts, native screenshots and references remain original. Scoped new measured warehouse receipts are pinned separately."

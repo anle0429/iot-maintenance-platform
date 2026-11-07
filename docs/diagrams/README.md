@@ -1,6 +1,16 @@
 # Architecture diagrams
 
-Eight primary Excalidraw views describe the implementation. The system map summarizes dependencies, a C4 container view zooms into feature access, five dynamic views trace numbered processing and request paths, and the deployment view locates workloads and state on the recorded CPU/GPU hosts. This follows the separation in the C4 [container](https://c4model.com/diagrams/container), [dynamic](https://c4model.com/diagrams/dynamic) and [deployment](https://c4model.com/diagrams/deployment) views.
+Start with the [main platform architecture](../images/platform-architecture.svg) ([editable Excalidraw](platform-architecture.excalidraw), [GIF](../images/platform-architecture.gif), [motion SVG](../images/platform-architecture.animated.svg)). It groups components into data processing, storage and features, model lifecycle and serving, knowledge and agents, and shared operations. The README uses the moving-dot GIF with a PNG fallback for reduced motion. The [current execution guide](execution-guide.md#main-platform-architecture) explains its source decisions and retains the detailed B1, S1, T1, P1, K1, A1 and D1 views.
+
+The main view gives online lookup, Retrieval MCP and Drift MCP separate Feature API ports and connector lanes. Training history enters KFP from the left edge, clear of the subsystem title. Each specialist sits above its MCP service; all three agent roles use the shared LLM band below them. The coordinator is labelled as an agent that delegates through kagent. The finalized streaming path explicitly includes the staged offline/online writers.
+
+In this main view, blue denotes application calls/events; green denotes data, artifacts and returned values; purple denotes ML or LLM inference; and orange dashed lines denote release/control. Double-headed connectors summarize a call and its return. Bridges/gaps indicate crossings without a connection. The static PNG and SVG omit animation markers; only the motion SVG and GIF contain moving dots.
+
+To rebuild this standalone main view without changing the retained interactive viewer, run `node docs/diagrams/export.mjs --standalone --view platform-architecture --write-native`, followed by `node docs/diagrams/preview.mjs --standalone --view platform-architecture`. Use the pinned renderer dependencies described below; `DIAGRAM_PYTHON` selects a Python interpreter with Pillow.
+
+## Earlier architecture set
+
+Eight earlier Excalidraw views capture the previous architecture review. The system map summarizes dependencies, a C4 container view zooms into feature access, five dynamic views trace numbered processing and request paths, and the deployment view locates workloads and state on the recorded CPU/GPU hosts. This follows the separation in the C4 [container](https://c4model.com/diagrams/container), [dynamic](https://c4model.com/diagrams/dynamic) and [deployment](https://c4model.com/diagrams/deployment) views.
 
 The drawings describe the repository and its recorded lab. They do not establish current service readiness, simultaneous execution of every workload or a production high-availability topology.
 
@@ -116,7 +126,7 @@ From the repository root, `python -B -S scripts/verify-architecture-layers.py` c
 
 ## Reference views
 
-Earlier source-bound layouts and focused technical studies remain available for continuity. The eight views above are the current architecture set. The earlier diagrams preserve their historical layouts and labels; use the Redis mapping above for the selected release.
+Earlier source-bound layouts and focused technical studies remain available for continuity. The eight views above belong to the earlier architecture set. The earlier diagrams preserve their historical layouts and labels; use the Redis mapping above for the selected release.
 
 <details>
 <summary>Open earlier layouts and focused studies</summary>

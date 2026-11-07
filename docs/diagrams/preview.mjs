@@ -12,7 +12,24 @@ const require=createRequire(path.join(process.env.DIAGRAM_NODE_MODULES||path.joi
 const {chromium}=require('playwright');
 const index=JSON.parse(fs.readFileSync(path.join(root,'docs/images/diagram-index.json')));
 const selected=process.argv.indexOf('--view');
-const names=process.argv.includes('--all')?index.views:index.views.filter(v=>v.name===(selected<0?'platform-system':process.argv[selected+1]));
+const selectedName=selected<0?null:process.argv[selected+1];
+const standalone=process.argv.includes('--standalone');
+let names;
+if(standalone){
+ assert(!process.argv.includes('--all'),'Select one standalone scene with --view NAME');
+ assert(/^[a-z][a-z0-9-]+$/.test(selectedName??''),'Select a standalone scene with --view NAME');
+ const scene=JSON.parse(fs.readFileSync(path.join(here,selectedName+'.excalidraw')));
+ const elements=scene.elements.filter(element=>!element.isDeleted);
+ const canvases=elements.filter(element=>element.type==='rectangle'&&(element.id==='canvas'||element.id.endsWith('-canvas')));
+ assert.equal(canvases.length,1,'Require one native canvas for standalone preview dimensions');
+ const canvas=canvases[0];
+ assert(canvas.x===0&&canvas.y===0&&Number.isFinite(canvas.width)&&canvas.width>0&&Number.isFinite(canvas.height)&&canvas.height>0,'Require finite native canvas dimensions at the origin');
+ const arrows=elements.filter(element=>element.type==='arrow'&&element.customData?.edge).map(element=>element.customData.edge);
+ assert(arrows.length>0&&new Set(arrows).size===arrows.length,'Require unique native arrow identities');
+ names=[{name:selectedName,width:canvas.width,height:canvas.height,arrows}];
+}else{
+ names=process.argv.includes('--all')?index.views:index.views.filter(v=>v.name===(selectedName??'platform-system'));
+}
 assert(names.length,'Select an existing view with --view NAME or use --all');
 const sha=b=>createHash('sha256').update(b).digest('hex');
 /** Allow a brief Windows reader lock; never silently skip an unwritten manifest. */
@@ -25,7 +42,7 @@ async function writeReceipt(filename,body){
   }
  }
 }
-const browser=await chromium.launch({headless:true});
+const browser=await chromium.launch({headless:true,executablePath:process.env.DIAGRAM_CHROMIUM_EXECUTABLE});
 try{
  for(const v of names){
   const source=path.join(root,'docs/images',v.name+'.animated.svg'),output=path.join(root,'docs/images',v.name+'.gif');
