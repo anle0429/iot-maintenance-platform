@@ -95,13 +95,26 @@ def api_quality(coverage,junit):
 
 
 def unchanged_quality_source(root):
-    """Permit cached mutations only when every native/candidate source and test byte still matches its frozen baseline."""
-    root=Path(root);counts={}
+    """Keep every mutation input exact; accept only the pinned deployment-only autoscaling revision separately."""
+    root=Path(root);counts={};revision=None
+    declaration=root/'infra/mcp/autoscaling-source.json'
+    if declaration.exists():
+        raw=declaration.read_bytes()
+        if sha256(raw).hexdigest()!='8d2417c2177fa04cad60cde059fb087cb6595bceb3952748b4c0e95fa6870436':
+            raise ValueError('The reviewed deployment-only revision changed')
+        revision=json.loads(raw)
+        for relative,digest in revision['files'].items():
+            if sha256((root/relative).read_bytes()).hexdigest()!=digest:
+                raise ValueError('Unreviewed MCP deployment change: '+relative)
+    deployment_only={'infra/charts/iot-mcp/templates/workload.yaml','infra/charts/iot-mcp/values.yaml'}
     for name in ["mcp-quality","mcp-quality-native"]:
         path=root/"docs/evidence"/name/"source/manifest.json";seal=json.loads(path.read_bytes())
         for relative,digest in seal["files"].items():
             target=(root/relative).resolve()
-            if not target.is_relative_to(root.resolve()) or sha256(target.read_bytes()).hexdigest()!=digest:
+            if not target.is_relative_to(root.resolve()):raise ValueError('Escaped MCP quality input')
+            if sha256(target.read_bytes()).hexdigest()!=digest and not (name=='mcp-quality-native' and revision and relative in deployment_only):
                 raise ValueError("Changed MCP source/tests require a fresh mutation gate: "+relative)
         counts[name]={"files":len(seal["files"]),"manifest_sha256":sha256(path.read_bytes()).hexdigest()}
+        if name=='mcp-quality-native' and revision:
+            counts[name]['deployment_only_revision']=revision['source_commit']
     return counts

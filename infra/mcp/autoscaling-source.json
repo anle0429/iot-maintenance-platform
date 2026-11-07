@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "source_commit": "11bb4a9ad17d2b324cd47310d32a15deaea28e84",
+  "scope": "Exact deployment-only autoscaling revision. Runtime Python, tests, Dockerfiles and all other frozen quality inputs must remain byte-identical. Native two-service elasticity is independently checked in the mentor follow-up capsule.",
+  "files": {
+    "infra/charts/iot-mcp/templates/workload.yaml": "d23a9035e2d7ea9f953ba57f9b24ed4ab141103c5bb3ae037290900050f7e6da",
+    "infra/charts/iot-mcp/values.yaml": "b6ec2f3921328ab58920a0774c8c0ca2260ec29776e6735ac4dcfb9536aabd11",
+    "infra/charts/iot-mcp/templates/autoscaling.yaml": "da1d4cebb61f68ef6ec832249a0c762d03aea60049614602648306df229ccc44",
+    "infra/charts/iot-mcp/templates/request-scaling.yaml": "982fe384b7b89b897da8df05abd575db1b7349bc742d5848834f539204a5cd22"
+  }
+}

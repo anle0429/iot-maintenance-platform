@@ -3,7 +3,8 @@ from copy import deepcopy
 from datetime import datetime,timezone,timedelta
 from pathlib import Path
 import importlib.util,json,sys,tempfile,unittest,xml.etree.ElementTree as ET
-from agents.release_ci import api_quality,feature_lease,packaged_paths,ready_agents,role_for_job,required_inputs,capture_json_command
+from agents.release_ci import api_quality,feature_lease,packaged_paths,ready_agents,role_for_job,required_inputs,capture_json_command,unchanged_quality_source
+import shutil
 
 ROOT=Path(__file__).resolve().parents[1]
 SPEC=importlib.util.spec_from_file_location("agent_release_renderer",ROOT/"scripts/render-agent-responses.py")
@@ -12,6 +13,23 @@ renderer=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(renderer)
 
 class AgentReleaseCiTests(unittest.TestCase):
     """Use fixed known clocks and recorded object shapes, leaving actual deployment proof to Jenkins."""
+    def test_deployment_only_revision_cannot_waive_runtime_or_unknown_chart_changes(self):
+        """Reuse unchanged mutation targets only with the exact independently measured deployment revision."""
+        self.assertEqual(set(unchanged_quality_source(ROOT)), {'mcp-quality', 'mcp-quality-native'})
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory); names = {'infra/mcp/autoscaling-source.json'}
+            for name in ['mcp-quality', 'mcp-quality-native']:
+                relative = 'docs/evidence/' + name + '/source/manifest.json'; names.add(relative)
+                names.update(json.loads((ROOT / relative).read_bytes())['files'])
+            names.update(json.loads((ROOT / 'infra/mcp/autoscaling-source.json').read_bytes())['files'])
+            for name in names:
+                target = root / name; target.parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(ROOT / name, target)
+            for name in ['services/mcp_tools/app.py', 'infra/charts/iot-mcp/templates/workload.yaml',
+                         'infra/charts/iot-mcp/templates/request-scaling.yaml', 'infra/mcp/autoscaling-source.json']:
+                path = root / name; original = path.read_bytes(); path.write_bytes(original + b'\n')
+                with self.subTest(name=name), self.assertRaises(ValueError): unchanged_quality_source(root)
+                path.write_bytes(original)
+
     def test_probe_json_and_observed_call_diagnostics_remain_separate(self):
         """Real processes can emit JSON on both streams; only successful stdout is the command result."""
         code="import json,sys;print(json.dumps({'passed':True}));print(json.dumps({'observed_call':'diagnostic'}),file=sys.stderr)"
