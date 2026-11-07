@@ -6,7 +6,7 @@ import argparse,json,os,re,shutil,subprocess,sys
 MODULES={'llm_observability/'+n+'.py' for n in ['contracts','ledger','metrics','private_traces','app']}
 REQUIRED_API_FUNCTIONS={'llm_observability.app.xǁ'+name for name in [
     'ModelExchangeǁexecute','ModelExchangeǁstream','ModelExchangeǁfinalize','ObserverRuntimeǁtraces','HttpMetricsMiddlewareǁ__call__']}
-TESTS=['tests/test_llm_observation_contracts.py','tests/test_llm_telemetry_ledger.py','tests/test_llm_observation_metrics.py',
+TESTS=['tests/test_llm_metrics_concurrency.py','tests/test_llm_observation_contracts.py','tests/test_llm_telemetry_ledger.py','tests/test_llm_observation_metrics.py',
        'tests/test_llm_private_traces.py','tests/test_llm_observer_properties.py','tests/api/test_llm_observer_api.py']
 
 

@@ -14,4 +14,21 @@ spec:
   headersFrom:
     - name: Authorization
       valueFrom: {type: Secret, name: iot-agent-tool-headers, key: {{ $role }}}
+{{- if $.Values.agentgateway.enabled }}
+---
+apiVersion: kagent.dev/v1alpha2
+kind: RemoteMCPServer
+metadata:
+  name: iot-gateway-{{ $role }}-tools
+spec:
+  description: Authenticated {{ $role }} tools through the selected private Agentgateway.
+  url: http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:{{ ternary 18081 18082 (eq $role "retrieval") }}/mcp
+  protocol: STREAMABLE_HTTP
+  timeout: 30s
+  terminateOnClose: true
+  allowedNamespaces: {from: Same}
+  headersFrom:
+    - name: Authorization
+      valueFrom: {type: Secret, name: iot-agent-tool-headers, key: {{ $role }}}
+{{- end }}
 {{- end }}

@@ -102,6 +102,8 @@ def run(args):
             actual = read(kind, NAME, '-n', NAMESPACE)
             if actual['metadata']['annotations'].get(RUN_ANNOTATION) != args.run:
                 raise ValueError('Existing resource belongs to another run')
+            if kind == 'configmap' and json.loads(actual['data']['config.yaml']) != json.loads(resources[0]['data']['config.yaml']):
+                raise ValueError('Retained gateway configuration differs from this source. Apply the reviewed configuration and verify its rollout before resuming the smoke.')
             continue
         if command('get', kind, NAME, '-n', NAMESPACE, '--ignore-not-found', '-o', 'name').strip():
             raise ValueError('Existing candidate resource found. Skipping all creation: ' + kind)

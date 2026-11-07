@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Budget upstream Substrate workloads and replace development credentials with private Secret references."""
 import sys
+from pathlib import Path
 import yaml
 
 
-def render(documents):
+def render(documents,*,tracing=False):
     """Preserve upstream objects and privileges while adding bounded resources and private object-store access."""
     budgets = {
         'ate-api-server': ('100m', '256Mi', '1', '1Gi'),
@@ -22,6 +23,10 @@ def render(documents):
         if not body:
             continue
         spec = body.get('spec', {})
+        if tracing and body.get('kind')=='ConfigMap' and body['metadata']['name']=='atenet-router-agentgateway-config':
+            from infra.llm_observer_routing import gateway_trace_config
+            config=yaml.safe_load(body['data']['config.yaml'])
+            body['data']['config.yaml']=yaml.safe_dump(gateway_trace_config(config,'iot_substrate_gateway'),sort_keys=False)
         if body.get('kind') in {'Deployment', 'DaemonSet', 'StatefulSet', 'Job'}:
             pod = spec['template']['spec']
         elif body.get('kind') == 'Pod':
@@ -47,4 +52,7 @@ def render(documents):
 
 
 if __name__ == '__main__':
-    yaml.safe_dump_all(render(yaml.safe_load_all(sys.stdin)), sys.stdout, sort_keys=False)
+    import argparse
+    sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--tracing',action='store_true');args=parser.parse_args()
+    yaml.safe_dump_all(render(yaml.safe_load_all(sys.stdin),tracing=args.tracing), sys.stdout, sort_keys=False)

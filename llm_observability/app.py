@@ -18,7 +18,7 @@ from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.trace import SpanKind,Status,StatusCode,set_span_in_context
 from llm_observability.contracts import MODEL,PromptPolicy,StreamObservation,agent_role,token_usage
 from llm_observability.ledger import TelemetryLedger
-from llm_observability.metrics import render_metrics
+from llm_observability.metrics import render_metrics,MetricsSnapshot
 from llm_observability.private_traces import PrivateTraceProcessor
 
 UPSTREAM='http://127.0.0.1:8080'
@@ -80,6 +80,7 @@ class ObserverRuntime:
         """Inject test adapters or open the fixed private backend, mounted credential and owned database."""
         self.owned_store=ledger is None;self.owned_client=client is None
         self.ledger=ledger or TelemetryLedger('/var/lib/iot-llm-observer/telemetry.sqlite')
+        self.metrics_snapshot=MetricsSnapshot(lambda:render_metrics(self.ledger.rows()))
         if token is None:token=Path('/var/run/iot-llm-observer/API_KEY').read_text().strip()
         if not isinstance(token,str) or len(token)<32:raise ValueError('Require the retained strong model-client credential')
         self.expected=('Bearer '+token).encode();self.registry=CollectorRegistry()
@@ -95,6 +96,7 @@ class ObserverRuntime:
     async def shutdown(self):
         """Drain the bounded exporter and close only the store/client owned by this service."""
         await asyncio.to_thread(self.provider.force_flush,3000);await asyncio.to_thread(self.provider.shutdown)
+        await self.metrics_snapshot.close()
         if self.owned_client:await self.client.aclose()
         if self.owned_store:self.ledger.close()
 
@@ -115,7 +117,7 @@ class ObserverRuntime:
 
     async def metrics(self):
         """Expose deduplicated domain facts alongside ordinary process-lifetime HTTP counters."""
-        return Response(render_metrics(self.ledger.rows())+generate_latest(self.registry),media_type=CONTENT_TYPE_LATEST)
+        return Response(await self.metrics_snapshot.read()+generate_latest(self.registry),media_type=CONTENT_TYPE_LATEST)
 
     async def traces(self,request:Request):
         """Project bounded private OTLP before storage and preserve exact identities when a batch is replayed."""

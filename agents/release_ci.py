@@ -55,9 +55,9 @@ def packaged_paths(seal,tests=False):
     return sorted(paths)
 
 
-def ready_agents(documents,policy):
+def ready_agents(documents,policy,*,gateway=False):
     """Require the accepted current policy and Ready conditions belonging to the actual resource generation."""
-    validate_agents(documents,policy)
+    validate_agents(documents,policy,gateway=gateway)
     for agent in documents:
         if not agent or agent.get("kind")!="SandboxAgent":continue
         generation=agent["metadata"]["generation"];status=agent.get("status",{})

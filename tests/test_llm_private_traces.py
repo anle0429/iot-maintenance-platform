@@ -92,10 +92,22 @@ class PrivateTraceTests(unittest.TestCase):
 
 class TraceSchemaTests(unittest.TestCase):
     """Exercise the independent public metadata schema and original graph values across every supported role/tool alias."""
+    def test_controller_transport_identity_survives_without_becoming_an_agent(self):
+        """Keep the real bounded controller service while preserving the SDK's original UNSET and parent IDs."""
+        request,span=batch();resource=request.resource_spans[0].resource
+        next(a for a in resource.attributes if a.key=='service.name').value.string_value='kagent-controller'
+        span.name='POST /PRIVATE';span.status.code=0;del span.attributes[:]
+        projected=ExportTraceServiceRequest.FromString(PrivateTraceProcessor().project(request.SerializeToString())['payload'])
+        self.assertEqual(attributes(projected.resource_spans[0].resource.attributes)['service.name'],'kagent-controller')
+        actual=projected.resource_spans[0].scope_spans[0].spans[0]
+        self.assertEqual((actual.name,actual.status.code,actual.parent_span_id),('other kagent-controller',0,span.parent_span_id))
+        self.assertNotIn(b'PRIVATE',projected.SerializeToString())
+
     def test_public_resource_schema_is_closed_and_typed(self):
         """Permit only reviewed service identities, namespaces and versions; reject other values or resource keys."""
-        roles=['retrieval','drift','coordinator'];names=[v for role in roles for v in [role,'iot-'+role,'iot_'+role,'iot-agents/iot-'+role]]+['iot_llm_observer']
-        fields={'service.name':names,'service.namespace':['iot_agents','iot-agents','iot_llm','iot-llm'],'service.version':['0.10.3','0.1.0']}
+        roles=['retrieval','drift','coordinator'];names=[v for role in roles for v in [role,'iot-'+role,'iot_'+role,'iot-agents/iot-'+role]]+['iot_llm_observer','kagent-controller']
+        names+=['iot_retrieval_plain','iot_agentgateway','iot_substrate_gateway']
+        fields={'service.name':names,'service.namespace':['iot_agents','iot-agents','iot_llm','iot-llm','kagent'],'service.version':['0.10.3','0.1.0','1.7.0','1.3.0-alpha.1']}
         for key,values in fields.items():
             for value in values:
                 with self.subTest(key=key,value=value):self.assertTrue(approved(key,value,True))

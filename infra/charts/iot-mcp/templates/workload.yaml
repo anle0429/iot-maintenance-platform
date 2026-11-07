@@ -1,3 +1,11 @@
+{{- if .Values.autoscaling.enabled }}
+{{- if not (has .Values.autoscaling.mode (list "cpu" "requests")) }}
+{{- fail "Choose autoscaling.mode cpu or requests" }}
+{{- end }}
+{{- if or (lt (int .Values.autoscaling.minReplicas) 1) (lt (int .Values.autoscaling.maxReplicas) (int .Values.autoscaling.minReplicas)) (le (float64 .Values.autoscaling.requestsPerSecondPerReplica) 0.0) }}
+{{- fail "Autoscaling requires positive replica/demand bounds and maxReplicas >= minReplicas" }}
+{{- end }}
+{{- end }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -12,7 +20,9 @@ metadata:
     app.kubernetes.io/part-of: iot-mcp
     app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicas }}
+  {{- end }}
   revisionHistoryLimit: 3
   strategy:
     type: RollingUpdate

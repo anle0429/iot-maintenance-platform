@@ -1,0 +1,13 @@
+# The pinned controller translates actor telemetry from its ConfigMap, not only its process env.
+# Merge with the retained release values so database, Substrate and model routing stay selected.
+otel:
+  tracing:
+    enabled: true
+    exporter:
+      otlp:
+        endpoint: http://iot-router-epp.iot-llm.svc.cluster.local:8081/iot-telemetry/v1/traces
+        protocol: http/protobuf
+        timeout: 15000
+        insecure: true
+  logging:
+    enabled: false

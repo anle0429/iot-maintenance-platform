@@ -57,6 +57,7 @@ class Context(SHARED.Context):
     def native(self,phase,cluster=False,docker=False):
         """Mount only trusted read-only source, this release's artifacts and the explicit private control interfaces."""
         extra=['--env','JOB_BASE_NAME','--mount','type=bind,src=/srv/iot-fast/ci,dst=/srv/iot-fast/ci,readonly']
+        if phase=='test-host':extra+=['--mount','type=bind,src='+self.helm+',dst=/usr/local/bin/helm,readonly']
         if docker:
             for path in ['/usr/bin/docker','/var/run/docker.sock','/run/k3s/containerd/containerd.sock']:
                 extra+=['--mount','type=bind,src='+path+',dst='+path+(',readonly' if path=='/usr/bin/docker' else '')]
@@ -102,14 +103,14 @@ def get_http(url,headers=None):
 def live_state(c,label):
     """Observe accepted agents, quiet pools, global model configuration and the genuine feature lease before release work."""
     agents=c.get('get','sandboxagents','-n','iot-agents');policy=json.loads((ROOT/'agents/response-policy.json').read_bytes())
-    ready_agents(agents['items'],policy)
+    ready_agents(agents['items'],policy,gateway=True)
     pools=c.get('get','workerpools','-n','iot-agents')
     expected={'iot-'+role+'-pool' for role in ['retrieval','drift','coordinator']}
     if {p['metadata']['name'] for p in pools['items']}!=expected or any(p['spec']['replicas']!=2 or not p['spec'].get('selector') for p in pools['items']):
         raise ValueError('Wait for all three retained worker pools to return to their two-worker idle floor')
     model=c.get('get','modelconfig','default-model-config','-n','iot-agents');spec=model['spec']
     if (spec['provider']!='OpenAI' or spec['model']!='iot-qwen2.5-7b' or spec['apiKeySecret']!='iot-local-model-client'
-            or spec['openAI']['baseUrl']!='http://iot-router-epp.iot-llm.svc.cluster.local:8081/v1'
+            or spec['openAI']['baseUrl']!='http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18080/v1'
             or spec['openAI']['maxTokens']!=768 or spec['openAI']['timeout']!=600):raise ValueError('Preserve the accepted shared private GPU model configuration')
     base=c.service_url('kagent-controller','iot-agents')+':8083';actors=get_http(base+'/api/substrate/status')
     if any(a['atespace']=='iot-agents' and a['status'] in ['Running','Resuming','Suspending'] for a in actors['data']['actors']):
@@ -188,7 +189,7 @@ def deploy_host(c):
     agent_values=plan['before']['iot-agents']['values'];SHARED.save(c.out/'agent-values.json',agent_values)
     renderer=str(ROOT/'scripts/render-agent-responses.py');chart=chart_path(c,build,'iot-agents')
     rendered=subprocess.check_output([c.helm,'template','iot-agents',chart,'-n','iot-agents','-f',str(c.out/'agent-values.json'),'--post-renderer',renderer])
-    documents=list(yaml.safe_load_all(rendered));validate_agents(documents,json.loads((ROOT/'agents/response-policy.json').read_bytes()))
+    documents=list(yaml.safe_load_all(rendered));validate_agents(documents,json.loads((ROOT/'agents/response-policy.json').read_bytes()),gateway=True)
     (c.out/'rendered-agents.yaml').write_bytes(rendered)
     c.log('agent-server-dry-run',c.k+['apply','--dry-run=server','-n','iot-agents','-f',str(c.out/'rendered-agents.yaml'),'-o','json'])
     c.log('upgrade-agents',[c.helm,'upgrade','iot-agents',chart,'-n','iot-agents','-f',str(c.out/'agent-values.json'),
@@ -196,7 +197,7 @@ def deploy_host(c):
     deadline=time.monotonic()+180
     while True:
         after=c.get('get','sandboxagents','-n','iot-agents')
-        try:ready_agents(after['items'],json.loads((ROOT/'agents/response-policy.json').read_bytes()));break
+        try:ready_agents(after['items'],json.loads((ROOT/'agents/response-policy.json').read_bytes()),gateway=True);break
         except ValueError:
             if time.monotonic()>=deadline:raise
             time.sleep(3)
@@ -219,8 +220,12 @@ def verify_host(c):
               'python','-B','-m','services.mcp_tools.probe','--role',c.role,'--run',c.release],c.out,'native-mcp-probe')
         if actual.get('passed') is not True or actual.get('role')!=c.role or actual.get('run')!=c.release:
             raise ValueError('Native MCP business probe failed or belongs to another release')
-    requests=c.out/'agent-request';probe(base,requests,[c.role],specialist_timeout=300,coordinator_timeout=600)
+    requests=c.out/'agent-request';probe(base,requests,[c.role],specialist_timeout=300,coordinator_timeout=600,
+        trace_endpoint=c.service_url('iot-jaeger','iot-observability')+':4318/v1/traces')
     reply=json.loads((requests/(c.role+'-response.json')).read_bytes())
+    trace=json.loads((requests/(c.role+'-client-trace.json')).read_bytes())
+    if trace.get('exported') is not True or trace.get('status_code')!=1 or trace.get('task_id')!=reply['result']['id']:
+        raise ValueError('The automatic A2A client span was not exported for this completed task')
     if c.role=='coordinator':
         identity=json.loads((requests/'identity.json').read_bytes())['sub'];children={}
         for message in reply['result']['history']:
@@ -281,7 +286,8 @@ def run(phase):
         else:summary={'scope':'Coordinator configuration and actual child delegation; unchanged MCP APIs tested in their two own jobs.'}
         contract=json.loads((c.out/'contracts.json').read_bytes());c.phase('test',{'contracts':contract,'fresh_api':summary})
     elif phase=='test-host':
-        c.log('contracts',[sys.executable,'-B','-m','unittest','tests.test_llm_ci_contract','tests.test_agent_release_ci','-q'])
+        c.log('contracts',[sys.executable,'-B','-m','unittest','tests.test_llm_ci_contract','tests.test_agent_release_ci',
+              'tests.test_agent_gateway_default','tests.test_a2a_tracing','-q'])
         cache=None
         if c.role!='coordinator':
             cache=unchanged_quality_source(ROOT)

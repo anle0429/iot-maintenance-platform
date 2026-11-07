@@ -1,0 +1,36 @@
+{{- if and .Values.autoscaling.enabled (eq .Values.autoscaling.mode "requests") }}
+{{- $tool := ternary "search_knowledge" "assess_feature_drift" (eq .Values.role "retrieval") }}
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    iot.coursework/agent-scaling: 'true'
+    app.kubernetes.io/part-of: iot-mcp
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}
+  pollingInterval: 5
+  minReplicaCount: {{ .Values.autoscaling.minReplicas }}
+  maxReplicaCount: {{ .Values.autoscaling.maxReplicas }}
+  advanced:
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleUp:
+          stabilizationWindowSeconds: 0
+          policies: [{type: Pods, value: 1, periodSeconds: 30}]
+        scaleDown:
+          stabilizationWindowSeconds: {{ .Values.autoscaling.scaleDownStabilizationSeconds }}
+          policies: [{type: Pods, value: 1, periodSeconds: 30}]
+  triggers:
+    - type: prometheus
+      metricType: AverageValue
+      metadata:
+        serverAddress: {{ required "Request-rate scaling requires a private Prometheus endpoint" .Values.autoscaling.prometheusAddress | quote }}
+        query: {{ printf "sum(rate(iot_mcp_tool_calls_total{job=\"iot-agent-mcp\",namespace=\"%s\",service=\"%s\",role=\"%s\",tool=\"%s\",result=\"success\"}[30s]))" .Release.Namespace .Release.Name .Values.role $tool | quote }}
+        threshold: {{ .Values.autoscaling.requestsPerSecondPerReplica | quote }}
+        ignoreNullValues: 'false'
+        timeout: 5s
+{{- end }}

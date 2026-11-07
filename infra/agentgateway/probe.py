@@ -147,6 +147,8 @@ class GatewayProbe:
         advertised_path = path + '/' if advertised[0].endswith('/') else path
         status, raw, received = self.request(role + '-a2a-task', 'a2a', advertised_path, method='POST', payload=body,
                                              headers=headers, timeout=1800)
+        if status != 200 or received.get('x-iot-agentgateway-route') != 'a2a-' + role:
+            raise ValueError('A2A task transport failed through the named gateway route: HTTP '+str(status))
         reply = json.loads(raw)
         if (status != 200 or received.get('x-iot-agentgateway-route') != 'a2a-' + role
                 or reply.get('id') != request_id or reply.get('error')

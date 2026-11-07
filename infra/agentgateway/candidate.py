@@ -3,6 +3,7 @@
 from hashlib import sha256
 import json
 import re
+from infra.llm_observer_routing import gateway_trace_config
 
 
 NAME = 'iot-agentgateway-candidate'
@@ -34,7 +35,7 @@ def bearer_hash(token):
     return 'sha256:' + sha256(token.encode()).hexdigest()
 
 
-def config(hashes, *, backends=None, ports=None, credential_dir='/credentials', local=False):
+def config(hashes, *, backends=None, ports=None, credential_dir='/credentials', local=False,tracing=False):
     """Build the standalone v1.7.0 configuration with role-specific credentials and exact routes."""
     if set(hashes) != set(PORTS) or len(set(hashes.values())) != len(PORTS):
         raise ValueError('Require four different scoped client credentials')
@@ -84,7 +85,7 @@ def config(hashes, *, backends=None, ports=None, credential_dir='/credentials', 
                            {'host': backends['a2a']}, '1800s')
         advertised['policies'].update({**current['policies'], 'urlRewrite': {'path': {'full': path}}})
         routes['a2a'].append(advertised)
-    return {
+    result={
         'config': {'logging': {'format': 'json', 'level': 'warn,request=info'}, 'adminAddr': '127.0.0.1:15000',
                    'readinessAddr': '0.0.0.0:19001', 'statsAddr': '127.0.0.1:19002'},
         'frontendPolicies': {'accessLog': {'add': {'observer_request_id':
@@ -94,6 +95,7 @@ def config(hashes, *, backends=None, ports=None, credential_dir='/credentials', 
         'binds': [{'port': ports[role], 'listeners': [{'protocol': 'HTTP', 'routes': routes[role]}]}
                   for role in PORTS],
     }
+    return gateway_trace_config(result,'iot_agentgateway') if tracing else result
 
 
 def kube(kind, version, name, spec, namespace=NAMESPACE):
@@ -129,7 +131,7 @@ def manifests(hashes, run_name):
                                    'items': [{'key': 'token', 'path': role}]}} for role in ROLES[:2])
     cfg = kube('ConfigMap', 'v1', NAME, {})
     del cfg['spec']
-    cfg['data'] = {'config.yaml': json.dumps(config(hashes), indent=2)}
+    cfg['data'] = {'config.yaml': json.dumps(config(hashes,tracing=True), indent=2)}
     deployment = kube('Deployment', 'apps/v1', NAME, {
         'replicas': 1, 'selector': {'matchLabels': SELECTOR}, 'strategy': {'type': 'Recreate'},
         'template': {'metadata': {'labels': SELECTOR}, 'spec': {

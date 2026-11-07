@@ -30,6 +30,20 @@ def chart_documents():
 
 class AgentScalingTests(unittest.TestCase):
     """Keep namespace/role selection, capacity and metric provenance explicit."""
+    def test_fallback_capacity_is_not_accepted_as_demand_driven_scaling(self):
+        """Four fallback workers cannot stand in for a measured healthy actor demand signal."""
+        objects=[{'metadata':{'name':'iot-'+role+'-workers'},'spec':{'scaleTargetRef':{'name':'iot-'+role+'-pool'}},
+                  'status':{'conditions':[{'type':'Ready','status':'True'},{'type':'Fallback','status':'False'}],
+                            'health':{'metric':{'status':'Happy','numberOfFailures':0}}}} for role in ['retrieval','drift','coordinator']]
+        self.assertEqual(set(burst.scaler_health(objects)),{'retrieval','drift','coordinator'})
+        for case in ['fallback','failing','missing','target']:
+            changed=copy.deepcopy(objects)
+            if case=='fallback':changed[0]['status']['conditions'][1]['status']='True'
+            elif case=='failing':changed[0]['status']['health']['metric']['status']='Failing'
+            elif case=='missing':changed.pop()
+            else:changed[0]['spec']['scaleTargetRef']['name']='unrelated'
+            with self.subTest(case=case),self.assertRaises(ValueError):burst.scaler_health(changed)
+
 
     def test_reviewed_three_pool_scaling_configuration(self):
         """The three native scale subresources retain two warm workers and a bounded maximum."""

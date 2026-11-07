@@ -1,9 +1,41 @@
 """Render bounded Prometheus series from durable approved facts, preserving token/TTFT and trace scopes."""
 from collections import defaultdict
+import asyncio
+from time import monotonic
 from llm_observability.ledger import validate_fact
 
 SECONDS=(.01,.025,.05,.1,.25,.5,1,2.5,5,10,30,60,120,300,600,3600)
 TOKENS=(0,1,8,32,128,512,2048,8192,32768,131072,2147483647)
+
+
+class MetricsSnapshot:
+    """Share one bounded-age durable-metric reconstruction across concurrent scrapers."""
+    def __init__(self, loader, ttl=5, clock=None):
+        """Retain an explicit loader and freshness budget without changing stored telemetry facts."""
+        self.loader = loader; self.ttl = ttl; self.clock = clock or monotonic
+        self.body = None; self.expires = 0; self.pending = None
+
+    async def read(self):
+        """Share one background rebuild; a cancelled HTTP request cannot cancel other scrapers' work."""
+        if self.body is not None and self.clock() < self.expires:
+            return self.body
+        if self.pending is None:
+            self.pending = asyncio.create_task(self.refresh())
+        return await asyncio.shield(self.pending)
+
+    async def refresh(self):
+        """Move SQLite reads and histogram reconstruction off the HTTP loop and keep failures visible."""
+        try:
+            body = await asyncio.to_thread(self.loader)
+            self.body = body; self.expires = self.clock()+self.ttl
+            return body
+        finally:
+            self.pending = None
+
+    async def close(self):
+        """Finish any outstanding render before its owned ledger is closed."""
+        if self.pending is not None:
+            await asyncio.shield(self.pending)
 
 
 def render_metrics(rows):

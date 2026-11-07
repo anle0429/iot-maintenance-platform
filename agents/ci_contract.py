@@ -46,7 +46,7 @@ def require_receipt(value, identity, phase):
     return value
 
 
-def validate_agents(documents, policy):
+def validate_agents(documents, policy, *, gateway=False):
     """Require the current three-role policy and exact read-only tool/delegation capabilities in a packaged chart."""
     agents = [doc for doc in documents if doc and doc.get('kind') == 'SandboxAgent']
     expected = {'iot-' + role for role in ROLES}
@@ -70,13 +70,15 @@ def validate_agents(documents, policy):
                 for other in ['retrieval', 'drift']]
         else:
             names = ['get_machine_features','predict_failure','search_knowledge'] if role == 'retrieval' else ['assess_feature_drift']
-            expected_tools = [{'type':'McpServer', 'mcpServer':{'name':'iot-' + role + '-tools', 'kind':'RemoteMCPServer',
+            prefix='iot-gateway-' if gateway else 'iot-'
+            expected_tools = [{'type':'McpServer', 'mcpServer':{'name':prefix + role + '-tools', 'kind':'RemoteMCPServer',
                                 'apiGroup':'kagent.dev', 'toolNames':names}}]
         if tools != expected_tools: raise ValueError('The chart changes the reviewed read-only tool or delegation set')
         domains = spec.get('sandbox', {}).get('network', {}).get('allowedDomains', [])
         expected_domains = {'iot-router-epp.iot-llm.svc.cluster.local'}
         if role == 'coordinator': expected_domains |= {'kagent-controller.iot-agents.svc.cluster.local', 'atenet-router.ate-system.svc'}
-        else: expected_domains.add('iot-' + role + '-mcp.iot-agents.svc.cluster.local')
+        elif not gateway: expected_domains.add('iot-' + role + '-mcp.iot-agents.svc.cluster.local')
+        if gateway: expected_domains.add('iot-agentgateway-candidate.iot-agents.svc.cluster.local')
         if len(domains) != len(set(domains)) or set(domains) != expected_domains:
             raise ValueError('The chart changes the declared private network destinations')
     return True

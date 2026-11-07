@@ -1,0 +1,331 @@
+{
+  "uid": "iot-mcp-scaling",
+  "title": "IoT / MCP scaling by Pod",
+  "description": "Native Kubernetes discovery and actual role-scoped MCP business counters. No simulated replica metric.",
+  "schemaVersion": 42,
+  "version": 1,
+  "editable": false,
+  "timezone": "utc",
+  "tags": [
+    "iot",
+    "mcp",
+    "autoscaling",
+    "native"
+  ],
+  "refresh": "5s",
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "text",
+      "title": "What this view proves",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 3
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "Replica counts require **Kubernetes Ready=true and a successful per-Pod scrape**. Tool counters belong to actual Pod UIDs. HPA/KEDA decisions and request acceptance are retained separately in the native scaling receipts; a green scrape alone does not prove a successful business call."
+      }
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Retrieval MCP \u2014 ready and scrape-up processes",
+      "gridPos": {
+        "x": 0,
+        "y": 3,
+        "w": 12,
+        "h": 4
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(up{job=\"iot-agent-mcp\",namespace=\"iot-agents\",pod_ready=\"true\",service=\"iot-retrieval-mcp\"} == 1)",
+          "legendFormat": "Ready Pods",
+          "range": false,
+          "instant": true,
+          "format": "time_series",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iot-host-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Drift MCP \u2014 ready and scrape-up processes",
+      "gridPos": {
+        "x": 12,
+        "y": 3,
+        "w": 12,
+        "h": 4
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(up{job=\"iot-agent-mcp\",namespace=\"iot-agents\",pod_ready=\"true\",service=\"iot-drift-mcp\"} == 1)",
+          "legendFormat": "Ready Pods",
+          "range": false,
+          "instant": true,
+          "format": "time_series",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iot-host-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "value",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "Observed ready MCP processes by service",
+      "gridPos": {
+        "x": 0,
+        "y": 7,
+        "w": 9,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by(service)(up{job=\"iot-agent-mcp\",namespace=\"iot-agents\",pod_ready=\"true\"} == 1)",
+          "legendFormat": "{{service}}",
+          "range": true,
+          "instant": false,
+          "format": "time_series",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iot-host-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Successful business-tool calls / second \u2014 each Pod",
+      "gridPos": {
+        "x": 9,
+        "y": 7,
+        "w": 15,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by(service,pod)(rate(iot_mcp_tool_calls_total{job=\"iot-agent-mcp\",namespace=\"iot-agents\",result=\"success\"}[30s]))",
+          "legendFormat": "{{service}} / {{pod}}",
+          "range": true,
+          "instant": false,
+          "format": "time_series",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iot-host-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": "table",
+      "title": "Live Pod identity and successful tool execution",
+      "gridPos": {
+        "x": 0,
+        "y": 15,
+        "w": 24,
+        "h": 9
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "iot-host-prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by(service,pod,pod_uid)(iot_mcp_tool_calls_total{job=\"iot-agent-mcp\",namespace=\"iot-agents\",result=\"success\"}) and on(pod_uid) (up{job=\"iot-agent-mcp\",namespace=\"iot-agents\"} == 1)",
+          "legendFormat": "{{service}} / {{pod}}",
+          "range": false,
+          "instant": true,
+          "format": "table",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "iot-host-prometheus"
+          }
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "min": 0,
+          "decimals": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "service"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 190
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "pod"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 370
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "pod_uid"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 340
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "md"
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true
+            },
+            "renameByName": {
+              "Value": "Successful tool calls"
+            },
+            "indexByName": {
+              "service": 0,
+              "pod": 1,
+              "pod_uid": 2,
+              "Value": 3
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

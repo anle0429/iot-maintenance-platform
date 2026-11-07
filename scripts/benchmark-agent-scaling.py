@@ -24,6 +24,25 @@ def retryable_capacity_error(reply):
             'substrate worker pool has no free workers; try again later or increase WorkerPool replicas')
 
 
+def scaler_health(objects):
+    """Reject fallback capacity or unavailable demand metrics before accepting worker elasticity."""
+    result = {}
+    for role in ROLES:
+        selected = [obj for obj in objects if obj['metadata']['name'] == 'iot-' + role + '-workers']
+        if len(selected) != 1:
+            raise ValueError('Require exactly one measured scaler per worker role')
+        obj = selected[0]; status = obj.get('status', {})
+        conditions = {item['type']: item['status'] for item in status.get('conditions', [])}
+        health = status.get('health', {})
+        if (obj['spec']['scaleTargetRef']['name'] != 'iot-' + role + '-pool'
+                or conditions.get('Ready') != 'True' or conditions.get('Fallback') != 'False'
+                or not health or any(item.get('status') != 'Happy' or item.get('numberOfFailures') != 0
+                                     for item in health.values())):
+            raise ValueError('Worker demand metrics must be healthy with fallback disabled')
+        result[role] = {'ready': True, 'fallback': False, 'metrics': health}
+    return result
+
+
 def pool_metrics(pools, pods, actors):
     """Derive role occupancy and actual Ready capacity from original Kubernetes and Substrate observations."""
     result = {}
@@ -93,7 +112,9 @@ def run(root, source, output, duration, feature_run):
         with opener.open(base + '/api/substrate/status', timeout=15) as response: raw_actors = response.read()
         for name, raw in [('pools', raw_pools), ('pods', raw_pods), ('hpa', raw_hpa), ('scalers', raw_scalers), ('actors', raw_actors)]: keep(prefix + '/' + name + '.json', raw)
         metrics = pool_metrics(json.loads(raw_pools)['items'], json.loads(raw_pods)['items'], json.loads(raw_actors)['data']['actors'])
-        row = {'checked_utc': datetime.now(timezone.utc).isoformat(), 'elapsed_seconds': time.monotonic() - start, 'roles': metrics, 'prefix': prefix}
+        health = scaler_health(json.loads(raw_scalers)['items'])
+        row = {'checked_utc': datetime.now(timezone.utc).isoformat(), 'elapsed_seconds': time.monotonic() - start,
+               'roles': metrics, 'scaler_health': health, 'prefix': prefix}
         history.append(row); keep('observations.json', (json.dumps(history, indent=2) + '\n').encode())
         return row
 

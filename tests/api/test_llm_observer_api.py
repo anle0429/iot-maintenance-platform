@@ -156,6 +156,25 @@ class ObserverApiTests(unittest.TestCase):
         self.assertIn('iot_llm_observer_http_requests_total{route="model",status="200"} 1',response.text)
         self.assertNotIn(TOKEN,response.text);self.assertNotIn('Synthetic answer',response.text)
 
+    def test_health_remains_responsive_during_slow_metrics_render(self):
+        """A real concurrent ASGI health request completes before the blocked metrics reader is released."""
+        from concurrent.futures import ThreadPoolExecutor
+        from threading import Event
+        entered,release=Event(),Event();original=observer.render_metrics
+
+        def slow(rows):
+            """Hold only the domain renderer, leaving actual routing and middleware in the test."""
+            entered.set();release.wait(2);return original(rows)
+
+        with patch.object(observer,'render_metrics',side_effect=slow),ThreadPoolExecutor(max_workers=1) as pool:
+            pending=pool.submit(self.api.get,'/metrics')
+            try:
+                self.assertTrue(entered.wait(1))
+                self.assertEqual(self.api.get('/health/live').status_code,200)
+                self.assertFalse(pending.done(),'Metrics reconstruction blocked health dispatch')
+            finally:release.set()
+            self.assertEqual(pending.result(timeout=2).status_code,200)
+
     def test_readiness_distinguishes_full_storage_and_backend_failure(self):
         """Keep liveness separate and refuse additional generation before spending GPU work when full."""
         self.assertEqual(self.api.get('/health/live').json(),{'live':True});self.assertEqual(self.api.get('/health/ready').status_code,200)

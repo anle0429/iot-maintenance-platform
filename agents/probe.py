@@ -7,6 +7,11 @@ from uuid import uuid4
 import argparse
 import json
 import time
+import re
+import sys
+if __package__ in {None, ''}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from agents.tracing import A2AObservation,otlp_sender
 
 
 QUESTIONS = {
@@ -25,7 +30,7 @@ class TransportFailure(RuntimeError):
         self.error_type = error_type; self.elapsed = elapsed; self.status = status; self.partial = partial
 
 
-def request(opener, url, payload=None, user_id=None, timeout=30):
+def request(opener, url, payload=None, user_id=None, timeout=30, *, trace_endpoint=None, trace_receipt=None):
     """Send a native A2A/HTTP request with a fixed body length and return the original response bytes."""
     headers = {'Accept': 'application/json', 'A2A-Version': '0.3'}
     if user_id:
@@ -35,24 +40,39 @@ def request(opener, url, payload=None, user_id=None, timeout=30):
         data = json.dumps(payload).encode(); headers['Content-Type'] = 'application/json'
     if not isinstance(timeout, (int, float)) or isinstance(timeout, bool) or not 0 < timeout <= 2400:
         raise ValueError('Use a bounded HTTP timeout of at most 2400 seconds')
-    started = time.monotonic(); status = None
+    observation=None
+    if trace_endpoint is not None and isinstance(payload,dict) and payload.get('method')=='message/send':
+        role=re.fullmatch(r'.*/api/a2a(?:-sandboxes)?/iot-agents/iot-(retrieval|drift|coordinator)/?',url)
+        if role is None:raise ValueError('Automatic client tracing requires one reviewed agent endpoint')
+        observation=A2AObservation(role[1],send=otlp_sender(trace_endpoint));headers.update(observation.headers)
+    started = time.monotonic(); status = None; body=b''; transport_error=None
     try:
         with opener.open(Request(url, data=data, headers=headers), timeout=timeout) as response:
             status = response.status
-            return response.status, response.read(), time.monotonic() - started
+            body=response.read()
+            return response.status, body, time.monotonic() - started
     except HTTPError as error:
+        status=error.code
         try:
             body = error.read()
         except (OSError, IncompleteRead) as read_error:
+            transport_error=type(read_error).__name__
             raise TransportFailure(type(read_error).__name__, time.monotonic() - started,
                                    error.code, getattr(read_error, 'partial', b'')) from read_error
+        status=error.code
         return error.code, body, time.monotonic() - started
     except (OSError, IncompleteRead) as error:
+        transport_error=type(error).__name__
         raise TransportFailure(type(error).__name__, time.monotonic() - started,
                                status, getattr(error, 'partial', b'')) from error
+    finally:
+        if observation is not None:
+            report=observation.finish(status,body,transport_error=transport_error)
+            if trace_receipt is not None:
+                Path(trace_receipt).write_text(json.dumps(report,indent=2)+'\n')
 
 
-def run(base_url, output, roles, specialist_timeout=1200, coordinator_timeout=2100):
+def run(base_url, output, roles, specialist_timeout=1200, coordinator_timeout=2100, *, trace_endpoint=None):
     """Check protocol completion without treating fluent model text as proof of actual downstream tool execution."""
     output.mkdir(parents=True, exist_ok=False)
     opener = build_opener(ProxyHandler({})); reports = []
@@ -74,7 +94,9 @@ def run(base_url, output, roles, specialist_timeout=1200, coordinator_timeout=21
         (output / (role + '-request.json')).write_text(json.dumps(payload, indent=2) + '\n')
         timeout = coordinator_timeout if role == 'coordinator' else specialist_timeout
         try:
-            status, body, elapsed = request(opener, url, payload, user_id=identity, timeout=timeout)
+            tracing=({'trace_endpoint':trace_endpoint,'trace_receipt':output/(role+'-client-trace.json')}
+                     if trace_endpoint is not None else {})
+            status, body, elapsed = request(opener, url, payload, user_id=identity, timeout=timeout,**tracing)
         except TransportFailure as error:
             if error.partial:
                 (output / (role + '-response.partial')).write_bytes(error.partial)
@@ -115,4 +137,6 @@ if __name__ == '__main__':
     parser.add_argument('--roles', nargs='+', choices=list(QUESTIONS), default=list(QUESTIONS))
     parser.add_argument('--specialist-timeout', type=float, default=1200)
     parser.add_argument('--coordinator-timeout', type=float, default=2100)
-    args = parser.parse_args(); raise SystemExit(run(args.base_url, args.output, args.roles, args.specialist_timeout, args.coordinator_timeout))
+    parser.add_argument('--trace-endpoint',help='Private OTLP HTTP /v1/traces endpoint for automatic A2A client outcome spans')
+    args = parser.parse_args(); raise SystemExit(run(args.base_url, args.output, args.roles, args.specialist_timeout, args.coordinator_timeout,
+        trace_endpoint=args.trace_endpoint))

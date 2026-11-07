@@ -1,0 +1,5 @@
+# Apply over retained kagent values; the shared ModelConfig is the serving route selector.
+providers:
+  openAI:
+    config:
+      baseUrl: http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18080/v1

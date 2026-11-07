@@ -12,6 +12,21 @@ TRACE_ENV={
 }
 
 
+def gateway_trace_config(config,service):
+    """Export real intermediary proxy spans through the existing privacy projection, keeping every routing field intact."""
+    versions={'iot_agentgateway':'1.7.0','iot_substrate_gateway':'1.3.0-alpha.1'}
+    if service not in versions:raise ValueError('Unreviewed trace service')
+    planned=deepcopy(config)
+    tracing={'host':'iot-router-epp.iot-llm.svc.cluster.local:8081','protocol':'http',
+             'path':TRACE_PATH,'randomSampling':True,
+             'resources':{'service.name':'"'+service+'"','service.namespace':'"iot_agents"',
+                          'service.version':'"'+versions[service]+'"'}}
+    policies=planned.setdefault('frontendPolicies',{})
+    if 'tracing' in policies and policies['tracing']!=tracing:raise ValueError('Preserve a different proxy trace policy')
+    policies['tracing']=tracing
+    return planned
+
+
 def private_trace_route(config):
     """Add one exact POST route and fixed private cluster; refuse an ambiguous or already modified router."""
     planned=deepcopy(config)

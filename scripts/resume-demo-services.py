@@ -224,6 +224,20 @@ def run(args):
         command(['systemctl', 'daemon-reload'])
         command(['systemctl', 'start', 'iot-gateway-grafana-28.socket'])
         report['steps']['private_gateway_relay'] = {'socket_active': active('iot-gateway-grafana-28.socket'), 'listener': '10.52.0.1:13002', 'upstream': '127.0.0.1:13001'}; save()
+        # Request-driven MCP scaling queries the retained host Prometheus through a CNI-private relay.
+        scalers=json.loads(command(['/usr/local/bin/k3s','kubectl','get','scaledobjects','-n','iot-agents','-o','json']))['items']
+        selected=[s for s in scalers if s['metadata']['name'] in {'iot-retrieval-mcp','iot-drift-mcp'}]
+        if selected:
+            if len(selected)!=2 or any(s['spec']['triggers'][0]['metadata'].get('serverAddress')!='http://10.52.0.1:19092' for s in selected):
+                raise ValueError('Inspect the retained MCP scaler endpoints before restoring their relay')
+            relay={'socket':'[Unit]\nDescription=Private IoT MCP scaler Prometheus socket\n[Socket]\nListenStream=10.52.0.1:19092\nNoDelay=true\n',
+                   'service':'[Unit]\nDescription=Private IoT MCP scaler Prometheus relay\n[Service]\nExecStart='+proxy+' 127.0.0.1:19091\nUser=nobody\nNoNewPrivileges=true\nProtectSystem=strict\nProtectHome=true\nPrivateTmp=true\nMemoryMax=32M\nCPUQuota=20%\n'}
+            for suffix,text in relay.items():
+                path=Path('/run/systemd/system/iot-mcp-prometheus.'+suffix)
+                if path.exists() and path.read_text()!=text:raise ValueError('Inspect a different MCP Prometheus relay')
+                path.write_text(text)
+            command(['systemctl','daemon-reload']);command(['systemctl','start','iot-mcp-prometheus.socket'])
+            report['steps']['mcp_scaler_relay']={'socket_active':active('iot-mcp-prometheus.socket'),'listener':'10.52.0.1:19092','upstream':'127.0.0.1:19091'};save()
         alloy = 'iot-alloy-discovery-28'
         storage = root / 'data/runtime/log-discovery-28/alloy'
         hardened = ['--property=ProtectSystem=strict', '--property=ProtectHome=yes', '--property=PrivateTmp=yes', '--property=CapabilityBoundingSet=', '--property=ReadWritePaths=' + str(storage)]

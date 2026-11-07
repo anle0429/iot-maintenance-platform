@@ -2,6 +2,13 @@
 package iot.agent_admission
 import rego.v1
 
+# Select one complete reviewed configuration; model, tools and domains cannot be mixed independently.
+configuration := data.agent_admission.gateway if {
+    some r in input.resources
+    r.kind == "ModelConfig"
+    r.spec.openAI.baseUrl == data.agent_admission.gateway.model_base_url
+} else := data.agent_admission
+
 resource_list := input.resources if {
     is_object(input)
     is_array(input.resources)
@@ -14,21 +21,21 @@ resource_shape(r) if {
     object.keys(r.metadata) == {"name", "namespace"}
     is_string(r.kind)
     is_string(r.metadata.name)
-    r.metadata.namespace == data.agent_admission.namespace
+    r.metadata.namespace == configuration.namespace
     is_object(r.spec)
     identity := sprintf("%s/%s", [r.kind, r.metadata.name])
-    r.apiVersion == data.agent_admission.expected_resources[identity]
+    r.apiVersion == configuration.expected_resources[identity]
 }
 
 valid_envelope if {
     is_object(input)
     object.keys(input) == {"format", "namespace", "resources"}
     input.format == "iot-agent-admission-v1"
-    input.namespace == data.agent_admission.namespace
+    input.namespace == configuration.namespace
     is_array(input.resources)
-    count(input.resources) == count(data.agent_admission.expected_resources)
+    count(input.resources) == count(configuration.expected_resources)
     identities := {sprintf("%s/%s", [r.kind, r.metadata.name]) | some r in resource_list; resource_shape(r)}
-    identities == object.keys(data.agent_admission.expected_resources)
+    identities == object.keys(configuration.expected_resources)
 }
 
 valid_model(spec) if {
@@ -40,7 +47,7 @@ valid_model(spec) if {
     is_object(spec.openAI)
     object.keys(spec.openAI) == {"apiFormat", "baseUrl", "maxTokens", "seed", "temperature", "timeout"}
     spec.openAI.apiFormat == "chatCompletions"
-    spec.openAI.baseUrl == data.agent_admission.model_base_url
+    spec.openAI.baseUrl == configuration.model_base_url
     spec.openAI.temperature == "0"
     spec.openAI.seed == 7
     is_number(spec.openAI.maxTokens)
@@ -56,7 +63,7 @@ valid_model(spec) if {
 valid_agent(r) if {
     spec := r.spec
     role := trim_prefix(r.metadata.name, "iot-")
-    approved := data.agent_admission.roles[r.metadata.name]
+    approved := configuration.roles[r.metadata.name]
     object.keys(spec) == {"type", "version", "description", "allowedNamespaces", "sandbox", "substrate", "declarative"}
     spec.type == "Declarative"
     spec.version == data.version
@@ -108,7 +115,7 @@ valid_resource(r) if {
 valid_resource(r) if {
     resource_shape(r)
     r.kind == "RemoteMCPServer"
-    r.spec == data.agent_admission.server_specs[r.metadata.name]
+    r.spec == configuration.server_specs[r.metadata.name]
 }
 
 valid_resource(r) if {

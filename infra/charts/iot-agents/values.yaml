@@ -5,3 +5,6 @@ workerResources:
   requests: {cpu: 50m, memory: 256Mi}
   limits: {cpu: '2', memory: 3Gi}
 modelConfig: default-model-config
+# Enable with the reviewed overlay after the private gateway is Ready.
+agentgateway:
+  enabled: false

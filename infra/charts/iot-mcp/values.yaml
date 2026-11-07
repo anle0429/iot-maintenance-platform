@@ -1,5 +1,14 @@
 role: retrieval
 replicas: 2
+autoscaling:
+  enabled: false
+  mode: cpu
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 50
+  scaleDownStabilizationSeconds: 180
+  prometheusAddress: ''
+  requestsPerSecondPerReplica: 10
 revisionMarker: initial
 sourceSha256: ''
 image:

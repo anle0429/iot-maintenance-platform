@@ -1,11 +1,23 @@
 """Check that observation planning cannot silently broaden trace routing or rewrite model and controller settings."""
 from copy import deepcopy
 import unittest
-from infra.llm_observer_routing import TRACE_CLUSTER,TRACE_ENV,TRACE_PATH,controller_trace_environment,private_trace_route
+from infra.llm_observer_routing import TRACE_CLUSTER,TRACE_ENV,TRACE_PATH,controller_trace_environment,private_trace_route,gateway_trace_config
 
 
 class ObserverRouteTests(unittest.TestCase):
     """Exercise routing isolation, old-route preservation and conflicting controller settings without running infrastructure."""
+    def test_intermediary_proxy_spans_use_the_same_private_projection_without_route_edits(self):
+        """The actual proxy must export its propagated parent span instead of clearing downstream parent IDs."""
+        original={'binds':[{'port':8080}],'frontendPolicies':{'accessLog':{'add':{'bounded':'true'}}}}
+        for service in ['iot_agentgateway','iot_substrate_gateway']:
+            result=gateway_trace_config(original,service)
+            self.assertEqual(result['binds'],original['binds']);self.assertNotIn('tracing',original['frontendPolicies'])
+            policy=result['frontendPolicies']['tracing']
+            self.assertEqual(policy['path'],TRACE_PATH);self.assertEqual(policy['resources']['service.name'],'"'+service+'"')
+            self.assertEqual(gateway_trace_config(result,service),result)
+            result['frontendPolicies']['tracing']['host']='unapproved.example.invalid'
+            with self.assertRaises(ValueError):gateway_trace_config(result,service)
+        with self.assertRaises(ValueError):gateway_trace_config({},'private user')
     def fixture(self):
         """Represent a model listener plus an unrelated readiness listener and original destination cluster."""
         return {'static_resources':{'listeners':[

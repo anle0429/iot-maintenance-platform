@@ -11,7 +11,11 @@ spec:
     network:
       allowedDomains:
         - iot-router-epp.iot-llm.svc.cluster.local
+        {{- if .Values.agentgateway.enabled }}
+        - iot-agentgateway-candidate.iot-agents.svc.cluster.local
+        {{- else }}
         - iot-retrieval-mcp.iot-agents.svc.cluster.local
+        {{- end }}
   substrate:
     workerPoolRef: {name: iot-retrieval-pool}
   declarative:
@@ -32,7 +36,7 @@ spec:
     tools:
       - type: McpServer
         mcpServer:
-          name: iot-retrieval-tools
+          name: {{ ternary "iot-gateway-retrieval-tools" "iot-retrieval-tools" .Values.agentgateway.enabled }}
           kind: RemoteMCPServer
           apiGroup: kagent.dev
           toolNames: [get_machine_features, predict_failure, search_knowledge]
@@ -50,7 +54,11 @@ spec:
     network:
       allowedDomains:
         - iot-router-epp.iot-llm.svc.cluster.local
+        {{- if .Values.agentgateway.enabled }}
+        - iot-agentgateway-candidate.iot-agents.svc.cluster.local
+        {{- else }}
         - iot-drift-mcp.iot-agents.svc.cluster.local
+        {{- end }}
   substrate:
     workerPoolRef: {name: iot-drift-pool}
   declarative:
@@ -70,7 +78,7 @@ spec:
     tools:
       - type: McpServer
         mcpServer:
-          name: iot-drift-tools
+          name: {{ ternary "iot-gateway-drift-tools" "iot-drift-tools" .Values.agentgateway.enabled }}
           kind: RemoteMCPServer
           apiGroup: kagent.dev
           toolNames: [assess_feature_drift]
@@ -88,6 +96,9 @@ spec:
     network:
       allowedDomains:
         - iot-router-epp.iot-llm.svc.cluster.local
+        {{- if .Values.agentgateway.enabled }}
+        - iot-agentgateway-candidate.iot-agents.svc.cluster.local
+        {{- end }}
         - kagent-controller.iot-agents.svc.cluster.local
         - atenet-router.ate-system.svc
   substrate:

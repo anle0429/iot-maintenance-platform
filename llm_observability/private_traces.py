@@ -6,6 +6,8 @@ from llm_observability.ledger import validate_fact
 import re
 
 AGENTS={name:role for role in ['retrieval','drift','coordinator'] for name in [role,'iot-'+role,'iot_'+role,'iot-agents/iot-'+role]}
+AGENTS['iot_retrieval_plain']='retrieval'
+SERVICES=set(AGENTS)|{'iot_llm_observer','kagent-controller','iot_agentgateway','iot_substrate_gateway'}
 TOOL_NAMES={name:name for name in TOOLS}
 TOOL_NAMES.update({name.replace('_','-'):name for name in TOOLS})
 TOOL_NAMES.update({'iot_agents__NS__iot_retrieval':'delegate_retrieval','iot_agents__NS__iot_drift':'delegate_drift',
@@ -31,9 +33,9 @@ def approved(key,value,resource=False):
     """Keep a closed set of public telemetry values, excluding user IDs, URLs, messages, tool arguments and credentials."""
     if resource:
         if not isinstance(value,str):return False
-        return (key=='service.name' and isinstance(value,str) and value in set(AGENTS)|{'iot_llm_observer'}
-                or key=='service.namespace' and value in {'iot_agents','iot-agents','iot_llm','iot-llm'}
-                or key=='service.version' and value in {'0.10.3','0.1.0'})
+        return (key=='service.name' and isinstance(value,str) and value in SERVICES
+                or key=='service.namespace' and value in {'iot_agents','iot-agents','iot_llm','iot-llm','kagent'}
+                or key=='service.version' and value in {'0.10.3','0.1.0','1.7.0','1.3.0-alpha.1'})
     if key in AGENT_KEYS:return isinstance(value,str) and value in AGENTS
     if key in TOOL_KEYS:return isinstance(value,str) and value in TOOL_NAMES
     if key in MODEL_KEYS:return value==MODEL
@@ -102,6 +104,8 @@ class PrivateTraceProcessor:
                     status=span.status.code;span.Clear()
                     for key,value in identity.items():setattr(span,key,value)
                     span.attributes.extend(kept);span.status.code=status
-                    span.name=fact['operation']+' '+(fact['tool'] if fact['operation']=='tool' else fact['model'] if fact['operation']=='model' else fact['agent'])
+                    emitter=values.get('service.name')
+                    name=fact['agent'] if fact['agent']!='unknown' or emitter not in SERVICES else emitter
+                    span.name=fact['operation']+' '+(fact['tool'] if fact['operation']=='tool' else fact['model'] if fact['operation']=='model' else name)
         if not facts:raise ValueError('Empty OTLP trace batch')
         return {'payload':request.SerializeToString(deterministic=True),'spans':facts,'received_spans':len(facts),'removed_attributes':removed}
