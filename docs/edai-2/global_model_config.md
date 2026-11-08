@@ -32,7 +32,9 @@ The canonical A2A paths and their trailing-slash aliases are both explicit route
 
 ## Configuration in code
 
-[Gateway configuration](../../infra/agentgateway/candidate.py) pins Agentgateway v1.7.0. [The agent overlay](../../infra/agentgateway/agents-default.yaml) selects the stable gateway MCP resources in [the chart](../../infra/charts/iot-agents/templates/tools.yaml). [The kagent overlay](../../infra/agentgateway/kagent-default.yaml) selects the model listener and both child-A2A routing settings. The chart's direct mode remains available for the original bootstrap and controlled comparisons; CI explicitly requires gateway mode.
+[Gateway configuration](../../infra/agentgateway/candidate.py) pins Agentgateway v1.7.0. [The agent overlay](../../infra/agentgateway/agents-default.yaml) selects the stable gateway MCP resources in [the chart](../../infra/charts/iot-agents/templates/tools.yaml). [The kagent overlay](../../infra/agentgateway/kagent-default.yaml) selects the model listener and both child-A2A routing settings. The chart's direct mode belongs to the original bootstrap/comparison profile; CI explicitly requires gateway mode.
+
+**Profile boundary.** This gateway profile is verified for the three production roles. The retained `iot-ab-retrieval-a/b` objects still reference the original direct MCP server and exclude the gateway from their domain lists. The compiler has no A/B exception: it rewrites that old `/mcp` URL to listener 18083, where no such route is configured. Their historical [A/B results](agent_configuration_ab.md) and unchanged UIDs/specifications remain valid recorded evidence, but the old pair is not usable unchanged under this proxy profile. Replaying it requires a reviewed migration to the selected gateway MCP reference and domain, or restoration of its matching historical controller/network profile. Neither current A/B usability nor a new A/B comparison is claimed by this follow-up.
 
 ```yaml
 # infra/agentgateway/kagent-default.yaml
