@@ -107,6 +107,24 @@ def socket_ip(value):
     return str(ip_address(host))
 
 
+def controller_peers(pods):
+    """Identify only actual Ready controller Pods for separately labelled periodic MCP metadata refreshes."""
+    result = {}
+    for pod in pods['items']:
+        metadata, status = pod['metadata'], pod.get('status', {})
+        labels = metadata.get('labels', {})
+        if (labels.get('app.kubernetes.io/name') != 'kagent'
+                or labels.get('app.kubernetes.io/component') != 'controller'):
+            continue
+        if (metadata.get('deletionTimestamp') or status.get('phase') != 'Running'
+                or not any(c.get('type') == 'Ready' and c.get('status') == 'True'
+                           for c in status.get('conditions', []))):
+            continue
+        result[str(ip_address(status['podIP']))] = {'name': metadata['name'], 'uid': metadata['uid']}
+    require(len(result) <= 1, 'Controller background attribution is ambiguous during a rollout')
+    return result
+
+
 def appended_records(before, after):
     """Subtract only an exact full same-Pod log prefix; never filter native errors or malformed lines."""
     require(isinstance(before, bytes) and isinstance(after, bytes) and after.startswith(before)
@@ -117,10 +135,11 @@ def appended_records(before, after):
     return rows
 
 
-def wire_acceptance(records, variant, context, worker, task, started, finished, wire_started, wire_finished):
+def wire_acceptance(records, variant, context, worker, task, started, finished, wire_started, wire_finished,
+                    controllers):
     """Require this task's operator ingress, all three MCP tools and model traffic from its actual actor worker."""
     agent = VARIANTS[variant]['agent']; path = '/api/a2a-sandboxes/iot-agents/' + agent
-    ingress = []; mcp = []; models = []; non_business = []; stream_closes = []
+    ingress = []; mcp = []; models = []; non_business = []; stream_closes = []; background = []
     for row in records:
         timestamp = aware(row.get('time'))
         require(wire_started <= timestamp <= wire_finished,
@@ -146,11 +165,22 @@ def wire_acceptance(records, variant, context, worker, task, started, finished, 
                     and row.get('a2a.result.kind') == 'task' and row.get('a2a.task.state') == 'completed',
                     'Gateway operator ingress does not prove this completed A/B task')
             ingress.append(row)
-        elif suffix == 'proxy-mcp-retrieval':
-            require(row.get('http.path') == '/mcp/retrieval'
-                    and socket_ip(row.get('src.addr')) == worker['ip'],
-                    'MCP traffic is not on the selected path from the actual actor worker')
+        elif suffix in {'proxy-mcp-retrieval', 'proxy-mcp-drift', 'retrieval', 'drift'}:
+            role = suffix.rsplit('-', 1)[-1]
+            endpoint = '/mcp/' + role if suffix.startswith('proxy-mcp-') else '/mcp'
+            require(row.get('http.path') == endpoint, 'MCP traffic uses a different role endpoint')
+            source = socket_ip(row.get('src.addr'))
             method = row.get('mcp.method.name')
+            protocol_only = ((row.get('http.method') == 'POST' and method in {
+                'initialize', 'notifications/initialized', 'tools/list', 'ping'})
+                or row.get('http.method') in {'GET', 'DELETE'} and method is None)
+            if source != worker['ip']:
+                require(source in controllers and protocol_only and row.get('protocol') == 'mcp'
+                        and isinstance(row.get('mcp.session.id'), str) and row['mcp.session.id']
+                        and row.get('gen_ai.tool.name') is None and row.get('mcp.resource.type') != 'tool',
+                        'Foreign MCP traffic is not a known Ready-controller metadata refresh')
+                background.append(row); continue
+            require(suffix == 'proxy-mcp-retrieval', 'The retrieval actor bypassed its selected MCP alias')
             if method == 'tools/call':
                 require(within_request and row.get('http.method') == 'POST' and status == 200
                         and row.get('protocol') == 'mcp' and row.get('mcp.target') == 'retrieval'
@@ -159,9 +189,7 @@ def wire_acceptance(records, variant, context, worker, task, started, finished, 
                         'Unexpected MCP tool execution or missing native session')
                 mcp.append(row)
             else:
-                require((row.get('http.method') == 'POST' and method in {
-                        'initialize', 'notifications/initialized', 'tools/list', 'ping'})
-                        or row.get('http.method') in {'GET', 'DELETE'} and method is None,
+                require(protocol_only,
                         'Unexpected MCP protocol request in the retained window')
                 if not within_request:
                     require(row.get('http.method') in {'GET', 'DELETE'} and method is None
@@ -194,7 +222,9 @@ def wire_acceptance(records, variant, context, worker, task, started, finished, 
     require(len(observer_ids) == len(set(observer_ids)), 'A model observer ID was repeated')
     return {'operator_ingress': ingress[0], 'mcp_events': len(mcp), 'model_requests': len(models),
             'observer_request_ids': observer_ids, 'protocol_records': len(non_business),
-            'gateway_records': len(records), 'measured_stream_close_records': len(stream_closes), 'worker': worker}
+            'gateway_records': len(records), 'measured_stream_close_records': len(stream_closes), 'worker': worker,
+            'controller_protocol_records': background,
+            'controller_peers': {socket_ip(row['src.addr']): controllers[socket_ip(row['src.addr'])] for row in background}}
 
 
 @lru_cache(maxsize=1)
@@ -264,9 +294,11 @@ def _verify_ab_comparison(files, portable_bytes, model_pin, knowledge_root):
         prediction = tools['predict_failure']['output']; trace = tools['get_machine_features']['output']
         expected = prediction_oracle()(trace, prediction, model, model_pin, task_time)
         maximum_error = max(maximum_error, abs(expected - prediction['prediction']['risk_score']))
-        worker = actor_worker(decode(raw['actor.json']), decode(raw['worker-pods.json']), VARIANTS[variant]['agent'], context)
+        pods = decode(raw['worker-pods.json'])
+        worker = actor_worker(decode(raw['actor.json']), pods, VARIANTS[variant]['agent'], context)
         records = appended_records(raw['gateway-before.log'], raw['gateway-after.log'])
-        wire = wire_acceptance(records, variant, context, worker, task, started, finished, wire_started, wire_finished)
+        wire = wire_acceptance(records, variant, context, worker, task, started, finished, wire_started, wire_finished,
+                               controller_peers(pods))
         require(not observer_ids.intersection(wire['observer_request_ids']), 'Model request IDs were reused across cases')
         observer_ids.update(wire['observer_request_ids']); rows.append(outcome)
         cases[label] = {'variant': variant, 'machine_id': machine, 'context_id': context,

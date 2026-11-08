@@ -103,7 +103,7 @@ The retrieval specialist obtains machine features, the model score and cited ref
 | Generation | Shared ModelConfig → Agentgateway → llm-d → observer/tool-turn adapter → llama.cpp on the private V100 | [Setup, model call and measured inference](docs/edai-2/llm_inference_platform.md) |
 | Worker capacity | gVisor SandboxAgents and three WorkerPools, with measured 2 → 4 → 2 scaling | [Scaling](docs/edai-2/agent_scaling.md), [startup study](docs/edai-2/agent_warmup.md) |
 | Delivery and controls | Separate RAG/retrieval/drift/coordinator releases, scoped credentials and bounded gateway access | [CI/CD](docs/edai-2/ci_agents.md), [gateway](docs/edai-2/agent_gateway.md), [Vault](docs/edai-2/vault_agent_ui.md) |
-| Evaluation | Original replies, child/tool histories, token/TTFT telemetry and small paired comparisons | [Monitoring](docs/edai-2/llm_monitoring_demo.md), [model A/B](docs/edai-2/llm_model_ab.md), [agent A/B](docs/edai-2/agent_configuration_ab.md) |
+| Evaluation | Original replies, child/tool histories, token/TTFT telemetry and small paired comparisons | [Monitoring](docs/edai-2/llm_monitoring_demo.md), [model A/B](docs/edai-2/llm_model_ab.md), [agent A/B through the selected gateway](docs/edai-2/agent_configuration_ab.md#gateway-compatibility-replay) |
 
 The [controlled retrieval comparison](docs/edai-2/agent_warmup.md#retrieval-with-and-without-substrate) measured 6.497 s with Substrate versus 4.234 s for the ordinary Agent. The slower result is retained; a general latency or cloud-cost benefit is not claimed.
 

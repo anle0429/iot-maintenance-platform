@@ -218,6 +218,43 @@ class ABGatewayAcceptanceTests(unittest.TestCase):
                 corrupted['0-a/gateway-after.log'] = b''.join(encode(row) for row in altered)
             with self.subTest(mode=mode), self.assertRaises(ValueError): self.check(corrupted, portable, pin)
 
+    def test_periodic_controller_tool_discovery_never_counts_as_agent_execution(self):
+        """Keep known Ready-controller metadata refresh records visible while refusing foreign business calls or errors."""
+        files, portable, pin = fixture(); changed = dict(files)
+        pods = json.loads(changed['0-a/worker-pods.json'])
+        controller = {'apiVersion': 'v1', 'kind': 'Pod', 'metadata': {
+            'namespace': 'iot-agents', 'name': 'fixture-controller', 'uid': 'fixture-controller-uid',
+            'labels': {'app.kubernetes.io/name': 'kagent', 'app.kubernetes.io/component': 'controller'}},
+            'status': {'phase': 'Running', 'podIP': '10.52.0.77',
+                'conditions': [{'type': 'Ready', 'status': 'True'}]}}
+        pods['items'].append(controller); changed['0-a/worker-pods.json'] = encode(pods)
+        row = {'time': '2026-11-08T09:00:10+00:00', 'route': 'default/proxy-mcp-retrieval',
+            'src.addr': '10.52.0.77:33000', 'http.method': 'POST', 'http.path': '/mcp/retrieval',
+            'http.status': 200, 'protocol': 'mcp', 'mcp.method.name': 'tools/list',
+            'mcp.session.id': 'fixture-controller-discovery'}
+        changed['0-a/gateway-after.log'] += encode(row)
+        result = self.check(changed, portable, pin)
+        self.assertEqual(result['successful_mcp_events'], 18)
+        self.assertEqual(result['cases']['0-a']['wire']['controller_protocol_records'], [row])
+        for route, path in [('proxy-mcp-drift', '/mcp/drift'), ('retrieval', '/mcp'), ('drift', '/mcp')]:
+            observed = {**row, 'route': 'default/' + route, 'http.path': path}
+            extra = dict(files); extra['0-a/worker-pods.json'] = changed['0-a/worker-pods.json']
+            extra['0-a/gateway-after.log'] += encode(observed)
+            self.assertEqual(self.check(extra, portable, pin)['cases']['0-a']['wire']['controller_protocol_records'], [observed])
+        for mode in ['foreign-tool', 'foreign-model', 'unknown-source', 'unready-controller', 'controller-error']:
+            corrupted = dict(changed); other = dict(row)
+            if mode == 'foreign-tool':
+                other.update({'mcp.method.name': 'tools/call', 'gen_ai.tool.name': 'get_machine_features', 'mcp.target': 'retrieval'})
+            elif mode == 'foreign-model':
+                other.update({'route': 'default/model', 'http.path': '/v1/chat/completions', 'observer_request_id': 'a' * 32})
+            elif mode == 'unknown-source': other['src.addr'] = '10.52.0.99:33000'
+            elif mode == 'controller-error': other['http.status'] = 503
+            else:
+                unhealthy = deepcopy(pods); unhealthy['items'][-1]['status']['conditions'][0]['status'] = 'False'
+                corrupted['0-a/worker-pods.json'] = encode(unhealthy)
+            corrupted['0-a/gateway-after.log'] = files['0-a/gateway-after.log'] + encode(other)
+            with self.subTest(mode=mode), self.assertRaises(ValueError): self.check(corrupted, portable, pin)
+
 
 if __name__ == '__main__':
     unittest.main()

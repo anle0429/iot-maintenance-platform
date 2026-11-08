@@ -28,5 +28,14 @@ class DocumentationPresentationTests(unittest.TestCase):
         body=b'Unreviewed content\r\n'
         self.assertEqual(before_presentation('docs/unreviewed.md',body),body)
 
+    def test_ab_replay_measurements_and_route_scope_are_exact(self):
+        """New replay prose cannot silently replace the historical direct-profile receipts."""
+        name='docs/edai-2/agent_configuration_ab.md'
+        body=(ROOT/name).read_bytes()
+        for before,after in [(b'8.464',b'1.000'),(b':18083/mcp/retrieval',b':18083/mcp')]:
+            self.assertIn(before,body)
+            with self.assertRaises(AssertionError):
+                before_presentation(name,body.replace(before,after,1))
+
 
 if __name__=='__main__':unittest.main()
