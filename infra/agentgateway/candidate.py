@@ -18,6 +18,7 @@ BACKENDS = {
     'a2a': 'kagent-controller.iot-agents.svc.cluster.local:8083',
 }
 ROLES = ('retrieval', 'drift', 'coordinator')
+AB_VARIANTS = ('a', 'b')
 SELECTOR = {'app.kubernetes.io/instance': NAME}
 
 
@@ -28,6 +29,13 @@ def a2a_path(role):
     return f'/api/a2a-sandboxes/iot-agents/iot-{role}'
 
 
+def ab_a2a_path(variant):
+    """Limit optional experiment ingress to the two retained retrieval variants."""
+    if variant not in AB_VARIANTS:
+        raise ValueError('Unknown A/B retrieval variant')
+    return f'/api/a2a-sandboxes/iot-agents/iot-ab-retrieval-{variant}'
+
+
 def bearer_hash(token):
     """Hash a scoped credential without serializing its plaintext to configuration."""
     if not re.fullmatch(r'[A-Za-z0-9_.~+/=-]{32,256}', token):
@@ -36,7 +44,7 @@ def bearer_hash(token):
 
 
 def config(hashes, *, backends=None, ports=None, credential_dir='/credentials', local=False,tracing=False,
-           delegation_hash=None):
+           delegation_hash=None, ab_operator_routes=False):
     """Build the standalone v1.7.0 configuration with role-specific credentials and exact routes."""
     if set(hashes) != set(PORTS) or len(set(hashes.values())) != len(PORTS):
         raise ValueError('Require four different scoped client credentials')
@@ -45,6 +53,8 @@ def config(hashes, *, backends=None, ports=None, credential_dir='/credentials', 
     if delegation_hash is not None and (not re.fullmatch(r'sha256:[0-9a-f]{64}', delegation_hash)
                                         or delegation_hash in hashes.values()):
         raise ValueError('Delegation needs its own distinct SHA-256 credential hash')
+    if type(ab_operator_routes) is not bool:
+        raise ValueError('Explicitly select or disable the two A/B operator routes')
     ports = ports or PORTS
     backends = backends or BACKENDS
 
@@ -73,8 +83,11 @@ def config(hashes, *, backends=None, ports=None, credential_dir='/credentials', 
         routes[role] = [route(role, role, [(method, '/mcp') for method in ('GET', 'POST', 'DELETE')],
                               {'mcp': {'targets': [upstream], 'prefixMode': 'never'}}, '60s')]
     routes['a2a'] = []
-    for role in ROLES:
-        path = a2a_path(role)
+    operator_paths = [(role, a2a_path(role)) for role in ROLES]
+    if ab_operator_routes:
+        operator_paths.extend(('ab-retrieval-' + variant, ab_a2a_path(variant))
+                              for variant in AB_VARIANTS)
+    for role, path in operator_paths:
         current = route('a2a-' + role, 'a2a', [('GET', path + '/.well-known/agent-card.json'), ('POST', path)],
                         {'host': backends['a2a']}, '1800s')
         current['policies'].update({
@@ -160,7 +173,7 @@ def tcp(port):
     return [{'protocol': 'TCP', 'port': port}]
 
 
-def manifests(hashes, run_name, *, delegation_hash=None):
+def manifests(hashes, run_name, *, delegation_hash=None, ab_operator_routes=False):
     """Create only the new ClusterIP, one candidate Pod and narrow ingress/egress allowances."""
     if not re.fullmatch(r'agw-[a-z0-9-]{1,35}', run_name):
         raise ValueError('Use an agw- run name')
@@ -176,7 +189,8 @@ def manifests(hashes, run_name, *, delegation_hash=None):
                                    'items': [{'key': 'token', 'path': role}]}} for role in ROLES[:2])
     cfg = kube('ConfigMap', 'v1', NAME, {})
     del cfg['spec']
-    cfg['data'] = {'config.yaml': json.dumps(config(hashes,tracing=True,delegation_hash=delegation_hash), indent=2)}
+    cfg['data'] = {'config.yaml': json.dumps(config(hashes,tracing=True,delegation_hash=delegation_hash,
+                                                  ab_operator_routes=ab_operator_routes), indent=2)}
     deployment = kube('Deployment', 'apps/v1', NAME, {
         'replicas': 1, 'selector': {'matchLabels': SELECTOR}, 'strategy': {'type': 'Recreate'},
         'template': {'metadata': {'labels': SELECTOR}, 'spec': {
