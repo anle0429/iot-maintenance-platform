@@ -17,7 +17,10 @@ def encode(folder, output, fps, scene_name):
     if scene_name not in {p.stem for p in here.glob('*.excalidraw')}:
         raise ValueError('Select an existing native architecture scene')
     scene = json.loads((here/(scene_name+'.excalidraw')).read_bytes())
-    canvas = next(e for e in scene['elements'] if e['id'].endswith('-canvas'))
+    canvases = [e for e in scene['elements'] if e['type'] == 'rectangle' and
+                (e['id'] == 'canvas' or e['id'].endswith('-canvas') or e['id'] == scene_name + '-0')]
+    assert len(canvases) == 1, 'Require one exact native canvas'
+    canvas = canvases[0]
     width = min(1920, canvas['width'])
     height = round(canvas['height'] * width / canvas['width'])
     bank = json.loads((here/'icons/brands.json').read_bytes())

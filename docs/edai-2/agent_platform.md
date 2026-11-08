@@ -1,6 +1,60 @@
 # Native agent control plane and catalog
 
-The subsequent [GPU agent checkpoint](gpu_agent_routing.md) records complete specialist answers, actual coordinator delegation and catalog version 0.2.2. This page preserves its earlier deployment/failure baseline.
+The latest recorded specialist chats appear first below. The earlier [GPU agent checkpoint](gpu_agent_routing.md) records complete specialist answers, actual coordinator delegation and catalog version 0.2.2. The original deployment and failure baseline remains preserved later on this page.
+
+## Native specialist tools
+
+A new coordinator conversation on **8 November 2026 UTC** completed with two genuine child sessions and **four successful MCP calls**. Retrieval executed `get_machine_features`, `predict_failure` and `search_knowledge`; drift executed `assess_feature_drift`. The original native screenshots below show expanded tool arguments and returned results in those child chats.
+
+| Conversation | Context / child session ID |
+|---|---|
+| Coordinator parent | `ed943603-418d-4269-9b0c-0d177a878244` |
+| Retrieval child | `01a1ba15-99e7-748b-8624-34298460e267` |
+| Drift child | `01a1ba15-bbdf-7013-9fb0-3af972877a14` |
+
+The parent's original delegation results identify these two child sessions. Content acceptance checks their completed tasks, paired tool calls/results and preservation in the combined answer. Separate transport acceptance joins both child A2A requests to the same parent/root context and the actual coordinator worker Pod IP and UID. The parent entered through the authenticated private UI gateway; its two internal delegations traversed Agentgateway. [Current route and transport checks](global_model_config.md#native-results) · [Original parent Activity capture](../evidence/agent-delegation-20261108/ui/parent-retrieval-activity.jpg).
+
+**Retrieval: actual P-001 request and feature result.** The same child also obtained the model-6 prediction and the versioned vibration passage.
+
+![Original retrieval child get_machine_features call with expanded P-001 arguments](../evidence/agent-delegation-20261108/ui/retrieval-feature-call.jpg)
+
+![Original retrieval child get_machine_features call with expanded returned features](../evidence/agent-delegation-20261108/ui/retrieval-feature-result.jpg)
+
+[Prediction arguments](../evidence/agent-delegation-20261108/ui/retrieval-prediction-expanded.jpg) · [Prediction result](../evidence/agent-delegation-20261108/ui/retrieval-prediction-result.jpg) · [Knowledge request and returned source passage](../evidence/agent-delegation-20261108/ui/retrieval-knowledge-arguments.jpg).
+
+**Drift: actual cohort request and comparison result.** The captured request uses the standard 32-machine cohort and `agent-demo-29` window; the returned result retains the reference and assessment identities.
+
+![Original drift child assess_feature_drift call with expanded cohort arguments](../evidence/agent-delegation-20261108/ui/drift-arguments.jpg)
+
+![Original drift child assess_feature_drift call with expanded returned comparison](../evidence/agent-delegation-20261108/ui/drift-result.jpg)
+
+These unedited JPEGs show completed tool cards. Long arguments and results occupy the native interface's scrollable panels, so a screenshot shows only the visible portion. The [review index](../evidence/agent-delegation-20261108/review-index.json), [verification](../evidence/agent-delegation-20261108/verification.json) and [original native archive](../evidence/agent-delegation-20261108/native-receipts.tar.gz) preserve the complete task histories, call pairing and image identities. This is one recorded conversation on simulated data; the fixed drift window can reuse an existing assessment. It establishes neither a new drift window nor continuous service availability.
+
+## Recorded specialist MCP execution — 30 October checkpoint
+
+These original screenshots were captured on **30 October 2026 at 06:41 UTC**, after an accepted coordinator conversation completed. They show the actual retrieval and drift child **Activity** panels inside that coordinator chat. The [post-restart validation](agent_runtime_validation.md) provides the independent receipt checks, original failure and bounded runtime scope for this recorded conversation.
+
+Retrieval shows **three successful MCP calls**: `get-machine-features`, `predict-failure` and `search-knowledge`, followed by its returned answer for P-001.
+
+![Original retrieval child Activity panel with three successful MCP calls and its answer](../evidence/learner-demo/ui/accepted-retrieval.jpg)
+
+Drift shows **one successful MCP call**, `assess-feature-drift`, followed by its returned assessment for the 32-machine cohort and `agent-demo-29` window.
+
+![Original drift child Activity panel with one successful MCP call and its answer](../evidence/learner-demo/ui/accepted-drift.jpg)
+
+The screenshots show completed tool summaries; the individual per-call arguments and results remain collapsed. The UI displays hyphenated tool names, while the native histories use `get_machine_features`, `predict_failure`, `search_knowledge` and `assess_feature_drift`.
+
+The accepted parent and its independently checked children retain these original identities:
+
+| Role | Task ID | Context / child session ID |
+|---|---|---|
+| Coordinator | `01a18b7f-929f-701e-81c4-cf6578af2253` | `ab61aaf9-65ef-414e-9d1f-4fcdd8fa0c13` |
+| Retrieval child | `01a18b7f-a531-73ef-a143-48170d2f08cc` | `01a18b7f-a28a-79c3-927d-0bd90c97e2a1` |
+| Drift child | `01a18b7f-f7fb-7b00-a9d0-f826252f34bc` | `01a18b7f-f54a-7e07-b6f5-bc28fa263615` |
+
+The opaque identifier beside a specialist's delegation card is its delegation call ID. The child session IDs above come from the parent's native `subagent_session_id` results and match the children's task contexts. The [original capture index](../evidence/learner-demo/ui/index.json) preserves the unedited JPEG identities and capture timestamps.
+
+## Earlier deployment foundation
 
 The deployment recorded on 29 October uses kagent 0.10.3, Agent Substrate 0.0.9 and agentregistry 0.4.0 on the retained VM. Three sandbox agents reached Ready with golden snapshots and separate two-worker pools. Their versioned catalog entries identify the actual runtime image, Kubernetes resource UID and agent-specification hash. Current availability depends on an active VM session and fresh feature data.
 

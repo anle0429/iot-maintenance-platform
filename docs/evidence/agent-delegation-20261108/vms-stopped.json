@@ -1,0 +1,38 @@
+[
+  {
+    "lastStartTimestamp": "2026-11-07T23:19:00.866-08:00",
+    "lastStopTimestamp": "2026-11-07T23:56:15.890-08:00",
+    "machineType": "https://www.googleapis.com/compute/v1/projects/project-208f5905-011e-4ae9-9a5/zones/us-central1-a/machineTypes/n1-standard-4",
+    "name": "iot-cw-gpu",
+    "scheduling": {
+      "automaticRestart": false,
+      "instanceTerminationAction": "STOP",
+      "maxRunDuration": {
+        "nanos": 0,
+        "seconds": "28800"
+      },
+      "onHostMaintenance": "TERMINATE",
+      "preemptible": false,
+      "provisioningModel": "STANDARD"
+    },
+    "status": "TERMINATED"
+  },
+  {
+    "lastStartTimestamp": "2026-11-07T23:18:55.137-08:00",
+    "lastStopTimestamp": "2026-11-07T23:59:47.608-08:00",
+    "machineType": "https://www.googleapis.com/compute/v1/projects/project-208f5905-011e-4ae9-9a5/zones/us-central1-a/machineTypes/e2-highmem-8",
+    "name": "iot-cw-vm",
+    "scheduling": {
+      "automaticRestart": false,
+      "instanceTerminationAction": "STOP",
+      "maxRunDuration": {
+        "nanos": 0,
+        "seconds": "28800"
+      },
+      "onHostMaintenance": "MIGRATE",
+      "preemptible": false,
+      "provisioningModel": "STANDARD"
+    },
+    "status": "TERMINATED"
+  }
+]

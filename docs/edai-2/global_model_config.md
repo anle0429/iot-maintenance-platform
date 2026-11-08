@@ -1,6 +1,6 @@
 # Agentgateway, shared model configuration and A2A
 
-Agentgateway is the selected private route for all three production agents. The 7 November run retained the cutover, persisted the two specialist MCP references in Helm, and completed Jenkins coordinator build **14** against that configuration. A separate post-deployment check exercised the A2A entry again. The Kubernetes resource still carries its original name, `iot-agentgateway-candidate`; that name no longer describes its activation status.
+Agentgateway is the selected private route for all three production agents. The **8 November** native follow-up also verified the coordinator's actual retrieval and drift child A2A requests through this gateway. The controller remains the session and actor-routing backend. The earlier 7 November retained model/MCP route and parent-only A2A transport proof are recorded separately below. The Kubernetes resource still carries its original name, `iot-agentgateway-candidate`; that name no longer describes its activation status.
 
 ## Calls and ownership
 
@@ -9,36 +9,44 @@ Retrieval / Drift / Coordinator
   -> shared default-model-config -> Agentgateway :18080
   -> llm-d / EPP -> observation API + model-control -> private GPU llama.cpp
 
-Retrieval -> iot-gateway-retrieval-tools -> Agentgateway :18081 -> Retrieval MCP
-Drift     -> iot-gateway-drift-tools     -> Agentgateway :18082 -> Drift MCP
+Retrieval -> iot-gateway-retrieval-tools -> Agentgateway :18083/mcp/retrieval -> Retrieval MCP
+Drift     -> iot-gateway-drift-tools     -> Agentgateway :18083/mcp/drift -> Drift MCP
 Operator  -> authenticated A2A :18083 -> kagent controller -> Coordinator
-Coordinator -> controller-routed delegation -> Retrieval and Drift specialists
+Private UI -> authenticated NGINX -> kagent UI / controller -> Coordinator
+Coordinator -> Agentgateway :18083 -> kagent controller -> Retrieval and Drift child sessions
 ```
 
-The model route is used throughout each agent's reasoning and tool loop. It is not only a final-answer step. The specialists initiate their own MCP calls and return the results through their agent tasks. Inbound A2A and internal child delegation are different boundaries: **the parent enters through Agentgateway; child delegation remains controller-routed**.
+The model route is used throughout each agent's reasoning and tool loop. It is not only a final-answer step. The specialists initiate their own MCP calls and return the results through their agent tasks. Parent ingress, child A2A transport and controller session ownership have separate checks. In the fresh UI conversation, the parent used the private NGINX/UI entry and both internal child `message/send` requests traversed Agentgateway before reaching the controller.
 
 | Listener | Actual client / operation | Fixed backend |
 |---|---|---|
 | 18080 | Shared OpenAI-compatible ModelConfig, `/v1/chat/completions` | Existing llm-d Service on port 8081 |
-| 18081 | Retrieval MCP `/mcp` | Retrieval backend only; three allowed tools |
-| 18082 | Drift MCP `/mcp` | Drift backend only; one allowed tool |
-| 18083 | Three exact A2A task paths and agent cards | Existing kagent controller; fixed authenticated operator identity |
+| 18081 | Retained dedicated retrieval MCP `/mcp` listener | Retrieval backend only; three allowed tools |
+| 18082 | Retained dedicated drift MCP `/mcp` listener | Drift backend only; one allowed tool |
+| 18083 | Selected MCP aliases `/mcp/retrieval` and `/mcp/drift` | The same role-specific MCP backends and credentials |
+| 18083 | Three operator A2A paths/cards; two specialist delegation paths/cards | Existing kagent controller; separate operator and delegation credentials |
 
-The canonical A2A paths and their trailing-slash aliases are both explicit routes. Unknown controller paths and missing or cross-role credentials are rejected. Model and MCP credentials are mounted from their existing Secrets; no credential value is committed. NGINX retains the private UI and Feature API front doors.
+The canonical A2A paths and their trailing-slash aliases are both explicit routes. Operator ingress fixes the authenticated lab identity to `coursework`. The delegated specialist routes use a distinct scoped credential, require the compiler's exact `x-kagent-host` marker, and preserve the SDK's user identity, parent/root context and trace headers. Gateway authentication and routing headers are removed before forwarding to the fixed controller backend. Unknown controller paths and missing or cross-role credentials are rejected. Model and MCP credentials remain in their existing Secrets. NGINX retains the private UI and Feature API front doors.
 
 <a id="declared-settings"></a>
 
 ## Configuration in code
 
-[Gateway configuration](../../infra/agentgateway/candidate.py) pins Agentgateway v1.7.0. [The agent overlay](../../infra/agentgateway/agents-default.yaml) selects the stable gateway MCP resources in [the chart](../../infra/charts/iot-agents/templates/tools.yaml). [The kagent overlay](../../infra/agentgateway/kagent-default.yaml) selects the model listener. The chart's direct mode remains available for the original bootstrap and controlled comparisons; CI explicitly requires gateway mode.
+[Gateway configuration](../../infra/agentgateway/candidate.py) pins Agentgateway v1.7.0. [The agent overlay](../../infra/agentgateway/agents-default.yaml) selects the stable gateway MCP resources in [the chart](../../infra/charts/iot-agents/templates/tools.yaml). [The kagent overlay](../../infra/agentgateway/kagent-default.yaml) selects the model listener and both child-A2A routing settings. The chart's direct mode remains available for the original bootstrap and controlled comparisons; CI explicitly requires gateway mode.
 
 ```yaml
 # infra/agentgateway/kagent-default.yaml
+controller:
+  a2aBaseUrl: http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18083
+proxy:
+  url: http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18083
 providers:
   openAI:
     config:
       baseUrl: http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18080/v1
 ```
+
+Both A2A settings matter in kagent 0.10.3. `proxy.url` mediates the compiler's initial child-card discovery; `controller.a2aBaseUrl` keeps the advertised JSON-RPC interface on the gateway. The compiler preserves the request path but drops its original port, so the selected MCP resources use the two explicit role aliases on port 18083. [Coordinator tool declarations](../../infra/charts/iot-agents/templates/agents.yaml) attach the dedicated delegation Secret without exposing its value. Direct controller access remains available for runtime task/history callbacks; this is not a universal direct-A2A bypass-blocking claim.
 
 | Shared setting | Accepted value |
 |---|---|
@@ -51,15 +59,23 @@ providers:
 
 These are the LLM settings, separate from the failure predictor's MLflow model version 6. [CI contract validation](../../agents/ci_contract.py) rejects mixed direct/gateway tool references. [OPA](../../infra/policy/agent-admission.rego) admits one complete reviewed configuration selected by the actual ModelConfig endpoint; it does not combine independent allowances from both modes.
 
-<a id="native-results"></a>
+## Native results
 
-## Native agentgateway integration
+The fresh accepted parent context is `ed943603-418d-4269-9b0c-0d177a878244`. Its actual retrieval child is `01a1ba15-99e7-748b-8624-34298460e267`; its drift child is `01a1ba15-bbdf-7013-9fb0-3af972877a14`. The parent entered through authenticated private NGINX/UI HTTPS. Native gateway logs contain **two successful delegated `message/send` requests** on the specialist trailing-slash routes, each returning a completed task.
+
+[Transport acceptance](../../agents/gateway_acceptance.py) binds the two gateway records to these independently selected child contexts, the same parent/root context and the actual coordinator worker Pod IP and UID. [Content acceptance](../../agents/delegation_acceptance.py) separately verifies both child histories, three retrieval MCP results, one drift MCP result and the unchanged combined answer. HTTP 200, agent-card discovery and a Completed wrapper alone cannot substitute for those checks.
+
+[Native verification](../evidence/agent-delegation-20261108/verification.json) · [Review index](../evidence/agent-delegation-20261108/review-index.json) · [Archive receipt](../evidence/agent-delegation-20261108/native-archive.json) · [Original native archive](../evidence/agent-delegation-20261108/native-receipts.tar.gz) · [Expanded specialist chat captures](agent_platform.md#native-specialist-tools).
+
+## Native Agentgateway integration
+
+The 7 November run retained the model/MCP cutover, persisted the two specialist MCP references in Helm, and completed Jenkins coordinator build **14** against that configuration. A separate post-deployment check exercised parent A2A ingress again. Its child histories establish content acceptance; that earlier transport checkpoint covered parent ingress while internal child delegation remained controller-routed.
 
 | Check | Recorded result |
 |---|---|
 | Model route | Nine genuine generations joined to the actual worker Pod IPs across retrieval, drift and coordinator |
 | MCP | Both listeners executed their expected tools; four business calls in the coordinator conversation |
-| A2A | Parent accepted through Agentgateway; both independently fetched child histories passed |
+| A2A | Parent accepted through Agentgateway; both independently fetched child histories passed; internal child transport remained controller-routed |
 | Retention | `--keep` accepted; shared model route remained selected |
 | Helm persistence | Stable `iot-gateway-retrieval-tools` and `iot-gateway-drift-tools` references applied and Ready |
 | CI | Coordinator build 14 SUCCESS with pinned MLflow prompts and OPA; shared ModelConfig unchanged afterward |
@@ -75,21 +91,21 @@ The complete native archive includes earlier 503s, the rejected stale gateway co
 ## Reproduce the selected route
 
 1. Recover the retained CPU/GPU services within their approved stop windows. Verify controller, MCP backends, GPU model and observer readiness, then prepare a genuine unexpired feature lease. Keep all credentials on the VM.
-2. Upload a sealed source packet. Run [the smoke driver](../../scripts/native-gateway-driver.py) against the actual official binary and private backends. It validates the current ConfigMap before resuming an existing candidate.
-3. Run [the cutover driver](../../scripts/native-gateway-cutover.py) with `--keep` only after its native acceptance checks pass. Without that flag, the experiment restores its original client configuration.
-4. Persist the selected mode in both Helm releases, preserving the current private values and pinned kagent chart:
+2. Upload a sealed source packet. Collect the actual gateway objects, namespace network policies and controller Deployment. [The preparation tool](../../scripts/prepare-agentgateway.py), with `--delegation-key-hash` and `--delegation-readbacks`, uses [the guarded planner](../../infra/agentgateway/delegation.py) to bind changes to their current UID, resourceVersion and complete original field. Keep the delegation credential itself on the VM.
+3. Evaluate the complete current agent configuration with OPA before deployment. Provision the dedicated delegation Secret before SDK initialization, then apply the reviewed gateway and narrow client-network changes. Preserve the existing model/MCP routes and controller callbacks. The earlier [smoke](../../scripts/native-gateway-driver.py) and [cutover](../../scripts/native-gateway-cutover.py) drivers reproduce the older parent-only experiment; they do not install this child-delegation configuration.
+4. Persist the selected mode in both Helm releases, preserving the current private values and pinned kagent chart. Apply the agent chart's MCP aliases before changing the compiler proxy:
 
    ```bash
-   helm upgrade kagent "$PINNED_KAGENT_CHART" -n iot-agents \
-     -f "$PRIVATE_KAGENT_VALUES" -f infra/agentgateway/kagent-default.yaml \
-     -f infra/llm-observability/kagent-tracing.yaml --atomic --wait --timeout 240s
    helm upgrade iot-agents infra/charts/iot-agents -n iot-agents \
      -f "$PRIVATE_AGENT_VALUES" -f infra/agentgateway/agents-default.yaml \
      --post-renderer scripts/render-agent-responses.py --atomic --wait --timeout 240s
+   helm upgrade kagent "$PINNED_KAGENT_CHART" -n iot-agents \
+     -f "$PRIVATE_KAGENT_VALUES" -f infra/agentgateway/kagent-default.yaml \
+     -f infra/llm-observability/kagent-tracing.yaml --atomic --wait --timeout 240s
    ```
 
-5. Submit the source-bound Jenkins job with three exact MLflow prompt versions. Verify the applied ModelConfig and specialist URLs again after deployment; HTTP 200 alone does not establish A2A task success.
-6. Check the recorded results offline with `python -B -S scripts/verify-mentor-runtime.py`.
+5. Send a fresh coordinator question and retain the original parent, child sessions/tasks, gateway logs and worker Pod inventory. Require both transport and content acceptance. Inspect the same contexts in the private UI and preserve original captures. A source-bound Jenkins recheck uses three exact MLflow prompt versions; retain its actual outcome separately from conversation acceptance.
+6. Inspect the 8 November verification and original archive linked above. The earlier 7 November capsule remains independently checkable with `python -B -S scripts/verify-mentor-runtime.py`.
 
 <a id="mcp-tools-request-handling-and-helm-recovery"></a>
 

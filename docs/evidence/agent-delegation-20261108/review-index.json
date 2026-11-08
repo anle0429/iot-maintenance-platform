@@ -1,0 +1,128 @@
+{
+  "format": "iot-agent-delegation-review-v1",
+  "policy": {
+    "policy_prefix": "policy/",
+    "expected_case_ids": [
+      "observed-production",
+      "minimum-output-token-budget",
+      "minimum-positive-model-timeout",
+      "same-private-domain-set-different-order",
+      "wrong-envelope-version",
+      "missing-envelope-format",
+      "cross-namespace-envelope",
+      "empty-resource-inventory",
+      "missing-shared-model-config",
+      "duplicate-object-replacing-required-object",
+      "extra-object",
+      "non-object-resource",
+      "non-array-inventory",
+      "unknown-resource-api-version",
+      "missing-object-namespace",
+      "cross-namespace-object",
+      "missing-resource-spec",
+      "null-model-spec",
+      "missing-model-credentials",
+      "wrong-model-credential-key",
+      "inline-model-credential",
+      "unapproved-model-provider",
+      "unapproved-model-artifact",
+      "external-model-destination",
+      "bypass-observer-route",
+      "missing-model-options",
+      "null-model-options",
+      "zero-output-budget",
+      "over-output-budget",
+      "fractional-output-budget",
+      "string-output-budget",
+      "boolean-output-budget",
+      "zero-model-timeout",
+      "over-model-timeout",
+      "string-model-timeout",
+      "changed-production-temperature",
+      "changed-production-seed",
+      "additional-model-option",
+      "enable-arbitrary-code-blocks",
+      "omit-code-execution-control",
+      "unreviewed-runtime",
+      "unreviewed-model-config-reference",
+      "changed-agent-system-prompt",
+      "old-agent-policy-version",
+      "cross-namespace-agent-access",
+      "additional-egress-domain",
+      "missing-sandbox-network",
+      "missing-private-domain",
+      "duplicate-private-domain",
+      "unapproved-worker-pool",
+      "unsafe-hardware-tool",
+      "missing-approved-tool",
+      "unapproved-tool-server-reference",
+      "arbitrary-tool-type",
+      "shared-delegation-session",
+      "cross-namespace-delegation",
+      "unknown-specialist-delegation",
+      "external-mcp-destination",
+      "wrong-private-mcp-destination",
+      "missing-mcp-auth-reference",
+      "inline-mcp-auth-header",
+      "unreviewed-mcp-protocol",
+      "extended-mcp-timeout",
+      "unisolated-worker-runtime",
+      "unapproved-worker-image",
+      "over-worker-baseline",
+      "privileged-worker-template",
+      "host-network-worker-template",
+      "unapproved-worker-resource-budget",
+      "changed-network-policy",
+      "missing-delegation-credential",
+      "unapproved-delegation-credential",
+      "inline-delegation-authorization",
+      "forged-delegation-lineage-header",
+      "direct-mcp-reference-in-gateway-mode",
+      "gateway-mcp-role-path-swap",
+      "external-gateway-mcp-destination",
+      "missing-selected-gateway-mcp",
+      "mixed-direct-model-gateway-tools"
+    ],
+    "source_prefix": "source/tree/"
+  },
+  "conversation": {
+    "response_path": "ui-chat-b/coordinator-response.json",
+    "child_paths": {
+      "retrieval": {
+        "session": "ui-chat-b/retrieval-session-response.json",
+        "tasks": "ui-chat-b/retrieval-tasks-response.json"
+      },
+      "drift": {
+        "session": "ui-chat-b/drift-session-response.json",
+        "tasks": "ui-chat-b/drift-tasks-response.json"
+      }
+    },
+    "gateway_path": "ui-chat-b/gateway.log",
+    "workers_path": "ui-chat-b/workers.json",
+    "worker_pods_path": "ui-chat-b/worker-pods.json"
+  },
+  "post_ci_conversation": {
+    "response_path": "ci-conversation/coordinator-response.json",
+    "child_paths": {
+      "retrieval": {
+        "session": "ci-conversation/retrieval-session.json",
+        "tasks": "ci-conversation/retrieval-tasks.json"
+      },
+      "drift": {
+        "session": "ci-conversation/drift-session.json",
+        "tasks": "ci-conversation/drift-tasks.json"
+      }
+    },
+    "gateway_path": "ci-conversation/gateway.log",
+    "workers_path": "ci-conversation/workers.json",
+    "worker_pods_path": "ci-conversation/worker-pods.json"
+  },
+  "ci": {
+    "denied_prefix": "ci/denied-c/",
+    "allowed_prefix": "ci/allowed-b/",
+    "denied_artifacts_prefix": "ci/build-19/",
+    "allowed_artifacts_prefix": "ci/build-18/",
+    "source_prefix": "source-ci/",
+    "expected_source_files": 402
+  }
+}

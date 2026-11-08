@@ -1,0 +1,392 @@
+{
+  "passed": true,
+  "policy": {
+    "passed": true,
+    "case_count": 79,
+    "allowed_cases": 4,
+    "denied_cases": 75,
+    "opa_command_count": 160,
+    "resource_count": 13,
+    "observed_input_sha256": "6c32d45958abbb7363162ecb990d12deef81cdf273062235ac2d4317e7abaa6f",
+    "source_files": 8,
+    "source_commit_label": "9471bfe0b2adf3230ea88835df033062fd77a803",
+    "post_admission_tool_edit_rejected": true,
+    "scope": "Authenticated source-bound OPA inputs, decisions, exits and process streams. Cluster/deployment/model side effects require separate native CI observations."
+  },
+  "conversation": {
+    "passed": true,
+    "coordinator": {
+      "passed": true,
+      "task_id": "01a1ba15-40ff-7ccd-9062-af20280ea29c",
+      "context_id": "ed943603-418d-4269-9b0c-0d177a878244",
+      "coordinator_delegation_verified": true,
+      "children": {
+        "retrieval": {
+          "passed": true,
+          "role": "retrieval",
+          "task_id": "01a1ba15-9cdd-7d15-b37e-743789600300",
+          "context_id": "01a1ba15-99e7-748b-8624-34298460e267",
+          "successful_tool_events": 3,
+          "tool_error_events": 0,
+          "coordinator_delegation_verified": false,
+          "coursework_complete": false,
+          "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+        },
+        "drift": {
+          "passed": true,
+          "role": "drift",
+          "task_id": "01a1ba15-bea4-73b9-a863-f152d3a23ab3",
+          "context_id": "01a1ba15-bbdf-7013-9fb0-3af972877a14",
+          "successful_tool_events": 1,
+          "tool_error_events": 0,
+          "coordinator_delegation_verified": false,
+          "coursework_complete": false,
+          "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+        }
+      },
+      "coursework_complete": false,
+      "scope": "Combined answer equals two actual delegated child answers, each verified against its own MCP history. Native capture authenticity remains separately required."
+    },
+    "transport": {
+      "passed": true,
+      "delegation_transport_verified": true,
+      "parent_context_id": "ed943603-418d-4269-9b0c-0d177a878244",
+      "successful_delegations": 2,
+      "children": {
+        "retrieval": {
+          "context_id": "01a1ba15-99e7-748b-8624-34298460e267",
+          "route": "default/delegate-retrieval-slash",
+          "http_path": "/api/a2a-sandboxes/iot-agents/iot-retrieval/",
+          "worker": {
+            "ip": "10.52.0.238",
+            "role": "coordinator",
+            "pod": "iot-coordinator-pool-deployment-5dd6c488d-fmqvc",
+            "uid": "fa90dfd2-f58f-4809-9fdf-f82ac7bdafbb"
+          },
+          "gateway": {
+            "level": "info",
+            "time": "2026-11-08T07:35:47.790706Z",
+            "scope": "request",
+            "gateway": "default/default",
+            "listener": "listener0",
+            "route": "default/delegate-retrieval-slash",
+            "endpoint": "kagent-controller.iot-agents.svc.cluster.local:8083",
+            "src.addr": "10.52.0.238:19743",
+            "http.method": "POST",
+            "http.host": "iot-agentgateway-candidate.iot-agents.svc.cluster.local",
+            "http.path": "/api/a2a-sandboxes/iot-agents/iot-retrieval/",
+            "http.version": "HTTP/1.1",
+            "http.status": 200,
+            "trace.id": "a5581e243741893f4624fe586af8c255",
+            "span.id": "e9096a8b48398068",
+            "protocol": "a2a",
+            "a2a.method": "message/send",
+            "a2a.response.outcome": "success",
+            "a2a.result.kind": "task",
+            "a2a.task.state": "completed",
+            "a2a.context.id": "01a1ba15-99e7-748b-8624-34298460e267",
+            "duration": "7526ms",
+            "observer_request_id": "",
+            "a2a_parent_context_id": "ed943603-418d-4269-9b0c-0d177a878244",
+            "a2a_root_context_id": "ed943603-418d-4269-9b0c-0d177a878244",
+            "a2a_source": "agent"
+          }
+        },
+        "drift": {
+          "context_id": "01a1ba15-bbdf-7013-9fb0-3af972877a14",
+          "route": "default/delegate-drift-slash",
+          "http_path": "/api/a2a-sandboxes/iot-agents/iot-drift/",
+          "worker": {
+            "ip": "10.52.0.238",
+            "role": "coordinator",
+            "pod": "iot-coordinator-pool-deployment-5dd6c488d-fmqvc",
+            "uid": "fa90dfd2-f58f-4809-9fdf-f82ac7bdafbb"
+          },
+          "gateway": {
+            "level": "info",
+            "time": "2026-11-08T07:36:09.788248Z",
+            "scope": "request",
+            "gateway": "default/default",
+            "listener": "listener0",
+            "route": "default/delegate-drift-slash",
+            "endpoint": "kagent-controller.iot-agents.svc.cluster.local:8083",
+            "src.addr": "10.52.0.238:19743",
+            "http.method": "POST",
+            "http.host": "iot-agentgateway-candidate.iot-agents.svc.cluster.local",
+            "http.path": "/api/a2a-sandboxes/iot-agents/iot-drift/",
+            "http.version": "HTTP/1.1",
+            "http.status": 200,
+            "trace.id": "a5581e243741893f4624fe586af8c255",
+            "span.id": "6abef9c8f73de08f",
+            "protocol": "a2a",
+            "a2a.method": "message/send",
+            "a2a.response.outcome": "success",
+            "a2a.result.kind": "task",
+            "a2a.task.state": "completed",
+            "a2a.context.id": "01a1ba15-bbdf-7013-9fb0-3af972877a14",
+            "duration": "20828ms",
+            "observer_request_id": "",
+            "a2a_parent_context_id": "ed943603-418d-4269-9b0c-0d177a878244",
+            "a2a_root_context_id": "ed943603-418d-4269-9b0c-0d177a878244",
+            "a2a_source": "agent"
+          }
+        }
+      },
+      "scope": "Transport evidence only: actual child A2A responses and coordinator worker attribution. verify_coordinator must separately verify the native child histories and MCP contents."
+    },
+    "worker_inventory_verified": true,
+    "input_sha256": {
+      "ui-chat-b/coordinator-response.json": "a65b8116e9e9f2907ff3b255540a82ec6963290d7efd4f666cf517ea9ac20547",
+      "ui-chat-b/gateway.log": "198efdf0a76313343cacac649f82c9e531780418825969e5bb990f95e752edcc",
+      "ui-chat-b/workers.json": "77a9806deb905827c35d3b35eee5215c6165e4d8f4a853fd1dfd3690b69f520f",
+      "ui-chat-b/worker-pods.json": "00c41e41dadf45760204117e32a5fe7009d9f2bac30c90bc66175e3b1019ef52",
+      "ui-chat-b/retrieval-session-response.json": "d25564f3145b815eef287ffd477991938f672d7b1c706083b15dbd610d7ac8eb",
+      "ui-chat-b/retrieval-tasks-response.json": "49d7d9e2c1b66218904fab8a4c4526c8e137816560f7397b3fdf6582bd9f621a",
+      "ui-chat-b/drift-session-response.json": "5be29b40b618335f6f1e19e7b1629be65c89193ca25e46f960cd61b76118e8aa",
+      "ui-chat-b/drift-tasks-response.json": "0c1da613ebc6915292df6cabe0f52181934082cfd9a25971441990b536cf1732"
+    },
+    "gateway_json_records": 174,
+    "non_json_gateway_lines": 0,
+    "scope": "Selected child contents and exact gateway transport agree with original worker Pod readbacks. Payload authenticity requires the separately pinned complete native archive."
+  },
+  "ci": {
+    "passed": true,
+    "source_commit_label": "ad2da29262e3088c942a9240d7157708c094aca4",
+    "source_files": 402,
+    "denied_build": 19,
+    "allowed_build": 18,
+    "denied_gate_exit": 1,
+    "unchanged_denied_resources": {
+      "sandboxagents": 5,
+      "modelconfigs": 3,
+      "remotemcpservers": 6,
+      "workerpools": 3,
+      "deployments": 10
+    },
+    "unchanged_helm_releases": [
+      "iot-agents",
+      "iot-drift-mcp",
+      "iot-retrieval-mcp"
+    ],
+    "denied_gpu_output_token_delta": 0.0,
+    "allowed_gpu_output_token_delta": 1139.0,
+    "accepted_coordinator": {
+      "passed": true,
+      "task_id": "01a1ba21-7c48-7278-a9ff-8ac5e4d4dffe",
+      "context_id": "3aa041a2-dda4-487f-9fad-f51e1ec2aa9c",
+      "coordinator_delegation_verified": true,
+      "children": {
+        "retrieval": {
+          "passed": true,
+          "role": "retrieval",
+          "task_id": "01a1ba21-81d7-72fe-a071-a4445714c4d2",
+          "context_id": "01a1ba21-7ed3-7609-a1ad-f5df4811613f",
+          "successful_tool_events": 3,
+          "tool_error_events": 0,
+          "coordinator_delegation_verified": false,
+          "coursework_complete": false,
+          "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+        },
+        "drift": {
+          "passed": true,
+          "role": "drift",
+          "task_id": "01a1ba21-a6aa-727d-9a26-17af5934cb83",
+          "context_id": "01a1ba21-a3d5-76aa-bbc4-d0b220541f2b",
+          "successful_tool_events": 1,
+          "tool_error_events": 0,
+          "coordinator_delegation_verified": false,
+          "coursework_complete": false,
+          "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+        }
+      },
+      "coursework_complete": false,
+      "scope": "Combined answer equals two actual delegated child answers, each verified against its own MCP history. Native capture authenticity remains separately required."
+    },
+    "prompt_versions": {
+      "retrieval": {
+        "uri": "prompts:/iot-agent-retrieval/1",
+        "version": 1,
+        "sha256": "0ef52a4a2f834a73d42006b852929118e69dea4c8cf4dad383823db2eeb026f5"
+      },
+      "drift": {
+        "uri": "prompts:/iot-agent-drift/1",
+        "version": 1,
+        "sha256": "02c6ef29d1e2bcf1ae50320fd0dd998f528276011c4594b4226d224257786465"
+      },
+      "coordinator": {
+        "uri": "prompts:/iot-agent-coordinator/1",
+        "version": 1,
+        "sha256": "55611cdd61880c60ba3466aa1a3f5ecd6141de54cef9d3cc9a86c2dd8ccd8be5"
+      }
+    },
+    "scope": "Independent native CI snapshots, complete artifact inventories and raw GPU counters for the supplied observation windows. Accepted child contents are checked separately from gateway wire-path proof; no global no-side-effect or future-uptime claim."
+  },
+  "post_ci_conversation": {
+    "passed": true,
+    "coordinator": {
+      "passed": true,
+      "task_id": "01a1ba21-7c48-7278-a9ff-8ac5e4d4dffe",
+      "context_id": "3aa041a2-dda4-487f-9fad-f51e1ec2aa9c",
+      "coordinator_delegation_verified": true,
+      "children": {
+        "retrieval": {
+          "passed": true,
+          "role": "retrieval",
+          "task_id": "01a1ba21-81d7-72fe-a071-a4445714c4d2",
+          "context_id": "01a1ba21-7ed3-7609-a1ad-f5df4811613f",
+          "successful_tool_events": 3,
+          "tool_error_events": 0,
+          "coordinator_delegation_verified": false,
+          "coursework_complete": false,
+          "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+        },
+        "drift": {
+          "passed": true,
+          "role": "drift",
+          "task_id": "01a1ba21-a6aa-727d-9a26-17af5934cb83",
+          "context_id": "01a1ba21-a3d5-76aa-bbc4-d0b220541f2b",
+          "successful_tool_events": 1,
+          "tool_error_events": 0,
+          "coordinator_delegation_verified": false,
+          "coursework_complete": false,
+          "scope": "Final compact specialist answer equals its paired captured tool results. No claim of live deployment, source-seal authenticity, coordinator delegation or full coursework completion."
+        }
+      },
+      "coursework_complete": false,
+      "scope": "Combined answer equals two actual delegated child answers, each verified against its own MCP history. Native capture authenticity remains separately required."
+    },
+    "transport": {
+      "passed": true,
+      "delegation_transport_verified": true,
+      "parent_context_id": "3aa041a2-dda4-487f-9fad-f51e1ec2aa9c",
+      "successful_delegations": 2,
+      "children": {
+        "retrieval": {
+          "context_id": "01a1ba21-7ed3-7609-a1ad-f5df4811613f",
+          "route": "default/delegate-retrieval-slash",
+          "http_path": "/api/a2a-sandboxes/iot-agents/iot-retrieval/",
+          "worker": {
+            "ip": "10.52.0.237",
+            "role": "coordinator",
+            "pod": "iot-coordinator-pool-deployment-5dd6c488d-r28qt",
+            "uid": "ecbae287-2904-468d-8da6-c183abf334d6"
+          },
+          "gateway": {
+            "level": "info",
+            "time": "2026-11-08T07:48:46.776095Z",
+            "scope": "request",
+            "gateway": "default/default",
+            "listener": "listener0",
+            "route": "default/delegate-retrieval-slash",
+            "endpoint": "kagent-controller.iot-agents.svc.cluster.local:8083",
+            "src.addr": "10.52.0.237:57370",
+            "http.method": "POST",
+            "http.host": "iot-agentgateway-candidate.iot-agents.svc.cluster.local",
+            "http.path": "/api/a2a-sandboxes/iot-agents/iot-retrieval/",
+            "http.version": "HTTP/1.1",
+            "http.status": 200,
+            "trace.id": "f1c93023199449be5d8f3cd6bda3ae25",
+            "span.id": "7f44e55650a65d97",
+            "protocol": "a2a",
+            "a2a.method": "message/send",
+            "a2a.response.outcome": "success",
+            "a2a.result.kind": "task",
+            "a2a.task.state": "completed",
+            "a2a.context.id": "01a1ba21-7ed3-7609-a1ad-f5df4811613f",
+            "duration": "7011ms",
+            "observer_request_id": "",
+            "a2a_parent_context_id": "3aa041a2-dda4-487f-9fad-f51e1ec2aa9c",
+            "a2a_root_context_id": "3aa041a2-dda4-487f-9fad-f51e1ec2aa9c",
+            "a2a_source": "agent"
+          }
+        },
+        "drift": {
+          "context_id": "01a1ba21-a3d5-76aa-bbc4-d0b220541f2b",
+          "route": "default/delegate-drift-slash",
+          "http_path": "/api/a2a-sandboxes/iot-agents/iot-drift/",
+          "worker": {
+            "ip": "10.52.0.237",
+            "role": "coordinator",
+            "pod": "iot-coordinator-pool-deployment-5dd6c488d-r28qt",
+            "uid": "ecbae287-2904-468d-8da6-c183abf334d6"
+          },
+          "gateway": {
+            "level": "info",
+            "time": "2026-11-08T07:48:59.792730Z",
+            "scope": "request",
+            "gateway": "default/default",
+            "listener": "listener0",
+            "route": "default/delegate-drift-slash",
+            "endpoint": "kagent-controller.iot-agents.svc.cluster.local:8083",
+            "src.addr": "10.52.0.237:57370",
+            "http.method": "POST",
+            "http.host": "iot-agentgateway-candidate.iot-agents.svc.cluster.local",
+            "http.path": "/api/a2a-sandboxes/iot-agents/iot-drift/",
+            "http.version": "HTTP/1.1",
+            "http.status": 200,
+            "trace.id": "f1c93023199449be5d8f3cd6bda3ae25",
+            "span.id": "3ea980ae2d1b0a92",
+            "protocol": "a2a",
+            "a2a.method": "message/send",
+            "a2a.response.outcome": "success",
+            "a2a.result.kind": "task",
+            "a2a.task.state": "completed",
+            "a2a.context.id": "01a1ba21-a3d5-76aa-bbc4-d0b220541f2b",
+            "duration": "10554ms",
+            "observer_request_id": "",
+            "a2a_parent_context_id": "3aa041a2-dda4-487f-9fad-f51e1ec2aa9c",
+            "a2a_root_context_id": "3aa041a2-dda4-487f-9fad-f51e1ec2aa9c",
+            "a2a_source": "agent"
+          }
+        }
+      },
+      "scope": "Transport evidence only: actual child A2A responses and coordinator worker attribution. verify_coordinator must separately verify the native child histories and MCP contents."
+    },
+    "worker_inventory_verified": true,
+    "input_sha256": {
+      "ci-conversation/coordinator-response.json": "0616b5920b4917cb170ee205dca15d541ebcc4d9327bfc27df28873ab3af9ec7",
+      "ci-conversation/gateway.log": "c15644a8ee6b4cd9ce9ccecb31942c80a9b3541374041e4d7607be4dd5dbcbd4",
+      "ci-conversation/workers.json": "77a9806deb905827c35d3b35eee5215c6165e4d8f4a853fd1dfd3690b69f520f",
+      "ci-conversation/worker-pods.json": "00c41e41dadf45760204117e32a5fe7009d9f2bac30c90bc66175e3b1019ef52",
+      "ci-conversation/retrieval-session.json": "9e6ec1fa04b7c13899969b9f25c1dd5a7a78f40ad639745c96c0a79a1f538a64",
+      "ci-conversation/retrieval-tasks.json": "800a6471464d350a91eca1efc4b887eeced92944b051ef76a2296d2b1f241509",
+      "ci-conversation/drift-session.json": "c47c00510f6797f06ca0254b4585781efc37429ac488771780bf8a825cd8b278",
+      "ci-conversation/drift-tasks.json": "92daeac65521e50bea7d550c8941f7c581ba79f9daeb29f76bf2070a3a37110b"
+    },
+    "gateway_json_records": 477,
+    "non_json_gateway_lines": 0,
+    "scope": "Selected child contents and exact gateway transport agree with original worker Pod readbacks. Payload authenticity requires the separately pinned complete native archive."
+  },
+  "source_packets_and_endpoints": {
+    "passed": true,
+    "source_packets": {
+      "source": {
+        "commit": "9471bfe0b2adf3230ea88835df033062fd77a803",
+        "source_files": 402,
+        "tracked_git_files": 144,
+        "historical_evidence_files": 258
+      },
+      "source-ci": {
+        "commit": "ad2da29262e3088c942a9240d7157708c094aca4",
+        "source_files": 402,
+        "tracked_git_files": 144,
+        "historical_evidence_files": 258
+      }
+    },
+    "listener_ports": [
+      18080,
+      18081,
+      18082,
+      18083
+    ],
+    "gateway_configuration_matches_current_renderer": true,
+    "gateway_a2a_base_url": "http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18083"
+  },
+  "original_ui_images": 8,
+  "vms_stopped": {
+    "iot-cw-gpu": "2026-11-08T07:56:15.890000+00:00",
+    "iot-cw-vm": "2026-11-08T07:59:47.608000+00:00"
+  },
+  "native_payloads": 2088,
+  "public_payloads": 14
+}

@@ -2,7 +2,43 @@
 
 The production agent pipelines evaluate their complete agent configuration with **OPA/Rego before any deployment command**. A second check binds deployment to the same rendered manifest, live model identity and approved input. The policy covers tools, delegation, model routing, generation budgets, worker isolation and the two retained network policies.
 
-Native verification includes **70 known-answer cases** and **four actual Jenkins builds**. Four valid configurations passed; 66 invalid configurations were denied. Coordinator build **4** deliberately added an unapproved `start_pump` tool and failed before deployment. Coordinator, retrieval and drift build **5** each passed admission, deployment and real answer verification.
+## Current Agentgateway proof — 8 November 2026
+
+The selected **thirteen-resource Agentgateway configuration** now has a fresh native OPA suite: **79 cases, four allowed and 75 denied**. Each case retains its actual input, explicit decision, process exits and source/binary hashes. The process ledger reconciles **160 pinned OPA commands**: one strict check, one version query and two evaluations per case. This records policy-process dispatch; independent CI observations below establish the deployment boundary.
+
+| Coordinator build | Controlled scenario | Actual result | Independently checked outcome |
+|---|---|---|---|
+| **19** | Add unapproved `start_pump` | `FAILURE` at OPA | `allowed: false`, violation names `SandboxAgent/iot-retrieval`, gate exit **1**; deployment and answer-verification stages skipped |
+| **18** | Production configuration | `SUCCESS` | All source-declared stages and native containers succeeded; three MLflow prompts pinned to v1; exact manifest/input/model-UID recheck; both actual child answers verified after Helm reapplication |
+
+For build **19**, the original output directory and Jenkins artifact index both contain **no deployment plan, deployment receipt or deployment-attempt marker**, and no answer-verification receipt/attempt. Independent before/after snapshots preserve identical UIDs and complete specifications for **27 resources**: five agents, three models, six MCP server references, three worker pools and ten Deployments. These namespace snapshots include retained resources beyond the thirteen-object policy input. All **three Helm revision readbacks** are identical. The native GPU output-token counter remains **2278 → 2278**, a measured delta of **0.0** in this isolated observation window.
+
+Both CI builds use source commit `ad2da29262e3088c942a9240d7157708c094aca4`, with **402 sealed inputs**. The policy suite preserves its own earlier as-run source seal. The [new native archive](../evidence/agent-delegation-20261108/native-receipts.tar.gz), [capture receipt](../evidence/agent-delegation-20261108/native-archive.json) and [independent verifier](../../scripts/verify-agent-delegation-review.py) retain and recompute these facts. Relevant archive paths are `policy/`, `ci/denied-c/`, `ci/build-19/`, `ci/allowed-b/`, `ci/build-18/` and `source-ci/`.
+
+Earlier attempts remain visible: builds **15 and 16 failed before OPA** because the policy test container lacked the Helm executable; a regression test then exposed and fixed its missing readonly mount. Build **17 reached a real OPA denial**, but its after-snapshot was overwritten by a later observation after build 18. It is **not** used for an independent no-change or zero-token claim. Fresh build **19** supplies that evidence. The original seventy-case proof below is unchanged.
+
+## Original direct-route proof — 30 October 2026
+
+The retained coordinator Jenkins build **4** demonstrates an actual blocked release: add the unapproved `start_pump` tool → OPA returns `allowed: false` with `unapproved capability or missing required field: SandboxAgent/iot-retrieval` → the gate exits **1** → deployment and answer verification are skipped. Resource UIDs/specifications, Helm revisions and the GPU output-token counter remain unchanged. The [original negative CI report](../evidence/agent-admission/negative-ci-verification.json) and the checks below preserve this complete chain.
+
+The original **30 October 2026** verification covers **70 known-answer cases** and **four actual Jenkins builds**. Four valid configurations passed; 66 invalid configurations were denied. Coordinator, retrieval and drift build **5** each passed admission, deployment and real answer verification. These are the original eleven-resource, direct observer-route runs; the later Agentgateway evidence is distinguished below.
+
+## Unsuitable configurations that OPA actually denied
+
+These examples come from the retained native inputs and OPA outputs, rather than expected test results alone. In every row, `decision.stdout` contains `allowed: false` and the violation `unapproved capability or missing required field: <object>` for the object shown; `gate-exit.json` contains `exit_code: 1`.
+
+| Original case | Actual candidate change | Object named in the OPA violation | Gate exit |
+|---|---|---|---|
+| `unsafe-hardware-tool` | Append `start_pump` to the retrieval tool list | `SandboxAgent/iot-retrieval` | **1** |
+| `external-model-destination` | Set `baseUrl` to `https://unapproved.example.invalid/v1` | `ModelConfig/default-model-config` | **1** |
+| `over-output-budget` | Set `maxTokens` to `769`, above the approved maximum `768` | `ModelConfig/default-model-config` | **1** |
+| `shared-delegation-session` | Set the retrieval delegation's `isolateSessions` to `false` | `SandboxAgent/iot-coordinator` | **1** |
+| `privileged-worker-template` | Add `securityContext: {privileged: true}` to the worker template | `WorkerPool/iot-retrieval-pool` | **1** |
+| `changed-network-policy` | Set the retained actor-MCP policy's `egress` to `[{}]` | `NetworkPolicy/iot-agent-actor-mcp` | **1** |
+
+The [70-case native report](../evidence/agent-admission/policy-contracts-verification.json) records each actual decision, violation, gate exit and input SHA-256. The unchanged [native archive](../evidence/agent-admission/native-receipts.tar.gz) retains each case's `input.json`, `decision.stdout`, `gate.stdout` and `gate-exit.json` under `agent-admission-capture-30a/native/agent-admission-contracts-30b/<case>/`. The [independent verifier](../../scripts/verify-agent-admission.py) authenticates those bytes and compares them with the declared cases. This policy-only suite makes no deployment or model request; the following Jenkins run separately proves the deployment boundary.
+
+For Jenkins coordinator **4**, the verifier checks the exact same `unsafe-hardware-tool` input and confirms that no `policy.json`, `deployment-plan.json`, `deploy.json`, `verify.json` or `admitted-deploy-host.attempt` was produced. It compares the before/after UIDs and complete specifications of **22 resources** across agents, models, MCP servers, worker pools and Deployments; all three Helm revision readbacks are equal. The independent native GPU counter delta is **0.0**, and the original console explicitly says both downstream stages were skipped. A pipeline failure alone would not establish these outcomes.
 
 ![Original coordinator stage view: accepted build 5 and intentionally denied build 4](../evidence/agent-admission/ui/coordinator.jpg)
 
@@ -23,7 +59,9 @@ Moving markers illustrate direction with arbitrary timing. Reduced-motion visito
 
 ## What it checks
 
-The input contains three `SandboxAgent` objects, three `WorkerPool` objects, two `RemoteMCPServer` objects, two `NetworkPolicy` objects and the live shared `ModelConfig`. Missing, duplicated, additional or unrecognized objects fail the declared production inventory.
+The original direct-route input contains three `SandboxAgent` objects, three `WorkerPool` objects, two `RemoteMCPServer` objects, two `NetworkPolicy` objects and the live shared `ModelConfig`: **eleven resources**. Missing, duplicated, additional or unrecognized objects fail the declared production inventory.
+
+The current [Agentgateway overlay](../../infra/agentgateway/agents-default.yaml) selects a **thirteen-resource** configuration: the same inventory plus two gateway MCP references, with the shared model and selected specialist tools routed through Agentgateway. The [7 November gateway report](../evidence/mentor-runtime-20261107/gateway-default.json) and [coordinator build 14 policy receipt](../evidence/mentor-runtime-20261107/ci-policy.json) retain their earlier allow-only scope. The new 8 November suite and build 19 above supply separate current-route denial evidence. The original 66 denials and Jenkins build 4 retain their direct-route scope.
 
 | Area | Reviewed constraint | Rejected example |
 |---|---|---|
@@ -76,9 +114,10 @@ From the repository root, without a running VM:
 ```powershell
 python -B -m unittest tests.test_agent_admission tests.test_agent_admission_ci -v
 python -B -S scripts/verify-agent-admission.py
+python -B -S scripts/verify-agent-delegation-review.py
 ```
 
-The verifier reads archives in memory, avoiding Windows path-length limits. It authenticates **1,833 original native payloads**, checks every policy input/decision/exit, reconciles the denied deployment boundary, verifies each production phase and checks actual answers and prediction arithmetic. It starts no service and spends no cloud credit.
+The original verifier reads archives in memory, avoiding Windows path-length limits. It authenticates **1,833 original native payloads**, checks every policy input/decision/exit, reconciles the denied deployment boundary, verifies each production phase and checks actual answers and prediction arithmetic. The new verifier separately checks the current source-bound policy suite, complete Jenkins artifact inventories, raw GPU counters and actual delegated child histories/transport. These offline checks start no service and spend no cloud credit.
 
 For a fresh policy-only demonstration on the existing CPU VM, use the retained authenticated source and a new output directory:
 
@@ -98,6 +137,6 @@ Inspect the retained private UI at [coordinator](http://127.0.0.1:19787/job/iot-
 
 The gate protects these owned CI procedures. It is not a Kubernetes admission webhook and cannot constrain a separate administrator using `kubectl` directly. It checks configuration boundaries; prompt admission and runtime tool validation remain separate controls. The immediate recheck catches observed input changes before deployment, but does not create an atomic transaction with all concurrent cluster administrators.
 
-Its eleven-object input covers the agent chart and live model. It does not independently certify every MCP application image or all Kubernetes resources. Existing API tests, image/source binding and the unchanged strict mutation baseline retain their own scope.
+The original eleven-object input and current thirteen-object gateway input cover the selected agent chart and live model. They do not independently certify every MCP application image or all Kubernetes resources. Existing API tests, image/source binding and the unchanged strict mutation baseline retain their own scope.
 
 For a presentation, show the rejected `start_pump` case first, then a green production row. Explain why the **decision, exit code, exact configuration identity and actual outcome** all matter.

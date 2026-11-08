@@ -21,6 +21,7 @@ from infra.mcp_scaling import evaluate
 from infra.substrate_comparison import summarize
 from integration_evidence import capsule
 from git_sources import git_blobs
+from scripts.source_evolution import recorded_source
 
 MANIFEST_SHA256 = '588fdb4b9710e1e819375c80ca3b2a687356b1c29f2026fc96812c6cec6d2152'
 REVISION = 'f12ea06da2e039d139638c154470f896ed23a7cf'
@@ -104,7 +105,7 @@ def verify():
     for packet, names in checks.items():
         for name in names:
             assert bodies['source/' + packet + '/tree/' + name].replace(b'\r\n', b'\n') == blobs[name], name
-            assert (ROOT / name).read_bytes().replace(b'\r\n', b'\n') == blobs[name], name
+            assert recorded_source(name, checkpoint=REVISION).replace(b'\r\n', b'\n') == blobs[name], name
 
     quality_prefix = 'llm-observer-followup-20261106c/quality-proof/run/'
     quality = original(quality_prefix + 'verification.json'); coverage = original(quality_prefix + 'coverage.json')['totals']

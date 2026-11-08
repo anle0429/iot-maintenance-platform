@@ -86,11 +86,11 @@ The retrieval specialist obtains machine features, the model score and cited ref
 <summary>Agent flow — delegation, actual tool facts and shared GPU inference</summary>
 
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/flow-agents.png">
-  <img alt="Coordinator and specialist delegation, separate MCP routes, three generation connections and the observed GPU model request and return" src="docs/images/flow-agents.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/execution-agents.png">
+  <img alt="Coordinator child A2A through Agentgateway, scoped MCP aliases, shared inference and verified child results" src="docs/images/execution-agents.gif">
 </picture>
 
-[Full-size PNG](docs/images/flow-agents.png) · [Zoomable local viewer](docs/diagrams/architecture.html#view=flow-agents)
+[Full-size PNG](docs/images/execution-agents.png) · [Execution and source contracts](docs/diagrams/execution-guide.md)
 
 </details>
 
@@ -99,7 +99,7 @@ The retrieval specialist obtains machine features, the model score and cited ref
 | Path | What happens | Evidence |
 |---|---|---|
 | Reference ingestion | Documents → chunks → pinned embeddings → versioned Feast/Milvus snapshot | [Six-task RAG pipeline](docs/edai-2/rag_orchestration.md) |
-| Agent question | Private UI → coordinator → two specialists → authenticated MCP services | [Complete GPU conversations](docs/edai-2/gpu_agent_routing.md), [post-restart validation](docs/edai-2/agent_runtime_validation.md) |
+| Agent question | Private UI → coordinator → two specialists → authenticated MCP services | [Expanded specialist tool chats](docs/edai-2/agent_platform.md#native-specialist-tools), [gateway delegation proof](docs/edai-2/global_model_config.md#native-results) |
 | Generation | Shared ModelConfig → Agentgateway → llm-d → observer/tool-turn adapter → llama.cpp on the private V100 | [Setup, model call and measured inference](docs/edai-2/llm_inference_platform.md) |
 | Worker capacity | gVisor SandboxAgents and three WorkerPools, with measured 2 → 4 → 2 scaling | [Scaling](docs/edai-2/agent_scaling.md), [startup study](docs/edai-2/agent_warmup.md) |
 | Delivery and controls | Separate RAG/retrieval/drift/coordinator releases, scoped credentials and bounded gateway access | [CI/CD](docs/edai-2/ci_agents.md), [gateway](docs/edai-2/agent_gateway.md), [Vault](docs/edai-2/vault_agent_ui.md) |
@@ -143,7 +143,7 @@ The [mentor review follow-up](docs/mentor_review_followup.md) links the updated 
 | Gold warehouse indexing | Local DuckDB, eight paired batches of 64 exact lookups: 143.994 → 45.275 ms median; 2,883,584 additional bytes | [Warehouse experiment](docs/edai-1/data_storage.md#warehouse-index-experiment) |
 | Native feature serving | Model 6: 195 valid predictions and five stopped-machine HTTP 409 responses across 200 machines | [Serving record](docs/edai-1/final_handover.md) |
 | Routed LLM benchmark | Official llm-d-benchmark with the same 7B backend, 6 sequential and 11 concurrent completions in 30 s | [Native benchmark](docs/edai-2/llm_inference_platform.md#upstream-llm-d-benchmark-run) |
-| Agentgateway | Default model/MCP route retained through Helm and successful Jenkins build 14; parent A2A and both child histories verified | [Native gateway](docs/edai-2/global_model_config.md#native-agentgateway-integration) |
+| Agentgateway | Default route preserved through Jenkins 18; both child A2A paths joined to gateway logs and worker Pod identities | [Native gateway](docs/edai-2/global_model_config.md#native-agentgateway-integration) |
 | Elastic capacity | Both MCP services and all three worker pools observed at 2 → 4 → 2; actual new-Pod tool work and twelve active worker identities | [MCP](docs/edai-2/mcp_tools.md#native-mcp-autoscale), [workers](docs/edai-2/agent_scaling.md#latest-native-worker-run) |
 | Agent observability | Real failed/completed A2A calls with automatic ERROR/OK and complete 10-/44-span named-service graphs | [Jaeger evidence](docs/edai-2/observability.md#compare-failed-and-completed-coordinator-tasks) |
 | Prompt delivery | MLflow Prompt Registry v1 for all three roles, hash admission, OPA and real coordinator verification in build 14 | [CI/CD](docs/edai-2/ci_agents.md#latest-retained-gateway-release) |
@@ -216,7 +216,7 @@ Start with a package's README or the [command index](scripts/README.md). Runtime
 | [Data processing](docs/edai-1/processing_jobs.md) | Batch and stream jobs, actual Flink window code, Airflow, and before/after results |
 | [Data storage](docs/edai-1/data_storage.md) | Medallion table model, zone responsibilities, grains and keys; Parquet, Gold SQL, indexing, compaction and Feast |
 | [LLM inference](docs/edai-2/llm_inference_platform.md) | Deployment steps, recorded model requests and latency measurements |
-| [Agentgateway and ModelConfig](docs/edai-2/global_model_config.md) | Default model/MCP route, A2A ingress, configuration and retained cutover |
+| [Agentgateway and ModelConfig](docs/edai-2/global_model_config.md) | Default model/MCP route, parent and child A2A, configuration and native acceptance |
 | [MCP tools](docs/edai-2/mcp_tools.md) | Async handlers, Helm recovery and per-Pod autoscale proof |
 | [Substrate comparison](docs/edai-2/agent_warmup.md) | Matched ordinary-Agent control and original startup measurements |
 | [Worker scaling](docs/edai-2/agent_scaling.md) | Healthy demand, actual Pod assignments and automatic scale-in |
