@@ -42,7 +42,7 @@ class PolicyContext(BASE.Context):
         """Preserve existing control mounts and route deployment through the additional immediate configuration recheck."""
         if phase=='deploy-host':self.policy_receipt();phase='admitted-deploy-host'
         extra=['--env','JOB_BASE_NAME','--env','IOT_AGENT_POLICY_SCENARIO','--mount','type=bind,src=/srv/iot-fast/ci,dst=/srv/iot-fast/ci,readonly']
-        if phase=='test-host':extra+=['--mount','type=bind,src='+self.helm+',dst=/usr/local/bin/helm,readonly']
+        if phase in {'test-host','policy-host'}:extra+=['--mount','type=bind,src='+self.helm+',dst=/usr/local/bin/helm,readonly']
         if docker:
             for path in ['/usr/bin/docker','/var/run/docker.sock','/run/k3s/containerd/containerd.sock']:
                 extra+=['--mount','type=bind,src='+path+',dst='+path+(',readonly' if path=='/usr/bin/docker' else '')]
