@@ -58,6 +58,8 @@ def fixture():
             outcome = {'variant': variant, 'machine_id': machine, 'context_id': context,
                 'request_id': request_id, 'http_status': 200, 'response_complete': True, 'passed': True,
                 'elapsed_seconds': 20., 'started_utc': now.isoformat(), 'finished_utc': finish.isoformat(),
+                'wire_started_utc': (now - timedelta(seconds=1)).isoformat(),
+                'wire_finished_utc': (finish + timedelta(seconds=1)).isoformat(),
                 'task_id': task['id'], 'successful_tool_events': 3, 'tool_error_events': 0}
             agent = VARIANTS[variant]['agent']; actor_name = 'asr-' + sha256(
                 ('iot-agents/' + agent + '/' + context).encode()).hexdigest()[:24]
@@ -128,6 +130,19 @@ class ABGatewayAcceptanceTests(unittest.TestCase):
             with self.subTest(name=name, keys=keys), self.assertRaises(ValueError):
                 self.check(changed, portable, pin)
 
+    def test_kubectl_generic_list_still_requires_every_native_item_to_be_a_pod(self):
+        """kubectl's generic List envelope is valid only with the same fully typed namespaced Pod inventory."""
+        files, portable, pin = fixture(); changed = dict(files)
+        for name in files:
+            if name.endswith('/worker-pods.json'):
+                value = json.loads(files[name]); value['kind'] = 'List'; changed[name] = encode(value)
+        self.assertTrue(self.check(changed, portable, pin)['passed'])
+        value = json.loads(changed['0-a/worker-pods.json'])
+        value['items'].append({'apiVersion': 'v1', 'kind': 'Service', 'metadata': {
+            'name': 'not-a-worker', 'namespace': 'iot-agents', 'uid': 'wrong-kind'}})
+        changed['0-a/worker-pods.json'] = encode(value)
+        with self.assertRaises(ValueError): self.check(changed, portable, pin)
+
     def test_gateway_context_paths_errors_and_hidden_log_edits_fail(self):
         """A valid final answer cannot cover a failed, misrouted, missing or incorrectly attributed wire request."""
         files, portable, pin = fixture()
@@ -178,6 +193,30 @@ class ABGatewayAcceptanceTests(unittest.TestCase):
             with self.subTest(mode=mode), self.assertRaises(ValueError): self.check(changed, portable, pin)
         changed_pin = deepcopy(pin); changed_pin['portable_sha256'] = '0' * 64
         with self.assertRaises(ValueError): self.check(files, portable, changed_pin)
+
+    def test_measured_stream_close_window_does_not_extend_business_request_clocks(self):
+        """Only the actual actor's same-session MCP stream close may finish in the separately measured wire window."""
+        files, portable, pin = fixture(); changed = dict(files)
+        outcome = json.loads(files['0-a/outcome.json'])
+        rows = [json.loads(line) for line in files['0-a/gateway-after.log'].splitlines()]
+        close = {'time': (datetime.fromisoformat(outcome['finished_utc']) + timedelta(milliseconds=50)).isoformat(),
+            'route': 'default/proxy-mcp-retrieval', 'src.addr': '10.52.0.42:41000',
+            'http.method': 'GET', 'http.path': '/mcp/retrieval', 'http.status': 200,
+            'protocol': 'mcp', 'mcp.session.id': rows[1]['mcp.session.id']}
+        changed['0-a/gateway-after.log'] += encode(close)
+        self.assertTrue(self.check(changed, portable, pin)['passed'])
+        for mode in ['late-model', 'late-tool', 'wrong-session', 'outside-wire', 'missing-wire-clock']:
+            corrupted = dict(changed)
+            if mode == 'missing-wire-clock':
+                value = dict(outcome); del value['wire_finished_utc']; corrupted['0-a/outcome.json'] = encode(value)
+            else:
+                altered = [json.loads(line) for line in changed['0-a/gateway-after.log'].splitlines()]
+                if mode in ['late-model', 'late-tool']:
+                    altered[4 if mode == 'late-model' else 1]['time'] = close['time']
+                elif mode == 'wrong-session': altered[-1]['mcp.session.id'] = 'another-session'
+                else: altered[-1]['time'] = (datetime.fromisoformat(outcome['wire_finished_utc']) + timedelta(microseconds=1)).isoformat()
+                corrupted['0-a/gateway-after.log'] = b''.join(encode(row) for row in altered)
+            with self.subTest(mode=mode), self.assertRaises(ValueError): self.check(corrupted, portable, pin)
 
 
 if __name__ == '__main__':

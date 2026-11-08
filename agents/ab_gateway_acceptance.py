@@ -67,8 +67,8 @@ def actor_worker(actor, pods, agent, context):
             and actor.get('ateomPodNamespace') == 'iot-agents'
             and actor.get('workerPoolName') == 'iot-retrieval-pool',
             'The Running actor is not attributable to this variant and context')
-    require(pods.get('apiVersion') == 'v1' and pods.get('kind') == 'PodList'
-            and isinstance(pods.get('items'), list), 'Require the original worker PodList')
+    require(pods.get('apiVersion') == 'v1' and pods.get('kind') in {'PodList', 'List'}
+            and isinstance(pods.get('items'), list), 'Require the original typed worker Pod inventory')
     matches = []; seen_names = set(); seen_uids = set(); seen_ips = set()
     for pod in pods['items']:
         require(isinstance(pod, dict) and pod.get('apiVersion') == 'v1' and pod.get('kind') == 'Pod',
@@ -117,13 +117,15 @@ def appended_records(before, after):
     return rows
 
 
-def wire_acceptance(records, variant, context, worker, task, started, finished):
+def wire_acceptance(records, variant, context, worker, task, started, finished, wire_started, wire_finished):
     """Require this task's operator ingress, all three MCP tools and model traffic from its actual actor worker."""
     agent = VARIANTS[variant]['agent']; path = '/api/a2a-sandboxes/iot-agents/' + agent
-    ingress = []; mcp = []; models = []; non_business = []
+    ingress = []; mcp = []; models = []; non_business = []; stream_closes = []
     for row in records:
-        require(started <= aware(row.get('time')) <= finished,
-                'Gateway record is outside the original request interval')
+        timestamp = aware(row.get('time'))
+        require(wire_started <= timestamp <= wire_finished,
+                'Gateway record is outside the separately measured wire capture interval')
+        within_request = started <= timestamp <= finished
         status = row.get('http.status')
         require(type(status) is int and 200 <= status < 300,
                 'An unexpected gateway error remains in this request window')
@@ -131,6 +133,7 @@ def wire_acceptance(records, variant, context, worker, task, started, finished):
         require(isinstance(route, str), 'Missing native gateway route')
         suffix = route.rsplit('/', 1)[-1]
         if suffix in {'a2a-ab-retrieval-' + variant, 'a2a-ab-retrieval-' + variant + '-slash'}:
+            require(within_request, 'Operator A2A activity is outside the actual request clocks')
             expected = path + ('/' if suffix.endswith('-slash') else '')
             if row.get('http.method') == 'GET':
                 require(row.get('http.path') == path + '/.well-known/agent-card.json',
@@ -149,7 +152,7 @@ def wire_acceptance(records, variant, context, worker, task, started, finished):
                     'MCP traffic is not on the selected path from the actual actor worker')
             method = row.get('mcp.method.name')
             if method == 'tools/call':
-                require(row.get('http.method') == 'POST' and status == 200
+                require(within_request and row.get('http.method') == 'POST' and status == 200
                         and row.get('protocol') == 'mcp' and row.get('mcp.target') == 'retrieval'
                         and row.get('gen_ai.tool.name') in {'get_machine_features', 'predict_failure', 'search_knowledge'}
                         and isinstance(row.get('mcp.session.id'), str) and 0 < len(row['mcp.session.id']) <= 4096,
@@ -160,9 +163,15 @@ def wire_acceptance(records, variant, context, worker, task, started, finished):
                         'initialize', 'notifications/initialized', 'tools/list', 'ping'})
                         or row.get('http.method') in {'GET', 'DELETE'} and method is None,
                         'Unexpected MCP protocol request in the retained window')
+                if not within_request:
+                    require(row.get('http.method') in {'GET', 'DELETE'} and method is None
+                            and row.get('protocol') == 'mcp'
+                            and isinstance(row.get('mcp.session.id'), str) and row['mcp.session.id'],
+                            'Only native MCP stream close records may finish outside the actual request interval')
+                    stream_closes.append(row)
                 non_business.append(row)
         elif suffix == 'model':
-            require(row.get('http.method') == 'POST' and row.get('http.path') == '/v1/chat/completions'
+            require(within_request and row.get('http.method') == 'POST' and row.get('http.path') == '/v1/chat/completions'
                     and status == 200 and socket_ip(row.get('src.addr')) == worker['ip']
                     and re.fullmatch(r'[0-9a-f]{32}', row.get('observer_request_id', '')),
                     'Generation is not attributable to the actor worker through the model route')
@@ -178,11 +187,14 @@ def wire_acceptance(records, variant, context, worker, task, started, finished):
                 expected[part['data']['name']] += 1
     require(Counter(row['gen_ai.tool.name'] for row in mcp) == expected,
             'Gateway tool execution counts disagree with the complete native MCP history')
+    sessions = {row['mcp.session.id'] for row in mcp}
+    require(all(row['mcp.session.id'] in sessions for row in stream_closes),
+            'An out-of-request MCP stream close belongs to a different native tool session')
     observer_ids = [row['observer_request_id'] for row in models]
     require(len(observer_ids) == len(set(observer_ids)), 'A model observer ID was repeated')
     return {'operator_ingress': ingress[0], 'mcp_events': len(mcp), 'model_requests': len(models),
             'observer_request_ids': observer_ids, 'protocol_records': len(non_business),
-            'gateway_records': len(records), 'worker': worker}
+            'gateway_records': len(records), 'measured_stream_close_records': len(stream_closes), 'worker': worker}
 
 
 @lru_cache(maxsize=1)
@@ -242,6 +254,10 @@ def _verify_ab_comparison(files, portable_bytes, model_pin, knowledge_root):
                 and (previous_finish is None or started >= previous_finish),
                 'Require finite original clocks and six sequential non-overlapping requests')
         previous_finish = finished
+        wire_started, wire_finished = aware(outcome['wire_started_utc']), aware(outcome['wire_finished_utc'])
+        require(0 <= (started - wire_started).total_seconds() < 5
+                and 0 <= (wire_finished - finished).total_seconds() < 5,
+                'Require separately measured bounded wire capture clocks, not an invented request grace period')
         task_time = aware(task['status']['timestamp'])
         require(started <= task_time <= finished, 'Task completion is outside its original request clocks')
         tools, _ = native_tools(task, 'retrieval')
@@ -250,7 +266,7 @@ def _verify_ab_comparison(files, portable_bytes, model_pin, knowledge_root):
         maximum_error = max(maximum_error, abs(expected - prediction['prediction']['risk_score']))
         worker = actor_worker(decode(raw['actor.json']), decode(raw['worker-pods.json']), VARIANTS[variant]['agent'], context)
         records = appended_records(raw['gateway-before.log'], raw['gateway-after.log'])
-        wire = wire_acceptance(records, variant, context, worker, task, started, finished)
+        wire = wire_acceptance(records, variant, context, worker, task, started, finished, wire_started, wire_finished)
         require(not observer_ids.intersection(wire['observer_request_ids']), 'Model request IDs were reused across cases')
         observer_ids.update(wire['observer_request_ids']); rows.append(outcome)
         cases[label] = {'variant': variant, 'machine_id': machine, 'context_id': context,

@@ -11,11 +11,12 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.git_sources import git_blobs, git_environment, resolve_commit
 MANIFEST_SHA256 = 'ae5e11114639d5b5ddc8930318202f89dba9472b1b48efe88d61a520be8ee5f3'
-CHECKPOINTS_SHA256 = '4251fb19d805b8ebe5fb9a7dba7123596bb37fa430094d07bd86ca415a86fa47'
+CHECKPOINTS_SHA256 = 'ccb5da15f49bbd309d0e3644c7f8bf537102d900f5176bb6c793fb0b3317e2b3'
 CHECKPOINT_COMMITS = ('888f7a57c1cd815967ba12e2244687116cbffe99',
                       'f12ea06da2e039d139638c154470f896ed23a7cf',
                       '9471bfe0b2adf3230ea88835df033062fd77a803',
-                      'ad2da29262e3088c942a9240d7157708c094aca4')
+                      'ad2da29262e3088c942a9240d7157708c094aca4',
+                      '1e883f4c68ea27f973f9191f4e187e0438a9437c')
 
 
 @lru_cache(maxsize=1)
@@ -33,9 +34,9 @@ def reviewed_inventories():
     raw = (ROOT / 'docs/source_checkpoints.json').read_bytes().replace(b'\r\n', b'\n')
     if sha256(raw).hexdigest() != CHECKPOINTS_SHA256: raise ValueError('Reviewed source checkpoints changed')
     inventory = json.loads(raw)
-    if (inventory.get('format') != 'iot-reviewed-source-checkpoints-v2'
+    if (inventory.get('format') != 'iot-reviewed-source-checkpoints-v3'
             or inventory.get('legacy_manifest_sha256') != MANIFEST_SHA256
-            or tuple(inventory.get(key) for key in ('legacy_commit', 'previous_commit', 'accepted_commit', 'current_commit')) != CHECKPOINT_COMMITS
+            or tuple(inventory.get(key) for key in ('legacy_commit', 'previous_commit', 'accepted_commit', 'corrected_ci_commit', 'current_commit')) != CHECKPOINT_COMMITS
             or (transition['before_commit'], transition['after_commit']) != CHECKPOINT_COMMITS[:2]
             or not isinstance(inventory.get('files'), dict)
             or not set(transition['files']) <= inventory['files'].keys()):
@@ -103,7 +104,7 @@ def authenticated_views(transition, inventory):
 
 
 def recorded_source(name, current=None, *, checkpoint=None):
-    """Authenticate latest mapped bytes, then return the exact888 default or explicit f12/947/ad2 source view."""
+    """Authenticate latest mapped bytes, then return the exact888 default or one explicit reviewed source view."""
     path = (ROOT / name).resolve()
     if not path.is_relative_to(ROOT): raise ValueError('Historical source escaped the repository')
     current = path.read_bytes() if current is None else current

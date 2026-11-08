@@ -46,7 +46,7 @@ def run(args):
     migration = json.loads((args.migration/'verification.json').read_bytes())
     if (not migration['passed'] or not lease['passed'] or lease['machines'] != 200
             or (datetime.fromisoformat(session['auto_stop_utc'])-now).total_seconds() < 1800
-            or (datetime.fromisoformat(lease['lease_expires_utc'])-now).total_seconds() < 1200):
+            or (datetime.fromisoformat(lease['lease_expires_utc'])-now).total_seconds() < 1500):
         raise ValueError('Require accepted migration, a genuine feature lease and sufficient session time')
     os.umask(0o077)
     out.mkdir(exist_ok=False)
@@ -145,9 +145,11 @@ def run(args):
                     'parts':[{'kind':'text', 'text':QUESTIONS['retrieval'].replace('P-001', machine)}]},
                 'configuration':{'blocking':True}}}
             save(label+'/request.json', payload)
+            wire_started = datetime.now(timezone.utc).isoformat()
             pod_uid, before = logs(label+'/gateway-before')
             row = {'variant':variant,'machine_id':machine,'context_id':context,'request_id':identity,
-                'passed':False,'response_complete':False,'started_utc':datetime.now(timezone.utc).isoformat()}
+                'passed':False,'response_complete':False,'wire_started_utc':wire_started,
+                'started_utc':datetime.now(timezone.utc).isoformat()}
             started = time.monotonic()
             actor = 'asr-'+sha256(('iot-agents/'+VARIANTS[variant]['agent']+'/'+context).encode()).hexdigest()[:24]
             try:
@@ -156,7 +158,13 @@ def run(args):
                     captured = False
                     attempt = 0
                     while not future.done() and time.monotonic()-started < 245:
-                        result = subprocess.run(grpc, input=json.dumps({'actor':{'atespace':'iot-agents','name':actor}}).encode(), env=env, capture_output=True, timeout=60)
+                        try:
+                            result = subprocess.run(grpc, input=json.dumps({'actor':{'atespace':'iot-agents','name':actor}}).encode(), env=env, capture_output=True, timeout=60)
+                        except subprocess.TimeoutExpired as error:
+                            keep(label+'/actor-poll-'+str(attempt)+'.stdout', error.stdout or b'')
+                            keep(label+'/actor-poll-'+str(attempt)+'.stderr', error.stderr or b'')
+                            save(label+'/actor-poll-'+str(attempt)+'-exit.json', {'timed_out':True})
+                            break
                         keep(label+'/actor-poll-'+str(attempt)+'.stdout', result.stdout)
                         keep(label+'/actor-poll-'+str(attempt)+'.stderr', result.stderr)
                         save(label+'/actor-poll-'+str(attempt)+'-exit.json', {'exit':result.returncode})
@@ -184,8 +192,9 @@ def run(args):
             except (OSError, ValueError, AssertionError) as error:
                 row.update(failure_type=type(error).__name__, elapsed_seconds=time.monotonic()-started)
             row['finished_utc'] = datetime.now(timezone.utc).isoformat()
-            save(label+'/outcome.json', row)
             after_uid, after = logs(label+'/gateway-after')
+            row['wire_finished_utc'] = datetime.now(timezone.utc).isoformat()
+            save(label+'/outcome.json', row)
             if pod_uid != after_uid or not after.startswith(before):
                 raise ValueError('Gateway restarted or log prefix changed during the recorded request')
             rows.append(row)
