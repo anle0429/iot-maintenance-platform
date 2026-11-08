@@ -287,7 +287,8 @@ def run(phase):
         contract=json.loads((c.out/'contracts.json').read_bytes());c.phase('test',{'contracts':contract,'fresh_api':summary})
     elif phase=='test-host':
         c.log('contracts',[sys.executable,'-B','-m','unittest','tests.test_llm_ci_contract','tests.test_agent_release_ci',
-              'tests.test_agent_gateway_default','tests.test_a2a_tracing','-q'])
+              'tests.test_agent_gateway_default','tests.test_agent_delegation_gateway',
+              'tests.test_agent_delegation_plan','tests.test_gateway_delegation_acceptance','tests.test_a2a_tracing','-q'])
         cache=None
         if c.role!='coordinator':
             cache=unchanged_quality_source(ROOT)

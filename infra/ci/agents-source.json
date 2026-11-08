@@ -31,7 +31,18 @@
     "agents/tracing.py",
     "tests/test_agent_gateway_default.py",
     "tests/test_a2a_tracing.py",
-    "infra/mcp/autoscaling-source.json"
+    "infra/mcp/autoscaling-source.json",
+    "infra/agentgateway/candidate.py",
+    "infra/agentgateway/delegation.py",
+    "infra/agentgateway/probe.py",
+    "infra/agentgateway/kagent-default.yaml",
+    "infra/agentgateway/agents-default.yaml",
+    "infra/llm_observer_routing.py",
+    "tests/test_agent_delegation_gateway.py",
+    "tests/test_agentgateway_candidate.py",
+    "tests/test_agent_delegation_plan.py",
+    "agents/gateway_acceptance.py",
+    "tests/test_gateway_delegation_acceptance.py"
   ],
   "quality_manifests": [
     "docs/evidence/mcp-quality/source/manifest.json",

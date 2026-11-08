@@ -291,7 +291,17 @@
                 "namespace": "iot-agents",
                 "kind": "SandboxAgent",
                 "apiGroup": "kagent.dev"
-              }
+              },
+              "headersFrom": [
+                {
+                  "name": "Authorization",
+                  "valueFrom": {
+                    "type": "Secret",
+                    "name": "iot-agentgateway-delegation-client",
+                    "key": "Authorization"
+                  }
+                }
+              ]
             },
             {
               "type": "Agent",
@@ -301,7 +311,17 @@
                 "namespace": "iot-agents",
                 "kind": "SandboxAgent",
                 "apiGroup": "kagent.dev"
-              }
+              },
+              "headersFrom": [
+                {
+                  "name": "Authorization",
+                  "valueFrom": {
+                    "type": "Secret",
+                    "name": "iot-agentgateway-delegation-client",
+                    "key": "Authorization"
+                  }
+                }
+              ]
             }
           ]
         }
@@ -419,7 +439,7 @@
         },
         "iot-gateway-retrieval-tools": {
           "description": "Authenticated retrieval tools through the selected private Agentgateway.",
-          "url": "http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18081/mcp",
+          "url": "http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18083/mcp/retrieval",
           "protocol": "STREAMABLE_HTTP",
           "timeout": "30s",
           "terminateOnClose": true,
@@ -439,7 +459,7 @@
         },
         "iot-gateway-drift-tools": {
           "description": "Authenticated drift tools through the selected private Agentgateway.",
-          "url": "http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18082/mcp",
+          "url": "http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18083/mcp/drift",
           "protocol": "STREAMABLE_HTTP",
           "timeout": "30s",
           "terminateOnClose": true,

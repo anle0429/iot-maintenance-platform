@@ -73,7 +73,9 @@ def run(phase):
     with (c.out/(phase+'.attempt')).open('x') as stream:stream.write(datetime.now(timezone.utc).isoformat())
     if phase=='policy':c.native('policy-host',cluster=True)
     elif phase=='policy-host':
-        c.log('policy-contracts',[sys.executable,'-B','-m','unittest','tests.test_agent_admission','tests.test_agent_admission_ci','-q'])
+        c.log('policy-contracts',[sys.executable,'-B','-m','unittest','tests.test_agent_admission',
+            'tests.test_agent_admission_ci','tests.test_policy_execution','tests.test_gateway_admission_cases',
+            'tests.test_admission_cli_observed','-q'])
         envelope,rendered_hash,model_uid=candidate(c,'policy-candidate')
         if c.scenario=='unsafe-tool':
             # A counterfactual JSON edit only; it is never sent to kubectl or Helm.

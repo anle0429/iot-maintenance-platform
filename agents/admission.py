@@ -37,7 +37,7 @@ def decision_value(payload):
     return result
 
 
-def evaluate(source,opa,envelope,output):
+def evaluate(source,opa,envelope,output,*,command_runner=None):
     """Preserve original input, decisions and exit codes; fail on tool errors, changed policy or an unpinned binary."""
     source=Path(source);opa=Path(opa);output=Path(output);output.mkdir(parents=True,exist_ok=False)
     assets=json.loads((source/'infra/policy/opa-assets.json').read_bytes())
@@ -49,7 +49,7 @@ def evaluate(source,opa,envelope,output):
     def call(label,query,fail=False):
         """Keep the actual OPA console and fail closed on a missing or broken executable."""
         argv=[str(opa),*arguments,'--format=json',*(['--fail'] if fail else []),query]
-        result=subprocess.run(argv,capture_output=True,timeout=30)
+        result=(subprocess.run if command_runner is None else command_runner)(argv,capture_output=True,timeout=30)
         (output/(label+'.stdout')).write_bytes(result.stdout);(output/(label+'.stderr')).write_bytes(result.stderr)
         (output/(label+'-exit.json')).write_text(json.dumps({'exit_code':result.returncode})+'\n');return result
     observed=call('decision','data.iot.agent_admission.result')

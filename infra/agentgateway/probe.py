@@ -91,33 +91,36 @@ class GatewayProbe:
             raise ValueError('Expected native model generation through the candidate route')
         return reply
 
-    def mcp(self, role, arguments):
+    def mcp(self, role, arguments, *, path='/mcp', route=None):
         """Check initialize, role-only tools/list and one real tools/call response per specialist route."""
         if role not in TOOLS:
             raise ValueError('Unknown MCP role')
+        if (path, route) not in {('/mcp', None), ('/mcp/' + role, 'proxy-mcp-' + role)}:
+            raise ValueError('Use one exact reviewed MCP path and response marker')
+        marker = route or role
         headers = {'Accept': 'application/json, text/event-stream'}
         payload = rpc('initialize', 1, {'protocolVersion': '2025-03-26', 'capabilities': {},
                                        'clientInfo': {'name': 'iot-agentgateway-probe', 'version': '1.0'}})
         wrong = 'drift' if role == 'retrieval' else 'retrieval'
-        self.reject(role + '-cross-role', role, '/mcp', wrong, method='POST', payload=payload)
-        status, raw, received = self.request(role + '-initialize', role, '/mcp', method='POST', payload=payload, headers=headers)
-        initialized = mcp_result(status, raw, received, role, 1)
+        self.reject(role + '-cross-role', role, path, wrong, method='POST', payload=payload)
+        status, raw, received = self.request(role + '-initialize', role, path, method='POST', payload=payload, headers=headers)
+        initialized = mcp_result(status, raw, received, marker, 1)
         if 'mcp-session-id' in received:
             headers['Mcp-Session-Id'] = received['mcp-session-id']
         headers['MCP-Protocol-Version'] = initialized['protocolVersion']
-        status, _, _ = self.request(role + '-ack', role, '/mcp', method='POST', headers=headers,
+        status, _, _ = self.request(role + '-ack', role, path, method='POST', headers=headers,
                                     payload=rpc('notifications/initialized', None))
         if status not in (200, 202, 204):
             raise ValueError('MCP initialize notification rejected')
-        status, raw, received = self.request(role + '-list', role, '/mcp', method='POST', headers=headers,
+        status, raw, received = self.request(role + '-list', role, path, method='POST', headers=headers,
                                              payload=rpc('tools/list', 2, {}))
-        names = {item['name'] for item in mcp_result(status, raw, received, role, 2)['tools']}
+        names = {item['name'] for item in mcp_result(status, raw, received, marker, 2)['tools']}
         if names != TOOLS[role]:
             raise ValueError('Gateway changed tool names or exposed another role')
         name = 'get_machine_features' if role == 'retrieval' else 'assess_feature_drift'
-        status, raw, received = self.request(role + '-tool', role, '/mcp', method='POST', headers=headers,
+        status, raw, received = self.request(role + '-tool', role, path, method='POST', headers=headers,
             payload=rpc('tools/call', 3, {'name': name, 'arguments': {'request': arguments}}))
-        value = mcp_result(status, raw, received, role, 3)
+        value = mcp_result(status, raw, received, marker, 3)
         if value.get('isError') or not (value.get('content') or value.get('structuredContent')):
             raise ValueError('Expected a successful native MCP business-tool result')
         return value

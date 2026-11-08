@@ -22,7 +22,7 @@ metadata:
   name: iot-gateway-{{ $role }}-tools
 spec:
   description: Authenticated {{ $role }} tools through the selected private Agentgateway.
-  url: http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:{{ ternary 18081 18082 (eq $role "retrieval") }}/mcp
+  url: http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18083/mcp/{{ $role }}
   protocol: STREAMABLE_HTTP
   timeout: 30s
   terminateOnClose: true

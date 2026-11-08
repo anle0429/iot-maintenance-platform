@@ -35,12 +35,16 @@ def bearer_hash(token):
     return 'sha256:' + sha256(token.encode()).hexdigest()
 
 
-def config(hashes, *, backends=None, ports=None, credential_dir='/credentials', local=False,tracing=False):
+def config(hashes, *, backends=None, ports=None, credential_dir='/credentials', local=False,tracing=False,
+           delegation_hash=None):
     """Build the standalone v1.7.0 configuration with role-specific credentials and exact routes."""
     if set(hashes) != set(PORTS) or len(set(hashes.values())) != len(PORTS):
         raise ValueError('Require four different scoped client credentials')
     if any(not re.fullmatch(r'sha256:[0-9a-f]{64}', digest) for digest in hashes.values()):
         raise ValueError('Only SHA-256 credential hashes are accepted')
+    if delegation_hash is not None and (not re.fullmatch(r'sha256:[0-9a-f]{64}', delegation_hash)
+                                        or delegation_hash in hashes.values()):
+        raise ValueError('Delegation needs its own distinct SHA-256 credential hash')
     ports = ports or PORTS
     backends = backends or BACKENDS
 
@@ -85,6 +89,37 @@ def config(hashes, *, backends=None, ports=None, credential_dir='/credentials', 
                            {'host': backends['a2a']}, '1800s')
         advertised['policies'].update({**current['policies'], 'urlRewrite': {'path': {'full': path}}})
         routes['a2a'].append(advertised)
+    if delegation_hash is not None:
+        delegated = []
+        for role in ROLES[:2]:
+            path = a2a_path(role)
+            methods = [('GET', path + '/.well-known/agent-card.json'), ('POST', path)]
+            for suffix, matches in [('', methods), ('-slash', [('POST', path + '/')])]:
+                current = route('delegate-' + role + suffix, 'a2a', matches,
+                                {'host': backends['a2a']}, '1800s')
+                for match in current['matches']:
+                    match['headers'] = [{'name': 'x-kagent-host',
+                                         'value': {'exact': 'kagent-controller.iot-agents'}}]
+                current['policies'].update({
+                    'apiKey': {'mode': 'strict', 'keys': [{'keyHash': delegation_hash}]},
+                    'responseHeaderModifier': {'set': {'x-iot-agentgateway-route': 'delegate-' + role}},
+                    'a2a': {},
+                    # The trusted SDK supplies dynamic user/parent/root/trace headers.
+                    # Only operator ingress below imposes the fixed operator identity.
+                    'requestHeaderModifier': {'remove': ['authorization', 'x-forwarded-user', 'x-kagent-host']},
+                })
+                if suffix:
+                    current['policies']['urlRewrite'] = {'path': {'full': path}}
+                delegated.append(current)
+        aliases = []
+        for role in ROLES[:2]:
+            aliases.append(route('proxy-mcp-' + role, role,
+                [(method, '/mcp/' + role) for method in ('GET', 'POST', 'DELETE')],
+                routes[role][0]['backends'][0], '60s'))
+        # kagent's compiler proxy preserves paths but drops the original port.
+        # Exact aliases keep the two MCP capabilities separate on one listener.
+        # A compiler host match separates delegated A2A from operator ingress.
+        routes['a2a'] = delegated + routes['a2a'] + aliases
     result={
         'config': {'logging': {'format': 'json', 'level': 'warn,request=info'}, 'adminAddr': '127.0.0.1:15000',
                    'readinessAddr': '0.0.0.0:19001', 'statsAddr': '127.0.0.1:19002'},
@@ -95,6 +130,16 @@ def config(hashes, *, backends=None, ports=None, credential_dir='/credentials', 
         'binds': [{'port': ports[role], 'listeners': [{'protocol': 'HTTP', 'routes': routes[role]}]}
                   for role in PORTS],
     }
+    if delegation_hash is not None:
+        fields = result['frontendPolicies']['accessLog']['add']
+        identifier = '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        for label in ('parent', 'root'):
+            header = 'x-kagent-' + label + '-context-id'
+            fields['a2a_' + label + '_context_id'] = (
+                f'"{header}" in request.headers && request.headers["{header}"].matches("{identifier}") '
+                f'? request.headers["{header}"] : ""')
+        fields['a2a_source'] = ('"x-kagent-source" in request.headers && '
+            'request.headers["x-kagent-source"] == "agent" ? "agent" : ""')
     return gateway_trace_config(result,'iot_agentgateway') if tracing else result
 
 
@@ -115,7 +160,7 @@ def tcp(port):
     return [{'protocol': 'TCP', 'port': port}]
 
 
-def manifests(hashes, run_name):
+def manifests(hashes, run_name, *, delegation_hash=None):
     """Create only the new ClusterIP, one candidate Pod and narrow ingress/egress allowances."""
     if not re.fullmatch(r'agw-[a-z0-9-]{1,35}', run_name):
         raise ValueError('Use an agw- run name')
@@ -131,7 +176,7 @@ def manifests(hashes, run_name):
                                    'items': [{'key': 'token', 'path': role}]}} for role in ROLES[:2])
     cfg = kube('ConfigMap', 'v1', NAME, {})
     del cfg['spec']
-    cfg['data'] = {'config.yaml': json.dumps(config(hashes,tracing=True), indent=2)}
+    cfg['data'] = {'config.yaml': json.dumps(config(hashes,tracing=True,delegation_hash=delegation_hash), indent=2)}
     deployment = kube('Deployment', 'apps/v1', NAME, {
         'replicas': 1, 'selector': {'matchLabels': SELECTOR}, 'strategy': {'type': 'Recreate'},
         'template': {'metadata': {'labels': SELECTOR}, 'spec': {
@@ -157,6 +202,8 @@ def manifests(hashes, run_name):
     })
     probe_peer = peer(NAMESPACE, {'iot.coursework/agentgateway-probe': run_name})
     rules = {'model': [*worker_peers.values(), controller_peer, probe_peer], 'a2a': [probe_peer]}
+    if delegation_hash is not None:
+        rules['a2a'] = [*worker_peers.values(), controller_peer, probe_peer]
     for role in ROLES[:2]:
         rules[role] = [worker_peers[role], controller_peer, probe_peer]
     egress = [{'to': [model_peer], 'ports': tcp(8081)},

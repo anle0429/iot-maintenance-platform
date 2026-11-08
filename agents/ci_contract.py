@@ -68,6 +68,10 @@ def validate_agents(documents, policy, *, gateway=False):
             expected_tools = [{'type':'Agent', 'isolateSessions':True,
                 'agent':{'name':'iot-' + other, 'namespace':'iot-agents', 'kind':'SandboxAgent', 'apiGroup':'kagent.dev'}}
                 for other in ['retrieval', 'drift']]
+            if gateway:
+                for tool in expected_tools:
+                    tool['headersFrom'] = [{'name':'Authorization', 'valueFrom':{
+                        'type':'Secret', 'name':'iot-agentgateway-delegation-client', 'key':'Authorization'}}]
         else:
             names = ['get_machine_features','predict_failure','search_knowledge'] if role == 'retrieval' else ['assess_feature_drift']
             prefix='iot-gateway-' if gateway else 'iot-'

@@ -5,7 +5,7 @@ import json
 import subprocess
 
 ROOT=Path(__file__).resolve().parents[1]
-PRESENTATION_SHA256='41d514b733f3ead340f91fc6006c43310f165cf9223d15501de0232fea79fe93'
+PRESENTATION_SHA256='776db8dab31b2d0f37d8a78ecdcee55cb39074a8b400fd2d047d0a6d36ca146f'
 
 
 def presentation():

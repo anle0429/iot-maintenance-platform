@@ -1,4 +1,10 @@
 # Apply over retained kagent values; the shared ModelConfig is the serving route selector.
+# The compiler proxy mediates initial child discovery; advertised interfaces
+# keep subsequent JSON-RPC on the same gateway. Both are required by kagent0.10.3.
+controller:
+  a2aBaseUrl: http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18083
+proxy:
+  url: http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18083
 providers:
   openAI:
     config:

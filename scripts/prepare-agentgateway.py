@@ -8,6 +8,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from infra.agentgateway.candidate import BACKENDS, DNS_NAME, NAMESPACE, PORTS, ROLES, manifests
+from infra.agentgateway.delegation import plan as delegation_plan
 
 
 def patch_document(resource, path, expected, replacement):
@@ -62,13 +63,34 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--client-readbacks', type=Path)
     parser.add_argument('--rollback-clients', action='store_true')
+    parser.add_argument('--delegation-key-hash', help='Distinct SHA-256 client hash for specialist A2A only; never a plaintext bearer')
+    parser.add_argument('--delegation-readbacks', type=Path, help='Fresh owned gateway, controller and namespace-policy JSON readbacks for a guarded plan')
     args = parser.parse_args()
     if args.rollback_clients and args.client_readbacks is None:
         parser.error('--rollback-clients requires fresh readbacks from the candidate-connected resources')
-    items = manifests(json.loads(args.key_hashes.read_bytes()), args.run)
+    if args.delegation_readbacks and not args.delegation_key_hash:
+        parser.error('--delegation-readbacks requires a distinct --delegation-key-hash')
+    if args.delegation_key_hash and args.client_readbacks:
+        parser.error('Do not mix the complete delegation rollout with legacy temporary client patches')
+    hashes = json.loads(args.key_hashes.read_bytes())
+    items = manifests(hashes, args.run, delegation_hash=args.delegation_key_hash)
     patches = client_patches(args.client_readbacks, args.rollback_clients) if args.client_readbacks else {}
+    delegated = None
+    if args.delegation_readbacks:
+        source = args.delegation_readbacks
+        names = {'ConfigMap':'gateway-configmap.json', 'Deployment':'gateway-deployment.json',
+                 'NetworkPolicy':'gateway-networkpolicy.json', 'Service':'gateway-service.json'}
+        observed = [resource(source / path, kind, 'iot-agentgateway-candidate') for kind,path in names.items()]
+        controller = resource(source / 'controller-deployment.json', 'Deployment', 'kagent-controller')
+        policies = json.loads((source / 'namespace-networkpolicies.json').read_bytes())
+        if policies.get('kind') != 'NetworkPolicyList':
+            raise ValueError('Require the original namespace NetworkPolicyList readback')
+        delegated = delegation_plan(observed, policies['items'],
+            controller['spec']['template']['metadata']['labels'], hashes, args.delegation_key_hash, args.run)
     args.output.mkdir(parents=True, exist_ok=False)
     (args.output / 'candidate.json').write_text(json.dumps({'apiVersion': 'v1', 'kind': 'List', 'items': items}, indent=2)+'\n')
+    if delegated is not None:
+        (args.output / 'delegation-plan.json').write_text(json.dumps(delegated, indent=2)+'\n')
     for name, patch in patches.items():
         (args.output / (name + '-patch.json')).write_text(json.dumps(patch, indent=2)+'\n')
 

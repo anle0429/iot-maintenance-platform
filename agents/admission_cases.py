@@ -85,4 +85,18 @@ def cases(observed):
     add('host-network-worker-template',lambda v:pool(v)['template'].update(hostNetwork=True))
     add('unapproved-worker-resource-budget',lambda v:pool(v)['template']['resources']['limits'].update(memory='30Gi'))
     add('changed-network-policy',lambda v:resource(v,'NetworkPolicy')['spec'].update(egress=[{}]))
+    if any(r.get('kind')=='RemoteMCPServer' and r.get('metadata',{}).get('name')=='iot-gateway-retrieval-tools'
+           for r in observed['resources']):
+        delegated=lambda v:coordinator(v)['declarative']['tools'][0]
+        gateway=lambda v:resource(v,'RemoteMCPServer','iot-gateway-retrieval-tools')['spec']
+        add('missing-delegation-credential',lambda v:delegated(v).pop('headersFrom'))
+        add('unapproved-delegation-credential',lambda v:delegated(v)['headersFrom'][0]['valueFrom'].update(name='unapproved-secret'))
+        add('inline-delegation-authorization',lambda v:delegated(v)['headersFrom'][0].update(value='SYNTHETIC_NOT_A_REAL_CREDENTIAL'))
+        add('forged-delegation-lineage-header',lambda v:delegated(v)['headersFrom'].append({
+            'name':'x-kagent-root-context-id','valueFrom':{'type':'Secret','name':'iot-agentgateway-delegation-client','key':'Authorization'}}))
+        add('direct-mcp-reference-in-gateway-mode',lambda v:agent(v)['declarative']['tools'][0]['mcpServer'].update(name='iot-retrieval-tools'))
+        add('gateway-mcp-role-path-swap',lambda v:gateway(v).update(url='http://iot-agentgateway-candidate.iot-agents.svc.cluster.local:18083/mcp/drift'))
+        add('external-gateway-mcp-destination',lambda v:gateway(v).update(url='https://unapproved.example.invalid/mcp/retrieval'))
+        add('missing-selected-gateway-mcp',lambda v:v['resources'].remove(resource(v,'RemoteMCPServer','iot-gateway-retrieval-tools')))
+        add('mixed-direct-model-gateway-tools',lambda v:model(v)['openAI'].update(baseUrl='http://iot-router-epp.iot-llm.svc.cluster.local:8081/v1'))
     return values

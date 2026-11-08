@@ -121,6 +121,16 @@ spec:
       - type: Agent
         isolateSessions: true
         agent: {name: iot-retrieval, namespace: iot-agents, kind: SandboxAgent, apiGroup: kagent.dev}
+        {{- if .Values.agentgateway.enabled }}
+        headersFrom:
+          - name: Authorization
+            valueFrom: {type: Secret, name: iot-agentgateway-delegation-client, key: Authorization}
+        {{- end }}
       - type: Agent
         isolateSessions: true
         agent: {name: iot-drift, namespace: iot-agents, kind: SandboxAgent, apiGroup: kagent.dev}
+        {{- if .Values.agentgateway.enabled }}
+        headersFrom:
+          - name: Authorization
+            valueFrom: {type: Secret, name: iot-agentgateway-delegation-client, key: Authorization}
+        {{- end }}
