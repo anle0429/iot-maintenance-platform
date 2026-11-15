@@ -1,0 +1,33 @@
+# Architecture overview review
+
+The review baseline is `overview-v3.excalidraw`, SHA-256 `d46d63c14d2a9c0ef89340a9ff99e5056bb1aea0ad33f2646f63bac7aa4dba2a`. The source, SVG, PNG and review notes each matched the byte length and digest in the v3 manifest. The manifest itself hashed to `922f0cc605e46cf95e76768aca72d9b9352f67851b0580023ab163137254a931`.
+
+## Source checks
+
+All three major corrections appear in V3. The smaller corrections also agree with the code. At README size, the selected Redis release, the origin of training labels and the per-pod knowledge copy still benefit from explicit wording.
+
+| Finding | What the v3 drawing shows | Implementation checked |
+|---|---|---|
+| F1 · Serving release | Two control arrows leave Serving CI. KServe receives the staged predictor. The Feature API switches after traffic and monitoring checks. A later check exercises the switched API. | [Jenkins stage order](../../infra/ci/Serving.Jenkinsfile#L25) · [Stage receipt](../evidence/ci-serving-linux/ci/staged.json) · [Switch receipt](../evidence/ci-serving-linux/ci/switched.json) |
+| F2 · Stream publication | Jenkins deploys two Airflow jobs. The offline job writes retained windows to history. The online job checks that history and pushes the latest values per machine. Each job replays its completed write to verify that it has no further effect. | [CI deployment](../../infra/ci/StreamPush.Jenkinsfile#L25) · [Retained window provenance](../../feature_store/staging_contract.py#L14) · [Airflow tasks](../../infra/ci/iot_ci_stream_push.py#L47) · [Verified online write](../../feature_store/staged_push.py#L82) |
+| F3 · Eligibility | Serving preparation materializes eight rolling inputs from the 60-day Parquet. It separately reads Silver telemetry at the simulation cutoff and saves operating context. The Feature API loads that snapshot and checks machine status before scoring. | [Bound source paths](../../scripts/ci-serving.py#L193) · [Two preparation outputs](../../feature_store/serving.py#L32) · [Gate and state load](../../services/feature_api/runtime.py#L57) |
+| Retrieval operations and returns | Retrieval MCP calls feature GET or prediction POST. The checked score returns to its requester, through the tool or the private client gateway. The feature read returns a feature record. | [API routes](../../services/feature_api/app.py#L52) · [Model response checks](../../services/feature_api/runtime.py#L60) · [Tool validation](../../services/mcp_tools/runtime.py#L96) |
+| Drift cohort and knowledge snapshot | Drift MCP reads features per machine, checks they share the same observation context and sends one comparison to the Drift API. Retrieval searches a separate replica-local knowledge copy. | [Cohort assembly and compare](../../services/mcp_tools/runtime.py#L122) · [Knowledge search](../../services/mcp_tools/runtime.py#L23) |
+| MCP scaling | The tool scaler measures successful `search_knowledge` calls for Retrieval or `assess_feature_drift` calls for Drift. Each service has its own rate. | [Tool selection](../../infra/charts/iot-mcp/templates/request-scaling.yaml#L2) · [Prometheus query](../../infra/charts/iot-mcp/templates/request-scaling.yaml#L32) |
+| Worker scaling | The controller API supplies the count of running actors for each role. Each count drives the corresponding WorkerPool. | [Pool targets](../../infra/charts/iot-agent-scaling/templates/scaledobjects.yaml#L9) · [Actor filters](../../infra/charts/iot-agent-scaling/templates/scaledobjects.yaml#L30) |
+| RAG publication | Airflow builds and validates the index. Deployment seals the inventory. Each Retrieval MCP pod verifies and copies the sealed files during initialization. | [DAG order](../../airflow/dags/iot_rag_knowledge.py#L19) · [Deployment seal](../../scripts/deploy-mcp-tools.py#L104) · [Pod initialization](../../services/mcp_tools/snapshot.py#L13) |
+| Prometheus and Jaeger | Prometheus scrapes the API metrics endpoint. The A2A client marks its own span OK for a completed task, ERROR for failed/invalid responses and UNSET for a pending task. Jaeger displays the exported outcome. | [Scrape job](../../infra/observability/prometheus-api-job.json#L3) · [Caller status mapping](../../agents/tracing.py#L43) |
+
+## Reading the overview
+
+At a README width of 896 px, some v3 captions occupied about 8 px. The arrowheads beside the Feature API were particularly close together. Follow the call from its origin to distinguish the operating-context load, cohort reads, prediction request and release switch.
+
+V4 labels the release Redis as Kubernetes state, separates the label join from the historical lookup, and identifies the sealed copy loaded by Retrieval MCP. All 54 arrows retain their v3 source and destination, including the separate API responses to each caller.
+
+The Redis boundary refers to the selected Kubernetes serving release. Stream CI explicitly resolves its Redis service and checks its identity against the completed offline release. Two Feast projects keep the four monitoring aggregates separate from the eight prediction inputs. An earlier live stream experiment used a Docker Redis. [Selected Redis](../../scripts/ci-stream-push.py#L114) · [Offline release check](../../scripts/ci-stream-push.py#L129) · [Docker and Kubernetes placement](../diagrams/execution-guide.md#d1--locate-the-running-units-and-their-state)
+
+At training time, the entity frame sent to Feast contains only machine IDs and event times. The KFP component joins labels by snapshot ID after feature retrieval. The 100 GB ingest ends at Silver. Training and serving preparation use the separate 60-day workload. [KFP load component](../../ml/kfp_notebook.py#L8) · [Historical lookup and label join](../../ml/notebook_load.py#L63) · [Workload boundaries](../edai-1/processing_jobs.md#workload-boundaries)
+
+One deployed Agentgateway handles A2A, MCP and model traffic on distinct routes. The private UI enters through authenticated NGINX. Both its coordinator session and the delegated specialist sessions belong to the kagent controller. All three agent roles use the shared model route to the private GPU during reasoning. The separate KServe predictor handles equipment risk. [Selected gateway configuration](../../infra/agentgateway/kagent-default.yaml#L4) · [Agent tool assignments](../../infra/charts/iot-agents/templates/agents.yaml#L39) · [Caller ownership and native proof](../edai-2/global_model_config.md#calls-and-ownership)
+
+Moving dots follow the direction of the drawn calls, data transfers and control actions. Their timing is illustrative. The paths include manual and conditional jobs from separate recorded runs. Use the full-size SVG to follow an individual API call or read its caption.

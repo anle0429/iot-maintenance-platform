@@ -31,16 +31,16 @@ The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 h
 
 ## Architecture
 
-The architecture groups the platform by responsibility and shows the data, API calls and release decisions between its components. The detailed views below follow each path through its handlers, jobs and outputs.
+Follow pump telemetry into the batch and streaming jobs, then trace a prediction or an agent investigation. A separate release path shows when the Feature API switches to a staged model.
 
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/platform-architecture.png">
-  <img alt="IoT Maintenance Platform architecture" src="docs/images/platform-architecture.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/overview-v4.png">
+  <img alt="Pump telemetry pipelines, model release and prediction, agent investigations and operations" src="docs/architecture/overview-v4.gif">
 </picture>
 
-[Full-size SVG](docs/images/platform-architecture.svg) · [Static PNG](docs/images/platform-architecture.png) · [Editable Excalidraw](docs/diagrams/platform-architecture.excalidraw) · [Motion SVG](docs/images/platform-architecture.animated.svg) · [Source decisions](docs/diagrams/execution-guide.md#main-platform-architecture)
+[Full-size SVG](docs/architecture/overview-v4.svg) · [Animated SVG](docs/architecture/overview-v4.animated.svg) · [Static PNG](docs/architecture/overview-v4.png) · [Editable Excalidraw](docs/architecture/overview-v4.excalidraw) · [Implementation evidence](docs/architecture/overview-v4-review.md)
 
-Moving dots illustrate call and data direction. They are independent loops, not live traffic or pipeline timing.
+The dots show arrow direction. Dashed arrows mark control actions. The [detailed platform map](docs/images/platform-architecture.svg) and the views below trace individual jobs and requests.
 
 | Flow | View | Entry and result |
 |---|---|---|
