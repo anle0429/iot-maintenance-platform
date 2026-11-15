@@ -9,7 +9,7 @@ The reference deployment uses Google Cloud VMs and K3s, with a GPU-backed model 
 ## Contents
 
 - [Business domain](#business-domain)
-- [Architecture](#architecture): [data](#data-platform), [ML](#ml-platform), [LLM and agents](#llm-and-agent-platform), [deployment](#deployment)
+- [Architecture](#architecture) · [Data Platform diagram](#data-platform-architecture) · [ML + LLM diagram](#ml-and-llm-platform-architecture) · [Deployment](#deployment)
 - [Recorded results](#recorded-results)
 - [Quick start](#quick-start)
 - [Repository structure](#repository-structure)
@@ -31,16 +31,29 @@ The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 h
 
 ## Architecture
 
-Follow pump telemetry into the batch and streaming jobs, then trace a prediction or an agent investigation. A separate release path shows when the Feature API switches to a staged model.
+### Data Platform architecture
+
+Follow pump history through Spark and replayed telemetry through Kafka and Flink. Airflow publishes batch lineage to DataHub. Its stream publication jobs write four finalized aggregates for monitoring.
 
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/overview-v4.png">
-  <img alt="Pump telemetry pipelines, model release and prediction, agent investigations and operations" src="docs/architecture/overview-v4.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/data-platform-v5.png">
+  <img alt="Data Platform. Airflow runs the Spark batch pipelines and publishes lineage to DataHub. Kafka and Flink produce retained windows for separate offline and online publication jobs." src="docs/architecture/data-platform-v5.gif">
 </picture>
 
-[Full-size SVG](docs/architecture/overview-v4.svg) · [Animated SVG](docs/architecture/overview-v4.animated.svg) · [Static PNG](docs/architecture/overview-v4.png) · [Editable Excalidraw](docs/architecture/overview-v4.excalidraw) · [Implementation evidence](docs/architecture/overview-v4-review.md)
+[Full-size SVG](docs/architecture/data-platform-v5.svg) · [Animated SVG](docs/architecture/data-platform-v5.animated.svg) · [Static PNG](docs/architecture/data-platform-v5.png) · [Editable Excalidraw](docs/architecture/data-platform-v5.excalidraw) · [Processing jobs and evidence](docs/edai-1/processing_jobs.md)
 
-The dots show arrow direction. Dashed arrows mark control actions. The [detailed platform map](docs/images/platform-architecture.svg) and the views below trace individual jobs and requests.
+### ML and LLM Platform architecture
+
+The 60-day rolling dataset supplies eight prediction inputs. Silver telemetry supplies the operating-context snapshot that the Feature API checks before scoring. Follow a prediction to KServe or an investigation through the coordinator, specialist tools and shared GPU model.
+
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/ml-llm-platform-v5.png">
+  <img alt="ML and LLM Platform. Kubeflow registers a candidate and serving CI switches the Feature API after checks. Specialists use MCP tools and share a GPU model. Tool call rates and running actors drive separate scaling decisions." src="docs/architecture/ml-llm-platform-v5.gif">
+</picture>
+
+[Full-size SVG](docs/architecture/ml-llm-platform-v5.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v5.animated.svg) · [Static PNG](docs/architecture/ml-llm-platform-v5.png) · [Editable Excalidraw](docs/architecture/ml-llm-platform-v5.excalidraw) · [Gateway routes and evidence](docs/edai-2/global_model_config.md)
+
+Moving dots show direction. The [single-page overview (v4)](docs/architecture/overview-v4.svg) and its [implementation review](docs/architecture/overview-v4-review.md) are also available.
 
 | Flow | View | Entry and result |
 |---|---|---|
