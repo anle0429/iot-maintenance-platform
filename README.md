@@ -35,23 +35,31 @@ The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 h
 
 Follow the pump simulator through the VM data disk, Spark batch jobs and the Kafka–Flink replay. The 100 GB ingest test ends in Silver. A separate 60-day run builds eight rolling model inputs and failure labels. The two Airflow publication jobs use three retained windows to publish four monitoring aggregates to Parquet and Redis. Jupyter inspects batch Parquet and retained SQLite snapshots.
 
+**[Open zoomable Data Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/5a184018f554db481517505b3c7cf44df5df5315/docs/architecture/data-platform-v11-final.html)**
+
+<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/5a184018f554db481517505b3c7cf44df5df5315/docs/architecture/data-platform-v11-final.html">
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/data-platform-v11-final.png">
   <img alt="Industrial pump Data Platform with seven flows covering Spark batch, Kafka and Flink streaming, feature publication, SQL inspection, Airflow and Jenkins orchestration, DataHub governance, and VM infrastructure." src="docs/architecture/data-platform-v11-final.gif">
 </picture>
+</a>
 
-[Full-size animated SVG](docs/architecture/data-platform-v11-final.animated.svg) · [Static PNG](docs/architecture/data-platform-v11-final.png) · [Editable Excalidraw](docs/architecture/data-platform-v11-final.excalidraw) · [Interactive viewer (download HTML and open locally)](docs/architecture/data-platform-v11-final.html) · [Processing jobs and evidence](docs/edai-1/processing_jobs.md)
+[Full-size animated SVG](docs/architecture/data-platform-v11-final.animated.svg) · [Static PNG](docs/architecture/data-platform-v11-final.png) · [Editable Excalidraw](docs/architecture/data-platform-v11-final.excalidraw) · [Processing jobs and evidence](docs/edai-1/processing_jobs.md)
 
 ### ML and LLM Platform architecture
 
 The 60-day rolling dataset supplies eight prediction inputs. Silver telemetry supplies the operating-context snapshot that the Feature API checks before scoring. Follow a prediction to KServe or an investigation through the coordinator, specialist tools and shared GPU model.
 
-<picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/ml-llm-platform-v5.png">
-  <img alt="ML and LLM Platform. Kubeflow registers a candidate and serving CI switches the Feature API after checks. Specialists use MCP tools and share a GPU model. Tool call rates and running actors drive separate scaling decisions." src="docs/architecture/ml-llm-platform-v5.gif">
-</picture>
+**[Open zoomable ML + LLM Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/4e03c2a6536eb678458f99809eb6cdd83ac57333/docs/architecture/ml-llm-platform-v13.html)**
 
-[Full-size SVG](docs/architecture/ml-llm-platform-v5.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v5.animated.svg) · [Static PNG](docs/architecture/ml-llm-platform-v5.png) · [Editable Excalidraw](docs/architecture/ml-llm-platform-v5.excalidraw) · [Gateway routes and evidence](docs/edai-2/global_model_config.md)
+<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/4e03c2a6536eb678458f99809eb6cdd83ac57333/docs/architecture/ml-llm-platform-v13.html">
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/ml-llm-platform-v13.png">
+  <img alt="Industrial pump ML and LLM architecture. Follow a prediction from the Feature API to KServe, or trace an agent model call to the private GPU." src="docs/architecture/ml-llm-platform-v13.gif">
+</picture>
+</a>
+
+[Full-size SVG](docs/architecture/ml-llm-platform-v13.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v13.animated.svg) · [Static PNG](docs/architecture/ml-llm-platform-v13.png) · [Editable Excalidraw](docs/architecture/ml-llm-platform-v13.excalidraw) · [Gateway routes and evidence](docs/edai-2/global_model_config.md)
 
 Moving dots show direction. The [single-page overview (v4)](docs/architecture/overview-v4.svg) and its [implementation review](docs/architecture/overview-v4-review.md) are also available.
 
