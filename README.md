@@ -50,9 +50,9 @@ Follow the pump simulator through the VM data disk, Spark batch jobs and the Kaf
 
 The 60-day rolling dataset supplies eight prediction inputs. Silver telemetry supplies the operating-context snapshot that the Feature API checks before scoring. Follow a prediction to KServe or an investigation through the coordinator, specialist tools and shared GPU model.
 
-**[Open zoomable ML + LLM Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/ee7e7ccf5f5958c9bc1a387b30bf6a9769b82a39/docs/architecture/ml-llm-platform-v15.html)**
+**[Open zoomable ML + LLM Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/9c5b51ab9c93e655946f4d5374b5356d71f64b23/docs/architecture/ml-llm-platform-v15.html)**
 
-<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/ee7e7ccf5f5958c9bc1a387b30bf6a9769b82a39/docs/architecture/ml-llm-platform-v15.html">
+<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/9c5b51ab9c93e655946f4d5374b5356d71f64b23/docs/architecture/ml-llm-platform-v15.html">
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/ml-llm-platform-v15.png">
   <img alt="Industrial pump ML and LLM architecture. Follow a prediction from the Feature API to KServe, or trace an agent model call to the private GPU." src="docs/architecture/ml-llm-platform-v15.gif">
