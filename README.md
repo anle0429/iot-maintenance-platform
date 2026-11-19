@@ -50,16 +50,16 @@ Follow the pump simulator through the VM data disk, Spark batch jobs and the Kaf
 
 The 60-day rolling dataset supplies eight prediction inputs. Silver telemetry supplies the operating-context snapshot that the Feature API checks before scoring. Follow a prediction to KServe or an investigation through the coordinator, specialist tools and shared GPU model.
 
-**[Open zoomable ML + LLM Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/4e03c2a6536eb678458f99809eb6cdd83ac57333/docs/architecture/ml-llm-platform-v13.html)**
+**[Open zoomable ML + LLM Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/2b45da2f470e1622d3b9cf5e66e9f56f93f6e371/docs/architecture/ml-llm-platform-v14.html)**
 
-<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/4e03c2a6536eb678458f99809eb6cdd83ac57333/docs/architecture/ml-llm-platform-v13.html">
+<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/2b45da2f470e1622d3b9cf5e66e9f56f93f6e371/docs/architecture/ml-llm-platform-v14.html">
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/ml-llm-platform-v13.png">
-  <img alt="Industrial pump ML and LLM architecture. Follow a prediction from the Feature API to KServe, or trace an agent model call to the private GPU." src="docs/architecture/ml-llm-platform-v13.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/ml-llm-platform-v14.png">
+  <img alt="Industrial pump ML and LLM architecture. Follow a prediction from the Feature API to KServe, or trace an agent model call to the private GPU." src="docs/architecture/ml-llm-platform-v14.gif">
 </picture>
 </a>
 
-[Full-size SVG](docs/architecture/ml-llm-platform-v13.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v13.animated.svg) · [Static PNG](docs/architecture/ml-llm-platform-v13.png) · [Editable Excalidraw](docs/architecture/ml-llm-platform-v13.excalidraw) · [Gateway routes and evidence](docs/edai-2/global_model_config.md)
+[Full-size SVG](docs/architecture/ml-llm-platform-v14.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v14.animated.svg) · [Static PNG](docs/architecture/ml-llm-platform-v14.png) · [Editable Excalidraw](docs/architecture/ml-llm-platform-v14.excalidraw) · [Gateway routes and evidence](docs/edai-2/global_model_config.md)
 
 Moving dots show direction. The [single-page overview (v4)](docs/architecture/overview-v4.svg) and its [implementation review](docs/architecture/overview-v4-review.md) are also available.
 
