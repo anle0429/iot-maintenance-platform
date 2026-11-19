@@ -33,14 +33,14 @@ The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 h
 
 ### Data Platform architecture
 
-Follow pump history through Spark and replayed telemetry through Kafka and Flink. Airflow publishes batch lineage to DataHub. Its stream publication jobs write four finalized aggregates for monitoring.
+Follow the pump simulator through the VM data disk, Spark batch jobs and the Kafka–Flink replay. The 100 GB ingest test ends in Silver. A separate 60-day run builds eight rolling model inputs and failure labels. The two Airflow publication jobs use three retained windows to publish four monitoring aggregates to Parquet and Redis. Jupyter inspects batch Parquet and retained SQLite snapshots.
 
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/data-platform-v5.png">
-  <img alt="Data Platform. Airflow runs the Spark batch pipelines and publishes lineage to DataHub. Kafka and Flink produce retained windows for separate offline and online publication jobs." src="docs/architecture/data-platform-v5.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/data-platform-v11-final.png">
+  <img alt="Industrial pump Data Platform with seven flows covering Spark batch, Kafka and Flink streaming, feature publication, SQL inspection, Airflow and Jenkins orchestration, DataHub governance, and VM infrastructure." src="docs/architecture/data-platform-v11-final.gif">
 </picture>
 
-[Full-size SVG](docs/architecture/data-platform-v5.svg) · [Animated SVG](docs/architecture/data-platform-v5.animated.svg) · [Static PNG](docs/architecture/data-platform-v5.png) · [Editable Excalidraw](docs/architecture/data-platform-v5.excalidraw) · [Processing jobs and evidence](docs/edai-1/processing_jobs.md)
+[Full-size animated SVG](docs/architecture/data-platform-v11-final.animated.svg) · [Static PNG](docs/architecture/data-platform-v11-final.png) · [Editable Excalidraw](docs/architecture/data-platform-v11-final.excalidraw) · [Interactive viewer (download HTML and open locally)](docs/architecture/data-platform-v11-final.html) · [Processing jobs and evidence](docs/edai-1/processing_jobs.md)
 
 ### ML and LLM Platform architecture
 
