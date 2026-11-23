@@ -33,18 +33,18 @@ The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 h
 
 ### Data Platform architecture
 
-Follow the pump simulator through the VM data disk, Spark batch jobs and the Kafka–Flink replay. The 100 GB ingest test ends in Silver. A separate 60-day run builds eight rolling model inputs and failure labels. The two Airflow publication jobs use three retained windows to publish four monitoring aggregates to Parquet and Redis. Jupyter inspects batch Parquet and retained SQLite snapshots.
+Follow the pump simulator through the VM data disk, Spark batch jobs and the Kafka–Flink replay. The 100 GB ingest test ends in Silver. A separate 60-day run builds eight rolling model inputs and failure labels. An on-demand Airflow DAG materializes the eight rolling features from Parquet to Docker Redis and publishes lineage after validation. Two separate Airflow jobs replay three retained Flink windows and publish four monitoring aggregates to Parquet and Redis. Jupyter inspects batch Parquet and retained SQLite snapshots.
 
-**[Open zoomable Data Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/5a184018f554db481517505b3c7cf44df5df5315/docs/architecture/data-platform-v11-final.html)**
+**[Open zoomable Data Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/ef45794f36251ccbf31ce90314cf57ff57f0f401/docs/architecture/data-platform-v13.html)**
 
-<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/5a184018f554db481517505b3c7cf44df5df5315/docs/architecture/data-platform-v11-final.html">
+<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/ef45794f36251ccbf31ce90314cf57ff57f0f401/docs/architecture/data-platform-v13.html">
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/data-platform-v11-final.png">
-  <img alt="Industrial pump Data Platform with seven flows covering Spark batch, Kafka and Flink streaming, feature publication, SQL inspection, Airflow and Jenkins orchestration, DataHub governance, and VM infrastructure." src="docs/architecture/data-platform-v11-final.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/data-platform-v13.png">
+  <img alt="Industrial pump Data Platform with seven flows covering Spark batch, Kafka and Flink streaming, feature publication, SQL inspection, Airflow and Jenkins orchestration, DataHub governance, and VM infrastructure." src="docs/architecture/data-platform-v13.gif">
 </picture>
 </a>
 
-[Full-size animated SVG](docs/architecture/data-platform-v11-final.animated.svg) · [Static PNG](docs/architecture/data-platform-v11-final.png) · [Editable Excalidraw](docs/architecture/data-platform-v11-final.excalidraw) · [Processing jobs and evidence](docs/edai-1/processing_jobs.md)
+[Full-size animated SVG](docs/architecture/data-platform-v13.animated.svg) · [Static PNG](docs/architecture/data-platform-v13.png) · [Editable Excalidraw](docs/architecture/data-platform-v13.excalidraw) · [Processing jobs and evidence](docs/edai-1/processing_jobs.md)
 
 ### ML and LLM Platform architecture
 
