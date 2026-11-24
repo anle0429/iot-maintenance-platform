@@ -3,6 +3,17 @@
   "required": [
     "agents/__init__.py",
     "agents/release_ci.py",
+    "agents/rag_search_secret.py",
+    "agents/mutation_quality.py",
+    "services/rag_search/__init__.py",
+    "services/rag_search/app.py",
+    "services/rag_search/contracts.py",
+    "services/rag_search/reader.py",
+    "tests/mcp/test_rag_search_api.py",
+    "tests/mcp/test_drift_serving_scope.py",
+    "infra/charts/iot-mcp/templates/search.yaml",
+    "docs/evidence/ci-agents/native-receipts.tar.gz",
+    "docs/evidence/mentor-runtime-20261107/mcp-source-packet.tar.gz",
     "agents/ci_contract.py",
     "agents/response-policy.json",
     "scripts/ci-agents.py",
@@ -26,6 +37,7 @@
     "tests/__init__.py",
     "tests/test_llm_ci_contract.py",
     "tests/test_agent_release_ci.py",
+    "tests/test_agent_mutation_quality.py",
     "docs/evidence/agent-platform/readback/agents.stdout",
     "docs/evidence/mcp-tools/success/native/snapshot.json",
     "agents/tracing.py",
@@ -54,6 +66,7 @@
     "infra/charts/iot-mcp/",
     "docs/evidence/mcp-quality/",
     "docs/evidence/mcp-quality-native/",
-    "docs/evidence/mcp-quality-process/"
+    "docs/evidence/mcp-quality-process/",
+    "docs/evidence/mcp-quality-current/"
   ]
 }

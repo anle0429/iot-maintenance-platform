@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Annotated, Literal
 from pydantic import BaseModel, ConfigDict, Field, StringConstraints, AwareDatetime, model_validator
 from services.predictor.contracts import FeatureVector
+from services.rag_search.contracts import SearchRequest
 
 MACHINE_PATTERN = r'^P-[0-9]{3,4}$'
 MachineId = Annotated[str, StringConstraints(pattern=MACHINE_PATTERN)]
@@ -13,13 +14,6 @@ class MachineRequest(BaseModel):
     """Select one machine without accepting a URL, model override or feature values."""
     model_config = ConfigDict(extra='forbid', strict=True)
     machine_id: MachineId
-
-
-class SearchRequest(BaseModel):
-    """Bound retrieval context before encoding or querying the native feature store."""
-    model_config = ConfigDict(extra='forbid', strict=True)
-    question: Annotated[str, StringConstraints(strip_whitespace=True, min_length=5, max_length=1000)]
-    top_k: Annotated[int, Field(ge=1, le=3)] = 3
 
 
 class DriftRequest(BaseModel):

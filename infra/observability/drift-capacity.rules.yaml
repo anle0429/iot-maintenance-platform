@@ -1,0 +1,17 @@
+groups:
+  - name: iot-drift-capacity
+    rules:
+      - alert: IoTDriftAssessmentCapacityHigh
+        expr: max(iot_drift_assessments_active / iot_drift_assessments_active_limit) >= 0.8
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Drift API has used at least 80% of its active assessment slots
+      - alert: IoTDriftAssessmentCapacityUnreadable
+        expr: min(iot_drift_capacity_check_up) == 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: A Drift API replica could not read its assessment ledger

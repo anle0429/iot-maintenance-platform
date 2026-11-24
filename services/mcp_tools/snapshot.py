@@ -1,10 +1,12 @@
 """Copy only the declared sealed knowledge files into a per-replica writable Milvus directory."""
 from hashlib import sha256
 from pathlib import Path
+from tempfile import TemporaryDirectory
 import json
 import shutil
 
 NAMES = {'knowledge.db','registry.db','chunks.parquet','chunks.json','vectors.json','documents.json'}
+RUNTIME_STATE = Path('/state/snapshot')
 
 
 def prepare(source, target, seal):
@@ -20,5 +22,20 @@ def prepare(source, target, seal):
         with (target/name).open('xb') as copied, original.open('rb') as incoming: shutil.copyfileobj(incoming,copied)
 
 
+def prepare_runtime(source, root, seal):
+    """Rebuild a private replica's writable state from the immutable source on each Pod init."""
+    root = Path(root)
+    current = root / RUNTIME_STATE.name
+    if current.is_symlink() or (current.exists() and not current.is_dir()):
+        raise ValueError('The replica snapshot location is not a directory')
+    with TemporaryDirectory(dir=root, prefix='.snapshot-') as directory:
+        staging = Path(directory) / 'next'
+        staging.mkdir()
+        prepare(source, staging, seal)
+        if current.exists():
+            current.rename(Path(directory) / 'previous')
+        staging.rename(current)
+
+
 if __name__ == '__main__':
-    prepare('/snapshot','/state','/snapshot-seal/seal.json')
+    prepare_runtime('/snapshot', RUNTIME_STATE.parent, '/snapshot-seal/seal.json')

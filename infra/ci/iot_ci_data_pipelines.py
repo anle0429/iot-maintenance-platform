@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 
 from airflow.sdk import DAG, get_current_context
+from airflow.providers.standard.operators.empty import EmptyOperator
 from airflow.providers.standard.operators.python import PythonOperator
 from airflow.utils.trigger_rule import TriggerRule
 import docker
@@ -78,5 +79,8 @@ for stage, dag_id in [('dp1', 'iot_ci_dp1_bronze'), ('dp2', 'iot_ci_dp2_warehous
             op_kwargs={'stage': stage, 'operation': 'validate'}, pool='spark_jobs')
         publish = PythonOperator(task_id='publish_to_datahub', python_callable=execute,
             op_kwargs={'stage': stage, 'operation': 'publish'}, trigger_rule=TriggerRule.ALL_DONE)
+        # Keep failure metadata while making the scheduler report the native stage outcome.
+        complete = EmptyOperator(task_id='stage_succeeded', trigger_rule=TriggerRule.ALL_SUCCESS)
         ingest >> validate >> publish
+        [ingest, validate, publish] >> complete
     globals()[dag_id] = dag

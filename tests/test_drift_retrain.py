@@ -1,10 +1,13 @@
 """Check admission boundaries, truthful manual probes, durable ambiguity and concurrent replay without a real cluster."""
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
+from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from threading import Event
+from unittest.mock import patch
 import json, sqlite3, unittest
+from feature_store import drift_retrain as adapter
 from ml.drift_retrain import FIELDS, digest, process
 
 
@@ -83,6 +86,80 @@ class DriftRetrainTests(unittest.TestCase):
             with self.subTest(delta=delta),self.assertRaisesRegex(ValueError,'Stale or future'):
                 self.call(True,now=self.now+timedelta(seconds=delta))
         self.assertEqual(self.call(True,now=self.now+timedelta(seconds=600))['action'],'submitted_and_verified')
+
+    def test_controller_clock_is_read_after_admission_lock_acquisition(self):
+        """A queued candidate that becomes stale before obtaining the lock cannot submit."""
+        right_now = self.now + timedelta(seconds=599)
+        connect = sqlite3.connect
+
+        def delayed_connect(*args, **kwargs):
+            """Advance the wall clock while reaching the serialization boundary."""
+            nonlocal right_now
+            right_now = self.now + timedelta(seconds=601)
+            return connect(*args, **kwargs)
+
+        with patch('ml.drift_retrain.datetime', wraps=datetime) as controller_clock:
+            controller_clock.now.side_effect = lambda _timezone: right_now
+            with patch('ml.drift_retrain.sqlite3.connect', side_effect=delayed_connect):
+                with self.assertRaisesRegex(ValueError, 'Stale or future'):
+                    process(self.root, self.directory, self.policy_path, self.state, True, self.train)
+        self.assertEqual(self.calls, [])
+        self.assertEqual(list(self.state.glob('drift-*')), [])
+
+    def dispatch_fixture(self):
+        """Provide the actual monitoring handoff format and a controller source receipt."""
+        run_id = 'manual-dispatch-fixture'
+        attempt = sha256(run_id.encode()).hexdigest()[:24] + '-try1'
+        output = self.directory.parent.rename(self.directory.parent.with_name(attempt))
+        self.directory = output / 'result'
+        image = 'sha256:' + '1' * 64
+        commit = '2' * 40
+        self.write(output / 'container.json', {
+            'run_id': run_id, 'try_number': 1, 'image_id': image, 'source_commit': commit,
+            'exit_code': 0, 'state': {'ExitCode': 0, 'OOMKilled': False},
+        })
+        config = self.root / 'data/runtime/drift-retrain/config.json'
+        config.parent.mkdir(parents=True)
+        self.write(config, {'policy': 'policy.json', 'source_root': 'controller/tree',
+                            'controller_image_id': image})
+        source = self.root / 'controller/tree'
+        source.mkdir(parents=True)
+        (source / 'controller.py').write_text('# Fixture controller\n')
+        self.write(source.parent / 'manifest.json', {
+            'commit': '3' * 40, 'files': {'controller.py': digest(source / 'controller.py')},
+        })
+        return {'output': str(output), 'source_commit': commit, 'image_id': image}, run_id, attempt
+
+    def test_dispatch_is_durable_and_candidate_only(self):
+        """No-drift intervals have no child, while an explicit probe reuses one durable handoff."""
+        monitoring, run_id, attempt = self.dispatch_fixture()
+        submission = {'monitoring_attempt': attempt}
+        with patch.dict('os.environ', IOT_ROOT=str(self.root)):
+            self.assertIsNone(adapter.prepare_dispatch(monitoring, run_id))
+            self.assertEqual(adapter.prepare_dispatch(monitoring, run_id, True), submission)
+            self.assertEqual(adapter.prepare_dispatch(monitoring, run_id, True), submission)
+        receipt = json.loads((self.directory.parent / 'retrain-dispatch.json').read_bytes())
+        self.assertIs(receipt['manual_probe'], True)
+        self.assertIs(self.report['drift_detected'], False)
+        self.assertEqual(receipt['files_sha256']['result/report.json'], digest(self.directory / 'report.json'))
+
+    def test_worker_rejects_forged_or_changed_dispatch_before_docker(self):
+        """The child requires the authorized monitoring attempt and unchanged native receipts."""
+        monitoring, run_id, attempt = self.dispatch_fixture()
+        child = 'candidate-' + attempt
+        self.drift(2)
+        with patch.dict('os.environ', IOT_ROOT=str(self.root)):
+            with self.assertRaisesRegex(ValueError, 'monitoring dispatch'):
+                adapter.execute({'monitoring_attempt': attempt}, child, 1)
+            dispatch = adapter.prepare_dispatch(monitoring, run_id)
+            with self.assertRaisesRegex(ValueError, 'monitoring dispatch'):
+                adapter.execute({**dispatch, 'manual_probe': True}, child, 1)
+            with self.assertRaisesRegex(ValueError, 'monitoring dispatch'):
+                adapter.execute(dispatch, 'different-run', 1)
+            self.report['features'][FIELDS[0]]['psi'] = .21
+            self.seal()
+            with self.assertRaisesRegex(ValueError, 'changed after dispatch'):
+                adapter.execute(dispatch, child, 1)
 
     def test_changed_recipe_or_report_is_rejected_before_training(self):
         'Verify changed recipe or report is rejected before training.'

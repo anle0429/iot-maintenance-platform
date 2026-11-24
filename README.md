@@ -35,31 +35,35 @@ The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 h
 
 Follow the pump simulator through the VM data disk, Spark batch jobs and the Kafka–Flink replay. The 100 GB ingest test ends in Silver. A separate 60-day run builds eight rolling model inputs and failure labels. An on-demand Airflow DAG materializes the eight rolling features from Parquet to Docker Redis and publishes lineage after validation. Two separate Airflow jobs replay three retained Flink windows and publish four monitoring aggregates to Parquet and Redis. Jupyter inspects batch Parquet and retained SQLite snapshots.
 
-**[Open zoomable Data Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/ef45794f36251ccbf31ce90314cf57ff57f0f401/docs/architecture/data-platform-v13.html)**
+**[Open zoomable Data Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v15.html)**
 
-<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/ef45794f36251ccbf31ce90314cf57ff57f0f401/docs/architecture/data-platform-v13.html">
+<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v15.html">
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/data-platform-v13.png">
-  <img alt="Industrial pump Data Platform with seven flows covering Spark batch, Kafka and Flink streaming, feature publication, SQL inspection, Airflow and Jenkins orchestration, DataHub governance, and VM infrastructure." src="docs/architecture/data-platform-v13.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/data-platform-v15.png">
+  <img alt="Industrial pump Data Platform with seven flows covering Spark batch, Kafka and Flink streaming, feature publication, SQL inspection, Airflow and Jenkins orchestration, DataHub governance, and VM infrastructure." src="docs/architecture/data-platform-v15.gif">
 </picture>
 </a>
 
-[Full-size animated SVG](docs/architecture/data-platform-v13.animated.svg) · [Static PNG](docs/architecture/data-platform-v13.png) · [Editable Excalidraw](docs/architecture/data-platform-v13.excalidraw) · [Processing jobs and evidence](docs/edai-1/processing_jobs.md)
+[Full-size animated SVG](docs/architecture/data-platform-v15.animated.svg) · [Static PNG](docs/architecture/data-platform-v15.png) · [Editable Excalidraw](docs/architecture/data-platform-v15.excalidraw) · [Processing jobs and evidence](docs/edai-1/processing_jobs.md)
 
 ### ML and LLM Platform architecture
 
-The 60-day rolling dataset supplies eight prediction inputs. Silver telemetry supplies the operating-context snapshot that the Feature API checks before scoring. Follow a prediction to KServe or an investigation through the coordinator, specialist tools and shared GPU model.
+The 60-day rolling dataset supplies eight prediction inputs. Silver telemetry supplies the operating-context snapshot that the Feature API checks before scoring. During training, Spark writes task events to the run workspace and MLflow records evaluation metrics with the model run. [Training event logs](docs/edai-1/distributed_training.md) · [MLflow runs and versions](docs/edai-1/automatic_ml_versioning.md)
 
-**[Open zoomable ML + LLM Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/9c5b51ab9c93e655946f4d5374b5356d71f64b23/docs/architecture/ml-llm-platform-v15.html)**
+**[Open zoomable ML + LLM Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v18.html)**
 
-<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/9c5b51ab9c93e655946f4d5374b5356d71f64b23/docs/architecture/ml-llm-platform-v15.html">
+<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v18.html">
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/ml-llm-platform-v15.png">
-  <img alt="Industrial pump ML and LLM architecture. Follow a prediction from the Feature API to KServe, or trace an agent model call to the private GPU." src="docs/architecture/ml-llm-platform-v15.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/ml-llm-platform-v18.png">
+  <img alt="Industrial pump ML and LLM architecture. Follow a prediction from the Feature API to KServe, or trace an agent model call to the private GPU." src="docs/architecture/ml-llm-platform-v18.gif">
 </picture>
 </a>
 
-[Full-size SVG](docs/architecture/ml-llm-platform-v15.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v15.animated.svg) · [Static PNG](docs/architecture/ml-llm-platform-v15.png) · [Editable Excalidraw](docs/architecture/ml-llm-platform-v15.excalidraw) · [Gateway routes and evidence](docs/edai-2/global_model_config.md)
+[Full-size SVG](docs/architecture/ml-llm-platform-v18.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v18.animated.svg) · [Static PNG](docs/architecture/ml-llm-platform-v18.png) · [Editable Excalidraw](docs/architecture/ml-llm-platform-v18.excalidraw) · [Gateway routes and evidence](docs/edai-2/global_model_config.md)
+
+Agentgateway forwards retrieval calls to a private Kubernetes Service. Its MCP handler calls Feature API for machine features and predictions and RAG Search API for technical references. For ML serving, Alloy ships application logs to Loki for viewing in Grafana. Jaeger shows the Feature API request, its outbound HTTP call and the predictor handling that call. [Tool backends](services/README.md) · [Pod logs](docs/edai-1/log_discovery.md) · [Prediction traces](docs/edai-1/api_observability.md)
+
+[ML and LLM release and deployment notes](docs/architecture/ml-llm-platform-v18-notes.md)
 
 Moving dots show direction. The [single-page overview (v4)](docs/architecture/overview-v4.svg) and its [implementation review](docs/architecture/overview-v4-review.md) are also available.
 
@@ -242,7 +246,7 @@ Start with a package's README or the [command index](scripts/README.md). Runtime
 | [Substrate comparison](docs/edai-2/agent_warmup.md) | Matched ordinary-Agent control and original startup measurements |
 | [Worker scaling](docs/edai-2/agent_scaling.md) | Healthy demand, actual Pod assignments and automatic scale-in |
 
-The [documentation index](docs/README.md) includes the remaining topics and historical experiment records. The [ML tracker](docs/edai-1/rubric_tracker.md), [LLM tracker](docs/edai-2/rubric_tracker.md) and [final audit](docs/edai-1/final_audit.md) retain the original requirement and evidence scopes.
+Both parts have a documentation index and a tracker. EDAI 1 documents 57 weighted ML requirements and EDAI 2 documents 60 weighted LLM and agent requirements. Each tracker links the deliverables and records the limits of the evidence, including the mixed worker warm-up results. [Documentation index](docs/README.md) · [EDAI 1 tracker](docs/edai-1/rubric_tracker.md) · [EDAI 2 tracker](docs/edai-2/rubric_tracker.md) · [Final audit](docs/edai-1/final_audit.md)
 
 Maintained prose and code descriptions use English. Original workbooks, native logs and screenshots retain their capture language and bytes. Presentation references: [RecSys-MLops](https://github.com/itsmekhoathekid/RecSys-MLops/tree/6bd6e99f481f2a8d5886d6f0e8356540dc20e135) and [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform/tree/cc34515304815774a5dad6f796683b46c27f93ac). The diagrams and measurements describe this repository's implementation and the limits of its recorded experiments.
 

@@ -54,6 +54,10 @@ class FeatureRuntime:
             'as_of':self.as_of.isoformat(),'clock_mode':'simulation','prepared_wall_utc':self.prepared.isoformat(),
             'protocol_sha256':self.context['protocol_sha256'],'source_manifest_sha256':self.context['source_manifest_sha256']}
 
+    def drift_input(self, machine):
+        """Bind one validated snapshot and operating state to this replica's serving model."""
+        return {'feature': self.features(machine), 'serving_model': self.model_pin}
+
     def predict(self,machine):
         """Call the deployed model only for an operating machine and preserve end-to-end provenance."""
         features=self.features(machine)

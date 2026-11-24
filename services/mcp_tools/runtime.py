@@ -1,14 +1,15 @@
 """Read trusted native backends asynchronously and keep label-free cohort comparisons reproducible."""
 from datetime import timedelta
 from hashlib import sha256
-from pathlib import Path
 import asyncio
 import json
-import threading
+import os
 import httpx2
 from pydantic import ValidationError
 from services.mcp_tools.contracts import MachineData, PredictionData, DriftAssessment
+from services.drift_api import reference_matches_model
 from services.drift_api.contracts import CompareRequest
+from services.rag_search.contracts import SearchResult, read_service_token
 
 
 class ToolFailure(Exception):
@@ -19,75 +20,53 @@ class ToolFailure(Exception):
         self.status = status
 
 
-class KnowledgeReader:
-    """Use a per-replica copy of the source-bound Feast/Milvus snapshot and the pinned CPU encoder."""
-    def __init__(self, state, source_root):
-        """Load the actual isolated registry and preserve a lookup from each chunk ID to its source record."""
-        from rag.embeddings import TextEncoder
-        from rag.store import create_store
-        self.state = Path(state); source_root = Path(source_root)
-        self.config = json.loads((source_root/'infra/rag/embedding.lock.json').read_bytes())
-        rows = json.loads((self.state/'chunks.json').read_bytes())
-        self.chunks = {row['chunk_id']: row for row in rows}
-        if not rows or len(rows) != len(self.chunks): raise ValueError('Knowledge identities differ')
-        catalog = json.loads((source_root/'knowledge/catalog.json').read_bytes())
-        documents = {row['document_id']: row for row in catalog['documents']}
-        if any(row['source_sha256'] != documents[row['document_id']]['sha256'] for row in rows):
-            raise ValueError('The snapshot does not match the image source catalog')
-        self.snapshot = sha256((self.state/'chunks.json').read_bytes()).hexdigest()
-        self.store, _, _ = create_store(self.state, self.config)
-        self.encoder = TextEncoder(self.config)
-        self.lock = threading.Lock()
-
-    def search(self, request):
-        """Resolve native ranked IDs by singleton reads, then verify the exact text/provenance before returning it."""
-        from rag.retrieval import retrieve_consistent
-        with self.lock:
-            try: vector = self.encoder.encode([request.question])[0]
-            except ValueError: raise ToolFailure(422, 'Question exceeds the embedding model token limit') from None
-            values, _ = retrieve_consistent(self.store, vector, request.top_k)
-            rows = []
-            for index, identifier in enumerate(values['chunk_id']):
-                expected = self.chunks.get(identifier)
-                fields = ['text','document_id','revision','source_sha256','source_file','section']
-                if expected is None or any(values[name][index] != expected[name] for name in fields):
-                    raise ToolFailure(503, 'Knowledge provenance check failed')
-                rows.append(dict(expected, cosine_similarity=values['distance'][index]))
-            return {'matches': rows, 'snapshot_sha256': self.snapshot,
-                    'embedding_revision': self.config['revision'], 'source_type': 'authored-synthetic-reference'}
-
-
 class ToolRuntime:
     """Adapt existing APIs without exposing arbitrary network requests or rematerialization tools."""
     FEATURE_URL = 'http://iot-feature-api.iot-features.svc.cluster.local'
     DRIFT_URL = 'http://iot-drift-api.iot-features.svc.cluster.local'
 
-    def __init__(self, role, reference_id, knowledge=None, client=None):
-        """Bind role, pinned reference and optional injected native clients/readers."""
+    DEFAULT_RAG_URL = 'http://iot-retrieval-mcp-search.iot-agents.svc.cluster.local'
+
+    def __init__(self, role, reference_id, client=None, *, rag_token=None, drift_scope='fleet_reference'):
+        """Bind role, pinned reference and the client for fixed private HTTP backends."""
         if role not in ['retrieval','drift']: raise ValueError('Unknown tool role')
-        self.role = role; self.reference_id = reference_id; self.knowledge = knowledge
+        if drift_scope not in ('serving_model', 'fleet_reference'):
+            raise ValueError('Unknown drift scope')
+        self.role = role
+        self.reference_id = reference_id
+        self.drift_scope = drift_scope
+        self.rag_url = os.environ.get('IOT_RAG_SEARCH_URL', self.DEFAULT_RAG_URL).rstrip('/')
+        self.rag_token = rag_token
         self.client = client or httpx2.AsyncClient(timeout=8, follow_redirects=False, trust_env=False)
         self.slots = asyncio.Semaphore(8)
+        self.search_slots = asyncio.Semaphore(8)
 
     async def start(self):
-        """Load the read-only knowledge snapshot copy off the event loop before advertising readiness."""
-        if self.role == 'retrieval' and self.knowledge is None:
-            self.knowledge = await asyncio.to_thread(KnowledgeReader, '/state', '/workspace')
+        """Load only this role's search service credential before accepting calls."""
+        if self.role == 'retrieval' and self.rag_token is None:
+            self.rag_token = read_service_token()
 
     async def close(self):
         """Release the shared upstream connection pool when the application shuts down."""
         await self.client.aclose()
 
-    async def call(self, base, path, body=None):
+    async def call(self, base, path, body=None, *, headers=None, slots=None):
         """Bound each request and translate failures without returning an upstream error body."""
         try:
-            async with self.slots:
-                response = await self.client.request('POST' if body is not None else 'GET', base+path, json=body)
-            if response.status_code != 200:
-                code = response.status_code if response.status_code in [404,409,422,507] else 503
-                raise ToolFailure(code, 'Native upstream rejected or could not serve this request')
-            if len(response.content) > 1_048_576: raise ToolFailure(503, 'Native response exceeds its contract')
-            result = response.json()
+            async with self.slots if slots is None else slots:
+                async with self.client.stream('POST' if body is not None else 'GET', base+path,
+                                              json=body, headers=headers) as response:
+                    if response.status_code == 429 and slots is self.search_slots:
+                        raise ToolFailure(429, 'Knowledge search is busy')
+                    if response.status_code != 200:
+                        code = response.status_code if response.status_code in [404,409,422,507] else 503
+                        raise ToolFailure(code, 'Native upstream rejected or could not serve this request')
+                    received = bytearray()
+                    async for chunk in response.aiter_bytes():
+                        if len(received) + len(chunk) > 1_048_576:
+                            raise ToolFailure(503, 'Native response exceeds its contract')
+                        received.extend(chunk)
+            result = json.loads(received)
             if not isinstance(result, dict): raise ValueError('Expected a JSON object')
             return result
         except ToolFailure: raise
@@ -112,20 +91,45 @@ class ToolRuntime:
         return record.model_dump(mode='json')
 
     async def search(self, request):
-        """Keep synchronous encoder/SDK work off the event loop and bound concurrent knowledge reads."""
-        if self.knowledge is None: raise ToolFailure(503, 'Knowledge store is not ready')
+        """Request ranked passages from the private search API and validate their public schema."""
+        if not self.rag_token:
+            raise ToolFailure(503, 'Knowledge service credential is unavailable')
+        if self.search_slots.locked():
+            raise ToolFailure(429, 'Knowledge tool is busy')
+        result = await self.call(self.rag_url, '/v1/knowledge:search', request.model_dump(),
+                                 headers={'Authorization': 'Bearer ' + self.rag_token}, slots=self.search_slots)
         try:
-            async with self.slots: return await asyncio.to_thread(self.knowledge.search, request)
-        except ToolFailure: raise
-        except Exception: raise ToolFailure(503, 'Knowledge store is unavailable or invalid') from None
+            validated = SearchResult.model_validate(result)
+            if len(validated.matches) != request.top_k:
+                raise ValueError('Wrong number of matches')
+            return validated.model_dump(mode='json')
+        except ValueError:
+            raise ToolFailure(503, 'Knowledge service returned invalid results') from None
 
     async def drift(self, request):
         """Compare a source-consistent cohort using fixed simulated times, so replay keeps the same window payload."""
         from services.mcp_tools.contracts import MachineRequest
-        records = await asyncio.gather(*(self.features(MachineRequest(machine_id=identifier)) for identifier in sorted(request.machine_ids)))
+        ids = sorted(request.machine_ids)
+        model = None
+        if self.drift_scope == 'serving_model':
+            inputs = await asyncio.gather(*(self.drift_input(identifier) for identifier in ids))
+            model = inputs[0][1]
+            if any(other != model for _, other in inputs):
+                raise ToolFailure(409, 'Cohort spans different serving model releases')
+            records = [row for row, _ in inputs]
+        else:
+            records = await asyncio.gather(*(self.features(MachineRequest(machine_id=identifier)) for identifier in ids))
         first = records[0]
         for field in ['as_of','prepared_wall_utc','protocol_sha256','source_manifest_sha256']:
             if any(row[field] != first[field] for row in records): raise ToolFailure(409, 'Cohort spans different source snapshots')
+        if model is not None:
+            records = [row for row in records if row['operating_context']['status'] == 'operating']
+            if len(records) < 32:
+                raise ToolFailure(422, 'Serving-model drift requires at least 32 operating machines')
+            reference = await self.call(self.DRIFT_URL, '/v1/drift/reference')
+            if (reference.get('reference_id') != self.reference_id
+                    or not reference_matches_model(reference.get('lineage'), model)):
+                raise ToolFailure(409, 'Drift reference differs from the serving model release')
         typed = [MachineData.model_validate(row) for row in records]
         observation_end = typed[0].as_of + timedelta(microseconds=1)
         window = CompareRequest(reference_id=self.reference_id, window_id=request.window_id,
@@ -136,6 +140,8 @@ class ToolRuntime:
         except (ValidationError,ValueError): raise ToolFailure(503, 'Native drift response is invalid') from None
         if raw.get('reference_id') != self.reference_id or raw.get('window_id') != request.window_id or raw.get('unique_rows') != len(records):
             raise ToolFailure(503, 'Native drift identity differs')
+        if model is not None and not reference_matches_model(raw['lineage'], model):
+            raise ToolFailure(503, 'Native drift lineage differs from the serving model release')
         return {'reference_id': raw['reference_id'], 'window_id': raw['window_id'], 'unique_rows': raw['unique_rows'],
                 'drift_detected': raw['drift_detected'], 'drifted_feature_fraction': raw['drifted_feature_fraction'],
                 'features': {key: {name: value[name] for name in ['psi','drifted']} for key,value in raw['features'].items()},
@@ -144,11 +150,29 @@ class ToolRuntime:
                 'assessment_sha256': sha256(json.dumps(raw,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest(),
                 'scope': raw['scope']}
 
+    async def drift_input(self, identifier):
+        """Keep machine eligibility and the model pin together across a rolling release."""
+        raw = await self.call(self.FEATURE_URL, '/v1/machines/'+identifier+'/drift-input')
+        try:
+            record = MachineData.model_validate(raw['feature'])
+            model = raw['serving_model']
+            if (record.machine_id != identifier or not isinstance(model, dict) or model.get('production') is not True
+                    or model.get('protocol_sha256') != record.protocol_sha256):
+                raise ValueError('Mismatched identity')
+        except (KeyError, TypeError, ValueError):
+            raise ToolFailure(503, 'Serving drift input has invalid machine or model provenance') from None
+        return record.model_dump(mode='json'), model
+
     async def ready(self):
-        """Check actual upstream readiness, including the drift reference identity used by this release."""
-        await self.call(self.FEATURE_URL, '/health/ready')
+        """Check the native dependencies for release verification and drift service readiness."""
+        feature = await self.call(self.FEATURE_URL, '/health/ready')
+        if feature.get('ready') is not True:
+            raise ToolFailure(503, 'Feature service is not ready')
         if self.role == 'drift':
             value = await self.call(self.DRIFT_URL, '/health/ready')
             if value.get('reference_id') != self.reference_id: raise ToolFailure(503, 'Drift reference differs from this release')
-        elif self.knowledge is None: raise ToolFailure(503, 'Knowledge store is not ready')
+        else:
+            value = await self.call(self.rag_url, '/health/ready', slots=self.search_slots)
+            if value.get('ready') is not True or value.get('service') != 'rag-search':
+                raise ToolFailure(503, 'Knowledge service is not ready')
         return {'ready': True, 'role': self.role}

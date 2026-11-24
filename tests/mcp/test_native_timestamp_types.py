@@ -9,7 +9,7 @@ from pydantic import ValidationError
 from services.mcp_tools.app import create_app
 from services.mcp_tools.contracts import MachineData
 from services.mcp_tools.runtime import ToolRuntime
-from test_tools import machine, prediction, REFERENCE, TOKEN, HEADERS, SmallKnowledge
+from test_tools import machine, prediction, REFERENCE, TOKEN, HEADERS, RAG_TOKEN
 
 INVALID_CLOCKS = [None, 17, True, [], {'private_marker': 'unit-upstream-diagnostic'}, 'missing-field']
 
@@ -32,7 +32,7 @@ def test_invalid_native_clock_has_safe_unavailable_status(route, field, value):
     row = malformed_machine(field, value)
     raw = row if route == 'features' else dict(prediction(), feature_trace=row)
     upstream = httpx2.AsyncClient(transport=httpx2.MockTransport(lambda request: httpx2.Response(200, json=raw)))
-    runtime = ToolRuntime('retrieval', REFERENCE, SmallKnowledge(), upstream)
+    runtime = ToolRuntime('retrieval', REFERENCE, client=upstream, rag_token=RAG_TOKEN)
     with TestClient(create_app(runtime, 'retrieval', TOKEN), raise_server_exceptions=False) as api:
         response = (api.get('/v1/machines/P-001/features', headers=HEADERS) if route == 'features'
                     else api.post('/v1/machines/P-001:predict', headers=HEADERS, json={}))

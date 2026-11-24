@@ -58,6 +58,20 @@ def session_deadline(descriptor, now):
     return int(remaining) - 120
 
 
+def recovery_node_resources(*, cpu_only):
+    """Select the CPU control plane alone for an explicitly CPU-only recovery."""
+    return ['node', 'iot-cw-vm'] if cpu_only else ['nodes', '--all']
+
+
+def discovery_permissions(runtime, path, previous, prometheus_gid):
+    """Restore the dedicated API discovery token's original reader group."""
+    if path == runtime / 'api-observability-28b/prometheus-auth/token':
+        if previous.st_uid != 0:
+            raise ValueError('The API discovery token must remain root-owned')
+        return 0, prometheus_gid, 0o640
+    return previous.st_uid, previous.st_gid, previous.st_mode & 0o777
+
+
 def bind_session(path, output, descriptor):
     """Back up an older CI guard and derive its new deadline only from the validated actual Compute start."""
     previous = json.loads(path.read_bytes()); started = datetime.fromisoformat(descriptor['lastStartTimestamp']).astimezone(timezone.utc)
@@ -174,7 +188,10 @@ def run(args):
         except HTTPError as error: response = error
         with response: return response.status, response.read(1_048_576)
     try:
-        command(k + ['wait', '--for=condition=Ready', 'nodes', '--all', '--timeout=180s'])
+        import pwd
+
+        nodes = recovery_node_resources(cpu_only=args.cpu_only)
+        command(k + ['wait', '--for=condition=Ready', *nodes, '--timeout=180s'])
         # One existing narrowly authorized identity; never broaden RBAC or print the minted value.
         config = json.loads((root / 'data/runtime/monitoring-28/prometheus.json').read_bytes())
         paths = token_files(config) | {str(root / 'data/runtime/log-discovery-28/auth/token')}
@@ -192,11 +209,16 @@ def run(args):
             if datetime.fromisoformat(expiry.replace('Z', '+00:00')) >= datetime.fromisoformat(current['auto_stop_utc']): raise ValueError('Token exceeds approved VM session')
             issued[identity] = token['status']['token']
             identities[identity] = {'expires_utc': expiry, 'files': sum(v == identity for v in plan.values())}
+        prometheus_gid = pwd.getpwnam('nobody').pw_gid
+        restored_api_reader = False
         for path, identity in plan.items():
-            previous = path.stat(); pending = path.with_suffix('.next')
-            pending.write_text(issued[identity]); os.chown(pending, previous.st_uid, previous.st_gid)
-            pending.chmod(previous.st_mode & 0o777); pending.replace(path)
-        token = None; issued.clear(); report['steps']['scoped_token'] = {'identities': identities, 'files': len(paths), 'permissions_preserved': True, 'value_saved_in_evidence': False}; save()
+            previous = path.stat()
+            owner, group, mode = discovery_permissions(root / 'data/runtime', path, previous, prometheus_gid)
+            restored_api_reader |= (owner, group, mode) != (previous.st_uid, previous.st_gid, previous.st_mode & 0o777)
+            pending = path.with_suffix('.next')
+            pending.write_text(issued[identity]); os.chown(pending, owner, group)
+            pending.chmod(mode); pending.replace(path)
+        token = None; issued.clear(); report['steps']['scoped_token'] = {'identities': identities, 'files': len(paths), 'permissions_preserved': not restored_api_reader, 'restored_api_reader': restored_api_reader, 'value_saved_in_evidence': False}; save()
         # Use the exact recipes that ran before STOP, excluding the superseded static-file Alloy collector.
         recipes = root / 'data/runtime/vm-session-28b/units'
         checkpoint = json.loads((recipes.parent / 'checkpoint.json').read_bytes())
@@ -339,6 +361,7 @@ if __name__ == '__main__':
     parser.add_argument('--runtime-root', type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument('--descriptor', type=Path, required=True)
     parser.add_argument('--vault-assets', type=Path, default=Path(__file__).resolve().parents[1] / 'infra/security/vault-assets.json')
+    parser.add_argument('--cpu-only', action='store_true', help='Wait for the existing CPU control plane only')
     parser.add_argument('--renew-consumers', action='store_true', help='Renew existing AppRole secret-ids and the existing Jenkins SecretText after unseal')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args(); raise SystemExit(run(args))

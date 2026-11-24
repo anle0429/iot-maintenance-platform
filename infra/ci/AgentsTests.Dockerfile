@@ -4,6 +4,7 @@ FROM ${RUNTIME}
 USER root
 COPY services/__init__.py /workspace/services/__init__.py
 COPY services/mcp_tools /workspace/services/mcp_tools
+COPY services/rag_search /workspace/services/rag_search
 COPY services/predictor/__init__.py services/predictor/contracts.py /workspace/services/predictor/
 COPY services/drift_api/__init__.py services/drift_api/contracts.py services/drift_api/detector.py services/drift_api/runtime.py /workspace/services/drift_api/
 COPY rag/__init__.py rag/store.py rag/embeddings.py rag/retrieval.py /workspace/rag/

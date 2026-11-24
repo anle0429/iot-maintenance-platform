@@ -10,8 +10,10 @@ from agents.ci_contract import release_identity,require_receipt,validate_source,
 from agents.release_ci import MCP_RUNTIME,MCP_TESTS,api_quality,feature_lease,packaged_paths,ready_agents,role_for_job,unchanged_quality_source,required_inputs,capture_json_command
 from agents.answer_acceptance import verify_specialist
 from agents.delegation_acceptance import verify_coordinator
+from agents.rag_search_secret import ensure_search_secret
 from agents.probe import run as probe
 from ml.serving_ci import host_source_path,docker_config_digest,check_pods
+from services.drift_api import reference_matches_model
 
 SPEC=importlib.util.spec_from_file_location('agent_ci_shared',ROOT/'scripts/ci-serving.py')
 SHARED=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(SHARED)
@@ -90,7 +92,7 @@ def build_overlay(c,tests=False):
     if (actual['RootFS']['Layers'][:len(parent['RootFS']['Layers'])]!=parent['RootFS']['Layers']
             or actual['Config']['Labels']['org.opencontainers.image.revision']!=c.commit):
         raise ValueError('The MCP overlay does not extend its verified dependency layers')
-    packaged=image_files(actual['Id'],packaged_paths(c.seal,tests))
+    packaged=image_files(actual['Id'],packaged_paths(c.seal,tests,search_api=True))
     if packaged!={name:c.seal['files'][name] for name in packaged}:raise ValueError('The built MCP package differs from tested source')
     return {'image':tag,'image_id':actual['Id'],'parent_image_id':parent['Id'],'packaged_sha256':packaged,'revision_label':c.commit}
 
@@ -120,9 +122,14 @@ def live_state(c,label):
     mapping=c.get('get','configmap',seed,'-n','iot-features');context=json.loads(mapping['data']['context.json'])
     lease=feature_lease(context,datetime.now(timezone.utc))
     gpu_path=c.deploy/'data/runtime/ci/gpu-session.json';gpu=json.loads(gpu_path.read_bytes())
-    stop=datetime.fromisoformat(gpu['last_start_utc'])+timedelta(seconds=gpu['max_duration_seconds'])
-    if (gpu['max_duration_seconds']!=28800 or gpu['termination_action']!='STOP' or gpu['status']!='RUNNING'
-            or gpu['private_ip']!='10.42.0.7' or (stop-datetime.now(timezone.utc)).total_seconds()<900):
+    duration=gpu['max_duration_seconds']
+    started=datetime.fromisoformat(gpu['last_start_utc'])
+    now=datetime.now(timezone.utc)
+    if type(duration) is not int or not 5400 <= duration <= 28800 or started.tzinfo is None:
+        raise ValueError('Require an actual bounded GPU session')
+    stop=started+timedelta(seconds=duration)
+    if (started > now or gpu['termination_action']!='STOP' or gpu['status']!='RUNNING'
+            or gpu['private_ip']!='10.42.0.7' or (stop-now).total_seconds()<900):
         raise ValueError('Require fifteen actual GPU session minutes; never rewrite its deadline')
     state={'agents':agents,'pools':pools,'model_config':model,'actors':actors,'feature_lease':lease,
            'feature_seed_uid':mapping['metadata']['uid'],'gpu_session':gpu,'gpu_session_sha256':file_hash(gpu_path),'gpu_stop_utc':stop.isoformat()}
@@ -179,6 +186,16 @@ def deploy_host(c):
         if file_hash(image)!=app['export_sha256']:raise ValueError('The tested image export changed')
         c.log('import-image',['/usr/local/bin/k3s','ctr','images','import',str(image)],600)
         name='iot-'+c.role+'-mcp';values=dict(plan['before'][name]['values'])
+        if c.role=='retrieval':
+            ensure_search_secret(c.k,'iot-agents',name+'-search-auth')
+        if c.role=='drift':
+            feature=c.service_url('iot-feature-api','iot-features')
+            drift=c.service_url('iot-drift-api','iot-features')
+            model=get_http(feature+'/v1/machines/P-001/drift-input')['serving_model']
+            reference=get_http(drift+'/v1/drift/reference')
+            if model.get('production') is not True or not reference_matches_model(reference.get('lineage'),model):
+                raise ValueError('The native Drift API needs the production serving model training reference')
+            values.update(driftScope='serving_model',referenceId=reference['reference_id'])
         values.update(image={'repository':app['image'].split(':')[0],'tag':app['image'].split(':')[1]},sourceSha256=c.source_digest,revisionMarker=c.release)
         SHARED.save(c.out/'mcp-values.json',values)
         c.log('upgrade-mcp',[c.helm,'upgrade',name,chart_path(c,build,'iot-mcp'),'-n','iot-agents','-f',str(c.out/'mcp-values.json'),
@@ -186,6 +203,11 @@ def deploy_host(c):
         pods=c.get('get','pods','-n','iot-agents','-l','app.kubernetes.io/instance='+name)
         uids=check_pods(pods['items'],app['image'],app['imported_config_digest'],'mcp')
         SHARED.save(c.out/'mcp-pods-after.json',pods);SHARED.save(c.out/'mcp-pod-uids.json',uids)
+        if c.role=='retrieval':
+            search=c.get('get','pods','-n','iot-agents','-l','app.kubernetes.io/instance='+name+'-search')
+            search_uids=check_pods(search['items'],app['image'],app['imported_config_digest'],'search')
+            SHARED.save(c.out/'search-pods-after.json',search)
+            SHARED.save(c.out/'search-pod-uids.json',search_uids)
     agent_values=plan['before']['iot-agents']['values'];SHARED.save(c.out/'agent-values.json',agent_values)
     renderer=str(ROOT/'scripts/render-agent-responses.py');chart=chart_path(c,build,'iot-agents')
     rendered=subprocess.check_output([c.helm,'template','iot-agents',chart,'-n','iot-agents','-f',str(c.out/'agent-values.json'),'--post-renderer',renderer])
@@ -212,12 +234,28 @@ def deploy_host(c):
                       'new_mcp_image':build['application']['image_id'] if build['application'] else None})
 
 
+def retrieval_probe_chunks(c):
+    """Read the independent corpus bound to the deployed Search API's immutable snapshot seal."""
+    snapshot=json.loads((c.out/'mcp-values.json').read_bytes())['snapshot']
+    chunks=(Path(snapshot['directory'])/'chunks.json').resolve()
+    if not chunks.is_relative_to((c.deploy/'data/rag').resolve()):
+        raise ValueError('The retrieval probe corpus is outside the RAG data directory')
+    seal=c.get('get','configmap',snapshot['sealConfigMap'],'-n','iot-agents')
+    data=chunks.read_bytes()
+    if seal.get('immutable') is not True or sha256(data).hexdigest()!=json.loads(seal['data']['seal.json'])['files']['chunks.json']:
+        raise ValueError('The retrieval probe corpus differs from the deployed seal')
+    return data
+
+
 def verify_host(c):
     """Require a native MCP probe and an actual complete role answer with independently verified tool or child histories."""
     c.prior('deploy');base=c.service_url('kagent-controller','iot-agents')+':8083'
     if c.role!='coordinator':
-        actual=capture_json_command(c.k+['exec','-n','iot-agents','deployment/iot-'+c.role+'-mcp','-c','mcp','--',
-              'python','-B','-m','services.mcp_tools.probe','--role',c.role,'--run',c.release],c.out,'native-mcp-probe')
+        chunks=retrieval_probe_chunks(c) if c.role=='retrieval' else None
+        stdin=['-i'] if chunks is not None else []
+        actual=capture_json_command(c.k+['exec',*stdin,'-n','iot-agents','deployment/iot-'+c.role+'-mcp','-c','mcp','--',
+            'python','-B','-m','services.mcp_tools.probe','--role',c.role,'--run',c.release],c.out,'native-mcp-probe',
+            input_bytes=chunks)
         if actual.get('passed') is not True or actual.get('role')!=c.role or actual.get('run')!=c.release:
             raise ValueError('Native MCP business probe failed or belongs to another release')
     requests=c.out/'agent-request';probe(base,requests,[c.role],specialist_timeout=300,coordinator_timeout=600,
@@ -277,26 +315,34 @@ def run(phase):
             proof=c.out/'api-tests';proof.mkdir();proof.chmod(0o1777)
             command=['docker','run','--name',c.release+'-api-tests','--network','none','--read-only','--memory','2g','--memory-swap','2g','--cpus','1',
                 '--tmpfs','/tmp:rw,nosuid,size=512m','--mount','type=bind,src='+str(proof)+',dst=/proof',tested['image_id'],
-                '-B','-m','coverage','run','--branch','--source=services.mcp_tools','--omit=*/probe.py','-m','pytest','/tests/mcp','-q',
+                '-B','-m','coverage','run','--branch','--source=services.mcp_tools,services.rag_search','--omit=*/probe.py','-m','pytest','/tests/mcp','-q',
                 '-o','cache_dir=/tmp/pytest-cache','--junitxml=/proof/junit.xml']
             c.container('api-tests',command,memory='2g')
             c.log('coverage-export',['docker','run','--rm','--network','none','--memory','256m','--cpus','.5','--mount','type=bind,src='+str(proof)+',dst=/proof',
                   tested['image_id'],'-B','-m','coverage','json','-o','/proof/coverage.json'])
-            summary=api_quality(json.loads((proof/'coverage.json').read_bytes()),ET.parse(proof/'junit.xml').getroot())
+            summary=api_quality(json.loads((proof/'coverage.json').read_bytes()),ET.parse(proof/'junit.xml').getroot(),search_api=True)
         else:summary={'scope':'Coordinator configuration and actual child delegation; unchanged MCP APIs tested in their two own jobs.'}
         contract=json.loads((c.out/'contracts.json').read_bytes());c.phase('test',{'contracts':contract,'fresh_api':summary})
     elif phase=='test-host':
-        c.log('contracts',[sys.executable,'-B','-m','unittest','tests.test_llm_ci_contract','tests.test_agent_release_ci',
+        c.log('contracts',[sys.executable,'-B','-m','unittest','tests.test_llm_ci_contract','tests.test_agent_release_ci','tests.test_agent_mutation_quality',
               'tests.test_agent_gateway_default','tests.test_agent_delegation_gateway',
               'tests.test_agent_delegation_plan','tests.test_gateway_delegation_acceptance','tests.test_a2a_tracing','-q'])
-        cache=None
+        cache=None;changed_quality=None
         if c.role!='coordinator':
-            cache=unchanged_quality_source(ROOT)
-            for name in ['mcp-quality','mcp-quality-native']:
-                c.log('cached-'+name,[sys.executable,'-B','-S',str(ROOT/'scripts'/('verify-'+name+'.py'))])
-            score=json.loads((ROOT/'docs/evidence/mcp-quality/run/strict-score.json').read_bytes())
-            cache={'source_bindings':cache,'strict_mutation_score_percent':score['strict_score_percent'],'fresh_mutation_run':False,'counts':score['counts']}
-        SHARED.save(c.out/'contracts.json',{'passed':True,'source_digest':c.source_digest,'unchanged_mcp_quality_cache':cache})
+            if (ROOT/'services/rag_search/app.py').is_file():
+                from agents.mutation_quality import RECEIPT,verify_receipt
+                if RECEIPT not in c.seal['files']:
+                    raise ValueError('The split RAG API needs a current source-sealed mutation receipt. '
+                                     'Run python -m agents.mutation_quality --output '+RECEIPT+' before sealing this release.')
+                changed_quality=verify_receipt(ROOT,ROOT/RECEIPT,c.seal['files'])
+            else:
+                cache=unchanged_quality_source(ROOT)
+                for name in ['mcp-quality','mcp-quality-native']:
+                    c.log('cached-'+name,[sys.executable,'-B','-S',str(ROOT/'scripts'/('verify-'+name+'.py'))])
+                score=json.loads((ROOT/'docs/evidence/mcp-quality/run/strict-score.json').read_bytes())
+                cache={'source_bindings':cache,'strict_mutation_score_percent':score['strict_score_percent'],'fresh_mutation_run':False,'counts':score['counts']}
+        SHARED.save(c.out/'contracts.json',{'passed':True,'source_digest':c.source_digest,
+                    'unchanged_mcp_quality_cache':cache,'current_mcp_quality':changed_quality})
     elif phase=='build':
         c.prior('test')
         if c.role!='coordinator':

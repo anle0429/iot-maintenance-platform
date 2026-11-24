@@ -5,6 +5,7 @@ from hashlib import sha256
 from pathlib import Path
 from threading import Event, Lock
 from urllib.error import HTTPError
+from urllib.parse import urlsplit
 from urllib.request import Request, build_opener, ProxyHandler
 import argparse
 import json
@@ -19,6 +20,25 @@ from infra.mcp_scaling import evaluate, quantity
 
 ROLES = ['retrieval', 'drift']
 TOOLS = {'retrieval': 'search_knowledge', 'drift': 'assess_feature_drift'}
+
+
+def retrieval_search_deployment(services, deployments):
+    """Bind the configured Search service to the exact Deployment owning its Pods."""
+    retrieval = next(v for v in deployments if v['metadata']['name'] == 'iot-retrieval-mcp')
+    frontend = next(c for c in retrieval['spec']['template']['spec']['containers'] if c['name'] == 'mcp')
+    search_url = next((v['value'] for v in frontend['env'] if v['name'] == 'IOT_RAG_SEARCH_URL'), None)
+    if not search_url:
+        return retrieval  # Earlier releases read their own mounted corpus.
+    name = urlsplit(search_url).hostname.split('.')[0]
+    service = next(v for v in services if v['metadata']['name'] == name)
+    return next(v for v in deployments if v['spec']['selector']['matchLabels'] == service['spec']['selector'])
+
+
+def snapshot_directory(services, deployments):
+    """Find the corpus mounted by the search service used in this scale measurement."""
+    owner = retrieval_search_deployment(services, deployments)
+    volume = next(v for v in owner['spec']['template']['spec']['volumes'] if v['name'] == 'snapshot')
+    return Path(volume['hostPath']['path'])
 
 
 def run(args):
@@ -58,9 +78,9 @@ def run(args):
         """Persist strict JSON without inventing successful missing observations."""
         keep(name, (json.dumps(value, indent=2, allow_nan=False)+'\n').encode())
 
-    def kube(name, *query):
+    def kube(name, *query, namespace='iot-agents'):
         """Capture read-only Kubernetes observations and their original process status."""
-        p = subprocess.run(k+['get', *query, '-n', 'iot-agents', '-o', 'json'], capture_output=True, timeout=25)
+        p = subprocess.run(k+['get', *query, '-n', namespace, '-o', 'json'], capture_output=True, timeout=25)
         keep(name+'.stdout', p.stdout); keep(name+'.stderr', p.stderr)
         keep(name+'.exit', (str(p.returncode)+'\n').encode())
         if p.returncode:
@@ -82,23 +102,32 @@ def run(args):
     services = kube('services', 'services')['items']
     urls = {role: 'http://'+next(v['spec']['clusterIP'] for v in services if v['metadata']['name']=='iot-'+role+'-mcp')+':8080' for role in ROLES}
     deployments = kube('deployment-binding', 'deployments')['items']
-    retrieval = next(v for v in deployments if v['metadata']['name']=='iot-retrieval-mcp')
-    snapshot = Path(next(v['hostPath']['path'] for v in retrieval['spec']['template']['spec']['volumes'] if v['name']=='snapshot'))
+    search = retrieval_search_deployment(services, deployments)
+    scaling_targets = {'retrieval': search['metadata']['name'], 'drift': 'iot-drift-mcp'}
+    split_search = scaling_targets['retrieval'] != 'iot-retrieval-mcp'
+    if split_search:
+        counts['retrieval']['busy'] = 0
+    snapshot = snapshot_directory(services, deployments)
     chunks_raw = (snapshot/'chunks.json').read_bytes()
     keep('chunks.json', chunks_raw)
     chunks = {row['chunk_id']: row for row in json.loads(chunks_raw)}
     drift = next(v for v in deployments if v['metadata']['name']=='iot-drift-mcp')
-    reference = next(v['value'] for v in drift['spec']['template']['spec']['containers'][0]['env'] if v['name']=='IOT_DRIFT_REFERENCE_ID')
+    drift_env = {item['name']:item.get('value') for item in drift['spec']['template']['spec']['containers'][0]['env']}
+    reference = drift_env['IOT_DRIFT_REFERENCE_ID']
+    drift_scope = drift_env.get('IOT_DRIFT_SCOPE', 'fleet_reference')
+    cohort = [f'P-{i:03}' for i in range(1, 33)]
     begin = time.monotonic()
 
     def sample(phase):
         """Bind native HPA demand to actual Pod UIDs, Ready state and per-Pod business counters."""
         prefix = 'observations/'+str(len(history)).zfill(4)
         data = kube(prefix+'/resources', 'deployment,pod,hpa,scaledobject,endpointslice,event')['items']
+        if split_search and any(v['kind']=='HorizontalPodAutoscaler' and v['spec']['scaleTargetRef']['name']=='iot-retrieval-mcp' for v in data):
+            raise ValueError('Retrieval frontend still has an autoscaler owner')
         row = {'phase': phase, 'elapsed_seconds': time.monotonic()-begin,
                'utc': datetime.now(timezone.utc).isoformat(), 'prefix': prefix, 'roles': {}}
         for role in ROLES:
-            name = 'iot-'+role+'-mcp'
+            name = scaling_targets[role]
             deployment = next(v for v in data if v['kind']=='Deployment' and v['metadata']['name']==name)
             targets = [v for v in data if v['kind']=='HorizontalPodAutoscaler' and v['spec']['scaleTargetRef'].get('kind')=='Deployment' and v['spec']['scaleTargetRef']['name']==name]
             if len(targets) != 1: raise ValueError('Require exactly one autoscaler owner per MCP Deployment')
@@ -118,6 +147,12 @@ def run(args):
                 scaler = next(v for v in data if v['kind']=='ScaledObject' and v['metadata']['name']==name)
                 conditions = {v['type']: v['status'] for v in scaler.get('status', {}).get('conditions', [])}
                 active = active and conditions.get('Ready')=='True' and conditions.get('Fallback')!='True'
+                if role=='retrieval' and split_search:
+                    trigger, = scaler['spec']['triggers']
+                    query = f'sum(rate(iot_rag_search_attempts_total{{job="iot-rag-search",namespace="iot-agents",service="{name}"}}[30s]))'
+                    if (scaler['spec']['scaleTargetRef']['name']!=name or trigger['type']!='prometheus'
+                            or trigger['metadata']['query']!=query):
+                        raise ValueError('Retrieval scaling is not using the Search arrival metric')
             else: raise ValueError('Unreviewed HPA metric type')
             pods = []
             for pod in data:
@@ -130,11 +165,19 @@ def run(args):
                     keep(prefix+'/'+identity+'.prom', raw)
                     if status != 200: raise ValueError('Ready Pod metrics unavailable')
                     for line in raw.decode().splitlines():
-                        if line.startswith('iot_mcp_tool_calls_total{') and 'tool="'+TOOLS[role]+'"' in line:
+                        if role=='retrieval' and split_search:
+                            result = re.fullmatch(r'iot_rag_search_outcomes_total\{result="(success|busy|invalid|unavailable)"\} (\S+)', line)
+                            if result:
+                                metrics[result[1]] = float(result[2])
+                        elif line.startswith('iot_mcp_tool_calls_total{') and 'tool="'+TOOLS[role]+'"' in line:
                             result = re.search(r'result="(success|failure)"', line).group(1)
                             metrics[result] = metrics.get(result, 0)+float(line.rsplit(' ', 1)[1])
+                    if role=='retrieval' and split_search and set(metrics)!={'success','busy','invalid','unavailable'}:
+                        raise ValueError('Search Pod is missing its bounded result counters')
                 pods.append({'uid': identity, 'name': pod['metadata']['name'], 'ip': pod['status'].get('podIP'),
-                             'ready': ready, 'successful_calls': metrics.get('success', 0), 'failed_calls': metrics.get('failure', 0),
+                             'ready': ready, 'successful_calls': metrics.get('success', 0),
+                             'failed_calls': sum(metrics.get(key, 0) for key in ('failure','invalid','unavailable')),
+                             'busy_calls': metrics.get('busy', 0),
                              'containers': [{'name': v['name'], 'image_id': v.get('imageID'), 'restarts': v['restartCount']} for v in pod['status'].get('containerStatuses', [])]})
             row['roles'][role] = {'deployment_uid': deployment['metadata']['uid'],
                 'template_sha256': sha256(json.dumps(deployment['spec']['template'], sort_keys=True).encode()).hexdigest(),
@@ -149,31 +192,63 @@ def run(args):
             identity = out.name+'-'+role+'-'+str(number)+'-'+str(index); index += 1
             window = identity
             payload = ({'question': 'How do vibration, temperature and event timestamps indicate pump maintenance needs?', 'top_k': 3}
-                       if role=='retrieval' else {'window_id': window, 'machine_ids': ['P-'+str(i).zfill(3) for i in range(1, 33)]})
+                       if role=='retrieval' else {'window_id': window, 'machine_ids': cohort})
             path = '/v1/knowledge:search' if role=='retrieval' else '/v1/drift:assess'
             started = time.monotonic(); status = 0
             try:
                 status, raw = http(urls[role]+path, payload, tokens[role]); keep('requests/'+identity+'.json', raw)
-                if status != 200: raise ValueError('Business HTTP '+str(status))
                 value = json.loads(raw)
-                if role=='retrieval':
+                if (split_search and role=='retrieval' and status==429
+                        and value.get('detail') in ('Knowledge tool is busy','Knowledge search is busy')):
+                    outcome = 'busy'; error = None
+                elif status != 200:
+                    raise ValueError('Business HTTP '+str(status))
+                elif role=='retrieval':
                     if value['snapshot_sha256'] != sha256(chunks_raw).hexdigest() or len(value['matches']) != 3:
                         raise ValueError('Knowledge snapshot/result count differs')
                     for match in value['matches']:
                         if any(match.get(key) != expected for key, expected in chunks[match['chunk_id']].items()):
                             raise ValueError('Knowledge passage differs from actual snapshot')
+                    outcome = 'success'; error = None
                 elif value['reference_id'] != reference or value['window_id'] != window or value['unique_rows'] != 32:
                     raise ValueError('Drift reference/window/cohort differs')
-                outcome = 'success'; error = None
+                else:
+                    outcome = 'success'; error = None
             except Exception as failure:
                 outcome = 'failure'; error = type(failure).__name__+': '+str(failure); stop.set()
             with lock:
                 counts[role][outcome] += 1
                 save('requests/'+identity+'-transport.json', {'role': role, 'http': status,
-                     'seconds': time.monotonic()-started, 'validated': outcome=='success', 'error': error})
+                     'seconds': time.monotonic()-started, 'validated': outcome=='success', 'outcome': outcome, 'error': error})
         return index
 
     try:
+        if split_search:
+            for role in ROLES:
+                status, raw = http(urls[role]+'/health/dependencies', token=tokens[role])
+                keep(role+'-dependencies.json', raw)
+                dependencies = json.loads(raw)
+                if status!=200 or dependencies.get('ready') is not True or dependencies.get('role')!=role:
+                    raise ValueError('Benchmark dependencies are not ready: '+role)
+        if drift_scope=='serving_model':
+            feature = kube('feature-service','service','iot-feature-api',namespace='iot-features')
+            base = 'http://'+feature['spec']['clusterIP']
+            cohort = []
+            for i in range(1,201):
+                machine_id = f'P-{i:03}'
+                status, raw = http(base+'/v1/machines/'+machine_id+'/features')
+                if status==404:
+                    continue
+                record = json.loads(raw)
+                if status!=200 or record.get('machine_id')!=machine_id:
+                    raise ValueError('Feature API did not validate the drift machine')
+                if record['operating_context']['status']=='operating':
+                    cohort.append(machine_id)
+                    if len(cohort)==32:
+                        break
+            if len(cohort)!=32:
+                raise ValueError('Need 32 available operating machines for the drift workload')
+        save('drift-input.json', {'scope':drift_scope,'machine_ids':cohort})
         initial = sample('baseline')
         if any(v['desired']!=2 or sum(p['ready'] for p in v['pods'])!=2 or not v['hpa_active'] for v in initial['roles'].values()):
             raise ValueError('Require two ready baseline Pods per role and valid HPA metrics')
@@ -196,6 +271,8 @@ def run(args):
         report.update(checked_utc=datetime.now(timezone.utc).isoformat(), load_seconds=args.duration,
                       clients_per_role=clients, elapsed_seconds=time.monotonic()-begin,
                       transport='REST endpoints sharing the native MCP tool dispatcher', manual_replica_mutations_by_recorder=False)
+        if split_search:
+            report.update(scaling_targets=scaling_targets, scope='Demand-driven RAG Search and Drift MCP elasticity, new-Pod execution and return to baseline.')
     except Exception as error:
         stop.set(); report.update(error=type(error).__name__+': '+str(error), request_counts=counts)
     finally:

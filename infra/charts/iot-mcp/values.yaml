@@ -16,6 +16,7 @@ image:
   tag: set-by-verified-deployer
 tokenSecret: ''
 referenceId: ''
+driftScope: serving_model
 resources:
   requests: {cpu: 200m, memory: 768Mi}
   limits: {cpu: '2', memory: 3Gi}
@@ -23,3 +24,10 @@ snapshot:
   directory: ''
   sealConfigMap: ''
   modelCache: /srv/iot-fast/models/iot-rag-embeddings
+search:
+  replicas: 2
+  # Optionally override autoscaling.requestsPerSecondPerReplica for Search arrivals.
+  # requestsPerSecondPerReplica: 2
+  resources:
+    requests: {cpu: 200m, memory: 768Mi}
+    limits: {cpu: "2", memory: 3Gi}

@@ -11,7 +11,12 @@ import re
 import secrets
 import shutil
 import subprocess
+import sys
 import time
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from agents.rag_search_secret import ensure_search_secret
+from services.drift_api import reference_matches_model
 
 
 def run(args):
@@ -70,7 +75,7 @@ def run(args):
         parameters=['docker','run','--name',native,'--init','--read-only','--network','none','--cpus=2','--memory=2g','--memory-swap=2g',
             '--cap-drop=ALL','--security-opt=no-new-privileges','--tmpfs','/tmp:rw,nosuid,size=512m',
             '--mount','type=bind,source='+str(tests)+',target=/proof',test_image]
-        command('tests',parameters+['-m','coverage','run','--branch','--source=services.mcp_tools','--omit=*/probe.py','-m','pytest','/tests/mcp','-q','-o','cache_dir=/tmp/pytest-cache'],timeout=900)
+        command('tests',parameters+['-m','coverage','run','--branch','--source=services.mcp_tools,services.rag_search','--omit=*/probe.py','-m','pytest','/tests/mcp','-q','-o','cache_dir=/tmp/pytest-cache'],timeout=900)
         container=json.loads(command('tests-container',['docker','inspect',native]).stdout)[0]
         if container['State']['Running'] or container['State']['ExitCode']!=0 or container['State']['OOMKilled']:raise ValueError('Native test process failed')
         command('coverage-json',['docker','run','--rm','--network','none','--read-only','--cpus=1','--memory=512m',
@@ -111,29 +116,52 @@ def run(args):
     drift=get('drift-service',['get','service','iot-drift-api','-n','iot-features'])
     feature_url='http://'+feature['spec']['clusterIP'];drift_url='http://'+drift['spec']['clusterIP']
     with urlopen(drift_url+'/health/ready',timeout=10) as response:reference=json.load(response)['reference_id']
-    refmap=get('drift-reference',['get','configmap','iot-drift-reference-v1','-n','iot-features'])
-    expected=sha256(json.dumps(json.loads(refmap['data']['reference.json']),sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+    deployment=get('drift-deployment',['get','deployment','iot-drift-api','-n','iot-features'])
+    volumes=deployment['spec']['template']['spec']['volumes']
+    ref_name=next(volume['configMap']['name'] for volume in volumes if volume['name']=='reference')
+    refmap=get('drift-reference',['get','configmap',ref_name,'-n','iot-features'])
+    bundle=json.loads(refmap['data']['reference.json'])
+    expected=sha256(json.dumps(bundle,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
     if expected!=reference:raise ValueError('The actual drift reference does not match its source')
     save('reference.json',{'reference_id':reference,'configmap_uid':refmap['metadata']['uid']})
     try:
         with urlopen(feature_url+'/health/ready',timeout=10) as response:feature_ready=response.status==200
     except URLError:feature_ready=False
     if not feature_ready:
-        command('feature-refresh',['python3',str(source/'scripts/refresh-demo-feature.py'),'--runtime-root',str(root),
-            '--runtime-source',str(root/'data/observability-source-2fceb32/tree'),'--run','demo-'+args.run,
-            '--output',str(output/'feature-refresh')],timeout=1200)
+        refresh=source/'scripts/refresh-agent-features.py'
+        if refresh.relative_to(source).as_posix() not in seal['files']:
+            raise ValueError('The deployment source must seal the release-aware Feature API refresh')
+        refresh_name='demo-mcp-'+sha256(args.run.encode()).hexdigest()[:24]
+        command('feature-refresh',['python3',str(refresh),'--runtime-root',str(root),
+            '--runtime-source',str(root/'data/observability-source-2fceb32/tree'),'--run',refresh_name,
+            '--output',str(output/'feature-refresh')],timeout=2400)
+    if args.drift_scope=='serving_model':
+        with urlopen(feature_url+'/v1/machines/P-001/drift-input',timeout=10) as response:
+            model=json.load(response)['serving_model']
+        if (refmap.get('immutable') is not True or model.get('production') is not True
+                or not reference_matches_model(bundle['lineage'],model)):
+            raise ValueError('Load a sealed drift reference matching the active serving model before this rollout')
     chart=str(source/'infra/charts/iot-mcp')
     for role in ['retrieval','drift']:
         release='iot-'+role+'-mcp'
+        if role == 'retrieval':
+            ensure_search_secret(k, 'iot-agents', release+'-search-auth')
         body={'apiVersion':'v1','kind':'Secret','metadata':{'name':release+'-auth','namespace':'iot-agents'},
               'type':'Opaque','stringData':{'token':credentials[role]}}
         command(role+'-secret',k+['apply','-f','-'],payload=json.dumps(body).encode())
         values={'role':role,'replicas':2,'sourceSha256':source_digest,'revisionMarker':args.run,'image':{'repository':'iot-coursework-mcp','tag':tag},
                 'tokenSecret':release+'-auth','referenceId':reference,'snapshot':{'directory':str(snapshot),'sealConfigMap':snapshot_name}}
+        if role=='drift':values['driftScope']=args.drift_scope
         if role=='drift':values['resources']={'requests':{'cpu':'100m','memory':'128Mi'},'limits':{'cpu':'1','memory':'512Mi'}}
         path=output/(role+'-values.json');path.write_text(json.dumps(values,indent=2)+'\n')
         command(role+'-install',[helm,'upgrade','--install',release,chart,'-n','iot-agents','-f',str(path),'--atomic','--wait','--timeout','8m'],timeout=600)
-        command(role+'-probe',k+['exec','-n','iot-agents','deployment/'+release,'--','python','-m','services.mcp_tools.probe','--role',role,'--run',args.run],timeout=240)
+        inventory = (snapshot/'chunks.json').read_bytes() if role == 'retrieval' else None
+        if inventory is not None and sha256(inventory).hexdigest() != snapshot_files['chunks.json']:
+            raise ValueError('Search probe inventory differs from its deployment seal')
+        probe_command = k+['exec']+(['-i'] if inventory is not None else [])+[
+            '-n','iot-agents','deployment/'+release,'-c','mcp','--','python','-m','services.mcp_tools.probe',
+            '--role',role,'--run',args.run]
+        command(role+'-probe',probe_command,timeout=240,payload=inventory)
         result=json.loads((output/(role+'-probe.stdout')).read_bytes())
         if not result['passed']:raise ValueError('Native MCP business-tool verification failed')
         values['revisionMarker']=args.run+'-rolling';path=output/(role+'-rolling-values.json');path.write_text(json.dumps(values,indent=2)+'\n')
@@ -143,7 +171,7 @@ def run(args):
         if failed.returncode==0:raise ValueError('The controlled invalid-image deployment unexpectedly succeeded')
         actual=json.loads(command(role+'-values-after',[helm,'get','values',release,'-n','iot-agents','--all','-o','json']).stdout)
         if actual['image']['tag']!=tag or actual['revisionMarker']!=values['revisionMarker']:raise ValueError('Atomic rollback did not restore the valid release')
-        command(role+'-probe-after-rollback',k+['exec','-n','iot-agents','deployment/'+release,'--','python','-m','services.mcp_tools.probe','--role',role,'--run',args.run],timeout=240)
+        command(role+'-probe-after-rollback',probe_command,timeout=240,payload=inventory)
     command('resources-after',k+['get','deployment,pod,service,networkpolicy','-n','iot-agents','-o','json'])
     save('verification.json',{'passed':True,'checked_utc':datetime.now(timezone.utc).isoformat(),'run':args.run,
         'image_id':build['image_id'],'source_sha256':source_digest,'roles':['retrieval','drift'],'replicas_per_role':2,
@@ -156,4 +184,5 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--runtime-root',type=Path,required=True);parser.add_argument('--source-root',type=Path,required=True)
     parser.add_argument('--run',required=True);parser.add_argument('--phase',choices=['build','deploy','all'],default='all')
+    parser.add_argument('--drift-scope',choices=['serving_model','fleet_reference'],default='serving_model')
     run(parser.parse_args())

@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
 from services.drift_api.contracts import CompareRequest
 from services.drift_api.runtime import DriftRuntime, WindowConflict, StoreFull
 
@@ -57,6 +58,20 @@ def create_app(runtime=None):
     async def ready():
         """Check reference identity and the actual assessment store."""
         return await invoke('ready')
+
+    @app.get('/health/write')
+    async def write_capacity():
+        """Expose a failed write-capacity check while retaining read and replay traffic."""
+        capacity = await invoke('capacity')
+        return JSONResponse(capacity, status_code=200 if capacity['accepts_new_windows'] else 507)
+
+    @app.get('/v1/drift/reference')
+    async def reference():
+        """Expose the loaded training identity before callers submit an assessment."""
+        if app.state.runtime is None:
+            raise HTTPException(503, 'Drift reference is not ready')
+        detector = app.state.runtime.detector
+        return {'reference_id': detector.reference_id, 'lineage': detector.lineage}
 
     @app.post('/v1/drift:compare')
     async def compare(request: CompareRequest):

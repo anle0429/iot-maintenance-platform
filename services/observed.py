@@ -1,6 +1,8 @@
 """Add bounded HTTP metrics and private OTLP traces around unchanged API factories, without payloads or secrets."""
 from contextlib import asynccontextmanager
+import asyncio
 import os
+import sqlite3
 from urllib.parse import urlsplit
 from fastapi import Response
 from prometheus_client import CollectorRegistry,generate_latest,CONTENT_TYPE_LATEST
@@ -86,7 +88,20 @@ def observe(app,service,exporter=None,processor_factory=BatchSpanProcessor):
 
     async def metrics():
         """Scrape only this process; do not count scrapes as business requests."""
-        return Response(generate_latest(registry),media_type=CONTENT_TYPE_LATEST)
+        contents = generate_latest(registry)
+        runtime = getattr(app.state, 'runtime', None)
+        if service == 'drift' and hasattr(runtime, 'capacity'):
+            try:
+                capacity = await asyncio.to_thread(runtime.capacity)
+            except sqlite3.Error:
+                values = {'iot_drift_capacity_check_up': 0}
+            else:
+                values = {'iot_drift_capacity_check_up': 1,
+                          'iot_drift_assessments_active': capacity['active_windows'],
+                          'iot_drift_assessments_archived': capacity['archived_windows'],
+                          'iot_drift_assessments_active_limit': capacity['max_active_windows']}
+            contents += ''.join(f'# TYPE {name} gauge\n{name} {value}\n' for name, value in values.items()).encode()
+        return Response(contents,media_type=CONTENT_TYPE_LATEST)
 
     app.router.lifespan_context=lifecycle
     app.add_api_route('/telemetry/metrics',metrics,include_in_schema=False)

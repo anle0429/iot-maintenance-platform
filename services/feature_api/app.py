@@ -54,6 +54,11 @@ def create_app(runtime=None):
         """Read the native feature vector, source times and separately observed operating status."""
         return await invoke('features',machine_id)
 
+    @app.get('/v1/machines/{machine_id}/drift-input')
+    async def drift_input(machine_id:Annotated[str,Path(pattern=r'^P-[0-9]{3,4}$')]):
+        """Return the feature snapshot and its serving model from the same replica."""
+        return await invoke('drift_input', machine_id)
+
     @app.post('/v1/machines/{machine_id}:predict')
     async def predict(machine_id:Annotated[str,Path(pattern=r'^P-[0-9]{3,4}$')]):
         """Retrieve and validate features before calling the private pinned KServe model."""

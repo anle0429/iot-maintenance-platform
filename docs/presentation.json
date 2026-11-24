@@ -3,7 +3,7 @@
   "files": {
     "README.md": {
       "before_sha256": "b8ab6857291bc7e4bbf66374c29b45a1b51dbc338bde188a5cbaac77927e69de",
-      "after_sha256": "954fc26829b87a71a63f63ce10e0736364a754990b7b1858a6a2c21ab428b73a",
+      "after_sha256": "229f3dac142b2cd3bbf855d9d10fc0f7105fb29c1e8fe77fcd65af04610a8ba7",
       "reviewed_replacement": true
     },
     "docs/README.md": {
@@ -126,6 +126,26 @@
     "docs/edai-2/agent_configuration_ab.md": {
       "before_sha256": "f3438ecd8341a93b62c9d1a254ec55a12fcc7a21349f1d89b35e0169efea5e00",
       "after_sha256": "ac4a741672a1c57534ebf4123ead924a7239ef489794e33385216aca2b8dea28",
+      "reviewed_replacement": true
+    },
+    "docs/edai-1/drift_retraining.md": {
+      "before_sha256": "a0056de31ff175c9de4ab57c4b305d9f5ab077bb368f47bf58a053b0c5c9ec9b",
+      "after_sha256": "454d807cf215c51833fdb8116c86be3c308b3b092439234a9a766046652a77a6",
+      "reviewed_replacement": true
+    },
+    "docs/edai-1/operations.md": {
+      "before_sha256": "303cd6802c3e734ae22c73f720ec6839bcda64b0fe6159392366383061709eb9",
+      "after_sha256": "3faded2fd44133f5af67885e998672a0d87424237c261b7a059ed5cdcf64831d",
+      "reviewed_replacement": true
+    },
+    "scripts/README.md": {
+      "before_sha256": "78a50176e065b5e5f54ee46d3437687649b83355c5a620e13de636c395ba8bea",
+      "after_sha256": "fab85a4ad887831287eb03aae7d033a53603c6d034769521cd1f907de8e401a2",
+      "reviewed_replacement": true
+    },
+    "services/README.md": {
+      "before_sha256": "3a1cfdb1af085e57bd48971a6234a3da2405bc73ab1a4de868575e1bead4af96",
+      "after_sha256": "a09ebcd0886b755b7fd910be8c7107dbd9cb542e36757a44ef0082ede94df659",
       "reviewed_replacement": true
     }
   },
@@ -1387,6 +1407,181 @@
       "mode": "exact_bytes",
       "new": true
     },
+    "docs/architecture/data-platform-v6.excalidraw": {
+      "sha256": "d9c5d822709edcb0c8344ffc53376e0b073947e8862f67bc47977a29f1e33f6a",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v6.gif": {
+      "sha256": "d053bd6bb8aeac8f5920e9dc38369b1eb3bab4a9e0561819362289ce6bbabc89",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v6.png": {
+      "sha256": "f3becc886bc1416b576e5a061d1f1a4a8e34be30444c5460a566a483a05688bf",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v6.svg": {
+      "sha256": "59a93624d2db77e464c868cd373ae0d986291c9d3ce92afd8e25eed789527491",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v6.animated.svg": {
+      "sha256": "ede3d98c2d1b9458b56b854eedcc01d0e1824e7620fe54bf52be8ec2bca3021c",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v6.excalidraw": {
+      "sha256": "bed6aa238ac2faf403f0efd533846a72ce4cce2266813b9c5df33b4b278ed219",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v6.gif": {
+      "sha256": "4ea383ded8f05eac3973cbec4264cd52b8c668e9545701e2b9462068c8dbd34f",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v6.png": {
+      "sha256": "842f018f4dc28ce1551c5e88c8a42293e55b166891c19e2ed6fba98d2e443f38",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v6.svg": {
+      "sha256": "9ee3017031b358727ca4f03e55d364cdf071638d249e183fdcbe5e06200020a0",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v6.animated.svg": {
+      "sha256": "99a2161a1fd1a40271b094835be20c5c06ab7f9ec6d916a371d920989b2f7880",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v7.excalidraw": {
+      "sha256": "29d514b95aae91683e21566cb4824c05913f2659f41def69379f26e4e5592423",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v7.svg": {
+      "sha256": "164392c5205d71a769a20292f136483a093605aeacd900d183ba6fe7be0e280c",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v7.animated.svg": {
+      "sha256": "5bd479728126fa179d9615f172a433293de34c68d154e1345de1d85a8cd812cb",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v7.gif": {
+      "sha256": "9e5f02dd1ff8cc930e6ba6c737d549d41867408de38098da765a2d80ba793d15",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v7.png": {
+      "sha256": "2b30613546ccfb53ad8d283326f1a101974253ab74c3bf7b6a4947794db72272",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v8.excalidraw": {
+      "sha256": "762e687da5ed90f48698deeb37ae48e295a41fe004319edfa4f5efdb5d754fd3",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v8.svg": {
+      "sha256": "460fc7e9f157e89436fffa12525643a376ca0ee190bbbe19c598d16edc303894",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v8.animated.svg": {
+      "sha256": "005b00c1671a8546379ee6e5bfb4392a98b84e0b88dadf7d05ce8c8b20bf7e84",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v8.gif": {
+      "sha256": "6a94a2e967317a389603ecdf8e50145e0b1494ebe2e968885e821267277f56a1",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v8.png": {
+      "sha256": "058e826e97e64fbf98a7fdab965b26175fbda517e4b52cf379f923b7debcba23",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v9.excalidraw": {
+      "sha256": "256e5ddc8b2ad55b1fea3465394d0518a61347996fcfc978bf5e75ca929d3eac",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v9.svg": {
+      "sha256": "541a1bde7f01e6e887654764b96836ef7c0bf3078a09e805d39d8726cbc51868",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v9.animated.svg": {
+      "sha256": "0f03f3a06a6a609fc101a7c9e6ac34a81349649de6d401d62aece47b2edf0298",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v9.gif": {
+      "sha256": "97f330bdb5e8aa981d086b1a3ed10b28766164776250e0433aa679cd71f20154",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v9.png": {
+      "sha256": "76dc462f9f6eacbb4fc08bfea51505fb218b96a36444d447966e073d020fdcad",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v10.png": {
+      "sha256": "a524eef82504a089ad0f5495af0d2091797117ded88a0990a25d4b91d78f218d",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v10.svg": {
+      "sha256": "2af7cd0caa68c34d0c394a0cf74b35d28acc5095e566fef4c819f2971031dd03",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v10.animated.svg": {
+      "sha256": "3237687bed372b055042ad068b157cc6e8c5346a7e1130f81e3f24988b93d1e4",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v10.gif": {
+      "sha256": "4cd615826ee74aedbc9fcc73ae4627e539295ae4463c300b4e5b9166ec338231",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v10.excalidraw": {
+      "sha256": "236cb6ef6c745591b205e3c19d2a141e07b5d3ce787f17140be20f24b2832124",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v10.png": {
+      "sha256": "c3d9228070a58d78a77fd971bd9d013a959b2ed2a89575a2ef0251da807e18d0",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v10.svg": {
+      "sha256": "655bd0cf6ffa5a4b091133d7710dd52b4bc11c1fb8f42cfa8fbbc86400f43098",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v10.animated.svg": {
+      "sha256": "3f6ab6744d5df1db62b239268662fca7d373604e073e5bcdba735df822ada369",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v10.gif": {
+      "sha256": "a749148f59f9c08fda35e46fdc370642c03ed8468722b4798d57ce015512c01c",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v10.excalidraw": {
+      "sha256": "2f620aff20f8a7e5baa73e58a0f947ff8dce5b3667545423b9ca02cc3a43d653",
+      "mode": "lf_text",
+      "new": true
+    },
     "docs/architecture/data-platform-v11-final.excalidraw": {
       "sha256": "78c125cbb0e5a3dccc175bd8ddeb127b241728151e53de580d41bf90f7866af9",
       "mode": "lf_text",
@@ -1525,6 +1720,71 @@
     "docs/architecture/data-platform-v13.png": {
       "sha256": "3b2738b947a30cfd0b82928e30705973cb98bf04d39a85a7c4832cc582acd352",
       "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v15.animated.svg": {
+      "sha256": "82030b884888ef54579afc42a7e1a19846ff5d7fea792c22c80fef0a19bc813b",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v15.excalidraw": {
+      "sha256": "9ee50472a2354e8be4b63cbae8e39e9860ecfde7028745c4b28053b102073e08",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v15.gif": {
+      "sha256": "28aaf12e1d14ce3aeb134a09628a11badba89f39dd234db6f7ea74c6654abe2d",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v15.html": {
+      "sha256": "c79c0e3df3bfb51c3aed4064bf6be685fdecff975b76c88ef1d52bbec7ab87a4",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/data-platform-v15.png": {
+      "sha256": "8f93b982463ea0598bb1da61698b8080972699bd283179f89db7c73e2c109f4a",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/data-platform-v15.svg": {
+      "sha256": "f51ac8efea157d133e87296c208e8e2c4c627bf9ee98a2e943b54dade7c84ba9",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v18-notes.md": {
+      "sha256": "a705e37fb5620cd30f9dbac4921215f233984f1e475b8e75cf7ff9ce39aad8e4",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v18.animated.svg": {
+      "sha256": "2d95411dd5ca3e2675457f9ca2e1f6bf1c21ff3df52e5da93a12d7afb6b11d62",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v18.excalidraw": {
+      "sha256": "8e35fb4065bf6c7ec6f87ab52fa9616cd7462f57fe34e4dd0638f3b81d31b0a7",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v18.gif": {
+      "sha256": "33f758c37287f7b808e972c27856c28e17f6cdb0a9e6c0b56bf79f3811ae68bc",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v18.html": {
+      "sha256": "f7872b977e78a5eaeaf03e9f4b06b28241d61272ba80aa7e1b29c8aaee5bbea6",
+      "mode": "lf_text",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v18.png": {
+      "sha256": "2509908d3d5c379a7d38ee223f46912ebf5c629a16cb76763b73100da3dd2d78",
+      "mode": "exact_bytes",
+      "new": true
+    },
+    "docs/architecture/ml-llm-platform-v18.svg": {
+      "sha256": "a2f1674ccca0ef117c53612fe832c7a5953ac21c4873eb0fff29838975048844",
+      "mode": "lf_text",
       "new": true
     }
   },

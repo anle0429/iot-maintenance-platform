@@ -3,6 +3,7 @@
 from datetime import datetime, timedelta, timezone
 
 from airflow.sdk import DAG, get_current_context
+from airflow.providers.standard.operators.empty import EmptyOperator
 from airflow.providers.standard.operators.python import PythonOperator
 from airflow.providers.standard.operators.trigger_dagrun import TriggerDagRunOperator
 from airflow.utils.trigger_rule import TriggerRule
@@ -34,4 +35,8 @@ for stage, dag_id, next_dag in PIPELINES:
                                              conf={'batch_id': "{{ dag_run.conf['batch_id'] }}"},
                                              wait_for_completion=False, reset_dag_run=False)
             [validate, publish] >> release
+        else:
+            # Publication must report failed validation, but that alone cannot make the stage successful.
+            complete = EmptyOperator(task_id='stage_succeeded', trigger_rule=TriggerRule.ALL_SUCCESS)
+            [ingest, validate, publish] >> complete
     globals()[dag_id] = dag

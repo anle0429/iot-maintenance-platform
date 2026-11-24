@@ -27,3 +27,9 @@ spec:
         - podSelector:
             matchLabels: {app.kubernetes.io/part-of: iot-mcp}
       ports: [{protocol: TCP, port: 8080}]
+    {{- if eq .Values.role "retrieval" }}
+    - to:
+        - podSelector:
+            matchLabels: {app.kubernetes.io/instance: "{{ .Release.Name }}-search"}
+      ports: [{protocol: TCP, port: 8080}]
+    {{- end }}

@@ -4,6 +4,7 @@ from hashlib import sha256
 from pathlib import Path
 import json
 import sqlite3
+import zlib
 from services.drift_api.detector import DriftDetector, canonical_bytes
 
 
@@ -27,6 +28,9 @@ class DriftRuntime:
         Path(database).parent.mkdir(parents=True, exist_ok=True)
         with closing(self.connect()) as connection:
             connection.execute('CREATE TABLE IF NOT EXISTS windows(reference TEXT, id TEXT, request_hash TEXT NOT NULL, response TEXT NOT NULL, PRIMARY KEY(reference,id))')
+            connection.execute('''CREATE TABLE IF NOT EXISTS archived_windows(
+                reference TEXT, id TEXT, request_hash TEXT NOT NULL, response_zlib BLOB NOT NULL,
+                PRIMARY KEY(reference,id))''')
             connection.commit()
 
     def connect(self):
@@ -39,6 +43,29 @@ class DriftRuntime:
             count = connection.execute('SELECT COUNT(*) FROM windows').fetchone()[0]
         return {'ready': True, 'reference_id': self.detector.reference_id, 'stored_windows': count}
 
+    def capacity(self):
+        """Distinguish availability of retained replays from capacity for new assessments."""
+        with closing(self.connect()) as connection:
+            active, archived = connection.execute('''SELECT (SELECT COUNT(*) FROM windows),
+                (SELECT COUNT(*) FROM archived_windows)''').fetchone()
+        return {'accepts_new_windows': active < self.max_windows, 'active_windows': active,
+                'archived_windows': archived, 'max_active_windows': self.max_windows}
+
+    def archive_windows(self, keep_active):
+        """Move the oldest assessments atomically and keep their entire replay contract."""
+        if type(keep_active) is not int or not 0 <= keep_active < self.max_windows:
+            raise ValueError('Keep fewer active windows than the admission limit')
+        with closing(self.connect()) as connection, connection:
+            connection.execute('BEGIN IMMEDIATE')
+            count = connection.execute('SELECT COUNT(*) FROM windows').fetchone()[0]
+            rows = connection.execute('''SELECT rowid,reference,id,request_hash,response FROM windows
+                ORDER BY rowid LIMIT ?''', (max(0, count - keep_active),)).fetchall()
+            connection.executemany('INSERT INTO archived_windows VALUES(?,?,?,?)',
+                                   ((ref, identity, hash_, zlib.compress(response.encode()))
+                                    for _, ref, identity, hash_, response in rows))
+            connection.executemany('DELETE FROM windows WHERE rowid=?', ((rowid,) for rowid, *_ in rows))
+            return len(rows)
+
     def compare(self, request):
         """Return byte-equivalent cached results; reject changed data under an existing window ID."""
         window = request.canonical()
@@ -48,13 +75,34 @@ class DriftRuntime:
         digest = sha256(canonical_bytes(window)).hexdigest()
         with closing(self.connect()) as connection, connection:
             connection.execute('BEGIN IMMEDIATE')
-            previous = connection.execute('SELECT request_hash,response FROM windows WHERE reference=? AND id=?', identity).fetchone()
+            previous = connection.execute('''SELECT request_hash,response FROM windows WHERE reference=? AND id=?
+                UNION ALL SELECT request_hash,response_zlib FROM archived_windows WHERE reference=? AND id=?''',
+                                          (*identity, *identity)).fetchone()
             if previous:
                 if previous[0] != digest:
                     raise WindowConflict('Window ID already contains different data')
-                return json.loads(previous[1])
+                response = previous[1]
+                return json.loads(zlib.decompress(response) if isinstance(response, bytes) else response)
             if connection.execute('SELECT COUNT(*) FROM windows').fetchone()[0] >= self.max_windows:
                 raise StoreFull('Assessment capacity reached; archive with an explicit retention policy')
             result = self.detector.compare(window)
             connection.execute('INSERT INTO windows VALUES(?,?,?,?)', (*identity, digest, canonical_bytes(result).decode()))
             return result
+
+
+def main():
+    """Archive assessments in the existing state volume using its mounted reference."""
+    import argparse
+    import os
+
+    parser = argparse.ArgumentParser(description=main.__doc__)
+    parser.add_argument('--keep-active', type=int, required=True)
+    args = parser.parse_args()
+    reference = json.loads(Path(os.environ['IOT_DRIFT_REFERENCE']).read_bytes())
+    runtime = DriftRuntime(reference, os.environ['IOT_DRIFT_DATABASE'])
+    moved = runtime.archive_windows(args.keep_active)
+    print(json.dumps({'moved_windows': moved, **runtime.capacity()}))
+
+
+if __name__ == '__main__':
+    main()

@@ -1,9 +1,11 @@
-# Add the four native API test modules and their drift reference adapters to the bounded context.
+# Include the native MCP and Search API suites and their drift reference adapters.
 **
 !services/
 !services/__init__.py
 !services/mcp_tools/
 !services/mcp_tools/*.py
+!services/rag_search/
+!services/rag_search/*.py
 !services/predictor/
 !services/predictor/__init__.py
 !services/predictor/contracts.py

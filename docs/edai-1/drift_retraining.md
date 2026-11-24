@@ -2,7 +2,7 @@
 
 The native manual probe completed a real five-task KFP run and registered model 7 as a candidate with `production=false`. The observed input had `drift=false`; this was a manual integration test, not a naturally triggered drift alarm.
 
-After comparison, the Airflow DAG passes a sealed report and policy to a controller. It validates report completion, metrics, reference/source and recipe before submitting KFP. A persistent, fsynced intent precedes the external call. Replay uses a completed receipt; an unresolved intent blocks another submission. A one-hour cooldown prevents immediate repeated training.
+In the recorded probe, the monitoring DAG handed the report to a controller in the same run. The current `iot_offline_drift` DAG dispatches eligible receipts to `iot_offline_drift_retrain` and finishes without waiting for KFP. The child validates report completion, metrics, reference, source and recipe and checks freshness inside the admission lock before submitting. A persistent, fsynced intent precedes the external call. Replay uses a completed receipt, and unresolved intent blocks another submission. A one-hour cooldown prevents immediate repeated training.
 
 The controller measured 1,128.680 seconds; backend UI duration is a separate observation. No-drift, in-flight, replay and cooldown cases were checked. Model 6 serving was not automatically replaced, and a separate fresh materialization restored its demo eligibility.
 

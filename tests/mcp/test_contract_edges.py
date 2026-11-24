@@ -9,8 +9,9 @@ from fastapi.testclient import TestClient
 from services.mcp_tools.app import create_app
 from services.mcp_tools.auth import BoundedBearerMiddleware
 from services.mcp_tools.contracts import MachineRequest, SearchRequest, DriftRequest
-from services.mcp_tools.runtime import ToolRuntime, ToolFailure, KnowledgeReader
-from test_tools import TOKEN, HEADERS, REFERENCE, machine, SmallKnowledge, make_backends
+from services.mcp_tools.runtime import ToolRuntime, ToolFailure
+from services.rag_search.reader import KnowledgeReader, KnowledgeFailure
+from test_tools import TOKEN, HEADERS, REFERENCE, machine, RAG_TOKEN, make_backends
 
 
 @pytest.mark.parametrize('size,valid', [(0, False), (31, False), (32, True), (33, True)])
@@ -53,18 +54,18 @@ def test_production_factory_env_and_client_contract(role, tools, tmp_path, monke
     """A mounted credential and environment-selected role must expose the intended client-visible tool schemas."""
     import services.mcp_tools.app as module
     client, observed, detector = make_backends(tmp_path)
-    runtime = ToolRuntime(role, REFERENCE, SmallKnowledge(), client)
+    runtime = ToolRuntime(role, REFERENCE, client=client, rag_token=RAG_TOKEN)
     token_file = tmp_path / 'credential'; token_file.write_text(TOKEN)
     monkeypatch.setenv('IOT_MCP_ROLE', role); monkeypatch.setenv('IOT_MCP_TOKEN_FILE', str(token_file))
     monkeypatch.setenv('IOT_DRIFT_REFERENCE_ID', REFERENCE)
     bindings = []
-    def factory(configured_role, reference):
+    def factory(configured_role, reference, *, drift_scope):
         """Observe the production factory's actual role/reference arguments without loading model weights."""
-        bindings.append((configured_role, reference))
+        bindings.append((configured_role, reference, drift_scope))
         return runtime
     monkeypatch.setattr(module, 'ToolRuntime', factory)
     with TestClient(create_app()) as api:
-        assert bindings == [(role, REFERENCE)]
+        assert bindings == [(role, REFERENCE, 'serving_model')]
         assert api.get('/health/live').json() == {'live': True, 'role': role}
         ready = api.get('/health/ready').json()
         assert ready['ready'] is True and ready['role'] == role and ready['pod']
@@ -91,7 +92,7 @@ def test_backend_failure_categories_are_preserved_without_private_body(status, e
     async def scenario():
         """Drive the real asynchronous adapter and close its injected transport."""
         transport = httpx2.MockTransport(lambda request: httpx2.Response(status, text='private-upstream-diagnostic'))
-        runtime = ToolRuntime('retrieval', REFERENCE, SmallKnowledge(), httpx2.AsyncClient(transport=transport))
+        runtime = ToolRuntime('retrieval', REFERENCE, client=httpx2.AsyncClient(transport=transport))
         try:
             with pytest.raises(ToolFailure) as error:
                 await runtime.features(MachineRequest(machine_id='P-001'))
@@ -111,7 +112,7 @@ def test_failed_native_transport_is_not_success(failure):
             if failure == 'timeout':
                 raise httpx2.ReadTimeout('private URL and details', request=request)
             return httpx2.Response(200, content=b'x' * 1_048_577 if failure == 'oversized' else b'{invalid')
-        runtime = ToolRuntime('retrieval', REFERENCE, SmallKnowledge(), httpx2.AsyncClient(transport=httpx2.MockTransport(handle)))
+        runtime = ToolRuntime('retrieval', REFERENCE, client=httpx2.AsyncClient(transport=httpx2.MockTransport(handle)))
         try:
             with pytest.raises(ToolFailure) as error:
                 await runtime.features(MachineRequest(machine_id='P-001'))
@@ -133,7 +134,7 @@ def test_native_concurrency_is_bounded_and_requests_keep_http_meaning():
                 batch_ready.set()
             await release.wait()
             return httpx2.Response(200, json={'native': True})
-        runtime = ToolRuntime('retrieval', REFERENCE, SmallKnowledge(), httpx2.AsyncClient(transport=httpx2.MockTransport(handle)))
+        runtime = ToolRuntime('retrieval', REFERENCE, client=httpx2.AsyncClient(transport=httpx2.MockTransport(handle)))
         tasks = [asyncio.create_task(runtime.call(runtime.FEATURE_URL, '/health/ready', {} if i == 0 else None)) for i in range(9)]
         try:
             await asyncio.wait_for(batch_ready.wait(), timeout=2)
@@ -198,6 +199,6 @@ def test_each_knowledge_provenance_field_is_bound_to_its_chunk(field, tmp_path, 
     monkeypatch.setattr('rag.retrieval.retrieve_consistent', lambda *args: (values, {}))
     reader = KnowledgeReader(tmp_path, tmp_path)
     values[field] = [2 if field == 'revision' else 'different']
-    with pytest.raises(ToolFailure) as error:
+    with pytest.raises(KnowledgeFailure) as error:
         reader.search(SearchRequest(question='Explain the source', top_k=1))
     assert error.value.status == 503

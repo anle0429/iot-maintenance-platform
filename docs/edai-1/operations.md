@@ -50,11 +50,13 @@ sudo python3 -B /tmp/resume-gpu-services.py --runtime-root "$CW_ROOT" \
 
 The CPU helper preserves retained Vault/registry/container state and the existing scoped monitoring identities. The GPU helper records the descriptor's actual start time, waits for the retained Ready node and explicitly loads the two existing model aliases. Model status checks generate no answer. Never initialize retained Vault again or replace a genuine session start with the current clock.
 
+For CPU-only checks, pass `--cpu-only` to the CPU recovery helper. It waits for the CPU node and restores the dedicated API scrape token's reader permissions. The [PowerShell workflow runner](../../scripts/run-cpu-lab-workflow.ps1) starts the retained CPU VM when needed, connects through IAP, sends the supplied archive and verifier, and stops the VM it started. The verifier receives the archive path and the receipt path. Its JSON receipt binds the archive with `candidate_sha256` and reports each of `drift`, `rag_search_scaler` and `prometheus_alerts` with a boolean `passed` field.
+
 If worker/member addresses changed, follow the scoped [Substrate recovery](../edai-2/agent_restart_recovery.md). Inspect actual KEDA conditions and current worker registrations. The legacy CPU model remains parked while the GPU route is selected.
 
 ## Feature data
 
-MCP readiness and positive predictions depend on a genuine one-hour wall-clock feature lease. Reuse an unexpired prepared state. After the old physical keys expire, create a new run:
+MCP readiness and positive predictions depend on a genuine one-hour wall-clock feature lease. Start a new refresh before the existing lease expires to give the new cache time to prepare and the API time to roll out. Use the retained source packet that matches the installed feature API chart.
 
 ```bash
 sudo python3 -B /tmp/refresh-agent-features.py --runtime-root "$CW_ROOT" \
@@ -62,7 +64,9 @@ sudo python3 -B /tmp/refresh-agent-features.py --runtime-root "$CW_ROOT" \
   --run "demo-$CW_TAG" --output "$CW_ROOT/outputs/features-$CW_TAG"
 ```
 
-The helper refuses a live cache, existing run state, insufficient resources or an inadequate remaining session. Native Feast SDK materializes 200 machines and deploys an immutable seed. If SDK preparation succeeded but Helm failed, inspect the retained failure; `--resume-deploy` can reuse that same still-valid prepared state with a fresh output directory. It does not reset timestamps. An expired state requires a new genuine preparation.
+The helper discovers the deployed Jenkins serving release and verifies its production model, predictor and image digests. The native Feast SDK materializes the 200-machine cohort in a separate release-scoped Redis while the existing API continues to use its original cache. The helper verifies the immutable seed, simulation cutoff and wall-clock expiry on the new Redis keys. It then rolls the existing feature API with Helm, retaining its ClusterIP, images and predictor route. If verification fails after rollout, the helper checks which Helm revision is active and attempts to restore the preceding revision.
+
+If preparation completed but deployment failed, inspect the receipts and retry with the same `--run`, a fresh `--output` directory and `--resume-deploy`. Replay requires the same prepared Redis instance, seed and original clocks with at least ten minutes of physical TTL. Start a new run if that preparation has expired or incomplete state never reached the preparation receipt.
 
 ## ML demo
 

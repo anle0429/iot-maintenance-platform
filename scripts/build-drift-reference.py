@@ -7,12 +7,26 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from ml.training_contract import verify_descriptor, digest, save
 from ml.protocol import load_protocol, PROTOCOL_SHA256
+from services.drift_api import reference_matches_model
 from services.drift_api.detector import DriftDetector, canonical_bytes
-import duckdb
+from services.predictor.binding import validate_pin
+
+
+def serving_configmap(bundle, model_pin):
+    """Name the immutable private reference from the exact active model and reference bytes."""
+    pin = validate_pin(model_pin)
+    if not pin['production'] or not reference_matches_model(bundle['lineage'], pin):
+        raise ValueError('Reference does not match the production model bundle')
+    reference = DriftDetector(bundle).reference_id
+    return {'apiVersion': 'v1', 'kind': 'ConfigMap',
+            'metadata': {'name': 'iot-drift-reference-' + reference[:16], 'namespace': 'iot-features'},
+            'immutable': True, 'data': {'reference.json': canonical_bytes(bundle).decode()}}
 
 
 def run(args):
     """Bind reference to registered training/data identity; never select reference rows from holdout."""
+    import duckdb
+
     if args.output.exists():
         raise ValueError('Preserve existing reference')
     partitions = verify_descriptor(args.partitions, 'temporal-split')
@@ -42,12 +56,19 @@ def run(args):
               'policy': {'bins': 10, 'psi_threshold': 0.2, 'drifted_feature_fraction': 0.25, 'pseudocount': 0.5},
               'samples': samples}
     detector = DriftDetector(bundle)
+    configmap = None
+    if args.serving_pin is not None:
+        configmap = serving_configmap(bundle, json.loads(args.serving_pin.read_bytes()))
+        if args.configmap_output.exists():
+            raise FileExistsError('Preserve existing reference ConfigMap manifest')
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_bytes(canonical_bytes(bundle)+b'\n')
     save(args.output.with_suffix('.verification.json'), {'passed': True, 'reference_id': detector.reference_id,
          'file_sha256': digest(args.output), 'reference_rows': len(samples), 'train_rows': count,
          'train_first': first.isoformat(), 'train_last': last.isoformat(), 'lineage': bundle['lineage'], 'code_sha256': digest(Path(__file__)),
          'scope': 'Training-only reference; no validation/test rows or labels enter detector. PSI policy is an operational threshold, not a calibrated error probability.'})
+    if configmap is not None:
+        save(args.configmap_output, configmap)
     print(json.dumps({'passed': True, 'reference_id': detector.reference_id, 'rows': len(samples)}))
 
 
@@ -55,4 +76,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ['partitions', 'protocol', 'registration', 'output']:
         parser.add_argument('--'+name, type=Path, required=True)
-    run(parser.parse_args())
+    parser.add_argument('--serving-pin', type=Path)
+    parser.add_argument('--configmap-output', type=Path)
+    args = parser.parse_args()
+    if bool(args.serving_pin) != bool(args.configmap_output):
+        parser.error('--serving-pin and --configmap-output must be used together')
+    run(args)

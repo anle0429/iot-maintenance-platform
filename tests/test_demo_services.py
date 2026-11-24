@@ -5,6 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 import tempfile
+from types import SimpleNamespace
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,6 +49,20 @@ class DemoServiceGuards(unittest.TestCase):
         """Only explicit authorization-file fields are selected; an inline credential is not exported."""
         config = {'scrape_configs': [{'authorization': {'credentials_file': '/runtime/api.jwt', 'credentials': 'must-not-be-returned'}}]}
         self.assertEqual(MODULE.token_files(config), {'/runtime/api.jwt'})
+
+    def test_cpu_only_recovery_waits_only_for_the_retained_cpu_node(self):
+        """CPU monitoring recovery remains usable while the unrelated GPU node is stopped."""
+        self.assertEqual(MODULE.recovery_node_resources(cpu_only=True), ['node', 'iot-cw-vm'])
+        self.assertEqual(MODULE.recovery_node_resources(cpu_only=False), ['nodes', '--all'])
+
+    def test_api_scrape_token_remains_readable_by_prometheus(self):
+        """Restore the file permissions of the API scrape credential only."""
+        runtime = ROOT / 'fixture-runtime'
+        token = runtime / 'api-observability-28b/prometheus-auth/token'
+        log_token = runtime / 'log-discovery-28/auth/token'
+        root_only = SimpleNamespace(st_uid=0, st_gid=0, st_mode=0o400)
+        self.assertEqual(MODULE.discovery_permissions(runtime, token, root_only, 65534), (0, 65534, 0o640))
+        self.assertEqual(MODULE.discovery_permissions(runtime, log_token, root_only, 65534), (0, 0, 0o400))
 
 
 if __name__ == '__main__':

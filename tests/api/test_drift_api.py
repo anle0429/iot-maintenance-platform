@@ -126,6 +126,25 @@ def test_persistent_replay_conflict_capacity_and_concurrent_workers(tmp_path):
     assert r.ready()['stored_windows'] == 1
 
 
+def test_full_write_probe_keeps_existing_drift_replays_routable(tmp_path):
+    """Distinguish replay availability from new writes and recover slots by archiving."""
+    runtime = DriftRuntime(bundle(), tmp_path/'windows.db', max_windows=1)
+    request = window()
+    with TestClient(create_app(runtime)) as client:
+        assert client.get('/health/write').status_code == 200
+        first = client.post('/v1/drift:compare', json=request)
+        assert first.status_code == 200
+        assert client.get('/health/ready').status_code == 200
+        assert client.get('/health/write').status_code == 507
+        assert client.post('/v1/drift:compare', json=request).json() == first.json()
+        assert client.get('/v1/drift/reference').json() == {'reference_id': runtime.detector.reference_id,
+                                                           'lineage': runtime.detector.lineage}
+        assert runtime.archive_windows(keep_active=0) == 1
+        assert client.get('/health/write').json()['archived_windows'] == 1
+        assert client.post('/v1/drift:compare', json=window(name='next')).status_code == 200
+        assert client.post('/v1/drift:compare', json=request).json() == first.json()
+
+
 @given(st.permutations(tuple(range(10))), st.integers(min_value=0, max_value=10))
 @settings(max_examples=35, deadline=None)
 def test_property_row_order_duplicate_and_timezone_invariance(order, repeats):

@@ -85,22 +85,29 @@ def validate(root, directory, policy):
     return report, completion
 
 
+def admission_reason(policy, report, probe):
+    """Keep a manual lab request distinct from the measured drift decision."""
+    if probe:
+        if not policy['allow_manual_probe']:
+            raise ValueError('Manual probe disabled by policy')
+        return 'explicit_manual_probe'
+    return 'detected_drift' if report['drift_detected'] else 'no_detected_drift'
+
+
 def process(root, directory, policy_path, state, probe, train, now=None):
     """Serialize admissions and return a prior success on replay; an uncertain intent can never submit twice."""
     root = Path(root).resolve(); directory = Path(directory).resolve(); state = Path(state)
     if not directory.is_relative_to(root / 'outputs/offline-drift'): raise ValueError('Only native drift output accepted')
     if type(probe) is not bool: raise ValueError('Manual probe must be a boolean')
     policy = read(policy_path); report, completion = validate(root, directory, policy)
-    now = now or datetime.now(timezone.utc); now = clock(now.isoformat())
-    reason = 'detected_drift' if report['drift_detected'] else 'no_detected_drift'
-    if probe:
-        if not policy['allow_manual_probe']: raise ValueError('Manual probe disabled by policy')
-        reason = 'explicit_manual_probe'
+    reason = admission_reason(policy, report, probe)
     audit = {'report_sha256': digest(directory / 'report.json'), 'completion_sha256': digest(directory / 'completion.json'),
              'policy_sha256': digest(policy_path), 'reference_id': report['reference_id'], 'window_id': report['window_id'],
-             'drift_detected': report['drift_detected'], 'manual_probe': probe, 'reason': reason, 'checked_utc': now.isoformat()}
+             'drift_detected': report['drift_detected'], 'manual_probe': probe, 'reason': reason}
     if not policy['enabled'] or not (probe or report['drift_detected']):
-        return {**audit, 'passed': True, 'action': 'skipped', 'reason': reason if policy['enabled'] else 'policy_disabled'}
+        checked = clock((now or datetime.now(timezone.utc)).isoformat())
+        return {**audit, 'checked_utc': checked.isoformat(), 'passed': True, 'action': 'skipped',
+                'reason': reason if policy['enabled'] else 'policy_disabled'}
     state.mkdir(parents=True, exist_ok=True)
     # SQLite releases this process lock after a kill. The separate, fsynced intent remains durable.
     connection = sqlite3.connect(state / 'admission.sqlite', timeout=1)
@@ -112,13 +119,16 @@ def process(root, directory, policy_path, state, probe, train, now=None):
             previous = read(attempt / 'result.json')
             if previous['report_sha256'] != audit['report_sha256'] or not previous['passed']:
                 raise ValueError('Replay conflicts with retained result')
-            return {**previous, 'action': 'reused_completed_submission', 'replayed_utc': now.isoformat()}
+            checked = clock((now or datetime.now(timezone.utc)).isoformat())
+            return {**previous, 'action': 'reused_completed_submission', 'replayed_utc': checked.isoformat()}
         if any(not (p.parent / 'result.json').exists() and not reconciled(p.parent) for p in state.glob('drift-*/intent.json')):
             raise ValueError('Unresolved training intent; reconcile the existing KFP run before another submission')
-        age = (now - clock(completion['completed_wall_utc'])).total_seconds()
+        completed = [clock(read(p)['completed_utc']) for p in state.glob('drift-*/result.json')]
+        checked = clock((now or datetime.now(timezone.utc)).isoformat())
+        audit['checked_utc'] = checked.isoformat()
+        age = (checked - clock(completion['completed_wall_utc'])).total_seconds()
         if not 0 <= age <= policy['max_report_age_seconds']: raise ValueError('Stale or future drift completion')
-        completed = [read(p)['completed_utc'] for p in state.glob('drift-*/result.json')]
-        if completed and (now - max(clock(t) for t in completed)).total_seconds() < policy['cooldown_seconds']:
+        if completed and (checked - max(completed)).total_seconds() < policy['cooldown_seconds']:
             return {**audit, 'passed': True, 'action': 'skipped', 'reason': 'cooldown'}
         attempt.mkdir(exist_ok=False)
         save(attempt / 'intent.json', {**audit, 'run_name': run})

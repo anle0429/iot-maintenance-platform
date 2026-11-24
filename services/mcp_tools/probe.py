@@ -1,5 +1,6 @@
 """Call the actual private MCP transport and retain original business-tool results without credential headers."""
 from pathlib import Path
+from hashlib import sha256
 import argparse
 import asyncio
 import json
@@ -10,12 +11,39 @@ from mcp.client import ClientSession
 from mcp.client.streamable_http import streamable_http_client
 
 
+async def operating_cohort():
+    """Select 32 operating demo machines using real private Feature API reads."""
+    base='http://iot-feature-api.iot-features.svc.cluster.local'
+    cohort=[]
+    async with httpx2.AsyncClient(timeout=8,trust_env=False) as client:
+        for index in range(1,201):
+            machine_id=f'P-{index:03}'
+            response=await client.get(base+'/v1/machines/'+machine_id+'/features')
+            if response.status_code==404:
+                continue
+            response.raise_for_status()
+            record=response.json()
+            if record['machine_id']!=machine_id:
+                raise ValueError('Feature API returned a different drift machine')
+            if record['operating_context']['status']=='operating':
+                cohort.append(machine_id)
+                if len(cohort)==32:
+                    return cohort
+    raise ValueError('Need 32 available operating machines for the native drift probe')
+
+
 async def probe(role, run):
     """Verify native discovery, identity/source relationships, negative calls and stable replay for one role."""
     token=Path(os.environ['IOT_MCP_TOKEN_FILE']).read_text().strip()
     base='http://iot-'+role+'-mcp.iot-agents.svc.cluster.local:8080'
     captured={'role':role,'run':run,'tools':[],'calls':[]}
     async with httpx2.AsyncClient(headers={'Authorization':'Bearer '+token},timeout=60,trust_env=False) as client:
+        dependency_response=await client.get(base+'/health/dependencies')
+        dependency_response.raise_for_status()
+        dependencies=dependency_response.json()
+        if dependencies.get('ready') is not True or dependencies.get('role')!=role:
+            raise ValueError('Native MCP dependencies are not ready for this role')
+        captured['dependencies']=dependencies
         unauthorized=await client.get(base+'/v1/unknown',headers={'Authorization':'Bearer wrong'})
         assert unauthorized.status_code==401
         captured['wrong_token_status']=unauthorized.status_code
@@ -44,7 +72,11 @@ async def probe(role, run):
                     question={'question':'Does high vibration alone prove pump failure?','top_k':3}
                     found=await call('search_knowledge',question)
                     assert found==await call('search_knowledge',question)
-                    chunks={row['chunk_id']:row for row in json.loads(Path('/state/chunks.json').read_bytes())}
+                    # The release verifier supplies the sealed source inventory to this
+                    # one-off probe. The running MCP service has no snapshot mount.
+                    inventory = sys.stdin.buffer.read()
+                    assert sha256(inventory).hexdigest() == found['snapshot_sha256']
+                    chunks={row['chunk_id']:row for row in json.loads(inventory)}
                     assert len(found['matches'])==3 and 'monitoring' in [row['document_id'] for row in found['matches']]
                     for row in found['matches']:
                         assert all(row[name]==chunks[row['chunk_id']][name] for name in ['text','document_id','revision','source_sha256','source_file','section'])
@@ -52,10 +84,13 @@ async def probe(role, run):
                     captured['native_snapshot_rows']=len(chunks)
                 else:
                     assert [tool.name for tool in listed.tools]==['assess_feature_drift']
-                    body={'window_id':run,'machine_ids':[f'P-{i:03}' for i in range(1,33)]}
+                    scope=os.environ.get('IOT_DRIFT_SCOPE','serving_model')
+                    cohort=await operating_cohort() if scope=='serving_model' else [f'P-{i:03}' for i in range(1,33)]
+                    body={'window_id':run,'machine_ids':cohort}
                     first=await call('assess_feature_drift',body)
                     replay=await call('assess_feature_drift',dict(body,machine_ids=list(reversed(body['machine_ids']))))
                     assert first==replay and first['unique_rows']==32
+                    captured['drift_input_scope']=scope
                     captured['assessment_reference_id']=first['reference_id']
                     captured['assessment_sha256']=first['assessment_sha256']
                     await call('assess_feature_drift',dict(body,machine_ids=['P-001']*32),True)

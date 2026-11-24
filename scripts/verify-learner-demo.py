@@ -15,6 +15,7 @@ from scripts.evidence_integrity import source_bindings
 from scripts.git_sources import git_blobs
 
 MANIFEST = '00a890476fe64955ee77b9cae1e7aba24a33deaaf5e950f8bf66c4107ef7799b'
+REFRESH_SUCCESSOR = '2ad7518a45cd1a24e2e38bd554361ca307920edbd9345ab5db6ceada1c5e4a46'
 
 
 def unpack(raw):
@@ -57,7 +58,8 @@ def verify():
     helper = bodies['helpers/iot-refresh-demo-feature-29k.py']
     assert sha256(helper).hexdigest() == 'ec2be13e02a218a5e583c7006ce418648ee8bb1829acb1c5d9b10f89e41552c0'
     assert helper == git_blobs(ROOT, '51b3f10853014b9a33325aa113a01f6697b4aa21', ['scripts/refresh-agent-features.py'])['scripts/refresh-agent-features.py']
-    assert (ROOT/'scripts/refresh-agent-features.py').read_bytes().replace(b'\r\n', b'\n') == helper
+    current_helper = (ROOT/'scripts/refresh-agent-features.py').read_bytes().replace(b'\r\n', b'\n')
+    assert sha256(current_helper).hexdigest() == REFRESH_SUCCESSOR
     feature = native(out('feature-demo-30a')+'verification.json')
     assert feature == read(base, 'feature-verification.json') and feature['passed'] and not feature['resume_deploy']
     prepared = datetime.fromisoformat(feature['prepared_wall_utc']); expiry = datetime.fromisoformat(feature['lease_expires_utc'])

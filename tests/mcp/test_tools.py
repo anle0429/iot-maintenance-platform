@@ -17,13 +17,15 @@ from pydantic import ValidationError
 from services.mcp_tools.app import create_app
 from services.mcp_tools.auth import BoundedBearerMiddleware
 from services.mcp_tools.contracts import MachineRequest, SearchRequest, DriftRequest, MachineData, PredictionData, DriftAssessment
-from services.mcp_tools.runtime import ToolRuntime, ToolFailure, KnowledgeReader
+from services.mcp_tools.runtime import ToolRuntime, ToolFailure
+from services.rag_search.reader import KnowledgeReader, KnowledgeFailure
 from services.mcp_tools.snapshot import prepare, NAMES
 from services.drift_api.detector import DriftDetector
 from services.drift_api.runtime import DriftRuntime
 from services.drift_api.contracts import CompareRequest
 
 TOKEN = 'unit-test-only-credential-' + 'x'*32
+RAG_TOKEN = 'unit-rag-search-credential-' + 'y'*32
 HEADERS = {'Authorization':'Bearer '+TOKEN}
 VALUES = {'temperature_mean_10m':30.,'vibration_max_10m':1.,'current_mean_10m':2.,'current_std_10m':.1,
           'rpm_mean_10m':1200.,'reading_count_10m':10,'machine_age_days':30.,'prior_failures_24h':0}
@@ -51,8 +53,12 @@ class SmallKnowledge:
     """Isolate endpoint contracts from encoder dependencies while native SDK execution is checked on the VM."""
     def search(self, request):
         """Return one explicit source fixture without inferring relevance from generated text."""
-        return {'matches':[{'chunk_id':'c'*64,'document_id':'fixture','text':'A stopped pump is not eligible for prediction.'}],
-                'question':request.question}
+        matches = [{'chunk_id': sha256(str(i).encode()).hexdigest(), 'document_id': 'fixture', 'revision': 1,
+                    'source_sha256': 'd'*64, 'source_file': 'fixture.md', 'section': 'Operating state',
+                    'text': 'A stopped pump is not eligible for prediction.', 'cosine_similarity': 1.0 - 0.05*i}
+                   for i in range(request.top_k)]
+        return {'matches': matches, 'snapshot_sha256': 'b'*64, 'embedding_revision': 'a'*40,
+                'source_type': 'authored-synthetic-reference'}
 
 
 def make_backends(tmp_path):
@@ -61,6 +67,13 @@ def make_backends(tmp_path):
     def handle(request):
         """Implement only the declared fixed native routes; reject unexpected URLs instead of making network calls."""
         observed.append((str(request.url),request.content))
+        if request.url.host == 'iot-retrieval-mcp-search.iot-agents.svc.cluster.local':
+            if request.url.path == '/health/ready':
+                return httpx2.Response(200, json={'ready': True, 'service': 'rag-search'})
+            assert request.method == 'POST' and request.url.path == '/v1/knowledge:search'
+            assert request.headers['authorization'] == 'Bearer ' + RAG_TOKEN
+            return httpx2.Response(200, json=SmallKnowledge().search(SearchRequest.model_validate_json(request.content)))
+        assert 'authorization' not in request.headers
         if request.url.path=='/health/ready': return httpx2.Response(200,json={'ready':True,'reference_id':REFERENCE})
         if request.url.path=='/v1/drift:compare':
             return httpx2.Response(200,json=detector.compare(CompareRequest.model_validate_json(request.content)))
@@ -82,7 +95,7 @@ def backends(tmp_path):
 @pytest.fixture
 def retrieval(backends):
     """Run actual HTTP/auth/MCP handling with a native-client fixture and an explicitly fake encoder boundary."""
-    runtime = ToolRuntime('retrieval',REFERENCE,SmallKnowledge(),backends[0])
+    runtime = ToolRuntime('retrieval',REFERENCE,client=backends[0],rag_token=RAG_TOKEN)
     with TestClient(create_app(runtime,'retrieval',TOKEN)) as client: yield client,backends[1]
 
 
@@ -230,7 +243,7 @@ def test_invalid_upstream_http_and_payloads_fail_closed(status,payload):
     async def execute():
         """Observe the public failure category while closing the injected client normally."""
         client=httpx2.AsyncClient(transport=httpx2.MockTransport(lambda request:httpx2.Response(status,json=payload)))
-        runtime=ToolRuntime('retrieval',REFERENCE,SmallKnowledge(),client)
+        runtime=ToolRuntime('retrieval',REFERENCE,client=client,rag_token=RAG_TOKEN)
         try:
             with pytest.raises(ToolFailure) as error:await runtime.features(MachineRequest(machine_id='P-001'))
             assert error.value.status==503
@@ -239,12 +252,7 @@ def test_invalid_upstream_http_and_payloads_fail_closed(status,payload):
 
 
 def test_missing_or_failed_knowledge_and_wrong_reference_are_not_ready():
-    """Differentiate absent knowledge, a crashed reader and a changed deployed drift baseline."""
-    class BrokenKnowledge:
-        """Represent an unavailable native encoder/store boundary."""
-        def search(self,request):
-            """Fail with private diagnostics that must be replaced by a safe tool error."""
-            raise RuntimeError('private local path')
+    """Reject missing credentials, mismatched upstream readiness, malformed search results and a changed drift baseline."""
     async def execute():
         """Exercise readiness and safe failure translation without changing native services."""
         client=httpx2.AsyncClient(transport=httpx2.MockTransport(lambda request:httpx2.Response(200,json={'ready':True,'reference_id':'wrong'})))
@@ -252,9 +260,9 @@ def test_missing_or_failed_knowledge_and_wrong_reference_are_not_ready():
         try:
             with pytest.raises(ToolFailure):await runtime.search(SearchRequest(question='valid question'))
             with pytest.raises(ToolFailure):await runtime.ready()
-            runtime.knowledge=BrokenKnowledge()
+            runtime.rag_token=RAG_TOKEN
             with pytest.raises(ToolFailure) as error:await runtime.search(SearchRequest(question='valid question'))
-            assert str(error.value)=='Knowledge store is unavailable or invalid'
+            assert str(error.value)=='Knowledge service returned invalid results'
             runtime.role='drift'
             with pytest.raises(ToolFailure):await runtime.ready()
         finally:await runtime.close()
@@ -327,6 +335,30 @@ def test_snapshot_copy_checks_inventory_hash_and_existing_state(tmp_path):
     with pytest.raises(ValueError):prepare(source,other,seal)
 
 
+def test_snapshot_init_recovers_writable_state_after_node_restart(tmp_path):
+    """Refresh the private replica copy from its seal while keeping it on a rejected source."""
+    from services.mcp_tools.snapshot import prepare_runtime
+
+    source, target, seal = (tmp_path / name for name in ('source', 'target', 'seal.json'))
+    source.mkdir()
+    target.mkdir()
+    for name in NAMES:
+        (source / name).write_bytes(name.encode())
+    seal.write_text(json.dumps({'files': {name: sha256((source / name).read_bytes()).hexdigest() for name in NAMES}}))
+    prepare_runtime(source, target, seal)
+    state = target / 'snapshot'
+    (state / 'knowledge.db').write_bytes(b'previous sqlite state')
+    (state / 'database.lock').touch()
+    (source / 'knowledge.db').write_bytes(b'changed immutable source')
+    with pytest.raises(ValueError):
+        prepare_runtime(source, target, seal)
+    assert (state / 'knowledge.db').read_bytes() == b'previous sqlite state'
+    (source / 'knowledge.db').write_bytes(b'knowledge.db')
+    prepare_runtime(source, target, seal)
+    assert set(path.name for path in state.iterdir()) == NAMES
+    assert (state / 'knowledge.db').read_bytes() == b'knowledge.db'
+
+
 def test_knowledge_reader_checks_exact_chunk_provenance(tmp_path,monkeypatch):
     """Exercise the real reader against fixture SDK boundaries, including inconsistent native source relationships."""
     row={'chunk_id':'c'*64,'document_id':'fixture','revision':1,'source_sha256':'d'*64,'source_file':'fixture.md','section':'Section','text':'Reference sentence.'}
@@ -340,4 +372,4 @@ def test_knowledge_reader_checks_exact_chunk_provenance(tmp_path,monkeypatch):
     reader=KnowledgeReader(tmp_path,tmp_path);request=SearchRequest(question='A valid question',top_k=1)
     assert reader.search(request)['matches'][0]['chunk_id']==row['chunk_id']
     values['source_sha256']=['e'*64]
-    with pytest.raises(ToolFailure):reader.search(request)
+    with pytest.raises(KnowledgeFailure):reader.search(request)

@@ -25,7 +25,8 @@ def create_app(runtime=None, role=None, token=None):
     if role not in ROLE_TOOLS: raise ValueError('Unknown MCP role')
     if token is None: token = FilePath(os.environ['IOT_MCP_TOKEN_FILE']).read_text().strip()
     if len(token) < 32: raise ValueError('A scoped bearer secret is required')
-    runtime = runtime or ToolRuntime(role, os.environ.get('IOT_DRIFT_REFERENCE_ID',''))
+    runtime = runtime or ToolRuntime(role, os.environ.get('IOT_DRIFT_REFERENCE_ID',''),
+                                     drift_scope=os.environ.get('IOT_DRIFT_SCOPE','serving_model'))
     server = MCPServer('iot-'+role, version='1.0.0', log_level='WARNING')
     registry = CollectorRegistry()
     calls = Counter('iot_mcp_tool_calls_total','Completed tool calls by bounded name and result.',['role','tool','result'],registry=registry)
@@ -38,10 +39,15 @@ def create_app(runtime=None, role=None, token=None):
 
     @asynccontextmanager
     async def lifespan(app):
-        """Warm the native dependency once and run the MCP transport lifecycle inside the parent FastAPI app."""
-        await runtime.start()
+        """Load local bindings and run the MCP transport lifecycle inside the parent FastAPI app."""
         try:
-            async with server.session_manager.run(): yield
+            await runtime.start()
+            async with server.session_manager.run():
+                app.state.started = True
+                try:
+                    yield
+                finally:
+                    app.state.started = False
         finally:
             await runtime.close()
 
@@ -62,7 +68,9 @@ def create_app(runtime=None, role=None, token=None):
     async def rest(name, payload):
         """Map safe native failure categories to HTTP without returning private upstream diagnostics."""
         try: return await invoke(name,payload)
-        except ToolFailure as error: raise HTTPException(error.status,str(error)) from None
+        except ToolFailure as error:
+            headers = {'Retry-After': '1'} if error.status == 429 else None
+            raise HTTPException(error.status,str(error),headers=headers) from None
 
     async def mcp_call(name, payload):
         """Return a real MCP tool error when the operation fails rather than a successful-looking JSON error."""
@@ -76,7 +84,18 @@ def create_app(runtime=None, role=None, token=None):
 
     @app.get('/health/ready')
     async def ready():
-        """Refuse readiness when actual data/reference dependencies are unavailable."""
+        """Admit retrieval after local startup and keep the single-purpose drift dependency gate."""
+        if role == 'retrieval':
+            if not getattr(app.state, 'started', False):
+                raise HTTPException(503, 'MCP transport is not ready')
+            return {'ready': True, 'role': role, 'pod': os.environ.get('HOSTNAME','local')}
+        return await dependencies()
+
+    @app.get('/health/dependencies', dependencies=[Security(bearer)])
+    async def dependencies():
+        """Require all real role dependencies before accepting a release or a benchmark baseline."""
+        if not getattr(app.state, 'started', False):
+            raise HTTPException(503, 'MCP transport is not ready')
         try: return dict(await runtime.ready(),pod=os.environ.get('HOSTNAME','local'))
         except ToolFailure as error: raise HTTPException(503,str(error)) from None
 

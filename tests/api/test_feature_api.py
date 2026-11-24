@@ -62,6 +62,16 @@ def test_complete_provenance_and_feature_contract():
     assert result['feature_trace']==expected and result['model']==r.backend.model.metadata()
 
 
+def test_drift_input_returns_features_and_serving_model_from_one_runtime():
+    """Bind operating eligibility and the immutable model before a drift caller joins cohorts."""
+    runtime = fixture_runtime()
+    with TestClient(create_app(runtime)) as client:
+        response = client.get('/v1/machines/P-001/drift-input')
+        assert response.status_code == 200
+        assert response.json() == {'feature': runtime.features('P-001'), 'serving_model': runtime.model_pin}
+        assert client.get('/v1/machines/P-002/drift-input').status_code == 404
+
+
 def test_default_wall_clock_uses_aware_current_time():
     'Verify default wall clock uses aware current time.'
     r=fixture_runtime();r.context['prepared_wall_utc']=(datetime.now(timezone.utc)-timedelta(seconds=1)).isoformat()
