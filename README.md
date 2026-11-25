@@ -1,191 +1,98 @@
 # IoT Maintenance Platform
 
-Data pipelines, failure prediction and tool-grounded answers for industrial pumps.
+IoT Maintenance Platform is a predictive maintenance lab for industrial pumps. It uses simulated sensor readings and failure records to estimate the risk that a running pump will fail within the next hour. A maintenance assistant can retrieve the pump's sensor summaries, request a risk score and find relevant passages in the maintenance documents.
 
-The platform connects pump telemetry to validated features, versioned models and API predictions. Its agents use the same machine context, technical references and drift diagnostics to investigate equipment health with traceable sources.
+[Architecture](#architecture) · [Recorded results](#recorded-results) · [Quick start](#quick-start) · [Documentation](#documentation)
 
-The reference deployment uses Google Cloud VMs and K3s, with a GPU-backed model server for agents. Equipment, sensor readings and failure events are simulated for reproducible evaluation.
+## What you can do
 
-## Contents
-
-- [Business domain](#business-domain)
-- [Architecture](#architecture) · [Data Platform diagram](#data-platform-architecture) · [ML + LLM diagram](#ml-and-llm-platform-architecture) · [Deployment](#deployment)
-- [Recorded results](#recorded-results)
-- [Quick start](#quick-start)
-- [Repository structure](#repository-structure)
-- [Documentation](#documentation)
+| Task | What the system does |
+|---|---|
+| Process pump telemetry | Spark cleans historical JSONL and writes Parquet tables. Kafka and Flink replay sensor deliveries and compute 10-minute monitoring summaries. [Data platform](#data-platform) |
+| Check one pump's failure risk | Send a pump ID. The API checks the operating state and input freshness, then calls KServe and returns a score with its model version. [ML platform](#ml-platform) |
+| Investigate a pump or a group of pumps | Ask for a pump's readings, risk score and related documents, or check whether sensor inputs have shifted across a group of pumps. [LLM and agent platform](#llm-and-agent-platform) |
 
 ## Business domain
 
-Maintenance staff need to inspect the condition of an operating pump and identify machines that may fail soon. Temperature, vibration, motor current and RPM provide a history of wear and load; failures and maintenance define when a machine is unavailable.
+The simulator records temperature, vibration, motor current and speed, along with faults and maintenance. It generates duplicate exports and late or repeated deliveries to test how the pipelines handle them.
 
-| Data | Grain | Main issue |
-|---|---|---|
-| Equipment metadata | Effective-dated machine attributes | Historical changes and uneven factory sizes |
-| Telemetry | Machine at event time | Duplicate exports, schema changes, skew and delayed arrival |
-| Stream deliveries | One delivery attempt | Retries, out-of-order arrival and late events |
-| Failures and maintenance | One recorded onset or intervention interval | Downtime, delayed recording and incomplete future observation |
-| Technical references | Versioned authored document/chunk | Retrieval ordering, source identity and corpus changes |
-
-The prediction target is `failure_in_next_1h`: a failure starts in **(t, t + 1 hour]** for a machine operating at t. Features must have arrived by the prediction time. Failed or maintenance-state machines are excluded, and unobserved futures are not treated as negative examples. See the [data contract](docs/edai-1/data_contract.md) and [evaluation protocol](docs/edai-1/ml_evaluation_protocol.md).
+For a pump running at 10:00, `failure_in_next_1h` asks whether a failure starts after 10:00 and by 11:00. The model's inputs use information that had arrived by 10:00. Training skips pumps already down and cases with insufficient time to observe the outcome. [Data contract and target definition](docs/edai-1/data_contract.md)
 
 ## Architecture
 
 ### Data Platform architecture
 
-Follow the pump simulator through the VM data disk, Spark batch jobs and the Kafka–Flink replay. The 100 GB ingest test ends in Silver. A separate 60-day run builds eight rolling model inputs and failure labels. An on-demand Airflow DAG materializes the eight rolling features from Parquet to Docker Redis and publishes lineage after validation. Two separate Airflow jobs replay three retained Flink windows and publish four monitoring aggregates to Parquet and Redis. Jupyter inspects batch Parquet and retained SQLite snapshots.
+- **Batch** · Pump simulator → JSONL on the VM disk → Spark → Parquet tables for analysis and training.
+- **Streaming** · Recorded sensor deliveries → Kafka → Flink → SQLite windows and audit records. Airflow jobs publish retained windows to Parquet for history and Redis for the latest values.
 
-**[Open zoomable Data Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v15.html)**
+**[Open the zoomable Data Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v15.html)**
 
 <a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v15.html">
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/data-platform-v15.png">
-  <img alt="Industrial pump Data Platform with seven flows covering Spark batch, Kafka and Flink streaming, feature publication, SQL inspection, Airflow and Jenkins orchestration, DataHub governance, and VM infrastructure." src="docs/architecture/data-platform-v15.gif">
+  <img alt="Data flow from the pump simulator through Spark batch and Kafka–Flink streaming jobs to their stores." src="docs/architecture/data-platform-v15.gif">
 </picture>
 </a>
 
-[Full-size animated SVG](docs/architecture/data-platform-v15.animated.svg) · [Static PNG](docs/architecture/data-platform-v15.png) · [Editable Excalidraw](docs/architecture/data-platform-v15.excalidraw) · [Processing jobs and evidence](docs/edai-1/processing_jobs.md)
+[Static PNG](docs/architecture/data-platform-v15.png) · [Animated SVG](docs/architecture/data-platform-v15.animated.svg) · [Editable Excalidraw](docs/architecture/data-platform-v15.excalidraw)
 
 ### ML and LLM Platform architecture
 
-The 60-day rolling dataset supplies eight prediction inputs. Silver telemetry supplies the operating-context snapshot that the Feature API checks before scoring. During training, Spark writes task events to the run workspace and MLflow records evaluation metrics with the model run. [Training event logs](docs/edai-1/distributed_training.md) · [MLflow runs and versions](docs/edai-1/automatic_ml_versioning.md)
+- **Train a model** · Historical features and failure labels → Kubeflow and Spark → model version in MLflow.
+- **Predict a failure** · Pump ID → Feature API → KServe → checked score, or an error if the request fails validation.
+- **Investigate with the assistant** · Question → coordinator and specialists → tool calls for readings, predictions, documents or drift → answer.
 
-**[Open zoomable ML + LLM Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v18.html)**
+**[Open the zoomable ML and LLM Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v18.html)**
 
 <a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v18.html">
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/ml-llm-platform-v18.png">
-  <img alt="Industrial pump ML and LLM architecture. Follow a prediction from the Feature API to KServe, or trace an agent model call to the private GPU." src="docs/architecture/ml-llm-platform-v18.gif">
+  <img alt="Model training and prediction, agent calls to the API services, and the language model on a private GPU." src="docs/architecture/ml-llm-platform-v18.gif">
 </picture>
 </a>
 
-[Full-size SVG](docs/architecture/ml-llm-platform-v18.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v18.animated.svg) · [Static PNG](docs/architecture/ml-llm-platform-v18.png) · [Editable Excalidraw](docs/architecture/ml-llm-platform-v18.excalidraw) · [Gateway routes and evidence](docs/edai-2/global_model_config.md)
-
-Agentgateway forwards retrieval calls to a private Kubernetes Service. Its MCP handler calls Feature API for machine features and predictions and RAG Search API for technical references. For ML serving, Alloy ships application logs to Loki for viewing in Grafana. Jaeger shows the Feature API request, its outbound HTTP call and the predictor handling that call. [Tool backends](services/README.md) · [Pod logs](docs/edai-1/log_discovery.md) · [Prediction traces](docs/edai-1/api_observability.md)
-
-[ML and LLM release and deployment notes](docs/architecture/ml-llm-platform-v18-notes.md)
-
-Moving dots show direction. The [single-page overview (v4)](docs/architecture/overview-v4.svg) and its [implementation review](docs/architecture/overview-v4-review.md) are also available.
-
-| Flow | View | Entry and result |
-|---|---|---|
-| B1 | [Batch ingest and release](docs/images/execution-batch.png) | Airflow REST trigger → validated Bronze, Silver, Gold, features and labels |
-| S1 | [Streaming and feature delivery](docs/images/execution-stream.png) | Bounded Kafka replay → Flink windows, audit and late data → separate CI delivery |
-| T1 | [Training and release](docs/images/execution-training.png) | Private KFP submission → evaluation and registration → independent serving build |
-| P1 | [Prediction](docs/images/execution-prediction.png) | Machine-ID POST → eligibility and KServe → checked score or HTTP error |
-| K1 | [Knowledge indexing](docs/images/execution-knowledge.png) | Airflow run ID → sealed snapshot → separate Retrieval MCP rollout |
-| A1 | [Agent request](docs/images/execution-agents.png) | A2A message → isolated children, tools and generation → returned A2A task |
-| D1 | [Deployment](docs/images/execution-deployment.png) | Private entry, CPU and GPU placement, Services, ports and volumes |
-
-The [execution guide](docs/diagrams/execution-guide.md) distinguishes implemented code, configured activation and recorded runtime evidence. The [diagram inventory](docs/diagrams/README.md) keeps the earlier views and interactive viewer available for comparison.
-
-## Data platform
-
-| Stage | Input → output | Implementation / validation |
-|---|---|---|
-| Source generation | Equipment history → telemetry, failures, maintenance and delivery attempts | [Generator](generator/README.md), [data checks](docs/edai-1/chunked_generator.md) |
-| DP1 | Offline source → Bronze | [Chunk ingestion and readback](docs/edai-1/processing_jobs.md#chunk-ingest) |
-| DP2 | Bronze → cleaned Silver and dimensional Gold | [Schema, deduplication and skew](docs/edai-1/processing_jobs.md#batch-corrections) |
-| DP3 | Eligible history → features and separate target records | [Feature construction](docs/edai-1/processing_jobs.md#bounded-features) |
-| Streaming | Arrival-ordered Kafka deliveries → finalized Flink windows | [Window code and late arrivals](docs/edai-1/processing_jobs.md#flink-window-processing-code) |
-| Orchestration and governance | Validated outputs → scheduled publication, schemas, lineage and assertions | [Airflow and DataHub](docs/edai-1/processing_jobs.md#orchestration) |
-| Storage | Layered Parquet, Gold SQL queries and Feast projects | [Storage implementation and measured changes](docs/edai-1/data_storage.md) |
-
-### ML platform
-
-The notebook and Kubeflow pipeline use the same five-step ML workflow. Training uses a temporal split, train-only transformations and a separately recorded evaluation protocol. MLflow links dataset versions, runs and model artifacts. The Feature API retrieves online values, checks eligibility/provenance and calls a pinned KServe model.
-
-| Flow | Main components | Detail |
-|---|---|---|
-| Training | Feast historical retrieval → validation → temporal split → distributed training → saved-model evaluation | [Notebook](docs/edai-1/training_notebook.md), [distributed run](docs/edai-1/distributed_training.md), [five classes](docs/edai-1/ml_class_design.md) |
-| Versioning | Incremental data identities, training runs and model registry | [Data/model versions](docs/edai-1/automatic_ml_versioning.md) |
-| Prediction | Machine ID → Feast online trace → KServe score → versioned response | [Services](services/README.md), [Feature API](docs/edai-1/feature_api.md) |
-| Monitoring | Input drift → guarded retraining request, with replay/cooldown checks | [Drift and retraining](docs/edai-1/drift_retraining.md) |
-| Delivery | Source-bound tests/build → Helm rollout → verification/rollback | [Serving CI](docs/edai-1/ci_serving.md), [A/B deployment](docs/edai-1/ci_ab_deployment.md) |
-
-### LLM and agent platform
-
-The retrieval specialist obtains machine features, the model score and cited reference chunks. The drift specialist compares a bounded machine cohort with a pinned reference. The coordinator preserves their returned values and identifiers. There is no physical actuation tool.
-
-<details>
-<summary>Agent flow — delegation, actual tool facts and shared GPU inference</summary>
-
-<picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/execution-agents.png">
-  <img alt="Coordinator child A2A through Agentgateway, scoped MCP aliases, shared inference and verified child results" src="docs/images/execution-agents.gif">
-</picture>
-
-[Full-size PNG](docs/images/execution-agents.png) · [Execution and source contracts](docs/diagrams/execution-guide.md)
-
-</details>
-
-[Excalidraw source](docs/diagrams/flow-agents.excalidraw) · [SVG](docs/images/flow-agents.svg) · [LLM platform](docs/edai-2/llm_platform.md)
-
-| Path | What happens | Evidence |
-|---|---|---|
-| Reference ingestion | Documents → chunks → pinned embeddings → versioned Feast/Milvus snapshot | [Six-task RAG pipeline](docs/edai-2/rag_orchestration.md) |
-| Agent question | Private UI → coordinator → two specialists → authenticated MCP services | [Expanded specialist tool chats](docs/edai-2/agent_platform.md#native-specialist-tools), [gateway delegation proof](docs/edai-2/global_model_config.md#native-results) |
-| Generation | Shared ModelConfig → Agentgateway → llm-d → observer/tool-turn adapter → llama.cpp on the private V100 | [Setup, model call and measured inference](docs/edai-2/llm_inference_platform.md) |
-| Worker capacity | gVisor SandboxAgents and three WorkerPools, with measured 2 → 4 → 2 scaling | [Scaling](docs/edai-2/agent_scaling.md), [startup study](docs/edai-2/agent_warmup.md) |
-| Delivery and controls | Separate RAG/retrieval/drift/coordinator releases, scoped credentials and bounded gateway access | [CI/CD](docs/edai-2/ci_agents.md), [gateway](docs/edai-2/agent_gateway.md), [Vault](docs/edai-2/vault_agent_ui.md) |
-| Evaluation | Original replies, child/tool histories, token/TTFT telemetry and small paired comparisons | [Monitoring](docs/edai-2/llm_monitoring_demo.md), [model A/B](docs/edai-2/llm_model_ab.md), [agent A/B through the selected gateway](docs/edai-2/agent_configuration_ab.md#gateway-compatibility-replay) |
-
-The [controlled retrieval comparison](docs/edai-2/agent_warmup.md#retrieval-with-and-without-substrate) measured 6.497 s with Substrate versus 4.234 s for the ordinary Agent. The slower result is retained; a general latency or cloud-cost benefit is not claimed.
-
-The two researched LLM extensions are [OPA capability/budget admission](docs/edai-2/agent_admission_policy.md) and [document-weighted corpus MMD review](docs/edai-2/rag_corpus_drift.md). Each has accepted and intentionally rejected native cases, with its limits documented.
+[Static PNG](docs/architecture/ml-llm-platform-v18.png) · [Static SVG](docs/architecture/ml-llm-platform-v18.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v18.animated.svg) · [Editable Excalidraw](docs/architecture/ml-llm-platform-v18.excalidraw)
 
 ### Deployment
 
-The control/data lab runs on an **8-vCPU / 64-GiB CPU VM**. A separate private **4-vCPU / 15-GiB worker with a 16-GiB V100** serves the LLM. K3s hosts Kubernetes workloads; retained host services and Docker containers supply the remaining components. Administration uses IAP and loopback ports, with authenticated CA-verified HTTPS on the private gateway hop.
+The lab runs on Google Cloud. The CPU VM hosts the data jobs, K3s services and KServe predictor. A private V100 GPU worker runs the language model for the agents. [Deployment topology](docs/images/deployment-runtime.png) · [Operations guide](docs/edai-1/operations.md)
 
-<details>
-<summary>Deployment topology — hosts, workloads and access boundaries</summary>
+## Data platform
 
-<picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/images/deployment-runtime.png">
-  <img alt="Operator loopback and IAP access, CPU K3s Docker and host workloads, persistent volumes and the GPU worker in the same cluster" src="docs/images/deployment-runtime.gif">
-</picture>
+| Job | Reads | Writes |
+|---|---|---|
+| Spark DP1 | Raw JSONL from the VM disk | Bronze Parquet tables |
+| Spark DP2 | Bronze tables | Cleaned Silver tables and Gold tables for analysis |
+| Spark DP3 | Silver telemetry and event tables, plus current equipment records from Gold | Eight rolling model inputs and a separate table of next-hour failure labels |
+| Flink | Kafka deliveries replayed in arrival order | Four monitoring aggregates per 10-minute window and audit records in SQLite |
 
-[Full-size PNG](docs/images/deployment-runtime.png) · [Zoomable local viewer](docs/diagrams/architecture.html#view=deployment-runtime)
+The eight model inputs built by Spark are stored in Parquet. Feast reads that history for training and loads the latest values into Redis for online use. Flink's monitoring windows track reading count, temperature sum, mean temperature and maximum vibration. Airflow manages the batch jobs and publishes schemas and lineage to DataHub after validation. [Processing jobs](docs/edai-1/processing_jobs.md) · [Storage and feature stores](docs/edai-1/data_storage.md)
 
-</details>
+### ML platform
 
-[Excalidraw source](docs/diagrams/deployment-runtime.excalidraw) · [SVG](docs/images/deployment-runtime.svg) · [Infrastructure](docs/edai-2/llm_infrastructure_evidence.md) · [Operations](docs/edai-1/operations.md)
+Kubeflow runs training on the separate 60-day dataset. A Spark logistic regression model learns from earlier observations and is evaluated on later ones. MLflow records the runs and model versions. Jenkins packages the selected model for KServe and switches the Feature API after release checks pass. [Training notebook and results](docs/edai-1/training_notebook.md) · [Serving release](docs/edai-1/ci_serving.md)
 
-Deployment frames mark physical hosts and runtimes. Named boxes group selected related resources; a WorkerPool owns worker Pods, and the observer Deployment contains two containers. The [deployment crosswalk](docs/diagrams/README.md#deployment-groups) maps the earlier 42-resource inventory into these groups. Supporting services remain in the [runtime configuration](docs/edai-1/architecture.md#deployment-and-security). The drawings describe the recorded lab and its connection boundaries; they do not establish simultaneous execution or current endpoint readiness. Two executor Pods on one physical CPU host do not establish multi-host high availability.
+For `POST /v1/machines/P-001:predict`, the Feature API reads eight inputs from Redis and checks a snapshot of the pump's operating state prepared from Silver telemetry. It calls KServe only when the pump is operating and the inputs pass validation. [Prediction API](docs/edai-1/feature_api.md)
+
+### LLM and agent platform
+
+A coordinator sends investigation tasks to two specialists. The retrieval specialist uses tools that call the Feature API for sensor summaries and scores, and the RAG Search API for passages and their sources. The drift specialist checks whether input values across a group of pumps have shifted relative to the reference for the model in use. The agents use those results to write their answers. [Agent request and tool calls](docs/edai-2/agent_runtime_validation.md) · [Document indexing](docs/edai-2/rag_orchestration.md)
 
 ## Recorded results
 
-The [mentor review follow-up](docs/mentor_review_followup.md) links the updated chapters, measured benchmark and native Agentgateway run. The [earlier data-platform checklist](docs/edai-1/data_review_audit.md) preserves its original evidence mapping.
-
-| Workload | Recorded result | Report |
+| Check | Result | Evidence |
 |---|---|---|
-| Large ingestion | 102,447,847,856 uncompressed JSONL bytes; 316.8 million unique Silver rows; 13 Spark checks | [Full-scale ingest](docs/edai-1/processing_jobs.md#full-scale-ingest) |
-| Schema and dedup experiments | Three pairs each: declared-schema median 0.927→0.764 s; aggregate dedup candidate 0.603 s versus window 0.581 s, so the window method is retained | [Controlled comparisons](docs/edai-1/processing_jobs.md#batch-corrections) |
-| Airflow skew benchmark | Five successful tasks; 17.28M Silver rows; median 14.258→9.170 s with identical 4,320-row results | [Native Airflow run](docs/edai-1/skew_benchmark.md#airflow-benchmark-execution) |
-| ML feature dataset | Separate 60-day source; 3,456,000 snapshots and 3,132,184 eligible training rows | [Feature dataset](docs/edai-1/medium_feature_dataset.md) |
-| Streaming stores | 5,760 finalized windows / 57,600 unique readings across 20 machines, with replay checks | [Window cohort](docs/edai-1/window_cohort.md) |
-| Gold warehouse indexing | Local DuckDB, eight paired batches of 64 exact lookups: 143.994 → 45.275 ms median; 2,883,584 additional bytes | [Warehouse experiment](docs/edai-1/data_storage.md#warehouse-index-experiment) |
-| Native feature serving | Model 6: 195 valid predictions and five stopped-machine HTTP 409 responses across 200 machines | [Serving record](docs/edai-1/final_handover.md) |
-| Routed LLM benchmark | Official llm-d-benchmark with the same 7B backend, 6 sequential and 11 concurrent completions in 30 s | [Native benchmark](docs/edai-2/llm_inference_platform.md#upstream-llm-d-benchmark-run) |
-| Agentgateway | Default route preserved through Jenkins 18; both child A2A paths joined to gateway logs and worker Pod identities | [Native gateway](docs/edai-2/global_model_config.md#native-agentgateway-integration) |
-| Elastic capacity | Both MCP services and all three worker pools observed at 2 → 4 → 2; actual new-Pod tool work and twelve active worker identities | [MCP](docs/edai-2/mcp_tools.md#native-mcp-autoscale), [workers](docs/edai-2/agent_scaling.md#latest-native-worker-run) |
-| Agent observability | Real failed/completed A2A calls with automatic ERROR/OK and complete 10-/44-span named-service graphs | [Jaeger evidence](docs/edai-2/observability.md#compare-failed-and-completed-coordinator-tasks) |
-| Prompt delivery | MLflow Prompt Registry v1 for all three roles, hash admission, OPA and real coordinator verification in build 14 | [CI/CD](docs/edai-2/ci_agents.md#latest-retained-gateway-release) |
-| RAG governance | Six actual Airflow tasks, 18 chunks, ten persisted checks, DataHub lineage and invalid-source rejection | [RAG pipeline](docs/edai-2/rag_orchestration.md) |
-| Complete agent answer | One accepted post-restart parent, two independently checked child tasks, four successful MCP tools and exact model-6 arithmetic | [Runtime validation](docs/edai-2/agent_runtime_validation.md) |
-| MCP API quality | 132 passing cases; 98.03% statement / 90.74% branch coverage; strict mutation result 681/850, with source-bound reuse stated explicitly | [Testing report](docs/edai-2/mcp_quality_evidence.md) |
-| Monitoring/load | 128 exact CRI/Loki events, 24 matching panel queries and 108 streamed requests across 1/4-client profiles | [Native monitoring](docs/edai-2/llm_monitoring_demo.md) |
-
-The 100 GB workload ends at Bronze/Silver; it is not a claim of training on 100 GB. Scores are uncalibrated and based on simulated equipment. Original failures, wrong answers, mixed startup timings and SDK trace warnings remain in the linked reports. The [117-row requirement map](docs/edai-1/implementation_map.md) connects code and scoped evidence without awarding a grade.
+| Large batch ingest | Processed 102.45 GB of simulated JSONL through Bronze and Silver, yielding 316.8 million unique Silver readings. | [Ingest report](docs/edai-1/full_scale_ingest.md) |
+| Training dataset | A separate 60-day simulation produced 3.13 million eligible training rows. | [Dataset report](docs/edai-1/processing_jobs.md#medium-feature-dataset) |
+| Model evaluation | The recorded training notebook measured F1 of 0.551 and PR-AUC of 0.615 on the held-out simulated period. | [Notebook results](docs/edai-1/training_notebook.md) |
+| Prediction | For 200 pumps, the API returned 195 predictions and rejected the five stopped pumps with HTTP 409. | [Serving report](docs/edai-1/final_handover.md) |
+| Agent investigation | A recorded request returned results from both specialists after four successful tool calls. | [Agent validation](docs/edai-2/agent_runtime_validation.md) |
 
 ## Quick start
 
-Run from the repository root with **Python 3.12/3.13** and **Git**. Examples use PowerShell 7.
-
 ### Generate a small dataset
 
-This uses Python's standard library and needs no Docker or cloud VM:
+From the repository root, run the following in PowerShell with Python 3.12 or 3.13. The development profile generates 48 hours of simulated data for 20 pumps.
 
 ```powershell
 $run = "local-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
@@ -193,62 +100,39 @@ python -S -m generator generate --config generator/configs/dev.json --output "da
 python -S -m generator inspect --source "data/source/$run" --report "outputs/$run/quality.json"
 ```
 
-The development configuration simulates 20 machines over 48 hours. See the [generator guide](generator/README.md) for inputs, outputs and validation boundaries.
+Look in `data/source/$run` for the telemetry JSONL files, `stream/telemetry_deliveries.jsonl` for replay, and `manifest.json` for the file inventory. The inspection writes the results of 35 checks to `outputs/$run/quality.json`. [Generator guide](generator/README.md)
 
 ### Verify the recording
+
+Run the offline audit to check the archived results and source files. [Evidence guide](docs/edai-1/evidence_guide.md)
 
 ```powershell
 $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -B -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-The audit restores the byte-pinned historical receipt bundle into ignored local files, validates both original rubric views and runs **60 offline artifact checks**. It writes the result and original verifier consoles under `outputs/`. No service starts and no model request is sent. To run an individual verifier first, restore once with `python -B -S scripts/unpack-evidence.py`. See [evidence storage](docs/edai-1/evidence_guide.md).
-
 ### Use the live lab
 
-The [operations runbook](docs/edai-1/operations.md) covers retained CPU/GPU recovery, genuine feature preparation, private access and ML/agent commands. Live requests require that private runtime and an unexpired one-hour feature lease. A Git clone contains no bulk datasets, credentials, service state or LLM weights.
+Live prediction and agent requests require access to the private lab and a fresh serving snapshot. [Lab setup and demo commands](docs/edai-1/operations.md)
 
 ## Repository structure
 
-```text
-generator/             Synthetic pump histories and delivery faults
-pipelines/             Spark/Flink jobs, temporal contracts and validation
-airflow/dags/          Data, feature-materialization and drift DAGs
-feature_store/         Feast integration, offline/online delivery and replay
-ml/                    Training, model/data versioning and drift logic
-services/              Feature, predictor, drift, A/B and MCP APIs
-agents/                Agent policy, release contracts and answer acceptance
-rag/                   Reference ingestion, retrieval and corpus governance
-knowledge/             Authored simulator reference documents
-llm/                   Inference evaluation and bounded comparisons
-llm_observability/     Request facts, traces, metrics and policy controls
-infra/                 Images, Helm, Terraform, Ansible, Jenkins and security
-notebooks/             Maintained training and agent notebooks
-scripts/               Stable operation and verification entry points
-tests/                 Unit, integration, property and load tests
-docs/                  Technical reports, runbooks and review indexes
-  evidence/            Browsable captures, manifests and selected results
-  evidence-archive/    Checked archive of original machine-readable receipts
-references/            Original specifications and validation criteria
-```
-
-Start with a package's README or the [command index](scripts/README.md). Runtime libraries, command entry points and captured evidence have separate roles. `data/`, `outputs/`, environments and credentials stay outside Git.
+| Directory | What to find there |
+|---|---|
+| `generator/`, `pipelines/`, `airflow/` | Simulator, Spark and Flink jobs, and Airflow DAGs |
+| `feature_store/`, `ml/`, `services/` | Feature processing, training and API services |
+| `agents/`, `rag/`, `knowledge/` | Agent configuration, document retrieval and maintenance source texts |
+| `infra/`, `scripts/`, `tests/` | Deployment, operation and verification |
 
 ## Documentation
 
-| Chapter | Code and evidence in one place |
+| If you want to follow… | Open |
 |---|---|
-| [Data processing](docs/edai-1/processing_jobs.md) | Batch and stream jobs, actual Flink window code, Airflow, and before/after results |
-| [Data storage](docs/edai-1/data_storage.md) | Medallion table model, zone responsibilities, grains and keys; Parquet, Gold SQL, indexing, compaction and Feast |
-| [LLM inference](docs/edai-2/llm_inference_platform.md) | Deployment steps, recorded model requests and latency measurements |
-| [Agentgateway and ModelConfig](docs/edai-2/global_model_config.md) | Default model/MCP route, parent and child A2A, configuration and native acceptance |
-| [MCP tools](docs/edai-2/mcp_tools.md) | Async handlers, Helm recovery and per-Pod autoscale proof |
-| [Substrate comparison](docs/edai-2/agent_warmup.md) | Matched ordinary-Agent control and original startup measurements |
-| [Worker scaling](docs/edai-2/agent_scaling.md) | Healthy demand, actual Pod assignments and automatic scale-in |
+| Data generation, Spark and Flink, feature stores, training and serving | [Data and ML](docs/edai-1/README.md) |
+| An agent request through the gateway, tool services and GPU | [LLM and agents](docs/edai-2/README.md) |
+| The services, files and stores behind each diagram | [Execution guide](docs/diagrams/execution-guide.md) · [ML and LLM deployment notes](docs/architecture/ml-llm-platform-v18-notes.md) |
 
-Both parts have a documentation index and a tracker. EDAI 1 documents 57 weighted ML requirements and EDAI 2 documents 60 weighted LLM and agent requirements. Each tracker links the deliverables and records the limits of the evidence, including the mixed worker warm-up results. [Documentation index](docs/README.md) · [EDAI 1 tracker](docs/edai-1/rubric_tracker.md) · [EDAI 2 tracker](docs/edai-2/rubric_tracker.md) · [Final audit](docs/edai-1/final_audit.md)
-
-Maintained prose and code descriptions use English. Original workbooks, native logs and screenshots retain their capture language and bytes. Presentation references: [RecSys-MLops](https://github.com/itsmekhoathekid/RecSys-MLops/tree/6bd6e99f481f2a8d5886d6f0e8356540dc20e135) and [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform/tree/cc34515304815774a5dad6f796683b46c27f93ac). The diagrams and measurements describe this repository's implementation and the limits of its recorded experiments.
+[Full documentation index](docs/README.md)
 
 ## Contributors
 
