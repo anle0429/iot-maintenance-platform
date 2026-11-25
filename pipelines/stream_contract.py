@@ -73,6 +73,17 @@ def window_truth(events: list[dict]) -> list[dict]:
             for key, rows in sorted(groups.items())]
 
 
+def duplicate_audit(delivery: dict, dedup_source: str) -> dict:
+    """Trace a rejected delivery back to the original event kept in the ledger."""
+    return {
+        'kind': 'duplicate',
+        'event_id': delivery['event']['event_id'],
+        'sequence': delivery['sequence'],
+        'published_ts': delivery['published_ts'],
+        'dedup_source': dedup_source,
+    }
+
+
 class StreamStore:
     """Upsert absolute window results and keyed audits; this is not a checkpoint transaction sink."""
 

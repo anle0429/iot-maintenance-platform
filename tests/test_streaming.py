@@ -53,6 +53,32 @@ class StreamContractTests(unittest.TestCase):
             self.assertEqual(read_store(path),first)
             store.close()
 
+    def test_duplicate_audit_contains_only_replay_metadata(self):
+        """Keep each distinct retry traceable while a repeated sequence remains idempotent."""
+        from pipelines.stream_contract import duplicate_audit
+
+        delivery = fixture_phases()[0][0]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'sink.sqlite'
+            store = StreamStore(path)
+            try:
+                cached = duplicate_audit(delivery, 'flink_state')
+                later = duplicate_audit({**delivery, 'sequence': 100}, 'durable_ledger')
+                store.write(cached)
+                store.write(later)
+                store.write(cached)
+                audits = sorted(read_store(path)['audits'], key=lambda row: row['sequence'])
+                self.assertEqual(audits, [
+                    {'kind': 'duplicate', 'event_id': delivery['event']['event_id'],
+                     'sequence': delivery['sequence'], 'published_ts': delivery['published_ts'],
+                     'dedup_source': 'flink_state'},
+                    {'kind': 'duplicate', 'event_id': delivery['event']['event_id'],
+                     'sequence': 100, 'published_ts': delivery['published_ts'],
+                     'dedup_source': 'durable_ledger'},
+                ])
+            finally:
+                store.close()
+
     def test_sink_updates_one_key_without_touching_another_machine(self):
         """A replacement result updates its own window, leaving another machine intact."""
         with tempfile.TemporaryDirectory() as directory:

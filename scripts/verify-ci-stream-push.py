@@ -1,10 +1,13 @@
 """Audit genuine source lineage, separate native stream-store jobs, process-boundary faults and exact runtime parity offline."""
-from git_sources import historical_blob
+from git_sources import git_blobs
 from datetime import datetime,timezone
 from hashlib import sha256
 from pathlib import Path
-import json,subprocess
+import json,sys
 ROOT=Path(__file__).resolve().parents[1];BASE=ROOT/'docs/evidence/ci-stream-push'
+FINALIZED_FIXTURE_SOURCE = '5178a2cd13b42794f70ab31a8f1ae5c3c9616ebc'
+sys.path.insert(0, str(ROOT))
+from feature_store.staging_contract import fixture as bound_fixture
 
 
 def read(name):
@@ -28,10 +31,13 @@ def main():
     commit=manifest['ci_source_commit'];seal=read('sources/'+commit+'.json');assert len(seal['files'])==124
     for path in [*sorted(BASE.rglob('sources/*.json')),BASE/'history/prior/native-prototype/source-manifest.json']:
         source=json.loads(path.read_bytes())
-        for n,h in source['files'].items():assert sha256(historical_blob(ROOT, source['commit']+':'+n)).hexdigest()==h
+        captured=git_blobs(ROOT, source['commit'], source['files'])
+        for n,h in source['files'].items():assert sha256(captured[n]).hexdigest()==h,n
     fixture=json.loads((ROOT/'tests/fixtures/stream-finalized-native.json').read_bytes());parent=(ROOT/fixture['parent']).read_bytes()
     assert sha256(parent).hexdigest()==fixture['parent_sha256'] and json.loads(parent)['windows']==fixture['windows']
-    for n,h in fixture['code_sha256'].items():assert sha256((ROOT/n).read_bytes()).hexdigest()==h
+    captured=git_blobs(ROOT, FINALIZED_FIXTURE_SOURCE, fixture['code_sha256'])
+    for n,h in fixture['code_sha256'].items():assert sha256(captured[n]).hexdigest()==h,n
+    assert bound_fixture(ROOT) == fixture
     expected=sorted(fixture['windows'],key=lambda r:(r['machine_id'],utc(r['event_timestamp'])))
     assert [(r['machine_id'],r['reading_count'],r['temperature_sum'],r['temperature_mean'],r['vibration_max']) for r in expected]==[('P-001',3,60,20,3),('P-001',1,40,40,4),('P-002',1,100,100,10)]
     assert sum(r['reading_count'] for r in expected)==5

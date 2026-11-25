@@ -18,7 +18,7 @@ from pyflink.datastream.functions import AggregateFunction, KeyedProcessFunction
 from pyflink.datastream.state import ValueStateDescriptor
 from pyflink.datastream.window import TumblingEventTimeWindows
 
-from pipelines.stream_contract import EventLedger, StreamStore, export_sqlite, millis, utc_millis, volume_store_path
+from pipelines.stream_contract import EventLedger, StreamStore, duplicate_audit, export_sqlite, millis, utc_millis, volume_store_path
 
 
 AUDIT = OutputTag("audit", Types.STRING())
@@ -63,7 +63,7 @@ class Deduplicate(KeyedProcessFunction):
         if old is not None and now < old["expires_at"]:
             if old["payload"] != canonical:
                 raise ValueError(f"conflicting event_id: {row['event']['event_id']}")
-            yield AUDIT, json.dumps({**row, "kind": "duplicate", "dedup_source":"flink_state"})
+            yield AUDIT, json.dumps(duplicate_audit(row, 'flink_state'))
             return
         fresh = self.ledger.observe(row['event']) if self.enabled else True
         if self.enabled:
@@ -71,7 +71,7 @@ class Deduplicate(KeyedProcessFunction):
             self.seen.update(json.dumps({"payload":canonical,"expires_at":expires_at}))
             ctx.timer_service().register_processing_time_timer(expires_at)
         if not fresh:
-            yield AUDIT, json.dumps({**row, "kind":"duplicate", "dedup_source":"durable_ledger"})
+            yield AUDIT, json.dumps(duplicate_audit(row, 'durable_ledger'))
             return
         yield value
         yield AUDIT, json.dumps({**row, "kind": "unique" if self.enabled else "delivery"})

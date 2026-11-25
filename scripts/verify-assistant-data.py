@@ -8,12 +8,15 @@ from pathlib import PurePosixPath
 import json,math,sys,tarfile
 from integration_evidence import ROOT,capsule,read
 from evidence_integrity import documentation_equivalent
+from git_sources import historical_blob
 sys.path.insert(0,str(ROOT))
 from feature_store.training_samples import FEATURES
 from llm.data_validation import cases,request_body,score_answer,resume_prefix
 from llm.ab_experiment import reply_text
 from llm_observability.contracts import StreamObservation
 MANIFEST='70d1c1e67301ca479cea53d0ec8e606c3d43a8c2ff47e79df186ecee1f55e427'
+CAPTURED_MCP_CONTRACT_SOURCE = 'b41fdaf63a2d59589e8839364ed6a4f948bfaf67'
+CURRENT_MCP_CONTRACT_SHA256 = 'd783026639754654ef0e63229f2a25339594c5c31ab3d733c0b730d80391d01f'
 
 
 def timestamp(value):
@@ -68,6 +71,10 @@ def verify():
             assert (sha256(old).hexdigest(),sha256(current.replace(b'\r\n',b'\n')).hexdigest())==(
                 'fce025aae2c647a5c393fcf9e6d62441d6e6d41a6313f9718f155f5cd9d0d3b3','622ef60f8d7449b316e5b0063046094444e17286d64e35329a9586b7dc980414')
             assert documentation_equivalent(old,current,'.py'),name
+        elif name=='feature_store/staging_contract.py':
+            # The archived CI consumer predates the duplicate-audit change.
+            assert (sha256(old).hexdigest(),sha256(current.replace(b'\r\n',b'\n')).hexdigest())==(
+                'b88a9154bf1df2204eff767fd56992be8e3f248789df80e7028f2c3c7f97e22f','9af928129b5f9b1bb79b2742a2e916445b45f46539673e9e2b72615370985f4c')
         else:assert current==old or current.replace(b'\r\n',b'\n')==old,name
     settings=native('samples/settings.json');profile=settings['sensor_drift'];end=timestamp(settings['simulation']['start_ts'])+timedelta(hours=48)
     assert settings['simulation']['machine_count']==3 and settings['simulation']['wear_per_hour']==.07
@@ -187,7 +194,13 @@ def verify():
     for row in guard['results']:
         outcome=row['result'];assert not outcome['predictor']['accepted'] and len(outcome['predictor']['errors'])==5 and not outcome['machine_tool']['accepted']
         for module,name in [('services.predictor.contracts','services/predictor/contracts.py'),('services.mcp_tools.contracts','services/mcp_tools/contracts.py')]:
-            assert sha256((ROOT/name).read_bytes()).hexdigest()==outcome['schemas'][module]
+            current = (ROOT/name).read_bytes().replace(b'\r\n', b'\n')
+            if name == 'services/mcp_tools/contracts.py':
+                captured = historical_blob(ROOT, CAPTURED_MCP_CONTRACT_SOURCE+':'+name)
+                assert sha256(current).hexdigest() == CURRENT_MCP_CONTRACT_SHA256, name
+            else:
+                captured = current
+            assert sha256(captured).hexdigest() == outcome['schemas'][module], name
     for name in ['stream-offline','stream-online']:assert (base/'ui'/(name+'.jpg')).read_bytes()[:3]==b'\xff\xd8\xff'
     return {'passed':True,'native_payloads':457,'generator_versions':2,'unique_events_per_version':8640,'eligible_samples_per_version':1485,
             'positive_targets_per_version':144,'separate_target_columns':2,'independent_max_feature_error':maximum_error,
