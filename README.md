@@ -2,7 +2,7 @@
 
 IoT Maintenance Platform is a predictive maintenance lab for industrial pumps. It uses simulated sensor readings and failure records to estimate the risk that a running pump will fail within the next hour. A maintenance assistant can retrieve the pump's sensor summaries, request a risk score and find relevant passages in the maintenance documents.
 
-[Architecture](#architecture) · [Recorded results](#recorded-results) · [Quick start](#quick-start) · [Documentation](#documentation)
+[Start the review](docs/README.md) · [Architecture](#architecture) · [Recorded results](#recorded-results) · [Quick start](#quick-start)
 
 ## What you can do
 

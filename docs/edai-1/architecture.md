@@ -1,8 +1,8 @@
 # Architecture
 
-This document describes the IoT lab implemented in this repository: the prediction request, the data and training jobs behind it, and the controls around deployment. The [README](../../README.md#architecture) provides the platform overview; the [demo guide](operations.md) provides the operating commands.
+Start with a technician who sends pump ID `P-001` for a next-hour failure risk score. The Feature API reads eight values from Redis and checks a snapshot of the pump's operating state. KServe scores the inputs when those checks pass. The API verifies the model version before returning the score.
 
-The selected coursework scope includes both final ML and final LLM/agents. This page describes recorded Data/ML behavior and the recorded [LLM workstream](../edai-2/llm_platform.md): inference, RAG and MCP have native evidence, and the [GPU checkpoint](../edai-2/gpu_agent_routing.md) verifies specialist answers and real coordinator delegation. The [requirement map](implementation_map.md) and [post-restart rehearsal](../edai-2/agent_runtime_validation.md) connect those components to their own source-bound evidence.
+Spark prepares historical features and labels for training. Airflow launches the data jobs, Kubeflow runs training and Jenkins deploys the selected model. The maintenance assistant uses the same prediction API alongside document search and cohort drift tools. [Current platform diagrams](../diagrams/README.md#current-platform-diagrams) · [Agent walkthrough](../edai-2/llm_platform.md) · [Demo guide](operations.md)
 
 ## Scope and runtime
 
@@ -18,7 +18,7 @@ Three workloads have different boundaries:
 
 The 100 GB result does not cover feature engineering or model training at that scale. Diagrams summarize recorded workflows; they do not assert that all jobs run concurrently or that endpoints are currently ready.
 
-The [system architecture](../images/architecture-system.svg) ([Excalidraw source](../diagrams/architecture-system.excalidraw)) connects logical subsystems and persisted state. Five implementation flows expand batch, streaming, training, prediction and agents. The [deployment view](../images/deployment-runtime.svg) locates the named workload groups on their actual hosts/runtimes. See the [three-layer guide](../diagrams/README.md#three-layers) for sources, full-resolution exports and the local animated viewer.
+The recorded [system architecture](../images/architecture-system.svg) connects applications and data stores for the earlier review. Five detail views expand batch, streaming, training, prediction and agent workflows. The deployment view maps workloads to their hosts. [Deployment view](../images/deployment-runtime.svg) · [Earlier views and source files](../diagrams/README.md#three-layers)
 
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="../images/architecture-system.png">
@@ -38,7 +38,7 @@ The API accepts a machine ID, retrieves its features through Feast, checks wheth
 
 [Excalidraw source](../diagrams/flow-prediction.excalidraw) · [SVG](../images/flow-prediction.svg) · U1–U11 follow the incoming request, lookup, rejection, model call and checked return through the gateway. Lookup and result checks execute inside the Feature API.
 
-Feast SDK runs inside the API process. The [runtime](../../services/feature_api/runtime.py) validates the schema, event time, arrival context, protocol and one-hour demo lease. Before returning a prediction, it also checks the model version, run, data version and threshold against the selected pin.
+Feast runs inside the Feature API and retrieves the eight inputs from the serving Redis project. A preparation job derives the operating-state snapshot from Silver telemetry at the simulated cutoff. The API checks that both inputs are recent enough for that simulated time and that the prepared snapshot is less than one real hour old. The model pin records the expected model version, training run, data version and threshold. The API checks these on the response from KServe. [Preparation job](../../feature_store/serving.py) · [API runtime](../../services/feature_api/runtime.py)
 
 ### Follow the request in code
 
@@ -75,7 +75,7 @@ The two feature views serve different purposes:
 
 | View | Contents | Use |
 |---|---|---|
-| `machine_rolling_10m` | Eight inputs computed over the past ten minutes | Historical training and online failure-risk inference |
+| `machine_rolling_10m` | Six sensor summaries over ten minutes, machine age and failures in the past 24 hours | Historical training and online failure-risk inference |
 | `machine_tumbling_final_10m` | Four aggregates from finalized non-overlapping Flink windows | Streaming monitoring and replay checks |
 
 The original batch materializer and stream fixture share Docker Redis `online:6379`. The selected Feature API reads Kubernetes `online-serve-jenkins-8`; the staged stream CI experiment wrote to the same release's Redis under a separate Feast project. The main system map shows the latter release. The [C4 feature-access view](../images/feature-containers.png) separates applications and data stores without drawing the SDK as a service. Four stream aggregates stay separate from the predictor's eight inputs.
@@ -121,7 +121,7 @@ Offline drift monitoring reads a bounded cohort through Feast, compares eight fe
 
 [Excalidraw source](../diagrams/platform-monitoring.excalidraw) · [SVG](../images/platform-monitoring.svg) · H/M/L/O labels distinguish host metrics, API/job metrics, logs and traces; R1–R4 expand the drift-to-candidate integration. Arrows show signal/artifact flow, including query responses, rather than every underlying HTTP request.
 
-The comparison uses a fixed model 3 training reference. Its PSI values are not accuracy measurements for the served model 6. The recorded retraining test was a manual probe with `drift=false`; it demonstrated a real KFP run and the admission/replay/cooldown controls. It did not establish a naturally occurring drift alarm or automatic promotion.
+The recorded offline run used a fixed reference from model 3's training data. The interactive Drift MCP tool uses the reference that matches the served model. Both paths report changes in the input distributions. The recorded manual probe with `drift=false` ran Kubeflow and registered model 7 as a candidate. Serving promotion is a separate Jenkins release. [Offline and interactive drift inputs](../architecture/ml-llm-platform-v19-notes.md#offline-drift) · [Manual probe](drift_retraining.md)
 
 The deployment also has API metrics and OTLP traces, host/Pod logs, and a separate Knative Eventing-to-KServe drift receiver. Those have their own workloads and evidence. MMD is an additional offline diagnostic for joint sensor-distribution changes. See [offline drift](offline_drift_monitoring.md), [retraining](drift_retraining.md), [API observability](api_observability.md), [logs](log_discovery.md), [Eventing](drift_eventing.md) and [MMD](joint_cohort.md).
 

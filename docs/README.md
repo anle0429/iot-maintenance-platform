@@ -1,21 +1,28 @@
-# Technical documentation
+# IoT Maintenance Platform documentation
 
-The first part follows telemetry through processing, storage, training and serving. The second follows requests through model inference and the agent platform. The main guides below collect implementation code and recorded results by topic.
+The platform uses simulated pump data to estimate whether a running pump will fail within the next hour. A maintenance assistant can also look up the pump's sensor summaries, request its score and find relevant maintenance passages.
 
-| Part | Scope | Guide |
+## Follow one pump through the system
+
+Suppose a technician asks about pump `P-001` at 10:00. The training target is a failure beginning after 10:00 and by 11:00. For a prediction request, the API checks the prepared operating state and the age of the sensor inputs before sending them to the model. If the technician asks in chat, the assistant uses tool calls to get the values and looks up the relevant maintenance passages. [Data contract](edai-1/data_contract.md)
+
+| Question | Where to look | What you can verify |
 |---|---|---|
-| EDAI 1 | Generation, batch/stream processing, orchestration, feature stores, training, serving and operations | [Data and ML](edai-1/README.md) |
-| EDAI 2 | Model inference/configuration, RAG, MCP, agents, evaluation, security and observability | [LLM and agents](edai-2/README.md) |
+| Where does a reading end up? | [Data Platform viewer](diagrams/README.md#current-platform-diagrams) · [Batch and stream jobs](edai-1/processing_jobs.md) | Spark writes batch tables to Parquet. Flink writes 10-minute aggregates and audit records to SQLite. |
+| How does the model learn, and who decides whether to score a pump? | [Training](edai-1/training_notebook.md) · [Feature API](edai-1/feature_api.md) | The 60-day training run uses earlier observations to predict later failures. In the serving test, the API scored 195 pumps and returned HTTP 409 for five stopped pumps. |
+| Where does the assistant get its answer? | [Agent workflow](edai-2/llm_platform.md) · [Recorded conversation](edai-2/agent_runtime_validation.md) | The coordinator delegates to specialists. The saved conversation shows the tool calls, the returned facts and the final answer. |
+| What does monitoring measure? | [Current monitoring and scaling](architecture/ml-llm-platform-v19-notes.md) | Offline drift compares feature distributions with a saved training reference. Separate Prometheus metrics measure demand for Search and Drift MCP. |
 
-## Main review guides
+The 102.45 GB ingest run, the 60-day training set and the retained streaming replay are separate workloads. The evaluation and API scores come from simulated equipment. [Recorded results](../README.md#recorded-results) · [Evidence guide](edai-1/evidence_guide.md)
 
-| Topic | Code, results and reproduction |
+## Browse by component
+
+| Part | Guide |
 |---|---|
-| Batch and stream processing | [Processing jobs](edai-1/processing_jobs.md) |
-| Storage and feature stores | [Data storage](edai-1/data_storage.md) |
-| Inference setup and verification | [LLM inference platform](edai-2/llm_inference_platform.md) |
-| MCP and A2A gateway, model settings and tool rollout | [Agentgateway integration](edai-2/global_model_config.md) |
-| Worker lifecycle and startup | [Agent warm-up](edai-2/agent_warmup.md) |
+| Data generation, processing, storage, training and prediction | [Data and ML](edai-1/README.md) |
+| Document search, agent calls, GPU inference and observability | [LLM and agents](edai-2/README.md) |
+| Current system views, individual flows and deployment | [Architecture diagram index](diagrams/README.md) |
+| Local verification and live lab setup | [Command index](../scripts/README.md) · [Operations](edai-1/operations.md) |
 
 ```text
 docs/
@@ -44,13 +51,7 @@ docs/
 
 ## Review and evidence
 
-- [Architecture diagrams](diagrams/README.md) includes both current platform viewers, focused workflow diagrams and earlier recorded views.
-- [Mentor review follow-up](mentor_review_followup.md): the latest documentation changes, scoped measurements and remaining native acceptance work.
-- [Data review checklist](edai-1/data_review_audit.md): eleven reported issues mapped to code, explanation and visible results.
-- [Requirement map](edai-1/implementation_map.md): 117 final requirements, with separate [ML](edai-1/rubric_tracker.md) and [LLM](edai-2/rubric_tracker.md) trackers.
-- [Evidence guide](edai-1/evidence_guide.md): original screenshots, native receipts, archived payloads and verification boundaries.
-- [Operations](edai-1/operations.md): private lab access, recovery and live demonstration prerequisites.
+- See the changes made after mentor feedback and the results recorded for each review. [Mentor review follow-up](mentor_review_followup.md) · [Data review checklist](edai-1/data_review_audit.md)
+- Find the implementation and evidence for each requirement. [Requirement map](edai-1/implementation_map.md) · [ML tracker](edai-1/rubric_tracker.md) · [LLM tracker](edai-2/rubric_tracker.md)
 
-Pages identify what ran, which source/result identities were checked and where measurements stop. Diagrams are illustrations; screenshots retain their original run identities. Failed attempts and mixed results remain visible.
-
-Run examples from the repository root. A clone contains no credentials, bulk data, service state or model weights. Individual offline verifiers first need `python -B -S scripts/unpack-evidence.py`; the full artifact audit restores that bundle automatically. [Navigation metadata](navigation.json) preserves traceability after moving the pages.
+The diagrams explain the design. The linked reports identify the run, input data and measured result. Some raw receipts are stored in an archive. To follow those links locally, run `python -B -S scripts/unpack-evidence.py` from the repository root. The full offline audit restores that bundle automatically. [Evidence storage and restore](edai-1/evidence_guide.md)

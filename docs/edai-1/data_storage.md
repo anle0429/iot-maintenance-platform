@@ -1,6 +1,6 @@
 # Data storage and feature stores
 
-The platform persists a layered data lake as Snappy Parquet and builds dimensional tables in its Gold layer. Spark and DuckDB query those files. Feast embeds a DuckDB offline provider and a Redis online provider in consuming jobs and services. This page shows the storage code, table layout, readbacks and measured improvements in one place.
+Spark writes tables to Parquet on the VM data disk. Bronze keeps the original exports, Silver holds cleaned records and Gold holds tables for analysis. Training reads Parquet for historical features, while the prediction API reads Redis for the prepared values of one pump. Feast runs in the jobs and API and connects them to those stores. [Batch and serving workflows](architecture.md)
 
 ## Contents
 
@@ -34,7 +34,7 @@ The platform persists a layered data lake as Snappy Parquet and builds dimension
 
 ![Feature access C4 container diagram](../images/feature-containers.png)
 
-The main diagram selects the Kubernetes serving release. Batch materialization and the original stream push shared Docker `online:6379`; staged stream CI and serving used distinct Feast projects on `online-serve-jenkins-8`. The SDK runs inside each consumer.
+The feature-access diagram shows the recorded Kubernetes release. Batch materialization and the original stream push used separate Feast projects on Docker `online:6379`. The recorded staged stream CI and serving runs used distinct Feast projects on `online-serve-jenkins-8`. The prediction API gets eight model inputs from its serving project and reads the operating-state snapshot from its prepared state. [Feature preparation](../../feature_store/serving.py)
 
 ## Parquet writes and readback
 
@@ -576,7 +576,7 @@ docker compose -f infra/feast.compose.yaml run --rm tools \
 
 ## Feature jobs and TTL
 
-There are two different feature views. `machine_rolling_10m` contains eight model inputs from the preceding ten minutes. `machine_tumbling_final_10m` contains four aggregates from finalized non-overlapping Flink windows and is used for monitoring, not substituted into that model.
+`machine_rolling_10m` contains eight model inputs. Six summarize the preceding ten minutes of readings. The other two are machine age and the number of failures recorded in the preceding 24 hours. `machine_tumbling_final_10m` holds four monitoring aggregates from finalized, non-overlapping Flink windows. [Model input list](../../ml/protocols/medium-60d-v1.json)
 
 | Limit | Value | Meaning |
 |---|---|---|

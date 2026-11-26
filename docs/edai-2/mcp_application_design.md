@@ -4,7 +4,7 @@ The retrieval and drift services share `create_app(runtime=None, role=None, toke
 
 ![Executed application factory in the official coverage report](../evidence/mcp-quality-ui/ui/application-factory.jpg)
 
-The image shows actual source coverage from successful retrieval CI build 5. Green highlighting marks executed lines; yellow partial-branch markings remain visible. The source was read back from that exact CI image and matches the current application text. It is a report view, not a new deployment.
+The image shows source coverage from retrieval CI build 5. Green highlighting marks executed lines and yellow marks partially covered branches. The recorded source was read back from that CI image. The report preserves the factory implementation from before the separate RAG Search API. [Recorded source](../evidence/mcp-quality-ui/source/app.py.txt) · [Current tool routes](mcp_tools.md)
 
 ## How construction works
 
@@ -14,7 +14,7 @@ The image shows actual source coverage from successful retrieval CI build 5. Gre
 4. Create separate application, MCP server and metrics registry instances. Register the role's permitted tools.
 5. Start and close the runtime through the application's lifespan, then return the assembled application.
 
-Production starts the factory through the container's `uvicorn ... --factory` entry point in [Dockerfile](../../infra/mcp/Dockerfile). The retrieval fixture instead supplies a controlled HTTP transport and small knowledge reader. It still exercises the actual application, authentication and validation code.
+The container starts the factory with `uvicorn ... --factory`. In the current search integration test, a controlled HTTP transport routes MCP calls to a separate Search app with an injected knowledge reader. Both apps execute their authentication and validation code. [Container entry point](../../infra/mcp/Dockerfile) · [Search integration test](../../tests/mcp/test_rag_search_api.py#L24)
 
 This avoids a global live database/client at import time and lets both role-specific services use one construction path. It also puts responsibility on the caller to supply a compatible runtime; dependency injection alone does not prove an external backend works. [Native MCP checks](mcp_tools.md) cover that separate boundary.
 

@@ -7,14 +7,16 @@ The assistant obtains structured machine data and source-bound reference passage
 | Class and source | Main methods | Responsibility | Important boundary |
 |---|---|---|---|
 | [`TextEncoder`](../../rag/embeddings.py) | `__init__(config)`, `encode(texts)` | Encode document chunks and queries with the same pinned model revision; return normalized 384-dimensional vectors. | Empty, oversized or over-token-limit text is rejected. Each vector must be finite and have the configured dimension and unit length. |
-| [`KnowledgeReader`](../../services/mcp_tools/runtime.py) | `__init__(state, source_root)`, `search(request)` | Load a replica's source-bound knowledge snapshot, retrieve ranked IDs and resolve their exact passages and provenance. | Duplicate chunk IDs, a different catalog hash or a mismatched returned passage prevent a successful result. A lock protects its synchronous SDK/encoder work. |
-| [`ToolRuntime`](../../services/mcp_tools/runtime.py) | `start()`, `close()`, `features(request)`, `predict(request)`, `search(request)`, `drift(request)` | Own asynchronous clients and the fixed private backend routes used by the retrieval and drift MCP services. | Validate machine/model/reference identities and preserve meaningful upstream failures. Knowledge work runs outside the event loop under a bounded concurrency limit. |
+| [`KnowledgeReader`](../../services/rag_search/reader.py) | `__init__(state, source_root)`, `search(request)` | Load the Search Pod's verified knowledge snapshot, retrieve ranked IDs and check their exact passages and provenance. | Duplicate chunk IDs, a different catalog hash or a mismatched returned passage prevent a successful result. A lock protects its synchronous SDK and encoder work. |
+| [`ToolRuntime`](../../services/mcp_tools/runtime.py) | `start()`, `close()`, `features(request)`, `predict(request)`, `search(request)`, `drift(request)` | Manage the MCP services' asynchronous clients and call the Feature, RAG Search and Drift APIs. | Validate the backend response for each tool and return a safe failure on bad identity, invalid data or unavailable services. |
 | [`FeatureRuntime`](../../services/feature_api/runtime.py) | `features(machine)`, `predict(machine)` | Check both the simulation clock and real snapshot lease, read eligible features and call the deployed ML model through its backend adapter. | Unknown, expired, future, inconsistent or stopped machine states cannot produce an ordinary successful prediction. A returned score must match its model pin and decision threshold. |
 | [`DriftDetector`](../../services/drift_api/detector.py) | `__init__(bundle)`, `compare(window)` | Validate the trusted reference, freeze bins and compare the eight numeric features using the declared PSI policy. | Input drift does not prove degraded predictive accuracy or an imminent pump failure. Reference identity and the policy are part of the result. |
 
 `TextEncoder` uses the [pinned CPU embedding model](../../infra/rag/embedding.lock.json), with two Torch threads. The chat model is served separately on the GPU. These are different workloads; moving every validation or retrieval step onto the GPU is not required for a working assistant.
 
 ## How they collaborate
+
+The diagram below records the earlier design with the knowledge reader inside Retrieval MCP. The current layout shows RAG Search API hosting that reader in its own Deployment. [Current architecture viewer](../architecture/ml-llm-platform-v19-notes.md)
 
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="../images/assistant-classes.png">
@@ -25,13 +27,13 @@ The assistant obtains structured machine data and source-bound reference passage
 
 Moving markers illustrate direction with arbitrary timing. Reduced-motion visitors receive a static image.
 
-The two API arrows cross process boundaries. `ToolRuntime` calls their fixed endpoints; it does not construct `FeatureRuntime` or `DriftDetector` inside the MCP process. Prediction uses the existing trained pump model. The LLM composes an answer from returned tool data and references.
+In the current design, `ToolRuntime` uses private HTTP calls for features, prediction, drift and document search. The Feature API owns `FeatureRuntime`, Drift API owns `DriftDetector`, and RAG Search API owns `KnowledgeReader`. The LLM composes its answer from the tools' returned data and references.
 
 For a risk-and-reference question, follow this sequence:
 
 1. `ToolRuntime.features()` obtains the machine snapshot from the Feature API. `FeatureRuntime` validates time, schema and operating context.
 2. `ToolRuntime.predict()` follows the same eligibility checks before the backend calls KServe. Returned model identity and numeric decision are checked.
-3. `ToolRuntime.search()` dispatches bounded synchronous work to `KnowledgeReader`. Its query passes through `TextEncoder`, ranked IDs are retrieved, and returned text is checked against the retained source records.
+3. `ToolRuntime.search()` sends the question to RAG Search API. Search admits a bounded number of requests and runs `KnowledgeReader` in a worker thread. `TextEncoder` encodes the question, and the reader checks the ranked passages against the source records.
 4. The retrieval agent cites those actual tool results. The coordinator can separately delegate a drift question to the drift specialist, whose tool reaches `DriftDetector`.
 
 The [native agent comparison](agent_configuration_ab.md) checks six risk/reference answers against 18 actual tool events and independent model arithmetic. The [MCP quality report](mcp_quality.md) records API behavior, malformed backend responses, boundary/property tests and strict mutation evidence. The [measured coordinator trace](observability.md#trace-an-actual-coordinator-request) records cross-process execution. These provide different kinds of evidence; a class diagram alone does not establish runtime correctness.

@@ -1,6 +1,6 @@
 # Feature write paths and TTL policy
 
-There are two different feature views. `machine_rolling_10m` contains eight model inputs from the preceding ten minutes. `machine_tumbling_final_10m` contains four aggregates from finalized non-overlapping Flink windows and is used for monitoring, not substituted into that model.
+`machine_rolling_10m` supplies eight model inputs. Six summarize the preceding ten minutes. The other two are pump age and the count of failures recorded in the previous 24 hours. The monitoring view, `machine_tumbling_final_10m`, holds four aggregates from finalized, non-overlapping Flink windows. [Model input list](../../ml/protocols/medium-60d-v1.json)
 
 | Limit | Value | Meaning |
 |---|---|---|

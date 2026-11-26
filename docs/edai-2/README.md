@@ -1,25 +1,21 @@
 # LLM and agent platform
 
-[Documentation](../README.md) · [Other part](../edai-1/README.md)
+[Documentation](../README.md) · [Data and ML](../edai-1/README.md)
 
-Follow a machine question through shared inference, specialist tools, retrieved references and coordinator delegation. Each page separates actual model generations, MCP calls and accepted answers.
+The assistant helps a technician investigate simulated industrial pumps. You can ask “How high is the failure risk for P-001, and what should I compare with its vibration readings?” The coordinator delegates the investigation. The retrieval specialist calls tools for the pump's sensor summary, model score and relevant passages. For a cohort investigation, the drift specialist requests a comparison against the training reference for the served model.
 
-[Agent/tool/inference flow](../images/flow-agents.png) · [System and deployment layers](../diagrams/README.md#three-layers) · [How to read and zoom the figures](../diagrams/README.md#reading-size).
+The Feature API and KServe provide the failure-risk score. RAG Search API provides passages from the indexed simulator documents, with their source identities. The language model on the private GPU helps the agents choose tools and explain the results. [Current ML and LLM diagram](../architecture/ml-llm-platform-v19-notes.md) · [One recorded agent answer](agent_runtime_validation.md)
 
 ## Reading guide
 
-| Step | Page |
+| Question | Where to look |
 |---|---|
-| Platform and information flow | [LLM and agent platform](llm_platform.md) |
-| Inference setup and verification | [LLM inference platform](llm_inference_platform.md) |
-| Default model route, MCP/A2A ingress and retained Helm configuration | [Agentgateway integration](global_model_config.md) |
-| Async MCP tools, rolling updates, rollback and per-Pod autoscale | [MCP implementation](mcp_tools.md) |
-| RAG data pipeline | [Airflow RAG pipeline and DataHub governance](rag_orchestration.md) |
-| Specialists and coordination | [GPU inference and verified agent delegation](gpu_agent_routing.md) |
-| Startup and matched Substrate/ordinary-Agent comparison | [Agent warm-up](agent_warmup.md) |
-| Demand-driven worker pools and all twelve Pod assignments | [Worker autoscale](agent_scaling.md) |
-| Metrics, logs and traces | [Measuring model and agent activity](observability.md) |
-| Post-restart acceptance | [Post-restart agent validation](agent_runtime_validation.md) |
+| How does one question become a verified answer? | [Follow a pump investigation](llm_platform.md) · [Recorded task and tool results](agent_runtime_validation.md) |
+| Which services supply the readings, score, documents and drift result? | [Tool backends and current routing](mcp_tools.md) |
+| Where do the document passages come from? | [Airflow indexing, validation and DataHub lineage](rag_orchestration.md) |
+| Where does the language model run, and who routes the calls? | [Private GPU inference](llm_inference_platform.md) · [Agentgateway and A2A](global_model_config.md) |
+| How are request flow and capacity checked? | [Metrics, logs and traces](observability.md) · [Worker autoscale](agent_scaling.md) |
+| How are new versions verified before use? | [MCP and agent delivery](ci_agents.md) · [RAG delivery](ci_rag.md) |
 
 ## Reference pages
 

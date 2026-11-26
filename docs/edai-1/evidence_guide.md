@@ -1,13 +1,13 @@
 # Recorded evidence
 
-The submission keeps reports readable on GitHub and the underlying receipts independently checkable. Packaging changes how historical files are stored, not what their contents claim.
+For a review on GitHub, start with the [recorded results table](../../README.md#recorded-results). Each component report explains what ran and links to its screenshots and selected results. Some reports also point to raw files that become available in a local clone after you restore the receipt bundle.
 
 | Content | Location | How to inspect |
 |---|---|---|
 | Screenshots, diagrams, report HTML and directly linked results | [Expanded evidence](../evidence/), [figures](../images/) | Open from the relevant component report |
 | Original capsule manifests and archive receipts | Each evidence directory | Compare recorded paths, byte counts and SHA-256 values |
 | Original native gzip archives | Their existing capsule directories | Download the original archive; its recorded bytes remain unchanged |
-| Historical logs, source snapshots and machine-readable payloads without direct documentation links | [Receipt bundle](../evidence-archive/recorded-runs.tar.gz), [index](../evidence-archive/manifest.json) | Restore locally, then use the existing independent verifiers |
+| Archived raw logs, source snapshots and machine-readable receipts | [Receipt bundle](../evidence-archive/recorded-runs.tar.gz), [index](../evidence-archive/manifest.json) | Restore locally to open these files or run the verifiers |
 
 ## Restore original receipts
 
@@ -27,7 +27,7 @@ $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -B -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
 
-This runs the 59 recorded-evidence checks plus the history migration check and the 117-row requirement map. It starts no platform service and sends no model request. A successful offline check establishes the captured result and its scope, not current endpoint readiness or a mentor-awarded grade.
+This checks the recorded evidence, the Git history mapping and the 117-row requirement map. The audit runs offline against the captured results. [Live lab verification](operations.md)
 
 Images and native measurements were not edited. Failed predecessor tasks, censored observations, wrong model answers, mixed startup timings and trace warnings remain part of the evidence. Runtime credentials, Terraform state, datasets, weights and personal learning notes are excluded from the submission.
 

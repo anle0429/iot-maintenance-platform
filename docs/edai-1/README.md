@@ -1,21 +1,24 @@
 # Data and ML platform
 
-[Documentation](../README.md) · [Other part](../edai-2/README.md)
+[Documentation](../README.md) · [LLM and agents](../edai-2/README.md)
 
-Follow simulated telemetry from its source through batch/stream processing, feature history, model training and prediction. The large ingest, ML cohort and retained stream are separate measured workloads.
+This part explains how a pump ID becomes a next-hour failure risk score. Spark turns simulated sensor readings into training inputs and failure labels. Kubeflow runs training, and MLflow records each model version. The Feature API checks a pump's operating state and data freshness before asking KServe to score it.
 
-[System, flow and deployment diagrams](../diagrams/README.md#three-layers) · [How to read and zoom the figures](../diagrams/README.md#reading-size).
+Start with the [current platform diagrams](../diagrams/README.md#current-platform-diagrams). Select **Batch** or **Streaming** on the Data Platform view, or **Prediction** on the ML view.
 
 ## Reading guide
 
-| Step | Page |
+| Question | Page |
 |---|---|
-| Source and faults | [Data generator](data_generator.md) |
-| Batch and stream processing | [Code, paired benchmarks, Airflow and DataHub](processing_jobs.md) |
-| Storage and feature stores | [Parquet, Gold tables, Feast, and measured optimization](data_storage.md) |
-| Training and data loading | [Training notebook and pipeline parity](training_notebook.md) |
-| Serving and provenance | [Feature API: eligibility, inference and provenance](feature_api.md) |
-| Container optimization | [Container image optimization](docker.md) |
+| How are sensor readings, failures and late or repeated deliveries simulated? | [Data generator](data_generator.md) |
+| What does each Spark stage read and write? How does Flink handle a late arrival? | [Batch and stream processing](processing_jobs.md) |
+| Why does training read Parquet while the API reads Redis? | [Storage and feature stores](data_storage.md) |
+| How does a historical feature row become a training example? | [Training and evaluation](training_notebook.md) |
+| When does the prediction API return a score or reject a request? | [Follow a prediction request](architecture.md#inference-request) · [Feature API](feature_api.md) |
+| What can change in the input data, and when may a new model be trained? | [Offline drift](offline_drift_monitoring.md) · [Retraining admission](drift_retraining.md) |
+| How was the predictor image reduced? | [Container image optimization](docker.md) |
+
+The 102.45 GB ingest, the 60-day ML dataset and the retained Flink replay are separate runs. Compare their inputs, outputs and evidence in the [workload table](processing_jobs.md#workload-boundaries).
 
 ## Reference pages
 

@@ -1,5 +1,7 @@
 # Architecture overview review
 
+This page records the review of the earlier single-page overview. For the current deployment and how Search and Drift MCP are monitored today, open the [current platform diagrams](../diagrams/README.md#current-platform-diagrams) and [ML and LLM Platform v19 notes](ml-llm-platform-v19-notes.md).
+
 The review baseline is `overview-v3.excalidraw`, SHA-256 `d46d63c14d2a9c0ef89340a9ff99e5056bb1aea0ad33f2646f63bac7aa4dba2a`. The source, SVG, PNG and review notes each matched the byte length and digest in the v3 manifest. The manifest itself hashed to `922f0cc605e46cf95e76768aca72d9b9352f67851b0580023ab163137254a931`.
 
 ## Source checks

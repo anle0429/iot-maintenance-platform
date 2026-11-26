@@ -1,29 +1,38 @@
 # LLM and agent platform
 
-**Status: native workflows and requirement-level evidence are recorded.** GPU-backed specialist/coordinator answers, RAG governance, private MCP, network controls, scaling, notebooks, warm-up measurements, CI, monitoring and bounded A/B studies have separate evidence. [Generator/target-table and stream-store validation](assistant_data_validation.md) connects actual results to a direct-model evidence-reading exercise, retaining its wrong answer and deployed schema rejection. [OPA agent admission](agent_admission_policy.md) and [corpus MMD review](rag_corpus_drift.md) are recorded researched extensions. [Private retrieval HTTPS and original post-restart responses](mcp_gateway.md) have source-bound transport/UI checks. [Testing techniques and application design](mcp_quality_evidence.md) have original report/source captures. [Infrastructure run captures](llm_infrastructure_evidence.md) and [native Vault metadata UI](vault_agent_ui.md) are also recorded. The [117-row map](../edai-1/implementation_map.md) reconciles the requirements. The [post-restart rehearsal](agent_runtime_validation.md), [self-run guide](../edai-1/operations.md) and [documentation index](../README.md) provide component and operating references; see the [row-level tracker](rubric_tracker.md) for precise scopes. Start with the [documentation index](../README.md) to follow the information flow.
+The assistant helps a technician investigate pump readings, failure risk and relevant maintenance passages. The coordinator delegates work to specialist agents and returns an answer that can be checked against their actual tool results.
+
+Open the current diagram and select **Agent calls** to see who calls each service. Select **Shared LLM** to follow requests to the private GPU or **RAG** to follow document lookup. [Current architecture and viewer](../architecture/ml-llm-platform-v19-notes.md)
+
+The earlier routing diagram below is part of the recorded GPU and agent checkpoint.
 
 <picture>
   <source media="(prefers-reduced-motion: reduce)" srcset="../images/platform-llm-plan.png">
-  <img alt="Recorded LLM and agent routes through llm-d, observer and the private GPU backend" src="../images/platform-llm-plan.gif">
+  <img alt="Earlier routing checkpoint for llm-d, the observer and the private GPU backend" src="../images/platform-llm-plan.gif">
 </picture>
 
-[Excalidraw source](../diagrams/platform-llm-plan.excalidraw) · [SVG](../images/platform-llm-plan.svg) · [Animated viewer](../diagrams/architecture.html) · [View legend and source](../diagrams/README.md) · [LLM rubric](rubric_tracker.md)
+[Earlier Excalidraw](../diagrams/platform-llm-plan.excalidraw) · [Earlier SVG](../images/platform-llm-plan.svg) · [Earlier viewer](../diagrams/architecture.html) · [Diagram index](../diagrams/README.md)
 
 ## IoT interaction
 
-A user asks about a machine's recent condition, risk or a relevant technical document. A coordinator delegates structured feature/RAG retrieval and drift analysis to two specialists. Authenticated MCP tools read the existing machine APIs and a separate versioned knowledge store. Responses identify source records and retrieved chunks. The design has no physical actuator tool.
+For a question such as “What is the failure risk for P-001, and what does the vibration guide say?”, follow the request from the private UI or authenticated A2A client to the coordinator. Agentgateway routes the coordinator's child requests to kagent, which manages each specialist session. [Gateway and controller routes](global_model_config.md)
 
-The retrieval MCP reads a verified local knowledge snapshot copied into each replica. The drift MCP first gathers 32 machine snapshots from Feature API and checks a shared source identity, then submits the cohort to Drift API. The drawing exposes that input dependency as M5. Specialist answers return to the coordinator and through controller/UI; task completion alone is insufficient for answer acceptance.
+1. The retrieval specialist calls Retrieval MCP. The Feature API supplies the pump's sensor summary, and the KServe predictor supplies the checked failure-risk score through that API.
+2. Retrieval MCP forwards the document question to RAG Search API. Each Search Pod verifies and copies the sealed Feast/Milvus Lite index and returns ranked passages with their document IDs and revisions.
+3. If the investigation asks about changes across several pumps, Drift MCP gets a consistent cohort from the Feature API and asks Drift API for a Population Stability Index (PSI) comparison. In serving-model mode, it requires at least 32 operating machines and the training reference that matches the served model.
+4. The agents use the shared llm-d route to generate text on the private GPU. The specialists return their findings to the coordinator. The recorded acceptance check compares the resulting answer with both child tasks and the source records.
 
-The deployed Drift API and MCP response expose PSI diagnostics. The [MMD sensor study](../edai-1/joint_cohort.md) is a separate offline diagnostic, rather than another statistic returned by this tool call. The [system map](../images/platform-system.svg) places these tool and generation paths alongside the data/ML platform.
+[Tool contracts and backends](mcp_tools.md) · [Current Search and drift design](../architecture/ml-llm-platform-v19-notes.md) · [Recorded acceptance check](agent_runtime_validation.md)
+
+The [MMD sensor study](../edai-1/joint_cohort.md) evaluates a separate offline diagnostic.
 
 ## Components
 
-| Area | Required work | Existing baseline |
+| Area | What to inspect | Recorded evidence |
 |---|---|---|
 | Inference | llm-d platform, custom server, global model configuration, measured optimization | Router/custom backend and CPU-thread comparison verified; shared agent model config applied |
 | Knowledge | Authored corpus, Airflow text/chunk/embedding pipeline, Feast storage, validation and DataHub lineage | [Six-task Airflow/GMS run, ten checks and invalid-input rejection](rag_orchestration.md); [source-cited generation](llm_grounding.md) verified on three questions |
-| Tools | Async validated data/chunk and drift MCP services, health checks, Helm rollout/fallback | [Two native MCP releases](mcp_tools.md), each with two replicas and verified rollback |
+| Tools | Private calls for sensor summaries, predictions, document search and drift | [Original MCP releases and rollback](mcp_tools.md#native-deployment-and-failure-checks) · [Later Search scaling and serving-model drift](../architecture/ml-llm-platform-v18-notes.md#cpu-lab-verification-on-november-24-2026) |
 | Agents | Retrieval and drift specialists, coordinator, registry publication, multi-replica autoscaling and sandbox | [Complete native conversations](gpu_agent_routing.md), [direct MCP isolation](agent_network_isolation.md), [automatic 2 → 4 → 2 scaling and original UI](agent_scaling.md) |
 | Startup | Agent Substrate warm-up, worker-pool HA explanation and startup benchmark | [24 fresh actors, matched cold/golden startup, mixed timings and single-host HA explanation](agent_warmup.md) |
 | Delivery | RAG and agent/MCP test-build-auto-deploy pipelines, gateway/UI access and secrets | [RAG Jenkins release, six native Airflow tasks and DataHub readback](ci_rag.md) verified; [three accepted MCP/agent pipelines](ci_agents.md) add service/agent delivery; [private gateway/Vault consumers and a complete routed conversation](agent_gateway.md) add native security/interface proof |
@@ -37,7 +46,9 @@ Each requirement is linked to its own implementation and recorded evidence in th
 
 An architecture drawing, generated YAML, a mocked test or an unrelated ML dashboard is not native LLM proof. A proposed model is not described as deployed, and new cloud resources are not assumed authorized by this plan.
 
-The [compact response contract](agent_response_contract.md) retains the failed predecessor. Current policy 0.2.2 has [verified GPU conversations and actual child delegation](gpu_agent_routing.md). The later scaling run checks each final parent against both child histories, while retaining the explicit capacity rejections and bounded admission retries.
+The [compact response contract](agent_response_contract.md) retains the failed predecessor. The recorded policy 0.2.2 release has [verified GPU conversations and actual child delegation](gpu_agent_routing.md). The later scaling run checks each final parent against both child histories, while retaining the explicit capacity rejections and bounded admission retries.
+
+For additional evidence, follow the [generator and stream data exercise](assistant_data_validation.md), [private retrieval HTTPS](mcp_gateway.md), [infrastructure captures](llm_infrastructure_evidence.md) and [Vault metadata UI](vault_agent_ui.md). The [requirement map](../edai-1/implementation_map.md) and [LLM tracker](rubric_tracker.md) map these results to the original criteria. [Live lab prerequisites](../edai-1/operations.md)
 
 ## Workbook references
 

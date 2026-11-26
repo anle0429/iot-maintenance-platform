@@ -3,30 +3,32 @@
 | Boundary | Implementation / execution |
 |---|---|
 | Code | [Application factory](../../services/mcp_tools/app.py), [typed contracts](../../services/mcp_tools/contracts.py), [runtime](../../services/mcp_tools/runtime.py) |
-| Runs on | Two retrieval and two drift MCP replicas in K3s `iot-agents` |
-| Input → output | Authenticated role-specific tool call → validated native feature/model/reference/drift facts |
-| Validation | Original SDK/rollout cases below; [current API quality](mcp_quality_evidence.md) and [agent delegation](agent_runtime_validation.md) are separately scoped |
+| Runs on | Retrieval and Drift MCP Deployments in K3s `iot-agents`. RAG Search API is a separate Deployment. |
+| Input → output | An authenticated tool call returns sensor features, a prediction, ranked document passages or a drift assessment. |
+| Validation | [Original SDK and rollback run](#native-deployment-and-failure-checks) · [Later Search scaling and serving-model drift](../architecture/ml-llm-platform-v18-notes.md#cpu-lab-verification-on-november-24-2026) |
 
-Two private MCP services now expose the existing IoT APIs and knowledge snapshot. Native SDK clients discovered and executed the tools on Kubernetes, including rejected requests and replay after an automatic Helm rollback. This milestone establishes tool execution. [Specialist answers and coordinator delegation](gpu_agent_routing.md) have separate native validation. This page retains the original MCP-service workload and version scope.
+The two private MCP services give the specialist agents access to the platform's APIs. Retrieval MCP calls the Feature API for pump features and predictions and calls RAG Search API for documents. Drift MCP builds a cohort from Feature API responses and submits it to Drift API. The later implementation is shown in the current diagram. [Current ML and LLM architecture](../architecture/ml-llm-platform-v19-notes.md)
+
+The recorded SDK and rollback runs below retain their original workload and version. [API quality results](mcp_quality_evidence.md) · [Recorded specialist answers and coordinator delegation](gpu_agent_routing.md)
 
 ## Follow one request
 
 For `get_machine_features(P-001)`, the MCP server validates the machine ID, reads the native Feature API asynchronously and validates the returned identity, features and timestamps. `predict_failure` uses the same API's pinned model path. The caller cannot supply its own feature values, a model override or an arbitrary URL.
 
-For a reference question, `search_knowledge` queries a per-replica copy of the 18-chunk Feast/Milvus snapshot. Each ranked chunk ID is resolved through a singleton Feast read, preserving the [ordering correction](llm_grounding.md#why-the-retrieval-adapter-exists). Every returned passage is checked against its source record. These are authored simulator references, not a manufacturer's maintenance manual.
+For a reference question, `search_knowledge` sends the text and requested result count to RAG Search API. Each Search Pod verifies and copies its sealed Feast/Milvus Lite index. It checks returned passages against their source records and reports the document revision. The recorded corpus has 18 chunks from documents authored for the simulator. [Search tool](../../services/mcp_tools/runtime.py#L93) · [Search Pod setup](../../infra/charts/iot-mcp/templates/search.yaml) · [Ordering correction](llm_grounding.md#why-the-retrieval-adapter-exists)
 
-The drift service fetches a bounded cohort through the Feature API and requires a common simulated clock, preparation time, protocol and source version. It then calls the existing PSI comparison API with a pinned training reference. Sorting machine IDs and deriving window times from the snapshot makes reordered replay return the same persisted assessment.
+The drift service fetches a cohort through the Feature API and checks the simulated clock, preparation time, protocol and source version. The default serving-model profile requires at least 32 operating machines and a training reference that matches the served model before it calls Drift API. The historical fleet-reference profile remains available. Sorting machine IDs and deriving window times from the snapshot makes reordered replay return the same persisted assessment. [Serving-model validation](../../services/mcp_tools/runtime.py#L108) · [Helm defaults](../../infra/charts/iot-mcp/values.yaml)
 
 | Service | MCP tool | Input | Actual backend |
 |---|---|---|---|
 | Retrieval | `get_machine_features` | `machine_id` | Feature API and native online store |
-| Retrieval | `predict_failure` | `machine_id` | Feature API and served model version 6 |
-| Retrieval | `search_knowledge` | `question`, `top_k` | Pinned MiniLM encoder and per-Pod Feast/Milvus snapshot |
-| Drift | `assess_feature_drift` | `window_id`, 32–200 distinct `machine_ids` | Feature API and fixed-reference drift API |
+| Retrieval | `predict_failure` | `machine_id` | Feature API and its pinned KServe model |
+| Retrieval | `search_knowledge` | `question`, `top_k` | RAG Search API with a pinned MiniLM encoder and per-Search-Pod Feast/Milvus Lite snapshot |
+| Drift | `assess_feature_drift` | `window_id`, 32–200 distinct `machine_ids` | Feature API and Drift API with the selected training reference |
 
 ## Asynchronous request handling
 
-The MCP registration and the REST adapter share one dispatcher. The [actual retrieval handler](../../services/mcp_tools/app.py#L105) awaits the dispatcher; it does not call a synchronous HTTP client from the event loop:
+The MCP registration and the REST adapter share one dispatcher. The [retrieval handler](../../services/mcp_tools/app.py#L122) awaits that dispatcher.
 
 ```python
 async def get_machine_features(request:MachineRequest)->dict:
@@ -34,20 +36,11 @@ async def get_machine_features(request:MachineRequest)->dict:
     return await mcp_call('get_machine_features',request)
 ```
 
-`mcp_call` awaits `invoke`, which awaits the corresponding `ToolRuntime` method. In [the runtime](../../services/mcp_tools/runtime.py#L69), each process shares an `httpx2.AsyncClient` with an eight-second timeout and a semaphore of eight. The request method enters the semaphore before awaiting the network:
+`mcp_call` awaits `invoke`, which awaits the corresponding `ToolRuntime` method. Each process shares an `httpx2.AsyncClient` with an eight-second timeout. Feature and drift calls share one semaphore of eight and Search calls use a separate semaphore of eight. [Current client and request limits](../../services/mcp_tools/runtime.py#L30)
 
-```python
-async with self.slots:
-    response = await self.client.request('POST' if body is not None else 'GET', base+path, json=body)
-```
+RAG Search API bounds its own queue and runs the synchronous encoder and Feast/Milvus work in a thread. Search can return HTTP 429 under load and Retrieval MCP passes that condition back to the caller. [Search admission and execution](../../services/rag_search/app.py#L64)
 
-[Knowledge search](../../services/mcp_tools/runtime.py#L114) uses `await asyncio.to_thread(self.knowledge.search, request)` inside the same bound. The encoder and native Feast/Milvus operation are synchronous; putting them in a worker thread keeps the event loop responsive. `KnowledgeReader` also locks its native reader within each replica. This design does not promise eight simultaneous encoder calls per replica.
-
-[Drift comparison](../../services/mcp_tools/runtime.py#L122) schedules bounded, asynchronous feature reads before sending one comparison request. It checks that all returned rows belong to the same snapshot before sending any cohort:
-
-```python
-records = await asyncio.gather(*(self.features(MachineRequest(machine_id=identifier)) for identifier in sorted(request.machine_ids)))
-```
+[Drift comparison](../../services/mcp_tools/runtime.py#L108) schedules bounded asynchronous feature reads, then verifies that all returned rows belong to the same snapshot before sending the comparison request.
 
 The [concurrency boundary test](../../tests/mcp/test_contract_edges.py#L124) holds the upstream fixture open, starts nine actual asynchronous calls, verifies only eight enter, releases the fixture and requires all nine results. It also preserves `POST` for an empty dictionary and `GET` for no body. The separate native Locust workload below exercised the deployed REST adapter; it was not a concurrency benchmark of MCP or model generation.
 
@@ -55,11 +48,11 @@ The [concurrency boundary test](../../tests/mcp/test_contract_edges.py#L124) hol
 
 The successful run is `mcp-foundation-29e`, completed at **2026-10-29 05:31 UTC** on the retained 8-vCPU/64-GiB VM. Source SHA256 is `cdec53766c3eb0ce7766de09b941497b4c8bceae8884632daabae78de08c9f6a`; runtime image ID is `sha256:2db876341c06172523c67c7a230dfc888630a085ad7604f93fa2e474aadc4d6d`.
 
-Each service has two ready replicas, a private ClusterIP, liveness/readiness probes, separate bearer credentials and an ingress/egress policy. Containers run as UID/GID 10001 with a read-only root, dropped capabilities and no automatically mounted Kubernetes token. Retrieval replicas copy and hash-check their own snapshot before startup. These controls do not establish the agent sandbox required later in the rubric.
+In that run each service had two ready replicas, a private ClusterIP, liveness/readiness probes, separate bearer credentials and an ingress/egress policy. Containers ran as UID/GID 10001 with a read-only root, dropped capabilities and no automatically mounted Kubernetes token. The earlier retrieval replicas copied and hash-checked their own snapshots before startup. The agent sandbox has separate evidence. [Agent platform and sandbox](agent_platform.md)
 
 Both Helm releases completed a rolling update with `maxSurge=1`, `maxUnavailable=0`. Each was then given a deliberately unavailable image. The upgrade failed, `--atomic` restored the valid release, and a genuine SDK probe succeeded again. Four SDK sessions produced **24 business-tool responses**, including expected errors.
 
-[The Helm workload](../../infra/charts/iot-mcp/templates/workload.yaml#L17) declares the rolling policy and the `/health/live` and `/health/ready` checks. A Pod only becomes ready after its native dependencies are available.
+[The Helm workload](../../infra/charts/iot-mcp/templates/workload.yaml#L17) declares the rolling policy and the `/health/live` and `/health/ready` checks. The original release checked backend dependencies before reporting ready. In the current retrieval frontend, local startup and dependency checks have separate endpoints. [Current readiness behavior](../../services/README.md)
 
 ```yaml
 strategy:
@@ -76,7 +69,7 @@ failed=command(role+'-bad-upgrade',[helm,'upgrade',release,chart,'-n','iot-agent
 
 The runner requires a nonzero exit, reads the restored image tag and `revisionMarker`, and invokes the SDK again against the restored Deployment. [Retrieval failed upgrade](../evidence/mcp-tools/success/native/retrieval-bad-upgrade.exit) · [restored values](../evidence/mcp-tools/success/native/retrieval-values-after.stdout) · [successful SDK replay](../evidence/mcp-tools/success/native/retrieval-probe-after-rollback.stdout) · [drift failed upgrade](../evidence/mcp-tools/success/native/drift-bad-upgrade.exit) · [successful drift replay](../evidence/mcp-tools/success/native/drift-probe-after-rollback.stdout). This fallback restores a working **release after an upgrade failure**. It is separate from client retries or model-server failover.
 
-The drift probe compared 32 real snapshot records, found six of eight features above the fixed PSI threshold and returned the same assessment for reversed IDs and after rollback. Its reference is the recorded **model 3 training cohort**, distinct from the currently served model 6. This is label-free input drift, not measured accuracy loss or concept drift.
+The drift probe compared 32 real snapshot records, found six of eight features above the fixed PSI threshold and returned the same assessment for reversed IDs and after rollback. The historical fleet-reference run used the **model 3 training cohort** while the predictor served model 6. This result measures changes in input distributions without labels. The later serving-model profile verifies the match between the serving model and training reference. [November 24 serving-model drift result](../architecture/ml-llm-platform-v18-notes.md#cpu-lab-verification-on-november-24-2026)
 
 ![Native retrieval API reached through private IAP forwarding](../evidence/mcp-tools/ui/native-retrieval-swagger.jpg)
 
@@ -129,7 +122,7 @@ The committed capsule contains 745 curated source, command, report and image fil
 
 ## Native MCP autoscale
 
-Both retained MCP releases use request-driven KEDA scaling with a warm minimum of two and maximum of four Pods. The chart also offers fixed-replica and CPU-HPA modes; **the accepted run uses request rates**, not the unmeasured CPU alternative. [ScaledObject](../../infra/charts/iot-mcp/templates/request-scaling.yaml) · [Workload](../../infra/charts/iot-mcp/templates/workload.yaml) · [Values](../../infra/charts/iot-mcp/values.yaml).
+In the 7 November experiment, request-driven KEDA scaled both original MCP Deployments with two to four Pods each. The current request-based configuration scales the separate RAG Search Deployment on Search arrivals and Drift MCP on successful drift assessments. The November 24 Search test held the Retrieval MCP frontend at two replicas. [Current scaler and metrics](../architecture/ml-llm-platform-v19-notes.md#search-and-drift-metrics) · [November 24 test](../architecture/ml-llm-platform-v18-notes.md#cpu-lab-verification-on-november-24-2026) · [Helm values](../../infra/charts/iot-mcp/values.yaml)
 
 | MCP Deployment | Successful load requests | Errors | Ready replicas | New serving Pods |
 |---|---:|---:|---|---:|
@@ -150,7 +143,7 @@ KEDA queries service/role-scoped successful request rates over 30 seconds. Targe
 
 The recorder never invokes a scale operation. [Native result](../evidence/mentor-runtime-20261107/mcp-scaling.json) · [Runner](../../scripts/benchmark-mcp-scaling.py) · [Independent acceptance](../../infra/mcp_scaling.py). The initial CPU pilot's three drift 503s and rejected HPA-to-KEDA ownership migration remain archived. The accepted run migrated through fixed two-replica mode before enabling KEDA.
 
-MCP runtime and mutation targets are unchanged. CI authenticates four exact deployment-only autoscaling files separately; an arbitrary chart change or any runtime/test change invalidates reuse of the previous mutation result. [Source boundary](../../infra/mcp/autoscaling-source.json) · [Gate](../../agents/release_ci.py).
+For that experiment, CI authenticated four deployment-only autoscaling files separately from the recorded runtime and mutation targets. Reuse of a mutation result is bound to the checked source. [Source boundary](../../infra/mcp/autoscaling-source.json) · [Gate](../../agents/release_ci.py)
 
 ## Repeat the checks
 

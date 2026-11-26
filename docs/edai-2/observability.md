@@ -1,6 +1,14 @@
 # Measuring model and agent activity
 
-The observation API now sits on the active private model route. Its initial canary produced exactly nine durable facts: three completed generations, four policy rejections and two invalid requests. A later [coordinator cohort](#trace-an-actual-coordinator-request) verifies the active integration against actual specialist histories, per-Pod MCP counters and stored Jaeger traces. The [monitoring checkpoint](#use-the-monitoring-views) adds native dashboards, exact log reconciliation and a bounded GPU load test.
+To understand one assistant answer, use the signals that match the question.
+
+| Question | Signal to inspect |
+|---|---|
+| Is the search service under load? | Prometheus and Grafana show RAG Search arrivals and queue depth. The current scaler uses the arrival rate. Drift MCP has a separate scrape and scales on successful drift assessments. [Current scrape and scaler paths](../architecture/ml-llm-platform-v19-notes.md#search-and-drift-metrics) |
+| How long did a model request take? | The observer records the request's duration, time to first token and token counts. Alloy forwards the request logs to Loki. [Recorded request logs and dashboards](#use-the-monitoring-views) |
+| Which task or service handled the request? | Jaeger relates spans from the observed route. The coordinator and specialist task histories show the actual result of each task and tool call. [Recorded coordinator trace](#trace-an-actual-coordinator-request) |
+
+The observation API sits on the configured private model route. Its initial recording contains nine events, including three completed generations, four policy rejections and two invalid requests. A later coordinator cohort links the recorded trace to specialist histories and MCP counters.
 
 Run `python -B -S scripts/verify-llm-observer.py` to check the [quality report](../evidence/llm-observer/quality-verification.json), [ready canary](../evidence/llm-observer/canary-verification.json), [request results](../evidence/llm-observer/probe-verification.json) and [original native archive](../evidence/llm-observer/native-receipts.tar.gz). The checker requires only Python's standard library. It authenticates 894 original payloads, then independently checks mutation exits, reported usage, chunk clocks, request identities and the log/counter readbacks. This is recorded execution evidence, not a claim that a stopped VM is currently serving traffic.
 
@@ -8,7 +16,7 @@ Run `python -B -S scripts/verify-llm-observer.py` to check the [quality report](
 
 The later [policy-frequency window](llm_policy_window.md) adds twelve controlled admissions, nine unique pre-inference rejections and separate exact-window versus rolling-minute frequencies. Its original screenshots and eight Grafana/Prometheus target comparisons complete the bounded policy-frequency evidence; the controls remain four explicit text patterns.
 
-The retained Prometheus and Grafana installation now discovers seven individual targets: four MCP Pods, the observation API, the llama.cpp model and the GPU VM host exporter. Existing jobs remain in place, including two unavailable historical ML A/B targets. Discovery has only Pod read/list/watch access in the two application namespaces; actual attempts to list Secrets return 403.
+The recorded dashboard run discovered four MCP Pods, the observation API, the llama.cpp model and the GPU VM host exporter, for seven targets in all. It also retained two unavailable historical ML A/B targets. The discovery identity had Pod read/list/watch access in the two application namespaces. Attempts to list Secrets returned 403. [Later Search and Drift API verification](../architecture/ml-llm-platform-v18-notes.md#cpu-lab-verification-on-november-24-2026)
 
 ![Original model latency and streaming first-output dashboard after the GPU load test](../evidence/llm-monitoring/ui/runtime-after-load.jpg)
 

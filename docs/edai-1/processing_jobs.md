@@ -1,6 +1,17 @@
 # Batch and stream processing
 
-This page brings together the Spark batch jobs, Kafka/Flink processing, measured corrections, Airflow orchestration, and their original evidence. Start with the code and follow the corresponding results below. Each experiment identifies its input, output and runtime separately.
+The batch path prepares history for analysis and training. The streaming path replays sensor deliveries and computes monitoring windows using the time each reading was taken. [Current Data Platform diagram](../diagrams/README.md#current-platform-diagrams)
+
+| Step | Input | Output |
+|---|---|---|
+| DP1 · Spark | JSONL exports from the data disk | Bronze Parquet with raw telemetry, machine, failure and maintenance records |
+| DP2 · Spark | Validated Bronze | Silver telemetry with one reading per event ID and Gold tables for analysis |
+| DP3 · Spark | Silver telemetry and events, plus the current Gold machine dimension | Separate feature and failure-label tables |
+| Streaming · Flink | Kafka deliveries replayed in arrival order | Finalized ten-minute windows and late/retry audit records in SQLite |
+
+Airflow launches a job container for each Spark processing and validation task. A publication task sends schemas, lineage and validation results to DataHub. The following batch stage consumes the previous run's validated Parquet output. [Batch code](../../pipelines/orchestrated_job.py) · [Airflow task adapter](../../pipelines/airflow_tasks.py)
+
+After Flink finishes a window, separate Airflow jobs can publish the retained result to Parquet for monitoring history and to Redis for the latest monitoring values. [Finalized-window publication](#finalized-window-delivery-and-replay)
 
 ## Contents
 
