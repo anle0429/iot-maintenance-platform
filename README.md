@@ -1,31 +1,31 @@
 # IoT Maintenance Platform
 
-IoT Maintenance Platform is a predictive maintenance lab for industrial pumps. It uses simulated sensor readings and failure records to estimate the risk that a running pump will fail within the next hour. A maintenance assistant can retrieve the pump's sensor summaries, request a risk score and find relevant passages in the maintenance documents.
+IoT Maintenance Platform is a predictive maintenance lab for industrial pumps. It processes simulated telemetry, trains a model to estimate next-hour failure risk for operating pumps, and serves predictions through an API. A maintenance assistant retrieves sensor summaries, predictions and relevant maintenance documents.
 
-[Start the review](docs/README.md) · [Architecture](#architecture) · [Recorded results](#recorded-results) · [Quick start](#quick-start)
+The simulator generates temperature, vibration, motor current and speed readings, as well as failure and maintenance records. The event schemas and `failure_in_next_1h` training target are defined in the data contract. [Data contract](docs/edai-1/data_contract.md)
 
-## What you can do
+## Getting started
 
-| Task | What the system does |
-|---|---|
-| Process pump telemetry | Spark cleans historical JSONL and writes Parquet tables. Kafka and Flink replay sensor deliveries and compute 10-minute monitoring summaries. [Data platform](#data-platform) |
-| Check one pump's failure risk | Send a pump ID. The API checks the operating state and input freshness, then calls KServe and returns a score with its model version. [ML platform](#ml-platform) |
-| Investigate a pump or a group of pumps | Ask for a pump's readings, risk score and related documents, or check whether sensor inputs have shifted across a group of pumps. [LLM and agent platform](#llm-and-agent-platform) |
+From the repository root, run the following in PowerShell with Python 3.12 or 3.13. The development profile generates 48 hours of data for 20 pumps.
 
-## Business domain
+```powershell
+$run = "local-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+python -S -m generator generate --config generator/configs/dev.json --output "data/source/$run"
+python -S -m generator inspect --source "data/source/$run" --report "outputs/$run/quality.json"
+```
 
-The simulator records temperature, vibration, motor current and speed, along with faults and maintenance. It generates duplicate exports and late or repeated deliveries to test how the pipelines handle them.
+The generator writes telemetry, a replay file and a manifest to `data/source/$run`. The inspection writes a quality report to `outputs/$run/quality.json`. [Generator guide](generator/README.md)
 
-For a pump running at 10:00, `failure_in_next_1h` asks whether a failure starts after 10:00 and by 11:00. The model's inputs use information that had arrived by 10:00. Training skips pumps already down and cases with insufficient time to observe the outcome. [Data contract and target definition](docs/edai-1/data_contract.md)
+Live prediction and agent requests require access to the private lab and a fresh serving snapshot. [Lab setup and demo commands](docs/edai-1/operations.md)
 
 ## Architecture
 
-### Data Platform architecture
+### Data Platform
 
-- **Batch** · Airflow starts a Spark job container for each stage. DP1 reads JSONL from the VM disk and writes Bronze Parquet. DP2 writes Silver and Gold, and DP3 writes model inputs and failure labels.
-- **Streaming** · Recorded sensor deliveries → Kafka → Flink → SQLite windows and audit records. Airflow jobs publish retained windows to Parquet for history and Redis for the latest values.
+- **Batch.** Airflow starts a Spark job container for each stage. DP1 reads JSONL from the VM disk and writes Bronze Parquet. DP2 writes Silver and Gold. DP3 reads Silver and equipment records from Gold to build eight rolling model inputs and separate next-hour failure labels.
+- **Streaming.** Flink consumes recorded deliveries replayed through Kafka and writes four 10-minute monitoring aggregates and audit records to SQLite. Airflow jobs publish retained windows to Parquet and the latest aggregates to Redis.
 
-**[Open the zoomable Data Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v16.html)**
+[Interactive viewer](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v16.html) · [PNG](docs/architecture/data-platform-v16.png) · [SVG](docs/architecture/data-platform-v16.svg) · [Animated SVG](docs/architecture/data-platform-v16.animated.svg) · [Excalidraw](docs/architecture/data-platform-v16.excalidraw)
 
 <a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v16.html">
 <picture>
@@ -34,16 +34,14 @@ For a pump running at 10:00, `failure_in_next_1h` asks whether a failure starts 
 </picture>
 </a>
 
-[Static PNG](docs/architecture/data-platform-v16.png) · [Static SVG](docs/architecture/data-platform-v16.svg) · [Animated SVG](docs/architecture/data-platform-v16.animated.svg) · [Editable Excalidraw](docs/architecture/data-platform-v16.excalidraw)
+### ML and LLM Platform
 
-### ML and LLM Platform architecture
+- **Training and release.** Kubeflow runs Spark logistic regression on a separate 60-day dataset. MLflow registers model versions. Jenkins stages the selected model in KServe and switches the Feature API after release checks pass.
+- **Prediction.** Feast materializes the eight model inputs into Redis. The Feature API checks their freshness and reads a prepared operating-state snapshot from Silver before sending eligible requests to KServe.
+- **Agents.** The coordinator delegates to specialists. Retrieval tools call the Feature API and the RAG Search API. The drift specialist compares input distributions with the reference for the model in use. The agents use a shared LLM on a private GPU.
+- **Monitoring.** Airflow compares a rolling Parquet window with a saved training reference for offline drift. Prometheus scrapes separate RAG Search and Drift MCP metrics.
 
-- **Train a model** · Historical features and failure labels → Kubeflow and Spark → model version in MLflow.
-- **Predict a failure** · Pump ID → Feature API → KServe → checked score, or an error if the request fails validation.
-- **Investigate with the assistant** · Question → coordinator and specialists → tool calls for readings, predictions, documents or drift → answer.
-- **Monitor offline drift and service load** · Airflow compares a rolling Parquet window with a saved training reference. Prometheus scrapes the RAG Search and Drift MCP metrics separately.
-
-**[Open the zoomable ML and LLM Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v19.html)**
+[Interactive viewer](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v19.html) · [PNG](docs/architecture/ml-llm-platform-v19.png) · [SVG](docs/architecture/ml-llm-platform-v19.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v19.animated.svg) · [Excalidraw](docs/architecture/ml-llm-platform-v19.excalidraw)
 
 <a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v19.html">
 <picture>
@@ -52,34 +50,13 @@ For a pump running at 10:00, `failure_in_next_1h` asks whether a failure starts 
 </picture>
 </a>
 
-[Static PNG](docs/architecture/ml-llm-platform-v19.png) · [Static SVG](docs/architecture/ml-llm-platform-v19.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v19.animated.svg) · [Editable Excalidraw](docs/architecture/ml-llm-platform-v19.excalidraw)
-
 ### Deployment
 
 The lab runs on Google Cloud. The CPU VM hosts the data jobs, K3s services and KServe predictor. A private V100 GPU worker runs the language model for the agents. [Deployment topology](docs/images/deployment-runtime.png) · [Operations guide](docs/edai-1/operations.md)
 
-## Data platform
-
-| Job | Reads | Writes |
-|---|---|---|
-| Spark DP1 | Raw JSONL from the VM disk | Bronze Parquet tables |
-| Spark DP2 | Bronze tables | Cleaned Silver tables and Gold tables for analysis |
-| Spark DP3 | Silver telemetry and event tables, plus current equipment records from Gold | Eight rolling model inputs and a separate table of next-hour failure labels |
-| Flink | Kafka deliveries replayed in arrival order | Four monitoring aggregates per 10-minute window and audit records in SQLite |
-
-The eight model inputs built by Spark are stored in Parquet. Feast reads that history for training and loads the latest values into Redis for online use. Flink's monitoring windows track reading count, temperature sum, mean temperature and maximum vibration. Airflow manages the batch jobs and publishes schemas and lineage to DataHub after validation. [Processing jobs](docs/edai-1/processing_jobs.md) · [Storage and feature stores](docs/edai-1/data_storage.md)
-
-### ML platform
-
-Kubeflow runs training on the separate 60-day dataset. A Spark logistic regression model learns from earlier observations and is evaluated on later ones. MLflow records the runs and model versions. Jenkins packages the selected model for KServe and switches the Feature API after release checks pass. [Training notebook and results](docs/edai-1/training_notebook.md) · [Serving release](docs/edai-1/ci_serving.md)
-
-For `POST /v1/machines/P-001:predict`, the Feature API reads eight inputs from Redis and checks a snapshot of the pump's operating state prepared from Silver telemetry. It calls KServe only when the pump is operating and the inputs pass validation. [Prediction API](docs/edai-1/feature_api.md)
-
-### LLM and agent platform
-
-A coordinator sends investigation tasks to two specialists. The retrieval specialist uses tools that call the Feature API for sensor summaries and scores, and the RAG Search API for passages and their sources. The drift specialist checks whether input values across a group of pumps have shifted relative to the reference for the model in use. The agents use those results to write their answers. [Agent request and tool calls](docs/edai-2/agent_runtime_validation.md) · [Document indexing](docs/edai-2/rag_orchestration.md)
-
 ## Recorded results
+
+The large batch ingest, 60-day training run and streaming replay are separate workloads. The results below use simulated pump data.
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -89,32 +66,12 @@ A coordinator sends investigation tasks to two specialists. The retrieval specia
 | Prediction | For 200 pumps, the API returned 195 predictions and rejected the five stopped pumps with HTTP 409. | [Serving report](docs/edai-1/final_handover.md) |
 | Agent investigation | A recorded request returned results from both specialists after four successful tool calls. | [Agent validation](docs/edai-2/agent_runtime_validation.md) |
 
-## Quick start
-
-### Generate a small dataset
-
-From the repository root, run the following in PowerShell with Python 3.12 or 3.13. The development profile generates 48 hours of simulated data for 20 pumps.
-
-```powershell
-$run = "local-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
-python -S -m generator generate --config generator/configs/dev.json --output "data/source/$run"
-python -S -m generator inspect --source "data/source/$run" --report "outputs/$run/quality.json"
-```
-
-Look in `data/source/$run` for the telemetry JSONL files, `stream/telemetry_deliveries.jsonl` for replay, and `manifest.json` for the file inventory. The inspection writes the results of 35 checks to `outputs/$run/quality.json`. [Generator guide](generator/README.md)
-
-### Verify the recording
-
-Run the offline audit to check the archived results and source files. [Evidence guide](docs/edai-1/evidence_guide.md)
+To verify the archived results and source files locally, run the offline audit. [Evidence guide](docs/edai-1/evidence_guide.md)
 
 ```powershell
 $tag = Get-Date -Format 'yyyyMMdd-HHmmss'
 python -B -S scripts/audit-final-coursework.py --output "outputs/audit-$tag"
 ```
-
-### Use the live lab
-
-Live prediction and agent requests require access to the private lab and a fresh serving snapshot. [Lab setup and demo commands](docs/edai-1/operations.md)
 
 ## Repository structure
 
@@ -129,14 +86,11 @@ Live prediction and agent requests require access to the private lab and a fresh
 
 ## Documentation
 
-| If you want to follow… | Open |
-|---|---|
-| Data generation, Spark and Flink, feature stores, training and serving | [Data and ML](docs/edai-1/README.md) |
-| An agent request through the gateway, tool services and GPU | [LLM and agents](docs/edai-2/README.md) |
-| Which diagram to open for each workflow | [Diagram index](docs/diagrams/README.md) |
-| Where offline PSI reads data and which metrics drive scaling | [ML and LLM architecture notes](docs/architecture/ml-llm-platform-v19-notes.md) |
-
-[Full documentation index](docs/README.md)
+- [Documentation index](docs/README.md)
+- [Data and ML](docs/edai-1/README.md)
+- [LLM and agents](docs/edai-2/README.md)
+- [Architecture diagrams](docs/diagrams/README.md)
+- [Operations](docs/edai-1/operations.md)
 
 ## Contributors
 
