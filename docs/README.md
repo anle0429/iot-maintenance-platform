@@ -8,7 +8,7 @@ Suppose a technician asks about pump `P-001` at 10:00. The training target is a 
 
 | Question | Where to look | What you can verify |
 |---|---|---|
-| Where does a reading end up? | [Data Platform viewer](diagrams/README.md#current-platform-diagrams) · [Batch and stream jobs](edai-1/processing_jobs.md) | Spark writes batch tables to Parquet. Flink writes 10-minute aggregates and audit records to SQLite. |
+| Where does a reading end up? | [Data Platform viewer](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v16.html) · [Batch and stream jobs](edai-1/processing_jobs.md) | Spark writes batch tables to Parquet. Flink writes 10-minute aggregates and audit records to SQLite. |
 | How does the model learn, and who decides whether to score a pump? | [Training](edai-1/training_notebook.md) · [Feature API](edai-1/feature_api.md) | The 60-day training run uses earlier observations to predict later failures. In the serving test, the API scored 195 pumps and returned HTTP 409 for five stopped pumps. |
 | Where does the assistant get its answer? | [Agent workflow](edai-2/llm_platform.md) · [Recorded conversation](edai-2/agent_runtime_validation.md) | The coordinator delegates to specialists. The saved conversation shows the tool calls, the returned facts and the final answer. |
 | What does monitoring measure? | [Current monitoring and scaling](architecture/ml-llm-platform-v19-notes.md) | Offline drift compares feature distributions with a saved training reference. Separate Prometheus metrics measure demand for Search and Drift MCP. |
