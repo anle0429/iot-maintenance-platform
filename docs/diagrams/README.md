@@ -1,6 +1,17 @@
 # Architecture diagrams
 
-Start with the [main platform architecture](../images/platform-architecture.svg) ([editable Excalidraw](platform-architecture.excalidraw), [GIF](../images/platform-architecture.gif), [motion SVG](../images/platform-architecture.animated.svg)). It groups components into data processing, storage and features, model lifecycle and serving, knowledge and agents, and shared operations. The README uses the moving-dot GIF with a PNG fallback for reduced motion. The [current execution guide](execution-guide.md#main-platform-architecture) explains its source decisions and retains the detailed B1, S1, T1, P1, K1, A1 and D1 views.
+## Current platform diagrams
+
+| View | Follow this workflow | Files |
+|---|---|---|
+| Data Platform v16 | Airflow launches DP1–DP3 in Spark job containers. Follow each stage's reads and writes, or trace Kafka and Flink through monitoring publication. | [Viewer](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v16.html) · [Static SVG](../architecture/data-platform-v16.svg) · [Excalidraw](../architecture/data-platform-v16.excalidraw) |
+| ML + LLM Platform v19 | Follow model training, prediction or agent calls. The offline PSI detail shows both inputs. The observability detail shows the separate Search and Drift scrape sources. | [Viewer](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v19.html) · [Static SVG](../architecture/ml-llm-platform-v19.svg) · [Excalidraw](../architecture/ml-llm-platform-v19.excalidraw) · [Notes](../architecture/ml-llm-platform-v19-notes.md) |
+
+Use **Read labels** for the small labels and select a flow to highlight its arrows. The root README uses GIF previews with a PNG fallback for reduced motion.
+
+## Recorded platform overview
+
+The [platform architecture overview](../images/platform-architecture.svg) ([editable Excalidraw](platform-architecture.excalidraw), [GIF](../images/platform-architecture.gif), [motion SVG](../images/platform-architecture.animated.svg)) groups the components covered in the earlier review. The [execution guide](execution-guide.md#main-platform-architecture) explains that view and links the detailed B1, S1, T1, P1, K1, A1 and D1 paths.
 
 The main view gives online lookup, Retrieval MCP and Drift MCP separate Feature API ports and connector lanes. Training history enters KFP from the left edge, clear of the subsystem title. Each specialist sits above its MCP service; all three agent roles use the shared LLM band below them. The coordinator is labelled as an agent that delegates through kagent. The finalized streaming path explicitly includes the staged offline/online writers.
 
@@ -97,11 +108,11 @@ The deployment view groups the earlier 42 selected resource/client roles into th
 
 The two environments are recorded configurations. This inventory does not assert that each instance is running now. Substrate's Valkey members are separate agent state, outside the feature-store data path.
 
-The Feature API seeds a small memory-backed state copy rather than mounting bulk training data. Retrieval MCP copies its own verified knowledge state. GPU model files live on the GPU host. Jaeger is memory-backed and can lose traces on restart. A stopped VM, a retained disk and an unexpired feature lease are different states. Neither same-host replicas/executors nor one GPU establish host-level HA; Recreate can interrupt inference.
+The Feature API seeds a small memory-backed state copy. In the current deployment each RAG Search Pod prepares a writable copy of its sealed knowledge snapshot. Retrieval MCP calls the Search API for document lookup. GPU model files live on the GPU host. Jaeger can lose memory-backed traces on restart. KServe deployment capacity and the state of the retained lab are covered in the [operations guide](../edai-1/operations.md).
 
 ## Reading size
 
-The primary system view uses 28px text on a 1,600px canvas (about 15.7px at 896px display width). Flow/deployment text is at least 22px at native size. Use full-resolution PNG/SVG for inspection rather than compressing every implementation detail into the README preview.
+The Layer 1 system view below uses 28px text on a 1,600px canvas (about 15.7px at 896px display width). Text in its companion flow and deployment views is at least 22px at native size. Use the full-resolution SVG or the zoom controls to inspect smaller details.
 
 Open [architecture.html](architecture.html) from a local clone. The selector groups **Layer 1**, **Layer 2**, **Layer 3** and reference views; it starts with the system architecture. **Read labels** zooms to at least natural width and a minimum 16px text size; scroll inside the canvas. **Fit** restores the full composition. Play/pause, speed and arrow details work offline. Reduced-motion preferences start the viewer paused and select static PNGs in embedded previews. GitHub displays HTML source, so use the local file for interactive controls.
 

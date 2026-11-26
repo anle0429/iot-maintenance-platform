@@ -6,16 +6,46 @@ import json
 import subprocess
 from documentation_presentation import ROOT, presentation, check_evidence_additions
 from source_evolution import recorded_source
+from scripts.git_sources import git_blobs
 
 LAYERS_SHA256='fb65bec8d084f75cb3beff7655abc700d6545f1695b0194159de42d534ae9753'
 PRIMARY=['architecture-system','flow-batch','flow-stream','flow-training','flow-prediction','flow-agents','deployment-runtime','feature-containers']
 COUNTS=[(21,24),(10,9),(9,9),(12,12),(10,11),(13,21),(18,9),(7,7)]
+
+LAYER_PUBLICATION = 'bb2f5913df9f8e628211323c8961f8627c473b15'
+LAYER_SOURCE_REVIEW = '1e9141dfba7bcf9cd15453ba1a40d5afc04edadb'
+LAYER_SOURCE_UPDATES = (
+    'airflow/dags/iot_data_pipelines.py',
+    'airflow/dags/iot_offline_drift.py',
+    'docs/edai-1/operations.md',
+    'feature_store/drift_retrain.py',
+    'infra/charts/iot-mcp/templates/workload.yaml',
+    'ml/drift_retrain.py',
+    'pipelines/stream_contract.py',
+    'pipelines/stream_job.py',
+    'scripts/refresh-agent-features.py',
+    'services/drift_api/app.py',
+    'services/feature_api/app.py',
+    'services/feature_api/runtime.py',
+    'services/mcp_tools/app.py',
+    'services/mcp_tools/contracts.py',
+    'services/mcp_tools/runtime.py',
+)
 
 
 def canonical(path):
     """Normalize only Windows text newlines; PNG/GIF identities are checked as exact bytes."""
     body=path.read_bytes()
     return body if path.suffix in ['.png','.gif'] else body.replace(b'\r\n',b'\n')
+
+
+def reviewed_layer_sources(pins):
+    """Authenticate the reviewed working sources before reading their historical layer versions."""
+    assert set(LAYER_SOURCE_UPDATES) <= pins.keys()
+    reviewed = git_blobs(ROOT, LAYER_SOURCE_REVIEW, LAYER_SOURCE_UPDATES)
+    for name, blob in reviewed.items():
+        assert canonical(ROOT/name) == blob, ('Unreviewed layer source', name)
+    return git_blobs(ROOT, LAYER_PUBLICATION, LAYER_SOURCE_UPDATES)
 
 
 def semantic_boundaries(scenes,groups):
@@ -100,9 +130,12 @@ def check():
         for path in ['docs/diagrams/'+name+'.excalidraw',*['docs/images/'+name+suffix for suffix in ['.png','.svg','.animated.svg','.gif','.preview.json']]]:
             assert sha256(canonical(ROOT/path)).hexdigest()==display['assets'][path]['sha256'],path
     boundaries=semantic_boundaries(scenes,value['deployment_group_members'])
-    for name,pin in value['source_sha256'].items():assert sha256(recorded_source(name,canonical(ROOT/name))).hexdigest()==pin,name
+    historical = reviewed_layer_sources(value['source_sha256'])
+    for name, pin in value['source_sha256'].items():
+        body = historical[name] if name in historical else recorded_source(name, canonical(ROOT/name))
+        assert sha256(body).hexdigest() == pin, name
     for name,fragments in value['critical_source_fragments'].items():
-        text=(ROOT/name).read_text(encoding='utf-8')
+        text = historical[name].decode('utf-8') if name in historical else (ROOT/name).read_text(encoding='utf-8')
         for part in fragments:assert part in text,(name,part)
     agents=(ROOT/'infra/charts/iot-agents/templates/agents.yaml').read_text(encoding='utf-8')
     assert agents.count('modelConfig: {{ .Values.modelConfig }}')==3

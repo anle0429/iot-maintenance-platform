@@ -149,7 +149,7 @@ Database, artifact and registry state stays on VM volumes. A Git clone does not 
 
 Earlier design sketches and model versions are retained in [Git history](https://github.com/anle0429/iot-maintenance-platform/blob/6fe5cff9217a9e470170a0c12fc0398670d492ad/docs/architecture.md). They describe earlier milestones, not the current lab design.
 
-The supplied rubrics govern scope. [Card Fraud Platform](https://github.com/cvinhnguyen/card-fraud-platform) is a presentation reference; the illustrations and code walkthrough describe this repository's IoT implementation.
+The [diagram index](../diagrams/README.md#current-platform-diagrams) opens the current Data Platform and ML + LLM Platform views.
 
 ## Selected LLM workstream
 

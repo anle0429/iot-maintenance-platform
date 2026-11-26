@@ -22,36 +22,37 @@ For a pump running at 10:00, `failure_in_next_1h` asks whether a failure starts 
 
 ### Data Platform architecture
 
-- **Batch** · Pump simulator → JSONL on the VM disk → Spark → Parquet tables for analysis and training.
+- **Batch** · Airflow starts a Spark job container for each stage. DP1 reads JSONL from the VM disk and writes Bronze Parquet. DP2 writes Silver and Gold, and DP3 writes model inputs and failure labels.
 - **Streaming** · Recorded sensor deliveries → Kafka → Flink → SQLite windows and audit records. Airflow jobs publish retained windows to Parquet for history and Redis for the latest values.
 
-**[Open the zoomable Data Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v15.html)**
+**[Open the zoomable Data Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v16.html)**
 
-<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v15.html">
+<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/data-platform-v16.html">
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/data-platform-v15.png">
-  <img alt="Data flow from the pump simulator through Spark batch and Kafka–Flink streaming jobs to their stores." src="docs/architecture/data-platform-v15.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/data-platform-v16.png">
+  <img alt="Airflow launches Spark stages DP1–DP3, which read and write VM Parquet tables. The streaming path runs through Kafka and Flink." src="docs/architecture/data-platform-v16.gif">
 </picture>
 </a>
 
-[Static PNG](docs/architecture/data-platform-v15.png) · [Animated SVG](docs/architecture/data-platform-v15.animated.svg) · [Editable Excalidraw](docs/architecture/data-platform-v15.excalidraw)
+[Static PNG](docs/architecture/data-platform-v16.png) · [Static SVG](docs/architecture/data-platform-v16.svg) · [Animated SVG](docs/architecture/data-platform-v16.animated.svg) · [Editable Excalidraw](docs/architecture/data-platform-v16.excalidraw)
 
 ### ML and LLM Platform architecture
 
 - **Train a model** · Historical features and failure labels → Kubeflow and Spark → model version in MLflow.
 - **Predict a failure** · Pump ID → Feature API → KServe → checked score, or an error if the request fails validation.
 - **Investigate with the assistant** · Question → coordinator and specialists → tool calls for readings, predictions, documents or drift → answer.
+- **Monitor offline drift and service load** · Airflow compares a rolling Parquet window with a saved training reference. Prometheus scrapes the RAG Search and Drift MCP metrics separately.
 
-**[Open the zoomable ML and LLM Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v18.html)**
+**[Open the zoomable ML and LLM Platform diagram](https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v19.html)**
 
-<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v18.html">
+<a href="https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/docs/architecture/ml-llm-platform-v19.html">
 <picture>
-  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/ml-llm-platform-v18.png">
-  <img alt="Model training and prediction, agent calls to the API services, and the language model on a private GPU." src="docs/architecture/ml-llm-platform-v18.gif">
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/architecture/ml-llm-platform-v19.png">
+  <img alt="Model training and serving, offline drift inputs, separate Search and Drift MCP metrics, and agent inference on a private GPU." src="docs/architecture/ml-llm-platform-v19.gif">
 </picture>
 </a>
 
-[Static PNG](docs/architecture/ml-llm-platform-v18.png) · [Static SVG](docs/architecture/ml-llm-platform-v18.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v18.animated.svg) · [Editable Excalidraw](docs/architecture/ml-llm-platform-v18.excalidraw)
+[Static PNG](docs/architecture/ml-llm-platform-v19.png) · [Static SVG](docs/architecture/ml-llm-platform-v19.svg) · [Animated SVG](docs/architecture/ml-llm-platform-v19.animated.svg) · [Editable Excalidraw](docs/architecture/ml-llm-platform-v19.excalidraw)
 
 ### Deployment
 
@@ -119,10 +120,12 @@ Live prediction and agent requests require access to the private lab and a fresh
 
 | Directory | What to find there |
 |---|---|
-| `generator/`, `pipelines/`, `airflow/` | Simulator, Spark and Flink jobs, and Airflow DAGs |
-| `feature_store/`, `ml/`, `services/` | Feature processing, training and API services |
-| `agents/`, `rag/`, `knowledge/` | Agent configuration, document retrieval and maintenance source texts |
-| `infra/`, `scripts/`, `tests/` | Deployment, operation and verification |
+| `generator/`, `pipelines/`, `airflow/` | Pump simulator, Spark and Flink jobs, and Airflow DAGs |
+| `feature_store/`, `ml/`, `models/`, `notebooks/` | Feast, training, model metadata and reproducible notebooks |
+| `services/`, `agents/` | Prediction, drift, document search and MCP APIs, plus agent configuration |
+| `rag/`, `knowledge/`, `llm/`, `llm_observability/` | Document indexing, maintenance text, inference tools and request telemetry |
+| `infra/`, `scripts/`, `tools/`, `tests/` | Deployment, operation, local tooling and verification |
+| `docs/`, `references/` | Architecture and evidence, plus original specifications |
 
 ## Documentation
 
@@ -130,7 +133,8 @@ Live prediction and agent requests require access to the private lab and a fresh
 |---|---|
 | Data generation, Spark and Flink, feature stores, training and serving | [Data and ML](docs/edai-1/README.md) |
 | An agent request through the gateway, tool services and GPU | [LLM and agents](docs/edai-2/README.md) |
-| The services, files and stores behind each diagram | [Execution guide](docs/diagrams/execution-guide.md) · [ML and LLM deployment notes](docs/architecture/ml-llm-platform-v18-notes.md) |
+| Which diagram to open for each workflow | [Diagram index](docs/diagrams/README.md) |
+| Where offline PSI reads data and which metrics drive scaling | [ML and LLM architecture notes](docs/architecture/ml-llm-platform-v19-notes.md) |
 
 [Full documentation index](docs/README.md)
 

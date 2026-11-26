@@ -113,9 +113,44 @@ assert.equal(preview.sha256,sha(gif));assert.equal(preview.marker_count,58);
 assert.equal(gif.subarray(0,6).toString(),'GIF89a');assert.equal(gif.readUInt16LE(6),1920);assert.equal(gif.readUInt16LE(8),1980);
 assert.equal(preview.frames,36);assert.equal(preview.distinct_frames,36);assert.equal(preview.duration_ms,6000);
 const readme=fs.readFileSync(path.join(root,'README.md'),'utf8');
-const picture=readme.match(/<picture>[\s\S]*?<\/picture>/)?.[0];
-assert(picture?.includes('prefers-reduced-motion: reduce')&&picture.includes('docs/images/platform-architecture.png')&&picture.includes('docs/images/platform-architecture.gif'));
-assert(readme.includes('docs/images/platform-architecture.animated.svg'));
+const readmePictures=readme.match(/<picture>[\s\S]*?<\/picture>/g)??[];
+assert.equal(readmePictures.length,2,'README must embed both primary diagrams');
+const primaryPreviews=[];
+for(const family of ['data-platform','ml-llm-platform']){
+  const gifPattern=new RegExp(`<img\\b[^>]*\\bsrc="(docs/architecture/${family}-v\\d+)\\.gif"`);
+  const matching=readmePictures.filter(picture=>gifPattern.test(picture));
+  assert.equal(matching.length,1,`Expected one README preview for ${family}`);
+  const [picture]=matching;
+  const [,stem]=picture.match(gifPattern);
+  const gifPath=stem+'.gif';
+  const pngPath=stem+'.png';
+  assert(picture.includes(`<source media="(prefers-reduced-motion: reduce)" srcset="${pngPath}">`),pngPath);
+  assert(readme.includes(stem+'.animated.svg'));
+  assert(readme.includes(stem+'.excalidraw'));
+  assert(readme.includes(`https://htmlpreview.github.io/?https://github.com/anle0429/iot-maintenance-platform/blob/main/${stem}.html`));
+
+  const readAsset=suffix=>fs.readFileSync(path.join(root,stem+suffix));
+  const native=readAsset('.excalidraw').toString('utf8').replaceAll('\r\n','\n');
+  const scene=JSON.parse(native);
+  const arrows=scene.elements.filter(e=>e.type==='arrow'&&!e.isDeleted);
+  const frame=scene.elements.find(e=>e.type==='frame'&&!e.isDeleted);
+  assert.equal(scene.type,'excalidraw');
+  assert(frame&&arrows.length>0,stem);
+  const sourceHash=sha(native);
+  for(const suffix of ['.svg','.animated.svg','.html']){
+    const derived=readAsset(suffix).toString('utf8');
+    assert(derived.includes(`data-source-sha256="${sourceHash}"`),`Source hash mismatch: ${stem+suffix}`);
+    assert.equal((derived.match(/<animateMotion\b/g)||[]).length,suffix==='.svg'?0:arrows.length,stem+suffix);
+  }
+  const raster=readAsset('.png');
+  const animatedRaster=readAsset('.gif');
+  assert.equal(raster.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
+  assert.equal(raster.readUInt32BE(16),frame.width);
+  assert.equal(raster.readUInt32BE(20),frame.height);
+  assert.equal(animatedRaster.subarray(0,6).toString(),'GIF89a');
+  primaryPreviews.push({name:path.basename(stem),picture,gifPath,pngPath,arrows:arrows.length,sourceHash});
+}
+// Retain the original standalone architecture receipt alongside the current README previews.
 const mainReceipt=JSON.parse(fs.readFileSync(path.join(root,'docs/images/platform-architecture.preview.json')));
 const mainGif=fs.readFileSync(path.join(root,'docs/images/platform-architecture.gif'));
 const mainScene=JSON.parse(fs.readFileSync(path.join(here,'platform-architecture.excalidraw')));
@@ -125,7 +160,10 @@ assert.equal(mainReceipt.sha256,sha(mainGif));
 assert.equal(mainReceipt.marker_count,mainScene.elements.filter(e=>e.customData?.edge).length);
 assert.equal(mainGif.subarray(0,6).toString(),'GIF89a');
 assert.equal(mainReceipt.frames,36);assert.equal(mainReceipt.distinct_frames,36);assert.equal(mainReceipt.duration_ms,6000);
-report.readme_preview={passed:true,view:'platform-architecture',moving_dot_gif:true,reduced_motion_png:true,original_reference_previews_unchanged:true};
+report.readme_previews=primaryPreviews.map(({name,arrows,sourceHash})=>({
+  name,arrows,source_sha256:sourceHash,moving_dot_gif:true,reduced_motion_png:true
+}));
+report.original_reference_previews_unchanged=true;
 report.previews=[];
 for(const v of figures.views){
   const receipt=JSON.parse(fs.readFileSync(path.join(root,'docs/images',v.name+'.preview.json')));
@@ -199,30 +237,43 @@ if(process.argv.includes('--browser')){
     await page.goto(pathToFileURL(path.join(here,'architecture.html')).href+'#view=platform-system');
     assert.equal(await page.locator('#view').inputValue(),'0');
     await page.selectOption('#view','2');assert.equal(new URL(page.url()).hash,'#view=platform-serving');
-    const hero=await context.newPage();hero.on('pageerror',e=>errors.push(e.message));
-    const heroHTML='<style>body{margin:0}img{display:block;width:896px;max-width:100%;height:auto}</style>'+picture;
-    await hero.goto(pathToFileURL(path.join(root,'README.md')).href);await hero.setContent(heroHTML);
-    await hero.locator('img').evaluate(e=>e.decode());
-    assert((await hero.locator('img').evaluate(e=>e.currentSrc)).endsWith('platform-architecture.gif'));
-    const mainFirst=await hero.locator('img').screenshot();await hero.waitForTimeout(550);
-    assert.notEqual(sha(mainFirst),sha(await hero.locator('img').screenshot()),'Main README GIF must actually animate');
-    if(out)await hero.screenshot({path:path.join(path.dirname(out),'readme-preview.png'),fullPage:true});
-    const still=await reduced.newPage();still.on('pageerror',e=>errors.push(e.message));
-    await still.goto(pathToFileURL(path.join(root,'README.md')).href);await still.setContent(heroHTML);await still.locator('img').evaluate(e=>e.decode());
-    assert((await still.locator('img').evaluate(e=>e.currentSrc)).endsWith('platform-architecture.png'));
+    const hero=await context.newPage();
+    const still=await reduced.newPage();
+    for(const previewPage of [hero,still]){
+      previewPage.on('pageerror',e=>errors.push(e.message));
+      await previewPage.goto(pathToFileURL(path.join(root,'README.md')).href);
+    }
+    const previewStyle='<style>body{margin:0}img{display:block;width:896px;max-width:100%;height:auto}</style>';
+    const animatedReadmePreviews=[];
+    for(const {name,picture,gifPath,pngPath} of primaryPreviews){
+      await hero.setContent(previewStyle+picture);
+      const image=hero.locator('img');
+      await image.evaluate(e=>e.decode());
+      assert((await image.evaluate(e=>e.currentSrc)).endsWith(gifPath),gifPath);
+      const first=await image.screenshot();
+      await hero.waitForTimeout(550);
+      assert.notEqual(sha(first),sha(await image.screenshot()),`README GIF does not animate: ${name}`);
+      if(out)await hero.screenshot({path:path.join(path.dirname(out),`readme-${name}.png`),fullPage:true});
+
+      await still.setContent(previewStyle+picture);
+      const fallback=still.locator('img');
+      await fallback.evaluate(e=>e.decode());
+      assert((await fallback.evaluate(e=>e.currentSrc)).endsWith(pngPath),pngPath);
+      animatedReadmePreviews.push(name);
+    }
     const gifViews=[];
-    for(const v of figures.views){
-      await hero.setContent('<style>body{margin:0}img{max-width:1080px;height:auto}</style><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/images/'+v.name+'.png"><img src="docs/images/'+v.name+'.gif"></picture>');
+    for(const name of [...figures.views.map(view=>view.name),'platform-architecture']){
+      await hero.setContent('<style>body{margin:0}img{max-width:1080px;height:auto}</style><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/images/'+name+'.png"><img src="docs/images/'+name+'.gif"></picture>');
       await hero.locator('img').evaluate(e=>e.decode());const a=await hero.locator('img').screenshot();await hero.waitForTimeout(550);
-      assert.notEqual(sha(a),sha(await hero.locator('img').screenshot()),'GIF does not animate: '+v.name);
-      await still.setContent('<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/images/'+v.name+'.png"><img src="docs/images/'+v.name+'.gif"></picture>');
-      await still.locator('img').evaluate(e=>e.decode());assert((await still.locator('img').evaluate(e=>e.currentSrc)).endsWith(v.name+'.png'));
-      gifViews.push(v.name);
+      assert.notEqual(sha(a),sha(await hero.locator('img').screenshot()),'GIF does not animate: '+name);
+      await still.setContent('<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/images/'+name+'.png"><img src="docs/images/'+name+'.gif"></picture>');
+      await still.locator('img').evaluate(e=>e.decode());assert((await still.locator('img').evaluate(e=>e.currentSrc)).endsWith(name+'.png'));
+      gifViews.push(name);
     }
     assert.deepEqual(errors,[]);assert.deepEqual(requests,[]);
-    report.browser={passed:true,actual_moving_particles_by_view:moving,total:267,all_arrow_details:true,click_path:true,pause_resume:true,speed:true,zoom_fit:true,read_labels_minimum_16px_desktop_and_mobile:true,view_deep_links:true,reduced_motion:true,mobile_layout:true,mobile_reduced_motion_views:figures.views.length,readme_gif_actually_animates:true,readme_reduced_motion_selects_png:true,all_gif_previews_animate:gifViews,all_gif_reduced_motion_fallbacks:true,external_requests:requests,page_errors:errors};
+    report.browser={passed:true,actual_moving_particles_by_view:moving,total:267,all_arrow_details:true,click_path:true,pause_resume:true,speed:true,zoom_fit:true,read_labels_minimum_16px_desktop_and_mobile:true,view_deep_links:true,reduced_motion:true,mobile_layout:true,mobile_reduced_motion_views:figures.views.length,readme_gif_actually_animates:animatedReadmePreviews,readme_reduced_motion_selects_png:true,all_gif_previews_animate:gifViews,all_gif_reduced_motion_fallbacks:true,external_requests:requests,page_errors:errors};
   }finally{await browser.close();}
 }
 report.passed=true;
 if(out)fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n');
-console.log(JSON.stringify({passed:true,views:checks,nodes:285,arrows:267,source_files:sources.size,browser:report.browser},null,2));
+console.log(JSON.stringify({passed:true,views:checks,nodes:285,arrows:267,source_files:sources.size,readme_previews:report.readme_previews,browser:report.browser},null,2));

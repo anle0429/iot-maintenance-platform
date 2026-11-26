@@ -33,7 +33,8 @@ docs/
 │   ├── global_model_config.md
 │   ├── observability.md
 │   └── ...
-├── diagrams/
+├── architecture/          Current platform diagrams and previous revisions
+├── diagrams/              Diagram index, focused views and execution guide
 ├── images/
 ├── evidence/
 ├── evidence-archive/
@@ -43,7 +44,7 @@ docs/
 
 ## Review and evidence
 
-- [Architecture diagrams](diagrams/README.md): the system map, C4 feature-access view, five dynamic views and physical deployment, with source references and zoom controls.
+- [Architecture diagrams](diagrams/README.md) includes both current platform viewers, focused workflow diagrams and earlier recorded views.
 - [Mentor review follow-up](mentor_review_followup.md): the latest documentation changes, scoped measurements and remaining native acceptance work.
 - [Data review checklist](edai-1/data_review_audit.md): eleven reported issues mapped to code, explanation and visible results.
 - [Requirement map](edai-1/implementation_map.md): 117 final requirements, with separate [ML](edai-1/rubric_tracker.md) and [LLM](edai-2/rubric_tracker.md) trackers.
